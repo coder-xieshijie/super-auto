@@ -1,0 +1,12 @@
+{
+  "source_records": 22,
+  "usable_source_records": 19,
+  "known_unusable_jina_bodies": [
+    "scaling-v3",
+    "pr-review",
+    "mirrorcode-v2"
+  ],
+  "missing_local_links": [],
+  "hash_mismatches": [],
+  "claims": 14
+}

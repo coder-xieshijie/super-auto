@@ -1,0 +1,8 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=xZ5TEaleUdg
+[youtube] xZ5TEaleUdg: Downloading webpage
+[youtube] xZ5TEaleUdg: Downloading android vr player API JSON
+[info] xZ5TEaleUdg: Downloading subtitles: en, en-orig
+[info] xZ5TEaleUdg: Downloading 1 format(s): 399+251
+[info] Writing video subtitles to: research/agent-delivery-2026-09-28/raw/lauren/interview-2026-09-27/source/xZ5TEaleUdg.en.json3
+WARNING: The extractor specified to use impersonation for this download, but no impersonate target is available. If you encounter errors, then see  https://github.com/yt-dlp/yt-dlp#impersonation  for information on installing the required dependencies
+ERROR: Unable to download video subtitles for 'en': HTTP Error 429: Too Many Requests

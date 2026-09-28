@@ -1,0 +1,345 @@
+[
+  {
+    "id": "IND-01",
+    "source_id": "stripe-minions-2",
+    "claim": "每周超过1300个完全agent编写并经人工review的PR合并。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/stripe-minions-2.md",
+    "source_lines": [
+      8
+    ],
+    "publication": "2026-02-19",
+    "limitation": "每周合并PR数；未知总任务数、上线质量及人工review成本"
+  },
+  {
+    "id": "IND-02",
+    "source_id": "stripe-minions-1",
+    "claim": "完整CI最多两轮，优先本地修复。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/stripe-minions-1.md",
+    "source_lines": [
+      70
+    ],
+    "publication": "2026-02-09",
+    "limitation": "无人中途指导不等于单模型调用；第二次CI后人工检查"
+  },
+  {
+    "id": "IND-03",
+    "source_id": "stripe-minions-2",
+    "claim": "预热devbox目标10秒可用，包含代码和服务准备。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/stripe-minions-2.md",
+    "source_lines": [
+      26
+    ],
+    "publication": "2026-02-19",
+    "limitation": "目标/体验描述，无分位数分布"
+  },
+  {
+    "id": "IND-04",
+    "source_id": "stripe-minions-2",
+    "claim": "Blueprints混合确定性节点和agent节点。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/stripe-minions-2.md",
+    "source_lines": [
+      50,
+      58
+    ],
+    "publication": "2026-02-19",
+    "limitation": "不证明任意需求均能自动完成"
+  },
+  {
+    "id": "IND-05",
+    "source_id": "ramp-inspect",
+    "claim": "Inspect约占前后端仓库已合并PR的30%。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/ramp-inspect.md",
+    "source_lines": [
+      22
+    ],
+    "publication": "2026-01-12",
+    "limitation": "2026-01-12快照；分母是特定仓库所有merged PR，不是成功率"
+  },
+  {
+    "id": "IND-06",
+    "source_id": "ramp-inspect",
+    "claim": "每30分钟构建环境镜像，允许先读但最新基线同步前禁止写。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/ramp-inspect.md",
+    "source_lines": [
+      35
+    ],
+    "publication": "2026-01-12",
+    "limitation": "镜像新鲜度仍需运行时同步"
+  },
+  {
+    "id": "IND-07",
+    "source_id": "ramp-inspect",
+    "claim": "文章声称并发session无上限。",
+    "evidence_type": "unvalidated_product_claim",
+    "source_url": "https://builders.ramp.com/post/why-we-built-our-background-agent",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/ramp-inspect.md",
+    "source_lines": [
+      14
+    ],
+    "publication": "2026-01-12",
+    "limitation": "无资源、配额或容量测量；不采纳为工程保证"
+  },
+  {
+    "id": "IND-08",
+    "source_id": "spotify-honk-1",
+    "claim": "累计1500+ agent PR合入生产代码库。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/spotify-honk-1.md",
+    "source_lines": [
+      12,
+      64
+    ],
+    "publication": "2025-11-06",
+    "limitation": "截至2025-11文章；不证明1500次独立需求或无人上线"
+  },
+  {
+    "id": "IND-09",
+    "source_id": "spotify-honk-1",
+    "claim": "特定迁移自述比手工节省60–90%时间。",
+    "evidence_type": "company_estimate",
+    "source_url": "https://engineering.atspotify.com/2025/11/spotifys-background-coding-agent-part-1",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/spotify-honk-1.md",
+    "source_lines": [
+      74
+    ],
+    "publication": "2025-11-06",
+    "limitation": "非随机对照；不能推广所有需求"
+  },
+  {
+    "id": "IND-10",
+    "source_id": "spotify-honk-3",
+    "claim": "judge否决约1/4会话，被否决后约半数可纠正。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://engineering.atspotify.com/2025/12/feedback-loops-background-coding-agents-part-3",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/spotify-honk-3.md",
+    "source_lines": [
+      53
+    ],
+    "publication": "2025-12-09",
+    "limitation": "数千agent session口径；judge当时尚无正式eval，不是最终失败率"
+  },
+  {
+    "id": "IND-11",
+    "source_id": "spotify-honk-4",
+    "claim": "240个自动迁移PR；约10工程周是人工工作量估计。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://engineering.atspotify.com/2026/4/background-coding-agents-dataset-migrations-honk-part-4",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/spotify-honk-4.md",
+    "source_lines": [
+      46
+    ],
+    "publication": "2026-04-22",
+    "limitation": "非1800条管线全部完成；非净节省工时实测"
+  },
+  {
+    "id": "IND-12",
+    "source_id": "spotify-honk-4",
+    "claim": "Scio因形态不一致而暂停自动迁移；其他目标缺少测试需人工验证。",
+    "evidence_type": "reported_limitation",
+    "source_url": "https://engineering.atspotify.com/2026/4/background-coding-agents-dataset-migrations-honk-part-4",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/spotify-honk-4.md",
+    "source_lines": [
+      38
+    ],
+    "publication": "2026-04-22",
+    "limitation": "说明标准化与验收能力限制自动化范围"
+  },
+  {
+    "id": "IND-13",
+    "source_id": "shopify-helix",
+    "claim": "按checkpoint执行行为、视觉、独立review、人类审批门禁。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://shopify.engineering/helix",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-helix.md",
+    "source_lines": [
+      51
+    ],
+    "publication": "2026-09-21",
+    "limitation": "人工可授权跳过人工门禁，机器门禁保留；无吞吐或成本对照数据"
+  },
+  {
+    "id": "IND-14",
+    "source_id": "shopify-helix",
+    "claim": "不同screen可并行，单screen checkpoint顺序推进。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://shopify.engineering/helix",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-helix.md",
+    "source_lines": [
+      115
+    ],
+    "publication": "2026-09-21",
+    "limitation": "独立任务并行与内部顺序可同时存在"
+  },
+  {
+    "id": "IND-15",
+    "source_id": "shopify-river-remediation",
+    "claim": "最初11天依赖backlog减少约70%，减少部分约2/3直接merge。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://shopify.engineering/river-vulnerability-remediation",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-river-remediation.md",
+    "source_lines": [
+      14
+    ],
+    "publication": "2026-09-02",
+    "limitation": "剩余是已过时或别处已修；不是70%被agent修复"
+  },
+  {
+    "id": "IND-16",
+    "source_id": "shopify-river-remediation",
+    "claim": "通过freshness-gated merge queue的安全合并占比由10%到80%。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://shopify.engineering/river-vulnerability-remediation",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-river-remediation.md",
+    "source_lines": [
+      14
+    ],
+    "publication": "2026-09-02",
+    "limitation": "分母不是公司所有PR；没有样本数和实验对照"
+  },
+  {
+    "id": "IND-17",
+    "source_id": "shopify-river-remediation",
+    "claim": "每次rebase废弃旧SHA验证结果，合并后复核默认分支及tracker。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://shopify.engineering/river-vulnerability-remediation",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-river-remediation.md",
+    "source_lines": [
+      52
+    ],
+    "publication": "2026-09-02",
+    "limitation": "只代表这个remediation流程；不是证明通用部署验证已覆盖"
+  },
+  {
+    "id": "IND-18",
+    "source_id": "shopify-river-remediation",
+    "claim": "账本声明不作为锁；分页去重SHA与核算应移入确定性实现。",
+    "evidence_type": "author_prescription_and_reported_failure",
+    "source_url": "https://shopify.engineering/river-vulnerability-remediation",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-river-remediation.md",
+    "source_lines": [
+      84
+    ],
+    "publication": "2026-09-02",
+    "limitation": "文章承认prompt未保证完整枚举，不可称实现已完全满足"
+  },
+  {
+    "id": "IND-19",
+    "source_id": "shopify-river",
+    "claim": "文中近30天3536个River共同署名PR合并。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://shopify.engineering/under-the-river",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-river.md",
+    "source_lines": [
+      83
+    ],
+    "publication": "2026-05-28",
+    "limitation": "共署名不等于全agent编写；session涵盖非编码任务"
+  },
+  {
+    "id": "IND-20",
+    "source_id": "shopify-harness",
+    "claim": "研究按分区并行，验证为避免端口数据库fixture碰撞串行。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://shopify.engineering/building-an-agentic-harness-that-outlasts-the-model",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-harness.md",
+    "source_lines": [
+      44
+    ],
+    "publication": "2026-07-29",
+    "limitation": "应按资源冲突与验证能力安排并发"
+  },
+  {
+    "id": "IND-21",
+    "source_id": "shopify-harness",
+    "claim": "约六周数千扫描、300+ findings、80+应用。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://shopify.engineering/building-an-agentic-harness-that-outlasts-the-model",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-harness.md",
+    "source_lines": [
+      53
+    ],
+    "publication": "2026-07-29",
+    "limitation": "finding包括不同严重性和防御加强；不是已修漏洞或PR数量"
+  },
+  {
+    "id": "IND-22",
+    "source_id": "shopify-harness",
+    "claim": "全量扫描50–300美元，增量5–50美元。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://shopify.engineering/building-an-agentic-harness-that-outlasts-the-model",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-harness.md",
+    "source_lines": [
+      57
+    ],
+    "publication": "2026-07-29",
+    "limitation": "受应用和模型影响，仅该安全扫描工作流"
+  },
+  {
+    "id": "IND-23",
+    "source_id": "uber-ureview",
+    "claim": "75%评论被反馈有用、约65%在同changeset得到处理。",
+    "evidence_type": "company_self_report",
+    "source_url": "https://www.uber.com/us/en/blog/ureview/",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/uber-ureview.md",
+    "source_lines": [
+      16,
+      70,
+      78,
+      148
+    ],
+    "publication": "2025-08-12",
+    "limitation": "评论维度，非检出率/需求成功率；人类对照口径不完全一致"
+  },
+  {
+    "id": "IND-24",
+    "source_id": "uber-ureview",
+    "claim": "原文65000 diffs口径前文每周后文每月冲突。",
+    "evidence_type": "source_internal_inconsistency",
+    "source_url": "https://www.uber.com/us/en/blog/ureview/",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/uber-ureview.md",
+    "source_lines": [
+      100
+    ],
+    "publication": "2025-08-12",
+    "limitation": "不采纳该吞吐数字"
+  },
+  {
+    "id": "IND-25",
+    "source_id": "uber-ureview",
+    "claim": "节省1500小时/周来自假设第二人工review每commit十分钟。",
+    "evidence_type": "company_estimate",
+    "source_url": "https://www.uber.com/us/en/blog/ureview/",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/uber-ureview.md",
+    "source_lines": [
+      84
+    ],
+    "publication": "2025-08-12",
+    "limitation": "不是净工时观测，不作为交付提速证据"
+  },
+  {
+    "id": "IND-26",
+    "source_id": "shopify-roast",
+    "claim": "Roast混合确定性与agent步骤并允许从步骤重放。",
+    "evidence_type": "described_mechanism",
+    "source_url": "https://shopify.engineering/introducing-roast",
+    "source_file": "research/agent-delivery-2026-09-28/raw/industry/shopify-roast.md",
+    "source_lines": [
+      116
+    ],
+    "publication": "2025-06-18",
+    "limitation": "采用框架本身的净收益未知"
+  }
+]

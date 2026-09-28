@@ -1,0 +1,539 @@
+Title: Minions: Stripe's one-shot, end-to-end coding agents—Part 2
+URL: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2
+Published: 2026-02-19T00:00:00.000Z
+Author: N/A
+Highlights:
+As a recap of Part 1 in this blog miniseries, minions are a homegrown unattended agentic coding flow at Stripe. Over 1,300 Stripe pull requests (up from 1,000 as of Part 1) merged each week are completely minion-produced, human-reviewed, but containing no human-written code.
+...
+In late 2024, as coding agents emerged across the industry, we internally forked Block’s goose—one of the first widely used coding agents—and customized it to work within Stripe’s LLM infrastructure. Over time, we focused our feature development of goose on the needs of minions, rather than those of human-supervised tools: that’s a use case that’s well-filled by third-party tools such as Cursor and Claude Code, which are already made available to our engineers.
+
+In fact, the most unique aspect of minions is the absence of a supervisory human. Off-the-shelf local coding agents are usually optimized for working through code changes as a companion to engineers, typically with one “looking over its shoulder,” so to speak. Minions, however, are fully unattended, so our agent harness can’t use human-facing features such as interruptibility or human-triggered commands to initiate or steer the agent run.
+
+On the flip side, the quarantined devbox environment means that the agent doesn’t need confirmation prompts; any mistakes an agent might make are confined to the limited blast radius of one devbox, so we can safely run the agent with full permissions and skip confirmation prompts.
+...
+Minions are orchestrated with a primitive we call “blueprints.” Blueprints are workflows defined in code that direct a minion run. Blueprints combine the determinism of workflows with agents’ flexibility in dealing with the unknown: a given node can run either deterministic code or an agent loop focused on a task. In essence, a blueprint is like a collection of agent skills interwoven with deterministic code so that particular subtasks can be handled most appropriately.
+
+In the blueprint that powers minions, for example, there are agent-like nodes with labels such as “Implement task” or “Fix CI failures.” Those agent nodes are given wide latitude to make their own decisions based on input. However, the blueprint also has nodes with labels such as “Run configured linters” or “Push changes,” which are fully deterministic: those particular nodes don’t invoke an LLM at all—they just run code.
+...
+—such as “always lint changes at the end of a run”—saves tokens (and CI costs) at scale and gives the agent a little less opportunity to get things wrong. In aggregate, we find that “putting LLMs into contained boxes” compounds into system-wide reliability upside. Blueprint machinery makes context engineering of these subagents easy, whether that consists of constraining tools, modifying system prompts, or simplifying the conversation context as required for the subtask at hand.
+...
+large codebase such as Stripe’s, an agent set loose without any guidance might encounter trouble following best practices or using the proper libraries, even with good linters. To help with this issue, various agent rule formats—think CLAUDE.md or AGENTS.md—allow agents to “learn” about the codebase automatically as they traverse its directory structure.
+...
+From our perspective, it’s best to avoid duplication of rule files in favor of our agent reading the same context that human-directed agents use. Given that, we standardized on a popular rule format that supported these features— Cursor’s—and modified our harness to allow minions to read those rules in addition to a previous homegrown format.
+
+We also now sync our Cursor rules into a format that Claude Code can read as well, so that our three most popular coding agents (minions, Cursor, and Claude Code) can all benefit from the guidance that lives in rule files that Stripe engineers are scaffolding in our codebase.
+...
+Reading from a filesystem works well for static context gathering, but agents frequently need to dynamically fetch information using networked tool calls. In particular, to fully hydrate user requests, minions need to retrieve information such as internal documentation, ticket details, build statuses, code intelligence, and more. Upon release, the Model Context Protocol (MCP) quickly became the industry-wide standard for networked tool calls, and we moved to integrate minions with it.
+
+Stripe has built or integrated lots of agents running on different frameworks: a no-code internal agent builder, custom agents running on dedicated services, third-party off-the-shelf agents, command-line agentic tools and other coding agents, and agentic Slack bots. All these agents, not just minions, needed MCP capabilities, often including overlapping sets of common tools.
+
+To support all of these, we built a centralized internal MCP server called Toolshed, which makes it easy for Stripe engineers to author new tools and make them automatically discoverable to our agentic systems. All our agentic systems are able to use Toolshed as a shared capability layer; adding a tool to Toolshed immediately grants capabilities to our whole fleet of hundreds of different agents.
+
+Toolshed currently contains nearly 500 MCP tools for internal systems and SaaS platforms we use at Stripe. Agents perform best when given a “smaller box” with a tastefully curated set of tools, so we configure different agents to request only a subset of Toolshed tools relevant to their task. Minions are no exception and are provided an intentionally small subset of tools by default, although per-user customizability allows engineers to configure additional thematically grouped sets of tools for their own minions to use.
+
+Since minions operate autonomously with full freedom to call their MCP tools, we also have an internal security control framework that ensures they can’t use their tools to perform destructive actions. As a first line of defense, though, our devboxes already run in our QA environment, and consequently, minions don’t have access to real user data, Stripe’s production services, or arbitrary network egress. This is no accident: we built isolated devboxes deliberately, so humans have an environment they can experiment within safely. But, as with so much else, a development environment that’s safe for humans has proven to be just as useful for minions.
+...
+While we build minions with the goal of one-shotting their tasks, it’s key to give agents automated feedback that they can iterate against to make progress. Stripe’s enormous preexisting battery of tests—over three million of them—can provide this feedback. However, while a pushed branch will run all relevant tests in CI, we don’t want to rely too heavily on CI for all our code feedback.
+...
+For example, we have pre-push hooks to fix the most common lint issues. A background daemon precomputes lint rule heuristics that apply to a change and caches the results of running those lints, so developers can usually get lint fixes in well under a second on a push.
+
+Minions naturally integrate with this framework as well, so they don’t have to waste tokens or CI minutes by iterating against an auto-formatter or similar. We run a subset of linters as a deterministic node within the agent devloop blueprint, and loop on that lint node locally before pushing an agent’s branch, so that the branch has a fair shot at passing CI the first time around.
+
+It’s infeasible to run all tests locally, so we also include one iteration against the full CI suite into the standard minion blueprint. After a minion pushes a change, we run CI and auto-apply any autofixes for failing tests. If there are failures with no autofix, we send the failure back to a blueprint agent node and give the minion one more chance to fix the failing test locally. After the second push and CI run, we send the branch back to its human operator for manual scrutiny.
+
+---
+
+Title: Background Coding Agents: Context Engineering (Honk, Part 2)
+URL: https://engineering.atspotify.com/2025/11/context-engineering-background-coding-agents-part-2
+Published: 2025-11-24T00:00:00.000Z
+Author: Max Charas (Senior Staff Engineer) and Marc Bruggmann (Principal Engineer)
+Highlights:
+Background Coding Agents: Context Engineering (Honk, Part 2) | Spotify Engineering
+
+# Background Coding Agents: Context Engineering (Honk, Part 2)
+
+This is part 2 in our series about Spotify's journey with background coding agents (internal codename: “Honk”) and the future of large-scale software maintenance. See also part 1, part 3, and part 4.
+
+In Part 1, we introduced how Spotify uses a background coding agent to extend Spotify’s Fleet Management system. It can edit code, run builds and tests, and open pull requests (PRs) automatically. Once we had our agents up and running, a new challenge emerged:
+...
+In this post, we explore the craft of context engineering for coding agents. What makes for a good migration prompt? Which tools should the agent have access to? We’ve found that careful context engineering is essential for producing reliable, mergeable pull requests across real-world codebases.
+...
+## Enter Claude Code
+
+Our homegrown agentic loop had key challenges — it required overly rigid instructions and struggled with complex, multistep edits. We needed an agent that could interpret high-level goals, manage tasks dynamically, and reduce friction for users who just wanted to describe outcomes rather than dictate every step. We also wanted to avoid running into context window limitations when handling longer or more complex operations.
+
+To solve this, we turned to Claude Code, which allowed us to use more-natural task-oriented prompts, and we benefited from its built-in ability to manage Todo lists and spawn subagents efficiently.
+...
+As of today, Claude Code is our top-performing agent, which we’ve applied for about 50 migrations and the majority of the background agent PRs merged into production.
+...
+## The proof is in
+...
+By giving Spotifiers access to our background ... without much training or guidance, we are starting to see two major anti-patterns: 
+
+1. The overly generic prompt that expects the agent to telepathically guess the intent and desired outcome
+2. The overly specific prompt that tries to cover each and every case but falls apart as soon as the agent encounters
+...
+- Tailor prompts to the agent. Our homegrown agent did best with strict step-by-step prompts. Claude Code does better with prompts that describe the end state and leave room for figuring out how to get there.
+- State preconditions. Agents are eager to act on your prompt, to a fault. This becomes problematic if you reuse prompts across repositories in a migration scenario: The agent will get a task that is impossible to achieve — for example, something that is not possible in the language level of the target repository. It helps to clearly state in the prompt when not to take action.
+...
+- Define the desired end state, ideally in the form of tests. “Make this code better” is not a good prompt. The agent needs a verifiable goal so it can iterate on a solution as it goes.
+- Do one change at a time. It can be convenient for users to combine several related changes into one elaborate prompt, but it’s more likely to get the agent in trouble because it will exhaust its context window or it will deliver a partial result. 
+- Ask the agent for feedback on the prompt. After a session, the agent itself is in a surprisingly good position to tell you what was missing in the prompt. Use that feedback to refine future prompts.
+...
+## The right tools for the job
+
+As you can see from the example above, our prompts can become fairly elaborate. That’s because we prefer to have larger static prompts, which are easier to reason about. You can version-control the prompts, write tests, and evaluate their performance. This increases the overall predictability of the agent. 
+
+An alternative approach is to start with a simpler prompt but connect to Model Context Protocol (MCP) tools that allow the agent to dynamically fetch more context as it works on the problem. While this does make the agent capable of tackling more complex and ambiguous tasks, this also makes it less testable and predictable. The more tools you have, the more dimensions of unpredictability you introduce. 
+
+We keep our background coding agent very limited in terms of tools and hooks so it can focus on generating the right code change from a prompt. This limits the information in the agent context and removes sources of unpredictable failures.
+...
+At the moment, we give the agent access to:
+
+- A “verify” tool that runs formatters, linters, and tests. We found it easier to encode how to invoke our in-house build systems in an MCP — rather than relying on AGENTS.md-style files) — because our agent needs to operate on thousands of existing repositories with very different build configurations. This also allows us to reduce noise in the tool output by summarizing logs into something more digestible for the agent. 
+- A Git tool that provides limited and standardized access to Git. This allows us to selectively expose git subcommands (e.g., never push or change origin) and standardize others (e.g., setting the committer and using standardized commit message formats).
+- The built-in Bash tool with a strict allowlist of commands. It’s handy to have access to a few Bash commands such as ripgrep. 
+
+Notably, we don’t currently have code search or documentation tools exposed to our agent. We instead ask users to condense relevant context into the prompt up front, either by including all relevant information in the prompt before handing it off to the agent, or through separate workflow agents that can produce prompts for the coding agent from various internal and external sources. 
+
+We also recommend guiding the agent through the code itself where possible, for example, by setting up tests, linters, or API documentation in target repos. That will work for all prompts (and all agents) operating on this code moving forward.
+...
+We continue to explore state-of-the-art capabilities for our background coding agent. Our work with Claude Code carries great potential and unlocked a big step forward as we learned how to instruct the agent and build effective tools. Breaking down tasks into the right chunks, writing good prompts, and better integrating tools with our infrastructure are crucial for producing clean PRs. 
+
+But in practice ... we are still flying mostly by ... evolve by trial and error. We don’t yet have structured ways to evaluate ... know if it
+
+---
+
+Title: Background Coding Agents: Supercharging Downstream Consumer Dataset Migrations (Honk, Part 4) | Spotify Engineering
+URL: https://engineering.atspotify.com/2026/4/background-coding-agents-dataset-migrations-honk-part-4
+Published: 2026-04-22T00:00:00.000Z
+Author: Devon Edwards Joseph, Senior Engineer
+Highlights:
+Background Coding Agents: Supercharging Downstream Consumer Dataset Migrations (Honk, Part 4) | Spotify Engineering
+
+# Background Coding Agents: Supercharging Downstream Consumer Dataset Migrations (Honk, Part 4)
+
+This is part 4 in our series about Spotify's journey with background coding agents (internal codename: “Honk”) and the future of large-scale software maintenance. See also part 1, part 2, and part 3.
+
+In Part 2, we explored how we enabled our Fleet Management tools to use agents to rewrite our software automatically. We also explored how to write good prompts that allow the agent to best work without needing human input. In this blog post, we give a case study of how one team at Spotify used Honk with our Backstage and Fleet Management platforms to ease the pain of migrating thousands of dataset consumers onto new dataset versions — saving an estimated 10 engineering weeks in the process. We also share what we learned about how to make our data landscape more autonomous-coding-agent–friendly in the process.
+...
+We estimated that it would have taken ... to complete these migrations manually. Facing that much work, we explored how Backstage, Fleet Management, and Honk might be able to
+...
+As we discussed in Part 2, context engineering is a key part of the process when working with background coding agents. With our target repositories now identified quickly via Backstage, this was the part of the build that took the most time and iteration to get right, and also where we learnt the most.
+
+One of the major challenges for Honk in this migration was the fact that it had to deal with three different data pipeline frameworks, two of which are reasonably consistent in style and substance across the company (BigQuery Runner, dbt), and one of which isn't (Scio). This lack of standardisation across our data landscape made it hard to write all-in-one prompts for Honk that could truly capture all available permutations of what it would encounter. 
+
+Although we are adding these features now, at the time of these migrations, Honk did not have access to Claude skills or custom configurability when it runs. This was a design choice made to establish guardrails around the range of possible outcomes during the migration. This meant that the prompt given to it had to be comprehensive, because it could not do things like use MCPs to go and read dataset schemas that you had not given it, or read external documentation for more context.
+...
+write a good, fully-com ... prompt for Scio ... , which can vary
+...
+For the dbt and BigQuery Runner pipeline frameworks, which were much more standardised, we initially attempted to generate a good context file by asking Claude to re-purpose a migration guide that was written for human engineers. However, the resulting context was not comprehensive enough, and Honk was left to make assumptions about how to map from one dataset field to another that were often incorrect. Once we adjusted for this, and made all mappings clear using tables in the context file — keeping in mind that Honk could only access the context we had written for it and little else — we began to see solid performance across the majority of target repositories. 
+
+Having these fine-grained instructions also allowed us to specify where Honk shouldn’t try to perform a field migration, for example, in cases where a use case–specific judgement call was required. In these cases, we asked Honk to leave the fields unchanged, but to add comments above them with links to human engineer migration guides to make the task as easy as possible for the team that would later review the pull request.
+
+One final challenge we encountered was that, unlike with Scio pipelines, the BigQuery Runner and dbt repositories across the company rarely used any build-time unit testing. This meant that one of Honk’s key features, its ability to verify its work and then adjust based on the results, was unavailable to us, and we had to rely on the downstream owning teams to perform their own manual testing before merging the automated PRs.
+
+That said, we successfully rolled out 240 automated migration PRs using Fleetshift. Here, Backstage and Fleetshift greatly simplified the ongoing monitoring and management of our shifts by providing an overview UI that gave us a snapshot view of migration progress, and the ability to easily click through and view any of the automated PRs without manually searching for the repositories. This was invaluable for troubleshooting, progress monitoring, and facilitating communication with the owning teams.
+...
+It became clear during this project that the success of using our Fleet Management tools with Honk for large-scale, complex migrations is going to depend on the strategic push to consolidate and standardise our data landscape. Similarly, we must enforce requirements for testing and validation across repositories so that agents like Honk can verify their work in an automated fashion. Both of these elements will be critical in enabling background coding agents across Spotify. 
+
+In addition to that, there are exciting features on the Honk roadmap that will also enhance its performance on complex tasks. The Honk team is working on a feature that will allow the agent to spend some time gathering its own context, for example by reading JIRA tickets or documentation, before it begins to perform code changes. This reduces the need for such comprehensive context files to be written up front, and should improve the quality of the resulting code changes by making full use of the Claude Code capabilities. 
+
+With both of these wider, strategic changes taking place, and alongside that the underlying Claude Code agents improving in capability all the time, we look forward to seeing Fleet Management using Honk excelling on tackling more and more complex migrations in the future and reducing manual toil for our engineering teams.
+
+---
+
+Title: How Stripe and Ramp Built Self-Driving Codebases
+URL: https://ona.com/files/background_agents_white_paper.pdf
+Published: N/A
+Author: N/A
+Highlights:
+Stripe's Minions platform merges over 1,300 agent-generated pull requests per week. Ramp's Inspect agent accounts for over half of all merged PRs across their frontend and backend repositories. Spotify's background coding agents have produced over 1,500 merged pull requests, cutting migration time by 60–90%.
+...
+2.1 STRIPE: MINIONS
+
+Scale: 1,300+ agent-generated pull requests merged per week as of February 2026 (up from 1,000 at the time of the Part 1 blog post). All are human-reviewed.
+
+Agent harness: A fork of Block's open-source Goose agent, customised for Stripe's environment. Stripe evaluated off-the-shelf coding agents and chose to build on an open source base rather than use tools like Claude Code or Cursor Agent because of the unattended execution requirement. Most coding agents are optimised for human supervision.
+
+Execution environment: Stripe's existing devbox infrastructure. A devbox is an AWS EC2 instance pre-warmed with Stripe's full codebase and running services, originally built for human developers. They spin up in under 10 seconds. Devboxes run in Stripe's QA environment with no production access, no access to real user data, and no arbitrary network egress. The security properties were a consequence of existing infrastructure design, not something built specifically for agents.
+
+Orchestration (blueprints): Stripe uses a hybrid orchestration pattern they call blueprints. A blueprint is a state machine that interleaves deterministic code nodes with agentic nodes. Deterministic nodes always execute the same way (run configured linters, push changes, trigger CI). Agentic nodes use an LLM loop for tasks requiring judgment (implement the task, fix CI failures). The LLM is invoked only where deterministic code is insufficient. This produces reliability at scale: small decisions that can be handled deterministically are not left to the LLM.
+...
+Tooling: Stripe built a centralised internal MCP server called Toolshed with approximately 500 tools. Each agent run is configured with a curated subset of around 15 tools relevant to its task. Providing the full tool set degrades performance through context window saturation.
+
+CI policy: Maximum two rounds of CI iteration per agent run. If the agent cannot pass CI in two attempts, the branch is handed to a human engineer. No infinite retry loops.
+...
+2.2 RAMP: INSPECT
+...
+Scale: As of February 2026, Inspect accounts for over half of all merged pull requests across Ramp's frontend and backend repositories. Over 80% of Inspect itself is written by Inspect.
+
+Agent harness: OpenCode, running inside Modal Sandboxes. Ramp did not build a custom agent or custom execution infrastructure. The custom work concentrated on integrations with Ramp's internal tooling (Sentry, Datadog, LaunchDarkly, Temporal), orchestration logic, and client interfaces.
+
+Execution environment: Modal Sandboxes. Each session contains a full-stack environment: Postgres, Redis, Temporal, RabbitMQ, plus a VS Code server, web terminal, and a VNC stack with Chromium for browser-based visual verification. The agent can take before-and-after screenshots and navigate the application in a real browser. All services run inside the sandbox at local-process latency, no network hop between agent and test suite.
+...
+Clients: Engineers interact with Inspect via Slack, a web interface with an embedded VS Code editor, or a Chrome extension. The Chrome extension allows non-engineers to select UI elements directly for modification. Product managers and designers use Inspect without engineering involvement.
+
+Adoption approach: Inspect was not mandated. It was deployed and adoption followed from product quality. Ramp's engineering team has noted that agents which are slower or less capable than local alternatives will not be adopted regardless of governance features.
+...
+2.3 SPOTIFY: HONK
+
+Scale: 1,500+ agent-generated pull requests as of November 2025. Since mid-2024, around half of Spotify's pull requests have been automated by their Fleet Management system. On the Q4 2025 earnings call (February 10, 2026), Co-CEO Gustav Söderström stated: "my most senior engineers... say that they haven't written a single line of code since December."
+
+Agent harness: Claude Code, integrated with an internal system called Honk. Mobile first workflow: engineers send prompts from Slack, receive build status in Slack, and merge from their phones before arriving at the office. The iOS build pipeline is wired into the agent workflow, allowing mobile engineers to ship without opening Xcode.
+
+Fleet Management foundation: Honk builds on Spotify's existing Fleet Management platform, a framework for applying code transformations across all repositories. The agent replaced deterministic migration scripts with prompt-driven code transformations, while the surrounding infrastructure (targeting repos, opening PRs, getting reviews, merging) stayed the same. A custom internal CLI delegates prompt execution to agents, runs formatting and linting via MCP, evaluates diffs using LLMs as a judge, and captures traces in MLflow.
+...
+Context engineering: Spotify's most significant infrastructure investment was in context: wiring organisational knowledge into agent workflows. This includes style guides, architecture decision records, internal API documentation, and patterns extracted from historical code reviews. Spotify distinguishes between a generic agent (one that produces technically correct output) and a Honk-configured agent (one that produces output consistent with Spotify's codebase conventions). Both use the same underlying model. The context produces the difference.
+...
+Rollout: Progressive. Low-risk, high-volume tasks were automated first. Scope expanded as confidence grew. The team tracked adoption metrics and quality metrics in parallel, expanding only when both trended in the right direction.
+...
+Context also encompasses organisational knowledge: coding standards, architecture decision records, patterns from past reviews, style guides, internal library documentation. This information shapes the difference between code that is technically correct and code that fits the codebase. Stripe, Ramp, and Spotify all invested significantly in this layer.
+
+3.3 TRIGGERS 
+If every agent run requires a developer to type a prompt, the workflow has not been 
+automated, only the work itself has. Triggers connect agents to the events that make 
+automation possible: 
+Scheduled. Run on a timer. Dependency updates nightly, lint enforcement weekly, 
+documentation freshness checks daily. 
+Event-driven. Respond to system signals. A CVE is published, a PR is opened, an alert 
+fires, a CI run fails. 
+Fleet. One trigger dispatches one agent per repository, all running in parallel. 
+Swarm. One trigger dispatches multiple agents working on different aspects of a 
+single task, with results converging.
+...
+Fleet coordination is the capability that separates background agents from background coding sessions. One task description triggers parallel agent runs, one per repository, each working independently. Progress is tracked centrally. Results are aggregated. Failed runs are retried or escalated.
+...
+on AWS, a centralised MCP server with 500 tools, and
+...
+Ramp assembled an applied AI team and built custom integrations with Sentry, Datadog, LaunchDarkly, and Temporal on top of Modal's sandbox infrastructure. Even with Modal handling the execution layer, the custom work was substantial.
+
+Spotify invested years in Fleet Management before agents were even possible, then built a custom CLI, GCP integrations, MLflow tracing, and a multi-agent architecture on top.
+...
+The companies that succeeded built on infrastructure they had been investing in for years. Spotify's Fleet Management system predated their agent work. Stripe's devbox infrastructure predated Minions. Ramp's SDLC tooling predated Inspect. The agents did not create the infrastructure. They inherited it.
+
+---
+
+Title: Minions: Stripe’s one-shot, end-to-end coding agents
+URL: https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents.md
+Published: N/A
+Author: N/A
+Highlights:
+Minions are Stripe’s homegrown coding agents. They’re fully unattended and built to one-shot tasks. Over a thousand pull requests merged each week at Stripe are completely minion-produced, and while they’re human-reviewed, they contain no human-written code.
+...
+In the first part of this blog post miniseries, we’ll show you how our engineers use minions and what they can do. In Part 2, we’ll dive into the implementation under the hood and how we built them.
+...
+support our unique constraints at
+...
+There are several different entry points for minions, designed to integrate as ergonomically as possible with where Stripes are. While we provide CLI and web interfaces for initiating minions, engineers will most frequently start one from Slack. By tagging our Slack app, engineers can kick off a minion directly from the thread discussing a change, and it’ll be able to access the entire thread and any links included as context.
+...
+Minions can also be invoked from inside other internal applications at Stripe. Our internal docs platform, feature flag platform, and internal ticketing UI all integrate with minions. For example, when our CI systems detect flaky tests, we create automated tickets that prompt users to fix the problem with a minion.
+...
+Once it has completed its task, a minion creates a branch, pushes it to CI, and prepares a pull request following Stripe’s PR template. If the code looks good, the engineer opens the PR and requests a review from another Stripe engineer. If not, they can give the minion further instructions, and it will push updated code to the branch when it’s done.
+...
+There are many stages to a minion, and in ... second part of this miniseries, we’ll have more details about how minions work. Many of the details are Stripe-specific, but we do think that there are some generalizable lessons. To whet your appetite, here’s a brief chronological tour.
+
+A minion run starts in an isolated developer environment—or “devbox”—which are the same type of machine that Stripe engineers write code on. Devboxes are pre-warmed so one can be spun up in 10 seconds, with Stripe code and services pre-loaded. They’re isolated from production resources and the internet, so we can run minions on devboxes without human permission checks. This also gives parallelization without the overhead of something like git worktrees, which wouldn’t scale at Stripe.
+
+The core agent loop runs on a fork of Block’s coding agent goose, one of the first widely used coding agents, which we forked early on. We’ve customized the orchestration flow in an opinionated way to interleave agent loops and deterministic code—for git operations, linters, testing, and so on—so that minion runs mix the creativity of an agent with the assurance that they’ll always complete Stripe-required steps like linters.
+
+In general, minions read the same coding agent rule files that human-operated tools such as Cursor and Claude Code do, consuming several different agent rule file formats. However, it would be impractical for Stripe to have many unconditional rules, so almost all agent rules at Stripe are conditionally applied based on subdirectories.
+
+Minions are connected to MCP, which provides a common language for networkable LLM function calling. This is how they gather context like internal documentation, ticket details, build statuses, code intelligence via Sourcegraph search, and more. Indeed, we deterministically run relevant MCP tools over likely-looking links before a minion run even starts, to better hydrate the context.
+
+Since MCP is a common language for all agents at Stripe, not just minions, we built a central internal MCP server called Toolshed, which hosts more than 400 MCP tools spanning internal systems and SaaS platforms we use at Stripe. Minions and other agents have connectivity to configurable but curated subsets of the full breadth of tools.
+
+Minions are built with the goal of one-shotting their tasks, but if they don’t, then it’s key to give agents feedback. We do this via several automated layers of tests that minions can iterate against. The first line of defense is an automated local executable, which uses heuristics to select and automatically run selected lints on each git push. This takes less than five seconds.
+...
+If the local testing doesn’t catch anything, CI selectively runs tests from Stripe’s battery of tests—there are over three million of them—upon a push. Many of our tests have autofixes for failures, which we automatically apply. If a test failure has no autofix, we send it back to the minion to try and fix.
+
+Since CI runs cost tokens, compute, and time, we only have at most two rounds of CI. If tests fail after an initial push, we prompt the minion to fix failing tests and push a second time, but are then done. There’s a balancing act between speed and completeness here, and there are diminishing marginal returns for an LLM to run many rounds of a full CI loop. We feel this guidance of “often one, at most two, CI runs—and only after we’ve fixed everything we can locally” strikes a good balance.
+...
+In Part 2, we’ll dive more deeply into how we implemented minions.
+
+---
+
+Title: Why Ramp built its own in-house coding agent, Inspect
+URL: https://newsletter.pragmaticengineer.com/p/why-ramp-built-inspect
+Published: 2026-08-25T15:20:23.000Z
+Author: Gergely Orosz
+Highlights:
+At a select few tech companies, they write most of their code with their own, custom-built, internal AI coding agents. This is different from most of the industry which uses AI coding agents and harnesses like Codex, Claude Code, Cursor, OpenCode, GitHub Copilot, etc. At Ramp, their own version is called Inspect, while at Block it’s Goose (open source), at Stripe it’s Minions, and River at Shopify.
+...
+We reached out to Ramp, a fintech company big on building its internal AI infrastructure, and sat down with the founding team of Inspect and engineering leadership. We talked with CTO Rahul Sengottuvelu, Head of Engineering Hamid Dadkhah, and Zach Bruggeman, principal engineer and founding engineer of Inspect.
+...
+2. Why build your own background coding agent? Engineers and designers at Ramp were dissatisfied with third-party harnesses: they wanted to run more than a few agents in parallel – which local machines don’t support – to have better frontend tooling, and also faced demand for remote development environments.
+3. How Ramp uses Inspect: coding, bugfixing in Slack, debugging, and building internal agents like code review and incident management on top of the Inspect platform
+...
+Inspect is Ramp’s internal background coding agent, shipped and opened internally last November. Engineers at Ramp can use any tool they want, but 75% of merged PRs are now raised by Inspect; a clear indication that many engineers prefer the tool over others:
+...
+- Remote sandboxes: Inspect spins up a sandboxed remote development environment which unlocks unlimited session concurrency, centralized setup configuration, and cross-functional session collaboration.
+- Internal integrations: Inspect is integrated across the org with the same tools and context that a Ramp engineer has; the only constraint on agents’ ability is model intelligence, not missing tools or access.
+...
+At present, most third-party AI harnesses cannot do these kinds of verifications ‘out of the box’ because they lack internal integrations with things like telemetry and feature flag systems. Also, almost a year ago, Ramp built screenshot verification before it was supported by third-party vendors. Things like this placed Ramp months ahead of nearly all AI coding harnesses, and they could also build a far better feedback loop in their own harness.
+...
+The v1 of Inspect was a Chrome extension for designers to prompt AI to make minor website changes. A few months later, the v2 version with background agents followed.
+...
+There are a few reasons why Ramp decided to turn down tried-and-tested products and create their own:
+
+1. Local machines are limited in how many agents they can run. Ramp found third-party products below expectations; they liked Claude Code on day 1, but were constrained by only being able to run one or two sessions on local machines.
+2. Better frontend tooling. The web engineering team wanted to improve their frontend tooling so designers could make small UI tweaks. There was an opportunity to use AI to automate themselves out of that loop.
+3. Need for remote dev environments. As Ramp scaled, so did the complexity, and with it there was more work at the intersection of systems, like debugging backward compatibility, and broken API contracts. The solution was to create remote dev environments.
+...
+designer’s frontend tool, and a good part of its team were frontend engineers with interests ... . The v1 was a Chrome extension for visual edits, where a user ... area and tell the ... website changes to make, like copy edits and button ... . The task ... building a tool for making UI edits with AI was given to two frontend engineers, Zach Bruggeman and Jason Quense, who aside from their frontend domain knowledge, brought a welcome adversarial perspective, as they were less than fully convinced by AI at that time.
+...
+For the current iteration of Inspect (released November 2025) the team pivoted. They built Inspect v2 as a remote development environment with a coding agent on top. Setting it up as a remote environment that they could configure centrally removed the need for local setup on each machine. They were also encouraged by seeing that OpenCode, the open-source coding agent which serves as Inspect’s harness, exposed an HTTP API which made it straightforward to set up, and was open-source, good enough, and importantly, offered model agnosticism.
+...
+75% of ... s come from
+...
+- Under 5 seconds ... provisioned remote dev environment
+...
+5.5 people in the Inspect team ... four engineers, a director ... and part-time PM
+- 150 ... at Ramp who have contributed to the Inspect
+...
+few things:
+
+- Coding: obvious use case; engineers prompt Inspect with small and medium-sized coding tasks that can often be one-shot passes. For larger, more complex tasks, devs often use Inspect to kick-start an idea and then take over developing it locally.
+- Bugfixing in Slack: the @inspect fix this prompt in Slack. Inspect reads all the thread context and raises a pull request (PR) with a fix.
+- Debugging: Inspect can do things like debug the code (stepping through the code in debugger mode), query the sanitized read-only prod DB replica, find business logic/data mismatches.
+- Using Inspect to build Inspect: Inspect is used to build itself, and more than 80% of Inspect is written in Inspect sessions.
+- Platform for agents: Engineers at Ramp have built more than 200 agents running on top of the Inspect platform
+...
+Some internal agents built on top of Inspect:
+
+- ReviewBuddy: Ramp’s own code review system, customizable per team. The difference from third-party AI code review tools is that it’s very aware of Ramp’s context, and the team found it to work better than third-party tools. Built by a single engineer in a week.
+- Oncall Assistant: connected to all production and observability systems. When the agent detects an incident, it gathers all relevant context and tries to determine the cause. The oncall engineer can choose to join the Inspect session and prompt against this proposed fix.
+- Testo: a frontend QA tool and browser-based agent that clicks around like a user would, and creates Playwright tests.
+- Ramp Research: the company’s agentic “data analyst” is connected to all Ramp’s data sources, like Looker, Snowflake and dbt tables. Ping it from Slack about any topic and it gets answers. Before Ramp Research, engineers and data analysts had to know which data tables to query and join. Ramp previously shared more about its Research.
+- Voice of the Customer: connects to several customer feedback sources like chat, email, App Store reviews, etc. It collects feedback from the last 90 days, and allows prompting against them as a Slack bot
+- Error automations: automatically create draft pull requests based on alerts from Sentry or Datadog.
+...
+Most agentic automations inside Ramp are built on top of Inspect
+
+It’s clever that the Ramp team extended Inspect into a platform, and made it easy to build additional agentic tools, without engineers having to worry about the cloud backend for those tools. Not bad for a tool that started as a simple Chrome extension almost exactly a year ago!
+...
+Inspect’s core principle is that agents should have access to the same context and tools as software engineers. Hooking up Inspect to the data sources that engineers would browse with the same tools seems to be a key difference between Inspect and third-party AI harnesses.
+
+---
+
+Title: An engineering leader's guide to background agents · Ona
+URL: https://ona.com/guides/background-agents
+Published: N/A
+Author: Ona Team
+Highlights:
+In May 2026, we brought together engineering leaders from Stripe, Ramp, Spotify, Uber, Harvey, and others at the Background Agents Summit to share how they implemented and adopted background agents in their organizations. This guide distills those conversations, and our own experience implementing background agent infrastructure and rolling it out across organizations, into a decision-making resource for yours.
+...
+Background agents are reshaping how engineering teams work, but it's still early. Different patterns are emerging, and no two companies are approaching it the same way. Six companies, including Stripe, Ramp, Spotify, Uber, Harvey, and OpenAI, have published detailed accounts of what they built, the use cases they focused on, and the outcomes they achieved.
+
+Their approaches differ in revealing ways. For instance, Stripe, Ramp, and Uber all built interfaces for developers to kick off multiple agents in parallel, with the engineer reviewing the output rather than writing the code. Spotify however, took a different path by slotting agents into their existing fleet automation to run large-scale code migrations across thousands of repos. Harvey, on the other hand is rethinking the engineering process itself, building toward a Figma-like model where engineers, product managers, designers, and even lawyers collaborate together in a shared agent session, not just firing off prompts but reshaping how the whole organization works together.
+...
+| Stripe | Stripe has a 100M+ line Ruby codebase with a mature internal dev environment. They built an agent harness on top of Goose that runs one-shot agents in air-gapped sandboxes, with a tool server exposing 400+ internal tools via MCP. Engineers kick off tasks from Slack or Jira. They started with migrations and flaky test fixes, and now merge over 1,000 agent-authored PRs per week. What they built→ How they built it→ |
+| Ramp | Ramp built their agent system around the idea that agents should be able to verify their own work. Each agent can run tests, query Sentry and Datadog, toggle feature flags, and take screenshots to check its output. Within months, 30% of merged PRs in their frontend and backend repos came from agents. A single security sweep found and fixed ~100 vulnerabilities, including high-severity IDORs that pen testing had missed. Why they built it→ Security sweep results→ |
+| Spotify | Spotify already had a fleet automation system for managing large-scale code migrations across thousands of repos. Rather than building something new, they slotted LLM agents into that existing infrastructure. Migrations that previously required 20K lines of hand-coded AST transforms can now be defined in natural language. Over 1,500 AI-generated PRs merged, with 60–90% time savings on migrations. 1,500+ PRs and counting→ Context engineering→ |
+...
+You might expect the first use cases for background agents to be greenfield feature work, but that's not what adopting organizations started with. Most began with migrations and upgrades: component migrations, dependency upgrades, design system rollouts. The output is well-defined, easy to verify, and low-risk. Stripe, Spotify, and Uber all began here, with Spotify seeing 60–90% time savings over hand-written transformations. Code maintenance was the next common entry point: flaky test fixes, feature flag cleanup, doc fixes, and tech debt. Stripe runs these as one-shot tasks from Slack, and Uber ships 5,000+ auto-generated unit tests per month. Security turned out to be a breakout use case nobody expected. Ramp found and fixed ~100 vulnerabilities in a single week, including high-severity IDORs that pen testing had missed. Some organizations also use agents for feature work and incident investigation, where the output is sometimes a diagnosis rather than code.
+...
+Every organization in this section built their own agent infrastructure, investing months to over a year of dedicated platform engineering. All of them had to build isolated execution environments, tool integration layers, and some form of orchestration. Spotify had the lowest marginal investment because they extended their existing fleet automation system, where the infrastructure for targeting repos, opening PRs, and managing reviews was already in place. Uber took a higher upfront cost by building a central platform so individual teams didn't have to rebuild integrations from scratch. Stripe and Ramp built bespoke systems from the ground up. These are platform engineering projects, not weekend experiments. For organizations without dedicated platform capacity, this is a core build-vs-buy decision, which we cover in more detail later in this guide. Products like Ona package this infrastructure so organizations can adopt background agents without building the underlying platform themselves.
+...
+Six organizations built independently and converged on the same core infrastructure. Every one of them runs agents in sandboxed environments (air-gapped at Stripe, fully ephemeral at Harvey, rebuilt every 30 minutes at Ramp) and none of them let agents share environments or touch production. Every organization built a tool and context integration layer: Stripe exposes 400+ internal tools via a central MCP server, and Uber's MCP gateway turns any internal endpoint into an MCP server with a config change. The highest-performing setups give agents the ability to verify their own work by running tests, querying telemetry, and taking screenshots. Stripe's guiding principle being "if it's good for humans, it's good for LLMs." Every organization also built some form of trigger system to move from "human types a prompt" to "system initiates work" via Slack, Jira, cron, or CI events, and every organization built human-in-the-loop governance before scaling.
+...
+Security vulnerability sweeps are a strong starting point because the business pain is obvious, the eng goal is concrete, and can be verified. Ramp used agents to find and patch security issues across its codebase. The workflow detects the issue, reproduces it, applies the patch, and tests the fix.
+...
+ripe runs agents on "devboxes," which are pre-warmed EC2 instances. Each devbox contains a full copy of the Stripe monorepo with services and build caches pre-loaded, giving a cold start of roughly 10 seconds. The virtualization layer is standard EC2, orchestrated by a
+...
+Ramp uses Modal for sandboxed execution: lightweight VMs with per-repo container images rebuilt every 30 minutes. Modal handles virtualization and provisioning, but it's not the whole stack. Ramp's control plane runs on Cloudflare Durable Objects with the Agents SDK, which manages state, real-time streaming, and session coordination. Ramp pre-warms sandboxes while the user is still typing their prompt, so the environment is ready before the user submits. Filesystem snapshots allow sessions to be frozen and restored for follow-ups without keeping a container alive. Ramp optimized for speed-to-first-token: "When background agents are fast, they're strictly better than local."
+...
+Spotify did not build new execution environments for agents. They run agents as containerized jobs on their existing Fleet Management infrastructure, which was already running large-scale automated jobs across thousands of repositories. The specific container runtime has not been publicly detailed. Fleet Management handles targeting repos, opening PRs, managing reviews, and merging. The agent is just another job type, and isolation is inherited from the existing Fleet Management security model.
+...
+The teams that built their own agent infrastructure (Stripe, Ramp, Spotify, Uber) had something most companies don't: pre-existing investment in cloud development environments. They already had the isolation layer, the image pipelines, and the credential scoping before they ever pointed an agent at a codebase. A dedicated platform team and many months of runway helped, but the foundation was already there.
+
+---
+
+Title: How Stripe built “minions”—AI coding agents that ship 1,300 PRs weekly from Slack reactions | Steve Kaliski (Stripe engineer)
+URL: https://www.lennysnewsletter.com/p/how-stripe-built-minionsai-coding
+Published: 2026-03-25T12:03:34.000Z
+Author: Claire Vo
+Highlights:
+How Stripe built “minions”—AI coding agents that ship 1,300 PRs weekly from Slack reactions | Steve Kaliski (Stripe engineer)
+...
+## How Stripe built “minions”—AI coding agents that ship 1,300 PRs weekly from Slack reactions | Steve Kaliski (Stripe engineer)
+
+🎙️ How Stripe engineers deploy AI agents that write PRs from Slack reactions, plus a demo of machine-to-machine payments that plan a birthday party for $5.47
+...
+Steve Kaliski is a software engineer at Stripe who has spent the past six and a half years building developer tools and payment infrastructure. He’s part of the team that created “minions”—Stripe’s internal AI coding agents, which now ship approximately 1,300 pull requests per week with minimal human intervention beyond code review. In this episode, Steve demonstrates how Stripe engineers activate development work from Slack and leverage cloud-based development environments for parallel agent workflows, and demos machine-to-machine payments where AI agents transact autonomously with third-party services.
+...
+1. How Stripe’s “minions” write 1,300 pull requests per week with minimal human intervention
+2. Why a good developer experience for humans creates better outcomes for AI agents
+3. The critical role of cloud development environments in unlocking AI-powered engineering velocity
+4. The machine payment protocol that lets AI agents spend money to accomplish tasks
+5. The code review strategy for handling thousands of agent-written PRs
+6. Why non-engineers at Stripe are starting to use minions to ship code
+7. The future of software businesses built primarily for agent consumers
+...
+In this episode, we cover:
+...
+(02:39) Stripe’s minions and their effect on Stripe as a whole
+
+(04:42) Why activation energy matters more than execution
+
+(05:44) What is a minion? The technical architecture
+
+(06:52) Demo: Activating a minion from Slack with an emoji
+
+(09:04) Why good developer experience benefits both humans and agents
+
+(11:22) Walking through the agent loop and system prompts
+
+(13:42) Why Stripe chose Goose as their agent harness
+
+(16
+...
+(17:15) Why cloud environments unlock multi-threaded AI engineering
+
+(21:14) One-shot prompting: from Slack to shipped PR
+
+(22:04) How Stripe handles code review for 1,300 AI-written PRs weekly
+
+(23:44) Non-engineers using minions across the company
+...
+• Goose (AI agent harness): https://github.com/block/goose
+
+• Claude Code: https://claude.ai/code
+
+• Cursor: https://cursor.sh/
+
+• VS Code: https://code.visualstudio.com/
+
+• Slack: https://slack.com/
+
+• Browserbase: https://browserbase.com/
+
+• Parallel AI: https://www.parallel.ai/
+
+• PostalForm: https://postalform.com/
+
+• Stripe Climate: https://stripe.com/climate
+
+---
+
+Title: Minions: Stripe’s one-shot, end-to-end coding agents | Stripe Engineering Blog | Engineering.fyi
+URL: https://www.engineering.fyi/article/minions-stripe-s-one-shot-end-to-end-coding-agents
+Published: 2026-02-09T00:00:00.000Z
+Author: Alistair Gray
+Highlights:
+Minions are Stripe’s homegrown coding agents, responsible for more than a thousand pull requests merged each week. Though humans review the code, minions write it from start to finish. Learn how they work, and how we built them.
+...
+Stripe built homegrown unattended coding agents called Minions that one-shot entire tasks from Slack message to merged pull request. Over a thousand PRs per week at Stripe are fully minion-produced with no human-written code, enabling engineers to parallelize work by spinning up multiple agents simultaneously. The article covers how engineers use minions, their integration points, the agent architecture built on a fork of Block's Goose, and the feedback loops including local linting and CI testing.
+...
+Minions are Stripe's homegrown, fully unattended coding agents built to one-shot tasks end-to-end. Over a thousand pull requests merged each week at Stripe are completely minion-produced, containing no human-written code though they are human-reviewed. They run from a Slack message to a CI-passing pull request with no interaction in between.
+...
+Engineers most frequently start minions from Slack by tagging the Slack app, which accesses the entire thread and linked context. Minions can also be invoked via CLI, web interfaces, and internal platforms like the docs platform, feature flag platform, and ticketing UI. Engineers can monitor agent decisions in a web UI and iterate on completed runs by giving further instructions or editing code manually.
+...
+Minions run on a fork of Block's open-source coding agent Goose, customized to interleave agent loops with deterministic code for git operations, linters, and testing. They run in isolated pre-warmed devboxes that spin up in 10 seconds with Stripe code and services pre-loaded. They connect to MCP via a central internal server called Toolshed hosting over 400 tools spanning internal systems and SaaS platforms.
+...
+Minions use multiple automated feedback layers. First, a local executable runs selected lints on each git push in under five seconds using heuristics. If that passes, CI selectively runs tests from Stripe's battery of over three million tests. Many tests have autofixes that are automatically applied. If no autofix exists, the failure goes back to the minion. They allow at most two CI rounds to balance speed, cost, and diminishing returns.
+...
+Stripe built a central internal MCP server called Toolshed that hosts over 400 MCP tools spanning internal systems and SaaS platforms. MCP provides a common language for networkable LLM function calling, allowing minions to gather context like internal documentation, ticket details, build statuses, and code intelligence via Sourcegraph search. Relevant MCP tools are deterministically run over likely-looking links before a minion run even starts to hydrate context.
+...
+Minions read the same coding agent rule files that human-operated tools like Cursor and Claude Code use, consuming several different agent rule file formats. Since it would be impractical for Stripe to have many unconditional rules across their massive codebase, almost all agent rules are conditionally applied based on subdirectories, allowing targeted guidance for different parts of the codebase.
+...
+Stripe applies the 'shift feedback left' principle to both human and agent developer productivity. Any lint step that would fail in CI is enforced in the IDE or on a git push, presented immediately to the engineer or agent. Local linting runs in under five seconds using heuristics to select relevant checks. This reduces expensive CI runs, saves tokens and compute, and provides faster iteration cycles for agents.
+...
+Block's open-source coding agent, forked by Stripe as the core agent loop for minions
+...
+Primary entry point for engineers to invoke minions via tagging the Slack app in threads
+...
+and search accessed
+...
+> 1
+> 
+> Build unattended coding agents that reuse the same developer tooling as human engineers rather than creating separate agent-specific infrastructure. Stripe's minions use the same devboxes, linters, CI pipelines, and agent rule files that human engineers use, following the principle that 'if it's good for humans, it's good for LLMs, too.'
+> 
+> This approach reduces maintenance burden and ensures agents follow the same quality standards and best practices as human developers, while leveraging existing investments in developer productivity infrastructure.
+
+> 2
+> 
+> Limit CI retry rounds to at most two iterations when building automated coding agents, as there are diminishing marginal returns for an LLM to run many rounds of a full CI loop. Fix everything possible locally before pushing to CI, using fast local linting heuristics that run in seconds rather than expensive full CI runs.
+> 
+> Each CI run costs tokens, compute, and time. Stripe found that 'often one, at most two CI runs—and only after we've fixed everything we can locally' strikes the right balance between speed and completeness for their agent workflow.
+...
+> 4
+> 
+> Pre-hydrate agent context by deterministically running relevant MCP tools over links and references before the agent loop even begins. This gives the agent rich context from documentation, tickets, build statuses, and code search upfront rather than relying on it to discover and fetch this information during its run.
+> 
+> Stripe deterministically processes likely-looking links before a minion run starts, reducing agent exploration time and improving first-attempt success rates for one-shot task completion.
+
+> 5
+> 
+> Use isolated, pre-warmed developer environments for agent execution to enable safe parallelization. Stripe spins up devboxes in 10 seconds with code and services pre-loaded, isolated from production and the internet, eliminating the need for human permission checks and avoiding the overhead of alternatives like git worktrees.
+> 
+> This architecture enables engineers to spin up multiple minions in parallel, which is particularly valuable during on-call rotations for resolving many small issues simultaneously.
+
+> 6
+> 
+> Design multiple ergonomic entry points for coding agents that integrate naturally into existing developer workflows. Rather than requiring engineers to context-switch to a separate tool, embed agent invocation directly into Slack threads, internal ticketing systems, feature flag platforms, and documentation tools where engineers already work.
+> 
+> Stripe integrates minion invocation into Slack (most common entry point), CLI, web UI, internal docs platform, feature flag platform, and ticketing UI, making it effortless to kick off an agent from wherever the relevant context already exists.
+...
+Stripe caps CI rounds at two maximum. Fix everything possible with fast local linting first (under 5 seconds), then allow at most one CI retry before accepting the result as a starting point for human refinement.
+...
+Stripe conditionally applies almost all agent rules based on subdirectories, allowing targeted guidance appropriate for each part of their hundreds of millions of lines
+...
+Stripe provides agents with the same developer tooling as human engineers, pre-hydrates context via MCP, and uses isolated devboxes pre-loaded with code and services to bridge this gap.
+...
+Stripe enforces lint checks on git push locally in under 5 seconds using heuristics, only sending code to CI after local checks pass. Many CI test failures have autofixes that are automatically applied.
+
+---
+
+Title: Spotify Honk | Ry Walker Research | Ry Walker
+URL: https://rywalker.com/research/spotify-honk
+Published: 2026-02-13T00:00:00.000Z
+Author: Ry Walker Research
+Highlights:
+Spotify Honk powers background coding and fleet migrations, with documented verification lessons and commercial availability through Fleetshift in Spotify Portal.
+...
+Honk is Spotify's background coding agent, developed to handle code changes that became unwieldy to express as deterministic migration scripts. It began inside Spotify's Fleet Management system and expanded into ad hoc engineering work. The surrounding platform handles repository targeting, pull requests, review, and observability; the agent performs the code transformation.
+
+It is no longer accurate to describe Honk as unavailable outside Spotify. As checked September 15, 2026, Spotify markets Honk-powered migrations through Fleetshift in Spotify Portal. The external product and the internal system should still be evaluated separately: public marketing does not establish feature parity between them.
+...
+| Attribute | Documented position |
+| --- | --- |
+| Foundation | Claude through Anthropic's Agent SDK, inside Spotify's own harness |
+| Agent runtime | Concurrent sessions in Kubernetes pods |
+| Entry points | Fleet migrations and Slack conversations; broader API-based integrations described by the builders |
+| External availability | Honk inside Fleetshift for Spotify Portal; demo-led evaluation |
+| Source availability | Public engineering explanations and a migration-prompt example; these are not an open-source release of the Honk service |
+...
+The first engineering report describes a small CLI that delegates work to an agent while adding formatting and linting tools, diff evaluation, GCP logs, and MLflow traces. Its purpose includes replacing agents or models without rebuilding the surrounding workflow. MCP also exposes the background agent to other interfaces. Early ad hoc uses included turning a Slack discussion into an architecture decision record and letting product managers propose small changes without setting up a local repository.
+...
+Spotify's December 2025 design exposes a verification tool rather than asking the agent to memorize every build command. Verifiers activate according to repository contents, run relevant checks, and return concise feedback. A stop hook can prevent PR creation when required checks fail. The agent has limited permissions; surrounding infrastructure handles activities such as pushing code and interacting with people.
+
+The subsequent QCon account describes moving full validation to existing CI through a separate verification service. This addressed permissions, Docker, and operating-system differences that made the agent's own runtime a poor substitute for CI. The agent can still run cheaper checks locally before requesting the broader build.
+...
+The December post explicitly identifies a CI-passing but incorrect change as the most serious failure mode. It also describes a then-current LLM judge that compared the diff with the request. By the March QCon talk, the builders said they had removed that judge: it could reject legitimate no-op cases, while newer models followed verification instructions more reliably. These are successive designs, not two simultaneous guarantees.
+...
+Spotify's June update describes Honk v2 introducing shared agent sessions, team projects, and orchestration through Chirp. It also documents builds across multiple operating systems. These are Spotify's descriptions of its internal development direction; buyers should verify which interfaces and validation facilities ship in their Portal configuration.
+
+In August, Spotify separately introduced Xirp, a publicly offered environment for parallel agent sessions across multiple harnesses and worktrees. Its Portal integration supplies catalog context and shares session records. This broadens Spotify's agent tooling beyond Honk; the announcement does not establish that every Honk background workflow or verifier runs inside Xirp.
+...
+Spotify's published migration prompt makes the work concrete. It covers converting a value class to a record, preserving existing behavior, replacing builders with AutoMatter where needed, adjusting callers, and cleaning up build dependencies. It preserves JSON property annotations and deals explicitly with derived-property caching. It also instructs the agent to leave repositories on unsupported Java versions alone
+...
+The April 2026 case involved two deprecated datasets with roughly 1,800 direct downstream pipelines. Spotify reported 240 automated migration PRs and an estimated ten engineering weeks saved. The team used Backstage lineage and code search to identify affected repositories, then Fleetshift to manage the changes.
+...
+The QCon speakers describe an incident discussion containing a dashboard, stack trace, and Jira context. Engineers ask Honk for a plan, refine it, and authorize implementation from that conversation. It then returns a PR. The workflow reduces context transfer between planning and execution; it does not remove review responsibility.
+...
+The commercial workflow starts with targets chosen from a Soundcheck campaign, a catalog entity, or the Fleetshift plugin. Users choose a deterministic or agentic transformation and track resulting PRs centrally; AiKA can initiate fixes from catalog chat. The current Fleetshift page offers a demonstration but does not publish a standalone Honk price. Verify licensing, model costs, deployment requirements, and supported verification systems during evaluation.
+
+Portal itself is Spotify's packaged developer-portal offering built on Backstage. This makes the catalog and platform context part of the purchasing decision: a team already standardizing engineering workflows around that ecosystem has a different adoption path from a team seeking only a background coding service.
+...
+Tembo is a relevant commercial comparison for teams seeking the background-agent workflow without reproducing Spotify's internal system. Its documentation covers scheduled, event-driven, and webhook-triggered agents, selectable harnesses including Claude Code, Codex, and Pi, and prepared project environments. It also supports Slack initiation.
+
+Tembo documents sessions that span repositories, use connected integration or MCP context, and open a PR or merge request in each affected repository, including across git providers. The distinction to evaluate is therefore concrete: Fleetshift organizes changes around catalog targets and platform campaigns; Tembo offers a broader entry point for tasks and automations across repositories and workplace tools. Neither description demonstrates that a particular migration will succeed, or that either product eliminates repository-specific tests and review.
+
+A useful side-by-side pilot would run the same bounded dependency migration, require identical validation, and compare setup work, correct merged changes, review effort, and recovery from a failed repository. No Honk–Tembo integration is established by the sources reviewed here.
+...
+February 12, 2026 Hacker News comment, nadis asked what Honk added beyond ... Code and why Spotify built a separate system. That was a question about vague press coverage, not ... using Honk. The architecture above supplies a concrete answer: fleet targeting, execution, verification, and organizational workflow.
+...
+Honk is especially instructive for platform teams with many owned services, repeated migrations, and a catalog that can identify targets. The published examples expose both successful patterns and unfinished work: prompt design, verification coverage, and downstream review deserve as much attention as model choice.
+...
+The evidence supports confidence that Spotify operates the system and is commercializing part of it. It does not establish an externally audited productivity result, a public open-source implementation, or parity between internal Honk v2 and the external product. This research reviewed public documentation and accounts; it did not run Spotify's private service.

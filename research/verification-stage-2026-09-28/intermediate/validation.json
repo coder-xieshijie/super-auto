@@ -1,0 +1,71 @@
+{
+  "checked_at": "2026-09-28T09:06:47.334325+00:00",
+  "scope": "documentation and illustrative artifact integrity only; no business tests, Agent Lord execution, schema implementation, or runtime evidence validation performed",
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "input_hashes",
+      "passed": true,
+      "detail": {
+        "files": 10
+      }
+    },
+    {
+      "check": "source_snapshot_hashes",
+      "passed": true,
+      "detail": {
+        "files": 4,
+        "head": "cf06465299b43bc2390719d9d28d51380407d320"
+      }
+    },
+    {
+      "check": "example_request_hash",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "check": "example_result_plan_hash",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "check": "example_requirement_case_references",
+      "passed": true,
+      "detail": {
+        "requirements": 3,
+        "cases": 4
+      }
+    },
+    {
+      "check": "example_never_claims_execution",
+      "passed": true,
+      "detail": {}
+    },
+    {
+      "check": "authored_markdown_local_links",
+      "passed": true,
+      "detail": {
+        "files": 8,
+        "links": 49,
+        "missing": [],
+        "scope": "authored documents and indexes; raw upstream snapshots excluded; path existence only, not heading anchors"
+      }
+    },
+    {
+      "check": "json_parse",
+      "passed": true,
+      "detail": {
+        "files": 7,
+        "errors": []
+      }
+    },
+    {
+      "check": "tracked_diff_whitespace",
+      "passed": true,
+      "detail": {
+        "output": "",
+        "scope": "tracked diff only"
+      }
+    }
+  ]
+}

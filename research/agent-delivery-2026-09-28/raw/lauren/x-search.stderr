@@ -1,0 +1,15 @@
+ok: false
+error:
+  code: UNKNOWN
+  message: >-
+    TypeError: Failed to execute 'fetch' on 'Window': Failed to parse URL from
+    /i/api/graphql/Yw6L66Pw54NHKuq4Dp7b4Q/SearchTimeline
+        at <anonymous>:8:25
+        at <anonymous>:12:9
+  exitCode: 1
+trace:
+  traceId: 20260928040302-ce125ba4
+  dir: /Users/minimax/.opencli/profiles/default/traces/20260928040302-ce125ba4
+  summaryPath: /Users/minimax/.opencli/profiles/default/traces/20260928040302-ce125ba4/summary.md
+  receiptPath: /Users/minimax/.opencli/profiles/default/traces/20260928040302-ce125ba4/receipt.json
+  status: failure

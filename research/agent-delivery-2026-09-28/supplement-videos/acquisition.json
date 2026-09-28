@@ -1,0 +1,26 @@
+{
+  "accessed_at": "2026-09-28T07:01:43.585197+00:00",
+  "requested_urls": [
+    "https://www.youtube.com/watch?v=y1TXjYlRjBU",
+    "https://www.youtube.com/watch?v=ow1we5PzK-o&t=833s"
+  ],
+  "scope": "Full captions of both videos, targeted visual inspection, pinned example code; no installation or workflow implementation",
+  "results": {
+    "transcripts": "both complete via public browser export",
+    "metadata": "yt-dlp 2026.07.04 info.json",
+    "full_video": "not acquired",
+    "attempt_1": "prepare_youtube.py legacy Python extractor failed page needs reload",
+    "attempt_2": "current installed yt-dlp retrieved metadata but media HTTP 403",
+    "browser_cookies_exported": false,
+    "visuals": "Factory paused ~13:17 and Pi paused ~30:11; observations saved, no raw frame file",
+    "source_review": "19 files pinned; helpers missing in that full repository tree; no execution"
+  },
+  "provenance_files": [
+    "raw/y1TXjYlRjBU/prepare.log",
+    "raw/y1TXjYlRjBU/retry.log",
+    "raw/ow1we5PzK-o/prepare.log",
+    "raw/ow1we5PzK-o/retry.log",
+    "raw/visual-observations.md",
+    "raw/pi-example-source/source-metadata.json"
+  ]
+}

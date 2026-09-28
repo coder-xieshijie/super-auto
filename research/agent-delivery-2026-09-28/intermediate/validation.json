@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-09-28T07:02:29.661732+00:00",
+  "source_records": 75,
+  "source_hashes_checked": 75,
+  "authored_markdown_files": 19,
+  "local_links_checked": 184,
+  "manifest_files": 334,
+  "errors": [],
+  "limits": [
+    "No live pipeline or agent implementation test",
+    "Imported upstream Markdown links are not linted",
+    "Hash integrity does not certify the truth of source claims"
+  ]
+}

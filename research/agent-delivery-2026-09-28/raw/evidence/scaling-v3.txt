@@ -1,0 +1,8 @@
+Title: https://arxiv.org/html/2512.08296v3/architecture_comparison_combined.svg
+
+URL Source: https://arxiv.org/html/2512.08296v3
+
+Published Time: Tue, 11 Aug 2026 23:59:19 GMT
+
+Markdown Content:
+Gemini Flash and Gemini Pro are two different versions of AI model, with the number of agents added, from number 1 to number 9

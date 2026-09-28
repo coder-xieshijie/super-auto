@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-09-28T07:00:14.364240+00:00",
+  "local_commit": "7fd6b3893d4537cb60dc41a80f99f5c3d09500a4",
+  "working_tree_status": "",
+  "scope": "Read-only local installed skill source and selected pipeline implementation. No fetch, runtime test, or implementation change. Historical workload evidence ends 2026-09-24.",
+  "files": [
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/references/pipelines/plan-to-implement.md",
+      "snapshot": "raw/references/pipelines/plan-to-implement.md",
+      "sha256": "8a9a6a90b5fa300209aa2af3d36d16af887c0d49089bb6c5943128c7d2feb548"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/references/pipelines/cross-review.md",
+      "snapshot": "raw/references/pipelines/cross-review.md",
+      "sha256": "8f859d4dcca0e0aa093295d7af9ab06cca6571c870d582d609e4db8e2681e846"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/references/pipelines/plan-cross-review.md",
+      "snapshot": "raw/references/pipelines/plan-cross-review.md",
+      "sha256": "420a9fd92bee92a081a3936c3a1d882e2ac0838889e50398fa251eefc1a4b86b"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/core/src/plan.ts",
+      "snapshot": "raw/core/src/plan.ts",
+      "sha256": "140feafe2bcd34c932a22065d4f58c1ba4a0668addbcb5cadde0fc93a3f1aa9d"
+    }
+  ]
+}

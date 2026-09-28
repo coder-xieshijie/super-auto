@@ -1,0 +1,65 @@
+{
+  "checked_full_tree_truncated": false,
+  "helper_path_matches": {
+    "collect_evidence.py": [],
+    "check_build.py": [],
+    "qa_playtest.py": [],
+    "serve_game.py": []
+  },
+  "lineage_patterns": [
+    "lauren",
+    "poteto",
+    "pstack"
+  ],
+  "lineage_hits": [],
+  "role_frontmatter": [
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/game-deployer.md",
+      "frontmatter": "\nname: game-deployer\ndescription: Serves the finished game from a local HTTP server and returns the playable URL plus a server record\nmodel: deepseek/deepseek-flash\ntools: read, write, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/qa-tester.md",
+      "frontmatter": "\nname: qa-tester\ndescription: Runs the full QA pass on the integrated game — headless playthrough, keyboard and arcade intent coverage, screen flow, fairness checks — and returns one verdict report\nmodel: deepseek/deepseek-v4-flash-vision-exp\ntools: read, write, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/game-developer.md",
+      "frontmatter": "\nname: game-developer\ndescription: Implements exactly one module of the web game (core, player, input, or UI) against the design and UI spec, and returns a bounded handoff\nmodel: deepseek/deepseek-flash\ntools: read, write, edit, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/dev-manager.md",
+      "frontmatter": "\nname: dev-manager\ndescription: Integrates the parallel developer modules into one runnable game — wires index.html and main.js, resolves interface mismatches, exposes the test hook, and runs the build check\nmodel: deepseek/deepseek-flash\ntools: read, write, edit, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/game-designer.md",
+      "frontmatter": "\nname: game-designer\ndescription: Turns a short game brief into a small, structured web-game design (design.json + design.md), and applies targeted design repairs\nmodel: deepseek/deepseek-flash\ntools: read, write, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/ui-designer.md",
+      "frontmatter": "\nname: ui-designer\ndescription: Designs the game's screens and visual system with the Stitch MCP tools, then writes a build-ready ui-spec.md and stitch.json\nmodel: deepseek/deepseek-v4-flash-vision-exp\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/game_creator/agents/game-critic.md",
+      "frontmatter": "\nname: game-critic\ndescription: Reviews a game design as a player — is it actually fun, is anything exploitable or unfair, does it hold up as a demo — and re-audits repairs for regressions\nmodel: deepseek/deepseek-flash\ntools: read, write, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-critic.md",
+      "frontmatter": "\nname: itinerary-critic\ndescription: Audits a draft itinerary for physical feasibility and constraint compliance, and re-audits targeted repairs for regressions\nmodel: deepseek/deepseek-flash\ntools: read, bash, write\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-designer.md",
+      "frontmatter": "\nname: itinerary-designer\ndescription: Defines the visual system and writes the HTML shell for the itinerary report\nmodel: deepseek/deepseek-flash\ntools: read, write\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-generator.md",
+      "frontmatter": "\nname: itinerary-generator\ndescription: Renders the final self-contained HTML trip report from the design system, the structured itinerary and the fetched images\nmodel: deepseek/deepseek-flash\ntools: read, write, bash\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/tour_planner/agents/researcher.md",
+      "frontmatter": "\nname: researcher\ndescription: Gathers one bounded class of travel facts (POI, weather, or food) for a destination and returns machine-readable findings\nmodel: deepseek/deepseek-flash\ntools: read, bash, write\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    },
+    {
+      "path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-synthesizer.md",
+      "frontmatter": "\nname: itinerary-synthesizer\ndescription: Merges research artifacts and the travel brief into one structured, machine-readable itinerary\nmodel: deepseek/deepseek-flash\ntools: read, write\nspawning: false\nauto-exit: true\nsystem-prompt: append\n"
+    }
+  ]
+}

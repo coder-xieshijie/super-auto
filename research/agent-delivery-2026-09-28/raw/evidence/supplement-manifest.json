@@ -1,0 +1,46 @@
+[
+  {
+    "id": "dora-questions",
+    "url": "https://dora.dev/ai/capabilities-model/questions/",
+    "title": "DORA AI Capabilities Model Survey Questions",
+    "date": "2025",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/dora-questions.txt",
+    "bytes": 16321,
+    "sha256": "a124646ffd5618a935326473bff0c8b9c6c2891d74471da1dfc8dac1247c1d77",
+    "accessed_at": "2026-09-28T04:03:12.296121+00:00",
+    "status": "ok"
+  },
+  {
+    "id": "dora-small-batches",
+    "url": "https://dora.dev/capabilities/working-in-small-batches/",
+    "title": "Working in small batches",
+    "date": "accessed 2026-09-28",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/dora-small-batches.txt",
+    "bytes": 12198,
+    "sha256": "8fa03c4e81d66449596186a269bd3c03946150bae71833a5c3bf9c997755bf02",
+    "accessed_at": "2026-09-28T04:03:12.322488+00:00",
+    "status": "ok"
+  },
+  {
+    "id": "dora-wip",
+    "url": "https://dora.dev/capabilities/wip-limits/",
+    "title": "Work in process limits",
+    "date": "accessed 2026-09-28",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/dora-wip.txt",
+    "bytes": 8006,
+    "sha256": "a98c77d860029f1cb34ff1b7965e47961e6aaf200f07c9dd36212b8388a363a2",
+    "accessed_at": "2026-09-28T04:03:12.379877+00:00",
+    "status": "ok"
+  },
+  {
+    "id": "dora-tokenmaxxing",
+    "url": "https://dora.dev/insights/finding-balance-in-the-era-of-tokenmaxxing/",
+    "title": "Finding balance in the era of tokenmaxxing",
+    "date": "2026-06-02",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/dora-tokenmaxxing.txt",
+    "bytes": 18484,
+    "sha256": "defccaf005b64cf717eefcaad2488ad4860d71c396ea285b54856a3ad9bc77af",
+    "accessed_at": "2026-09-28T04:03:11.622030+00:00",
+    "status": "ok"
+  }
+]

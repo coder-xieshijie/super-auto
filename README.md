@@ -1,6 +1,12 @@
 # Lauren 方法论与近 30 天 Agent 工作流分析
 
-本目录保存 2026-09-24 的调研资料、中间结果与结论。
+本目录保存 Lauren 方法论、个人工作流和工业级 agent 交付的调研资料、中间结果与结论。
+
+**持续记录：[讨论索引与留存约定](discussions/README.md)**。已补录 [需求确认后的验证与交付闭环](discussions/2026-09-28-verification-and-delivery.md)，保留用户原话、助手分析、决定状态与关联证据，供后续二次分析。
+
+**最新：2026-09-28 [工业级需求自动交付调研](research/agent-delivery-2026-09-28/README.md)**，含 Lauren 官方源码遗漏与最新访谈、企业案例、研究证据、并发与人类瓶颈分析及试验方案。旧成果已先提交为 `9481ec5`。
+
+## 2026-09-24 基线研究
 
 先读：[近 30 天综合结论](research/workflow-30d/conclusions/analysis.md)，以及 [两周试验方案](research/workflow-30d/conclusions/two-week-experiments.md)。
 
@@ -13,3 +19,8 @@
 - [近期工作流](research/lauren/workflow/evidence-notes.md)：Agent Lord / Goal v2 的可核实记录与瓶颈。
 
 数字与质量判断的证据限制见综合分析第二节。视频字幕是平台提供的英文文本，未经过人工逐字听校。
+
+## 专题解读
+
+- [新增需求验收环节：范围、生成方法、交付物与 Agent Lord 接入](research/verification-stage-2026-09-28/README.md)（2026-09-28）：设计、结构示例、当前源码快照与独立审查；尚未实施。
+- [Anthropic 长任务工作流：原文解释与 Agent Lord 借鉴](research/anthropic-long-running-2026-09-28/analysis.md)（2026-09-28）。

@@ -1,0 +1,140 @@
+Title: N/A
+URL: https://engineering.ramp.com/post/why-we-built-our-background-agent
+Published: N/A
+Author: N/A
+Highlights:
+We built our own background coding agent: Inspect. Inspect writes the code like any other coding agent, but closes the loop on verifying its work by having all the context and tools needed to prove it, as a Ramp engineer would.
+...
+Each session runs in a sandboxed VM on Modal with everything an engineer would have locally: Vite, Postgres, Temporal, the works. It’s wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, and Buildkite. It supports all frontier models, MCPs, custom tools, and skills that encode how we ship at Ramp. This also lets builders of all backgrounds, contribute with the tooling and setup an engineer would.
+...
+Internal adoption charts have been vertical: ~30% of all pull requests merged to our frontend and backend repos are written by Inspect. It only took a couple months for us to reach this level of usage, and it continues to grow. We didn’t force anyone to use Inspect over their own tools. We built to people’s needs, created virality loops through letting it work in public spaces, and let the product do the talking.
+...
+At the core of a hosted coding agent is the execution environment. Whenever you start a new coding session, you want to spin up a new sandbox that has a full development environment. This will allow the agent to work effectively, by having access to all the tools a human would have, while also being isolated from other work. It’s also crucial that time-to-first-token is as fast as possible.
+
+The key challenge is spinning up full dev environments quickly. Modal solves this: it's a cloud platform for AI infrastructure we use across Ramp. Their sandboxes start near instantly, and file system snapshots allow us to freeze and restore state later. With Modal Sandboxes, we take the following approach:
+...
+- We build these images every 30 minutes, meaning that we clone the repository, install any runtime dependencies, and do any initial setup and build commands If you use GitHub: You will need to have a GitHub app, and generate a new app installation token on each clone, so that it can clone the repository without knowing what user will consume it As git operations are not tied to a GitHub user, you will simply update the git config’s user.name and user.email when committing and pushing the changes
+...
+snapshot of the ... in this completed state
+- When we later start the session, we spin up a new sandbox that starts from this stored snapshot This ensures that at most, the repository is 30 minutes out of date This makes the synchronization with the latest code in the repository much faster, as there’s only up to 30 minutes of changes to sync
+...
+When the agent is finished making changes, we ... another snapshot, and restore to it later if the sandbox has exited and the user sends a follow up
+
+You now need to set up an agent to do work in the sandbox. We strongly recommend using OpenCode, an open source coding agent. We believe it has critical advantages over other agents:
+...
+Warm the sandbox for your session as soon as a user starts to type their prompt This lets it start cloning the latest changes, and doing any initial setup in the newly created sandbox before the user has even hit enter If your spin up is fast, it can be ready before the user finishes typing, making the prompt feel as fast as it would on a local machine You can also keep a pool of warm sandboxes for any high-volume repositories, so they’re already there before you start Just ensure to expire and recreate the pool as new image builds come in
+...
+Amongst many tools you could build for your agent, a crucial tool is one that allows it to spawn sessions itself. Don’t be afraid of the possibility of it spawning too many agents; frontier models are smart enough to contain themselves. Create a tool that starts a new session, and a tool that lets it read the status of any session, so it can check in periodically while the main session still does work. Prompt engineer this so you ... research tasks (especially across ... major task.
+...
+You will need to add authentication. Consider using GitHub authentication if your code lives in GitHub, as this will give you a user token that you can then use to ... on behalf of the user. This is strongly preferred over having it open pull requests as the app itself. In the latter scenario, this would allow for any user to approve their own changes. You do not want to knowingly create a vector for unreviewed code to go into the codebase.
+
+Our setup is to have the sandbox push the changes (updating the git user as previously mentioned), and then send an event to the API with the branch name and session ID. The API will then use the user’s GitHub token to call GitHub’s pull request API. You should also set up a GitHub webhook to listen for branch and pull request events, so you can keep track of when a pull request is updated, merged, or closed.
+...
+As well, you should build a statistics page. Include your entire organization’s usage, particularly surfacing how many sessions result in a merged pull request. This is the most important metric to track, as merged pull requests indicate that the agent is producing valuable work. Show these as metrics over time, so you can inspire more growth. A live “humans prompting” count is a good gauge as well, which we base on the number of users that have sent a prompt in ... last 5 minutes.
+
+---
+
+Title: Why We Built Our Own Background Agent
+URL: https://builders.ramp.com/post/why-we-built-our-background-agent
+Published: 2026-01-12T00:00:00.000Z
+Author: N/A
+Highlights:
+We built our own background coding agent: Inspect. Inspect writes the code like any other coding agent, but closes the loop on verifying its work by having all the context and tools needed to prove it, as a Ramp engineer would.
+...
+Each session runs in a sandboxed VM on Modal with everything an engineer would have locally: Vite, Postgres, Temporal, the works. It’s wired into Sentry, Datadog, LaunchDarkly, Braintrust, GitHub, Slack, and Buildkite. It supports all frontier models, MCPs, custom tools, and skills that encode how we ship at Ramp. This also lets builders of all backgrounds, contribute with the tooling and setup an engineer would.
+...
+Internal adoption charts have been vertical: ~30% of all pull requests merged to our frontend and backend repos are written by Inspect. It only took a couple months for us to reach this level of usage, and it continues to grow. We didn’t force anyone to use Inspect over their own tools. We built to people’s needs, created virality loops through letting it work in public spaces, and let the product do the talking.
+...
+At the core of a hosted coding agent is the execution environment. Whenever you start a new coding session, you want to spin up a new sandbox that has a full development environment. This will allow the agent to work effectively, by having access to all the tools a human would have, while also being isolated from other work. It’s also crucial that time-to-first-token is as fast as possible.
+
+The key challenge is spinning up full dev environments quickly. Modal solves this: it's a cloud platform for AI infrastructure we use across Ramp. Their sandboxes start near instantly, and file system snapshots allow us to freeze and restore state later. With Modal Sandboxes, we take the following approach:
+...
+- We build these images every 30 minutes, meaning that we clone the repository, install any runtime dependencies, and do any initial setup and build commands If you use GitHub: You will need to have a GitHub app, and generate a new app installation token on each clone, so that it can clone the repository without knowing what user will consume it As git operations are not tied to a GitHub user, you will simply update the git config’s user.name and user.email when committing and pushing the changes
+...
+snapshot of the ... in this completed state
+- When we later start the session, we spin up a new sandbox that starts from this stored snapshot This ensures that at most, the repository is 30 minutes out of date This makes the synchronization with the latest code in the repository much faster, as there’s only up to 30 minutes of changes to sync
+...
+When the agent is finished making changes, we ... another snapshot, and restore to it later if the sandbox has exited and the user sends a follow up
+
+You now need to set up an agent to do work in the sandbox. We strongly recommend using OpenCode, an open source coding agent. We believe it has critical advantages over other agents:
+...
+Warm the sandbox for your session as soon as a user starts to type their prompt This lets it start cloning the latest changes, and doing any initial setup in the newly created sandbox before the user has even hit enter If your spin up is fast, it can be ready before the user finishes typing, making the prompt feel as fast as it would on a local machine You can also keep a pool of warm sandboxes for any high-volume repositories, so they’re already there before you start Just ensure to expire and recreate the pool as new image builds come in
+...
+Amongst many tools you could build for your agent, a crucial tool is one that allows it to spawn sessions itself. Don’t be afraid of the possibility of it spawning too many agents; frontier models are smart enough to contain themselves. Create a tool that starts a new session, and a tool that lets it read the status of any session, so it can check in periodically while the main session still does work. Prompt engineer this so you ... research tasks (especially across ... major task.
+...
+You will need to add authentication. Consider using GitHub authentication if your code lives in GitHub, as this will give you a user token that you can then use to ... on behalf of the user. This is strongly preferred over having it open pull requests as the app itself. In the latter scenario, this would allow for any user to approve their own changes. You do not want to knowingly create a vector for unreviewed code to go into the codebase.
+
+Our setup is to have the sandbox push the changes (updating the git user as previously mentioned), and then send an event to the API with the branch name and session ID. The API will then use the user’s GitHub token to call GitHub’s pull request API. You should also set up a GitHub webhook to listen for branch and pull request events, so you can keep track of when a pull request is updated, merged, or closed.
+...
+As well, you should build a statistics page. Include your entire organization’s usage, particularly surfacing how many sessions result in a merged pull request. This is the most important metric to track, as merged pull requests indicate that the agent is producing valuable work. Show these as metrics over time, so you can inspire more growth. A live “humans prompting” count is a good gauge as well, which we base on the number of users that have sent a prompt in ... last 5 minutes.
+
+---
+
+Title: How Ramp built a full context background coding agent on ...
+URL: https://modal.com/blog/how-ramp-built-a-full-context-background-coding-agent-on-modal
+Published: 2026-02-19T00:00:00.000Z
+Author: N/A
+Highlights:
+Ramp uses Modal to power Ramp Inspect, an internal background coding agent that now writes over half of all merged pull requests at Ramp. Leveraging Modal Sandboxes, Ramp spins up full development environments in seconds, giving every builder at the company access to what is effectively unlimited parallel engineering capacity grounded by Ramp’s internal codebase, enterprise context, and developer tooling.
+...
+## The solution: Inspect, a background coding agent on Modal
+
+Ramp was already using Modal for fine-tuning and batch inference, so building a background coding agent on top of Modal Sandboxes was a natural next step. A few engineers started prototyping on the side, and it quickly proved its value.
+...
+Each Inspect session runs in a Modal Sandbox containing a full-stack development environment: Postgres, Redis, Temporal, RabbitMQ, and every service an engineer would have locally. Inside the sandbox, OpenCode runs as the coding agent, alongside a VS Code server for manual edits, a web terminal, and a VNC stack with Chromium for visual verification of frontend changes. The agent can take before-and-after screenshots, navigate the app in a real browser, and confirm its work visually—just as a human would. The whole setup is wired into GitHub, Slack, Buildkite, and Ramp's observability stack including Sentry and Datadog.
+...
+They solved this with Modal’s filesystem snapshots. Every 30 minutes, a Modal Cron clones each of Ramp's repositories, installs all dependencies, runs initial builds, and saves a snapshot of the Sandbox's filesystem. Because filesystem snapshots are stored as diffs from the base image, only the modified files are persisted—keeping them fast and lightweight.
+
+When a builder starts a session, Inspect creates a new Sandbox from the latest snapshot. Since the snapshot is at most 30 minutes old, syncing with the head of the repo is nearly instant. End-to-end, sessions start working on a prompt in a few seconds.
+...
+## The impact: Half of merged pull requests and climbing
+
+Ramp didn't mandate Inspect, they let the product speak for itself. Within a couple of months, roughly half of all merged pull requests across Ramp's frontend and backend repos are started by Inspect, with over 80% of Inspect itself now being written by Inspect.
+...
+Ramp sees background agents only becoming more critical to engineering excellence as models improve. The current generation is already producing review-ready pull requests. As that rises, buoyed by hundreds of billions in capital expenditure on artificial intelligence, the bottleneck shifts from "can the agent write correct code" to "how many agents can you run in parallel". Modal Sandboxes provide the infrastructure teams need to break this bottleneck instead of being broken by it. Try them today.
+
+---
+
+Title: Ramp Builds Internal Coding Agent That Powers 30% of ...
+URL: https://www.infoq.com/news/2026/01/ramp-coding-agent-platform/
+Published: 2026-01-23T00:00:00.000Z
+Author: N/A
+Highlights:
+Ramp Builds Internal Coding Agent That Powers 30% of Engineering Pull Requests - InfoQ
+...
+Ramp has shared the architecture of Inspect. This internal coding agent has quickly reached about 30% adoption for merged pull requests in the company’s frontend and backend repositories. The fintech company shared a detailed technical specification. It explains how they created a system that gives AI agents the same access to the development environment as human engineers.
+
+Giving coding agents full access to all of Ramp's engineering tools is what makes Inspect truly innovative. Instead of only letting agents write basic code, Ramp's system runs in sandboxed virtual machines on Modal. It works seamlessly with databases, CI/CD pipelines, monitoring tools like Sentry and Datadog, feature flags, and communication platforms such as Slack and GitHub. Agents can write code and ensure it works by using the same testing and validation processes that engineers use every day.
+...
+Ramp's decision to build on Modal's infrastructure proves central to Inspect's performance characteristics. The platform starts sessions almost instantly and supports unlimited concurrent sessions. This lets multiple engineers work with separate agent instances at the same time without competing for resources. Modal’s sandboxing features and file system snapshots keep code execution safe. This also allows for quick iteration cycles.
+...
+Perhaps most striking about Inspect's deployment is that Ramp did not mandate its use. The jump to 30% of merged pull requests happened as engineers chose to adopt the agent. They found tasks that matched manual coding in quality, speed, or convenience. The continued growth trajectory indicates expanding comfort with the system's capabilities and limitations.
+
+---
+
+Title: Ramp SWE-Bench
+URL: https://labs.ramp.com/swebench
+Published: N/A
+Author: N/A
+Highlights:
+Ramp SWE-Bench is a private, production-grounded coding benchmark ... from engineering work in Ramp’s backend. Public benchmarks saturate quickly and can leak into training data, with none quite resembling the work our engineers do every day. Building our own has given us and the model providers we work with a contamination-free read on how different models handle engineering at Ramp
+...
+Tasks derive from changes that Inspect↗, our in-house background coding agent, shipped to production after engineer review. The benchmark's one-shot nature effectively models the background agent lifecycle where an engineer provides a prompt, the agent works asynchronously, and the expected output is a review-ready pull request.
+...
+Every one of the 80 tasks in the final set derives from a pull request that includes business logic and tests, carries an engineer-to-Inspect conversation, and was merged into production after code review. Each has an explicit anchor in the engineer's original intent: prompts are synthesized from what the engineer actually asked the agent to do, not from issue or PR descriptions alone.
+
+To assemble a task, we reconstruct the repository at the PR's base commit, hold out the merged solution patch and associated test patch as gold artifacts, and synthesize a task prompt from the engineer's messages in the original Inspect conversation.
+...
+Anonymized internal task review view. Reviewers inspect source material, the generated prompt, patches, audit signals, and solver traces before accepting a task.
+...
+curation is automated ... final human approval, which acts as the primary bottleneck ... . LLMs excel at surfacing issues, ... and fairness risks ... judgement is best for ensuring benchmark quality. The pipeline extracts as many signals as possible before review
+...
+Ensure the gold patch flips tests from fail to pass in a sandbox
+...
+judges run on different model providers
+...
+All models run against the same curated tasks using the mini-swe-agent↗ harness. Agents have bash access in a sandboxed local development environment, and every model gets the exact same environment for a task. While leaner than the scaffolds engineers use in practice, it lets us isolate model behavior from harness heuristics. Each result is a single pass@1 attempt, mirroring the bar engineers hold background agents to: a correct, review-ready change on the first try.
+...
+A run is graded as a success if the agent's diff flips the task's failing tests to passing without breaking the others. Runs that reach a context window limit are counted as failures.
+...
+Because tasks derive from private Ramp production code, we cannot release prompts, patches, tests, or repository states. Our public dashboard reports aggregate metrics, pairwise comparisons, and redacted examples. Ramp SWE-Bench data is never used for training, enforced through agreements with model providers.

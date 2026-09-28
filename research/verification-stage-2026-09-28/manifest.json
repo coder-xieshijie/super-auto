@@ -1,0 +1,81 @@
+{
+  "generated_at": "2026-09-28T09:06:47.334726+00:00",
+  "scope": "all files in this research directory except manifest.json itself; linked existing materials indexed by inputs.json",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 1164,
+      "sha256": "f994d3318d60753f6667e753828cb63c83584366963ea1b10310742d2cbaff2c"
+    },
+    {
+      "path": "design.md",
+      "bytes": 21865,
+      "sha256": "f2d05884f2c2eda881050f1f0edf4b4de35185e74d569295c0b3f61a0e9dcd1a"
+    },
+    {
+      "path": "examples/README.md",
+      "bytes": 1246,
+      "sha256": "1670d823ad825650b872dd663cff34371ac1c86ec552a81d39cdbc1cc399869c"
+    },
+    {
+      "path": "examples/verification-plan.json",
+      "bytes": 6859,
+      "sha256": "4b45c817fd2bda0c71fd702d6053a33ca1581de440dfd2b9e5daaa814d18c853"
+    },
+    {
+      "path": "examples/verification-result.json",
+      "bytes": 1350,
+      "sha256": "a5624e355a2581c3e60532ca938d87dbbb6c8283a3ef7efa3f2c8b8b10a888d5"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 1669,
+      "sha256": "8e897d5dfbd30958a22cb37b4bbfcb56b4eafba53207806321aa46685b80168b"
+    },
+    {
+      "path": "intermediate/independent-review.md",
+      "bytes": 13082,
+      "sha256": "30ccf45e80e68fb04a2938411d41a829cfb1c24e8eae74b4ff04da88d3b7182f"
+    },
+    {
+      "path": "intermediate/resolution.md",
+      "bytes": 2244,
+      "sha256": "81be872f85e76dc85841d49b74cb55568d0b3e5ca1fb94d1bba1b39d3ddaac25"
+    },
+    {
+      "path": "intermediate/validation.json",
+      "bytes": 1606,
+      "sha256": "e2a58d5fdc535b84fe4cb8d30c0362be829cd04af8083421279556160e567026"
+    },
+    {
+      "path": "raw/agent-lord/core/src/plan.ts",
+      "bytes": 57489,
+      "sha256": "140feafe2bcd34c932a22065d4f58c1ba4a0668addbcb5cadde0fc93a3f1aa9d"
+    },
+    {
+      "path": "raw/agent-lord/core/src/workspace.ts",
+      "bytes": 22656,
+      "sha256": "873dc622e51f89a6dc9fc985fd4271505ddd80aabd56c31349f24709bc0cfb6f"
+    },
+    {
+      "path": "raw/agent-lord/references/pipelines/plan-to-implement.md",
+      "bytes": 15213,
+      "sha256": "8a9a6a90b5fa300209aa2af3d36d16af887c0d49089bb6c5943128c7d2feb548"
+    },
+    {
+      "path": "raw/agent-lord/schemas/implementation-plan-v1.schema.json",
+      "bytes": 3324,
+      "sha256": "1f368e6715ef8d8728b9713d2648c3c1f3d8ee3c9fe0a5205d1013bec58b40b2"
+    },
+    {
+      "path": "raw/source-state.json",
+      "bytes": 1273,
+      "sha256": "d918b28b6fe807e3353c3f276e1b4b73e2abdebc4d88d3d697d3b43029f7e916"
+    },
+    {
+      "path": "raw/user-request.md",
+      "bytes": 504,
+      "sha256": "fa8ec98a90d793e7c3beeec1951da51e78fb43a85c5fa5e290254e85ee33ec83"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "E01",
+    "source_ids": [
+      "metr-2025"
+    ],
+    "claim": "2025 RCT: 16 developers,246 tasks, AI condition took19% longer",
+    "evidence_type": "causal_within_sample",
+    "limits": "Early-2025 tools, familiar mature repositories; not a current universal estimate"
+  },
+  {
+    "id": "E02",
+    "source_ids": [
+      "metr-2026"
+    ],
+    "claim": "2026 follow-up is unreliable as a current speedup estimate due to selection and concurrent-agent time measurement",
+    "evidence_type": "researcher_methodological_update",
+    "limits": "57 developers/143 repos/800+tasks; neither subgroup interval excludes zero"
+  },
+  {
+    "id": "E03",
+    "source_ids": [
+      "dora-2026",
+      "dora-questions"
+    ],
+    "claim": "2025 AI adoption associated with higher throughput and higher instability; foundations moderate benefit",
+    "evidence_type": "observational_survey",
+    "limits": "Self-reports, association not randomized causation; do not mix2024 and2025 direction"
+  },
+  {
+    "id": "E04",
+    "source_ids": [
+      "scaling-v3"
+    ],
+    "claim": "Latest v3 evaluates260 configurations across6 benchmarks; SWE-bench subset20 instances",
+    "evidence_type": "controlled_benchmark",
+    "limits": "Not enterprise PR throughput; fixed compute and canonical architectures, small coding sample"
+  },
+  {
+    "id": "E05",
+    "source_ids": [
+      "scaling-v3"
+    ],
+    "claim": "Multi-agent coordination has task-dependent benefit; independent-demand concurrency is a separate question",
+    "evidence_type": "finding_plus_inference",
+    "limits": "Financial +80.8% and planning -70% are different tasks; SWE mean -2to-15% not a general ban"
+  },
+  {
+    "id": "E06",
+    "source_ids": [
+      "scaling-v3"
+    ],
+    "claim": "17.2x/4.4x quantify trace-level amplification, not code defect-rate multiplication",
+    "evidence_type": "metric_definition",
+    "limits": "Task-level error ratio separately defined;87% architecture selection is within-domain heldout, not arbitrary new task guarantee"
+  },
+  {
+    "id": "E07",
+    "source_ids": [
+      "mirrorcode-v2"
+    ],
+    "claim": "Precisely scoped behavioral reimplementation can run autonomously on long tasks",
+    "evidence_type": "controlled_capability_benchmark",
+    "limits": "25 programs; strongest aggregate score56%; known program oracle, visible/hidden tests; human2-17weeks is estimated"
+  },
+  {
+    "id": "E08",
+    "source_ids": [
+      "swe-audit"
+    ],
+    "claim": "OpenAI estimates roughly30% SWE-Bench Pro tasks flawed and retracts earlier recommendation",
+    "evidence_type": "benchmark_audit",
+    "limits": "Flagged286 then deeper audit;200 agent-path/249 human-path flagged broken outof731; not exhaustive independent human audit"
+  },
+  {
+    "id": "E09",
+    "source_ids": [
+      "swe-verified"
+    ],
+    "claim": "Pro Verified repairs102 tasks and blocks observed answer-leakage paths",
+    "evidence_type": "benchmark_revision",
+    "limits": "731 tasks retained; not proof all hacking paths or quality defects eliminated"
+  },
+  {
+    "id": "E10",
+    "source_ids": [
+      "pr-collaboration"
+    ],
+    "claim": "Reviewer engagement/change size/force pushes correlate with integration outcomes",
+    "evidence_type": "observational_mining",
+    "limits": "33596PRs,2807repos; no causal claim; elapsed decision time not human review labor; excludes long-term quality conclusion"
+  },
+  {
+    "id": "E11",
+    "source_ids": [
+      "pr-review"
+    ],
+    "claim": "Review/steering/automation interactions are different; no-comment does not mean no human oversight",
+    "evidence_type": "observational_mining",
+    "limits": "Same-repository observable human participation is similar around30%; no assessment of review effectiveness or code quality"
+  },
+  {
+    "id": "E12",
+    "source_ids": [
+      "pr-adoption"
+    ],
+    "claim": "Study publishedJuly2026 describes May-July2025 early adoption",
+    "evidence_type": "temporal_boundary",
+    "limits": "25264PRs/2361repos, cannot use as late2026 industry state or productivity"
+  },
+  {
+    "id": "E13",
+    "source_ids": [
+      "dora-wip",
+      "dora-small-batches"
+    ],
+    "claim": "Apply backpressure to verification/integration/review capacity, measure end-to-end accepted demands",
+    "evidence_type": "engineering_inference",
+    "limits": "No user-specific optimal concurrency measured, not a universal agent cap"
+  },
+  {
+    "id": "E14",
+    "source_ids": [],
+    "claim": "This search did not establish a general causal estimate of human review minutes or long-term maintenance cost per agent PR",
+    "evidence_type": "evidence_gap",
+    "limits": "Absence in scoped research is not proof no such study exists"
+  }
+]

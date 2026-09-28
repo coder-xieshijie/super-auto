@@ -1,0 +1,69 @@
+{
+  "format": "verification-result-example-v1",
+  "illustrative_only": true,
+  "run_state": "NOT_STARTED",
+  "verdict": "BLOCKED",
+  "reason": "verification definition remains DRAFT; no execution performed",
+  "verification_plan_sha256": "4b45c817fd2bda0c71fd702d6053a33ca1581de440dfd2b9e5daaa814d18c853",
+  "candidate": {
+    "repositories": [],
+    "build_identity": null,
+    "environment_identity": null
+  },
+  "cases": [
+    {
+      "id": "V01",
+      "status": "NOT_RUN",
+      "attempts": [],
+      "evidence": []
+    },
+    {
+      "id": "V02",
+      "status": "NOT_RUN",
+      "attempts": [],
+      "evidence": []
+    },
+    {
+      "id": "V03",
+      "status": "NOT_RUN",
+      "attempts": [],
+      "evidence": []
+    },
+    {
+      "id": "V04",
+      "status": "NOT_RUN",
+      "attempts": [],
+      "evidence": []
+    }
+  ],
+  "requirements": [
+    {
+      "id": "R01",
+      "status": "UNVERIFIED",
+      "required_cases": [
+        "V01",
+        "V02"
+      ]
+    },
+    {
+      "id": "R02",
+      "status": "UNVERIFIED",
+      "required_cases": [
+        "V03"
+      ]
+    },
+    {
+      "id": "R03",
+      "status": "UNVERIFIED",
+      "required_cases": [
+        "V04"
+      ]
+    }
+  ],
+  "coverage": {
+    "defined_requirements": 3,
+    "mapped_requirements": 3,
+    "verified_requirements": 0
+  },
+  "accepted_exceptions": []
+}

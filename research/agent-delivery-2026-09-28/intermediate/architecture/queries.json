@@ -1,0 +1,27 @@
+{
+  "accessed_date": "2026-09-28",
+  "queries": [
+    {
+      "backend": "web search",
+      "query": "site.openai.com harness engineering Symphony"
+    },
+    {
+      "backend": "web search",
+      "query": "site.cursor.com scaling long-running autonomous coding"
+    },
+    {
+      "backend": "web search",
+      "query": "site.anthropic.com engineering effective harnesses long running agents compiler"
+    },
+    {
+      "backend": "web search",
+      "query": "site.strongdm.com software factory scenarios digital twin"
+    },
+    {
+      "backend": "Exa via mcporter",
+      "query": "site.factory.strongdm.ai software factory scenarios digital twin validation",
+      "output": "raw/architecture/exa-strongdm-search.txt"
+    }
+  ],
+  "retrieval": "Jina Reader primary pages; Symphony direct GitHub raw at pinned commit; web open corroboration. Full text accessed, no service experiments rerun."
+}

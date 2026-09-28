@@ -1,0 +1,6 @@
+[youtube] Extracting URL: https://www.youtube.com/watch?v=ow1we5PzK-o
+[youtube] ow1we5PzK-o: Downloading webpage
+[youtube] ow1we5PzK-o: Downloading android vr player API JSON
+[info] ow1we5PzK-o: Downloading 1 format(s): 18
+[info] Writing video metadata as JSON to: research/agent-delivery-2026-09-28/supplement-videos/raw/ow1we5PzK-o/source/ow1we5PzK-o.info.json
+ERROR: unable to download video data: HTTP Error 403: Forbidden

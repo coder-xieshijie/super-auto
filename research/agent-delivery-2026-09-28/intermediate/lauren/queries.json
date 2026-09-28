@@ -1,0 +1,73 @@
+{
+  "date": "2026-09-28",
+  "scope": "Root Lauren research; three delegated query logs indexed separately",
+  "records": [
+    {
+      "tool": "agent-reach doctor --json",
+      "result": "Chrome extension initially unavailable; Exa configured; later opencli doctor connected"
+    },
+    {
+      "tool": "Exa via mcporter",
+      "scope": "Lauren poteto pstack methodology",
+      "result_file": "raw/lauren/exa-initial.txt",
+      "note": "first request rate limited, subsequent request yielded sources"
+    },
+    {
+      "tool": "web search",
+      "scope": "Lauren pstack official repository and latest interview",
+      "result_files": [
+        "raw/lauren/web-search-02.json",
+        "raw/lauren/web-search-interview.json"
+      ],
+      "note": "earliest discovery response not separately exported; followed primary sources retained"
+    },
+    {
+      "command": "opencli twitter tweets poteto --limit 80 -f json",
+      "result": "failed relative GraphQL UserByScreenName URL parsing",
+      "stderr": "raw/lauren/x-poteto-latest.stderr"
+    },
+    {
+      "command": "opencli twitter search 'from:poteto (pstack OR PR OR agents)' --limit 50 --product live -f json --trace retain-on-failure",
+      "result": "failed relative GraphQL SearchTimeline URL parsing",
+      "stderr": "raw/lauren/x-search.stderr"
+    },
+    {
+      "tool": "cua browser read-only",
+      "url": "https://x.com/poteto/status/2104260894004039831",
+      "result_file": "raw/lauren/x-visible-notes.md"
+    },
+    {
+      "tool": "gh api",
+      "targets": [
+        "repos/cursor/plugins/commits/main",
+        "repos/cursor/plugins/commits?path=pstack",
+        "repos/cursor/plugins/pulls/419",
+        "repos/cursor/plugins/pulls/419/files",
+        "repos/cursor/plugins/pulls/422"
+      ],
+      "fixed_sha": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "note": "archive and raw metadata retained; not installed"
+    },
+    {
+      "tool": "analyze-youtube-video prepare_youtube.py",
+      "url": "https://www.youtube.com/watch?v=xZ5TEaleUdg",
+      "result": "anonymous acquisition failed; old extractor says page needs reload",
+      "record": "raw/lauren/interview-2026-09-27/run-status.json"
+    },
+    {
+      "tool": "yt-dlp 2026.07.04",
+      "result": "caption fetch HTTP 429",
+      "record": "raw/lauren/interview-2026-09-27/retry.log"
+    },
+    {
+      "tool": "cua content.exportYouTubeTranscript",
+      "url": "https://www.youtube.com/watch?v=xZ5TEaleUdg",
+      "result": "success, English auto-generated complete transcript, 1214 lines",
+      "record": "raw/lauren/interview-2026-09-27/transcript/youtube-browser-export.txt"
+    },
+    {
+      "tool": "agent-reach check-update",
+      "result": "v1.5.0 current; no update applied"
+    }
+  ]
+}

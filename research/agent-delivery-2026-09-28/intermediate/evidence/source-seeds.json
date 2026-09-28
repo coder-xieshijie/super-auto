@@ -1,0 +1,68 @@
+[
+  {
+    "id": "metr-2025",
+    "url": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+    "title": "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity",
+    "date": "2025-07-10"
+  },
+  {
+    "id": "metr-2026",
+    "url": "https://metr.org/blog/2026-02-24-uplift-update/",
+    "title": "We are Changing our Developer Productivity Experiment Design",
+    "date": "2026-02-24"
+  },
+  {
+    "id": "dora-2025",
+    "url": "https://dora.dev/research/2025/dora-report/",
+    "title": "DORA State of AI-assisted Software Development 2025",
+    "date": "2025"
+  },
+  {
+    "id": "dora-2026",
+    "url": "https://dora.dev/insights/balancing-ai-tensions/",
+    "title": "Balancing AI tensions",
+    "date": "2026-03-10"
+  },
+  {
+    "id": "scaling-v3",
+    "url": "https://arxiv.org/html/2512.08296v3",
+    "title": "Towards a Science of Scaling Agent Systems v3",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "mirrorcode",
+    "url": "https://arxiv.org/html/2606.30182v1",
+    "title": "MirrorCode: AI can rebuild entire programs from behavior alone",
+    "date": "2026-06-29"
+  },
+  {
+    "id": "swe-pro",
+    "url": "https://arxiv.org/html/2509.16941v1",
+    "title": "SWE-Bench Pro: Can AI Agents Solve Long-Horizon Software Engineering Tasks?",
+    "date": "2025-09-21"
+  },
+  {
+    "id": "swe-audit",
+    "url": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+    "title": "Separating signal from noise in coding evaluations",
+    "date": "2026-07-08"
+  },
+  {
+    "id": "swe-verified",
+    "url": "https://arxiv.org/html/2609.08149v2",
+    "title": "SWE-Bench Pro Verified: A Reliable Benchmark for Software Engineering Agents",
+    "date": "2026-09-16"
+  },
+  {
+    "id": "pr-adoption",
+    "url": "https://arxiv.org/html/2607.14037v1",
+    "title": "Early Adoption of Agentic Coding Tools by GitHub Projects",
+    "date": "2026-07-15"
+  },
+  {
+    "id": "pr-review",
+    "url": "https://arxiv.org/html/2605.02273v1",
+    "title": "These Aren’t the Reviews You’re Looking For: How Humans Review AI-Generated Pull Requests",
+    "date": "2026-05-04"
+  }
+]

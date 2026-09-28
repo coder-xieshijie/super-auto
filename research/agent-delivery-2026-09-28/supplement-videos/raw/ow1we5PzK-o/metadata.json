@@ -1,0 +1,69 @@
+{
+  "id": "ow1we5PzK-o",
+  "title": "The Multi-Agent Architecture That Actually Ships — Luke Alvoeiro, Factory",
+  "uploader": "AI Engineer",
+  "channel": "AI Engineer",
+  "upload_date": "20260506",
+  "duration": 1110,
+  "webpage_url": "https://www.youtube.com/watch?v=ow1we5PzK-o",
+  "description": "Everyone's building multi-agent systems, but nobody agrees on how. This talk proposes a taxonomy of five frontier multi-agent strategies and shows what happens when you compose them into a single architecture. Drawing from production data at Factory, we walk through a three-role system (orchestrator, workers, validators) that uses validation contracts, structured agent handoffs, and adversarial verification. We cover the case for serial over parallel execution, why model selection per role is a compounding advantage, and how to design systems that get better with each model generation instead of being made obsolete by them.\n\nSpeaker info:\n- https://github.com/lukealvoeiro\n- https://www.linkedin.com/in/lukealvoeiro\n\nTimestamp:\n0:00 Introduction to multi-agent systems and the bottleneck of human attention\n1:50 Taxonomy of five frontier multi-agent frameworks\n4:04 Introducing 'Missions': The three-role architecture (Orchestrator, Workers, Validators)\n6:34 The importance of validation contracts for consistent quality\n8:09 Maintaining long-term context through structured handoffs\n9:17 The case for serial execution over parallel execution\n10:30 Mission control: Monitoring agent progress\n11:22 Strategic model selection per role ('Droid whispering')\n13:06 Production data analysis: Building a Slack clone\n14:34 Designing systems that improve with each model generation\n15:51 Conclusion: The shifting economics of software engineering\n\n---\n\nWatch along with the corrected transcript, summary, timestamps and resources on this talk's official AIE page:\nhttps://ai.engineer/talks/ow1we5PzK-o-production-multi-agent-architecture\n\nJoin our upcoming AI Engineer conferences (see https://ai.engineer landing page):\n\n- AIE New York, October 12–14 — the first AI Engineer Finance mainstage summit\n- AIEi Shanghai, November 5–6 — the first for meeting top Chinese labs and engineers\n- AIE CODE in SF, November 10–12 — the top AI Coding conference returns\n- AIEi Sydney, December 7–8 — the first AIEi run alongside NeurIPS 2026 in Sydney\n\n---",
+  "chapters": [
+    {
+      "start_time": 0,
+      "title": "Introduction to multi-agent systems and the bottleneck of human attention",
+      "end_time": 110
+    },
+    {
+      "start_time": 110,
+      "title": "Taxonomy of five frontier multi-agent frameworks",
+      "end_time": 244
+    },
+    {
+      "start_time": 244,
+      "title": "Introducing 'Missions': The three-role architecture (Orchestrator, Workers, Validators)",
+      "end_time": 394
+    },
+    {
+      "start_time": 394,
+      "title": "The importance of validation contracts for consistent quality",
+      "end_time": 489
+    },
+    {
+      "start_time": 489,
+      "title": "Maintaining long-term context through structured handoffs",
+      "end_time": 557
+    },
+    {
+      "start_time": 557,
+      "title": "The case for serial execution over parallel execution",
+      "end_time": 630
+    },
+    {
+      "start_time": 630,
+      "title": "Mission control: Monitoring agent progress",
+      "end_time": 682
+    },
+    {
+      "start_time": 682,
+      "title": "Strategic model selection per role ('Droid whispering')",
+      "end_time": 786
+    },
+    {
+      "start_time": 786,
+      "title": "Production data analysis: Building a Slack clone",
+      "end_time": 874
+    },
+    {
+      "start_time": 874,
+      "title": "Designing systems that improve with each model generation",
+      "end_time": 951
+    },
+    {
+      "start_time": 951,
+      "title": "Conclusion: The shifting economics of software engineering",
+      "end_time": 1110
+    }
+  ],
+  "availability": "public",
+  "language": "en"
+}

@@ -1,0 +1,37 @@
+[
+  {
+    "path": "research/agent-delivery-2026-09-28/raw/industry/query-01.txt",
+    "method": "Exa",
+    "query": "Stripe Minions coding agents part 2 Ramp Inspect background agents Spotify Honk engineering",
+    "status": "success",
+    "accessed": "2026-09-28T04:03:41.254920+00:00"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/raw/industry/query-02.txt",
+    "method": "Exa",
+    "query": "site.ramp.com Inspect background coding agents sandbox 30% pull requests",
+    "status": "success",
+    "accessed": "2026-09-28T04:03:41.254920+00:00"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/raw/industry/query-03.txt",
+    "method": "Exa",
+    "query": "site.engineering.atspotify.com background coding agents part 1 part 3 predictable feedback",
+    "status": "success",
+    "accessed": "2026-09-28T04:03:41.254920+00:00"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/raw/industry/query-04.txt",
+    "method": "Exa",
+    "query": "site.uber.com engineering coding agents uReview uAssist 2026",
+    "status": "rate_limit",
+    "accessed": "2026-09-28T04:03:41.254920+00:00"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/raw/industry/web-search-uber.json",
+    "method": "web.run",
+    "query": "site.uber.com/blog agent uReview; site.uber.com/blog background coding; site.builders.ramp.com Inspect 2026 50%",
+    "status": "success",
+    "accessed": "2026-09-28T04:03:41.254920+00:00"
+  }
+]

@@ -1,0 +1,296 @@
+Title: We are Changing our Developer Productivity Experiment ...
+URL: https://metr.org/blog/2026-02-24-uplift-update/
+Published: 2026-02-24T00:00:00.000Z
+Author: Joel Becker
+Highlights:
+METR previously published a paper which found the use of AI tools caused a 20% slowdown in completing tasks among experienced open-source developers, using data from February to June 2025.
+
+To understand how AI is impacting developer productivity over time, we started a new experiment in August 2025 with a larger pool of developers using the latest AI tools.
+
+Unfortunately, given participant feedback and surveys, we believe that the data from our new experiment gives us an unreliable signal of the current productivity effect of AI tools. The primary reason is that we have observed a significant increase in developers choosing not to participate in the study because they do not wish to work without AI, which likely biases downwards our estimate of AI-assisted speedup. We additionally believe there have been selection effects due to a lower pay rate (we reduced the pay from $150/hr to $50/hr), and that our measurements of time-spent on each task are unreliable for the fraction of developers who use multiple AI agents concurrently.
+
+Based on conversations with study participants, we believe it is likely that developers are more sped up from AI tools now — in early 2026 — compared to our estimates from early 2025. However, because of the selection effects in our experiment, our data is only very weak evidence for the size of this increase.
+
+Our raw results show some evidence for speedup. Our early 2025 study found the use of AI causes tasks to take 19% longer, with a confidence interval between +2% and +39%. For the subset of the original developers who participated in the later study, we now estimate a speedup of -18% with a confidence interval between -38% and +9%. Among newly-recruited developers the estimated speedup is -4%, with a confidence interval between -15% and +9%.
+...
+Due to the severity of these selection effects, we are working on changes to the design of our study. Below, we provide further detail and describe our plans for other means of studying the impact of AI on developer productivity.
+...
+Our second study, starting in August, consisted of 10 developers from the original study, plus a new set of 47 developers recruited from a more diverse set of open-source projects. The participants were paid $50/hour for their participation.
+
+As in the initial study, developers were asked to pre-specify each task that they intended to work on, and then submit the task-description for randomization. Each task was assigned to an “AI allowed” or “AI disallowed” condition. The developers would record the amount of time it took to complete the task, and we could thus compare the average time required to complete a typical task with and without AI.
+
+Throughout 2025 there was an increase in the use of agentic tools among open-source developers, such as Claude Code and Codex. This wider adoption of AI has had two important effects in our study:
+
+Recruitment and retention of developers has become more difficult. An increased share of developers say they would not want to do 50% of their work without AI, even though our study pays them $50/hour to work on tasks of their own choosing. Our study is thus systematically missing developers who have the most optimistic expectations about AI’s value.
+
+Developers have become more selective in which tasks they submit. When surveyed, 30% to 50% of developers told us that they were choosing not to submit some tasks because they did not want to do them without AI. This implies we are systematically missing tasks which have high expected uplift from AI.
+
+Together, these effects make it likely that our estimate reported above is a lower-bound on the true productivity effects of AI on these developers. The selection effects seem to affect a minority share of developers and of tasks, which limits the degree of bias. However we are likely missing data on the most active adopters of AI, who may be of most interest. As AI capabilities continue to increase and developers’ expectations grow as well, these effects will only get more dramatic, further limiting the validity of this study design.
+
+Based on our interviews and surveys we believe the increase in selection is primarily due to higher expectation of AI-driven uplift by our developers. However the second study also had a lower pay rate, $50/hour instead of $150/hour in the original study, and this also likely contributed to the higher selection.
+...
+Some developers told us the types of tasks they attempted were different with agentic AI, leaning on the strengths of AI. This has two effects (a) the task-selection will be different between those in our study and those outside it; (b) the time-differences within the study may not represent value-differences, due to the substitution in task-type.
+
+Some developers told us the quality of the final work, for a given task, was different between AI-allowed and AI-disallowed conditions, e.g. differences in subjective code quality, or the amount of documentation or tests they chose to create.
+
+Some developers were less likely to complete tasks that they submitted if they were assigned to the AI-disallowed condition. One developer did not complete any of the tasks that were assigned to the AI-disallowed condition.
+
+Some developers reported it was challenging to report time-spent in completing tasks when they used agentic tools, because they would often work an unrelated task while waiting for the agent to complete its work.
+
+Altogether, these issues make it challenging to interpret our central estimate, and we believe it is likely a bad proxy for the real productivity impact of AI tools on these developers.
+...
+The impact of AI tools on developer productivity is an important input to AI R&D acceleration, and so we plan to continue exploring the following lines of research:
+
+More intensive experiments. The selection issues would be alleviated if we had higher compliance, which could be achieved if we run shorter intense experiments, and possibly pay higher rates.
+
+Observational data. There are many rich data sources on AI use in software development – from aggregate statistics (e.g. approximately 4% of GitHub commits are authored by Claude Code) to fine-grained transcripts (e.g. Sarkar (2025)). We intend to continue observation of our pool of open-source developers to understand how AI is used.
+...
+s, and thus their potential biases, we are optimistic that careful choice of survey questions, along with time-use studies, could produce useful signals.
+
+Fixed-task experiments. Our original study was novel in letting developers choose their own tasks, before randomization was applied. We could revert to a simpler design in which developers are given a fixed task to complete, either with or without AI assistance.
+
+Evaluations. METR is continuing to build task evals, to measure the ability of agents to autonomously complete tasks, which has a clear relevance to productivity effects of agent adoption.
+
+Developer-level experiments. An alternative design is to randomize at the developer level instead of the task level, i.e. each participant either uses AI for all their tasks or for none. This alleviates some of the task-level selection problems, however it makes the developer-level selection problems worse, and has lower power in detecting productivity effects.
+...
+We paid developers $50/hour to work on their existing open-source projects, randomizing issues into working with AI-allowed or AI-disallowed. Developers were experienced open-source contributors with median 10 years experience. We have data from 57 developers, across 143 repos, and 800+ tasks.
+...
+```
+
+@misc{metr-2026-uplift-update,
+    title = {We are Changing our Developer Productivity Experiment Design},
+    author = {Joel Becker, Nate Rush, Tom Cunningham, David Rein, Khalid Mahamud},
+    howpublished = {\url{https://metr.org/blog/2026-02-24-uplift-update/}},
+    year = {2026},
+    month = {02},
+}
+
+```
+
+---
+
+Title: Assessing heterogeneity in METR's late 2025 developer productivity experiment — EA Forum
+URL: https://forum.effectivealtruism.org/posts/jvrZ3gHYGj59Wa7z8/assessing-heterogeneity-in-metr-s-late-2025-developer
+Published: 2026-03-14T12:29:28.000Z
+Author: TFD
+Highlights:
+Executive summary: The author analyzes METR's developer productivity experiment to assess whether AI's productivity benefits vary across tasks and developers, finding heterogeneous effects (ranging from 5% to 25% speedup depending on context) that may help explain METR's modest overall 6% speedup estimate and inform future experiment design.
+...
+1. METR's late 2025 experiment found a sample-wide 6% speedup, but developers self-reported much higher speedups and METR acknowledges possible selection bias from developers and tasks.
+2. For tasks where developers predicted substantially shorter completion times with AI (by at least 60 minutes), the author estimates a 12% speedup, compared to 5% for other tasks.
+3. Using a linear mixed effects model with developer-level random slopes, the author estimates a 7% sample-wide speedup but finds individual developer effects ranging up to 25%.
+4. The author attempts a heuristic adjustment for selection by assuming 50% of tasks/developers are missing and near the high end of observed effects, yielding a synthetic 20% speedup estimate.
+...
+6. The author notes this heterogeneity analysis may help METR understand the plausibility of selection bias and inform future experiment design.
+
+# Assessing heterogeneity ... METR's late 2025 developer productivity experiment
+...
+I use data from METR's recent developer productivity experiment to assess the possibility of heterogeneity in the effect of AI on time to complete a task. Relative to a sample-wide 6% speedup, I estimate a 12% speedup in tasks which were predicted by developers (prior to treatment assignment) to take substantially shorter with rather than without AI, and I estimate a 25% speedup for the developer in the study with the highest estimated speedup.
+...
+- METR interprets their relatively small overall speed-up to indicate bias due to selection on both developers and task. Understanding heterogeneity can assist with understanding how plausible this is, and may also help with designing future experiments.
+- Heterogeneity in the effect of AI on productivity may be strategically relevant to businesses and could also be relevant for planning for and developing policy around AI-induced labor market impacts.
+...
+> Our raw results show some evidence for speedup. Our early 2025 study found the use of AI causes tasks to take 19% longer, with a confidence interval between +2% and +39%. For the subset of the original developers who participated in the later study, we now estimate a speedup of -18% with a confidence interval between -38% and +9%. Among newly-recruited developers the estimated speedup is -4%, with a confidence interval between -15% and +9%. However the true speedup could be much higher among the developers and tasks which are selected out of the experiment. Some developers self-report very high speedups, though as we documented in our earlier study those estimates can be quite unreliable. Due to the severity of these selection effects, we are working on changes to the design of our study. Below, we provide further detail and describe our plans for other means of studying the impact of AI on developer productivity.
+
+From what I can tell, METR estimates speedups by regressing log implementation time against log estimated time without AI (estimated by developers prior to random assignment of tasks to AI vs no-AI condition) and an indicator to whether AI was allowed or disallowed for a given task. This makes sense since estimated time without AI seems to be well-correlated with implementation time, and so can help with controlling variance in time across tasks that just has to do with the task itself:
+
+When I obtain an estimate for the entire sample that METR makes available I get a sample-wide estimated speedup of 6%.
+...
+To assess heterogeneity across tasks, I utilize estimates provided for the time each task will take with and without AI from before task are randomized to either AI condition. We might hypothesize that task where developers estimate this gap to be larger would have a larger speedup. I initially tried using the raw difference between the AI and no-AI estimated times, but I was getting so odd results and wasn't sure if outlier or some other issue was complicating matters. I ended up transforming the two estimates into an indicator for whether the no-AI estimate was larger than the AI estimate by at least 60 minutes. For use in the "heuristic estimate" section below I wanted to get an estimate that lean towards larger speedups, and some experimentation seemed to indicate that selecting a threshold that pushes towards larger differences in developer-estimated times yielded larger differences in the estimated effect of the AI condition.
+
+I fit a regression model with a main effect for this indicator and the AI treatment X indicator interaction included. This produced as estimated AI speedup of 5% when the no-AI estimated time was not larger than the AI one by at least 60 minutes, and a speedup of 12% when the no-AI estimated time was larger by that amount.
+...
+To assess heterogeneity across developers, I estimate a linear mixed effects model with fixed effects for the AI treatment assignment and log estimated time without AI, and developer-level random intercepts and random slopes for the AI treatment assignment (I don't include the indicator discussed in the previous section). I estimate the developer level AI treatment effect as the sample-wide effect in this model (7% speedup) plus the developer-level random slope. These estimates look like this (negative values indicate speedups):
+
+The maximum estimated speedup in this sample based on the method above is 25%.
+
+## Heuristic estimate accounting for selection
+...
+for getting a sense
+...
+METR says in there post that "an increased share of developers say they would not want to do 50% of their work without AI" and that "30% to 50% of developers told us that they were choosing not to submit some tasks because they did not want to do them without AI". Let's assume we are missing 50% of tasks/developers and that these are selected to have systematically lower effects of AI on productivity. We might think that observations excluded in this way are near the higher end of what is observed in the sample that we do have. To simulate this, I estimate a "synthetic" sample-wide effect by averaging the observed sample-wide effect and one adjusted by the difference between the two effects estimated in the "tasks" section (averaged because we are assuming 50% of the sample is missing due to selection i.e. a 0.5 weighting to both observed and "missing"). Similarly, I estimate a synthetic developer-level effect that averages the maximum developer-level effect and the effect adjusting that max by the task adjustment amount. I then estimate an overall synthetic effect that averages the synthetic effect adjusting for tasks only and the "developer-level" synthetic effect. This gives an estimated 20% speedup.
+
+I'll note that I intentionally use values that lean towards high speedups here in order to understand possible selection effects. None of these numbers should be taken as my personal best-guess or to imply that I am taking any particular position on what speedups are likely.
+
+---
+
+Title: We are Changing our Developer Productivity Experiment Design
+URL: https://metr.substack.com/p/2026-02-24-uplift-update
+Published: 2026-02-24T08:00:00.000Z
+Author: METR
+Highlights:
+Feb 24, 2026
+...
+METR previously published a paper which found the use of AI tools caused a 20% slowdown in completing tasks among experienced open-source developers, using data from February to June 2025.
+
+To understand how AI is impacting developer productivity over time, we started a new experiment in August 2025 with a larger pool of developers using the latest AI tools.
+
+Unfortunately, given participant feedback and surveys, we believe that the data from our new experiment gives us an unreliable signal of the current productivity effect of AI tools. The primary reason is that we have observed a significant increase in developers choosing not to participate in the study because they do not wish to work without AI, which likely biases downwards our estimate of AI-assisted speedup. We additionally believe there have been selection effects due to a lower pay rate (we reduced the pay from $150/hr to $50/hr), and that our measurements of time-spent on each task are unreliable for the fraction of developers who use multiple AI agents concurrently.
+
+Based on conversations with study participants, we believe it is likely that developers are more sped up from AI tools now — in early 2026 — compared to our estimates from early 2025. However, because of the selection effects in our experiment, our data is only very weak evidence for the size of this increase.
+
+Our raw results show some evidence for speedup. Our early 2025 study found the use of AI causes tasks to take 19% longer, with a confidence interval between +2% and +39%. For the subset of the original developers who participated in the later study, we now estimate a speedup of -18% with a confidence interval between -38% and +9%. Among newly-recruited developers the estimated speedup is -4%, with a confidence interval between -15% and +9%.
+...
+Due to the severity of these selection effects, we are working on changes to the design of our study. Below, we provide further detail and describe our plans for other means of studying the impact of AI on developer productivity.
+...
+Our second study, starting in August, consisted of 10 developers from the original study, plus a new set of 47 developers recruited from a more diverse set of open-source projects. The participants were paid $50/hour for their participation.
+
+As in the initial study, developers were asked to pre-specify each task that they intended to work on, and then submit the task-description for randomization. Each task was assigned to an “AI allowed” or “AI disallowed” condition. The developers would record the amount of time it took to complete the task, and we could thus compare the average time required to complete a typical task with and without AI.
+
+Throughout 2025 there was an increase in the use of agentic tools among open-source developers, such as Claude Code and Codex. This wider adoption of AI has had two important effects in our study:
+
+Recruitment and retention of developers has become more difficult. An increased share of developers say they would not want to do 50% of their work without AI, even though our study pays them $50/hour to work on tasks of their own choosing. Our study is thus systematically missing developers who have the most optimistic expectations about AI’s value.
+
+Developers have become more selective in which tasks they submit. When surveyed, 30% to 50% of developers told us that they were choosing not to submit some tasks because they did not want to do them without AI. This implies we are systematically missing tasks which have high expected uplift from AI.
+
+Together, these effects make it likely that our estimate reported above is a lower-bound on the true productivity effects of AI on these developers. The selection effects seem to affect a minority share of developers and of tasks, which limits the degree of bias. However we are likely missing data on the most active adopters of AI, who may be of most interest. As AI capabilities continue to increase and developers’ expectations grow as well, these effects will only get more dramatic, further limiting the validity of this study design.
+
+Based on our interviews and surveys we believe the increase in selection is primarily due to higher expectation of AI-driven uplift by our developers. However the second study also had a lower pay rate, $50/hour instead of $150/hour in the original study, and this also likely contributed to the higher selection.
+...
+Some developers told us the types of tasks they attempted were different with agentic AI, leaning on the strengths of AI. This has two effects (a) the task-selection will be different between those in our study and those outside it; (b) the time-differences within the study may not represent value-differences, due to the substitution in task-type.
+
+Some developers told us the quality of the final work, for a given task, was different between AI-allowed and AI-disallowed conditions, e.g. differences in subjective code quality, or the amount of documentation or tests they chose to create.
+
+Some developers were less likely to complete tasks that they submitted if they were assigned to the AI-disallowed condition. One developer did not complete any of the tasks that were assigned to the AI-disallowed condition.
+
+Some developers reported it was challenging to report time-spent in completing tasks when they used agentic tools, because they would often work an unrelated task while waiting for the agent to complete its work.
+
+Altogether, these issues make it challenging to interpret our central estimate, and we believe it is likely a bad proxy for the real productivity impact of AI tools on these developers.
+...
+The impact of AI tools on developer productivity is an important input to AI R&D acceleration, and so we plan to continue exploring the following lines of research:
+
+More intensive experiments. The selection issues would be alleviated if we had higher compliance, which could be achieved if we run shorter intense experiments, and possibly pay higher rates.
+
+Observational data. There are many rich data sources on AI use in software development – from aggregate statistics (e.g. approximately 4% of GitHub commits are authored by Claude Code) to fine-grained transcripts (e.g. Sarkar (2025)). We intend to continue observation of our pool of open-source developers to understand how AI is used.
+...
+, we are optimistic that careful choice of survey questions, along with time-use studies,
+...
+Fixed-task experiments. Our original study was novel in letting developers choose their own tasks, before randomization was applied. We could revert to a simpler design in which developers are given a fixed task to complete, either with or without AI assistance.
+
+Evaluations. METR is continuing to build task evals, to measure the ability of agents to autonomously complete tasks, which has a clear relevance to productivity effects of agent adoption.
+
+Developer-level experiments. An alternative design is to randomize at the developer level instead of the task level, i.e. each participant either uses AI for all their tasks or for none. This alleviates some of the task-level selection problems, however it makes the developer-level selection problems worse, and has lower power in detecting productivity effects.
+
+As model capabilities continue to increase, we expect to continue to need to redesign some portions of our capability and measurement techniques.
+...
+We paid developers $50/hour to work on their existing open-source projects, randomizing issues into working with AI-allowed or AI-disallowed. Developers were experienced open-source contributors with median 10 years experience. We have data from 57 developers, across 143 repos, and 800+ tasks.
+
+10 of these developers are from the original study, and the remaining developers are new and recruited from a more diverse set of repositories—including smaller, more greenfield, and less mature repositories.
+
+---
+
+Title: Research
+URL: https://metr.org/research/
+Published: N/A
+Author: N/A
+Highlights:
+MirrorCode: Evidence that AI can already do some weeks-long coding tasks 
+
+ April 10, 2026 
+
+Early results from MirrorCode benchmark with METR: AI agents can complete weeks-long coding tasks, including reimplementing a 16,000-line codebase.
+
+ 
+
+ We are Changing our Developer Productivity Experiment Design 
+
+ February 24, 2026 
+
+Our second developer productivity study faces selection effects from wider AI adoption, prompting us to redesign our approach.
+...
+Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity 
+
+ July 10, 2025 
+
+We conduct a randomized controlled trial to understand how early-2025 AI tools affect the productivity of experienced open-source developers working on their own repositories. Surprisingly, we find that when developers use AI tools, they take 19% longer than without—AI makes them slower.
+
+---
+
+Title: Measuring the Impact of Early-2025 AI on Experienced ...
+URL: https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/
+Published: 2025-07-10T00:00:00.000Z
+Author: Joel Becker
+Highlights:
+Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity - METR
+...
+We conduct a randomized controlled trial (RCT) to understand how early-2025 AI tools affect the productivity of experienced open-source developers working on their own repositories. Surprisingly, we find that when developers use AI tools, they take 19% longer than without—AI makes them slower. We view this result as a snapshot of early-2025 AI capabilities in one relevant setting; as these systems continue to rapidly evolve, we plan on continuing to use this methodology to help estimate AI acceleration from AI R&D automation. 
+
+Update: In February 2026, we published new data on the productivity impact of late-2025 AI tools.
+...
+out of date
+...
+We have released results that are current as of early 2026, in a continuation of this study. We believe these historical results no longer reflect the current impact of AI models on open-source developer productivity.
+...
+To directly measure the real-world impact of AI tools on software development, we recruited 16 experienced developers from large open-source repositories (averaging 22k+ stars and 1M+ lines of code) that they’ve contributed to for multiple years. Developers provide lists of real issues (246 total) that would be valuable to the repository—bug fixes, features, and refactors that would normally be part of their regular work. Then, we randomly assign each issue to either allow or disallow use of AI while working on the issue. When AI is allowed, developers can use any tools they choose (primarily Cursor Pro with Claude 3.5/3.7 Sonnet—frontier models at the time of the study); when disallowed, they work without generative AI assistance. Developers complete these tasks (which average two hours each) while recording their screens, then self-report the total implementation time they needed. We pay developers $150/hr as compensation for their participation in the study.
+...
+When developers are allowed to use AI tools, they take 19% longer to complete issues—a significant slowdown that goes against developer beliefs and expert forecasts. This gap between perception and reality is striking: developers expected AI to speed them up by 24%, and even after experiencing the slowdown, they still believed AI had sped them up by 20%.
+...
+We’re excited to run similar versions of this study in the future to track trends in speedup (or slowdown) from AI, particularly as this evaluation methodology may be more difficult to game than benchmarks. If AI systems are able to substantially speed up developers in our setting, this could signal rapid acceleration of AI R&D progress generally, which may in turn lead to proliferation risks, breakdowns in safeguards and oversight, or excess centralization of power. 3 This methodology gives complementary evidence to benchmarks, focused on realistic deployment scenarios, which helps us understand AI capabilities and impact more comprehensively compared to relying solely on benchmarks and anecdotal data.
+...
+Update: In February 2026, we published new data on the productivity impact of late-2025 AI tools.
+
+---
+
+Title: N/A
+URL: https://www.lesswrong.com/posts/dFmQThALG8EdZFqgL/assessing-heterogeneity-in-metr-s-late-2025-developer
+Published: N/A
+Author: N/A
+Highlights:
+# Assessing heterogeneity in METR's late 2025 developer productivity experiment
+...
+Update: Fixed
+...
+I use data from METR's recent [developer productivity experiment](https://metr.org/blog/2026-02-24-uplift-update/) to assess the possibility of heterogeneity in the effect of AI on time to complete a task. Relative to a sample-wide 6% speedup, I estimate a 12% speedup in tasks which were predicted by developers (prior to treatment assignment) to take substantially shorter with rather than without AI, and I estimate a 25% speedup for the developer in the study with the highest estimated speedup.
+...
+> Our raw results show some evidence for speedup. Our early 2025 study found the use of AI causes tasks to take 19% longer, with a confidence interval between +2% and +39%. For the subset of the original developers who participated in the later study, we now estimate a speedup of -18% with a confidence interval between -38% and +9%. Among newly-recruited developers the estimated speedup is -4%, with a confidence interval between -15% and +9%.
+>  
+> However the true speedup could be much higher among the developers and tasks which are selected out of the experiment. Some developers self-report very high speedups, though as we documented in our earlier study those estimates can be quite unreliable.
+...
+> Due to the severity of these selection effects, we are working on changes to the design of our study. Below, we provide further detail and describe our plans for other means of studying the impact of AI on developer productivity.
+
+From what I can tell, METR estimates speedups by regressing log implementation time against log estimated time without AI (estimated by developers prior to random assignment of tasks to AI vs no-AI condition) and an indicator to whether AI was allowed or disallowed for a given task. This makes sense since estimated time without AI seems to be well-correlated with implementation time, and so can help with controlling variance in time across tasks that just has to do with the task itself:
+...
+When I obtain an estimate for the entire sample that METR makes available I get a sample-wide estimated speedup of 6%.
+
+## Heterogeneity across tasks
+
+To assess heterogeneity across tasks, I utilize estimates provided for the time each task will take with and without AI *from before task are randomized to either AI condition*. We might hypothesize that task where developers estimate this gap to be larger would have a larger speedup. I initially tried using the raw difference between the AI and no-AI estimated times, but I was getting so odd results and wasn't sure if outlier or some other issue was complicating matters. I ended up transforming the two estimates into an indicator for whether the no-AI estimate was larger than the AI estimate by at least 60 minutes. For use in the "heuristic estimate" section below I wanted to get an estimate that lean towards larger speedups, and some experimentation seemed to indicate that selecting a threshold that pushes towards larger differences in developer-estimated times yielded larger differences in the estimated effect of the AI condition.
+
+I fit a regression model with a main effect for this indicator and the AI treatment X indicator interaction included. This produced as estimated AI speedup of 5% when the no-AI estimated time *was not* larger than the AI one by at least 60 minutes, and a speedup of 12% when the no-AI estimated time *was* larger by that amount.
+
+## Heterogeneity across developers
+
+To assess heterogeneity across developers, I estimate a linear mixed effects model with fixed effects for the AI treatment assignment and log estimated time without AI, and developer-level random intercepts and random slopes for the AI treatment assignment (I don't include the indicator discussed in the previous section). I estimate the developer level AI treatment effect as the sample-wide effect in this model (7% speedup) plus the developer-level random slope. These estimates look like this (negative values indicate speedups):
+...
+The maximum estimated speedup in this sample based on the method above is 25%.
+
+## Heuristic estimate accounting for selection
+...
+METR says in there post that "an increased share of developers say they would not want to do 50% of their work without AI" and that "30% to 50% of developers told us that they were choosing not to submit some tasks because they did not want to do them without AI". Let's assume we are missing 50% of tasks/developers and that these are selected to have systematically lower effects of AI on productivity. We might think that observations excluded in this way are near the higher end of what is observed in the sample that we do have. To simulate this, I estimate a "synthetic" sample-wide effect by averaging the observed sample-wide effect and one adjusted by the difference between the two effects estimated in the "tasks" section (averaged because we are assuming 50% of the sample is missing due to selection i.e. a 0.5 weighting to both observed and "missing"). Similarly, I estimate a synthetic developer-level effect that averages the maximum developer-level effect and the effect adjusting that max by the task adjustment amount. I then estimate an overall synthetic effect that averages the synthetic effect adjusting for tasks only and the "developer-level" synthetic effect. This gives an estimated 20% speedup.
+
+---
+
+Title: N/A
+URL: https://www.lesswrong.com/posts/XjB4w3zDWLH8xQudq/modelling-variation-in-the-metr-uplift-study
+Published: N/A
+Author: N/A
+Highlights:
+I reanalysed the METR uplift study under a meta-analytic model to estimate the range of plausible effects that we may see in repeated trials. If the average population effect varied as much as medical and economic Randomized Control Trials (RCTs), we would see a 95% credible interval of results from -55% to +193% even without study-specific effects. The mean population effect was between 10-20% with heavy tails. The probability of a slowdown is between 66% and 79%. The study was therefore compatible with both large speedups and slowdowns, even with no further AI progress.
+...
+The METR RCT remains the highest quality evidence that we have for developer productivity improvements using AI tools. The original [METR uplift RCT](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/) was published in July 2025. It measured developer completion times from a selected set of issues from open source software projects. The headline result was developers were *slower* by 19% when using AI tools. This surprised many people, including expert forecasts, METR, and the developers themselves.
+
+Given the widespread use of AI tools in software now, it is unlikely that these measurements will ever be repeated. Now, post Opus 4.8, Fable, Sol etc., there is a growing feeling that developers are sped up by [at least 50% if not more](https://metr.org/notes/2026-07-08-anthropic-researcher-uplift/). How can we know when we have definitively shifted in ability between models?
+...
+I'm going to select from the Cochrane RCT database and the Askarov *et al.* 2023 collection of papers. There are 276 meta-analyses in the Cochrane data with more than 5 studies, although only 160 unique studies inside. For the Askarov dataset, there are only 6 meta-analyses and 33 unique studies. We're going to use these meta-analyses to estimate the amount of study variation, then apply these estimates as a prior to the METR uplift RCT. I use the hierarchical Bayesian model above to do this with the code from [Zwet, Wiecek and Gelman (2025)](https://pmc.ncbi.nlm.nih.gov/articles/PMC12669397/). I place uniform priors over parameters simply to identify their scale, but I choose to keep the estimate of the hyper-mean of $\mu$ to adjust different averages between RCTs.
+...
+We start by estimating the average population effect $\mu$ and the study variation $\tau$ from the Cochrane and Askarov databases. The hypermean effect on $\mu$ or "average average population effect" in the Cochrane database is -0.22 and in the Askarov database it is -0.5. The number for Askarov is surprisingly extreme likely due to the small number of studies we have.
+
+Similarly, the hypermean on $\tau$ or average study variation is 0.22 in the Cochrane database and 0.31 in the Askarov dataset for a ratio of 150%. This may represent genuine wider effect sizes in economics and we should consider this may also be true for effects caused by AI.
+...
+(1) I find some evidence of a AI slowdown under a weak prior. The effect of AI assistance is heavy-tailed. The estimate of $\beta$ shrinks little, by 1-2 percentage points, but the probability of $\mu$ being greater than 0 (slowdown) is only 67% or an odds of 2. We would thereby expect to see effects on the scale of ~8x slower to 8x faster.
+...
+(2-5) Empirical information from RCTs leads to similar results. The modal effects are very similar regardless of prior choice, with the probability of $\mu$ being greater than 0 (slowdown) ranging from 71% to 79%, or an odds of ~3. Similarly, the estimate of $\beta$ remains about 1-2pp smaller than the naive estimator.
+
+The main benefit of empirical priors is to reduce the heaviness of the tails, stabilising the result into a more reasonable ratio. The empirical priors reduces the standard deviation of effects by ~50%, and an additional (multiplicative) ~25% with the hyperprior on $\mu$. The credible interval of effects ranges from 4.4x slower to 3x faster. This was reduced to 2.8x slower and 2.4x faster when the hyperprior on $\mu$ was included.
+...
+The METR uplift study does not provide strong evidence in the direction of the effect or the magnitude of it. We saw that variance in effect sizes differed between the Cochrane and Askarov databases by 50%. I suspect therefore that these estimates are too narrow because the possible effect size of AI interventions is significantly higher as you move from mainly complementary tasks to completely substitutional tasks. This may also explain somewhat the very different predictions elicited from experts versus the recorded result.

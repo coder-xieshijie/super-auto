@@ -1,0 +1,37 @@
+如何让 Pi Agent 从单个 AI 编程助手，变成一支分工明确的多智能体团队？
+这期用 pi-herdr-agents 插件，完整演示 subagent 自定义与 workflow 工作流编排，并通过旅行规划、3D 赛车游戏两个案例，跑通从需求确认到最终交付的全过程。
+
+📦 本期示例配置与工作流（GitHub）
+https://github.com/melodylife/changworkshop_project_sharing/tree/main/pi_agent_subagent_workflow
+
+▶ 推荐观看：herdr 使用方法详解
+https://youtu.be/HhzrW5IsF_k?si=za035B6vEGwjcP7J
+
+你将看到：
+• 项目、全局与插件默认配置的优先级，以及自定义智能体的存放位置。
+• 使用 YAML frontmatter 与 Markdown 定义角色、模型、工具和 auto-exit 等行为。
+• 用 SKILL.md 编排流程，通过 TypeScript 注册斜杠命令，并用 contracts.md 约定智能体之间的数据格式。
+• 组合链式执行、并行调研与评审返工，让不同角色协作完成任务。
+• 使用 herdr 查看子智能体状态、处理交互，并恢复工作现场。
+
+实战一：旅行规划团队
+调研、汇总、设计与审核协同，生成温哥华两天一晚的 HTML 行程报告。
+
+实战二：Web 游戏开发团队
+七个角色协同，结合 Stitch MCP 设计 UI，完成带背景音乐、三个关卡的 3D 赛车游戏，并展示成品效果与仍需改进的地方。
+
+⏱ 视频章节
+00:00 为什么要给 Pi Agent 搭建多智能体团队？
+00:39 插件选择与 pi-herdr-agents 安装
+01:27 插件预定义 智能体 使用
+03:34 工作流架构：链式、并行与迭代协作
+05:00 配置优先级：项目、全局与插件默认值
+06:51 如何自定义智能体
+08:19 如何自定义 workflow
+10:46 实战一：搭建旅行规划智能体团队
+22:11 实战二：搭建 Web 游戏开发团队
+30:34 总结
+
+你会用 Pi Agent 搭建什么样的智能体团队？欢迎在评论区分享你的工作流。喜欢这期内容，欢迎点赞、转发并订阅 Chang 的科技工坊。
+
+#PiAgent #多智能体 #AgenticCoding

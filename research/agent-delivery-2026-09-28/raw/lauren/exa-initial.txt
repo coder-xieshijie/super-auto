@@ -1,0 +1,238 @@
+Title: Lauren's Complete Guide to pstack, Pt. 1 · Start My AI
+URL: https://www3.skool.com/start-my-ai/laurens-complete-guide-to-pstack-pt-1
+Published: 2026-04-21T22:40:00.000Z
+Author: N/A
+Highlights:
+Lauren Tan just published part 1 of a written guide to pstack. This is not the Maven recording. This is how she actually uses it.
+
+Part 1 is verification. The agent has to check its own work so you are not the bottleneck. She treats that skill like infrastructure. Install pstack, run /create-verification-skill, and give the agent a small CLI it can drive, not just markdown.
+
+She has been doing this as the gardener on Grok Bot while the team lands hundreds of PRs a day. Volume only matters if the quality holds.
+
+---
+
+Title: Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! | Lauren Tan
+URL: https://www.linkedin.com/posts/laurenelizabethtan_how-cursor-turned-ai-agents-into-better-engineers-activity-7493165544628703233-ZfM-
+Published: 2026-08-12T00:00:00.000Z
+Author: Lauren Tan
+Highlights:
+# Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! · 2026-08-12T00:00:00+00:00
+
+Excited to share more about my journey building pstack (https://lnkd.in/gSgTn6cX), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow!
+
+---
+
+Title: One engineer shipped 2,000 PRs a month to production. Verification is the key. - The New Stack
+URL: https://thenewstack.io/agentic-verification-distributed-systems/
+Published: 2026-09-19T14:00:00.000Z
+Author: Arjun Iyer
+Highlights:
+One engineer shipped 2,000 PRs a month to production. Verification is the key. 
+
+ Learn how agentic verification helps AI agents ship thousands of PRs monthly using isolated, virtualized testing environments.
+...
+2026 10:00am by
+...
+Lauren Tan, an engineer on the Grok team at SpaceXAI, who previously worked at Cursor and Meta, recently published a guide to her personal agent workflow: pstack. The attention-grabbing number is that pstack has let her ship 2,000 pull requests (PRs) a month to production with high confidence. That’s one engineer shipping nearly 100 PRs per working day.
+...
+According to Tan, the most critical piece of that workflow is verification. A verification skill lets an agent check its own work and keep going until the task is done, and she treats it as “critical infrastructure” rather than one skill among many. 
+
+The verification skill rests on something underneath it: a rich runtime the agent can drive, inspect, and get structured answers from. For a single application, that runtime is the application itself, started on demand. For a system made of dozens or hundreds of services, no such runtime exists by default, and providing one that keeps up with hundreds of parallel agents is the hard part.
+...
+Her argument for agentic verification is a throughput argument. An agent that can check its own output keeps working until the task is done. An agent that can’t hand you a diff and wait makes you the slowest component in the loop. That is why she claims strong verification skills can multiply a team’s output by 100 to 1,000 times.
+...
+At 2,000 pull requests a month, reviewing every change by hand would allow about five minutes per PR across a full working month. Human review cannot be the verification layer at that volume. Whatever does the checking has to run without a person in the loop, and it has to run in parallel with the agents generating the work.
+...
+The verification skill she describes generates a command line interface (CLI) and a feature map for the application. The CLI lets an agent start the app, navigate it, inspect state, and read structured JSON results back. Each agent gets a complete copy of the application and can test a change end to end.
+...
+For teams building complex distributed applications, their system does not have that property. The application is the interaction between an order service, a payments service, an inventory service, a queue, several databases, and a handful of third-party APIs. At larger shops, the count runs into the thousands. A pull request to one service is only verified by exercising the calls it makes and receives. The CLI can start the changed service. It cannot start the system.
+...
+Local runtimes with mocks are cheap and can run fully parallel using worktrees or CDEs. Their problem is fidelity. Mocks encode what a dependency did the last time someone looked, and they drift the moment the real service changes. An agent that verifies against mocks closes its loop against fiction, and the failure shows up after merge.
+
+A full copy of the stack per change is faithful and isolated. But its cost scales with the number of services times the number of concurrent changes, and at hundreds of agents that cost is untenable. Time is the bigger problem. A full stack takes minutes to provision, and the loop she describes has the agent testing every iteration of a change while it is still working on it. An environment that is ready after the agent has moved on to its next attempt is no use to it.
+
+Shared staging is faithful and cheap because there is one of it, and that is the whole problem. A single mutable environment cannot host hundreds of concurrent changes. Agents overwrite each other’s deployments, a broken change from one agent becomes failed tests for every other agent, and the loop-closing property that makes the workflow valuable disappears.
+...
+Read Lauren’s workflow as a requirements document, and five properties emerge:
+
+- The change has to run against real dependencies or the verification means nothing.
+- Hundreds of concurrent changes have to be unable to see each other.
+- The cost of an environment has to scale with the size of the change, not the size of the system.
+- Environments have to come up in seconds, because an agent waiting on provisioning is parallelism you paid for but didn’t use.
+- All of it has to be reachable through the CLI or MCP server the agent already uses, because the caller is an agent.
+
+The first and third requirements pull in opposite directions. Realism pushes toward complete copies of the system. Cost pushes toward sharing as much as possible. Shared staging resolves that tension by giving up isolation, and a per-change full stack resolves it by giving up cost efficiency. A design that satisfies all five has to share and isolate at the same time.
+
+## Virtualized
+...
+The architecture that does this treats an environment as a view of a running system rather than a copy. One shared set of stable services runs continuously, deployed from the main branch and kept healthy the way production is. When an agent needs to verify a change, it runs only the service it modified, on its own machine or as a lightweight deployment in the cluster, and joins it to the shared stack as a new isolated environment.
+...
+From inside that environment, the changed service is the version of record, and every other call falls through to the shared stable versions. The agent sees a complete, realistic system, and so do the other hundred agents, each seeing a system that differs from the baseline by only the delta of its own change. Requests carry their environment identity as they cross service boundaries, which keeps one agent’s traffic from reaching another agent’s version under test. Stateful side effects that cannot be shared safely, like queue topics or writable databases, get a per-environment copy where needed.
+
+The cost model follows directly. An environment costs one or two running services instead of sixty; it is ready in the time a single service takes to start, and you can create and destroy it from inside the agent’s own loop. This is the pattern Signadot packages for Kubernetes, with the shared stable stack running in the team’s existing cluster.
+...
+Put the two halves together, and the workflow that enables her to ship 2,000 PRs a month to production carries over to a distributed system almost unchanged. An agent picks up a task and changes one service. It asks for an environment for that change and gets one in the time it takes its service to start. It then drives real requests through the system’s entry point and watches them traverse the real dependency graph, with only its own service running new code. It reads structured results, fixes what failed, and runs again. When the checks pass, it opens the PR, and the environment goes away at merge.
+...
+Lauren Tan’s post is not a story about one unusually productive engineer. It shows what happens when agents run the full loop, writing a change, verifying it, and iterating without a person in between. The verification infrastructure is the foundation that the entire loop stands on.
+
+In distributed applications, that infrastructure has to be a runtime environment that gives every agent real dependencies, keeps hundreds of concurrent changes from seeing each other, costs a change rather than a copy of the system, and is ready in the seconds an agent is willing to wait. That is what turns agent parallelism into shipped code rather than a longer review queue. That model of runtime environments is exactly what we built Signadot to enable.
+
+---
+
+Title: Lauren Tan's Post - Cursor · pstack
+URL: https://www.linkedin.com/posts/laurenelizabethtan_cursor-pstack-the-skills-behind-10000-activity-7465439429042737152-ADbv
+Published: 2026-05-28T04:01:31.888Z
+Author: Lauren Tan
+Highlights:
+# My Cursor skills were used 10,000 times last week by our eng team. So I'm open sourcing them. It's a plugin called pstack, and you can install it today. | Lauren Tan · LinkedIn · 2026-05-27
+...
+My Cursor skills were used 10,000 times last week by our eng team. So I'm open sourcing them. It's a plugin called pstack, and you can install it today.
+
+pstack is my personal set of engineering skills and principles, now installable in any Cursor project. The core is /poteto-mode: a higher-order skill that routes your agent to the right playbook for whatever you're working on. The goal isn't more code. It's maximum impact with the least amount of code.
+...
+What's in pstack:
+/poteto-mode — routes to the right skill automatically based on your task
+/interrogate — adversarial multi-model review
+/arena — N parallel attempts, grab the best parts
+/how — deep investigation of how a subsystem actually works
+/why — queries source control, Slack, Notion, issue trackers in parallel to explain why something was built this way
+/architect — settle types and data structures before crossing function boundaries
+/arena — N parallel attempts, grab the best parts
+/interrogate — adversarial multi-model review
+/tdd — failing test first, then the fix
+/unslop — makes AI speak plainly
+/reflect — continually improve your skills
+/figure-it-out — designs a rigorous, auditable playbook for the task
+/show-me-your-work — reviewable decision trail during autonomous runs
+...
+https://x.com/poteto/status/2058975 ... 5035701
+
+---
+
+Title: A deep dive into pstack
+URL: https://daily.dev/posts/a-deep-dive-into-pstack-evqbnto9j
+Published: 2026-08-21T00:00:00.000Z
+Author: N/A
+Highlights:
+pstack is a Cursor plugin created by Lauren Tan (poteto) that turns AI coding agents into a structured engineering workflow with 23 workflow skills, 21 engineering principles, 22 task playbooks, and 2 specialized subagents. The central command /poteto-mode routes a request to the right playbook (bug fix, feature, refactor, investigation, perf), copies it verbatim into a task list, and enforces runtime verification rather than accepting a passing build as proof. Other skills include /how and /why for tracing system behavior and history, /architect and /arena for design exploration, /swarm for parallel coverage work, /interrogate for multi-model code review, and /automate-me and /reflect for personalizing and refining the workflow over time. The piece walks through installation, architecture, playbook categories, verification skill generation, overnight autonomous runs, and common mistakes, plus the author's own take on when pstack is worth the overhead versus a lighter workflow like fstack.
+...
+pstack is a Cursor plugin created by Lauren Tan (poteto) built around 23 workflow skills, 21 engineering principles, 22 task playbooks, 2 specialized subagents, and an automation pack. Its main command, /poteto-mode, acts as a router that matches a request to a playbook, copies it verbatim into a task list, delegates work to suitable models, and requires evidence before reporting success, rather than just generating code.
+...
+pstack rejects a passing build as sufficient evidence and instead matches verification to what changed: a command-line change runs the real command, a UI change walks the changed flow, a migration replays real input, a performance change compares traces, and a storage change reads the value back. When a repository lacks a reliable verification method, the /create-verification-skill command inspects the repo and writes a project-local verification skill covering launch, health check, driving behavior, evidence capture, and cleanup.
+
+---
+
+Title: pstack: 5 Honest Checks on 2,500 AI-Agent PRs a Month
+URL: https://folkfox.com/pstack-2500-ai-agent-prs-verification/
+Published: N/A
+Author: N/A
+Highlights:
+On 21 September 2026, SpaceXAI engineer Lauren Tan posted a 38-minute video on how she shipped 2,500 pull requests last month, and the plugin behind it, pstack, opens by rejecting throughput as a goal.
+...
+Quick answer pstack is Lauren Tan's MIT-licensed Cursor plugin for verified agent work. Her 2,500 pull requests a month is self-reported. Independent data links AI volume to more incidents, so count verified merges, not PRs.
+...
+A fox counts the tracks before it trusts the trail. On 21 September 2026, Lauren Tan, who posts as poteto and works at SpaceXAI, posted a video on X under the words "here's how i shipped 2,500 PRs last month to production". She said it was meant for Cursor Compile in London, and that she missed it because she was livestreaming for Grok Bot Galaxy, so she released it free and told viewers to watch at 2x speed. The video runs 38 minutes.
+...
+The system behind it is pstack, and pstack is public. It is an MIT-licensed plugin in Cursor's plugins repository, copyright 2026 Lauren Tan, currently at version 0.15.2, with the latest change to its folder dated 13 September. Among Cursor plugins it is unusually opinionated. Its README opens by saying that "there's a growing sense that ai writes too much slop code", and that the author agrees.
+
+The plugin's entry point is a skill called `/poteto-mode`. Around it sit twenty-three playbooks for different kinds of task, twenty-three engineering principles, and two subagents. Other skills include `/swarm`, which the README describes as "N parallel workers across different slices or races, then one aggregated report", as well as `/tdd` and `/unslop`. pstack works with Cursor's own `/loop` command, so an agent can run for many hours. `/loop` belongs to Cursor, not to pstack, and I could not find a `/goal` skill in the folder.
+...
+One design choice matters for anyone building agentic engineering workflows of their own. pstack routes work by kind. The README says that "code delegates (feature, refactoring, bug fix, perf, hillclimb) go to grok", while the hardest changes, prose and judgement go to Fable 5.1, and the default panel is Fable 5.1, Sol, Grok and Opus 5. That is the same model line-up folkfox compared in our Grok 4.7 scorecard piece earlier today.
+...
+The headline figure is worth a second look before it is repeated. Cursor's Compile London page lists her afternoon slot as "I Shipped 2,000 PRs Last Month". Her video says 2,500. Both are her own numbers, describing different months, and nobody outside her team has audited either. A count of pull requests tells you how much was opened and merged. It does not tell you how much stayed merged.
+...
+Read the README before the headline and the two pull in different directions. "Throughput without quality is not a goal i aspire to", it says. "If you want to go fast, go deep first." It also says, "personally, i don't believe in planning. the best spec is code", which is an unusual thing for a plugin author to put in the front door. pstack is not a factory for pull requests. It is a discipline for making each one worth merging.
+
+The discipline is verification. The prove-it-works principle tells the agent to verify every task output "by checking the real thing directly" and not to "infer from proxies, self-reports, or 'it compiles.'" A companion rule for delegation is short enough to remember: trust artefacts, not self-reports. An agent that says it is done has told you nothing. A test that ran and a value that was read tell you something.
+...
+That is the claim worth testing, and it is testable. A team using pstack, or any agentic engineering setup, can measure the rate at which agent pull requests are reverted, the share merged without any review, and the time humans still spend reading diffs. Tan has not published those figures alongside the 2,500, at least not in anything I could read without logging in to X.
+...
+A single engineer's month is an anecdote, and an impressive one. To judge the pattern, look at larger samples. The evidence is mixed, which is the honest summary. It does not say agents are worse than people. It does say volume by itself is a poor scoreboard.
+...
+Now the telemetry end. Faros AI's AI Engineering Report 2026 covers two years of data from 22,000 developers. It reports that the incidents-to-pull-request ratio is up 242.7% as teams move from low to high AI adoption, and that pull requests merged without any review are up 31.3%. Faros sells engineering analytics, and its numbers are correlations, so treat them as a warning light, not a verdict.
+...
+The best-designed evidence in the middle is an academic study of agent pull requests, posted to arXiv on 12 September 2026. Researchers followed 37,623 pull requests across 2,807 GitHub repositories, written by five commercial coding agents between December 2024 and July 2025, and compared their post-merge behaviour with a human baseline. That window is before today's models, so treat it as a method, not a scoreboard. The paper found that quality differences are vendor-specific, not uniform. Codex pull requests were reverted about half as often as human ones, at 6.1% against 11.5%. Devin pull requests were reverted more often, at 14.5%.
+...
+The same paper found that agent code, pooled across vendors, was less likely than human code to contain a security smell. So the picture has two sides. Agents can be safer on some measures and riskier on others, and the spread between agents is wider than the gap between agents and humans. That matters for anyone reading pstack's model routing, which sends code to Grok and judgement to Fable 5.1, as a claim that the choice of model is part of the quality system.
+
+Put the three findings beside Tan's story and a sensible reading emerges. Her setup is built around verification, which is what the risk data says to prioritise. The risk lies in copying the volume and skipping the proof. A team that adopts ai coding agents for throughput, keeps line-by-line review, and does not add automated checks gets the cost of both approaches.
+...
+Write down what proof looks like for each task: the test that ran, the value that was read, the diff that was inspected.
+
+Never accept an agent's own statement that work is finished. Ask for the artefact and check it directly.
+
+Track merged work that is still merged after a week, plus reverts, not pull requests opened.
+...
+Measure how much lands with no review at all. If it is rising, the verification is not keeping pace.
+...
+is the one teams skip. It feels slower, and for a week it is. But it is the difference between an
+...
+For AI code review specifically, pstack's `/interrogate` skill, which the Flavio Copes guide files under multi-model review, is a good template. It takes a diff and puts it in front of several different models, and the logic is that one model's blind spot is often another's obvious catch. It is not a replacement for a human on a risky change, but it is a cheap second reader, and a second reader is the theme of this whole story.
+...
+Tan has done something useful in public. She wrote a workflow down, released it under a permissive licence, and explained it in a free video. That deserves credit, and the README shows real thought about quality. What is missing is the audit. The 2,500 figure is her own, the Chief of Staff and 85% claims are secondhand, and the independent data says volume without verification is where the risk sits.
+...
+pstack is an open-source plugin for Cursor by Lauren Tan of SpaceXAI. It bundles a main skill called poteto-mode with twenty-three playbooks, twenty-three engineering principles and two subagents. Its stated aim is rigorous agent workflows you can parallelise with confidence, built on verifying work directly.
+...
+That is her own figure, from a video she posted on 21 September 2026. Cursor's Compile London schedule listed the same talk as 2,000 pull requests. Nobody outside her team has published an audit of either number, so treat both as self-reported.
+
+---
+
+Title: Lauren Tan's 2,000 pull requests a month rest on an app that fits in one process
+URL: https://theclarity.today/story/one-engineer-shipped-2-000-prs-a-month-to-production-verification-is-the-key-8713f5e7
+Published: 2026-09-19T14:46:59.000Z
+Author: N/A
+Highlights:
+- Lauren Tan, an engineer on the Grok team at SpaceXAI who previously worked at Cursor and Meta, published a guide to her personal agent workflow, pstack.
+- The New Stack reports that the workflow has let her ship 2,000 pull requests a month to production with high confidence.
+- Tan names verification as the most critical piece of the workflow and treats the skill that lets an agent check its own work as critical infrastructure.
+- She claims strong verification skills can multiply a team's output by 100 to 1,000 times.
+- The New Stack argues the skill depends on a runtime the agent can drive and inspect, and that a system of dozens or hundreds of services has no such runtime by default.
+...
+The verification skill generates a command line interface and a feature map for the application [9]. Through it an agent starts the app, navigates it, inspects state, and reads structured JSON results back [9]. The JSON is what lets the loop close without a person in it, because an agent can branch on a parsed field. Each agent gets a complete copy of the application and tests the change end to end [10].
+
+The precondition is strict. This works because the application fits in one process [12]. A frontend, a compiler, or a single service with a database starts from a CLI in seconds and is thrown away afterwards [12].
+
+Tan's throughput argument is about who waits for whom. "An agent that can check its own output keeps working until the task is done. An agent that can't hand you a diff and wait makes you the slowest component in the loop," she wrote [5]. The New Stack puts hand review at about five minutes per PR if one person read all 2,000 across a full working month [7]. Take her own figure of nearly 100 PRs per working day [3]. That sets the month at 20 days [19]. Two thousand changes at five minutes each is 10,000 minutes, or 166 hours, about 8.3 hours of review every working day [20].
+
+A system made of dozens or hundreds of services comes with no such runtime by default [13]. The application is the interaction between an order service, a payments service, an inventory service, a queue, several databases and a handful of third-party APIs, and at larger shops the service count runs into the thousands [14]. A pull request to one service is verified by exercising the calls it makes and receives, and the CLI that starts the changed service leaves the rest of the system down [15].
+
+Both substitutes have known failure modes. Local runtimes with mocks are cheap and run fully parallel on worktrees or cloud development environments [16]. Mocks encode what a dependency did the last time someone looked, and they drift the moment the real service changes; the agent's loop closes cleanly and the failure appears after merge [16]. A full copy of the stack per change is faithful and isolated, but its cost scales with the number of services times the number of concurrent changes, and time is the bigger problem [17]. Multiply the lower bound of the article's own ranges: a hundred services against a hundred parallel agents is 10,000 service instances standing up at once [21].
+
+Tan is direct about what the runtime is worth paying for. "I personally feel that agentic verification is so important that I would unironically suggest building your own rich debugging tools, or even choosing a different tech stack, in order to have unfair advantages and extreme productivity in building software," she wrote [11]. The 100 to 1,000 times output multiplier is her claim [6]. The New Stack does not report an independent count of what landed, and credits the 2,000 figure to her guide [2].
+...
+According to Tan, the most critical piece of the workflow is verification: a verification skill lets an agent check its own work and keep going until the task is done, and she treats it as "critical infrastructure" rather than one skill among many.
+...
+At 2,000 pull requests a month, reviewing every change by hand would allow about five minutes per PR across a full working month.
+...
+Human review cannot be the verification layer at that volume; whatever does the checking has to run without a person in the loop and in parallel with the agents generating the work.
+...
+The verification skill generates a command line interface and a feature map for the application; the CLI lets an agent start the app, navigate it, inspect state, and read structured JSON results back.
+...
+Her approach works because the application fits in one process: a frontend, a compiler, or a single service with a database can start from a CLI in seconds and be thrown away afterward.
+...
+The verification skill rests on a rich runtime the agent can drive, inspect and get structured answers from; for a single application that runtime is the application itself, started on demand, while for a system made of dozens or hundreds of services no such runtime exists by default, and providing one that keeps up with hundreds of parallel agents is the hard part.
+...
+2,000 PRs at five minutes each takes 10,000 minutes, or about 166 hours, which is roughly 8.3 hours of review every working day of a
+...
+According to The New Stack, pstack has let Tan ship 2,000 pull requests a month to production with high confidence.
+...
+The 2,000 PRs a month figure is described as one engineer shipping nearly 100 PRs per working day.
+...
+Tan claims strong verification skills can multiply a team's output by 100 to 1,000 times.
+...
+For anyone writing code with agents, the copyable part is the skill itself. Tan's verification skill generates a CLI and a feature map for the application, and the CLI lets an agent start the app, walk through it, inspect state and read structured JSON back, with each agent working on its own full copy. She goes further than tooling advice: "I personally feel that agentic verification is so important that I would unironically suggest building your own rich debugging tools, or even choosing a different tech stack, in order to have unfair advantages and extreme productivity in building software." The condition she names is that the whole application starts in one process in seconds and can be thrown away. A frontend, a compiler or one service with a database clears that bar.
+
+The operator problem in this reporting is supplying the runtime, and The New Stack works through the three existing options. Mocks are cheap and parallel, and they encode what a dependency did the last time someone looked. A full stack per change is faithful, costs services multiplied by concurrent changes, and takes minutes to provision when the agent is testing every iteration as it works. Shared staging is faithful and cheap because there is one of it, so agents overwrite each other's deployments and one broken change becomes failed tests for everyone else. The five properties the piece ends on, real dependencies, isolation between hundreds of concurrent changes, cost scaling with the change rather than the system, seconds to ready, and access through the CLI or MCP server the agent already uses, amount to a specification. The New Stack does not report anyone who has built it.
+...
+Two figures carry the attention, 2,000 pull requests a month and a claimed 100x to 1,000x multiplier, and neither has been measured by anyone but the person claiming them. The write-up itself discounts the first as an outlier, then argues that the method needs an application that starts in one process. That requirement works against any broader generalisation. The overstatement is in the numbers, not in the engineering conclusion, which stays more careful than the headline.
+...
+I would hold the described mechanism at high confidence and the number at low. The generated CLI, the feature map, the fidelity problem with mocks and the isolation problem with shared staging are all things a reader can test by building them. The throughput and the multiplier are one person's account relayed once, and there is no second practitioner or dataset in the coverage to move them either way.
+
+---
+
+Title: SpaceXAI engineer Lauren Tan: without a verification skill, you are the verifier and the bottleneck | MindPattern
+URL: https://mindpattern.ai/f/26302
+Published: 2026-09-20T07:15:03.000Z
+Author: N/A
+Highlights:
+Tan's post argues the fan-out numbers people quote are meaningless without self-checking: "You can't spawn a hundred agents when you don't even trust the output of one agent." It matches the pstack workflow she has been publishing, where the agent gets a small CLI that can open the app, navigate it, click controls, take accessibility snapshots and capture screenshots, so it fixes against observed execution rather than assumption. She treats that verification harness as internal developer infrastructure rather than a prompt, which is the part most agent-scaling writeups skip.

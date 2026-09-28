@@ -1,0 +1,42 @@
+[
+  {
+    "path": "research/agentlord-gaps-2026-09-28/analysis.md",
+    "sha256": "ac2df105907636d37912708acf4543e2f331e2eb2489cf99f2af9eb8ef233c3c"
+  },
+  {
+    "path": "research/anthropic-long-running-2026-09-28/analysis.md",
+    "sha256": "48781cbc226fedea20c54e077aa94b5b47c9c026228460f337c9be61f20c9441"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/intermediate/lauren/findings.md",
+    "sha256": "31a9afa889ea03cef88300e1dce90b68b5af4b0f49ade5450a53a111e9ecf9f7"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/intermediate/lauren/interview-2026-09-27-notes.md",
+    "sha256": "9777a7fde7e84ad213699ae61d1d8a7abe45503b38440401a2c0dbd767e5ecec"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/intermediate/architecture/findings.md",
+    "sha256": "79c5c8923c4652065bf080fc873726b4ae54fe359d10ab89809ce706753d52b3"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/intermediate/evidence/findings.md",
+    "sha256": "645e2bc7220cbb7afb88de4b43f04d77f42eb15d77311d0ee3ccaf14313e4ecb"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/conclusions/report.md",
+    "sha256": "9ad8944f22039ce8620e8e6a702c40f30474ebe651b1970ceaba0a21677e443f"
+  },
+  {
+    "path": "research/agent-delivery-2026-09-28/supplement-videos/analysis.md",
+    "sha256": "a08f930acfd029e373c2e3b1350fa4b9199931ebc06d388e7e10471751042379"
+  },
+  {
+    "path": "research/workflow-30d/conclusions/analysis.md",
+    "sha256": "8ba4cef03c43cb2fba37528d93718adb7a9aca3444f206fda9bc676ebc7a6f1b"
+  },
+  {
+    "path": "discussions/2026-09-28-verification-and-delivery.md",
+    "sha256": "8b40d26448c82ab70ec59784307d57efe988c897081df4bbb68b3acee8f062d4"
+  }
+]

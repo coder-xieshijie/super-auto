@@ -1,0 +1,234 @@
+{
+  "format": "verification-example-v1",
+  "readiness": "DRAFT",
+  "illustrative_only": true,
+  "request": {
+    "path": "README.md",
+    "sha256": "1670d823ad825650b872dd663cff34371ac1c86ec552a81d39cdbc1cc399869c",
+    "authority": "hypothetical example authored for design, not a user product decision"
+  },
+  "repositories": [],
+  "requirements": [
+    {
+      "id": "R01",
+      "source": "README.md#示例需求",
+      "description": "后台工作期间更新 Goal 后，工作完成触发继续，并使用最新 Goal",
+      "required_cases": [
+        "V01",
+        "V02"
+      ]
+    },
+    {
+      "id": "R02",
+      "source": "README.md#示例需求",
+      "description": "等待期间用户取消后不得启动继续执行",
+      "required_cases": [
+        "V03"
+      ]
+    },
+    {
+      "id": "R03",
+      "source": "README.md#示例需求",
+      "description": "同一次完成通知重复到达不得重复启动",
+      "required_cases": [
+        "V04"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "V01",
+      "requirement_ids": [
+        "R01"
+      ],
+      "title": "一次更新后使用新 Goal",
+      "applicability": "required_for_this_example",
+      "definition_state": "DRAFT",
+      "actions": [
+        "通过真实入口启动可控后台工作",
+        "通过真实入口将 Goal 从 A 更新为 B",
+        "让当前后台工作完成",
+        "观察实际继续执行请求"
+      ],
+      "assertions": [
+        "更新前后台任务确实仍在执行",
+        "完成后出现一次继续执行",
+        "实际请求使用 B，不能只检查 UI 显示"
+      ],
+      "executor": {
+        "kind": "existing_project_tool_or_test",
+        "entry": null,
+        "arguments": null,
+        "working_directory": null
+      },
+      "environment": {
+        "instance_identity": null,
+        "fixture": null,
+        "dependency_versions": null
+      },
+      "expected_evidence": [
+        "action_trace",
+        "runtime_state",
+        "continuation_request_or_absence_record"
+      ],
+      "resources": [
+        "isolated_product_instance"
+      ],
+      "cleanup": "只清理本次创建的实例和数据，保留证据",
+      "blocking_gaps": [
+        "未定位真实入口和可重复fixture",
+        "未绑定候选代码/运行实例",
+        "未确定异步完成判据与超时来源"
+      ]
+    },
+    {
+      "id": "V02",
+      "requirement_ids": [
+        "R01"
+      ],
+      "title": "连续更新后使用最后一个 Goal",
+      "applicability": "required_for_this_example",
+      "definition_state": "DRAFT",
+      "actions": [
+        "启动可控后台工作",
+        "依次将 Goal 更新为 B、C",
+        "让当前后台工作完成",
+        "观察实际继续执行请求"
+      ],
+      "assertions": [
+        "依次更新动作均已生效",
+        "继续请求使用 C",
+        "未启动基于旧 A/B 的继续执行"
+      ],
+      "executor": {
+        "kind": "existing_project_tool_or_test",
+        "entry": null,
+        "arguments": null,
+        "working_directory": null
+      },
+      "environment": {
+        "instance_identity": null,
+        "fixture": null,
+        "dependency_versions": null
+      },
+      "expected_evidence": [
+        "action_trace",
+        "runtime_state",
+        "continuation_request_or_absence_record"
+      ],
+      "resources": [
+        "isolated_product_instance"
+      ],
+      "cleanup": "只清理本次创建的实例和数据，保留证据",
+      "blocking_gaps": [
+        "未定位真实入口和可重复fixture",
+        "未绑定候选代码/运行实例",
+        "未确定异步完成判据与超时来源"
+      ]
+    },
+    {
+      "id": "V03",
+      "requirement_ids": [
+        "R02"
+      ],
+      "title": "取消后不再继续",
+      "applicability": "required_for_this_example",
+      "definition_state": "DRAFT",
+      "actions": [
+        "启动后台工作并更新 Goal",
+        "通过真实入口取消",
+        "完成原后台工作",
+        "观察调度决策与副作用"
+      ],
+      "assertions": [
+        "取消被实际系统接受",
+        "在有依据的完成判定范围内没有新的继续请求",
+        "取消状态保持一致"
+      ],
+      "executor": {
+        "kind": "existing_project_tool_or_test",
+        "entry": null,
+        "arguments": null,
+        "working_directory": null
+      },
+      "environment": {
+        "instance_identity": null,
+        "fixture": null,
+        "dependency_versions": null
+      },
+      "expected_evidence": [
+        "action_trace",
+        "runtime_state",
+        "continuation_request_or_absence_record"
+      ],
+      "resources": [
+        "isolated_product_instance"
+      ],
+      "cleanup": "只清理本次创建的实例和数据，保留证据",
+      "blocking_gaps": [
+        "未定位真实入口和可重复fixture",
+        "未绑定候选代码/运行实例",
+        "未确定异步完成判据与超时来源"
+      ]
+    },
+    {
+      "id": "V04",
+      "requirement_ids": [
+        "R03"
+      ],
+      "title": "重复通知不重复启动",
+      "applicability": "required_for_this_example",
+      "definition_state": "DRAFT",
+      "actions": [
+        "启动后台工作并更新 Goal",
+        "通过项目允许的外部事件边界重放同一次完成通知",
+        "观察调度决策和继续请求"
+      ],
+      "assertions": [
+        "完成事件身份相同且确实接收两次",
+        "只出现一次继续执行请求"
+      ],
+      "executor": {
+        "kind": "existing_project_tool_or_test",
+        "entry": null,
+        "arguments": null,
+        "working_directory": null
+      },
+      "environment": {
+        "instance_identity": null,
+        "fixture": null,
+        "dependency_versions": null
+      },
+      "expected_evidence": [
+        "action_trace",
+        "runtime_state",
+        "continuation_request_or_absence_record"
+      ],
+      "resources": [
+        "isolated_product_instance"
+      ],
+      "cleanup": "只清理本次创建的实例和数据，保留证据",
+      "blocking_gaps": [
+        "未定位真实入口和可重复fixture",
+        "未绑定候选代码/运行实例",
+        "未确定异步完成判据与超时来源"
+      ]
+    }
+  ],
+  "policy": {
+    "completion_boundary": "verification_only",
+    "max_repair_rounds": null,
+    "max_elapsed_seconds": null,
+    "authorization": "no product run or merge authorized by this example"
+  },
+  "unresolved": [
+    "目标仓库/候选版本未知",
+    "确切命令与运行工具未知",
+    "异步等待边界需从真实契约确定",
+    "执行/修复预算未配置"
+  ],
+  "notes": [
+    "No PASS may be emitted from this draft",
+    "No field in this example is automatically supported by current Agent Lord schema"
+  ]
+}

@@ -1,0 +1,79 @@
+[
+  {
+    "backend": "Exa",
+    "query": "METR developer productivity 2026 randomized controlled trial update AI coding",
+    "result": "search-metr.txt",
+    "status": "success"
+  },
+  {
+    "backend": "Exa",
+    "query": "AI coding agents pull requests review burden empirical AIDev 2026 study",
+    "result": "search-review.txt",
+    "status": "success"
+  },
+  {
+    "backend": "web",
+    "queries": [
+      "site.dora.dev 2025 AI capabilities software delivery throughput instability",
+      "Towards a Science of Scaling Agent Systems",
+      "SWE-bench Pro long horizon real world software engineering benchmark paper"
+    ],
+    "result": "followed to saved primary sources"
+  },
+  {
+    "backend": "web",
+    "queries": [
+      "site.metr.org 2026 developer productivity study update selection bias",
+      "site.openai.com SWE-Bench Pro broken July 2026",
+      "AI coding agents pull requests review burden empirical study 2026 maintenance"
+    ],
+    "result": "evidence-search2.json"
+  },
+  {
+    "backend": "web",
+    "queries": [
+      "site.openai.com SWE-Bench Pro 30%",
+      "site.arxiv.org 25,264 agents",
+      "site.metr.org MirrorCode"
+    ],
+    "result": "evidence-search3.json"
+  },
+  {
+    "backend": "web",
+    "action": "open primary review studies and DORA AI hub",
+    "result": "evidence-search4.json"
+  },
+  {
+    "backend": "web",
+    "queries": [
+      "site.dora.dev 2025 pdf 5,000",
+      "site.dora.dev seven Small batches",
+      "site.dora.dev capabilities version control AI"
+    ],
+    "result": "followed to dora-questions/dora-wip/dora-small-batches"
+  },
+  {
+    "backend": "Jina",
+    "action": "primary page retrieval",
+    "result": "source-manifest.json",
+    "failures": [
+      "scaling-v3 SVG response",
+      "pr-review SVG response",
+      "mirrorcode-v2 SVG response"
+    ],
+    "fallback": "Original arxiv HTML saved, parsed locally"
+  },
+  {
+    "backend": "web",
+    "action": "DORA complete AI capabilities report retrieval",
+    "status": "form_gated",
+    "url": "https://cloud.google.com/resources/content/2025-dora-ai-capabilities-model-report",
+    "note": "No form submission. Used official public survey questions, overview and explanatory articles."
+  },
+  {
+    "backend": "local parser",
+    "status": "recovered",
+    "failure": "bs4 module unavailable",
+    "fallback": "Python stdlib HTMLParser, raw HTML preserved"
+  }
+]

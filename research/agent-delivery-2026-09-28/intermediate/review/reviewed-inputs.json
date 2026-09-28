@@ -1,0 +1,18 @@
+{
+  "reviewed_at": "2026-09-28T04:09:55.937459+00:00",
+  "inputs": [
+    {
+      "path": "intermediate/architecture/findings.md",
+      "sha256": "79c5c8923c4652065bf080fc873726b4ae54fe359d10ab89809ce706753d52b3"
+    },
+    {
+      "path": "intermediate/industry/findings.md",
+      "sha256": "36f3901732f80ba72e3b1ac65fefd599e5041c87c7ebdce965d417834948f584"
+    },
+    {
+      "path": "intermediate/evidence/findings.md",
+      "sha256": "645e2bc7220cbb7afb88de4b43f04d77f42eb15d77311d0ee3ccaf14313e4ecb"
+    }
+  ],
+  "root_report_exists": false
+}

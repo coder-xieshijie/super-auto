@@ -1,0 +1,164 @@
+{
+  "repository": "melodylife/changworkshop_project_sharing",
+  "requested_ref": "main",
+  "commit": "8ebf2fc6c3ed53268f77b9b2427a288b52af10c8",
+  "commit_date": "2026-09-24T06:11:56Z",
+  "accessed_at": "2026-09-28T06:56:20.515236+00:00",
+  "method": "read-only gh REST API commit/tree/git-blobs; downloaded only scoped subtree",
+  "tree_truncated": false,
+  "file_count": 19,
+  "files": [
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/REVIEW-REPORT.md",
+      "repository_path": "pi_agent_subagent_workflow/REVIEW-REPORT.md",
+      "git_blob_sha": "ed060c2e939b84ddf7db7d9388d9f2749ed808bb",
+      "bytes": 6590,
+      "sha256": "24674d1f8b0eccaf4b4072bdfbe940f24cc8ce8f8e951b28341757f291051d15",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/REVIEW-REPORT.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/dev-manager.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/dev-manager.md",
+      "git_blob_sha": "291c9344a4e4bde4f006f74bb3525f85f9b03938",
+      "bytes": 3901,
+      "sha256": "727b982e586886954edf9b84b598bf4eb8caf62289fcc5d07181d259b0144270",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/dev-manager.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-critic.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/game-critic.md",
+      "git_blob_sha": "1d34cf19e4c2d8fbcd3636db93354dc150673ccb",
+      "bytes": 4101,
+      "sha256": "baa3c3bd9212d3c859903eaabb1d56e816322417952c903ce5e5bb62e4fd8140",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/game-critic.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-deployer.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/game-deployer.md",
+      "git_blob_sha": "be3ac53f33eed03513b4aecf221b2e86e94bac74",
+      "bytes": 2591,
+      "sha256": "1831f0aa294b5b9c11025814c7bb30a931c6b890e9616db3df41e3aeee46f341",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/game-deployer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-designer.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/game-designer.md",
+      "git_blob_sha": "7ce043b28d86d4094ab5d93838fb36cd1433eba9",
+      "bytes": 3706,
+      "sha256": "71dff81d7f4946105b919dcefd2a3c5386051b09cccdf8524c7dddd2e1b81023",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/game-designer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-developer.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/game-developer.md",
+      "git_blob_sha": "8cbc6e1e8e34d08ebd34c4ee874abe9bd843a973",
+      "bytes": 3602,
+      "sha256": "67ddc554d0e758dcc331bbfe87d2b708ce8dfe09174cf243178be6162063c1c3",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/game-developer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/qa-tester.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/qa-tester.md",
+      "git_blob_sha": "d659f82fc4b3fac1c2731ab1c0f4d6266ef2a760",
+      "bytes": 4334,
+      "sha256": "32de57eb8367e1b12a9a4a25f42e52d0d3d2163f74a6f86d356b79b08c8a2f1d",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/qa-tester.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/ui-designer.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/agents/ui-designer.md",
+      "git_blob_sha": "b62258004acf519f5e54395cae8ee05cc0839498",
+      "bytes": 5201,
+      "sha256": "a86580ac4305d4acf4e955015471e07c604ed050f7454bb5f39bda98d89f8236",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/agents/ui-designer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create.ts",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/workflow/game-create.ts",
+      "git_blob_sha": "f4feeb52203c3b5a09b2fceebf8c9897f2fc47c2",
+      "bytes": 2480,
+      "sha256": "6cd56c01a6eae4497a90ed87e48ffe85adadb33179db7e98eddc42eeb66451aa",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/workflow/game-create.ts"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create/SKILL.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/workflow/game-create/SKILL.md",
+      "git_blob_sha": "6588840c31985e36e19b69a1e976b1a7863c5fbe",
+      "bytes": 19808,
+      "sha256": "e0ba25be75e776721d1c595cf6972f2c0532498e7862a2b5431e6c16537d8033",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/workflow/game-create/SKILL.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create/references/contracts.md",
+      "repository_path": "pi_agent_subagent_workflow/game_creator/workflow/game-create/references/contracts.md",
+      "git_blob_sha": "6cbbde4c290d75769568ae08baf0c02fbf0ad104",
+      "bytes": 11960,
+      "sha256": "9c42c67c76243d8d987e7b4172d483209103ce9c7c241d8160ec04ff5c678bb1",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/game_creator/workflow/game-create/references/contracts.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-critic.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-critic.md",
+      "git_blob_sha": "a953436edc6a9ff70709031e4c1b38ec45aab010",
+      "bytes": 4597,
+      "sha256": "3c24569d2f9586d5b0cc9d673ff472fc7d890be3a9a49f6306e151326cc81337",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/agents/itinerary-critic.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-designer.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-designer.md",
+      "git_blob_sha": "79d8ac2d5a9a68ba16dc4478daa09a725c35f400",
+      "bytes": 6210,
+      "sha256": "521f0034b997ef5f1c6fab040f3f6d5cdc396c5eae4dea6dd04bef2cdf648fd9",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/agents/itinerary-designer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-generator.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-generator.md",
+      "git_blob_sha": "ccd729a86da561d577a0357b9accd3a023b0abf6",
+      "bytes": 6252,
+      "sha256": "7bb3f07d2d266d0cf612382784176591766043bc2b9974804d436ee199acb41d",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/agents/itinerary-generator.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-synthesizer.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/agents/itinerary-synthesizer.md",
+      "git_blob_sha": "0bb67eaa20222e6b6dc9fd735caa7b11a35e6dcb",
+      "bytes": 2433,
+      "sha256": "f37e5a02f8cda70a189ea141d8ba75f454351ca8354fbd421986d6ad51f7f35e",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/agents/itinerary-synthesizer.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/researcher.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/agents/researcher.md",
+      "git_blob_sha": "cebe6617edb560303ad34274bd962b19a0db01b8",
+      "bytes": 2402,
+      "sha256": "082f76883bd7cfe66ec724d67b2b10195050351bb5012a420e8f4dbe393e0dee",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/agents/researcher.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/SKILL.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/workflow/SKILL.md",
+      "git_blob_sha": "4c9da0314dbee6727ac9ac0a7a6d02e106ea6373",
+      "bytes": 17776,
+      "sha256": "157a9a14031e17f16c0dba24f4f057818114998ce5ac0cd8140dc0d4af29e1d6",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/workflow/SKILL.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/references/contracts.md",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/workflow/references/contracts.md",
+      "git_blob_sha": "b8e1db7b298baef9834860bcd595d6046b67e3ab",
+      "bytes": 6764,
+      "sha256": "07b289f8924e2cd26bab43ec4e80373a56675c01de90129dd4aed49357778647",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/workflow/references/contracts.md"
+    },
+    {
+      "path": "research/agent-delivery-2026-09-28/supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/trip-plan.ts",
+      "repository_path": "pi_agent_subagent_workflow/tour_planner/workflow/trip-plan.ts",
+      "git_blob_sha": "d965bd3e6a2db5839584d474099b06be05fdcbd6",
+      "bytes": 1953,
+      "sha256": "171321cc635218f0ce165f3643a1552d2ce79a917e48d09e4fab86d913f46c4a",
+      "url": "https://github.com/melodylife/changworkshop_project_sharing/blob/8ebf2fc6c3ed53268f77b9b2427a288b52af10c8/pi_agent_subagent_workflow/tour_planner/workflow/trip-plan.ts"
+    }
+  ]
+}

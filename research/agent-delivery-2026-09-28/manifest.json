@@ -1,0 +1,1679 @@
+{
+  "generated_at": "2026-09-28T07:02:29.661732+00:00",
+  "excluded": [
+    "intermediate/validation.json",
+    "manifest.json"
+  ],
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 2246,
+      "sha256": "604b0bc3cc94af618acd916d2d46f6a5c7e0b66e444540730f0de3174dc5295d"
+    },
+    {
+      "path": "REQUEST.md",
+      "bytes": 2981,
+      "sha256": "8f12c9820ba5f1450832207d72553a77e74c7b3e121b4ab6eb608b36e5f4598e"
+    },
+    {
+      "path": "baseline-commit.txt",
+      "bytes": 127,
+      "sha256": "ece410362005c26b4181d4e0ce4b7d22a1803dde65c2488208ede404d5ba26e4"
+    },
+    {
+      "path": "conclusions/experiments.md",
+      "bytes": 6227,
+      "sha256": "08c86c903b23d7d49a98580aacf03e6fc717b362de78e6ae2ebb5b92c2bd81b4"
+    },
+    {
+      "path": "conclusions/report.md",
+      "bytes": 21302,
+      "sha256": "9ad8944f22039ce8620e8e6a702c40f30474ebe651b1970ceaba0a21677e443f"
+    },
+    {
+      "path": "intermediate/architecture/claims.json",
+      "bytes": 10150,
+      "sha256": "b3a7d9ea52c5e6f57bfb9213859bc183dc8d6220213831d1fe5bb34e0295d7fc"
+    },
+    {
+      "path": "intermediate/architecture/fetch-sources.py",
+      "bytes": 2921,
+      "sha256": "501d861d455ac4bfcd3655d95cda569c0790671c13bd208ab1c906265e6c5e5d"
+    },
+    {
+      "path": "intermediate/architecture/findings.md",
+      "bytes": 9628,
+      "sha256": "79c5c8923c4652065bf080fc873726b4ae54fe359d10ab89809ce706753d52b3"
+    },
+    {
+      "path": "intermediate/architecture/queries.json",
+      "bytes": 903,
+      "sha256": "0d5a80c70a319b53b1c501fcd15cdaf94cd724ab2faf4e973d95a2682c15446e"
+    },
+    {
+      "path": "intermediate/architecture/source-manifest.json",
+      "bytes": 6430,
+      "sha256": "d83450a92cdb23221420c6c1f6ffd7bdf1316963e98715d0bf9453fec962aba0"
+    },
+    {
+      "path": "intermediate/evidence/claims.json",
+      "bytes": 4713,
+      "sha256": "4331a408f01c1ecd48815e14f41233f9d41c880408e2753953588afc42b69e9e"
+    },
+    {
+      "path": "intermediate/evidence/findings.md",
+      "bytes": 12798,
+      "sha256": "645e2bc7220cbb7afb88de4b43f04d77f42eb15d77311d0ee3ccaf14313e4ecb"
+    },
+    {
+      "path": "intermediate/evidence/mirrorcode-v2-fulltext.txt",
+      "bytes": 127815,
+      "sha256": "f4108236877cb169209431c7f6a3d93837dc3f7be0a2e52080b59a1a1cb17e15"
+    },
+    {
+      "path": "intermediate/evidence/pr-collaboration-fulltext.txt",
+      "bytes": 29339,
+      "sha256": "9aaf5fe140a28a3c7325824e8052fae5f41d120e74fc267af04bb552354d6acb"
+    },
+    {
+      "path": "intermediate/evidence/pr-review-fulltext.txt",
+      "bytes": 39966,
+      "sha256": "b3237e8bef147c1510c24bed9d967c086314146c6435425c8c90ef0169efe55e"
+    },
+    {
+      "path": "intermediate/evidence/queries.json",
+      "bytes": 2392,
+      "sha256": "7b54a10ec25c70442c71274324203e16548b8adabd8230acde6126dc7d0c84dc"
+    },
+    {
+      "path": "intermediate/evidence/scaling-v3-fulltext.txt",
+      "bytes": 151490,
+      "sha256": "46fdd1bd8e4dfca3944bb0908d000c787d59a150bf4eaa29720db698da70efa7"
+    },
+    {
+      "path": "intermediate/evidence/source-seeds.json",
+      "bytes": 2150,
+      "sha256": "8ca70ecce1c515b8dc38edb2bb2594f1841cd24e849600d8edf11e533e6961ac"
+    },
+    {
+      "path": "intermediate/evidence/swe-verified-fulltext.txt",
+      "bytes": 112233,
+      "sha256": "6bd7558ca6922adcebb3389fe566444851ffee834ada8aeb2a57587b13cd29c3"
+    },
+    {
+      "path": "intermediate/evidence/validation.json",
+      "bytes": 221,
+      "sha256": "16c00e655b58dce91a853b012d248395a9909cbd467d09b87958c6021e6e33ed"
+    },
+    {
+      "path": "intermediate/industry/build_claims.py",
+      "bytes": 6246,
+      "sha256": "03f804b72b7ce8738ed29e790120efb06d16754f8f819bdff4628b29a37990cf"
+    },
+    {
+      "path": "intermediate/industry/claims.json",
+      "bytes": 13470,
+      "sha256": "93a88dbc5ed786d9057b520a8288fed755ca28ee19fc59c668968888eeda6b9e"
+    },
+    {
+      "path": "intermediate/industry/findings.md",
+      "bytes": 12457,
+      "sha256": "36f3901732f80ba72e3b1ac65fefd599e5041c87c7ebdce965d417834948f584"
+    },
+    {
+      "path": "intermediate/industry/validation.json",
+      "bytes": 993,
+      "sha256": "743ab1c3a7e784d02582e1633d56bfb509c54254cd9dc39d39bcba7306d7f86a"
+    },
+    {
+      "path": "intermediate/lauren/findings.md",
+      "bytes": 10591,
+      "sha256": "31a9afa889ea03cef88300e1dce90b68b5af4b0f49ade5450a53a111e9ecf9f7"
+    },
+    {
+      "path": "intermediate/lauren/interview-2026-09-27-notes.md",
+      "bytes": 11316,
+      "sha256": "9777a7fde7e84ad213699ae61d1d8a7abe45503b38440401a2c0dbd767e5ecec"
+    },
+    {
+      "path": "intermediate/lauren/queries.json",
+      "bytes": 2758,
+      "sha256": "b039ceeb33b8154ab38be5b07427f0804ea257f99264e227a3a080ad3f6c4975"
+    },
+    {
+      "path": "intermediate/review/delivery-review.md",
+      "bytes": 4687,
+      "sha256": "a2f8f2a772b6c041b0b4243dc0b71b09c541f9c4e081348e331e3f27fe6059ee"
+    },
+    {
+      "path": "intermediate/review/evidence-review.md",
+      "bytes": 7338,
+      "sha256": "a1d513d1bdc48d76e0336d779f6f25552d57e823f36d88331ca513e1c661ed9a"
+    },
+    {
+      "path": "intermediate/review/resolution.md",
+      "bytes": 1318,
+      "sha256": "016306cf36b477423bdc17c757888553e9672d476607308add17d013cc19183b"
+    },
+    {
+      "path": "intermediate/review/reviewed-inputs.json",
+      "bytes": 549,
+      "sha256": "9c616d615fdaa158770096d2bbaf3f350fab580f7f06ee46bfdfe887172dd517"
+    },
+    {
+      "path": "raw/architecture/A01-cursor-scaling.md",
+      "bytes": 7687,
+      "sha256": "63cec975454b684fb621452dfc16e6d8a3b3bec528215f961ec43f4ef935c2ff"
+    },
+    {
+      "path": "raw/architecture/A02-cursor-self-driving.md",
+      "bytes": 24517,
+      "sha256": "6543374bb0d2744db1a4264054021a4304679c63ad487b9d15f0ff7348cf48a9"
+    },
+    {
+      "path": "raw/architecture/A03-openai-harness.md",
+      "bytes": 19636,
+      "sha256": "5a5d352acbc5f73593e75d0e8e87d01c628ab592c84a3b14088b9d204ce79c04"
+    },
+    {
+      "path": "raw/architecture/A04-openai-symphony.md",
+      "bytes": 72055,
+      "sha256": "a805a1c31f9d83e571115ac7babbcc02c76d33d46eea2d85d2068730cbdea171"
+    },
+    {
+      "path": "raw/architecture/A05-commit-metadata.json",
+      "bytes": 189,
+      "sha256": "08a819af507f1cbfe5452d97a9021291e4724b9832a6a5d1cdd5388b6a26615d"
+    },
+    {
+      "path": "raw/architecture/A05-symphony-spec.md",
+      "bytes": 92077,
+      "sha256": "c6638056502ecd2e60eb04e1f1a627a4964506fcdf4d39873e78aa5834de85d5"
+    },
+    {
+      "path": "raw/architecture/A06-anthropic-long-running.md",
+      "bytes": 14139,
+      "sha256": "72a30e83920b74c53884b9d3c2f523e391845f6c8348555f0dce388893061e02"
+    },
+    {
+      "path": "raw/architecture/A07-anthropic-compiler.md",
+      "bytes": 15674,
+      "sha256": "5c14134a84d3deddf71f7ab98f2948d6be6794eb5ad4f73f402ec21c4ac6a034"
+    },
+    {
+      "path": "raw/architecture/A08-anthropic-app-harness.md",
+      "bytes": 33746,
+      "sha256": "40acbcad33ba414c72729d724702d89cb3eba2011ef4216b0b37aa95f5fa26bc"
+    },
+    {
+      "path": "raw/architecture/A09-anthropic-managed.md",
+      "bytes": 14321,
+      "sha256": "3544895b01627131a5719ad7c51ad6d0ba3286eef47ece9ce318bb583312c1f8"
+    },
+    {
+      "path": "raw/architecture/A10-strongdm-factory.md",
+      "bytes": 6602,
+      "sha256": "571cd99e035c79e4ad224d6abf226f3895e6ba340b2595f2d09e828be5cfc7f8"
+    },
+    {
+      "path": "raw/architecture/A11-strongdm-principles.md",
+      "bytes": 1394,
+      "sha256": "f9ca3dc8f2ea05c3c766047c81338409cc1a6bf9f273182f13b3d81753e6ea21"
+    },
+    {
+      "path": "raw/architecture/A12-strongdm-dtu.md",
+      "bytes": 1826,
+      "sha256": "6420df6b1496651005a2dca893059269d1f2f62fb7800b68121d2c9c8bb3df47"
+    },
+    {
+      "path": "raw/architecture/exa-strongdm-search.txt",
+      "bytes": 6017,
+      "sha256": "7f441a8bd2bda0fd81c050dec5de11b7532af04331c05455cc3002be4e9acce1"
+    },
+    {
+      "path": "raw/evidence/direct-manifest.json",
+      "bytes": 2173,
+      "sha256": "b901d1a371b5740f1b74c9d2e9047339268e636992c38e5fb035132b137f7858"
+    },
+    {
+      "path": "raw/evidence/dora-2025.txt",
+      "bytes": 6404,
+      "sha256": "e3135dde3b53736ed5c4471738ad361a95c0a4a72c8e36712b4b8c7e10350b26"
+    },
+    {
+      "path": "raw/evidence/dora-2026.txt",
+      "bytes": 18243,
+      "sha256": "68125df8a016f64a7ff4675a96592174ab3b36815cf31ade5eb498c3cf74e241"
+    },
+    {
+      "path": "raw/evidence/dora-questions.txt",
+      "bytes": 16321,
+      "sha256": "a124646ffd5618a935326473bff0c8b9c6c2891d74471da1dfc8dac1247c1d77"
+    },
+    {
+      "path": "raw/evidence/dora-small-batches.txt",
+      "bytes": 12198,
+      "sha256": "8fa03c4e81d66449596186a269bd3c03946150bae71833a5c3bf9c997755bf02"
+    },
+    {
+      "path": "raw/evidence/dora-tokenmaxxing.txt",
+      "bytes": 18484,
+      "sha256": "defccaf005b64cf717eefcaad2488ad4860d71c396ea285b54856a3ad9bc77af"
+    },
+    {
+      "path": "raw/evidence/dora-wip.txt",
+      "bytes": 8006,
+      "sha256": "a98c77d860029f1cb34ff1b7965e47961e6aaf200f07c9dd36212b8388a363a2"
+    },
+    {
+      "path": "raw/evidence/evidence-search2.json",
+      "bytes": 35483,
+      "sha256": "70b61ec9e4cbde3fbfb482a0e00580138c836cccbfe0ba7824e3b226a1de43eb"
+    },
+    {
+      "path": "raw/evidence/evidence-search3.json",
+      "bytes": 34633,
+      "sha256": "9d14132206612472f474e0c9d39fa15fdd345e8120cef7f7d14433e6e00fcdc5"
+    },
+    {
+      "path": "raw/evidence/evidence-search4.json",
+      "bytes": 19257,
+      "sha256": "c6f208e9a9a7730bded8d8ee142c868fa9813b776cf8598ddb514df6a1b66169"
+    },
+    {
+      "path": "raw/evidence/jina-manifest.json",
+      "bytes": 5867,
+      "sha256": "1156ac8c7575c00b88a19e39171b457d241ca5dc263ee83bb1a82d995c126d5e"
+    },
+    {
+      "path": "raw/evidence/metr-2025.txt",
+      "bytes": 18997,
+      "sha256": "f368ff345766b4a8b1688d0421515a7b024d95fac420158555ec44a28a69f9b7"
+    },
+    {
+      "path": "raw/evidence/metr-2026.txt",
+      "bytes": 10324,
+      "sha256": "f6e3c4fd8cf0a7355942edaa4177530d12b9b43052c0042a8ccc0aa05abf16ed"
+    },
+    {
+      "path": "raw/evidence/mirrorcode-v2.html",
+      "bytes": 470059,
+      "sha256": "4bae5e5ff5657a99ac87322adc79662d458090503aa8d85785a914b75289b03b"
+    },
+    {
+      "path": "raw/evidence/mirrorcode-v2.txt",
+      "bytes": 262,
+      "sha256": "5b98bfdd8ea8b221e32fc854c5fb8062ee771517ad18911e7206fdc22dee1c88"
+    },
+    {
+      "path": "raw/evidence/mirrorcode.txt",
+      "bytes": 140136,
+      "sha256": "0df120d8ed6801329a547c16799823d05e05b495dd80691a9144cefe6dcb7690"
+    },
+    {
+      "path": "raw/evidence/pr-adoption.txt",
+      "bytes": 56173,
+      "sha256": "0a7946a9d0694c726a68af0ddb3c5a8035f8a8478b6d7a67fa8027e150139094"
+    },
+    {
+      "path": "raw/evidence/pr-collaboration.html",
+      "bytes": 146850,
+      "sha256": "1e6f43f8a43c74568c162e26010e2251d01d1b0af8dfd2d3f99a2a3b5d6b2e3f"
+    },
+    {
+      "path": "raw/evidence/pr-review.html",
+      "bytes": 148326,
+      "sha256": "65ea894495aaf6a37a1e255c61b402b632254734ff2c573d46f7674275ddf8f7"
+    },
+    {
+      "path": "raw/evidence/pr-review.txt",
+      "bytes": 251,
+      "sha256": "ca341774250004c9c3c580a0108e313d601615ccd20223a632c21f5ba914e854"
+    },
+    {
+      "path": "raw/evidence/scaling-v3.html",
+      "bytes": 663762,
+      "sha256": "e19cfd16776f06ca693fc99e1ad4ef30335c5e063a3025acd0b62c8e8c09a39e"
+    },
+    {
+      "path": "raw/evidence/scaling-v3.txt",
+      "bytes": 322,
+      "sha256": "82c1b75d971ab9ac690721be2bb0d398c7802288e688f0144e1bd5a1b8727342"
+    },
+    {
+      "path": "raw/evidence/search-metr.txt",
+      "bytes": 38398,
+      "sha256": "fa1ff8cb9650d8f658d944fa8c171238c212701cf2536b45318fd3ddfe5035b1"
+    },
+    {
+      "path": "raw/evidence/search-review.txt",
+      "bytes": 41009,
+      "sha256": "c5ec484a0703376abdea994fe1ff297d85eb969da267ab751540723a93b13dbf"
+    },
+    {
+      "path": "raw/evidence/source-manifest.json",
+      "bytes": 12714,
+      "sha256": "1d09604ed1b26afa2e9a41eb2f15adac2a64d221606f4ebc443f0296fd30b1b7"
+    },
+    {
+      "path": "raw/evidence/supplement-manifest.json",
+      "bytes": 1772,
+      "sha256": "f210c63b53776b3175a85d2b44ca4dadcb7aab9d1f2023021d3d8fc6eb23487e"
+    },
+    {
+      "path": "raw/evidence/swe-audit.txt",
+      "bytes": 8489,
+      "sha256": "09654464c40eb1407878341a05f367c76f4d04b1c5af2a04f9b3e15f43f9dd7b"
+    },
+    {
+      "path": "raw/evidence/swe-pro-v2.txt",
+      "bytes": 68006,
+      "sha256": "b24ddf78648874a7c10c708eb4ea51ae1b32d563a637b0e32136a165b0c3f694"
+    },
+    {
+      "path": "raw/evidence/swe-pro.txt",
+      "bytes": 64341,
+      "sha256": "2fcbfa8e8a98cd1e349b04ab2e07f7a4705d6271df29e36a0353d756b4d7f9a8"
+    },
+    {
+      "path": "raw/evidence/swe-verified.html",
+      "bytes": 527015,
+      "sha256": "bc1f2a2096ad93af726122870525cb74c545c46f7339647dbc80c723a26d3c8c"
+    },
+    {
+      "path": "raw/evidence/swe-verified.txt",
+      "bytes": 131576,
+      "sha256": "753bac0614806203c566b23c6710299eb2477bca4f8df0f511064a9c30d7beb6"
+    },
+    {
+      "path": "raw/evidence/version-manifest.json",
+      "bytes": 795,
+      "sha256": "a5cc371d7376d9cb3a01a134bec44d42d48dece32d525da00ef3ff3358112a14"
+    },
+    {
+      "path": "raw/industry/queries.json",
+      "bytes": 1436,
+      "sha256": "85e3e119dcc376398af853efc947c44368f80731b40cfdfbe339c8b7d8db51eb"
+    },
+    {
+      "path": "raw/industry/query-01.txt",
+      "bytes": 69400,
+      "sha256": "fe15a3cbdc732d66597a69f562fcb4353b9fba0d4d2927ad373417b7a6569e16"
+    },
+    {
+      "path": "raw/industry/query-02.txt",
+      "bytes": 19100,
+      "sha256": "c2943d0921bcdc1ce7dca702dd17e60d6dfe49f0f9c649169a0dd2abd37bec61"
+    },
+    {
+      "path": "raw/industry/query-03.txt",
+      "bytes": 19702,
+      "sha256": "5a60f32f121b88d73f90b1a1dff489d87bc858ba0f11cdd12375bb0613c9e91c"
+    },
+    {
+      "path": "raw/industry/query-04.txt",
+      "bytes": 247,
+      "sha256": "6422007752080d918b64fd784ff0e70f6a34604b0e9da645e93858c45e1d360b"
+    },
+    {
+      "path": "raw/industry/ramp-inspect.md",
+      "bytes": 17151,
+      "sha256": "49927422531b3ac1fd130b5e62e6e37cb9ef2a1734cbf04c97624d9bb08b70b2"
+    },
+    {
+      "path": "raw/industry/shopify-harness.html",
+      "bytes": 254973,
+      "sha256": "c2c6dc18cb7a0448ad1e00516d7bb3550824055011b8a835abb74b1f1d2b9ef8"
+    },
+    {
+      "path": "raw/industry/shopify-harness.md",
+      "bytes": 12303,
+      "sha256": "632169f36d33f0ad34ba72839e87304aded2927473823e9f50ae8e812bbb3c1f"
+    },
+    {
+      "path": "raw/industry/shopify-helix.html",
+      "bytes": 250442,
+      "sha256": "8acf53d31cc99a80360bfe26fa16aca9c610d4c5d439d7857d3227d80c89a41c"
+    },
+    {
+      "path": "raw/industry/shopify-helix.md",
+      "bytes": 12392,
+      "sha256": "6a42b26832dac842357bf8459574ffa31f5417d13c66235c452533f95677c1b3"
+    },
+    {
+      "path": "raw/industry/shopify-river-remediation.html",
+      "bytes": 249812,
+      "sha256": "9b3f1edd751a60fde80159fcd962fbb1faa2ff06ab915cfdeb2dbbeadbab20b4"
+    },
+    {
+      "path": "raw/industry/shopify-river-remediation.md",
+      "bytes": 13148,
+      "sha256": "57a20ffbd705a0ed8a93cff1e5987ab7dafd4dd9f83f6eae8e5a65492e172a3c"
+    },
+    {
+      "path": "raw/industry/shopify-river.html",
+      "bytes": 264509,
+      "sha256": "7e8d1cfe22170f932b7c74f0ac55c86325180ebec5480706febbcfa669c7bc66"
+    },
+    {
+      "path": "raw/industry/shopify-river.md",
+      "bytes": 14414,
+      "sha256": "0a4757fe8f8fbd85255a293e897f170a6f84d2935d617bd319d7d1806e785dd0"
+    },
+    {
+      "path": "raw/industry/shopify-roast.html",
+      "bytes": 269234,
+      "sha256": "df8ce19fc0fd64a192c603d634d0fca8e102b64fbdafc93413ce31bfef76017a"
+    },
+    {
+      "path": "raw/industry/shopify-roast.md",
+      "bytes": 15172,
+      "sha256": "4b656a21b09783638e338515bd64ab1c4897bdcd42463bfe33e1946934042e12"
+    },
+    {
+      "path": "raw/industry/source-manifest.json",
+      "bytes": 9371,
+      "sha256": "bb388faeed047ec72c0d95ad569da3caf954b8205d4e979a4cdd20ac1d2315fd"
+    },
+    {
+      "path": "raw/industry/spotify-honk-1.md",
+      "bytes": 11007,
+      "sha256": "1a0d64975e471689ba37ef6997b3d5e2cfe356b7b7a0475c0f3c8cc56690511d"
+    },
+    {
+      "path": "raw/industry/spotify-honk-2.md",
+      "bytes": 11868,
+      "sha256": "537d3355b133167efca0acf2b9ca9fd59e0672ab6c641e65fc7896a3e4f5542f"
+    },
+    {
+      "path": "raw/industry/spotify-honk-3.md",
+      "bytes": 9303,
+      "sha256": "c66e14ad08c8862f40b538141f2db55107b8bc89d7081b1cf81cb3e61702195f"
+    },
+    {
+      "path": "raw/industry/spotify-honk-4.md",
+      "bytes": 10084,
+      "sha256": "563879b479b06bd48b1b8b29f190b6e633d18f480b9c014a8306eedbd41147ce"
+    },
+    {
+      "path": "raw/industry/stripe-minions-1.html",
+      "bytes": 69273,
+      "sha256": "7f5cb97347113d6ec441457d782e71e7c112a19904bd9cd37998e19ff5010a24"
+    },
+    {
+      "path": "raw/industry/stripe-minions-1.md",
+      "bytes": 9624,
+      "sha256": "8450c4ad460b8f4916438eb94b8ef59b03dae97691e5a7a01f6769eb4462162f"
+    },
+    {
+      "path": "raw/industry/stripe-minions-2.html",
+      "bytes": 74898,
+      "sha256": "2f0221e08e57c8c6d20cd285ec5c216452fab45899aa713bf5fc506a41f40c7a"
+    },
+    {
+      "path": "raw/industry/stripe-minions-2.md",
+      "bytes": 15377,
+      "sha256": "4e0e69adb195acd561db024eecf96f6e9c54a9ed707af88250bc2b95d4b48d78"
+    },
+    {
+      "path": "raw/industry/uber-ureview.md",
+      "bytes": 19382,
+      "sha256": "0a80cb8b09e424ec0d6a07698647575aa8b13d58abb91c7eee601bb7eb75635c"
+    },
+    {
+      "path": "raw/industry/web-search-uber.json",
+      "bytes": 38017,
+      "sha256": "ec5700ea9884cdc8272dfeabacbf8a4699cf56068b0e05e4b17f46e6cafa3da8"
+    },
+    {
+      "path": "raw/lauren/cursor-plugins-ecc249f.tar.gz",
+      "bytes": 4536392,
+      "sha256": "174f3d67bb64c53ca4b2d738cce3bef790018d3c504b6fa57b652e1a61586c34"
+    },
+    {
+      "path": "raw/lauren/exa-initial.txt",
+      "bytes": 30430,
+      "sha256": "9bdd9d8814cd2a42e80f13c240f505f692e42ae641da0ead85eee39e213971b7"
+    },
+    {
+      "path": "raw/lauren/interview-2026-09-27/acquisition-provenance.json",
+      "bytes": 784,
+      "sha256": "982641a45965fcc9fa80fc51334b535ffd5c4985e2ed5e09c565709ee2a1e66d"
+    },
+    {
+      "path": "raw/lauren/interview-2026-09-27/retry.log",
+      "bytes": 751,
+      "sha256": "2aecc38ec201fd18d79dc3e3991933ca700e745770f7c1d254012a9719995d4c"
+    },
+    {
+      "path": "raw/lauren/interview-2026-09-27/run-status.json",
+      "bytes": 293,
+      "sha256": "69fc62598bb5e223edcbcf8bcea502545e95556a66e9ddb637f598a3e8ec98a0"
+    },
+    {
+      "path": "raw/lauren/interview-2026-09-27/transcript/youtube-browser-export.txt",
+      "bytes": 53647,
+      "sha256": "58dc8ec720f9d804929d567c861401ce07c0374fba1ffbd8a7f24d41051b8858"
+    },
+    {
+      "path": "raw/lauren/interview-public-page-web.json",
+      "bytes": 4810,
+      "sha256": "3a96ec3bf15bff3188b13bf5689feafcb0b7ff127b07ac87d0ac0af298b2c564"
+    },
+    {
+      "path": "raw/lauren/interview-public-page.html",
+      "bytes": 205237,
+      "sha256": "e7c3baeff3a90e1d7f24530a189b11eeae340927a9a6f97d38f9ba027da788ce"
+    },
+    {
+      "path": "raw/lauren/pr419-files.json",
+      "bytes": 29432,
+      "sha256": "16ef413fe5441a595e4cf76201c547f42421ce7b2f92434c8d4c1e0ba0acc463"
+    },
+    {
+      "path": "raw/lauren/pr419.json",
+      "bytes": 22250,
+      "sha256": "384c0c12808ff8a1177787c0eecefec6022ff7d4ea75cb310f29e416b98044d2"
+    },
+    {
+      "path": "raw/lauren/pr422.json",
+      "bytes": 22271,
+      "sha256": "0cdf8d3ca8f508e9e226d7669b44516884454537544e68fccdac075f5655f689"
+    },
+    {
+      "path": "raw/lauren/pstack-source/.cursor-plugin/plugin.json",
+      "bytes": 721,
+      "sha256": "0fc91a08dab312d166a11f2c2cb8b699f19627415f001e641fcfa7aea9ba5836"
+    },
+    {
+      "path": "raw/lauren/pstack-source/.gitignore",
+      "bytes": 30,
+      "sha256": "8ffe9de56bd30c1a95cd945262d6e3ac355ada4111551dde41f67851b9f1fc55"
+    },
+    {
+      "path": "raw/lauren/pstack-source/LICENSE",
+      "bytes": 1067,
+      "sha256": "bc957ca6bee02792566a1a028d105e02e247c6e77cf057061674273da77b200e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/README.md",
+      "bytes": 22949,
+      "sha256": "16262f32aa041d857f2936f3ad6c589648f8e7b5d23e03c3c0a8c76ef99fd08c"
+    },
+    {
+      "path": "raw/lauren/pstack-source/agents/comment-sicko.md",
+      "bytes": 2230,
+      "sha256": "c0fd0383008da45fc78cfac17b9007d62c42f87ad1c8d5c2fb658b1fd01f7c82"
+    },
+    {
+      "path": "raw/lauren/pstack-source/agents/poteto-agent.md",
+      "bytes": 641,
+      "sha256": "c3850be1b97bc97cec0568ed8b26d04e7693c4e07868137c58fe546d37f288e9"
+    },
+    {
+      "path": "raw/lauren/pstack-source/assets/logo.png",
+      "bytes": 361140,
+      "sha256": "672f6791589ef758b0ced2c4c477913fa2758623c438e265639a0d539ce90695"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/FOR_AGENTS.md",
+      "bytes": 7460,
+      "sha256": "a125e317dec1b8731fdc71f404c669f1127a73af932f7a7b8b8744a5542328a7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/README.md",
+      "bytes": 1321,
+      "sha256": "ca3c42cbb7f0bf7068f7407eb355815e6c234d5c2786942f3cbe751a3690024b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/reproduce-and-fix-issues/SKILL.md",
+      "bytes": 14238,
+      "sha256": "1363cc07343fe86aab42853b1bd4563288cbcbdf12f1c265b3b3b1afa25c09cb"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/reproduce-and-fix-issues/references/control-adapter.md",
+      "bytes": 5517,
+      "sha256": "58b0615d2fca895f9a20df83266e280042b0d585b5f2fd324e2094a682fd846b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/reproduce-and-fix-issues/references/feature-map.example.md",
+      "bytes": 5646,
+      "sha256": "1e5c7c8522daec3e43fcc2e73ceb97289ded65b552949ce65a11cc8eb3d2b6ee"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/reproduce-and-fix-issues/references/verify-existing-fix.md",
+      "bytes": 3149,
+      "sha256": "c90eae00abcdec71a58fa8d60f2c495b082a526ad50b8e8e494837609129bf29"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/setup-benny/SKILL.md",
+      "bytes": 13992,
+      "sha256": "5a3cbe63360c9f6373b6cb6c79a1eaf7e0eba181bfaa1577e2e6431af3407282"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/triage-issue-reports/SKILL.md",
+      "bytes": 10320,
+      "sha256": "216a758b8711e64d19a55e6032c496527daac6364d010611040f3c04ef1a448f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/skills/triage-issue-reports/references/routing.example.md",
+      "bytes": 1892,
+      "sha256": "e5e53013692568cf69da8e8b302fff929fe2fbc9aec1a4651fd7997e2c7a4025"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/templates/configuration.example.yaml",
+      "bytes": 2424,
+      "sha256": "13e24b4ce9b9a0913916e85fe3b080b88d45f8e55dccfe8ae38e0751a997b6f5"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/templates/reproduce-automation-prompt.md",
+      "bytes": 1822,
+      "sha256": "71ec574f1844e379394ae4ef14c48d7df10afbaa319d395c788d7f856f0e6899"
+    },
+    {
+      "path": "raw/lauren/pstack-source/automations/benny/templates/triage-automation-prompt.md",
+      "bytes": 1569,
+      "sha256": "e0bba594547834f013ec805915610eb597e7929efe3ffbe85ae00339ee16d474"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/01-setup.md",
+      "bytes": 2955,
+      "sha256": "bbac20e25fb097029e2676ecf3212f4a72f566eaf2b1031b56317aa1e4fdf490"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/02-poteto-mode.md",
+      "bytes": 4728,
+      "sha256": "379a1b2c9cd2ba54032b2b142563328d0f3d65039f067863d19b1d4c008737f5"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/03-understand.md",
+      "bytes": 3516,
+      "sha256": "16f3fe0f7df092a5c69dac90971ef57e63a8a9ae926eed851285c7bfddc0f3fd"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/04-design.md",
+      "bytes": 4866,
+      "sha256": "21e820ff73c0b70682aa570a967ede446b4d7caf62e8f391d0dd733ccb74874c"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/05-build-and-clean.md",
+      "bytes": 4763,
+      "sha256": "6bd421b43a3cf9fec3cd201fd40ce65fd8c657264eac48b0c9a175b6afd7c252"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/06-verify-and-ship.md",
+      "bytes": 6000,
+      "sha256": "c93cd50c0359ce875a82b3f7d64eab102a4b0815dbbecdb8e0e5e910bd2d18e9"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/07-overnight.md",
+      "bytes": 5447,
+      "sha256": "5033d61e8b4b6fb0b2304b2132f26bf0b6aee685aa4ed53a76a73cf0ac1c3557"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/08-principles.md",
+      "bytes": 5233,
+      "sha256": "3ede7c9cf74d9631142aec016a01843d97c1e20469387144b70c2660d50fa96f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/09-make-it-yours.md",
+      "bytes": 4641,
+      "sha256": "b98588a232a38ca7acebbeecb95ac771df1981aed662dcb45c96b4b66ed20ec0"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/10-recipes-and-pitfalls.md",
+      "bytes": 4598,
+      "sha256": "a4662cd98870f08c6abe117a832abe37670ee84f8ed25dcbe7e99ef4eb8e05e0"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/README.md",
+      "bytes": 2011,
+      "sha256": "0db8dd72e832c06638ca2f43489e8597d44dc0ea8da3b5088e4382ea26d904c5"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/design.jpg",
+      "bytes": 402373,
+      "sha256": "b8ed07427f6a0c37dd8ba97961fc0eb5071efeee6c4a230648bdb7547f6f2a8f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/overnight.jpg",
+      "bytes": 347071,
+      "sha256": "4b4405e4df8925c5b3abbe702f681af0f3b1f5f32271b599f95717f578f1a0c8"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/recipes.jpg",
+      "bytes": 410550,
+      "sha256": "9fa2d51b476635712737795ddef81806efaa0086bb3bfa9f9f45695d9ab0f8e8"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/router.jpg",
+      "bytes": 450945,
+      "sha256": "525843055a4efd2b10acc50a8652fd02b0834ea733a8a2f895c1eb89036017da"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/understanding.jpg",
+      "bytes": 376523,
+      "sha256": "b60587e9a9bbe2550e93be9819cf0cd4acf77d90fac769a0c43d82bd8e34e279"
+    },
+    {
+      "path": "raw/lauren/pstack-source/docs/guide/images/verification.jpg",
+      "bytes": 331450,
+      "sha256": "2a76b52007a1cd2866ba67fd47d7d9ef3e1118bb5a09c4665eee8c3f161bd09a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/architect/SKILL.md",
+      "bytes": 5540,
+      "sha256": "691cd39f52c7b613866e6baf9ea0b05451ffa21a6a9b4102f166418b89178fde"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/architect/references/design-red-flags.md",
+      "bytes": 1944,
+      "sha256": "905066f9bbac81c573c2b325be47751d2c0f9325e0a0772bd4384e82dafe9336"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/architect/references/rationale-template.md",
+      "bytes": 3050,
+      "sha256": "0cedfccdc7b47fc881febd5a8293eecbc542c20f8df825639904a8102d2eb5d3"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/architect/references/runner-prompt.md",
+      "bytes": 3087,
+      "sha256": "983bf2820cc14ed8ecab6e448e1033e5cfe6031967d0a9287b48c7fa9c33d925"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/arena/SKILL.md",
+      "bytes": 4973,
+      "sha256": "e3a1f6c49a08b7e0b92134e53300d146f1f22ba83386d2019926e736df421851"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/automate-me/SKILL.md",
+      "bytes": 7164,
+      "sha256": "1510979b0b71b54284427a19c09918f8b1fdfc168f9b7f9e30098793a5ec88ef"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/blast-radius/SKILL.md",
+      "bytes": 3851,
+      "sha256": "5f02db9101ccf26c20254718f0fcd5c2c7ac5d4292b0e0923d0944ac47237aff"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/bro/SKILL.md",
+      "bytes": 267,
+      "sha256": "aa329d0ceeeecb6822a7174ad76bb07a7826a3c52ceb6a588dec4138815084bb"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/create-verification-skill/SKILL.md",
+      "bytes": 5879,
+      "sha256": "644f2551403c1bca01a2855b34611b6e7be0ce0dc5b204514c376c0f6a6e6ac4"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/create-verification-skill/references/feature-map-example/README.md",
+      "bytes": 2601,
+      "sha256": "cb7bd782cf89968a4ba3d58a5151db837430db92d19a6f52a906973b77b516ba"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/create-verification-skill/references/feature-map-example/create-note.md",
+      "bytes": 2926,
+      "sha256": "644a44c74f35d38c2feb7cd05a0121fdebbb623e8dc376c185b565a581d1ccf7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/create-verification-skill/references/feature-map-example/search.md",
+      "bytes": 3478,
+      "sha256": "6e87b9e7f2791a7776ba1bb83f371cd285c306c67f19d245cc4dd6ca3015c823"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/figure-it-out/SKILL.md",
+      "bytes": 4059,
+      "sha256": "0eb9485f0e7d84fee56b5d0f0af0faf4635e3ca87c8cba3970c01293b76ecc19"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/how/SKILL.md",
+      "bytes": 3077,
+      "sha256": "d31805589c7f6a63a6db6c9fadebbd79fb9660682cf1654e9b2e5e1e7cd30bc0"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/how/references/explainer-prompt.md",
+      "bytes": 3085,
+      "sha256": "ddb89cebefc24e2b54517a331aedfe045b6971e101f45c71b8cef4cccff45bff"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/how/references/explorer-prompt.md",
+      "bytes": 2684,
+      "sha256": "a3b44a6e5bb16a6d4d1cac19db8ed5322ffd5f5f5d45baca4e73990ca096f8be"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/interrogate/SKILL.md",
+      "bytes": 5054,
+      "sha256": "59d498c3e9848a24b2d105eb3f05b808aa4152adf4cb1de7bbb6aff4f4cd9b68"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/interrogate/references/code-quality-review.md",
+      "bytes": 5217,
+      "sha256": "79162fda183eafd40d51661fbb5e151c7ba250f89e506ba17f5bd135dcbd50a8"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/interrogate/references/lead-judgment.md",
+      "bytes": 3465,
+      "sha256": "6e5bdf5670eb34017692e9b6c546f36ac7552e6bb9f3f2f3429164fcc46a9361"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/interrogate/references/reviewer-prompt.md",
+      "bytes": 2491,
+      "sha256": "e0598e254792b56de39bb16b1e6db559b03a522fdc54b98f942d254090920ae6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/interrogate/references/rubric.md",
+      "bytes": 5025,
+      "sha256": "a85aa801abbaf14434f00579440abc0d8e2723227ba8bf57de7cca8d6e7d2f25"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/maintain-verification-skill/SKILL.md",
+      "bytes": 4922,
+      "sha256": "515c0eaa054b3f6be1b1fb06f2c2f173c80fddb58bbcac57576f89c479bc68e8"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/make-bot-ui/SKILL.md",
+      "bytes": 4649,
+      "sha256": "3624c8ef16cf2e48deb2a4049e72c6962a9431c8d6c6af90e7bd7ea0375224ec"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/no-comments/SKILL.md",
+      "bytes": 2560,
+      "sha256": "5c5b0882297d704c3a9720c52b7a793c68b013eaf717989f0945624efdfe2b05"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/SKILL.md",
+      "bytes": 19269,
+      "sha256": "7645c9ee27ef9798c48a84060b6df409f8593d1058c7c25cbec28dce976195f9"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/authoring-a-skill.md",
+      "bytes": 831,
+      "sha256": "f6a13a445c360b48d6cd72780ac01955f45b82826476efe0e67c7559329407aa"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/autonomous-run.md",
+      "bytes": 1878,
+      "sha256": "15e54ad3ac92565613980772d8708de6e19cc4690bfd4bb3fb8836522407377b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/autopilot-full.md",
+      "bytes": 8869,
+      "sha256": "975439613b9073b637a88c6df762b474dbd745f0e86150bb07d2121e32eb48e7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/autopilot-stack.md",
+      "bytes": 5209,
+      "sha256": "f626f4ed17725de5ea96ac22597a1c298c46c36015e844bf86a68f6d38d57fbf"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/babysit.md",
+      "bytes": 8289,
+      "sha256": "a0346c37c2313f36a863b80f66ee7b98059c2242adf74fc7b3e48abdb9ec6f5a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/bug-fix.md",
+      "bytes": 2255,
+      "sha256": "018bbc146ae19145caa6c7e70591fee081b64447dda1c1c4b681c9974d928b13"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/eval.md",
+      "bytes": 2524,
+      "sha256": "b862bfa2fae2399abf047a8e80d3e3dddb64003af96fb1cebb625216131e36bb"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/feature.md",
+      "bytes": 2766,
+      "sha256": "3a62cc4a8cbcf144bb9dd05f05420a15be0d38b784d3b141bb730a5852f50a62"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/hillclimb.md",
+      "bytes": 4081,
+      "sha256": "41980da135de2579bb38570e4b3373e015029148734ab5dc7d6103417b499af6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/investigation.md",
+      "bytes": 928,
+      "sha256": "dc66bcf6af3a074fc7f67aa5e12b93ef571a4fb4d8e17f2f1af5ae5359f42e46"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/multi-phase-plan.md",
+      "bytes": 13129,
+      "sha256": "8f8603f97aa57bce07a4c29e83e24e84db62a1fbd1fa5b3f639e1e74ea3c9da9"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/opening-a-pr.md",
+      "bytes": 5319,
+      "sha256": "1c0281f84348aa5dc6f10defbcdd8357f4b0786d874f340ba34bfc169dc6c26f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/orchestrate.md",
+      "bytes": 16779,
+      "sha256": "d42b4375f1bd4ce23da0b575a198571a2117df7eea10c3c9fc6d92ae1053f7be"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/pause-safely.md",
+      "bytes": 1135,
+      "sha256": "77968cfe5f4a71a8cd33e0ae8ffcdbd88dd693a212c240457773e6c40c96c21d"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/perf-issue.md",
+      "bytes": 3074,
+      "sha256": "bb957907426666b7aa599aed3f6ddebf423364a1428f93790b5cb9e15c878e7e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/prototype.md",
+      "bytes": 2161,
+      "sha256": "7aa1f52c691c3d46d5afc527b23f90977fce869ce33573c73c81a4c7f0cde962"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/refactoring.md",
+      "bytes": 3211,
+      "sha256": "50f4f7d3d301551f8b8a57c3303c99958c5ca630ae0d0051823b6987c0eb5b96"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/runtime-forensics.md",
+      "bytes": 1210,
+      "sha256": "594f02c40c243a346e1f57b688ecf2ed5e882f21b3d24ed2204d1ac6f1c24a8a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/session-pickup.md",
+      "bytes": 1678,
+      "sha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/shipping.md",
+      "bytes": 5439,
+      "sha256": "19f3f6803a7bbe9ff04f624b03e3b55f07ac0a05e991aa00d5fe51239b920b2a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/trace-forensics.md",
+      "bytes": 1865,
+      "sha256": "137ce3984fb96e45971fdff4d3c79fa4ccc647c5b30ae4945783b9fb23f8cec7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/visual-parity.md",
+      "bytes": 1197,
+      "sha256": "950ca51999a6454c98eee6bcbc3d1bbe501a4e3a5d5439b6f6ddc378991b256c"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/playbooks/worktree-cleanup.md",
+      "bytes": 2932,
+      "sha256": "fc464dc4121926df1704f483c5feca83717c0a40b4651d3e11bd3aedd89441b6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/references/bugbot-triage.md",
+      "bytes": 9629,
+      "sha256": "b2d146c770d8d3593e1ef3d77b668039b8e1f78093ea1a86f1d45d7f99614309"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/bootstrap.ts",
+      "bytes": 1737,
+      "sha256": "ccd2ed08fd9da9d0d942e5f2491cfc74bb92d8a08fa51755e0da1ac8de287361"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/bun.lock",
+      "bytes": 6679,
+      "sha256": "667d9cf7222e9aae3fa42a4be383e657784216e9df115da02227fbc5ac7bbe46"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/check-plan.mjs",
+      "bytes": 7684,
+      "sha256": "1f9e788ce90a13a9973e35e8c3a52737857c375e057bdccc13c8510a9af30f04"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/orch/orch.test.ts",
+      "bytes": 18424,
+      "sha256": "174b86d21ff51ccd28d1a8c938cb2e0c6fa287b209d4ca6c03932fcb1b53372e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/orch/orch.ts",
+      "bytes": 15511,
+      "sha256": "f091687df627a0b75fabd54af58945a9cd6c7039ef0622012ac9ed60cd8ec434"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/orch/store.ts",
+      "bytes": 42927,
+      "sha256": "0eae7cf69282e827b1227166f2e32cee3560f2f3e65b3f1f2faf6fb83d3b4c5b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/package.json",
+      "bytes": 352,
+      "sha256": "d1f815091209d49763775cc188e8e06ff32d5fec648bffd2272bc25a165e87c3"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/cli.test.ts",
+      "bytes": 6161,
+      "sha256": "a35592b4c6da96caf8d47987e9cd503fab6c7774ab87d11a43f24b4b5df2a9d1"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/cli.ts",
+      "bytes": 6983,
+      "sha256": "89c08863089181a232be782c4b2ed90a1552f44aeecb0dcb7aac2c623620e680"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/fakes.test-helper.ts",
+      "bytes": 2944,
+      "sha256": "e53e31b7f03068063f53a99a3591b052aaed66e4e2b196b3a364980f60324ab1"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/github.test.ts",
+      "bytes": 9059,
+      "sha256": "0cbce011050522938523e36bb42a260e92b812dcd2076930fa681672ad316b24"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/github.ts",
+      "bytes": 24072,
+      "sha256": "d1bbbafbe8e2c703c84da2029de7f2c4011412512f8cf65a42100f46bcb92c8a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/policy.test.ts",
+      "bytes": 12397,
+      "sha256": "a9fedb25feefd1f57ef6a662f80c99018690170a3a8070773a08eaf694d1d3d9"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/policy.ts",
+      "bytes": 25132,
+      "sha256": "68d240505852cf23c9b2dea463342e9e61243f486b3cc86c735d140f9ee7be49"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/render.ts",
+      "bytes": 7083,
+      "sha256": "2b709e86628d5b8fdb61f860e60ababc342b0626c67576305442cf548283a604"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/tsconfig.json",
+      "bytes": 270,
+      "sha256": "1ecccc72320b086c63ce3f73c959896fd747363e63553b3b1136296ea4069e45"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/types.compile.ts",
+      "bytes": 2258,
+      "sha256": "621af4c9a664fbf699a9737efccdc248abb416df8819c9dc5f824beae2b9b1d6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/types.ts",
+      "bytes": 12359,
+      "sha256": "64ba6221e3bfe61bbb292337d199cdec6309455477280efb060203dba34e0e91"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/watch-pr/watch-pr",
+      "bytes": 211,
+      "sha256": "d955603be6cc0e8b8ffcec722f635192b2261410b1f2929abea94480e47eb5d4"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/poteto-mode/scripts/worktree-audit.sh",
+      "bytes": 3984,
+      "sha256": "95b8530f3c0ccada8cabc4b0727c052fbc85c141531375aaace65c427af8aecc"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-attack-the-premise/SKILL.md",
+      "bytes": 1941,
+      "sha256": "c87bd7536f772f8a403ad8155535ee17a1bbec9a353156693eb3bb1520c87ae3"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-boundary-discipline/SKILL.md",
+      "bytes": 1883,
+      "sha256": "62ac2862c2caa22dd14531f51c9c6bb445ceb198ca98a687e25b4d47c1f10a28"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-build-the-lever/SKILL.md",
+      "bytes": 2458,
+      "sha256": "458b269eab8e95a1573276955312f7d2a13ae8599879a9efc748248f6bc34b56"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-encode-lessons-in-structure/SKILL.md",
+      "bytes": 2211,
+      "sha256": "77044c83a9ac6df78fc643887ea5f1f11f082adaf14b717c060cdaed03cce863"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-exhaust-the-design-space/SKILL.md",
+      "bytes": 1152,
+      "sha256": "8583310d7297b7823d75494faa57b003564d436807febecdecbd8321abe5cf6e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-experience-first/SKILL.md",
+      "bytes": 1184,
+      "sha256": "58903529d733b1c1a7c9ccf127d45ef3c7d0d9f0b81164a4dc6b80efe6f2912b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-fix-root-causes/SKILL.md",
+      "bytes": 1246,
+      "sha256": "ba4cd38da1dcc8fe5432feb64457cba95594736a9b21b2ebf8f8c52aee068707"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-foundational-thinking/SKILL.md",
+      "bytes": 1530,
+      "sha256": "864b827e8199d946ce58beca0f89c4ed4099ed6e426fb698a3aaa45de2a9eea2"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-guard-the-context-window/SKILL.md",
+      "bytes": 939,
+      "sha256": "d2cef147862576e3d709b7afc149d85196245e8338b9c7eef337c95fba412b3e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-laziness-protocol/SKILL.md",
+      "bytes": 1371,
+      "sha256": "9006579e9e3f33955d17569733db688ae65f22577dc3b21803d219a5a8445aff"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-make-operations-idempotent/SKILL.md",
+      "bytes": 1390,
+      "sha256": "540738217c3da7bf513b9886924ad6a2bc77e58be867f5bd2e1831c74bf2ce70"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md",
+      "bytes": 1146,
+      "sha256": "09978915a4a11990cf0a9a02d9c08cc59e0b7a04c5c24b83aa560fbe4146f75b"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-minimize-reader-load/SKILL.md",
+      "bytes": 2095,
+      "sha256": "42551c5dc74cd578163c148da552db3ff67d29b78600ef216bfd311fb828fe69"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-model-the-domain/SKILL.md",
+      "bytes": 2082,
+      "sha256": "bbadbb9a723fac3f76e782ae45665eb94058ec10993e4bae36d4dc6b0e4eac07"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-never-block-on-the-human/SKILL.md",
+      "bytes": 1172,
+      "sha256": "f2764bb9338cbfc788c903cf4b9cd0a5f4042d3a04dd6d59cbd525d9beaadd0a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-outcome-oriented-execution/SKILL.md",
+      "bytes": 1078,
+      "sha256": "10eb91633aa570355ba4bb37088fcade2b22e498df7a58edc749e65bc5a78e2d"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-prove-it-works/SKILL.md",
+      "bytes": 1371,
+      "sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-redesign-from-first-principles/SKILL.md",
+      "bytes": 844,
+      "sha256": "a1c7fd0a96b40e12a74bceb0e6bb20a9666dd844dcabfb624acb27da23b929fe"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "bytes": 1565,
+      "sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-sequence-verifiable-units/SKILL.md",
+      "bytes": 1705,
+      "sha256": "2ccbbacc56ace5afdfb8670cef19d7bd009fb2a0033b9a741cbdf2b6baf72187"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-subtract-before-you-add/SKILL.md",
+      "bytes": 1094,
+      "sha256": "a983a50e732c1ed315eba7aaf47a61329e31c4794eb1ab9d25d9945265b31e03"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-test-behavior-not-implementation/SKILL.md",
+      "bytes": 2575,
+      "sha256": "87e40efe4e486f7ea639d2ed1fc0abe6c93b8fd0e89a81218086909d2470a52e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/principle-type-system-discipline/SKILL.md",
+      "bytes": 4922,
+      "sha256": "c83da8031ffb4c86410030d3e261f659598fca2b7d8158fd9dc269d70a3a025e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/recall/SKILL.md",
+      "bytes": 5212,
+      "sha256": "d265b0e5b6dc5b89c0407f3387d24462c988e1990a37d5359735137908128c5a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/reflect/SKILL.md",
+      "bytes": 4982,
+      "sha256": "36efa48cc4ec2ba6f8131651aae24c6321682b098ed47a1069a7509462bf4a84"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/reflect/references/divergent-reviewer.md",
+      "bytes": 3889,
+      "sha256": "221dfc0abf7cbcd25e1da3cd87323f5d1050fc3bf652e096d093584e183c98fb"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/reflect/references/judgment-reviewer.md",
+      "bytes": 3255,
+      "sha256": "a40ecb9b28bd2a3491e11a541157fe58efe158e0eda7b61a5006c14590aabe61"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/reflect/references/synthesizer.md",
+      "bytes": 4164,
+      "sha256": "2f76c847eb45b182dc6fbcbf7d96c8ee7e2986ecfd9e0d640fec44e3cc5a617c"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/reflect/references/tooling-reviewer.md",
+      "bytes": 4609,
+      "sha256": "bc49ced90fa81eaba3083b88aeb430d900a6d8f14ff40c1d6b52263bacfc77b6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/setup-pstack/SKILL.md",
+      "bytes": 5548,
+      "sha256": "125dd0c8f588782cfb271efae8f97a0719e43e79f56b3495c095f460bcee6389"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/show-me-your-work/SKILL.md",
+      "bytes": 6418,
+      "sha256": "bcff5f7f9fd23f92c12b251f9cd6b947e9485e1055cfacb6fdd9cae0789d7550"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/show-me-your-work/references/decision-log-template.tsv",
+      "bytes": 38,
+      "sha256": "6779378006a2f5225e8c06deb84f1d913fb532041ebbb6e50d94600bfe3f4b76"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/show-me-your-work/scripts/log.sh",
+      "bytes": 1377,
+      "sha256": "a65a4bc5fb7cdeadbdb7b7ff1ca4682f4d9c42420942b2977cd17b46c4ac338e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/swarm/SKILL.md",
+      "bytes": 2947,
+      "sha256": "e28057fbbd1113257b2e953c6e891c41f535dbb01400b6bfd3eb9a85a2ab861f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/tdd/SKILL.md",
+      "bytes": 3143,
+      "sha256": "eeb868e2dfebee528d730a67d7b17498fac4bb85dec2e38bc5c5176aca4d5d2f"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/teach/SKILL.md",
+      "bytes": 5623,
+      "sha256": "bd286e5a6290673be2cd28aef7af2ec7f1fb138e6bce156ea657368c7e7fc8a4"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/technical-writing/SKILL.md",
+      "bytes": 10205,
+      "sha256": "10c74685e1639cc4f8ff096007e5405b25ca0e824b65aaa17105c238faf6a1e8"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/typescript-best-practices/SKILL.md",
+      "bytes": 2684,
+      "sha256": "28f9e61710e205f6f3c5476f333483cff0e988f6a5b639e2faad536344b40c5e"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/typescript-best-practices/references/patterns.md",
+      "bytes": 8860,
+      "sha256": "62e9cd32d2fa066a35d0d1349aac22dce31a48ad7d5eaf142570770cfe707384"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/unslop/SKILL.md",
+      "bytes": 6015,
+      "sha256": "195411d320b5b328f9f642baf59757ed19aaf0931c0838740e0aca273d538dc1"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/SKILL.md",
+      "bytes": 10360,
+      "sha256": "2a852ec8680920109d2b56538b027c52867896a597250ac5d18a13e0b42e5b06"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/epistemics.md",
+      "bytes": 7749,
+      "sha256": "fcc0f559c072832c869a5ada72434b4849320a637ae63c09e8ee14f7ad787059"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/investigator-prompt.md",
+      "bytes": 6985,
+      "sha256": "6892956a7ab0b5ee6c4babaf4f793703abe89b350ea7cb9463b4a56eea1c8266"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/source-playbook.md",
+      "bytes": 1363,
+      "sha256": "9ae9dcb9d09111c9facc68510331c5aba4aed9b1b057314ff1fc0e166ad3993a"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/code-archaeology.md",
+      "bytes": 3489,
+      "sha256": "8c14aa382f0de40829b2668d43e3f54814480bb93a486c9282ada4003f6b9dbd"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/databricks.md",
+      "bytes": 6994,
+      "sha256": "236ede7aab6454662a992db088a5393537a5233a4c26719c93188f9e174488f6"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/datadog.md",
+      "bytes": 5323,
+      "sha256": "ebe9c07bac28e47757ee7f16fb93b0c01d427a08c501957d047f395a2f37b7e7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/incident-postmortem.md",
+      "bytes": 1973,
+      "sha256": "a899470f05f86029630a13a2696491cc708ca7b56a6e822a69ff6e954d6ff8cf"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/linear.md",
+      "bytes": 2996,
+      "sha256": "01304e7f1badfcfb78babbb0edcadeb3cc8dd3f713793420cdff24ba190f907c"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/notion.md",
+      "bytes": 2853,
+      "sha256": "3bcfa695c49dfad4ac036d5d7181c12585f55ac04f1936198d16ab75a2788997"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/sentry.md",
+      "bytes": 4947,
+      "sha256": "6f292bc4fb1548e956f95e1900b9481abf5134254419f1cd9edec95428c82d73"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/sources/slack.md",
+      "bytes": 3105,
+      "sha256": "58fee61d024b3700b407e7acbed367944720ff05adfddb6954d36c88368f3ba7"
+    },
+    {
+      "path": "raw/lauren/pstack-source/skills/why/references/synthesizer-prompt.md",
+      "bytes": 7984,
+      "sha256": "733a3e9cf897b1aca56aaddeae01a3832e4bfed024c2f602db2d1bf807d7a73b"
+    },
+    {
+      "path": "raw/lauren/source-manifest.json",
+      "bytes": 3395,
+      "sha256": "73b089f49a6650d58dce9b7815100dab807b071237ba6201a5f9bd6fd3441403"
+    },
+    {
+      "path": "raw/lauren/upstream-head.json",
+      "bytes": 7614,
+      "sha256": "7de0fd293ca08b879043304b279de540018fa36ad4a49db03b8a22625dbfb558"
+    },
+    {
+      "path": "raw/lauren/upstream-history.json",
+      "bytes": 266230,
+      "sha256": "195778abb84a85a1bffc102a42fe2c980431336a38b81306f7db90243288cb81"
+    },
+    {
+      "path": "raw/lauren/web-search-02.json",
+      "bytes": 34907,
+      "sha256": "6df534bb2c170e1cf320cf31e027591df756ae27213b9bc3a03c8f21db075b4a"
+    },
+    {
+      "path": "raw/lauren/web-search-interview.json",
+      "bytes": 34095,
+      "sha256": "9d90893b6f85132b668ec40069222fff9c082d1f32de422ff244c056051e7fe6"
+    },
+    {
+      "path": "raw/lauren/x-poteto-latest.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/lauren/x-poteto-latest.stderr",
+      "bytes": 1352,
+      "sha256": "f5532eb86ed1bb13b810c63b84b3b21c03934ba9c9334a9b144c4dc08180eeca"
+    },
+    {
+      "path": "raw/lauren/x-search.json",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "raw/lauren/x-search.stderr",
+      "bytes": 590,
+      "sha256": "72ec95ab71465105b9648f069755d9ff7fd9e5f8d09bbbd847b25376b88b6150"
+    },
+    {
+      "path": "raw/lauren/x-visible-notes.md",
+      "bytes": 1280,
+      "sha256": "a75a8b020ae819cfbc4862413ae0e6e1c7f12f070c8df5cd0c5f7895ee7f9ba3"
+    },
+    {
+      "path": "scripts/archive_index.py",
+      "bytes": 5084,
+      "sha256": "c0b537e8fa46406f80162594e0d06edea243c2f3035e9de09a21960af1aba1f4"
+    },
+    {
+      "path": "source-manifest.json",
+      "bytes": 52260,
+      "sha256": "1f62a0eafc71982e84a9034449738f06e0cac59974499167eb1cd58e81187790"
+    },
+    {
+      "path": "sources.md",
+      "bytes": 20243,
+      "sha256": "92900c467c3f193d9e47e1de4c229dd35d483e1a05a3a821382ae1593e9fe3b8"
+    },
+    {
+      "path": "supplement-videos/README.md",
+      "bytes": 1631,
+      "sha256": "3272fc26ed6084d2d439e20a7003ea0cc1f0b22fea222ffd62f9e595c91a3c26"
+    },
+    {
+      "path": "supplement-videos/acquisition.json",
+      "bytes": 1147,
+      "sha256": "24e55d5157a2a9dd3e7877aa7d4bbaa42c7cac3168e489b2ad3f47bcb47abcc2"
+    },
+    {
+      "path": "supplement-videos/analysis.md",
+      "bytes": 12388,
+      "sha256": "a08f930acfd029e373c2e3b1350fa4b9199931ebc06d388e7e10471751042379"
+    },
+    {
+      "path": "supplement-videos/intermediate/factory-video-notes.md",
+      "bytes": 10890,
+      "sha256": "8b6060c757d511009fb08e25d2896275ff4f1c1c60f1197dc1d951ad5600b712"
+    },
+    {
+      "path": "supplement-videos/intermediate/pi-source-check.md",
+      "bytes": 9088,
+      "sha256": "c3243967094680af40242facf283849d42752fc13f07014fe71602ab878da8b7"
+    },
+    {
+      "path": "supplement-videos/intermediate/pi-source-validation.json",
+      "bytes": 172,
+      "sha256": "5154bf820f8ba2c52862003974dec60e658d4e01094d64e4d8eb69a26474f781"
+    },
+    {
+      "path": "supplement-videos/intermediate/pi-video-notes.md",
+      "bytes": 9259,
+      "sha256": "c96cf66b1c4e99a5558556c3e4ac22b5fec3bdede8a86b3c037b712f1f4ee276"
+    },
+    {
+      "path": "supplement-videos/intermediate/review.md",
+      "bytes": 3818,
+      "sha256": "4519b607ba1f315640714d33b10d1630909de06d996c225d125ca999bd642b36"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/description.txt",
+      "bytes": 2059,
+      "sha256": "c4abaea5c8bf5ab7edcf7f27daa3225ce1a57dbfb1bbd26f4a6f8b4596647c9d"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/metadata.json",
+      "bytes": 3972,
+      "sha256": "84823c27dcc376a71040f70aec0b34a3531b9a34c754a8e5b8d4a37b24ea95bc"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/official-talk.html",
+      "bytes": 179605,
+      "sha256": "b2255b010aa9fdb3b6b386c73fc9f3e3a5b4bc161191f61abdb0a3ce9cc5b3ea"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/prepare.log",
+      "bytes": 1007,
+      "sha256": "bbf0ea1e3d5e99d4d88ae073458062c556ef4599bf11f1c25fe02898f1664c0a"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/retry.log",
+      "bytes": 427,
+      "sha256": "64719be6d4cb9a99b55a52b1e8ac520f9c53dd8edeff262cd83120a47302a8db"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/run-status.json",
+      "bytes": 295,
+      "sha256": "282fc9d1601b6a91fca90199779f16f826ac2a905ceb4a9502880a3b61292c56"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/source/ow1we5PzK-o.info.json",
+      "bytes": 566166,
+      "sha256": "eaa586fcfa7f68fa59b7e69ff3b8135a13fbdf24c9124909f7bcaf5eebc274fb"
+    },
+    {
+      "path": "supplement-videos/raw/ow1we5PzK-o/transcript/browser-export.txt",
+      "bytes": 21719,
+      "sha256": "a01b359f350e212dd67d1040538573ce42ed26532975e6dd58daf6be8092edfc"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/commit.json",
+      "bytes": 211006,
+      "sha256": "4cb01d6014c64fd614ed30bceb8306ed026846201046e05d4309b7877d8f3e93"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/REVIEW-REPORT.md",
+      "bytes": 6590,
+      "sha256": "24674d1f8b0eccaf4b4072bdfbe940f24cc8ce8f8e951b28341757f291051d15"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/dev-manager.md",
+      "bytes": 3901,
+      "sha256": "727b982e586886954edf9b84b598bf4eb8caf62289fcc5d07181d259b0144270"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-critic.md",
+      "bytes": 4101,
+      "sha256": "baa3c3bd9212d3c859903eaabb1d56e816322417952c903ce5e5bb62e4fd8140"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-deployer.md",
+      "bytes": 2591,
+      "sha256": "1831f0aa294b5b9c11025814c7bb30a931c6b890e9616db3df41e3aeee46f341"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-designer.md",
+      "bytes": 3706,
+      "sha256": "71dff81d7f4946105b919dcefd2a3c5386051b09cccdf8524c7dddd2e1b81023"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/game-developer.md",
+      "bytes": 3602,
+      "sha256": "67ddc554d0e758dcc331bbfe87d2b708ce8dfe09174cf243178be6162063c1c3"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/qa-tester.md",
+      "bytes": 4334,
+      "sha256": "32de57eb8367e1b12a9a4a25f42e52d0d3d2163f74a6f86d356b79b08c8a2f1d"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/agents/ui-designer.md",
+      "bytes": 5201,
+      "sha256": "a86580ac4305d4acf4e955015471e07c604ed050f7454bb5f39bda98d89f8236"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create/SKILL.md",
+      "bytes": 19808,
+      "sha256": "e0ba25be75e776721d1c595cf6972f2c0532498e7862a2b5431e6c16537d8033"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create/references/contracts.md",
+      "bytes": 11960,
+      "sha256": "9c42c67c76243d8d987e7b4172d483209103ce9c7c241d8160ec04ff5c678bb1"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/game_creator/workflow/game-create.ts",
+      "bytes": 2480,
+      "sha256": "6cd56c01a6eae4497a90ed87e48ffe85adadb33179db7e98eddc42eeb66451aa"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-critic.md",
+      "bytes": 4597,
+      "sha256": "3c24569d2f9586d5b0cc9d673ff472fc7d890be3a9a49f6306e151326cc81337"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-designer.md",
+      "bytes": 6210,
+      "sha256": "521f0034b997ef5f1c6fab040f3f6d5cdc396c5eae4dea6dd04bef2cdf648fd9"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-generator.md",
+      "bytes": 6252,
+      "sha256": "7bb3f07d2d266d0cf612382784176591766043bc2b9974804d436ee199acb41d"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/itinerary-synthesizer.md",
+      "bytes": 2433,
+      "sha256": "f37e5a02f8cda70a189ea141d8ba75f454351ca8354fbd421986d6ad51f7f35e"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/agents/researcher.md",
+      "bytes": 2402,
+      "sha256": "082f76883bd7cfe66ec724d67b2b10195050351bb5012a420e8f4dbe393e0dee"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/SKILL.md",
+      "bytes": 17776,
+      "sha256": "157a9a14031e17f16c0dba24f4f057818114998ce5ac0cd8140dc0d4af29e1d6"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/references/contracts.md",
+      "bytes": 6764,
+      "sha256": "07b289f8924e2cd26bab43ec4e80373a56675c01de90129dd4aed49357778647"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/pi_agent_subagent_workflow/tour_planner/workflow/trip-plan.ts",
+      "bytes": 1953,
+      "sha256": "171321cc635218f0ce165f3643a1552d2ce79a917e48d09e4fab86d913f46c4a"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/source-metadata.json",
+      "bytes": 12174,
+      "sha256": "bfd96847cc73906574d54f2325fa3162720f4b920e3f7b7ac6cc5485798c05b1"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/static-check-results.json",
+      "bytes": 5105,
+      "sha256": "9d6a020fd370e8325c473463f929f9d79b6dff10c38205cb5305ba4f09efec9b"
+    },
+    {
+      "path": "supplement-videos/raw/pi-example-source/tree.json",
+      "bytes": 32186,
+      "sha256": "a85fc7a8d97111505bb2539df168248c6e6bc9027a17cba8644746f20533c645"
+    },
+    {
+      "path": "supplement-videos/raw/visual-observations.md",
+      "bytes": 1847,
+      "sha256": "e6cd2c00e571ee4f05d8b761e5a51f2a7bd6622d0b41ca67965c1194f76a3723"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/description.txt",
+      "bytes": 2041,
+      "sha256": "8de9e267663f1f79e065d6996ccc7e4ef2803a7d3e47dd68be9188fe25d803e7"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/metadata.json",
+      "bytes": 3731,
+      "sha256": "b4fe66a9a676638aaa31298a3d48d325a79c77a754116a6360ac07d0ce47f9cd"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/prepare.log",
+      "bytes": 1007,
+      "sha256": "eadbec77f48713e1c4812a9c236a6e272363b4f955b07fa6065ee725181c89cd"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/retry.log",
+      "bytes": 427,
+      "sha256": "ab1786080ae606eafa136717bdbb0973b3131b1902bb61e6f6d21a873da77dff"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/run-status.json",
+      "bytes": 295,
+      "sha256": "4e5c18da97b9fcf9bf8bdbf3c8b21ef65087b81e054a82bffce4ce7febef7893"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/source/y1TXjYlRjBU.info.json",
+      "bytes": 76675,
+      "sha256": "78ac1c24a0c4e09f1cf7e5f79429f306592c25d678f7a89b199902e5c6e148d4"
+    },
+    {
+      "path": "supplement-videos/raw/y1TXjYlRjBU/transcript/browser-export.txt",
+      "bytes": 38151,
+      "sha256": "1eddfc477768b76ad7ec0f8f7538fc73a1cb0d63ee069af9937be2922f003823"
+    },
+    {
+      "path": "supplement-videos/source-manifest.json",
+      "bytes": 16830,
+      "sha256": "77ecf0263ffd8444fee1564ead1c033af6500efc8ec06638399bc3d68d46da51"
+    }
+  ]
+}

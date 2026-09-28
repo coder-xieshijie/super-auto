@@ -1,0 +1,80 @@
+[
+  {
+    "id": "L01",
+    "title": "Official pstack fixed source archive",
+    "url": "https://github.com/cursor/plugins/tree/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack",
+    "path": "raw/lauren/cursor-plugins-ecc249f.tar.gz",
+    "date": "2026-09-25 repository HEAD; pstack last change 2026-09-23",
+    "method": "gh API fixed ref archive; 158 pstack files extracted without running them",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:02:23.938270+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 4536392,
+    "sha256": "174f3d67bb64c53ca4b2d738cce3bef790018d3c504b6fa57b652e1a61586c34"
+  },
+  {
+    "id": "L02",
+    "title": "pstack instruction ablation PR 419",
+    "url": "https://github.com/cursor/plugins/pull/419",
+    "path": "raw/lauren/pr419.json",
+    "date": "2026-09-23",
+    "method": "gh api",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:03:32.099473+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 22250,
+    "sha256": "384c0c12808ff8a1177787c0eecefec6022ff7d4ea75cb310f29e416b98044d2"
+  },
+  {
+    "id": "L03",
+    "title": "pstack rule conflict fixes PR 422",
+    "url": "https://github.com/cursor/plugins/pull/422",
+    "path": "raw/lauren/pr422.json",
+    "date": "2026-09-23",
+    "method": "gh api",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:03:34.964299+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 22271,
+    "sha256": "0cdf8d3ca8f508e9e226d7669b44516884454537544e68fccdac075f5655f689"
+  },
+  {
+    "id": "L04",
+    "title": "We Built Grok Bot: 14 Best Bots - public author article",
+    "url": "https://creatoreconomy.so/p/grok-bot-team-14-best-bots-peng-zheng-lauren-tan",
+    "path": "raw/lauren/interview-public-page.html",
+    "date": "2026-09-27",
+    "method": "curl original public HTML; paid content not accessed",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:09:42.061462+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 205237,
+    "sha256": "e7c3baeff3a90e1d7f24530a189b11eeae340927a9a6f97d38f9ba027da788ce"
+  },
+  {
+    "id": "L05",
+    "title": "We Built Grok Bot: complete English automatic captions",
+    "url": "https://www.youtube.com/watch?v=xZ5TEaleUdg",
+    "path": "raw/lauren/interview-2026-09-27/transcript/youtube-browser-export.txt",
+    "date": "2026-09-27",
+    "method": "cua public YouTube content.exportYouTubeTranscript; not manually corrected or visually verified",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:16:08.382371+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 53647,
+    "sha256": "58dc8ec720f9d804929d567c861401ce07c0374fba1ffbd8a7f24d41051b8858"
+  },
+  {
+    "id": "L06",
+    "title": "Lauren X post announcing interview, selected visible notes",
+    "url": "https://x.com/poteto/status/2104260894004039831",
+    "path": "raw/lauren/x-visible-notes.md",
+    "date": "2026-09-28 01:24 browser displayed; timezone unspecified",
+    "method": "cua accessibility visible post; selected excerpt and observation record, not full export",
+    "status": "ok",
+    "accessed_at": "2026-09-28T04:19:05.288277+00:00",
+    "accessed_at_basis": "local capture file modification time",
+    "bytes": 1280,
+    "sha256": "a75a8b020ae819cfbc4862413ae0e6e1c7f12f070c8df5cd0c5f7895ee7f9ba3"
+  }
+]

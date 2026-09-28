@@ -1,0 +1,59 @@
+{
+  "sources": 13,
+  "claims": 26,
+  "all_anchors_found": true,
+  "hash_checks": [
+    {
+      "source": "stripe-minions-1",
+      "matches": true
+    },
+    {
+      "source": "stripe-minions-2",
+      "matches": true
+    },
+    {
+      "source": "ramp-inspect",
+      "matches": true
+    },
+    {
+      "source": "spotify-honk-1",
+      "matches": true
+    },
+    {
+      "source": "spotify-honk-2",
+      "matches": true
+    },
+    {
+      "source": "spotify-honk-3",
+      "matches": true
+    },
+    {
+      "source": "spotify-honk-4",
+      "matches": true
+    },
+    {
+      "source": "shopify-river",
+      "matches": true
+    },
+    {
+      "source": "shopify-river-remediation",
+      "matches": true
+    },
+    {
+      "source": "shopify-harness",
+      "matches": true
+    },
+    {
+      "source": "shopify-helix",
+      "matches": true
+    },
+    {
+      "source": "shopify-roast",
+      "matches": true
+    },
+    {
+      "source": "uber-ureview",
+      "matches": true
+    }
+  ]
+}

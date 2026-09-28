@@ -1,0 +1,24 @@
+{
+  "url": "https://www.youtube.com/watch?v=xZ5TEaleUdg",
+  "title": "We Built Grok Bot. Here Are Our 14 Best Bots | Peng Zheng & Lauren Tan",
+  "publisher": "Peter Yang",
+  "published": "2026-09-27",
+  "status": "transcript_acquired_browser_fallback",
+  "language": "en",
+  "caption_type": "auto-generated",
+  "transcript": "transcript/youtube-browser-export.txt",
+  "duration_browser": "45:04",
+  "duration_author_article": "45:03",
+  "first_caption": "0:00",
+  "visual_evidence": "not analyzed",
+  "audio_listening": "not performed",
+  "limitations": [
+    "Automatic caption proper nouns contain recognition errors",
+    "No original video file acquired",
+    "Paid article portion was not accessed"
+  ],
+  "failed_attempt_records": [
+    "run-status.json",
+    "retry.log"
+  ]
+}

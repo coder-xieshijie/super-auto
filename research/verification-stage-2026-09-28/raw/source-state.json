@@ -1,0 +1,28 @@
+{
+  "read_at": "2026-09-28T08:55:16.804140+00:00",
+  "commit": "cf06465299b43bc2390719d9d28d51380407d320",
+  "status": "",
+  "files": [
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/core/src/plan.ts",
+      "snapshot": "raw/agent-lord/core/src/plan.ts",
+      "sha256": "140feafe2bcd34c932a22065d4f58c1ba4a0668addbcb5cadde0fc93a3f1aa9d"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/core/src/workspace.ts",
+      "snapshot": "raw/agent-lord/core/src/workspace.ts",
+      "sha256": "873dc622e51f89a6dc9fc985fd4271505ddd80aabd56c31349f24709bc0cfb6f"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/schemas/implementation-plan-v1.schema.json",
+      "snapshot": "raw/agent-lord/schemas/implementation-plan-v1.schema.json",
+      "sha256": "1f368e6715ef8d8728b9713d2648c3c1f3d8ee3c9fe0a5205d1013bec58b40b2"
+    },
+    {
+      "source": "/Users/minimax/code/github/xieshijie/agent-lord/references/pipelines/plan-to-implement.md",
+      "snapshot": "raw/agent-lord/references/pipelines/plan-to-implement.md",
+      "sha256": "8a9a6a90b5fa300209aa2af3d36d16af887c0d49089bb6c5943128c7d2feb548"
+    }
+  ],
+  "limits": "Local selected-source audit only; no runtime execution or remote refresh"
+}

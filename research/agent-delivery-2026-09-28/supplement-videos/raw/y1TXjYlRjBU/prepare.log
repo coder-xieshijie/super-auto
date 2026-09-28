@@ -1,0 +1,14 @@
+Deprecated Feature: Support for Python version 3.9 has been deprecated. Please update to Python 3.10 or above
+[youtube] Extracting URL: https://www.youtube.com/watch?v=y1TXjYlRjBU
+[youtube] y1TXjYlRjBU: Downloading webpage
+[youtube] y1TXjYlRjBU: Downloading tv client config
+[youtube] y1TXjYlRjBU: Downloading tv player API JSON
+[youtube] y1TXjYlRjBU: Downloading web safari player API JSON
+WARNING: [youtube] y1TXjYlRjBU: Some web client https formats have been skipped as they are missing a url. YouTube is forcing SABR streaming for this client. See  https://github.com/yt-dlp/yt-dlp/issues/12482  for more details
+ERROR: [youtube] y1TXjYlRjBU: The page needs to be reloaded.. The page needs to be reloaded.
+{
+  "status": "acquisition_failed",
+  "output": "/Users/minimax/code/github/xieshijie/super-auto/research/agent-delivery-2026-09-28/supplement-videos/raw/y1TXjYlRjBU",
+  "error": "ERROR: [youtube] y1TXjYlRjBU: The page needs to be reloaded.. The page needs to be reloaded.",
+  "recovery": null
+}

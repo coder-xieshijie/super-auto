@@ -1,0 +1,24 @@
+[
+  {
+    "id": "swe-pro-v2",
+    "url": "https://arxiv.org/html/2509.16941v2",
+    "title": "SWE-Bench Pro v2",
+    "date": "2025-11-14",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/swe-pro-v2.txt",
+    "bytes": 68006,
+    "sha256": "b24ddf78648874a7c10c708eb4ea51ae1b32d563a637b0e32136a165b0c3f694",
+    "accessed_at": "2026-09-28T04:03:27.589145+00:00",
+    "status": "ok"
+  },
+  {
+    "id": "mirrorcode-v2",
+    "url": "https://arxiv.org/html/2606.30182v2",
+    "title": "MirrorCode v2",
+    "date": "2026-07-17",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/mirrorcode-v2.txt",
+    "bytes": 262,
+    "sha256": "5b98bfdd8ea8b221e32fc854c5fb8062ee771517ad18911e7206fdc22dee1c88",
+    "accessed_at": "2026-09-28T04:03:28.467768+00:00",
+    "status": "ok"
+  }
+]

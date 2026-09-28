@@ -1,0 +1,309 @@
+[
+  {
+    "claim_id": "C01",
+    "source_id": "A01",
+    "claim": "平等 agent 共享锁造成等待和职责真空",
+    "evidence_type": "team_experiment",
+    "scope_limit": "该团队该实验，不能推论所有claim锁无效",
+    "url": "https://cursor.com/blog/scaling-agents",
+    "source_path": "raw/architecture/A01-cursor-scaling.md",
+    "locator_lines": [
+      22
+    ],
+    "locator_text": "equal status"
+  },
+  {
+    "claim_id": "C02",
+    "source_id": "A02",
+    "claim": "最终递归planner与隔离worker通过handoff持续推进",
+    "evidence_type": "team_experiment",
+    "scope_limit": "后续架构，不能只引用1月judge图",
+    "url": "https://cursor.com/blog/self-driving-codebases",
+    "source_path": "raw/architecture/A02-cursor-self-driving.md",
+    "locator_lines": [
+      103
+    ],
+    "locator_text": "The final design"
+  },
+  {
+    "claim_id": "C03",
+    "source_id": "A02",
+    "claim": "集中integrator成单门瓶颈，被移除",
+    "evidence_type": "team_experiment",
+    "scope_limit": "删除角色不代表无需最终候选版本验收",
+    "url": "https://cursor.com/blog/self-driving-codebases",
+    "source_path": "raw/architecture/A02-cursor-self-driving.md",
+    "locator_lines": [
+      119
+    ],
+    "locator_text": "Removing the integrator"
+  },
+  {
+    "claim_id": "C04",
+    "source_id": "A02",
+    "claim": "峰值约1000 commits/hour",
+    "evidence_type": "self_reported_metric",
+    "scope_limit": "实验浏览器，不是production PR交付率",
+    "url": "https://cursor.com/blog/self-driving-codebases",
+    "source_path": "raw/architecture/A02-cursor-self-driving.md",
+    "locator_lines": [
+      127
+    ],
+    "locator_text": "1,000 commits"
+  },
+  {
+    "claim_id": "C05",
+    "source_id": "A02",
+    "claim": "逐commit绝对正确导致串行化，提出发布绿色快照",
+    "evidence_type": "team_experiment",
+    "scope_limit": "实验吞吐取舍，不适用于跳过生产验收",
+    "url": "https://cursor.com/blog/self-driving-codebases",
+    "source_path": "raw/architecture/A02-cursor-self-driving.md",
+    "locator_lines": [
+      133
+    ],
+    "locator_text": "100% correctness"
+  },
+  {
+    "claim_id": "C06",
+    "source_id": "A03",
+    "claim": "约1500 PR/5个月、3.5PR/工程师/日",
+    "evidence_type": "self_reported_metric",
+    "scope_limit": "新建内部产品，无独立控制组",
+    "url": "https://openai.com/index/harness-engineering/",
+    "source_path": "raw/architecture/A03-openai-harness.md",
+    "locator_lines": [
+      24
+    ],
+    "locator_text": "1,500"
+  },
+  {
+    "claim_id": "C07",
+    "source_id": "A03",
+    "claim": "每worktree产品及观测能力使agent可自行验证",
+    "evidence_type": "team_deployment_report",
+    "scope_limit": "依赖项目环境投入",
+    "url": "https://openai.com/index/harness-engineering/",
+    "source_path": "raw/architecture/A03-openai-harness.md",
+    "locator_lines": [
+      44
+    ],
+    "locator_text": "bootable per git worktree"
+  },
+  {
+    "claim_id": "C08",
+    "source_id": "A04",
+    "claim": "部分团队前三周landed PR增加500%",
+    "evidence_type": "self_reported_metric",
+    "scope_limit": "非通用6倍工程生产率证明，缺公开缺陷率/难度校正",
+    "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
+    "source_path": "raw/architecture/A04-openai-symphony.md",
+    "locator_lines": [
+      52,
+      96
+    ],
+    "locator_text": "500%"
+  },
+  {
+    "claim_id": "C09",
+    "source_id": "A04",
+    "claim": "需求身份解耦session和PR，支持跨仓多PR",
+    "evidence_type": "team_deployment_report",
+    "scope_limit": "交付单位不能按session数统计",
+    "url": "https://openai.com/index/open-source-codex-orchestration-symphony/",
+    "source_path": "raw/architecture/A04-openai-symphony.md",
+    "locator_lines": [
+      80
+    ],
+    "locator_text": "decouples work"
+  },
+  {
+    "claim_id": "C10",
+    "source_id": "A05",
+    "claim": "调度重启无需持久DB，依靠tracker/filesystem恢复",
+    "evidence_type": "normative_spec",
+    "scope_limit": "不能声称精确持久化调度状态",
+    "url": "https://raw.githubusercontent.com/openai/symphony/8001b52e3062495a16e520e4ceaf8f9de868c4d0/SPEC.md",
+    "source_path": "raw/architecture/A05-symphony-spec.md",
+    "locator_lines": [
+      57,
+      1249,
+      1250
+    ],
+    "locator_text": "exact"
+  },
+  {
+    "claim_id": "C11",
+    "source_id": "A05",
+    "claim": "全局及状态并发限制，claim/reconciliation机制",
+    "evidence_type": "normative_spec",
+    "scope_limit": "规范不等于已部署效果",
+    "url": "https://raw.githubusercontent.com/openai/symphony/8001b52e3062495a16e520e4ceaf8f9de868c4d0/SPEC.md",
+    "source_path": "raw/architecture/A05-symphony-spec.md",
+    "locator_lines": [
+      458,
+      626,
+      785
+    ],
+    "locator_text": "max_concurrent_agents_by_state"
+  },
+  {
+    "claim_id": "C12",
+    "source_id": "A05",
+    "claim": "worker成功可能只到人审而非Done",
+    "evidence_type": "normative_spec",
+    "scope_limit": "执行成功不等于合入或需求交付",
+    "url": "https://raw.githubusercontent.com/openai/symphony/8001b52e3062495a16e520e4ceaf8f9de868c4d0/SPEC.md",
+    "source_path": "raw/architecture/A05-symphony-spec.md",
+    "locator_lines": [
+      43,
+      1322
+    ],
+    "locator_text": "Human Review"
+  },
+  {
+    "claim_id": "C13",
+    "source_id": "A06",
+    "claim": "功能完成需真实端到端验证",
+    "evidence_type": "team_experiment",
+    "scope_limit": "单测/curl不覆盖全部用户路径",
+    "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+    "source_path": "raw/architecture/A06-anthropic-long-running.md",
+    "locator_lines": [
+      66
+    ],
+    "locator_text": "proper testing"
+  },
+  {
+    "claim_id": "C14",
+    "source_id": "A07",
+    "claim": "大任务同一故障导致多agent重复与覆盖",
+    "evidence_type": "capability_experiment",
+    "scope_limit": "用GCC oracle划分独立故障才恢复并行",
+    "url": "https://www.anthropic.com/engineering/building-c-compiler",
+    "source_path": "raw/architecture/A07-anthropic-compiler.md",
+    "locator_lines": [
+      83
+    ],
+    "locator_text": "same bug"
+  },
+  {
+    "claim_id": "C15",
+    "source_id": "A07",
+    "claim": "16agents近2000sessions近20000美元两周",
+    "evidence_type": "self_reported_metric",
+    "scope_limit": "编译器能力实验，产品仍有显著限制",
+    "url": "https://www.anthropic.com/engineering/building-c-compiler",
+    "source_path": "raw/architecture/A07-anthropic-compiler.md",
+    "locator_lines": [
+      12,
+      101
+    ],
+    "locator_text": "20,000"
+  },
+  {
+    "claim_id": "C16",
+    "source_id": "A08",
+    "claim": "独立QA仍会放水，需校准和真实交互",
+    "evidence_type": "team_experiment",
+    "scope_limit": "多一个reviewer不等于独立正确性",
+    "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+    "source_path": "raw/architecture/A08-anthropic-app-harness.md",
+    "locator_lines": [
+      114
+    ],
+    "locator_text": "poor QA"
+  },
+  {
+    "claim_id": "C17",
+    "source_id": "A08",
+    "claim": "模型升级后逐组件删sprint/reset等结构",
+    "evidence_type": "team_experiment",
+    "scope_limit": "需要匹配模型/任务能力边界而非永久流程",
+    "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+    "source_path": "raw/architecture/A08-anthropic-app-harness.md",
+    "locator_lines": [
+      124,
+      126
+    ],
+    "locator_text": "removing the sprint"
+  },
+  {
+    "claim_id": "C18",
+    "source_id": "A09",
+    "claim": "外部事件日志使harness/sandbox可独立失败恢复",
+    "evidence_type": "service_architecture_report",
+    "scope_limit": "持久会话与上下文压缩分开",
+    "url": "https://www.anthropic.com/engineering/managed-agents",
+    "source_path": "raw/architecture/A09-anthropic-managed.md",
+    "locator_lines": [
+      34
+    ],
+    "locator_text": "durable record"
+  },
+  {
+    "claim_id": "C19",
+    "source_id": "A09",
+    "claim": "p50 TTFT约下降60%、p95超90%",
+    "evidence_type": "self_reported_metric",
+    "scope_limit": "首次token延迟，不是需求总交付时间",
+    "url": "https://www.anthropic.com/engineering/managed-agents",
+    "source_path": "raw/architecture/A09-anthropic-managed.md",
+    "locator_lines": [
+      60
+    ],
+    "locator_text": "p50"
+  },
+  {
+    "claim_id": "C20",
+    "source_id": "A10",
+    "claim": "仓库外场景减少改测试迎合实现",
+    "evidence_type": "team_method_report",
+    "scope_limit": "仍需评测器校准、防场景泄漏",
+    "url": "https://factory.strongdm.ai/",
+    "source_path": "raw/architecture/A10-strongdm-factory.md",
+    "locator_lines": [
+      61
+    ],
+    "locator_text": "holdout"
+  },
+  {
+    "claim_id": "C21",
+    "source_id": "A10",
+    "claim": "每日每工程师1000美元tokens为激进宣言",
+    "evidence_type": "normative_opinion",
+    "scope_limit": "不作为最佳成本或必要投入门槛",
+    "url": "https://factory.strongdm.ai/",
+    "source_path": "raw/architecture/A10-strongdm-factory.md",
+    "locator_lines": [
+      21
+    ],
+    "locator_text": "1,000"
+  },
+  {
+    "claim_id": "C22",
+    "source_id": "A11",
+    "claim": "seed验证反馈直到场景持续通过",
+    "evidence_type": "normative_method",
+    "scope_limit": "原则不等于收益实证",
+    "url": "https://factory.strongdm.ai/principles",
+    "source_path": "raw/architecture/A11-strongdm-principles.md",
+    "locator_lines": [
+      34
+    ],
+    "locator_text": "holdout"
+  },
+  {
+    "claim_id": "C23",
+    "source_id": "A12",
+    "claim": "行为替身以真实依赖校准",
+    "evidence_type": "team_method_report",
+    "scope_limit": "模拟通过不等于生产通过",
+    "url": "https://factory.strongdm.ai/techniques/dtu",
+    "source_path": "raw/architecture/A12-strongdm-dtu.md",
+    "locator_lines": [
+      67
+    ],
+    "locator_text": "live dependency"
+  }
+]

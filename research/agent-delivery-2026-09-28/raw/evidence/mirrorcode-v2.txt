@@ -1,0 +1,8 @@
+Title: headline_solve_bars_macro.svg
+
+URL Source: https://arxiv.org/html/2606.30182v2
+
+Published Time: Tue, 11 Aug 2026 22:54:37 GMT
+
+Markdown Content:
+A horizontal bar graph comparing the ability of different AI models to autonomously reimplement real software

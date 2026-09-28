@@ -1,0 +1,53 @@
+[
+  {
+    "id": "scaling-v3",
+    "url": "https://arxiv.org/html/2512.08296v3",
+    "status": "ok",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/scaling-v3.html",
+    "bytes": 663762,
+    "sha256": "e19cfd16776f06ca693fc99e1ad4ef30335c5e063a3025acd0b62c8e8c09a39e",
+    "accessed_at": "2026-09-28T04:02:37.169821+00:00",
+    "parse_note": "stdlib HTMLParser; original bs4 import unavailable, source retrieval succeeded"
+  },
+  {
+    "id": "pr-review",
+    "url": "https://arxiv.org/html/2605.02273v1",
+    "status": "ok",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/pr-review.html",
+    "bytes": 148326,
+    "sha256": "65ea894495aaf6a37a1e255c61b402b632254734ff2c573d46f7674275ddf8f7",
+    "accessed_at": "2026-09-28T04:02:37.180377+00:00",
+    "parse_note": "stdlib HTMLParser; original bs4 import unavailable, source retrieval succeeded"
+  },
+  {
+    "id": "pr-collaboration",
+    "url": "https://arxiv.org/html/2602.19441v1",
+    "status": "ok",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/pr-collaboration.html",
+    "bytes": 146850,
+    "sha256": "1e6f43f8a43c74568c162e26010e2251d01d1b0af8dfd2d3f99a2a3b5d6b2e3f",
+    "accessed_at": "2026-09-28T04:02:37.188975+00:00",
+    "parse_note": "stdlib HTMLParser; original bs4 import unavailable, source retrieval succeeded"
+  },
+  {
+    "id": "swe-verified",
+    "url": "https://arxiv.org/html/2609.08149v2",
+    "status": "ok",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/swe-verified.html",
+    "bytes": 527015,
+    "sha256": "bc1f2a2096ad93af726122870525cb74c545c46f7339647dbc80c723a26d3c8c",
+    "accessed_at": "2026-09-28T04:02:37.216858+00:00",
+    "parse_note": "stdlib HTMLParser; original bs4 import unavailable, source retrieval succeeded"
+  },
+  {
+    "id": "mirrorcode-v2",
+    "url": "https://arxiv.org/html/2606.30182v2",
+    "title": "MirrorCode v2",
+    "date": "2026-07-17",
+    "path": "research/agent-delivery-2026-09-28/raw/evidence/mirrorcode-v2.html",
+    "bytes": 470059,
+    "sha256": "4bae5e5ff5657a99ac87322adc79662d458090503aa8d85785a914b75289b03b",
+    "accessed_at": "2026-09-28T04:04:45.426598+00:00",
+    "status": "ok"
+  }
+]
