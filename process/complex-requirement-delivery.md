@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.4
+status: 工作稿 v0.5
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -27,6 +27,8 @@ timezone: Asia/Shanghai
 ③ 实现、验收、交付（尚未纳入）
 ```
 
+第 ③ 步及仓库级准备的展开见[自证闭环完整流程候选稿](../research/self-verifying-loop-2026-09-28/flow.md)，未经确认，不属于当前流程。
+
 用户已确认的决定：
 
 | 决定 | 内容 |
@@ -37,6 +39,7 @@ timezone: Asia/Shanghai
 | spec 是唯一依据 | spec 产出即需求冻结；之后的校验完全以 spec 为准，不再引入其他上下文 |
 | cross review | 新开 session，按 spec 对 verify 和 plan 做严格的一致性校验，并直接修改 |
 | 冻结时点 | verify.md 和 plan.md 在 cross review 产出后冻结 |
+| 方向 | 采用“自证闭环”：agent 能自己启动、操作、观察应用并证明结果；主要参考 OpenAI harness engineering 与 Anthropic 长任务 harness |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -56,7 +59,7 @@ grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要�
 - 对照原始材料双向核对，并用反例检查：是否存在符合文字、却违反已确认约定的实现。
 - 产出后即为需求的唯一依据。
 
-**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)，未合并、未在真实 spec 上试用，设计依据见[讨论记录](../discussions/2026-09-28-verify-skill.md)。要点：spec 是唯一需求来源；每条规范性内容成为带 ID 的要求并选定证明方式；行为要求写成场景（前提、真实入口操作、必须出现、不得出现、观察方式与证据、它必须拒绝的错误实现）；在当前代码中定位入口，列出验证工具缺口。
+**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)（`92a648e`，未合并、未在真实 spec 上试用），设计依据见[讨论记录](../discussions/2026-09-28-core-verify-build-plan.md)。要点：spec 是唯一需求来源；验收以用户在一个入口上完成的一次完整操作为单位，默认从真实入口运行，由实现 agent 自证；结果不同就拆，同入口同前提同流程合并；每个场景有字面检查点、基线预期和错误实现；看不到的内部规则先补可观察性；另列冒烟集、验证工具缺口和覆盖盲区；单元测试属于实现。
 
 **plan.md。** 依据 spec 和 verify 写。所用 Skill 未说明；现有 plan-cross-review 中重写 plan 用的是 `plan-for-agents`（`dev-skills` `88efec7`），它要求 plan 写明每项要求的验证方法、预期结果、证据位置和失败处置。
 
@@ -90,7 +93,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 2. **cross review 发现 spec 本身有问题怎么办。** 例如两条约定矛盾、有歧义、漏了会改变实现的决定。spec 已冻结，cross review 不改它。建议：列为阻塞项交回用户，修订 spec 后重新冻结，受影响的部分重新校验。
 3. **现有 plan-cross-review 要改造或另建 pipeline。** 需要定：角色和轮次沿用多少，谁修改 verify.md，D 的检查项，冻结时记录哪些哈希。
 4. **Skill。** verify.md 用 core-verify（[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)，待合并与首次试用）；plan.md 是否用 `plan-for-agents` 未说明。
-5. **流程止于冻结的 verify 和 plan。** 实现、按 verify 执行验收、MR、交付和交付后反馈尚未纳入。
+5. **流程止于冻结的 verify 和 plan。** 实现、按 verify 执行验收、MR、交付和交付后反馈尚未纳入。候选稿给出第 0 阶段（仓库 harness）和第 6–9 阶段（实现、独立验收、PR 与评审、回流），并列出五个待确认问题。
 6. **文档存放与追溯。** 三份文档放在哪个仓库、什么目录；与代码、MR 如何关联到同一需求。
 7. **人工介入点和测量。** grill 需要用户逐轮回答；cross review 只在 spec 有问题时回到用户。各步耗时、人工分钟、返工尚无记录，可按 [试验方案的最小测量表](../research/agent-delivery-2026-09-28/conclusions/experiments.md) 开始记录。
 
@@ -101,6 +104,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-28 v0.3：用户改为在 grill session 内串行产出 spec.md → verify.md → plan.md；spec 产出即需求冻结，是唯一依据；cross review 新开 session，只按 spec 校验并修改 verify 和 plan，之后两份冻结。不再 fork。v0.2 的“spec 与 plan 互相看不到”“grill 会话不进入第 ③ 步”“验收场景在哪一步定下”“术语表和 ADR 是否进入后续步骤”随之解决；“②b 用哪个 Skill”并入第 4 条；新增源码是否作为输入、spec 有问题如何处理、pipeline 改造三个问题。
 - 2026-09-28 v0.3 补充：用户要求为 verify.md 建立类似 core-spec 的 Skill；新增草稿 core-verify，更新第二节 verify.md 说明和第四节第 4 条。
 - 2026-09-28 v0.4：用户确认 Skill 名为 core-verify；没有 spec 或 spec 缺少会改变判定的行为时，按 core-spec 生成或更新 spec；直接在 dev-skills 提交 PR（#11）。本仓库草稿删除，以 dev-skills 为唯一维护源。
+
+- 2026-09-28 v0.5：用户确认采用“自证闭环”方向，主要参考 OpenAI 与 Anthropic 的长任务 harness。新增“方向”决定；完整流程展开为候选稿，另存于 research，未写入当前流程。
+- 2026-09-28 v0.4 补充：用户表明采用“自证闭环”，以 OpenAI Harness engineering、Anthropic 长任务 harness 和 Lauren 工作流为主要参考；core-verify 据此改为以端到端场景为验收单位（dev-skills#11 `92a648e`），更新第二节 verify.md 说明。
 
 ## 附：用户原话
 
@@ -133,3 +139,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > Verify 和 Plan.md 在 Cross review 产出之后进行冻结，这 3 份文档都在 Grill with doc 这个 session 中产出。
 >
 > Cross review 需要新开 session，根据 spec.md 对 Verify 和 Plan.md 进行校验和修改。
+
+> 我的研发流程倾向于使用“自证闭环”的方式。现在先进行迭代，因为我更认可 openai 的 Harness 以及 anthropic 长任务 Harness 的相关内容，所以把这一部分内容详细展开。
+>
+> 完整的研发流程是什么？以及每个阶段要做什么，每个阶段的产出物是什么？
