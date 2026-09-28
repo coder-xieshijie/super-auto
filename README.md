@@ -2,6 +2,8 @@
 
 本目录保存 Lauren 方法论、个人工作流和工业级 agent 交付的调研资料、中间结果与结论。
 
+**当前流程：[复杂需求交付流程（工作稿）](process/complex-requirement-delivery.md)**。记录用户的核心开发流程（grill-with-docs → core-spec → plan-cross-review），后续在此文档上迭代。
+
 **持续记录：[讨论索引与留存约定](discussions/README.md)**。已补录 [需求确认后的验证与交付闭环](discussions/2026-09-28-verification-and-delivery.md)，保留用户原话、助手分析、决定状态与关联证据，供后续二次分析。
 
 **最新：2026-09-28 [工业级需求自动交付调研](research/agent-delivery-2026-09-28/README.md)**，含 Lauren 官方源码遗漏与最新访谈、企业案例、研究证据、并发与人类瓶颈分析及试验方案。旧成果已先提交为 `9481ec5`。

@@ -26,6 +26,11 @@
 | 2026-09-28 | [需求确认后的验证与交付闭环](2026-09-28-verification-and-delivery.md) | 补录用户问题与助手答复；记录留存要求已确认，工作流改造建议待选择和验证 |
 | 2026-09-28 | [新增需求验收环节设计](2026-09-28-verification-stage-design.md) | 用户问题、助手建议、验收包与 Agent Lord 接入边界；记录后续本地提交要求，尚未实施 |
 | 2026-09-28 | [仓库进度盘点与 pipeline 优化方向](2026-09-28-pipeline-optimization.md) | 对照 Agent Lord #44 串行版与 #46；验收接入 v2、编排器单点等建议，待用户选择 |
+| 2026-09-28 | [建立核心开发流程文档](2026-09-28-core-delivery-process.md) | 用户给出三步流程；新建流程工作稿并列出待讨论问题，待用户逐项讨论 |
+| 2026-09-28 | [从决策点产出验收文档](2026-09-28-acceptance-from-decisions.md) | 助手方案与后续：用户确认 grill session 内串行产出 spec → verify → plan，spec 为唯一依据，cross review 按 spec 校验并修改 verify 和 plan 后冻结 |
+| 2026-09-28 | [verify.md 的产出 Skill：core-verify 草稿](2026-09-28-verify-skill.md) | Skill 草稿、逐条依据、不放进 Skill 的内容与试用方式；待用户确认名称、spec 修订规则和迁入方式 |
+| 2026-09-28 | [仓库资料中的 agent 研发流程派系](2026-09-28-workflow-schools.md) | 按核心押注归纳五类、三处分歧与共识；用户流程的位置；仓库未覆盖的 spec 驱动方法 |
+| 2026-09-28 | [core-verify 完整构建方案](2026-09-28-core-verify-build-plan.md) | 面向零背景读者的完整方案：作用、位置、五个步骤、规则、上下游、构建与评估步骤；四个问题待用户决定 |
 
 ## 相关资料入口
 
