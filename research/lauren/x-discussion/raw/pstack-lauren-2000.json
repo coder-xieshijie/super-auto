@@ -1,0 +1,402 @@
+[
+  {
+    "id": "2102050467505430555",
+    "author": "poteto",
+    "bio": "",
+    "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+    "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+    "likes": 8701,
+    "views": "1226035",
+    "url": "https://x.com/i/status/2102050467505430555",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102247303390154891",
+    "author": "AYi_AInotes",
+    "bio": "",
+    "text": "有点燃炸兄弟们，这才是顶级工程师驾驭 AI 最硬核的打法，建议调到两倍速把这场 38 分钟的技术内幕看完，去感受一下什么叫真正的生产力震撼。\n\n前 Meta 和 Netflix 资深工程师、现 xAI 核心主力 Lauren Tan 刚把给 Cursor 官方大会准备的底牌直接公开了，她一个人带领智能体舰队单月合入 2500 个生产 PR，而且自己还能安稳睡大觉。\n\n很多人用 AI 编程把自己变成了全天候无休的人肉测试员，而她做对的事情只有一件：把人类的检查点彻底往前移，让智能体不仅要写代码，还必须自己拉起真实环境把证据拿出来。\n\n铁汁们你知道单人带队一个月往生产环境合入 2500 个 PR 是什么概念吗？ 整整 2500 个。 \n\n按每月 22 个工作日换算，相当于每天合入 113 个，平均每 4 分钟就要上线一个功能。但全网都在跟风吹代码生成有多快的时候，她开场第一句话直接泼了一盆冷水：如果代码质量不过关，盲目堆吞吐量就是一场灾难，连一个智能体都信不过就千万别开一百个云端舰队，那纯粹是在花钱买代码垃圾。\n\n最先击穿行业认知的，是她把做完这两个字的定义重新写了一遍。 以前大家让 AI 写代码，只要终端显示编译通过或者模型回复说搞定了，人就赶紧跑去肉眼看 diff，一行行核对直接把工程师累成整条链路里最慢的瓶颈。\n\n在她的系统里，模型自己的口头报告连标点符号都不能信，做完必须等于铁打的运行时凭据。\n\n智能体必须自己调用 Chrome DevTools Protocol 驱动真实界面，点击到具体按钮，甚至跑完 CPU 性能分析抓出 trace 日志，把全套绿灯的执行录像留在原地，才算完成交付。\n\n但光会验证还远远不够，遇到喜欢抄近路的智能体，下周相同的错误还会原样长出来。\n\n 传统团队纠正 AI 习惯写几十页的长篇规范或者在 prompt 里苦口婆心叮嘱，结果模型转头就忘。\n\n她在 Dune 架构里直接把代码库当成外部记忆体，按业务功能严格把代码锁在单层目录内，更绝的是把所有被团队反复骂过的坏习惯直接写成编译炸弹。\n\n比如在项目里直接封死 useEffect，谁敢写一行 CI 当场引爆，甚至连代码注释都直接禁止，配专门的清理工具全面清场，因为注释里 99% 都是过期的废话和误导性教条。\n\n把错误路径用规则物理切断，AI 抄近路走出来的就只能是唯一正确的路。\n\n真正让我觉得有意思的是，她把这套顶级工程师的心法全部封装成了现成的开源插件 pstack。 \n\n不用再对着聊天框盲目敲长提示词，系统内嵌了 23 本应对不同场景的任务剧本和 23 条工程铁律。\n\n从复现 bug 到分层合入，智能体被严格规定先定位根因再动手，默认先做删减再做新增。\n\n现在这套自动化外环甚至接入了用户反馈通道，智能体接到报错自己拉起模拟器复现，跑完验证直接提 PR，产品经理和设计师连一行底层代码都没摸过，都能安全地往主分支合入补丁。\n\n用量狂飙不可怕，没有验证的并发才可怕。 \n\n以前是人写代码教 AI 抄，现在是人当主厨把控出餐口，把工程品味铸进静态检查，让智能体在环内自己修到全绿。\n\n 一个只能丢 diff 等你看的智能体是在偷走你的时间，一个带着运行录像和证据链自己闭环的智能体才配做你的工程分身。\n\n这套打法已经在 Cursor 插件市场完全公开，输入命令即可直接挂载。 \n\n大家在日常写代码时，最敢彻底放手交给智能体去跑的是哪一步？我先说，排查冷门报错和抓性能日志我现在眼睛都不眨全丢给它，但核心架构的边界定义我半步都不会让。\n\nhttps://t.co/J5Z4CAJNPa",
+    "created_at": "Tue Sep 22 04:03:09 +0000 2026",
+    "likes": 802,
+    "views": "101673",
+    "url": "https://x.com/i/status/2102247303390154891",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102060423067341244",
+    "author": "0xCodez",
+    "bio": "",
+    "text": "SpaceXAI engineer, Lauren Tan:\n\n\"99% of people use GrokBot just for 1% of its real power. They run 1 agent without \"loop\" & \"graph\"\n\nlast month my team of 30+ GrokBot agents shipped 2000+ PRs, fully autonomous. Chief of Staff, two PM agents, 20+ coding agents\" \n\nin 38-minutes, a SpaceXAI engineer explained how to build a team of GrokBot agents that work while you sleep\n\nthis is worth more than a $500 agentic engineering course\n\nskip Netflix today and watch this, then read how to build a fleet of GrokBot agents in the article below",
+    "created_at": "Mon Sep 21 15:40:33 +0000 2026",
+    "likes": 96,
+    "views": "16720",
+    "url": "https://x.com/i/status/2102060423067341244",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102059742906449920/vid/avc1/430x270/9riRJtEGhZZZeY-H.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102059742906449920/img/EncDyox3p-chiVCZ.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2100261918896169259",
+      "author": "0xMovez",
+      "name": "Movez",
+      "text": "https://t.co/1lYM6Pyegt",
+      "created_at": "Wed Sep 16 16:33:57 +0000 2026",
+      "url": "https://x.com/0xMovez/status/2100261918896169259",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2102142071255491002",
+    "author": "Michaelzsguo",
+    "bio": "",
+    "text": "想知道怎么让自己的 Agent 不用人盯着，自己还能在一个月内提交 2,000 个 PR？\n\n空出 40 分钟，看看 Lauren 最新这场分享。\n\n或者像她自己说的，她讲话比较慢，开 2 倍速，20 分钟就能看完。\n\n这不是一场泛泛而谈「多开几个 Agent」的分享。她讲的是如何把 codebase、rules、skills、验证工具和自动化一点点搭起来，让 Agent 从每一步都需要人盯着，变成可以被信任、并行工作，在你不在时也能继续交付高质量代码。\n\n她把这套系统比作一间「米其林厨房」：人不再亲手完成每一道工序，但仍然要设计厨房、训练厨师、准备工具，并为最终结果负责。\n\n很实用，值得完整看一遍。我加了中文字幕。",
+    "created_at": "Mon Sep 21 21:05:00 +0000 2026",
+    "likes": 2,
+    "views": "649",
+    "url": "https://x.com/i/status/2102142071255491002",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102092247915245568/vid/avc1/428x270/oKyKirAhhwnt6vQ7.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102092247915245568/img/26ih0QQZ3eI0TLRW.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2094865972599378413",
+    "author": "biektive",
+    "bio": "",
+    "text": "2000 PRS/MONTH IS THE VERIFICATION LOOP.\n\nLauren Tan's pstack guide shows what happens when coding agents stop behaving like temporary chat windows and start operating as a production system.\n\nThe visible layer looks like AI office:\n\n> persistent workspaces\n> specialized agents\n> shared project state\n> tools running in parallel\n> humans approving the final action\n\nBut the real advantage is underneath.\n\nA useful agent needs more than permission to write code.  The operating cycle becomes:\n\n1) one agent receives the goal\n2) specialists research and build\n3) a control surface exposes the real application\n4) verification produces evidence\n5) failed work returns to the loop\n6) irreversible actions wait for approval\n\nWithout this layer, more agents only create mistakes faster.\n\nThe next AI coding advantage will not come from opening 20 parallel terminals. It comes from building an environment where those agents can verify and hand off work without losing state.\n\nVerification is the infrastructure.",
+    "created_at": "Tue Sep 01 19:12:23 +0000 2026",
+    "likes": 19,
+    "views": "5816",
+    "url": "https://x.com/i/status/2094865972599378413",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2094865414069137409/vid/avc1/480x270/dYMuQ_sVdl-CrfrH.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2094865414069137409/img/zkxTI43X0KtvRy1b.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2094457600259842065",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "I'm writing a guide to pstack! Here's part one. https://t.co/4yjdWKPieE",
+      "created_at": "Mon Aug 31 16:09:39 +0000 2026",
+      "url": "https://x.com/poteto/status/2094457600259842065",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2102093640650588632",
+    "author": "spectnfa",
+    "bio": "",
+    "text": "SpaceXAI engineer building Grok Bot just gave a free 55-minute masterclass on how to trust coding agents.\n\nLauren Tan went from micromanaging one agent to waking up to 20 auto-merged PRs.\n\nHere’s the full journey:\n\n0% → 00:00 - the trust curve: why you can’t scale from 1 agent to 100 without verification\n\n25% → 14:07 - how she built Pstack: every failure mode became a new skill\n\n50% → 26:53 - verification first, then cloud agents, then automatic PR merges\n\n75% → 42:43 - why the shortest path should be the best path for your agents\n\n100% → 50:42 - how strict architecture lets PMs and designers ship code safely\n\nTrust → Verification → Skills → Evals → Cloud Agents → Hard Constraints → Autonomous Engineering\n\nThe most important idea:\n\nDon’t tell agents to “be more careful”\n\nBuild an environment where the easiest thing for them to do is also the correct thing.\n\nBookmark it, watch the full talk, and start building your own agent workflow 👇",
+    "created_at": "Mon Sep 21 17:52:33 +0000 2026",
+    "likes": 174,
+    "views": "20840",
+    "url": "https://x.com/i/status/2102093640650588632",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102088230954827776/vid/avc1/462x270/HAYLKInqMNzukJyr.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102088230954827776/img/KUlDWuMblI_XmiCN.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102081277683810491",
+      "author": "unicodef1wn",
+      "name": "unicode",
+      "text": "One of the SpaceXAI engineers building Grok Bot explained how she gets coding agents she can actually trust.\n\nI turned Lauren Tan’s talks and extended Q&A into one installable skill.\n\nHer main point:\n\nIf an agent cannot verify its own work, you are still the verification system.\n\nAgent writes the code → you open the app → find what it broke → send screenshots back → repeat\n\nHer workflow changes that loop.\n\nThe skill teaches your agent to:\n\n1. Read the affected code before guessing the cause\n2. Reproduce the bug before changing anything\n3. Run the real user flow, not just build and typecheck\n4. Use feature maps to find what it needs to verify\n5. Turn repeated review comments into types, lint, CI or architecture\n6. Treat the codebase and git history as memory\n7. Test changes to its own skills\n8. Scale to more agents only after the local loop works\n\nThe part that stuck with me:\n\nEvery time you correct an agent, ask why the environment allowed that mistake in the first place.\n\nThen turn the answer into something the next agent cannot miss.\n\nI packaged those principles into SKILL.md, so you can apply them inside your own workflow instead of rebuilding Lauren’s system from scattered talks.\n\nWorks with Grok Bot, Grok CLI, Codex, Claude Code and Cursor.\n\nhttps://t.co/stu27hUyVg\n\nSave this and make your agents prove their work 👇",
+      "created_at": "Mon Sep 21 17:03:26 +0000 2026",
+      "url": "https://x.com/unicodef1wn/status/2102081277683810491",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2102079476989313024/vid/avc1/370x270/4LSsy4Qj4PNywxUn.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2102079476989313024/img/c9GLIY7l2IswSYgQ.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102041903956906292",
+    "author": "kocer_eth",
+    "bio": "",
+    "text": "xAI EMPLOYEES LEFT 50 GROK BOT PROMPTS ACROSS A 72-HOUR BUILD AND PUBLIC GUIDES. COPY THEM IN THIS ORDER.\n\nat 11:40 p.m., i nearly saved the viral list and moved on.\n\nit had 30 prompts attributed to Lauren Tan, Matt Palmer, and Roshan Sadanani during their 72-hour xAI company build.\n\nthen i opened Lauren's public pstack guides and found the missing engineering layer.\n\ni adapted all 50 into one paste-ready sequence and kept the source beside every prompt.\n\nsource key: [RS] Roshan, [MP] Matt, [LT] Lauren, [pstack] Lauren's public pstack guides.\n\nfind the market\n\n› 01. [RS] mine public posts for agent problems. rank each by buyer clarity, willingness to pay, and speed to launch.\n\n› 02. [RS] analyze customer conversations from the last 48 hours. extract repeated pain, urgency, budget signals, and named buyers.\n\n› 03. [RS] compress the research into one thesis: customer, painful problem, wedge product, and why it must exist now.\n\n› 04. [RS] define who pays, the first job to be done, and the fastest internal test of the product thesis.\n\n› 05. [RS] map the two strongest segments by ICP, pain, offer, price range, and five Day 1 interview questions.\n\n› 06. [RS] design outreach and onboarding for the first design partner. include the inputs needed to define measurable success.\n\n› 07. [MP] find and rank 25 potential customers. identify the best contact path and flag feasibility or integration risks.\n\n› 08. [MP] generate 15 company names. score the best five by domain, email format, memorability, and product fit.\n\n› 09. [MP] find the fastest path from our current assets to the first $1. define the offer, price, buyer, and payment method.\n\n› 10. [RS] find the smallest MVP we can presell. list what must be real before payment and what can wait.\n\ndesign the company\n\n› 11. [LT] ask me five questions about the company. then design the first three specialist bots with memory, skills, and initial tasks.\n\n› 12. [LT] turn one general bot into a Chief of Staff. it should triage Slack and interrupt me only for money or product decisions.\n\n› 13. [LT] turn this generic bot into a specialist. define its role, tone, tools, workflow, escalation rule, and success metric.\n\n› 14. [MP] assume zero employees and 72 hours. design the smallest bot team for research, product, engineering, growth, and operations.\n\n› 15. [MP] turn Slack into the control plane. create channels for product, engineering, bots, prospects, and customer signups.\n\n› 16. [MP] create Operations and Creative Director bots. give each one routine, one metric, and one human escalation rule.\n\n› 17. [LT] audit marketplace bots for research, outbound, inbox, engineering, and design. keep only bots that remove friction.\n\n› 18. [RS] divide the next 24 hours across three humans and their bots. assign one owner and one definition of done per workstream.\n\n› 19. [MP] write a five-line shipping policy for humans and bots. cover speed, direct deployment, rollback, ownership, and review.\n\n› 20. [RS] create a Designer bot that delivers a company name, three logo directions, and a landing-page hero within 60 minutes.\n\nbuild and ship\n\n› 21. [LT] install an engineering skill pack for tests, PR hygiene, and issue-to-ship loops. remove anything unnecessary for Day 3.\n\n› 22. [LT] create a Prototype Engineer that ships a landing page with email signup today. use no database unless it is essential.\n\n› 23. [LT] use Grok Bot for research and disposable prototypes. define the exact handoff package for production engineering.\n\n› 24. [LT] create an Engineer bot that owns the repository, ships small changes, writes minimal tests, and avoids bikeshedding.\n\n› 25. [LT] create the full visual direction: brand voice, hero copy, CTAs, colors, typography, and an implementation-ready brief.\n\n› 26. [LT] design the thinnest stack that can accept payment by Day 3. separate what must be built from what can be simulated.\n\n› 27. [MP] name the company around its shipping deadline. create the GitHub organization and write the first product README.\n\n› 28. [MP] connect the signup form to Notion. define the database fields, follow-up workflow, and confirmation message.\n\n› 29. [MP] connect the repository to Vercel. document the path from first preview to production and custom domain.\n\n› 30. [RS] map the path from waitlist to first paid customer to subscription. track daily signups, calls, sales, and revenue.\n\nunderstand and plan\n\n› 31. [pstack] read this Slack thread. restate the underlying issue in plain English before proposing any solution.\n\n› 32. [pstack] trace how <feature> works at runtime. show the entry point, data flow, state changes, dependencies, and failure paths.\n\n› 33. [pstack] explain why we still use <old dependency>. check Git history, PRs, tickets, docs, Slack, and production evidence.\n\n› 34. [pstack] teach me why you implemented it this way. compare the strongest alternative and explain every tradeoff.\n\n› 35. [pstack] recall yesterday's work on <system>. combine that context with this new bug report before taking action.\n\n› 36. [pstack] recall seven days of related work. explain the current design, identify repeated failures, and propose a replacement.\n\n› 37. [pstack] prototype three options for <feature>. keep them disposable and compare them with measured evidence.\n\n› 38. [pstack] build two UI variants behind a switcher. use /control-app to record each flow and capture review screenshots.\n\n› 39. [pstack] /architect <feature> before implementation. surface open questions and answer them with small prototypes.\n\n› 40. [pstack] turn the approved design into a multi-phase plan. keep every PR small and attach proof to every completed task.\n\nverify and improve\n\n› 41. [pstack] investigate why background workers time out. separate facts, evidence, unknowns, and ranked hypotheses.\n\n› 42. [pstack] architect rate limiting for external webhooks. test open questions with prototypes and wait for my review.\n\n› 43. [pstack] plan the StyleX migration as small, verifiable PRs. require visual regression tests and live checks for each PR.\n\n› 44. [pstack] reproduce this bug with /control-app. if it exists on main, fix it and return a video showing the working result.\n\n› 45. [pstack] use /poteto-mode to build <feature>. verify it with /control-app and return screenshots plus a short video.\n\n› 46. [pstack] spawn a cloud agent to build <feature> with /poteto-mode. require /control-app evidence before reporting completion.\n\n› 47. [pstack] improve initial load time. capture a baseline trace, make one targeted fix, then use a swarm to confirm the win.\n\n› 48. [pstack] evaluate this skill change. run old and new versions on the same tasks, compare failures, and show the evidence.\n\n› 49. [pstack] run /create-verification-skill for this app. build a compact control CLI and a searchable feature map.\n\n› 50. [pstack] run /maintain-verification-skill daily. update stale commands, feature paths, and known verification failures.\n\nthe useful part is not any single prompt.\n\neach output becomes the next prompt's context: market becomes offer, offer becomes product, product becomes evidence.\n\nthat is when Grok Bot stops producing isolated answers and starts carrying a company build forward.\n\nbookmark the sequence. the order is the asset.",
+    "created_at": "Mon Sep 21 14:26:58 +0000 2026",
+    "likes": 589,
+    "views": "74737",
+    "url": "https://x.com/i/status/2102041903956906292",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102041471947804672/vid/avc1/320x426/71F-Jv2lI-28zHIA.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102041471947804672/img/R83HQAUGyShD4ZLR.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2092216029816472002",
+      "author": "kocer_eth",
+      "name": "kocer",
+      "text": "https://t.co/EA54nkNlMv",
+      "created_at": "Tue Aug 25 11:42:27 +0000 2026",
+      "url": "https://x.com/kocer_eth/status/2092216029816472002",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2102053088198611414",
+    "author": "neil_xbt",
+    "bio": "",
+    "text": "Your agents probably aren't the bottleneck. \n\nTrust is: how much you can let them do while nobody is watching.\n\nHere's how Lauren pushed that to 2,500 PRs a month:\nhttps://t.co/GinZ49z2n1",
+    "created_at": "Mon Sep 21 15:11:25 +0000 2026",
+    "likes": 47,
+    "views": "2892",
+    "url": "https://x.com/i/status/2102053088198611414",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102104926331502904",
+    "author": "AfterThe925",
+    "bio": "",
+    "text": "2,500 agent PRs last month means nothing if you can't prove one of them.\n\nLauren Tan (SpaceXAI) walked the real stack: verification gates, engineer-like skills (pstack), codebase-as-memory. Then cloud agents + Grok Bot as the factory.\n\nDon't copy the volume target. Copy the three gates first. Then let agents open PRs.",
+    "created_at": "Mon Sep 21 18:37:24 +0000 2026",
+    "likes": 0,
+    "views": "49",
+    "url": "https://x.com/i/status/2102104926331502904",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HSwtPafWkAACpa1.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HSwtPafWkAACpa1.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102726153358413835",
+    "author": "teaser380",
+    "bio": "",
+    "text": "Do you want a proven AI delivery framework?\n\nDo you want to spend less tokens? How about have a best practice devops/gitops?\n\nSelf-verification loop that ensures your AI agent actually gives you what you intended?\n\nAll done. You need dev-stack. All the skills, tooling, workflow, git workflows to make you a 10x engineer. \n\nI personally use this to deliver 200+ PRs per month.\n\nhttps://t.co/Z5TH0etlSM\n\nThanks Lauren @poteto for her initial work on pstack which is integrated into dev-stack. Though I worked on making the process more seamless to cater the requirements-> arch/design -> build/test -> verify -> fix -> deliver loop working in an automated way so you the human can be almost hands off (other than specifying the scope)\n\nLet me know what you think",
+    "created_at": "Wed Sep 23 11:45:56 +0000 2026",
+    "likes": 0,
+    "views": "17",
+    "url": "https://x.com/i/status/2102726153358413835",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": {
+      "name": "summary_large_image",
+      "title": "GitHub - MikeS071/dev-stack: Project-local, self-verifying delivery kit for coding agents",
+      "description": "Project-local, self-verifying delivery kit for coding agents - MikeS071/dev-stack",
+      "image_url": "https://pbs.twimg.com/card_img/2102726121301401600/DzBaegLm?format=jpg&name=600x600",
+      "url": "https://t.co/Z5TH0etlSM",
+      "domain": "github.com"
+    },
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102056512239636683",
+    "author": "rayanabdulcader",
+    "bio": "",
+    "text": "Lauren from SpaceXAI just dropped a free 38-minute talk on how she shipped 2,500 PRs to production last month.\n\nNot “type faster”. She built a coding factory:\n\n• teach agents real engineering habits, then verify their work  \n• treat the codebase as the bot’s memory so mistakes don’t repeat  \n• let cloud agents keep shipping while you sleep\n\nWatch it on 2x. She talks slowly. Worth it if you want agents that actually finish the job.",
+    "created_at": "Mon Sep 21 15:25:01 +0000 2026",
+    "likes": 0,
+    "views": "34",
+    "url": "https://x.com/i/status/2102056512239636683",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102398417284845802",
+    "author": "rehanhaider",
+    "bio": "",
+    "text": "2,500 PRs is phenomenal. \n\nAnd it cannot be done while reading code. I \"somewhat\" read them and average at 350 / month even with significant level of automation, validation, tests. \n\nAlthough tbh it is also a function of unlimited tokens/compute along with inflow of tickets.",
+    "created_at": "Tue Sep 22 14:03:38 +0000 2026",
+    "likes": 0,
+    "views": "54",
+    "url": "https://x.com/i/status/2102398417284845802",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102076295072903351",
+    "author": "grok",
+    "bio": "",
+    "text": "Lauren Tan's talk covers scaling GrokBot beyond single chats. Most users run one agent; she runs hierarchical teams (Chief of Staff coordinating managers and workers) that autonomously ship 1000+ PRs monthly via verification, agent-friendly architecture, and tools like /loop, /goal, /swarm in pstack.\n\nActionable steps:\n1. Build verification first: agents must run code, tests, traces, and simulators to prove results.\n2. Refactor codebase for agents: co-locate features, make shortest path the correct one, add static analysis/rules/style guides.\n3. Structure multi-agent teams with a coordinating Chief of Staff.\n4. Start local with tight oversight, then scale to cloud once trust is high.",
+    "created_at": "Mon Sep 21 16:43:38 +0000 2026",
+    "likes": 0,
+    "views": "13",
+    "url": "https://x.com/i/status/2102076295072903351",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102059021196747005",
+    "author": "GrokBotRadar",
+    "bio": "",
+    "text": "ARE YOU SEEING THIS!?!\n\nLauren just dropped the full talk on how she shipped 2,500 PRs to production last month.\n\nIt was supposed to be for Cursor Compile in London. She skipped it to livestream Grok Bot Galaxy. So she posted the whole thing on X for free.\n\nThe person inside Grok Bot just handed you the playbook.\n\nWatch it on 2x. Do not scroll past this.",
+    "created_at": "Mon Sep 21 15:34:59 +0000 2026",
+    "likes": 18,
+    "views": "3994",
+    "url": "https://x.com/i/status/2102059021196747005",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": {
+      "id": "2102050467505430555",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+      "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+      "url": "https://x.com/poteto/status/2102050467505430555",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2101285539580371431",
+    "author": "DAIEvolutionHub",
+    "bio": "",
+    "text": "SpaceXAI engineer, Lauren Tan:  \n\n\"99% of people using GrokBot just for 1% of its real power. They run 1 agent without \"loop\" & \"graph\"  \n\nI'm running a team of 20+ GrokBot agents, fully autonomous. I have a Chief of Staff agent, a PM agent and 20+ workers - that's the new stack of engineer\"  \n\nIn a 1-hour session, a SpaceXAI engineer showed how to build a team of effective AI agents from scratch  \n\nthis is worth more than a $500 agentic engineering course  \n\nwatch this workshop today, then read how to build a fleet of GrokBot agents in the article below",
+    "created_at": "Sat Sep 19 12:21:27 +0000 2026",
+    "likes": 265,
+    "views": "27094",
+    "url": "https://x.com/i/status/2101285539580371431",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101283914883174400/vid/avc1/462x270/dheNozp5ebTt764b.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101283914883174400/img/hqS-SnDkWHFmQvQx.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": null
+  }
+]

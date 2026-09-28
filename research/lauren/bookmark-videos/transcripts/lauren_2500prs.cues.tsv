@@ -1,0 +1,883 @@
+start	end	text
+00:00:01.360	00:00:02.741	Hi, my name's Lauren
+00:00:03.181	00:00:05.141	You might know me as Potato on X
+00:00:05.841	00:00:08.682	and I work on Grokbot at SpaceX AI
+00:00:09.862	00:00:12.463	So last month, I did something pretty crazy
+00:00:13.903	00:00:17.324	I shipped 2,000 pull requests to production
+00:00:19.184	00:00:20.304	A lot of how I'm able to do
+00:00:20.364	00:00:22.025	this is through trust
+00:00:23.265	00:00:24.265	and I
+00:00:24.065	00:00:25.986	think a lot about trust in terms of
+00:00:26.686	00:00:28.206	how I can trust my agents
+00:00:28.866	00:00:29.866	to
+00:00:29.306	00:00:32.027	produce high-quality work even when I'm not there
+00:00:33.287	00:00:35.848	And my argument and thesis for this talk
+00:00:35.908	00:00:37.048	today is that if you
+00:00:37.788	00:00:41.729	set up your environment for your agents really
+00:00:41.769	00:00:42.769	really well
+00:00:42.909	00:00:44.349	you can end up with something that looks
+00:00:44.469	00:00:48.350	more like a personal or even team software factory
+00:00:49.511	00:00:50.511	where you're producing
+00:00:51.071	00:00:52.331	very high-quality code
+00:00:52.851	00:00:55.652	at much greater rates than before
+00:00:57.192	00:00:58.192	but
+00:00:57.712	00:00:59.393	I'm not a fan of the term software
+00:00:59.413	00:01:00.413	factory
+00:01:00.573	00:01:03.193	I like the analogy of the Michelin kitchen better
+00:01:03.913	00:01:08.874	where, you know, as technologists, we're not really producing
+00:01:08.994	00:01:11.955	we're not mass producing a product on an assembly line
+00:01:12.795	00:01:14.895	but the work that we do looks very creative
+00:01:15.096	00:01:18.336	It's very, you know, it's the act of building a product
+00:01:19.136	00:01:21.237	and it's art in some sense
+00:01:22.017	00:01:24.837	So, you know, even though with agents
+00:01:24.897	00:01:25.897	we're not
+00:01:26.078	00:01:30.238	cooking the individual components that go into the product anymore
+00:01:32.539	00:01:34.899	we're still responsible for the final outcome
+00:01:35.699	00:01:37.980	and thinking about our kitchen setup
+00:01:39.160	00:01:42.382	Right, because depending on how you set up your line cooks
+00:01:42.482	00:01:45.623	your sous chefs, you know, the kind of equipment they have
+00:01:45.683	00:01:47.124	the kind of training they have
+00:01:47.844	00:01:50.346	you know, dishwashers and the ratio
+00:01:50.566	00:01:52.607	I guess, of line cooks to dishwashers
+00:01:54.268	00:01:56.068	all of these ingredients go
+00:01:56.309	00:01:58.029	into making the final product
+00:01:59.470	00:02:02.231	and I think this analogy is really apt
+00:02:03.192	00:02:04.192	So
+00:02:05.473	00:02:07.234	I wanted to talk a little bit about
+00:02:07.434	00:02:09.135	a story before we begin
+00:02:10.135	00:02:11.896	where six months ago
+00:02:12.156	00:02:13.377	when I first joined Cursor
+00:02:13.617	00:02:15.498	before we were a part of SpaceX AI
+00:02:16.618	00:02:19.800	I obviously had, you know, no agent skills to
+00:02:20.440	00:02:22.581	to use, right? I just joined the company
+00:02:22.782	00:02:23.782	It was
+00:02:23.922	00:02:26.083	a fresh code base and a fresh product
+00:02:26.123	00:02:27.123	that I was working on
+00:02:28.604	00:02:29.604	So at the time
+00:02:30.645	00:02:34.905	Cursor was building the replacement for the Cursor IDE
+00:02:35.766	00:02:37.186	which is the new agents window
+00:02:38.206	00:02:40.207	And, before I joined
+00:02:40.367	00:02:41.787	the Cursor agent window
+00:02:42.427	00:02:44.047	had quite a lot of performance issues
+00:02:45.148	00:02:47.188	and my manager at the time asked if
+00:02:47.288	00:02:48.508	I was able to help them
+00:02:49.969	00:02:51.629	and since I had spent some time on
+00:02:51.669	00:02:53.830	the React team before I joined Cursor
+00:02:54.810	00:02:56.170	it seemed like a good fit
+00:02:57.850	00:02:59.431	but when I first started
+00:03:00.211	00:03:03.172	I quickly realized how manual this process was
+00:03:04.292	00:03:06.272	obviously I have done performance work before
+00:03:07.292	00:03:10.793	but at the rate at which pull requests were being landed
+00:03:10.913	00:03:11.913	it was just
+00:03:12.213	00:03:13.213	it felt almost
+00:03:13.654	00:03:17.795	an insurmountable wall of pull requests that just kept coming in
+00:03:18.055	00:03:19.575	and I had no idea whether or not
+00:03:20.095	00:03:22.276	the performance of the app would be regressing
+00:03:23.116	00:03:24.116	right?
+00:03:24.456	00:03:25.456	So
+00:03:25.336	00:03:26.597	a lot of my early time
+00:03:27.037	00:03:30.078	on the cursor team was spent looking at
+00:03:31.139	00:03:32.139	Chrome
+00:03:31.839	00:03:34.920	DevTools and the performance and doing performance traces
+00:03:35.501	00:03:36.881	and taking heap snapshots
+00:03:38.162	00:03:39.162	and it was extremely
+00:03:39.562	00:03:40.703	extremely manual
+00:03:41.863	00:03:43.704	It wa- it, it was so manual
+00:03:44.044	00:03:45.485	it, it got to the point where
+00:03:46.705	00:03:49.086	I just got really frustrated and started to think about
+00:03:49.566	00:03:51.007	you know, wait, we have agents
+00:03:51.087	00:03:52.087	what am I doing?
+00:03:52.688	00:03:56.089	And so I started thinking about verification skills
+00:03:56.749	00:03:57.749	where, you know
+00:03:57.549	00:03:58.870	what if my agent could actually
+00:03:59.410	00:04:02.852	run the application itself and take the traces for me
+00:04:03.112	00:04:05.313	understand the traces, and find the hotspots
+00:04:05.373	00:04:07.173	and basically hill climb
+00:04:07.734	00:04:09.434	you know, to, better
+00:04:10.635	00:04:12.716	performance in an application automatically
+00:04:14.596	00:04:16.597	And throughout the last six months
+00:04:17.157	00:04:19.478	of being at Cursor and SpaceX AI
+00:04:20.298	00:04:23.379	you can really see that my product really has skyrocketed
+00:04:24.260	00:04:25.360	And, you know
+00:04:25.440	00:04:26.440	I never set out to
+00:04:27.281	00:04:29.541	ship 2,000 pull requests a month
+00:04:29.681	00:04:31.202	That was not a goal of mine at
+00:04:31.262	00:04:32.262	all
+00:04:32.482	00:04:35.363	But I realized that all of the skills
+00:04:35.423	00:04:36.423	all of the tools and
+00:04:36.544	00:04:38.684	and code-based changes I were making
+00:04:39.625	00:04:41.845	laddered up to this idea of trust
+00:04:42.266	00:04:43.586	You know, I didn't know it at the time
+00:04:43.746	00:04:47.227	but, I had this thought in the back of my head
+00:04:47.747	00:04:50.348	head, which was, you know, I am the bottleneck
+00:04:51.209	00:04:52.249	and I need to be able to
+00:04:52.889	00:04:55.050	take all of the knowledge that I have
+00:04:55.170	00:04:57.431	as an engineer and impart them into
+00:04:57.671	00:05:00.552	into my team of agents so that I didn't need to
+00:05:01.672	00:05:04.213	be the blocker for everything
+00:05:04.653	00:05:05.653	And
+00:05:07.114	00:05:08.414	you can clearly see that it's
+00:05:08.594	00:05:09.594	it's paid off
+00:05:11.716	00:05:12.716	So
+00:05:14.016	00:05:17.017	I think it really comes down to trust
+00:05:18.378	00:05:20.399	but how exactly do you build that trust?
+00:05:20.679	00:05:23.019	And where do you start if you're
+00:05:23.260	00:05:24.260	you know
+00:05:23.480	00:05:27.041	wherever you are in your journey of using agents?
+00:05:27.941	00:05:31.402	So, when I started, obviously I was in this category
+00:05:31.622	00:05:34.163	you know, in the one to one to five range
+00:05:35.144	00:05:39.945	where, you still feel like you have to babysit every chat
+00:05:40.846	00:05:45.827	and, and conversation, and you're just constantly course correcting
+00:05:46.047	00:05:47.248	you know, you're intervening
+00:05:47.388	00:05:49.729	you're correcting your agent so that it does
+00:05:49.809	00:05:50.809	the right thing
+00:05:51.649	00:05:53.310	and if you're not there
+00:05:53.570	00:05:55.651	basically nothing gets, nothing happens
+00:05:56.251	00:05:57.932	and the agents do the wrong thing
+00:05:59.272	00:06:00.933	And I would actually argue that this part
+00:06:01.213	00:06:02.733	this phase of, you know
+00:06:02.893	00:06:05.134	using agents is actually the hardest to get out of
+00:06:06.054	00:06:07.555	because it's not always very clear
+00:06:07.835	00:06:10.016	how exactly you get out of it
+00:06:11.116	00:06:13.916	And, again, it just comes down to trust
+00:06:15.457	00:06:19.197	you know, the reason you're unable to go from one
+00:06:19.717	00:06:21.678	one or one to five agents to something
+00:06:21.718	00:06:22.898	more like a hundred
+00:06:24.018	00:06:25.478	is because you don't have trust in your
+00:06:25.518	00:06:26.518	agent's work yet
+00:06:27.038	00:06:28.559	So if you don't have trust and you
+00:06:28.619	00:06:31.279	try to spawn a hundred sub-agents or cloud agents
+00:06:31.999	00:06:33.759	you're going to quickly find that you're just
+00:06:33.779	00:06:36.660	going to get a ton of slop pull requests and
+00:06:37.300	00:06:38.300	you know
+00:06:37.560	00:06:39.120	a bunch of regressions and a bunch of
+00:06:39.180	00:06:40.180	bugs ship
+00:06:40.000	00:06:41.641	and no one's going to be very happy
+00:06:41.721	00:06:42.721	with that
+00:06:44.241	00:06:46.221	So that begs the question
+00:06:47.401	00:06:49.222	how do you trust your agents more?
+00:06:51.082	00:06:56.323	So for me, it came, it, it really started when I
+00:06:57.283	00:06:58.283	like I said, I meant
+00:06:58.263	00:06:59.423	I joined the cursor team
+00:07:00.043	00:07:01.583	and I was starting to work on performance
+00:07:02.184	00:07:04.924	where I realized the need for verification
+00:07:05.984	00:07:07.946	So when I say verification
+00:07:08.886	00:07:10.167	there are sort of levels to that
+00:07:11.488	00:07:14.450	because, you know, on the, I guess
+00:07:14.530	00:07:17.192	the lower end of the scale for verification
+00:07:17.792	00:07:18.853	you have things like
+00:07:19.273	00:07:21.235	the verification skills that I talk about
+00:07:21.355	00:07:24.517	where you teach your agent how to run your application
+00:07:26.078	00:07:27.078	you know
+00:07:26.458	00:07:28.800	and use things like the Chrome DevTools protocol
+00:07:29.380	00:07:32.042	or whatever other protocol that you have for debugging
+00:07:32.722	00:07:34.123	and teach them how to
+00:07:36.425	00:07:37.686	you know, debug the application
+00:07:37.926	00:07:39.167	take performance traces
+00:07:41.288	00:07:42.829	Take heat snapshots and so on
+00:07:44.369	00:07:46.570	and then on the opposite end of spectrum
+00:07:46.630	00:07:47.891	of the spectrum, which is much
+00:07:47.951	00:07:50.852	much harder and still very much an open question
+00:07:51.612	00:07:54.314	is like more formal verification
+00:07:54.834	00:07:57.195	where, you know, maybe you rely on
+00:07:57.935	00:07:59.856	formal methods or, you know
+00:07:59.956	00:08:03.998	languages like Lean or TLA+ to do
+00:08:04.478	00:08:07.239	you know, verification so that you can check that
+00:08:07.759	00:08:10.460	you know, your business level or business logic
+00:08:11.201	00:08:17.723	invariants are, you know, are always, true, and that
+00:08:20.104	00:08:22.466	you can formally verify that your application is
+00:08:22.546	00:08:23.786	always in a correct state
+00:08:25.187	00:08:26.407	but I would say that
+00:08:26.848	00:08:28.108	you know, even if you don't have
+00:08:28.989	00:08:30.570	the ability to run formal methods
+00:08:30.630	00:08:32.490	and very few people really do
+00:08:33.751	00:08:35.792	that with verification skills
+00:08:35.872	00:08:36.872	you can get very far
+00:08:37.753	00:08:39.174	So when I joined Cursor
+00:08:40.014	00:08:42.355	and started to work on the Cursor agent window
+00:08:42.976	00:08:44.476	the first skill that I built was a
+00:08:44.536	00:08:46.097	skill called Control Glass
+00:08:46.757	00:08:50.539	which is a verification skill that teaches the agent how to
+00:08:51.980	00:08:55.081	run the application and take traces like I mentioned
+00:08:55.682	00:08:56.842	and it does that through
+00:08:58.023	00:08:59.183	the Chrome DevTools protocol
+00:09:01.765	00:09:05.106	something interesting about that skill is
+00:09:05.506	00:09:07.367	and I kind of iterated my way to this
+00:09:07.967	00:09:09.008	it didn't start out this way
+00:09:10.208	00:09:11.789	but the control
+00:09:12.989	00:09:14.930	the control or verification skill
+00:09:15.510	00:09:17.251	really has two components to it
+00:09:19.552	00:09:21.593	the first part is obviously a CLI
+00:09:22.493	00:09:26.915	so you want your agent to be able to reproducibly
+00:09:28.455	00:09:30.756	be able to run the application and collect
+00:09:30.776	00:09:32.697	traces and collect evidence that
+00:09:33.137	00:09:36.899	you know, empirical evidence that, you know, code is working
+00:09:37.879	00:09:39.920	that your performance bar is being met
+00:09:41.201	00:09:44.402	and rather than have your agents create scripts every time
+00:09:45.722	00:09:48.363	you know, that can differ between agent sessions
+00:09:49.344	00:09:50.344	you can actually
+00:09:50.624	00:09:54.586	you can actually create a CLI that's within the skill directory
+00:09:55.286	00:09:56.907	and then your agents will just use that
+00:09:56.967	00:09:57.967	every time
+00:09:58.408	00:10:00.269	And then Of course
+00:10:00.269	00:10:01.930	you need to actually invest in it and
+00:10:02.010	00:10:03.010	make it good
+00:10:03.171	00:10:05.973	so that it can handle all sorts of different use cases
+00:10:07.954	00:10:13.938	and, be able to, you know, run the application, correctly
+00:10:16.420	00:10:18.482	another thing that's also really important is
+00:10:19.182	00:10:20.883	this idea of a feature map
+00:10:22.104	00:10:24.106	So a feature map really is
+00:10:25.506	00:10:26.867	something that I kind of coined
+00:10:27.428	00:10:29.589	I guess, where, you know
+00:10:29.629	00:10:32.551	we started using these control skills within cursor
+00:10:33.351	00:10:34.592	Then we quickly realized that
+00:10:35.012	00:10:36.012	you know
+00:10:35.333	00:10:36.654	a Slack report would come in
+00:10:36.854	00:10:39.936	and a user would post a very vague screenshot
+00:10:40.356	00:10:41.356	right? Like a very
+00:10:41.236	00:10:42.617	small slice of the UI
+00:10:43.278	00:10:44.899	and just like three question marks
+00:10:45.379	00:10:46.379	And the agents
+00:10:46.280	00:10:48.161	using our control skills are just no idea
+00:10:48.341	00:10:49.742	Like it could run the application
+00:10:49.862	00:10:52.483	but it would just be guessing at what exactly the
+00:10:52.724	00:10:53.724	the user meant
+00:10:54.245	00:10:55.245	And so
+00:10:54.845	00:10:57.106	I had this idea to create something called a feature map
+00:10:58.347	00:10:59.347	which is
+00:10:59.648	00:11:02.646	I guess kind of inspired by like a
+00:11:02.646	00:11:03.646	sitemap
+00:11:03.396	00:11:04.895	it essentially is a
+00:11:05.269	00:11:06.768	form of materialized memory
+00:11:06.768	00:11:07.768	you know
+00:11:07.518	00:11:10.141	like how exactly does your application work?
+00:11:10.141	00:11:12.015	What features does it have?
+00:11:12.015	00:11:14.638	How do, does a user reach it?
+00:11:15.013	00:11:16.013	you know
+00:11:15.762	00:11:18.760	in terms of like keyboard shortcuts or what
+00:11:18.760	00:11:20.634	DOM elements to click on
+00:11:21.009	00:11:22.883	you know, things like that
+00:11:22.883	00:11:25.881	and what all the fe- different features do
+00:11:26.255	00:11:28.129	and, they are these
+00:11:28.129	00:11:31.502	this feature map is stored in the skill itself
+00:11:31.877	00:11:34.875	in the code base as part of the
+00:11:34.875	00:11:37.873	skill directory. And we have an automation that
+00:11:38.247	00:11:40.496	maintains this feature map as well
+00:11:41.156	00:11:43.296	But when we combined the CLI and the feature map
+00:11:43.776	00:11:45.097	we quickly realized that
+00:11:45.857	00:11:47.017	this combination was very
+00:11:47.077	00:11:49.337	very powerful because now agents can not only
+00:11:49.357	00:11:53.578	you know, reproducibly control the application and take traces
+00:11:54.198	00:11:56.078	but it could also understand
+00:11:56.978	00:11:58.539	requests that came in from
+00:11:59.159	00:12:01.939	internal users as well as external users
+00:12:02.859	00:12:03.859	And so
+00:12:03.780	00:12:06.520	we very quickly realized that the control
+00:12:07.020	00:12:11.781	verification skills were so useful that they've become more or less
+00:12:12.881	00:12:14.621	critical infrastructure for our team
+00:12:15.201	00:12:17.442	and we constantly, maintain it
+00:12:18.262	00:12:20.002	But the ability for an agent to
+00:12:20.282	00:12:23.102	verify its own work is extremely powerful
+00:12:23.843	00:12:25.503	and, we have
+00:12:27.403	00:12:28.863	spent a lot of the time on this skill
+00:12:29.463	00:12:30.463	and it's very
+00:12:29.923	00:12:32.204	very powerful for building that trust
+00:12:33.924	00:12:35.565	in addition to verification
+00:12:35.605	00:12:37.805	of course, you want
+00:12:38.765	00:12:41.966	because ver- verification is really about correctness
+00:12:42.806	00:12:46.207	Correctness to me is really about does the thing
+00:12:46.607	00:12:48.568	does the feature or code do
+00:12:48.988	00:12:50.008	thing that you want it to do?
+00:12:50.968	00:12:53.529	Right, like does the, you know, the checkout button
+00:12:53.669	00:12:55.609	does it actually check out the car?
+00:12:57.330	00:12:59.290	verification is really important for that because
+00:12:59.690	00:13:01.431	you could get empirical evidence that
+00:13:01.651	00:13:02.991	this feature actually works
+00:13:03.931	00:13:05.812	But it doesn't tell you much about
+00:13:06.092	00:13:07.372	you know, the performance or
+00:13:08.372	00:13:10.493	the code quality of that feature
+00:13:11.773	00:13:14.054	and that's where you start thinking about skills
+00:13:14.134	00:13:17.234	that teach agents to work like real software engineers
+00:13:18.415	00:13:19.415	So
+00:13:20.775	00:13:23.116	I've built a plugin called PStack
+00:13:24.476	00:13:26.517	I'm not going to talk about the plugin too much today
+00:13:27.477	00:13:31.059	but, a, a lot of the inspiration for that plugin
+00:13:31.939	00:13:34.080	which is a collection of skills that I've created
+00:13:35.000	00:13:36.601	are inspired by
+00:13:37.041	00:13:41.403	the kind of workflows that I personally have used as my
+00:13:41.563	00:13:43.383	in my time doing software engineering
+00:13:44.264	00:13:46.364	for all sorts of different types of tasks
+00:13:46.464	00:13:51.606	So debugging, you know, feature development, prototyping
+00:13:52.287	00:13:54.367	there's a whole bunch of different playbooks
+00:13:54.587	00:13:56.388	and skills that ship in PSNAC
+00:13:57.008	00:13:58.249	that teach your agents
+00:13:58.829	00:13:59.829	how to write code
+00:13:59.969	00:14:01.170	the way that you want them to
+00:14:02.070	00:14:03.271	And, you know, this is where
+00:14:04.311	00:14:05.311	you know
+00:14:04.511	00:14:06.812	the more experienced engineers on your team can
+00:14:06.872	00:14:12.654	really contribute to set up a team repository of skills that
+00:14:13.995	00:14:16.075	just make your agents a lot smarter
+00:14:18.396	00:14:20.277	And when you combine those skills with
+00:14:21.417	00:14:23.538	verification skills, then you
+00:14:23.678	00:14:25.279	you're able to get to a point where
+00:14:25.319	00:14:26.939	your agents are able to not just
+00:14:27.539	00:14:30.040	verify that the work that they're doing is correct
+00:14:30.640	00:14:31.961	but that it's also high quality
+00:14:32.781	00:14:39.163	And again, because of verification, you can collect real performance metrics
+00:14:39.223	00:14:43.385	you can get real numbers and statistics and telemetry on
+00:14:44.285	00:14:47.466	the, like, performance of the application
+00:14:50.487	00:14:52.188	so I think that's a really important part
+00:14:52.348	00:14:53.428	to invest in
+00:14:56.209	00:14:57.950	another thing I think is really important is
+00:14:58.210	00:15:00.671	refactoring and rewriting your architecture
+00:15:01.191	00:15:02.772	to be more agent-friendly
+00:15:04.352	00:15:06.433	and I almost want to say that
+00:15:07.513	00:15:09.413	this is one of the most important things you can do
+00:15:11.013	00:15:12.274	as a, as a software engineering team
+00:15:13.074	00:15:14.074	because
+00:15:14.694	00:15:15.694	if you
+00:15:15.154	00:15:17.115	really truly believe that agents are going to
+00:15:17.135	00:15:18.775	be writing all the code in the future
+00:15:19.775	00:15:20.775	then
+00:15:20.255	00:15:21.716	we need to design our code bases
+00:15:21.996	00:15:22.996	so that
+00:15:22.936	00:15:24.736	they do the right thing by default
+00:15:25.656	00:15:26.857	And you'll find that there's this
+00:15:28.297	00:15:29.297	I, I almost want to say like a
+00:15:29.977	00:15:32.618	a scale or a continuum between
+00:15:34.418	00:15:37.499	you know, these different pieces of building trust in your agents
+00:15:38.579	00:15:40.559	where, on, you know
+00:15:40.599	00:15:42.119	I have like five of these points here
+00:15:42.700	00:15:43.700	where
+00:15:45.780	00:15:48.161	The code base is really like the best
+00:15:48.201	00:15:49.201	form of memory
+00:15:49.602	00:15:53.784	because agents love to extend existing patterns that they see
+00:15:55.504	00:15:56.504	and, you know
+00:15:57.205	00:15:59.826	I think this is just the nature of how LLMs work
+00:16:00.046	00:16:01.046	where
+00:16:01.047	00:16:02.047	they're more likely to
+00:16:02.787	00:16:05.168	use whatever it is in their context window
+00:16:06.409	00:16:07.789	to make changes
+00:16:08.390	00:16:09.390	And of course
+00:16:09.150	00:16:10.951	the files that the agents read
+00:16:11.491	00:16:14.792	and opens are part of its context window
+00:16:15.853	00:16:16.853	and therefore
+00:16:16.833	00:16:18.854	the code base is a really important part of that
+00:16:19.694	00:16:20.694	because, you know
+00:16:20.415	00:16:23.636	agents aren't gonna just refactor your code every single
+00:16:23.876	00:16:24.876	in every single PR
+00:16:25.437	00:16:27.138	They're gonna just look at what's already there
+00:16:27.318	00:16:28.318	and just extend
+00:16:28.558	00:16:31.479	The next level, I think, is about static analysis
+00:16:32.200	00:16:33.760	where you have linters
+00:16:33.820	00:16:35.921	you have compiler diagnostics
+00:16:36.021	00:16:38.882	you have, continuous integration
+00:16:40.743	00:16:41.784	and these are
+00:16:42.925	00:16:45.550	Guidelines and constraints that you can enforce
+00:16:45.771	00:16:49.418	in your codebase so that whenever you correct your agent
+00:16:49.879	00:16:51.022	you find that, you know
+00:16:51.583	00:16:53.146	they just keep making the same mistake
+00:16:54.928	00:16:56.869	you can add those as lint rules
+00:16:57.109	00:16:58.109	or even better
+00:16:58.030	00:16:59.710	you can refactor your code base so that
+00:17:00.371	00:17:01.991	the mistake that the agent is making
+00:17:02.492	00:17:04.412	becomes categorically impossible
+00:17:05.873	00:17:07.233	and then a step above that
+00:17:07.454	00:17:08.454	right, where, where
+00:17:08.494	00:17:10.175	and this is where we're starting to get more into
+00:17:12.116	00:17:13.116	less
+00:17:12.636	00:17:15.137	of like a hard constraint and enforcement and
+00:17:15.177	00:17:17.098	more into the realm of guidance
+00:17:18.018	00:17:19.298	You have things like rules
+00:17:19.338	00:17:20.338	you have bug bot
+00:17:20.599	00:17:23.540	you have skills, which, you know
+00:17:23.580	00:17:27.102	your agents will obviously sometimes and mostly use
+00:17:27.762	00:17:28.762	when they're doing their work
+00:17:28.822	00:17:30.823	but there's also a chance that it might
+00:17:31.463	00:17:32.644	for various reasons, you know
+00:17:33.104	00:17:34.665	forget to read a rule or
+00:17:35.185	00:17:36.185	maybe the
+00:17:35.925	00:17:39.367	user that is piloting the agent ignores them
+00:17:40.407	00:17:42.348	so these aren't quite as enforceable
+00:17:42.408	00:17:44.889	but also an important part of
+00:17:47.450	00:17:49.031	setting up your environment so that you can
+00:17:49.071	00:17:51.132	really trust what your agents are doing
+00:17:53.392	00:17:55.053	and then finally you have the style guide
+00:17:55.453	00:17:57.014	which is really only enforceable
+00:17:57.234	00:17:58.994	by humans in a code review
+00:17:59.575	00:18:00.575	I guess you could put the
+00:18:00.355	00:18:01.695	put these in your rules and
+00:18:01.935	00:18:03.596	and bug bot and skills as well
+00:18:04.356	00:18:05.356	But if you don't
+00:18:05.036	00:18:08.538	then you have this big glaring hole in your
+00:18:09.738	00:18:12.199	review process, where now humans have to
+00:18:12.719	00:18:13.719	you know
+00:18:13.239	00:18:14.239	look at every
+00:18:14.199	00:18:17.300	single line that's being changed and remember to comment
+00:18:17.520	00:18:20.101	and with the rate of pull requests that are coming in
+00:18:20.221	00:18:22.442	it just, it just becomes impossible
+00:18:23.242	00:18:24.703	So I definitely wouldn't recommend
+00:18:24.963	00:18:26.884	you know, relying only on the style guide
+00:18:27.464	00:18:29.104	I think the style guide
+00:18:29.424	00:18:30.424	or, you know
+00:18:29.825	00:18:32.485	like looking at human reviews is a good place to start
+00:18:33.646	00:18:35.226	in terms of what's missing
+00:18:35.967	00:18:36.967	But you should
+00:18:36.807	00:18:40.648	really invest the time to think about the other four parts
+00:18:41.589	00:18:42.589	you know, your code base
+00:18:42.889	00:18:48.771	making things categorically impossible through better data structures or algorithms
+00:18:49.731	00:18:50.752	static analysis
+00:18:50.952	00:18:52.532	and then of course you layer That with
+00:18:52.772	00:18:55.033	rules and bug bot and skills
+00:18:57.495	00:18:58.735	on the code base front
+00:19:01.977	00:19:03.557	and in the Grokbot code base
+00:19:04.218	00:19:06.139	we actually have invested into
+00:19:07.219	00:19:09.580	setting something up that we call Dune
+00:19:10.080	00:19:12.121	which is our agent-friendly framework
+00:19:13.122	00:19:14.122	So
+00:19:14.762	00:19:17.204	the inspiration for Dune really came about from
+00:19:17.264	00:19:19.185	a lot of performance issues we're seeing
+00:19:19.245	00:19:20.305	we were seeing in
+00:19:21.285	00:19:22.406	the cursor agent window
+00:19:23.406	00:19:26.488	And so a lot of lessons came out of that inspiration
+00:19:27.248	00:19:28.248	but
+00:19:29.349	00:19:30.349	the
+00:19:29.809	00:19:31.830	key principle that we landed on is really
+00:19:31.950	00:19:34.552	that agents love taking shortcuts
+00:19:36.092	00:19:40.453	So what if we design the framework such that the shortcut
+00:19:40.673	00:19:44.394	you know, the easy path is the right path for agents
+00:19:45.055	00:19:48.195	and also one that would be a code base that is
+00:19:48.636	00:19:51.496	you know, maybe pretty annoying for humans to work in
+00:19:52.357	00:19:54.117	because it's so locked down in terms of
+00:19:54.177	00:19:55.537	what you can do and what you can't do
+00:19:56.518	00:20:00.059	But, it actually creates the perfect environment for agents
+00:20:00.499	00:20:02.739	especially ones that have very minimal context
+00:20:02.879	00:20:04.040	because, you know
+00:20:04.460	00:20:06.220	not every contributor to your code base is
+00:20:06.280	00:20:07.561	going to be an engineer anymore
+00:20:08.001	00:20:09.001	You can have designers
+00:20:08.941	00:20:11.142	you can have product managers
+00:20:11.182	00:20:12.922	you can have CEOs
+00:20:12.982	00:20:14.823	you know, going into the code base and
+00:20:14.943	00:20:15.943	and shipping features
+00:20:16.423	00:20:17.603	So we want to really think
+00:20:18.123	00:20:19.644	a lot about how we invest
+00:20:20.264	00:20:23.085	and set up our code bases so that
+00:20:23.645	00:20:24.645	you know
+00:20:23.925	00:20:25.766	even agents that are piloted by
+00:20:26.006	00:20:27.006	busy people
+00:20:27.186	00:20:28.886	with not a lot of context can do
+00:20:29.126	00:20:30.126	a good job by default
+00:20:31.967	00:20:33.288	And like I mentioned before
+00:20:35.348	00:20:38.490	Your code base is really a form of memory for agents
+00:20:38.910	00:20:40.431	because they love to extend the
+00:20:40.731	00:20:42.312	existing patterns that they see
+00:20:43.493	00:20:45.394	And the reverse is actually also true
+00:20:45.894	00:20:47.375	right? You can invest the time to set
+00:20:47.415	00:20:48.415	up your code base
+00:20:49.316	00:20:51.317	in a way that things are
+00:20:51.478	00:20:54.019	you know, bad patterns are categorically impossible
+00:20:54.719	00:20:55.719	or you have, like
+00:20:55.660	00:20:56.921	lit rules that prevent them
+00:20:57.681	00:21:00.123	But the reverse is also true in the sense that
+00:21:01.123	00:21:03.645	if you have existing anti-patterns
+00:21:04.305	00:21:06.566	you'll actually find that these will spread
+00:21:07.127	00:21:08.127	kind of like a virus
+00:21:10.068	00:21:11.089	where you have, like
+00:21:11.309	00:21:13.010	one small workaround
+00:21:13.610	00:21:15.672	or a comment that explains a workaround
+00:21:16.852	00:21:18.592	And you'll quickly find that agents just love
+00:21:18.632	00:21:19.632	to copy that
+00:21:19.873	00:21:20.873	And then
+00:21:20.693	00:21:23.173	in a matter of a few days or a few weeks
+00:21:23.213	00:21:25.074	you'll find that that workaround has spread
+00:21:25.654	00:21:28.234	everywhere and it's now becomes
+00:21:28.414	00:21:30.455	it has become like a de facto pattern
+00:21:30.615	00:21:32.755	for all agents. And that's a really
+00:21:32.775	00:21:33.775	really bad place to be
+00:21:33.975	00:21:34.975	to be in
+00:21:35.616	00:21:36.616	And that goes back to what I was
+00:21:36.536	00:21:38.396	saying about why it's really important
+00:21:38.816	00:21:40.437	you know, whenever you're correcting your
+00:21:40.617	00:21:41.617	your agents
+00:21:42.037	00:21:44.297	that you invest the time into thinking about
+00:21:44.797	00:21:47.778	code base changes and static analysis to
+00:21:47.958	00:21:51.579	and, and of course, the layering them with rules
+00:21:51.719	00:21:53.719	good rules and bug bot and skills
+00:21:55.019	00:21:56.880	because of, of that reason
+00:21:59.400	00:22:01.801	and another analogy that I like
+00:22:01.901	00:22:03.362	in addition to the Michelin kitchen
+00:22:03.482	00:22:04.482	is this idea that
+00:22:04.862	00:22:06.803	you know, your code base is kind of like a garden
+00:22:07.583	00:22:12.785	where you have, workarounds, you know, that seem seemingly
+00:22:13.425	00:22:15.226	that seem kind of innocent at first
+00:22:15.926	00:22:17.647	then because of the nature of agents
+00:22:17.647	00:22:19.668	you just copy that pattern over and over again
+00:22:20.468	00:22:22.669	and you quickly end up with a very
+00:22:23.309	00:22:26.210	you know, vibe-coded code base that is
+00:22:27.010	00:22:28.010	you know
+00:22:27.410	00:22:29.591	a pain in the butt to maintain
+00:22:30.271	00:22:31.912	and has a lot of performance issues
+00:22:32.872	00:22:34.313	So in my opinion
+00:22:34.793	00:22:36.733	the perfect agent code base is one that's
+00:22:36.854	00:22:38.594	so locked down that
+00:22:38.874	00:22:41.355	you know, it, again, it's like really annoying for humans to
+00:22:41.555	00:22:42.555	to write code in
+00:22:43.036	00:22:44.996	but it's so conventional
+00:22:45.136	00:22:47.517	it's so standardized that
+00:22:48.518	00:22:51.459	you know, even innocent-looking patterns are just forgotten
+00:22:52.959	00:22:54.660	and the best example of this I have
+00:22:55.920	00:22:57.401	Is actually something that seems very
+00:22:57.501	00:22:59.182	very innocent when you look at it
+00:23:00.002	00:23:01.002	but when you think about it
+00:23:01.063	00:23:02.063	it's actually really bad
+00:23:02.864	00:23:04.024	And that pattern is
+00:23:05.125	00:23:07.646	agents leaving comments in the code
+00:23:08.887	00:23:09.887	Now, you know
+00:23:09.747	00:23:11.728	when I first saw agents starting to do this
+00:23:12.109	00:23:15.230	I initially wasn't, well, I
+00:23:15.370	00:23:16.971	I did think that a lot of them are slop
+00:23:17.051	00:23:18.612	but I also thought that
+00:23:18.692	00:23:20.653	you know, it actually doesn't, it's, it's not a bad thing
+00:23:20.713	00:23:23.715	right, I guess, if agents are leaving comments in the code
+00:23:23.755	00:23:25.416	because as humans
+00:23:25.496	00:23:27.977	we left comments in the code whenever we saw
+00:23:28.537	00:23:29.658	you know, edge cases
+00:23:29.858	00:23:32.919	or we needed to actually make a workaround
+00:23:33.160	00:23:35.501	or, you know, leave a note to ourselves
+00:23:35.681	00:23:36.681	or a
+00:23:36.581	00:23:39.063	a colleague on a particularly tricky part of
+00:23:39.083	00:23:40.083	the codebase
+00:23:40.964	00:23:41.964	But
+00:23:42.344	00:23:43.725	What I quickly realized when we
+00:23:44.365	00:23:46.566	saw this happening in the cursor codebase
+00:23:47.246	00:23:50.047	was that agents were just using the comments
+00:23:50.948	00:23:53.049	around the code as justification
+00:23:53.689	00:23:56.490	for why it wasn't going to solve the actual problem
+00:23:57.270	00:23:58.270	and instead
+00:23:58.291	00:24:02.793	paper over it with a band-aid or a short-term solution
+00:24:04.113	00:24:08.595	So, in Dune, which is again the framework that powers Grokbot
+00:24:09.415	00:24:11.656	we made the choice to
+00:24:13.077	00:24:17.559	we made the choice to actually ban comments for that reason
+00:24:17.919	00:24:22.281	where, so that agents would not just copy that pattern and
+00:24:23.661	00:24:26.162	you know, propagate it everywhere in the codebase
+00:24:28.903	00:24:29.903	So
+00:24:30.744	00:24:34.026	my pitch here is that every team really needs something that
+00:24:34.306	00:24:36.527	you know, a role that I'm calling a gardener
+00:24:37.988	00:24:38.988	in the same way that
+00:24:40.009	00:24:41.350	you know, with a real garden
+00:24:41.550	00:24:44.572	you need someone who is thinking a lot about the
+00:24:45.993	00:24:46.993	you know
+00:24:46.253	00:24:47.253	things that can kind of
+00:24:47.633	00:24:50.935	creep in and grow in ways that you don't want
+00:24:51.075	00:24:54.417	Like, you know, you have weeds, you have, you know
+00:24:54.437	00:24:57.379	just other types of organic growth
+00:24:58.119	00:24:59.480	I don't really know gardening that well
+00:25:01.001	00:25:02.001	but you have things that
+00:25:01.941	00:25:04.743	you know, unwanted pests and, and stuff like that
+00:25:04.763	00:25:05.763	that kind of creep in
+00:25:05.803	00:25:06.803	in hierarchical based
+00:25:07.644	00:25:08.865	And so you want to nip them in
+00:25:08.905	00:25:09.905	the bud
+00:25:09.785	00:25:12.227	as soon as possible before they start propagating
+00:25:12.847	00:25:13.847	everywhere
+00:25:14.825	00:25:17.838	a lot of the principles behind Dune are
+00:25:17.838	00:25:20.099	really centered around these three things
+00:25:20.099	00:25:21.229	First of all
+00:25:21.229	00:25:25.373	we want to delete tech debt that we already have for
+00:25:25.373	00:25:28.010	you know, for reasons I just mentioned
+00:25:28.010	00:25:29.517	We want to keep
+00:25:29.893	00:25:32.907	or enforce a single paved path for most
+00:25:32.907	00:25:33.907	blessed patterns
+00:25:34.037	00:25:35.037	you know
+00:25:34.790	00:25:38.558	there should be one conventional way to do some things
+00:25:38.934	00:25:41.948	so that agents don't really need to guess
+00:25:41.948	00:25:45.338	and there should be enough guidance in the codebase
+00:25:45.338	00:25:47.222	in CI, in lint rules
+00:25:47.599	00:25:50.612	so that the agents are guided to do
+00:25:50.612	00:25:52.496	to, to follow that path
+00:25:52.496	00:25:56.284	And then finally, whenever you see tech debt or bad patterns
+00:25:56.284	00:25:57.662	your instinct should be
+00:25:57.662	00:26:00.417	I need to write a lint rule against
+00:26:00.417	00:26:03.861	it. You don't always have to clean it up immediately
+00:26:04.205	00:26:06.616	because if you write a lint rule
+00:26:06.616	00:26:09.027	you can at least stop the bleeding
+00:26:09.371	00:26:12.471	and which, you know, doesn't solve the problem entirely
+00:26:12.471	00:26:15.226	but it at least prevents it from growing
+00:26:15.570	00:26:16.948	so I definitely recommend
+00:26:16.948	00:26:17.948	you know
+00:26:17.637	00:26:20.392	really thinking a lot about how you can
+00:26:20.392	00:26:22.802	guard against anti-patterns so that they don't
+00:26:23.147	00:26:24.524	spread like a virus
+00:26:24.524	00:26:26.935	and then also spend time to actually
+00:26:26.935	00:26:27.935	you know
+00:26:27.624	00:26:30.379	get your agents to clean them up so
+00:26:30.379	00:26:33.134	that your code base is just constantly kept
+00:26:33.134	00:26:35.889	in a state where you would be happy
+00:26:35.889	00:26:38.300	if an agent were to copy it
+00:26:38.300	00:26:41.055	That's the kind of mindset that I would
+00:26:41.055	00:26:42.055	recommend having
+00:26:42.744	00:26:43.744	and then
+00:26:43.265	00:26:45.466	I won't actually go through all the details of Boone itself
+00:26:46.346	00:26:47.687	but I'll just kind of gloss through some
+00:26:47.827	00:26:48.827	interesting parts
+00:26:49.728	00:26:52.269	so again, as a reminder, Boone is the architecture
+00:26:52.489	00:26:54.630	the client framework that we built to power
+00:26:54.830	00:26:55.830	Grokbot
+00:26:57.071	00:26:58.151	We've invested a lot into
+00:26:58.151	00:26:59.532	you know, all the things I was saying
+00:26:59.672	00:27:00.672	where we have
+00:27:01.373	00:27:03.454	conventions. We have a lot of conventions about
+00:27:03.474	00:27:05.635	where code should live and
+00:27:06.815	00:27:07.815	where and how
+00:27:08.836	00:27:10.836	code should be imported between them
+00:27:11.437	00:27:13.197	So in dune applications
+00:27:13.237	00:27:15.557	you know, there's different concepts where
+00:27:16.037	00:27:17.037	like, for example
+00:27:16.637	00:27:18.978	features are all co-located in a single folder
+00:27:20.138	00:27:21.258	you have an entry point
+00:27:22.118	00:27:23.118	that's, you know
+00:27:22.939	00:27:25.579	in the React part of the code that determines
+00:27:26.179	00:27:27.179	or you can kind of think of it
+00:27:26.959	00:27:27.959	like a route
+00:27:28.640	00:27:30.200	you have transcript pods that
+00:27:30.460	00:27:31.940	show up in the GraphBot application
+00:27:32.720	00:27:34.501	You have a host that runs on the
+00:27:35.341	00:27:37.021	you know, the GraphBot virtual machine
+00:27:37.501	00:27:39.242	And then, of course, you have your client
+00:27:40.142	00:27:43.722	which, powers the, overall dune application
+00:27:44.723	00:27:46.683	And we have a lot of
+00:27:47.623	00:27:50.484	strict boundaries between these things where
+00:27:52.384	00:27:54.646	Just as an, as an example
+00:27:54.646	00:27:57.286	things that run on the main process
+00:27:57.663	00:28:00.679	or the main thread in Electron aren't allowed
+00:28:00.679	00:28:03.319	to be run on the renderer thread
+00:28:03.319	00:28:06.335	and we keep that separation very intentionally because
+00:28:06.712	00:28:09.729	of lessons we learned from Cursor's agent window
+00:28:09.729	00:28:12.368	where we would sometimes see code accidentally
+00:28:12.745	00:28:15.384	get imported into the renderer thread and
+00:28:15.384	00:28:18.024	you know, slow code, and, since
+00:28:18.401	00:28:21.417	on the renderer thread you want your UI
+00:28:21.417	00:28:23.303	to be very smooth and
+00:28:23.680	00:28:24.680	performant
+00:28:24.434	00:28:27.450	you need to make sure that you don't
+00:28:27.450	00:28:29.336	have any long tasks or
+00:28:29.336	00:28:32.729	you know, things that take longer than 16 milliseconds
+00:28:32.729	00:28:34.237	or if you want
+00:28:34.237	00:28:36.123	like, 60 frames per second
+00:28:36.123	00:28:39.139	or 8 milliseconds if you want 120 frames
+00:28:39.139	00:28:42.155	per second. And so your renderer has to
+00:28:42.155	00:28:44.418	be constantly in a state where
+00:28:44.795	00:28:49.320	it is, it can really kind of chunk up the work
+00:28:49.697	00:28:52.336	and not do them all at once
+00:28:53.416	00:28:57.318	and so we have code within Dune that enforces this
+00:28:58.118	00:29:00.059	these boundaries through the import
+00:29:00.799	00:29:01.799	dependency graph
+00:29:02.960	00:29:03.960	but yeah
+00:29:03.360	00:29:05.281	that's just an example of a pattern that
+00:29:05.321	00:29:08.182	we saw lead to really bad performance that we
+00:29:10.063	00:29:14.865	categorically eliminated through, the architecture of the
+00:29:15.405	00:29:16.405	of Dune
+00:29:18.507	00:29:20.307	and then all of these other pieces
+00:29:20.748	00:29:21.748	aren't that interesting
+00:29:23.149	00:29:26.510	but again, the, the core theme here
+00:29:27.010	00:29:28.010	you know, it's not about Dune
+00:29:28.511	00:29:29.691	but the idea that
+00:29:32.092	00:29:35.373	An agent-friendly framework of your own is actually very
+00:29:35.413	00:29:36.413	very powerful
+00:29:36.734	00:29:38.454	and it can encode all of the learnings
+00:29:38.474	00:29:40.495	that you and your
+00:29:40.915	00:29:41.915	you know
+00:29:41.095	00:29:44.856	your best engineers on your team have tribal knowledge of
+00:29:45.897	00:29:46.897	and
+00:29:47.357	00:29:48.498	I think the lesson here is that
+00:29:48.918	00:29:50.958	how do you take that away from
+00:29:51.099	00:29:52.099	you know
+00:29:51.339	00:29:52.339	what
+00:29:51.999	00:29:54.240	used to be in the style guide process
+00:29:54.440	00:29:56.200	of reviewing code and
+00:29:56.620	00:30:01.462	you know, engineers reviewing other engineers' work and leaving comments
+00:30:02.682	00:30:04.343	to extract
+00:30:04.423	00:30:08.104	almost like extracting that knowledge and encoding that into the framework
+00:30:08.824	00:30:10.065	into the code base itself
+00:30:10.565	00:30:12.446	so that the code base access the memory
+00:30:13.066	00:30:14.926	right? It's the, the thing
+00:30:15.547	00:30:16.787	like you're coming back to this idea that
+00:30:16.987	00:30:17.987	you know
+00:30:17.207	00:30:19.768	the code base is just the thing that it's the
+00:30:20.568	00:30:22.129	the materialized snapshot
+00:30:22.609	00:30:25.870	of the state in which you want your agents to extend
+00:30:26.370	00:30:28.711	and you want that code base to be so pristine
+00:30:29.171	00:30:30.171	so great that
+00:30:30.392	00:30:31.452	the next agent that comes
+00:30:31.832	00:30:33.993	Is just very likely to continue that pattern
+00:30:34.273	00:30:35.794	and keep it really
+00:30:35.814	00:30:36.814	really good
+00:30:38.315	00:30:41.056	and if you spend enough time on this process
+00:30:42.196	00:30:43.837	like I mentioned, you can really set up
+00:30:45.438	00:30:48.699	a Michelin kitchen or a software factory where
+00:30:50.520	00:30:53.181	because you've spent so much time on
+00:30:54.121	00:30:55.121	you know
+00:30:54.441	00:30:56.862	all of these pieces that allow you to trust your agents
+00:30:57.583	00:30:59.183	whether it's in the code base
+00:30:59.683	00:31:01.144	whether it's lint rules
+00:31:02.164	00:31:04.986	whether it is, you know
+00:31:05.066	00:31:08.327	diagnostics or rules or bug bar or skills
+00:31:09.187	00:31:11.428	these layers come together
+00:31:12.609	00:31:14.189	and provide you a lot of trust
+00:31:14.589	00:31:15.950	Because now, you know
+00:31:16.150	00:31:17.150	just imagine for a moment
+00:31:17.491	00:31:19.091	you're working in the Grokbot code base
+00:31:21.312	00:31:22.312	It's super locked down
+00:31:22.452	00:31:25.493	you know, it's like almost impossible to write bad code
+00:31:26.173	00:31:27.173	So, you know, you can
+00:31:27.233	00:31:29.174	even an agent with very little context
+00:31:30.394	00:31:31.394	you know, even a
+00:31:31.294	00:31:32.814	a agent with not a lot of reasoning
+00:31:33.455	00:31:34.635	can come in and
+00:31:34.815	00:31:36.295	and actually write code that's good
+00:31:37.455	00:31:40.216	And going back to my example about the Michelin factory
+00:31:40.336	00:31:42.196	I think there's a lot here
+00:31:42.416	00:31:44.997	right, where, you know, we're setting up our agents
+00:31:45.097	00:31:47.897	our bots with skills and tools
+00:31:48.538	00:31:49.578	you know, we're training them
+00:31:50.338	00:31:53.058	we're setting up our kitchen in a way that makes sense
+00:31:53.159	00:31:54.159	right
+00:31:53.919	00:31:54.919	for
+00:31:55.439	00:31:57.259	the agent and bots to do the right
+00:31:57.299	00:31:58.299	thing by default
+00:31:59.400	00:32:02.280	you know, whenever we see, for example, in the, in the kitchen example
+00:32:02.420	00:32:03.821	if we notice that
+00:32:04.561	00:32:08.042	one of our cooks or dishwashers is constantly tripping over something
+00:32:08.462	00:32:09.582	of course we need to fix that
+00:32:10.202	00:32:12.742	right? We need to problem solve and ensure that
+00:32:12.862	00:32:14.623	you know, others don't trip as well because
+00:32:14.783	00:32:15.783	you know
+00:32:14.983	00:32:16.623	in a kitchen it's a very dangerous place
+00:32:16.663	00:32:17.863	and you don't want to hurt yourself
+00:32:18.844	00:32:19.844	It's the same
+00:32:20.884	00:32:21.884	Mindset, I think
+00:32:21.804	00:32:23.265	that we should have with our codebases
+00:32:23.825	00:32:27.046	How do we set it up so that even agents
+00:32:27.727	00:32:28.727	without a lot of
+00:32:30.087	00:32:32.368	knowledge can, can do a good job?
+00:32:34.149	00:32:35.389	and I think with
+00:32:36.510	00:32:40.491	you know, Grokbot, Grokbot and Cursor play an interesting role together
+00:32:41.111	00:32:44.192	where Grokbot is really great at
+00:32:45.313	00:32:46.953	providing what I call the outer loop
+00:32:47.633	00:32:50.514	because you can connect Grokbot to lots of different
+00:32:51.755	00:32:53.595	you know, different connectors like Slack
+00:32:53.915	00:32:59.337	to Datadog, Sentry, PlanetScale, whatever services that you use
+00:33:00.038	00:33:01.678	and you can aggregate all of that information
+00:33:01.698	00:33:03.059	together and use that to make
+00:33:03.699	00:33:05.359	really good decisions for itself
+00:33:07.640	00:33:09.361	Some people call this like a company brain
+00:33:10.461	00:33:11.461	I don't really think
+00:33:11.802	00:33:14.883	I personally don't think you need anything that sophisticated here
+00:33:15.344	00:33:17.284	because agents are really good at using tools
+00:33:17.945	00:33:20.546	And so if you connect these tools to Grokbot
+00:33:21.826	00:33:25.268	and you start having your Grokbot's auto
+00:33:26.128	00:33:27.829	kick off things like cloud agents
+00:33:28.349	00:33:30.090	you can actually find that it's really not
+00:33:32.171	00:33:33.171	you don't really have to
+00:33:33.352	00:33:34.352	invest
+00:33:34.212	00:33:35.973	in a lot of infrastructure to build a
+00:33:36.033	00:33:37.033	software factory
+00:33:38.094	00:33:40.855	in fact, I'm gonna, you know, cross, cross out this
+00:33:41.815	00:33:43.696	this term, cause I don't like this term
+00:33:46.217	00:33:47.338	I think you can set up this
+00:33:47.798	00:33:51.360	personal Michelin kitchen for yourself through Grokbot
+00:33:51.420	00:33:52.840	things like Grokbot routines
+00:33:53.420	00:33:54.721	which let you subscribe to
+00:33:54.941	00:33:55.942	you know, Slack threads
+00:33:56.062	00:33:57.062	to
+00:33:56.982	00:33:59.103	Sentry alerts that let you kick off
+00:33:59.503	00:34:00.504	things automatically
+00:34:02.044	00:34:03.705	And when you combine all of these things
+00:34:03.725	00:34:04.725	that I've been mentioning
+00:34:04.545	00:34:09.987	you know, your code base, your rules, your skills, they all compound
+00:34:10.568	00:34:13.769	And GrokBot, will be able to
+00:34:14.109	00:34:15.109	you know
+00:34:14.429	00:34:15.910	automatically respond to
+00:34:16.690	00:34:18.151	events that come from
+00:34:18.831	00:34:20.252	the outer loop and then kick off
+00:34:20.532	00:34:21.532	cloud agents
+00:34:22.453	00:34:23.453	and you can also set up
+00:34:23.853	00:34:25.974	cursor automations and use our SDK
+00:34:27.274	00:34:29.115	to set up, bot
+00:34:29.215	00:34:30.536	additional bots as well that
+00:34:31.156	00:34:32.377	reuse a lot of these
+00:34:33.017	00:34:35.498	pieces of agent infra that you've set up
+00:34:36.678	00:34:37.699	and allow them to do
+00:34:37.999	00:34:39.700	much more complicated tasks
+00:34:41.940	00:34:44.421	So if you, if you, if you've done all this
+00:34:44.501	00:34:46.281	then I think you can get to a point where
+00:34:47.542	00:34:48.542	you know
+00:34:48.382	00:34:49.862	I have some screenshots here of
+00:34:50.442	00:34:52.823	some of our automations and our agents in
+00:34:54.603	00:34:55.803	that, that work on cursor
+00:34:56.624	00:35:00.705	where we are automatically reproducing bug reports
+00:35:00.845	00:35:03.925	we're automatically opening pull requests
+00:35:04.425	00:35:05.425	we are
+00:35:06.146	00:35:09.907	essentially adding a lot of value to the entire team
+00:35:10.927	00:35:13.368	because all of these things compound
+00:35:15.568	00:35:17.949	So if we kind of zoom out again
+00:35:19.309	00:35:20.989	and go back to this graph
+00:35:24.330	00:35:26.731	I think that to kind of close off the talk
+00:35:27.831	00:35:29.071	if you spend a lot of time
+00:35:29.691	00:35:31.812	thinking about all of the pieces that you need
+00:35:32.712	00:35:34.593	to be able to ascend the trust graph
+00:35:36.034	00:35:38.395	you start getting to a place where you can
+00:35:39.475	00:35:40.976	really trust your agents more
+00:35:41.636	00:35:43.237	and parallelize your work
+00:35:43.777	00:35:45.518	and also empower your entire team
+00:35:46.078	00:35:47.339	to build on top of these
+00:35:48.780	00:35:51.641	pieces of infrastructure for your agents
+00:35:52.702	00:35:55.463	and empower everyone, you know, every engineer on your team
+00:35:55.563	00:35:56.563	every builder
+00:35:56.824	00:35:58.104	to be extremely productive
+00:35:58.704	00:36:00.946	and be able to write high quality code
+00:36:01.986	00:36:03.107	So the last thing I want to leave
+00:36:03.127	00:36:04.887	you with is actually this piece
+00:36:06.928	00:36:08.389	sorry, not that piece, but this piece
+00:36:09.830	00:36:10.930	I think if there's only one thing you
+00:36:10.970	00:36:11.970	take away from your talk
+00:36:11.811	00:36:12.811	it should be this
+00:36:12.891	00:36:16.093	this slide here, which is, you know
+00:36:16.553	00:36:18.354	these are the activities that will help you
+00:36:18.454	00:36:21.595	build up towards a high trust environment
+00:36:21.635	00:36:22.635	you know
+00:36:23.436	00:36:27.078	Whenever you find yourself correcting and interviewing your agent
+00:36:28.259	00:36:31.400	you really want to think about it from these five pieces
+00:36:31.961	00:36:36.503	and where is the most effective step in this
+00:36:37.984	00:36:42.406	sequence, in order to, get make your agent
+00:36:42.726	00:36:44.087	you know, much more trustworthy
+00:36:45.428	00:36:47.809	and of course, I definitely recommend thinking about
+00:36:48.349	00:36:49.510	thinking about it in this order
+00:36:50.150	00:36:51.150	where, you know, you
+00:36:52.151	00:36:54.613	either invest the time to make that pattern
+00:36:55.753	00:37:00.676	categorically impossible through your code base and architecture and data structures
+00:37:00.896	00:37:03.738	or you start looking at things like static analysis
+00:37:04.038	00:37:05.939	and then you layer that on with rules
+00:37:05.999	00:37:07.480	and bug bot and skills
+00:37:09.300	00:37:10.300	If you do all of that
+00:37:10.880	00:37:12.480	and you also spend some time
+00:37:12.901	00:37:15.441	you know, thinking about, your code quality
+00:37:16.461	00:37:17.961	in, in terms of, of skills
+00:37:18.721	00:37:21.842	you get to a place where you trust the
+00:37:22.622	00:37:24.162	you trust the environment so much
+00:37:24.802	00:37:27.322	that your agents can just be free
+00:37:28.042	00:37:30.023	right? And, personally
+00:37:30.523	00:37:32.303	I have spent a lot of time for this
+00:37:32.403	00:37:37.104	for Grokbot's codebase, for example, and, this is really the secret
+00:37:37.684	00:37:38.924	right? Well, it's not really a secret
+00:37:39.024	00:37:40.064	it's, it's a lot of hard work
+00:37:40.784	00:37:43.624	but, I hope you found this talk useful
+00:37:44.384	00:37:47.205	and, please reach out to me on X
+00:37:47.845	00:37:49.865	my, my handle is potato with an E
+00:37:51.465	00:37:52.465	and
+00:37:53.006	00:37:54.466	I hope that you'll have
+00:37:55.386	00:37:56.386	a lot of fun
+00:37:56.226	00:37:59.186	and success building your own Michelin kitchen
+00:38:00.086	00:38:01.086	Thanks for watching

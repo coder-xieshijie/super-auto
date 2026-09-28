@@ -1,0 +1,391 @@
+Title: Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! | Lauren Tan
+URL: https://www.linkedin.com/posts/laurenelizabethtan_how-cursor-turned-ai-agents-into-better-engineers-activity-7493165544628703233-ZfM-
+Published: 2026-08-12T00:00:00.000Z
+Author: Lauren Tan
+Highlights:
+# Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! | Lauren Tan · LinkedIn · 2026-08-12
+...
+Excited to share more about my journey building pstack (https://lnkd.in/gSgTn6cX), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow!
+
+---
+
+Title: This is a huge release! I shipped 1000 PRs last month and am on track to doubling that this month, all thanks to cloud agents. You can also launch cloud agents with … | Lauren Tan
+URL: https://www.linkedin.com/posts/laurenelizabethtan_cloud-agents-and-cursor-harness-improvements-activity-7495972438262853632-bLQ5
+Published: 2026-08-19T00:00:00.000Z
+Author: Lauren Tan
+Highlights:
+# This is a huge release! I shipped 1000 PRs last month and am on track to doubling that this month, all thanks to cloud agents. You can also launch cloud agents with … | Lauren Tan · LinkedIn · 2026-08-19
+...
+This is a huge release! I shipped 1000 PRs last month and am on track to doubling that this month, all thanks to cloud agents. You can also launch cloud agents with Grok Bot btw!
+...
+> How does your team review 1000 PRs in a month?
+
+---
+
+Title: GrokBot 核心成员 Lauren Tan：每月交付 2000 个 PR 的人，是怎么用 AI 的 - 技术栈
+URL: https://jishuzhan.net/article/2101331266118012929
+Published: 2026-09-19T00:00:00.000Z
+Author: N/A
+Highlights:
+GrokBot 核心成员 Lauren Tan：每月交付 2000 个 PR 的人，是怎么用 AI 的 - 技术栈
+...
+成员 Lauren Tan：每月交付 20
+...
+个 PR 的人，是怎么用 AI 的
+...
+她的背景：前 Cursor 核心成员，之前在 Meta React 团队和 Netflix 待过，现在在 SpaceXAI 做 Grok Bot。她开源了一套叫 pstack 的 Cursor 插件，在 GitHub 上拿了 8.1k stars，声称靠这套东西每月往生产环境交付 1000 到 2000 个 PR。
+...
+| 指标 | 数值 |
+| --- | --- |
+| 上月交付 PR 数 | 1,000 |
+| 本月目标 | 2,000 |
+| 单晚自动合并 PR 数 | ~20 |
+| 前置重构 PR 投入 | 600+ |
+...
+> "600 多个重构 PR 才是真实的基础设施。那晚自动合并的 20 个 PR，只是输出。"
+...
+Cursor 在 2026 年
+...
+2 月发了一篇博客 "Towards self-driving codebases"，讲的是他们内部的一个研究项目：建了一个能同时运行数千个 agent 的系统，连续跑了一周，让 agent 自主构建了一个 Web 浏览器，产出了绝大部分 commit
+...
+| ✅ |
+...
+⚠️ 更强调预防
+...
+移除中央协调者
+...
+| 分歧，
+...
+决定架构 |
+| 实证驱动 | ✅ | ✅ | 完全一致 |
+...
+| ✅ | ✅ | 完全一致
+...
+Lauren 这套系统能做到每月 1000+ PR，核心原因不是工具本身，是三个前提条件的叠加：
+...
+1. 她个人对 Grok Bot 的架构和业务有极深的理解，所有高层判断都是她在做
+2. 600 多个重构 PR 打下的架构地基，让 agent 的"最短路径"就是"正确路径"
+3. 她把大量隐性工程判断显性化，编码成了 agent 可以执行的结构
+
+---
+
+Title: Lauren Tan's 2,000 pull requests a month rest on an app that fits in one process
+URL: https://theclarity.today/story/one-engineer-shipped-2-000-prs-a-month-to-production-verification-is-the-key-8713f5e7
+Published: 2026-09-19T14:46:59.000Z
+Author: N/A
+Highlights:
+Lauren Tan's 2,000 pull requests a month rest on an app that fits in one process
+...
+# Lauren Tan's 2,000 pull requests a month rest on an app that fits in one process
+...
+- Lauren Tan, an engineer on the Grok team at SpaceXAI who previously worked at Cursor and Meta, published a guide to her personal agent workflow, pstack.
+- The New Stack reports that the workflow has let her ship 2,000 pull requests a month to production with high confidence.
+- Tan names verification as the most critical piece of the workflow and treats the skill that lets an agent check its own work as critical infrastructure.
+- She claims strong verification skills can multiply a team's output by 100 to 1,000 times.
+- The New Stack argues the skill depends on a runtime the agent can drive and inspect, and that a system of dozens or hundreds of services has no such runtime by default.
+...
+The verification skill generates a command line interface and a feature map for the application [9]. Through it an agent starts the app, navigates it, inspects state, and reads structured JSON results back [9]. The JSON is what lets the loop close without a person in it, because an agent can branch on a parsed field. Each agent gets a complete copy of the application and tests the change end to end [10].
+...
+The precondition is strict. This works because the application fits in one process [12]. A frontend, a compiler, or a single service with a database starts from a CLI in seconds and is thrown away afterwards [12].
+...
+Tan's throughput argument is about who waits for whom. "An agent that can check its own output keeps working until the task is done. An agent that can't hand you a diff and wait makes you the slowest component in the loop," she wrote [5]. The New Stack puts hand review at about five minutes per PR if one person read all 2,000 across a full working month [7]. Take her own figure of nearly 100 PRs per working day [3]. That sets the month at 20 days [19]. Two thousand changes at five minutes each is 10,000 minutes, or 166 hours, about 8.3 hours of review every working day [20].
+...
+A system made of dozens or hundreds of services comes with no such runtime by default [13]. The application is the interaction between an order service, a payments service, an inventory service, a queue, several databases and a handful of third-party APIs, and at larger shops the service count runs into the thousands [14]. A pull request to one service is verified by exercising the calls it makes and receives, and the CLI that starts the changed service leaves the rest of the system down [15].
+...
+Tan is direct about what the runtime is worth paying for. "I personally feel that agentic verification is so important that I would unironically suggest building your own rich debugging tools, or even choosing a different tech stack, in order to have unfair advantages and extreme productivity in building software," she wrote [11]. The 100 to 1,000 times output multiplier is her claim [6]. The New Stack does not report an independent count of what landed, and credits the 2,000 figure to her guide [2].
+...
+At 2,000 pull requests a month, reviewing every change by hand would allow about five minutes per PR across a full working month.
+...
+Human review cannot be the verification layer at that volume; whatever does the checking has to run without a person in the loop and in parallel with the agents generating the work.
+...
+Her approach works because the application fits in one process: a frontend, a compiler, or a single service with a database can start from a CLI in seconds and be thrown away afterward.
+...
+The verification skill rests on a rich runtime the agent can drive, inspect and get structured answers from; for a single application that runtime is the application itself, started on demand, while for a system made of dozens or hundreds of services no such runtime exists by default, and providing one that keeps up with hundreds of parallel agents is the hard part.
+...
+Tan's own rate implies a working month of about 20 days.
+...
+Reviewing 2,000 PRs at five minutes each takes 10,000 minutes, or about 166 hours, which is roughly 8.3 hours of review every working day of a 20-day month.
+...
+According to The New Stack, pstack has let Tan ship 2,000 pull requests a month to production with high confidence.
+...
+The 2,000 PRs a month figure is described as one engineer shipping nearly 100 PRs per working day.
+...
+Tan claims strong verification skills can multiply a team's output by 100 to 1,000 times.
+...
+For anyone writing code with agents, the copyable part is the skill itself. Tan's verification skill generates a CLI and a feature map for the application, and the CLI lets an agent start the app, walk through it, inspect state and read structured JSON back, with each agent working on its own full copy. She goes further than tooling advice: "I personally feel that agentic verification is so important that I would unironically suggest building your own rich debugging tools, or even choosing a different tech stack, in order to have unfair advantages and extreme productivity in building software." The condition she names is that the whole application starts in one process in seconds and can be thrown away. A frontend, a compiler or one service with a database clears that bar.
+...
+The operator problem in this reporting is supplying the runtime, and The New Stack works through the three existing options. Mocks are cheap and parallel, and they encode what a dependency did the last time someone looked. A full stack per change is faithful, costs services multiplied by concurrent changes, and takes minutes to provision when the agent is testing every iteration as it works. Shared staging is faithful and cheap because there is one of it, so agents overwrite each other's deployments and one broken change becomes failed tests for everyone else. The five properties the piece ends on, real dependencies, isolation between hundreds of concurrent changes, cost scaling with the change rather than the system, seconds to ready, and access through the CLI or MCP server the agent already uses, amount to a specification. The New Stack does not report anyone who has built it.
+...
+There is one number and one person behind it, and both come from the same blog post. Nothing in this reporting sizes a market, names a vendor, or gives a price for the per-
+...
+environments the argument implies teams will need. What an investor can take from it is the direction of demand: if
+...
+The quotations are
+...
+described in enough detail that a reader could build it. Everything numeric traces to Tan's
+...
+Two figures carry the attention, 2,000 pull requests a month and a claimed 100x to 1,000x multiplier, and neither has been measured by anyone but the person claiming them. The write-up itself discounts the first as an outlier, then argues that the method needs an application that starts in one process. That requirement works against any broader generalisation. The overstatement is in the numbers, not in the engineering conclusion, which stays more careful than the headline.
+...
+Tan publishes under her own name and gains standing from the number, which is ordinary practitioner incentive. The New Stack piece ends with five properties an environment must have for agent callers, including cost that scales with the change and readiness in seconds, and that list has the shape of a pitch for on-demand per-change environments. We are not told who wrote it or what they sell, so the requirements look like advocacy with a plausible commercial angle behind them.
+...
+I would hold the described mechanism at high confidence and the number at low. The generated CLI, the feature map, the fidelity problem with mocks and the isolation problem with shared staging are all things a reader can test by building them. The throughput and the multiplier are one person's account relayed once, and there is no second practitioner or dataset in the coverage to move them either way.
+
+---
+
+Title: pstack: 5 Honest Checks on 2,500 AI-Agent PRs a Month
+URL: https://folkfox.com/pstack-2500-ai-agent-prs-verification/
+Published: N/A
+Author: N/A
+Highlights:
+# 2,500 pull requests in a month. The README is the part to read
+...
+On 21 September 2026, SpaceXAI engineer Lauren Tan posted a 38-minute video on how she shipped 2,500 pull requests last month, and the plugin behind it, pstack, opens by rejecting throughput as a goal.
+...
+Quick answer pstack is Lauren Tan's MIT-licensed Cursor plugin for verified agent work. Her 2,500 pull requests a month is self-reported. Independent data links AI volume to more incidents, so count verified merges, not PRs.
+...
+A fox counts the tracks before it trusts the trail. On 21 September 2026, Lauren Tan, who posts as poteto and works at SpaceXAI, posted a video on X under the words "here's how i shipped 2,500 PRs last month to production". She said it was meant for Cursor Compile in London, and that she missed it because she was livestreaming for Grok Bot Galaxy, so she released it free and told viewers to watch at 2x speed. The video runs 38 minutes.
+...
+The headline figure is worth a second look before it is repeated. Cursor's Compile London page lists her afternoon slot as "I Shipped 2,000 PRs Last Month". Her video says 2,500. Both are her own numbers, describing different months, and nobody outside her team has audited either. A count of pull requests tells you how much was opened and merged. It does not tell you how much stayed merged.
+...
+- pstack is MIT-licensed, copyright 2026 Lauren Tan, and lives in cursor/plugins at version 0.15.2.
+- Its README lists twenty-three playbooks and twenty-three principles; the folder holds two subagents, poteto-agent and comment-sicko.
+- Tan's video post went up at 17:01 on 21 September 2026 and describes 2,500 pull requests in a month.
+- Cursor's Compile London schedule titled the same talk "I Shipped 2,000 PRs Last Month".
+...
+That is the claim worth testing, and it is testable. A team using pstack, or any agentic engineering setup, can measure the rate at which agent pull requests are reverted, the share merged without any review, and the time humans still spend reading diffs. Tan has not published those figures alongside the 2,500, at least not in anything I could read without logging in to X.
+...
+| Claim | Status | What I found |
+| --- | --- | --- |
+| Shipped 2,500 pull requests last month | Self-reported | Her own post; no independent audit |
+| Compile London listed the talk as 2,000 PRs | Confirmed | Cursor's schedule carries that title |
+| pstack includes /loop and /goal | Partly wrong | /loop is a Cursor command; no /goal skill in the folder |
+| A Chief of Staff agent runs the bots | Not in pstack | Absent from the README; appears in reposts about Grok Bot practice |
+| 85% of SpaceXAI engineers run 10+ bots | Secondhand | Repost only; no first-party source found |
+| Is on the React compiler core team at xAI | Confirmed | Her GitHub bio says so |
+...
+idea is real in
+...
+Tan has done something useful in public. She wrote a workflow down, released it under a permissive licence, and explained it in a free video. That deserves credit, and the README shows real thought about quality. What is missing is the audit. The 2,500 figure is her own, the Chief of Staff and 85% claims are secondhand, and the independent data says volume without verification is where the risk sits.
+...
+Did Lauren Tan really ship 2,500 pull requests in a month?
+...
+That is her own figure, from a video she posted on 21 September 2026. Cursor's Compile London schedule listed the same talk as 2,000 pull requests. Nobody outside her team has published an audit of either number, so treat both as self-reported.
+...
+{"@context":"https://schema.org","@graph":[{"@type":"NewsArticle","headline":"2,500 pull requests in a month. The README is the part to read","description":"pstack is Lauren Tan's Cursor plugin behind 2,500 AI-agent pull requests a month. See what the repo confirms, what the data says and five checks to copy.","keywords":"pstack, ai coding agents, agentic engineering, cursor plugins, ai code review","datePublished":"2026-09-21","dateModified":"2026-09-21","wordCount":2951,"inLanguage":"en-GB","about":{"@type":"Thing","name":"Lauren Tan's pstack Cursor plugin and the claim of 2,500 AI-agent pull requests in a month, checked against the repository and independent studies"},"mentions":[{"@type":"Organization","name":"SpaceXAI"},{"@type":"Organization","name":"Lauren Tan"},{"@type":"Organization","name":"Cursor"},{"@type":"Organization","name":"Grok Bot"},{"@type":"Organization","name":"Faros AI"},{"@type":"Organization","name":"METR"},{"@type":"Organization","name":"Bend"}],"@id":"https://folkfox.com/pstack-2500-ai-agent-prs-verification/#article","author":{"@type":"Person","@id":"https://folkfox.com/#founder","name":"Katie Delaney","url":"https://folkfox.com/our-story/katie-delaney/","hasCredential":{"@type":"EducationalOccupationalCredential","credentialCategory":"bachelor degree","name":"BSc Marketing, Innovation, and Technology"}},"publisher":{"@type":"Organization","@id":"https://folkfox.com/#organization","name":"Folkfox","url":"https://folkfox.com/"},"isPartOf":{"@id":"https://folkfox
+...
+com/pstack-2500-ai-agent-prs-verification/#webpage"},"mainEntityOfPage":{"@id":"https://folkfox.com/pstack
+...
+://folkfox.com/pstack-2500-ai-agent-prs-verification/#webpage","mainEntity":{"@id":"https://folkfox.com/pstack-2500-ai-agent-prs-verification/#article"},"speakable":{"@type":"SpeakableSpecification","cssSelector":[".ff-answer",".ff-title"]}},
+...
+@type":"FAQPage","
+...
+open-source plugin for Cursor by Lauren Tan of SpaceXAI. It bundles a main skill called poteto-mode with twenty-three playbooks, twenty-three engineering principles and two subagents. Its stated aim is rigorous agent workflows you can
+...
+@type":"Question","name":"Is pstack
+...
+to use?","acceptedAnswer":{"@type":"Answer","text":"Yes. pstack is released under the MIT licence, with copyright held by Lauren Tan, and lives in Cursor's public plugins repository on GitHub. The licence allows use, copying and modification. The models it routes work to may carry their own costs."}},{"@type":"Question","name":"Did Lauren Tan really ship 2,500 pull requests in
+...
+month?","
+...
+Answer":{"@type":"Answer","text":"That is her own figure, from a video she posted on 21 September 2026. Cursor's Compile London schedule listed the same talk as 2,000 pull requests. Nobody outside her team has published an audit of either number, so treat both as self-reported."
+...
+{"@type":"Question","name":"Does pstack include a Chief of Staff agent?","acceptedAnswer":{"@type":"Answer","text":"Not in
+...
+README or the guide pages I read. Chief of Staff appears in reposts describing how people run Grok Bot teams, where one agent coordinates others. It is a real pattern in that setting, but I found it in no pstack skill. The plugin does include a swarm skill for parallel workers."}},{"@type":"Question","name":"What is Grok Bot?","acceptedAnswer":{"@type":"Answer","text":"SpaceXAI launched Grok Bot on 11 August 2026 and describes it as a team of always-on agents with their own computer that work inside tools and apps and keep working around the clock. Grok Bot Galaxy was a three-day event of demos and build sessions in September."}},{"@type":"Question","name":"Does AI agent volume lower code quality?","
+...
+Answer":{"@type":"Answer","text":"The evidence is mixed. Faros AI's 2026 telemetry links high adoption to more incidents per pull request and more unreviewed merges. An academic study of 37,623 agent pull requests found quality varied by agent, with Codex reverted less often than humans and Devin more often."
+...
+],"@id":"https://folk
+...
+.com/pstack
+...
+pull-request number, like the one behind pstack,
+...
+,"name":"Pull the merge and revert log","text":"Export merged pull requests and any reverts over the period, tagged by author, human or agent, and by model."},{"@type":"HowToStep","position":3,"name":"Measure the unreviewed share","text":"Count merges with no human or automated review at all, and track the trend
+
+---
+
+Title: 一觉醒来20个PR自己合进了主干，SpaceXAI工程师：我基本不看代码了 - 产业链 - 光通信Pro
+URL: https://www.c114.net.cn/industry/117618.html
+Published: N/A
+Author: 来源：36kr
+Highlights:
+一觉醒来20个PR自己合进了主
+...
+，SpaceXAI
+...
+：我基本不看代码了
+...
+同时跑20多个智能体，上个月交付1000多个PR，8月的目标是翻倍。
+...
+这位GrokBot工程师拉出GitHub贡献曲线：五个月，3000多个PR。
+...
+这位工程师叫Lauren Tan。
+...
+她是前Cursor工程师，此前待过Meta和Netflix，在Netflix当过两年工程经理，现在负责SpaceXAI的GrokBot。
+...
+Tan在GrokBot团队工作坊上分享。
+...
+真正让人好奇的，一个人一个月提交1000多个PR，马上就要直奔2000个，而且没把代码库变成一堆垃圾。
+...
+Lauren分享了一张曲线图，她说这不是什么科学图表，是她这五个月的心路。
+...
+Lauren Tan分享的信任曲线。纵轴是信任，横轴是能同时开的智能体数量，从1到成千上万。
+...
+五个月前她刚入职Cursor，第一个月产出很低，代码库完全陌生，什么都看不懂。
+...
+五个月后，她把自己从曲线最左端那个点，挪到了10到20这一格。
+...
+从盯着一个智能体不敢眨眼，到放手让20个智能体自己合并主干，这中间她做了什么？
+...
+所以Lauren进Cursor后，写的第一批技能之一，就叫control glass。
+...
+这个技能教智能体自己去调Chrome DevTools协议，自己跑起应用，自己截图、点击、读控制台。
+...
+这笔账她刚算过：把GrokBot重构到这套架构，用掉了600多个PR。
+...
+## 1000个PR之后，工程师还剩下什么
+...
+她说现在GrokBot团队里，
+...
+会直接提交代码。
+
+---
+
+Title: Lauren Tan
+URL: https://exa.ai/library/person/d1v93fjlpyj
+Published: 2026-09-16T04:37:19.000Z
+Author: N/A
+Highlights:
+. Design and UI engineering for a price search engine across eBay, Amazon, Craigslist, and Best Buy. 100k
+...
+users. Press including CNN, Lifehacker, TheNextWeb
+...
+TechInAsia
+...
+HN. Melbourne Accelerator
+...
+013 fellow.
+...
+- [2026-08-19 · Posted · 286 reactions] [This is a huge release! I shipped 1000 PRs last month and am on...](https://www.linkedin.com/posts/laurenelizabethtan_cloud-agents-and-cursor-harness-improvements-activity-7495972438262853632-bLQ5)
+  > This is a huge release! I shipped 1000 PRs last month and am on track to doubling that this month, all thanks to cloud agents. You can also launch cloud agents with Grok Bot btw!
+  >
+  > Here's how I'm so productive:
+  >
+  > • I built pstack (https://lnkd.in/gSgTn6cX), my personal set of skills for rigorous engineering and verification. Inside of our codebase I call it /lauren-mode, but it's called /poteto-mode in pstack.
+  > • I use Grok Bot routines to farm context for me: bug reports on Slack, user complaints on X, generating new feature ideas. Grok Bot feeds my "outer loop", where I think about what to point my factory at next.
+  > • I make heavy use of /goal, /loop, and /swarm inside of pstack to run my Full Autopilot playbook, which lets your agents/bots fully own, verify, and ship a task from start to finish.
+  > • Everything runs on cloud agents, so my bots work 24/7 even when I'm asleep or my laptop is offline.
+  >
+  > https://lnkd.in/gigqs5VH
+...
+- [2026-08-12 · Posted · 104 reactions] [Excited to share more about my journey building pstack...](https://www.linkedin.com/posts/laurenelizabethtan_how-cursor-turned-ai-agents-into-better-engineers-activity-7493165544628703233-ZfM-)
+  > Excited to share more about my journey building pstack (https://lnkd.in/gSgTn6cX), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow!
+  >
+  > https://lnkd.in/g627Tr4Y
+...
+by our eng team. So I'
+...
+here:  https://lnkd.in/gF6buA77
+
+---
+
+Title: 2,000 PRs/Month with AI Agents: Verification Is the Key (2026)
+URL: https://eurotronics.org/article/2-000-prs-month-with-ai-agents-verification-is-the-key
+Published: N/A
+Author: N/A
+Highlights:
+Lauren Tan, an engineer at SpaceXAI, has achieved an impressive feat by shipping 2,000 pull requests (PRs) a month to production with high confidence. This is a testament to the power of agentic verification, which enables agents to check their own work and keep going until the task is done. Tan argues that verification is the key to achieving this level of productivity, and she emphasizes the importance of a rich runtime that allows agents to drive, inspect, and get structured answers from the application.
+...
+Signadot aims
+
+---
+
+Title: SpaceXAI’s Lauren Tan: 2,000 PRs a Month—Proof That Verifica... | Sarcastic.news
+URL: https://sarcastic.news/en/articles/d29e3db2-de57-4347-857b-f2956dd0c5ae
+Published: 2026-09-20T00:00:00.000Z
+Author: Sarcastic.news
+Highlights:
+SpaceXAI’s Lauren Tan: 2,000 PRs a Month—Proof That Verifica... | Sarcastic.news
+...
+# SpaceXAI’s Lauren Tan: 2,000 PRs a Month, Proof That Verification Is the Ultimate Life Hack 
+
+ Sep 20, 2026 1 min read 🎭 Sarcasm: 8/10 exaggerated GQ 
+
+ Picture this: an engineer who can ship 2,000 PRs a month to production. The story follows Lauren Tan of SpaceXAI’s Grok team, who apparently turns code reviews into production releases faster than you can brew coffee. The headline may be hyperbolic, but the real punchline? Verification is the secret sauce. 
+
+ Picture this: an engineer who can ship 2,000 PRs a month to production. Lauren Tan, the superstar of SpaceXAI’s Grok team, once roamed the halls of Cursor and Meta before taking the reins. She apparently has a magic wand that turns pull requests into production-ready code faster than a coffee cup can be refilled. Of course, this miraculous feat hinges on a simple mantra: verification is the key. While her colleagues marvel at the numbers, the rest of us wonder if the real secret is a secret sauce of caffeine, sheer will, and a generous dose of corporate optimism.
+
+---
+
+Title: 2000 Pull Requests a Month: The Power of AI-Driven Verification (2026)
+URL: https://fishbowlfarm.com/article/2000-pull-requests-a-month-the-power-of-ai-driven-verification
+Published: N/A
+Author: N/A
+Highlights:
+2000 Pull Requests a Month: The Power of AI-Driven Verification (2026)
+...
+In the world of software engineering, efficiency and productivity are paramount. Recently, a fascinating case study has emerged, showcasing the incredible potential of automation and AI-driven development. The story revolves around Lauren Tan, an engineer at SpaceXAI, who has achieved an astonishing feat: shipping 2,000 pull requests (PRs) to production in a single month.
+...
+Personally, I find this achievement remarkable, not just for the sheer number of PRs but for what it signifies. It's a testament to the power of AI-assisted development and the potential to revolutionize coding productivity. The key to Tan's success lies in her personal agent workflow, pstack, which allows her to automate a significant portion of the development process.
+
+---
+
+Title: Anyone else calls bullshit on the “1 ship 10K lines of code ...
+URL: https://www.reddit.com/r/theprimeagen/comments/1rur7oo/anyone_else_calls_bullshit_on_the_1_ship_10k/
+Published: 2026-03-24T09:00:06.830Z
+Author: u/CompetitiveSubset
+Highlights:
+# Anyone else calls bullshit on
+...
+“1 ship 10K lines of code each day” crowd?
+...
+at this rate, those people can create some pretty extensive pieces of software after a month.
+...
+> I recently contributed to an app that was 100% vibe coded. It's an internal dashboard that EMs at my company can use to monitor stale pull requests. I added a feature that allows me (as an EM who uses the dashboard) to filter on certain types of PRs that we are constantly falling behind on. Claude did a good job making the change but I did spend some time playing around with the filter on my local app to get it to work as I wanted it to.
+...
+> It'
+...
+> 10k lines of code -> months of tech debt, production issues, weeks of debugging
+>
+> It's very easy to ship 10k lines of code on projects that have lots of training data. It's like the marketing hype of anthropic vibe coding a browser. No way in hell I would use their slop browser, but hey the headline is catchy
+...
+> I can generate 500m LOC per day if you
+
+---
+
+Title: Lauren Tan - Building Grok Bot and Cursor @ SpaceXAI
+URL: https://www.linkedin.com/in/laurenelizabethtan
+Published: 2026-09-16T04:37:19.000Z
+Author: N/A
+Highlights:
+. Design and UI engineering for a price search engine across eBay, Amazon, Craigslist, and Best Buy. 100k
+...
+users. Press including CNN, Lifehacker, TheNextWeb
+...
+TechInAsia
+...
+HN. Melbourne Accelerator
+...
+013 fellow.
+...
+- [2026-08-19 · Posted · 286 reactions] [This is a huge release! I shipped 1000 PRs last month and am on...](https://www.linkedin.com/posts/laurenelizabethtan_cloud-agents-and-cursor-harness-improvements-activity-7495972438262853632-bLQ5)
+  > This is a huge release! I shipped 1000 PRs last month and am on track to doubling that this month, all thanks to cloud agents. You can also launch cloud agents with Grok Bot btw!
+  >
+  > Here's how I'm so productive:
+  >
+  > • I built pstack (https://lnkd.in/gSgTn6cX), my personal set of skills for rigorous engineering and verification. Inside of our codebase I call it /lauren-mode, but it's called /poteto-mode in pstack.
+  > • I use Grok Bot routines to farm context for me: bug reports on Slack, user complaints on X, generating new feature ideas. Grok Bot feeds my "outer loop", where I think about what to point my factory at next.
+  > • I make heavy use of /goal, /loop, and /swarm inside of pstack to run my Full Autopilot playbook, which lets your agents/bots fully own, verify, and ship a task from start to finish.
+  > • Everything runs on cloud agents, so my bots work 24/7 even when I'm asleep or my laptop is offline.
+  >
+  > https://lnkd.in/gigqs5VH
+...
+- [2026-08-12 · Posted · 104 reactions] [Excited to share more about my journey building pstack...](https://www.linkedin.com/posts/laurenelizabethtan_how-cursor-turned-ai-agents-into-better-engineers-activity-7493165544628703233-ZfM-)
+  > Excited to share more about my journey building pstack (https://lnkd.in/gSgTn6cX), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow!
+  >
+  > https://lnkd.in/g627Tr4Y
+...
+by our eng team. So I'
+...
+here:  https://lnkd.in/gF6buA77

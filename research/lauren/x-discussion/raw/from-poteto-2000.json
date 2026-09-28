@@ -1,0 +1,85 @@
+[
+  {
+    "id": "2102050467505430555",
+    "author": "poteto",
+    "bio": "",
+    "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+    "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+    "likes": 8701,
+    "views": "1226019",
+    "url": "https://x.com/i/status/2102050467505430555",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2087311081433964965",
+    "author": "poteto",
+    "bio": "",
+    "text": "on track to shipping ~2000 PRs this month thanks to @bot and @cursor_ai! i'm coming for that #1 spot @shaoruu 👀 https://t.co/5eU4ryfEyu",
+    "created_at": "Tue Aug 11 22:51:56 +0000 2026",
+    "likes": 266,
+    "views": "22597",
+    "url": "https://x.com/i/status/2087311081433964965",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HPeeMrzb0AAU-Qa.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HPeeMrzb0AAU-Qa.jpg"
+    ],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2094209805233909788",
+    "author": "PremiumGoblin",
+    "bio": "",
+    "text": "It’s safe to assume anyone shipping 1000s of PRs a day is not reading any code right.\n\nIt’s an interesting argument to have these days. \n\nI personally think the models are not quiet yet there without doing at least a skim imo.",
+    "created_at": "Sun Aug 30 23:45:00 +0000 2026",
+    "likes": 100,
+    "views": "9200",
+    "url": "https://x.com/i/status/2094209805233909788",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2094221287358915063",
+    "author": "brandon_galang",
+    "bio": "",
+    "text": "@PremiumGoblin i wonder if @poteto has gone into more detail on this. she's the most notable engineer who i've seen publicly talk about shipping PRs at this kind of velocity.\n\ni think you necessarily have to trust your agents to review the code like you said. i don't see any other way.",
+    "created_at": "Mon Aug 31 00:30:38 +0000 2026",
+    "likes": 1,
+    "views": "168",
+    "url": "https://x.com/i/status/2094221287358915063",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": null
+  },
+  {
+    "id": "2094229449126629468",
+    "author": "poteto",
+    "bio": "",
+    "text": "@brandon_galang @PremiumGoblin yup im writing a guide. the reason i shipped 2000 PRs this month is because i designed the Grok @Bot codebase to allow me to do that with high confidence",
+    "created_at": "Mon Aug 31 01:03:04 +0000 2026",
+    "likes": 2,
+    "views": "252",
+    "url": "https://x.com/i/status/2094229449126629468",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "card": null,
+    "quoted_tweet": null
+  }
+]

@@ -1,0 +1,108 @@
+{
+  "created_at": "2026-09-24",
+  "provenance": "X public HLS 720p, X English subtitle VTT, yt-dlp metadata; transcript derived locally",
+  "entries": [
+    {
+      "name": "lauren_2500prs",
+      "source_post": "https://x.com/poteto/status/2102050467505430555",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1146,
+            "height": 720
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "2282.026667",
+          "size": "122771609"
+        }
+      },
+      "files": [
+        {
+          "path": "raw/lauren_2500prs.mp4",
+          "bytes": 122771609,
+          "sha256": "70fdf3a2e8ebaad50d7638e1bd404b1a24f19937cf6028ee57727e18fb780cd8"
+        },
+        {
+          "path": "raw/lauren_2500prs.en.vtt",
+          "bytes": 153757,
+          "sha256": "9758b18563f8afddfa9d885a499304ad317dd11e2957a7516639d2710879e23d"
+        },
+        {
+          "path": "raw/lauren_2500prs.info.json",
+          "bytes": 13240,
+          "sha256": "4f889ddf4cf3b946869d8818586a902bdc2960fe48c161bd5852cfb81976d8f0"
+        },
+        {
+          "path": "transcripts/lauren_2500prs.md",
+          "bytes": 31037,
+          "sha256": "0a358bfb7b7edee06e9a6323cbd8985bd4bd54682c0db874f3bae3fef289dd54"
+        },
+        {
+          "path": "transcripts/lauren_2500prs.cues.tsv",
+          "bytes": 53458,
+          "sha256": "519359603656075a5fef584290445053f42e1ef0fc61b6513a64be6d2ce54f33"
+        }
+      ]
+    },
+    {
+      "name": "lauren_graph_harness",
+      "source_post": "https://x.com/0xSoural/status/2101310350956048793",
+      "media": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 1236,
+            "height": 720
+          },
+          {
+            "codec_name": "aac",
+            "codec_type": "audio"
+          }
+        ],
+        "format": {
+          "duration": "3527.866666",
+          "size": "201178160"
+        }
+      },
+      "files": [
+        {
+          "path": "raw/lauren_graph_harness.mp4",
+          "bytes": 201178160,
+          "sha256": "3ce0fc554d9f016c1e4270bb6a17e83678e0897e174428207d04c1b2d975194f"
+        },
+        {
+          "path": "raw/lauren_graph_harness.en.vtt",
+          "bytes": 282199,
+          "sha256": "962197fbed725884d4a3b7476cc7b7a8ea3473d62322258995c7adb0315e82f5"
+        },
+        {
+          "path": "raw/lauren_graph_harness.info.json",
+          "bytes": 11695,
+          "sha256": "e282a352792109852b90696f654146c23cc2c8a0b96d0b934538d2bcb9bc47aa"
+        },
+        {
+          "path": "transcripts/lauren_graph_harness.md",
+          "bytes": 54941,
+          "sha256": "d7014b0d25017a8ba8a0aa7f73100565991ebb954ac452a8a392c7234b6c5f34"
+        },
+        {
+          "path": "transcripts/lauren_graph_harness.cues.tsv",
+          "bytes": 97044,
+          "sha256": "14c850399768d2381bdc7d18cb362dbfc06f6adfcdb487cff87947541c0da8ae"
+        }
+      ]
+    }
+  ]
+}

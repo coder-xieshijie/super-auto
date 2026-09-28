@@ -1,0 +1,8 @@
+{
+  "start_utc": "2026-08-25T09:33:02Z",
+  "end_utc": "2026-09-24T09:33:02Z",
+  "timezone": "Asia/Shanghai",
+  "description": "Rolling 30 days; source event timestamps, not session creation date or file modification time",
+  "exclude_analysis_session_ids": ["01a0d2a3-b8a2-77b3-a3a9-ae8bc537e038"],
+  "preservation": "Read-only source access. Save windowed redacted source event snapshots and source-line provenance. Exclude private reasoning and binary payloads. Preserve ordinary visible user/assistant messages and tool evidence. No credential/config files."
+}

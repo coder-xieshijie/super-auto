@@ -1,0 +1,278 @@
+{
+  "version": 1,
+  "plan_id": "goal-v2-request-accounting-mr7252",
+  "goal": "实现 Agent-Archon MR !7252 中 .harness/docs/specs/goal/plan.md 的 Goal v2 完整实施方案：Goal 状态/持久化/准入/预算/续跑/验证及全部本地入口一次迁入 local-runtime-v2 owner；主执行按逻辑 LLM 请求计量（transport retry 只占一步，未知发送保留占用，不退款/不重发/不自动对账）；普通次数上限只拦下一次 work 请求，grace 只在可继续的当前 Turn 内全禁工具总结；账本提交是执行必经边界，迁移/取消/并发/恢复依靠原身份与幂等回执，同次交付删除 v1 旧 Goal 业务，不保留 fallback。源码事实锚定 c4db377acdd75824a0b39d64c5c02443441e5585（用 git show 复核），实现基线为 MR head 62e88814f55f01aec259607e3e6141b5f9fe74e3。最终交付＝更新现有 Agent-Archon MR !7252（feat/goal-v2-request-accounting → preview_train）＋一个配套 weaver/idl MR；模块 worker 必须在各自隔离分支上本地 commit 完成的模块改动，但不 push、不创建或修改 MR；只有最终 integrator 合并各模块分支、解决跨模块冲突、做目标分支对齐与全仓验证、push 交付分支并创建或更新 MR。",
+  "repositories": [
+    {
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "source_branch": "preview_train",
+      "head_sha": "62e88814f55f01aec259607e3e6141b5f9fe74e3",
+      "delivery_branch": "feat/goal-v2-request-accounting"
+    },
+    {
+      "repository": "/Users/minimax/code/mm/weaver/idl",
+      "source_branch": "main",
+      "head_sha": "f2d6a48856f74d4bf9940011b5d28d90b1859bba",
+      "delivery_branch": "feature/goal-v2-request-accounting"
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "idl-goal-accounting-projection",
+      "repository": "/Users/minimax/code/mm/weaver/idl",
+      "responsibility": "在 matrix/api_common/goal.thrift 的 GoalState 增加 Goal v2 请求计量只读 optional 投影字段（plan §9.3：accounting_version、requests_used、work_requests_used、grace_requests_used、legacy_turns_used、work_requests_occupied、pending_request_reservations、unknown_request_reservations、usage_incomplete、effective_work_request_limit；命名按本文件既有 snake_case 惯例，字段编号取当前未占用编号）。保留全部现有字段、编号与方法；turns_used(12) 原样保留承载冻结旧口径；11 号保留位不复用。不改 CreateGoalReq/PatchGoalReq，不新增任何可写次数限额字段，不动 matrix/desktop_service/desktop_service.thrift 的方法与路径，不加 legacy alias。同步更新结构注释为『请求/历史占用/grace』口径：写明 accounting_version=2 表示本地请求计量、legacy_turns_used 为冻结 turns_used、effective_work_request_limit 允许 absent 表示无上限（不制造默认 10 或伪 Infinity wire 值）、预占/未知与已确认发送互斥投影。",
+      "acceptance": [
+        "GoalState 新增字段全部 optional 且语义只读投影；现有字段/编号/方法/include 无任何删除或改动；保留位 11 未被复用；新编号彼此唯一且不与既有编号冲突",
+        "没有新增可写请求限额字段、没有新增方法、没有 /mavis/api 或其他 legacy alias",
+        "注释明确旧 turns_used wire 不删除、旧云端仍按原 Turn 语义显示、新本地显示须按 accounting_version/字段存在性显式分流，不得把 requestsUsed ?? turnsUsed 直接标成请求",
+        "thrift 语法有效：agent-archon 侧 pnpm gen:thrift -- --idl-dir <本仓库 worktree> 可成功解析生成（与 assembly-entrypoints-application 模块联测；本模块至少自查字段编号与语法）",
+        "改动只落在 matrix/api_common/goal.thrift 一个文件；分支 feature/goal-v2-request-accounting 基于 f2d6a48856f74d4bf9940011b5d28d90b1859bba"
+      ],
+      "owned_paths": ["matrix/api_common/goal.thrift"],
+      "verification": [
+        "git diff 仅含 matrix/api_common/goal.thrift 的 optional 字段与注释新增",
+        "人工核对字段编号唯一性与 optional/只读语义",
+        "配合 agent-archon 模块运行 pnpm gen:thrift -- --idl-dir <本仓 worktree> 确认生成成功（跨仓联测，可由 integrator 复核）"
+      ]
+    },
+    {
+      "module_id": "core-required-request-seam",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §4.1–4.3 与 §5.3 的通用 core/vendor 能力：在 packages/agent-core/src/pi-turn-runner/（types.ts、index.ts、turn.ts、llm-retry.ts、events.ts 等）定义并实现 RequiredRequestLifecycle（prepareLogicalRequest/beforeAttempt/recordAttemptReceipt/settleLogicalRequest，host 提供的无副作用 validateFinalOutbound 挂点），由 host 显式提供到 RunTurnInput；稳定 logical requestId（现有 callId 创建位置移到 required prepare 之前，同请求 transport retry 共用，after-hook/安全重生成为新 logical request）；逐请求 settlement barrier（terminal iterator event 与 result() 等待同一 terminal promise，锁存同一 receipt/outcome 快照）；prepare 返回通用 normal policy stop 的专用控制结果。在 third_party/pi-mono/packages/agent/src/（agent-loop.ts、agent.ts）新增极小 pre-provider 正常出口：在创建 provider stream 之前结束本 run，保留已有 messages，只发一次 agent_end，不伪造 assistant/turn usage/请求步骤，不经一般 handleRunFailure，closed run 在消费 getFollowUpMessages 前结束；遵守 third_party/AGENTS.md 与目录规则，更新 third_party/pi-mono/MINIMAX_CHANGES.md 并补 vendor 专用测试。core/Pi 只认识通用请求生命周期与正常停止，不认识 Goal/SQL/预算配置/Questionnaire。",
+      "acceptance": [
+        "E-REQUEST（core 侧）：prepare 被拒→0 次 provider 调用；synthetic respond/hook abort/工具执行不产生 logical request 也不计步；同 requestId 同输入重入返回原事实不重发、异输入明确 conflict；transport retry 共用同一 requestId 只占一步；after-hook 触发的第二个真实模型调用另建 ID",
+        "seam 独立于 llmRetry/llmCapture 与 observer 开关：两者任意开关组合下 required seam 均生效；prepared hook 异常隔离、call-settled observer fire-and-forget 的现状保留且不承担账本权威",
+        "每个 physical attempt 前 await beforeAttempt；成功/失败/取消 attempt 均 await recordAttemptReceipt；足以推进工具/下一请求/Turn 结算的终态结果在 settleLogicalRequest barrier 之后才释放；对发送中取消，关闭执行与保存已知用量分开",
+        "accounting 错误不触发 transport retry；transport retry 只由 provider 错误策略决定",
+        "E-STOP（core/Pi 侧）：正常出口识别范围严格限于尚未发送的 policy stop；真实 provider/DB/stream/result 错误保留原分类；用户 signal 取消仍按取消优先；不 catch 所有异常伪装预算停止；非 Goal 调用不带该能力时走原路径且行为不变",
+        "E-VENDOR：Pi 改动最小、未改请求/工具通用语义；MINIMAX_CHANGES.md 记录改动与理由；vendor 专用测试与 core focused 测试通过",
+        "不实现任何 Goal 专属逻辑、不查 Goal 表、不引入 extension 首位门禁"
+      ],
+      "depends_on": [],
+      "owned_paths": [
+        "packages/agent-core/src/pi-turn-runner/",
+        "packages/agent-core/test/",
+        "third_party/pi-mono/packages/agent/",
+        "third_party/pi-mono/MINIMAX_CHANGES.md"
+      ],
+      "verification": [
+        "node scripts/test/focused-vitest.mjs --package @mavis/agent-core <受影响的 pi-turn-runner/retry/turn 测试文件>",
+        "pnpm --filter @mavis/agent-core typecheck",
+        "pnpm --filter @earendil-works/pi-agent-core test 的受影响测试文件（vendor 证据，按 third_party 目录规则）",
+        "修改 third_party 前先读 third_party/AGENTS.md 并核对 MINIMAX_CHANGES.md 已更新"
+      ]
+    },
+    {
+      "module_id": "goal-storage-and-migration",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §3 与 §7.1 的存储层：在 packages/local-runtime-v2/src/infra/db/schema/ 定义 local_runtime_goal_requests（每逻辑请求一行，request_id 主键，行内有界 attempt receipt JSON，(goal_id,kind,phase)/(turn_id,kind)/活动时间索引）、local_runtime_goal_turn_receipts、local_runtime_goal_verification_receipts、local_runtime_goal_execution_state、local_runtime_goal_questionnaire_deliveries 的 Drizzle schema 与 export；扩展 Questionnaire 表 Drizzle 映射补齐真实物理列 agent_name、msg_id、origin_channel_context_json、answered_at、reply_payload、dismissed_at（已有列保留，不把 JSON 字段重复建列）；编写 infra/db/migrations/goal/migration-0041-goal-request-accounting.ts（编号以实现期注册表核对为准，固定基线最大 40）：冻结定义的 up(database) 识别空库/原 Goal 表物理状态、补齐原表 22 列与必要索引且不重算既有业务值、创建新表/索引、同一 migration transaction 内核实 v1 Goal v13/14/15 物理效果完整后按冻结 meta 定义 INSERT OR IGNORE adoption marker（保留已有 applied_at_ms，不标记未执行版本），冲突明确失败、事务回滚并停止相关启动；显式注册 migrations.ts/ALL_MIGRATIONS 与 schema-consistency；不修改已发布历史 migration；不断言问卷表此刻存在、不抢 v21/v22 DDL。v1 侧：退役 packages/local-runtime/src/persistence/db.ts 的实时 ensureThreadGoalTableCompatibility 入口（历史 v13/14/15 仍由 adoption marker 覆盖），同步 sqlite-table-roles.ts 表角色登记。",
+      "acceptance": [
+        "E-DB：local_runtime_thread_goals 22 列全部保留原值与语义（turns_used 冻结为 legacyTurns、kickoff_state/reply_fingerprint/last_verification 等按 §3.1 规则）；新表不复制 Goal/Turn/问卷状态；同 Goal 长账本聚合走索引/聚合查询，不假设小上限；request/receipt 重入冲突与删除约束由真实 SQLite fixture 验证",
+        "E-MIG：空库 v2 migrate→v1 Host→v1 ready 组合启动通过并可再次启动；旧库各类 marker/缺 meta 表/partial columns fixture 通过；重复启动不重复 ALTER、不改旧业务值与 marker 时间；物理冲突（列类型不兼容、marker 与物理效果不符）明确失败回滚，不丢表重建；问卷物理列断言发生在 v1 ready 后，不由本 migration 承担",
+        "migration 失败时事务回滚并停止相关启动、记录可诊断原因，不提供 v1 Goal fallback",
+        "业务写路径遵守 AppDb/runWithWriteLock/同步 immediate transaction 约定所需的 schema 形态；raw SQL 仅存在于冻结 migration",
+        "删除实时 Goal compatibility DDL 调用后 @mavis/local-runtime 包 typecheck 通过，两个旧 DDL 来源（migration 与实时 helper）都有明确处置"
+      ],
+      "depends_on": [],
+      "owned_paths": [
+        "packages/local-runtime-v2/src/infra/db/",
+        "packages/local-runtime-v2/test/unit/infra/",
+        "packages/local-runtime-v2/test/integration/goal-storage/",
+        "packages/local-runtime-v2/test/helpers/goal-fixtures.ts",
+        "packages/local-runtime/src/persistence/"
+      ],
+      "verification": [
+        "node scripts/test/focused-vitest.mjs --package @mavis/local-runtime-v2 <migration-0041/schema/goal-storage 集成测试文件>",
+        "pnpm --filter @mavis/local-runtime-v2 check:architecture 与 test:architecture",
+        "pnpm --filter @mavis/local-runtime-v2 lint",
+        "pnpm --filter @mavis/local-runtime typecheck"
+      ]
+    },
+    {
+      "module_id": "turn-execution-integration",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §2.4、§4 透传、§5.3–5.5 host 侧与 §9.1 执行相关行：packages/local-runtime-v2/src/service/turn-system/ 内贯通 RequiredRequestLifecycle 显式参数（agent-host/execution/contracts.ts、executor.ts → agent-host/runner/contracts.ts、local-agent-turn-runner.ts → core RunTurnInput），Goal 主执行缺失该能力必须拒绝执行、不能悄悄按非 Goal 处理，非 Goal Turn 不查 Goal 表；产品 Turn 关闭控制（work-closed/fully-closed latch）由产品 Turn 执行 owner 持有，跨输出安全重生成、Pi step、after-hook follow-up、idle continue 存活，每次 runner attempt 启动前检查共享关闭控制，恢复不重置同 Turn 关闭事实与 grace；user-input-control.ts 的 steering drain/consume/ACK 与关闭竞态协调（fully-closed 在 drain 前不消费、drain 后 consume 前恢复未消费 claim、ACK 后按既有 discarded-steering/fall-to-session 语义以原 receipt/identity 显式接管未执行输入，不重复 canonical history）；host 的完整无副作用 validateFinalOutbound（覆盖 tools/形状/大小/模型限制）与 grace 最终投影全禁工具＋before-tool 防御拒绝（拒绝不计步）；在现有 execution/submission-preparation.ts 与 turn-execution.service.ts 的 prepare→durable admission→commit→beforeHost 协议上提供 Goal Turn receipt required commit 扩展点（commit 完成前不启动 host，compensate 不删除已确认请求/已接纳事实、不倒退新 epoch）；TurnAdmissionPolicy 组合点与按 clientRequestId/owner 的窄只读接纳查询（缺证据返回明确 unknown/conflict，不返回伪未接纳）；assembly/local-turn-tool-catalog.ts 迁移 Goal host 工具策略；assembly-context.ts 删除 goal-budget-summary intent（保留紧邻 cloud-handoff、verifier 等其它 intent）；compat/v1/agent-host.ts 去除主 token/turn 重复累计（token/time 实时 guard 职责迁 v2），保留产品 Turn 收束、安全审查与 eval 字段。",
+      "acceptance": [
+        "E-ASSEMBLY（seam 侧）：retry/capture 任意配置下 required seam 真实透传到 core；Goal Turn 缺 lifecycle 显式拒绝；非 Goal 调用零 Goal 表查询、行为不变",
+        "E-STOP：首次 prepare 竞态、同产品 Turn 外层 runAttempts、step/after-hook follow-up/idle/plugin continuation 均被共享 latch 拦住；有效 final、grace 耗尽、用户取消、绑定失效来源明确；正常 agent_end 一次、无伪 assistant；真实 provider/DB 错误和取消分类不变",
+        "E-STOP（输入）：关闭发生在 drain 前/prepare 后/onConsumed 后/ACK 后四个时点均无丢消息、无重复 canonical history、未执行 steering 被原 owner 恰好接管一次、已执行部分不重发；plugin stop continuation/child Bash 等非用户 producer 不越过 fully-closed 偷开 provider 请求；关闭仍完成必要 teardown",
+        "E-GRACE（host 侧）：grace 最终 outbound tools 为空并注入当前收尾说明；越权工具意图不执行、不产生 proposal、拒绝不计步；规范化后固定 digest 与实际发送请求一致，纯校验不改写内容、不重跑有副作用 hook；校验拒绝且本请求确定未发时可释放预占",
+        "E-SETTLE（seam 侧）：主执行 Turn 末不再聚合 token/turns_used+1 的旧路径（compat/v1/agent-host.ts 聚合删除）；同 Turn 3 个真实请求末仍是 3；goal-budget-tool-policy 的 token 编辑权限 guard 不在本模块误删",
+        "输出安全重生成仅在 Turn 未 fully-closed 且新逻辑请求重过准入时发出；已接受 final 不重复总结、被拒原文不当有效 final；无法合法重生成保留既有安全失败行为",
+        "保留 append/respond/abort、安全审查、evalSessionFields 原行为；窄接纳查询按 owner/digest 精确对比，不跨层直读 Turn 内表"
+      ],
+      "depends_on": ["core-required-request-seam"],
+      "owned_paths": [
+        "packages/local-runtime-v2/src/service/turn-system/",
+        "packages/local-runtime-v2/src/compat/v1/agent-host.ts",
+        "packages/local-runtime-v2/src/compat/v1/agent-host.test.ts",
+        "packages/local-runtime-v2/test/integration/goal-turn-execution/"
+      ],
+      "verification": [
+        "node scripts/test/focused-vitest.mjs --package @mavis/local-runtime-v2 <turn-system sibling 测试与 goal-turn-execution 集成测试文件>",
+        "pnpm --filter @mavis/local-runtime-v2 typecheck",
+        "pnpm --filter @mavis/local-runtime-v2 check:architecture 与 test:architecture"
+      ]
+    },
+    {
+      "module_id": "goal-service-domain",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §2.1 拟建 packages/local-runtime-v2/src/service/goal/ 的完整领域实现（公开面 GoalService、GoalRequestLifecycleFactory、GoalQuestionnairePolicy 与 required lifecycle；contracts.ts 纯契约、index.ts 只导出、initialize.ts 组装）：persistence/（Goal 原表映射、请求账本、Turn/verification receipt、execution_state、问卷 delivery repository，所有跨表写同一 AppDb 连接，Drizzle affected rows 判 CAS，不 import compat、不 raw SQL）；accounting/（§4 请求准入、逐 attempt receipt、幂等费用应用与水位、workOccupied/remainingWork 投影、独立于 Turn signal 的有界记账 deadline＝现有写锁预算共享绝对 deadline、accounting unavailable 处置、§4.4 崩溃/已决未知策略、§4.5 usage 归一化与迟到 receipt 处置）；execution/（binding、§5.1 六状态准入与恢复权限、§5.2 最后一次 work 旅程、普通 kickoff/continuation 走 conversation.ingress.submit（source=thread-goal、稳定 clientRequestId、allowQueue=true）、§7.2 持久 rearm 两谓词、§7.3 旧 Goal 一次性 adoption、正常关闭）；verification/（§6.2 路由按实际 worker route 派生不持久化、§6.3 verifier receipt/verdict-first CAS/独立 charge/恢复，复用现有 evaluator/subagent adapter 与 transcript reader）；questionnaire/（§8 delegate 实现、三类原子写、自动选择、投递冻结/resume ACK、Scheduler handler 只做同步登记、恢复矩阵、Q1/Q2 竞争）；diagnostics/（§9.4 按需 consent-only 有限脱敏账本/决定证据 source，无常驻 writer）；§7.5 删除事务与迟到任务处置；§6.1 保留的 Turn 结算工作（活跃时间交集/暂停扣除/Math.ceil 水位、依赖顺序、breaker 按产品 Turn）。消费 TurnSystem 的 TurnAdmissionPolicy/窄接纳查询/Turn receipt commit 扩展点与 core RequiredRequestLifecycle 类型；Session/Queue/资产/Scheduler/verifier 能力经中立端口注入。",
+      "acceptance": [
+        "E-BUDGET：升级 L=10、turns_used=6 剩 4 个 work 名额；同 id pause/resume/edit 不清零、新身份从 0；六状态/恢复权限表与 §5.1 一致（budget_limited 普通 resume 不能恢复、token 提额恢复边界、provider quota 归 usage_limited）；第 N 次工具合法、N+1 拒；defaultMainTurns 缺省无上限且显式值最小 1、graceSteps 默认 1 范围 0–3",
+        "E-USAGE/E-CANCEL：失败+成功 attempt 均计已知费用；确认已发单调聚合不退款；未知不估、缺失不当零、超 cap 不截断；同一 receipt 重放零增量；费用写不推进 epoch/objective/status；预取消/争锁取消/全部 attempt 确定未发才 void；DB 持续不可写有界失败、0 网络重发、不能写时不谎报持久 pause；tx 回调无 async/网络/事件",
+        "E-SETTLE：主费用在请求 barrier 内记录，Turn 末不重复；活跃时间取交集、扣暂停、终态截断、毫秒水位统一取整不丢精度、停机不计时；依赖检查顺序保留、读取失败关闭准入；真实 tool activity 依赖阻塞提前退出仍按正确 epoch 清 no_tool streak；breaker 按产品 Turn 不按请求",
+        "E-GRACE（策略侧）：grace 走 required lifecycle 计真实 token/步、可超 work cap；unknown grace 占用不返还；grace 文本不产生 completion proposal/不改状态/不新增 verifier；无可继续 Turn 不新开总结；不因 failed/aborted Turn、重启后已结束 Turn、verifier 触顶新开总结",
+        "E-VERIFY：最后 work 合法 proposal 先验证不预先改非 active；met→complete 先 CAS 再幂等 charge，met 不被随后费用改回；not_met 且无余额先保留 last_verification 再 budget stop；无 proposal 不新增验证；失败分类沿 verification-failure-reason.ts 不新造不统一预算化；接纳不明先窄查询、已接纳不重 spawn；subagent 已知 token 归原 Goal 不占主执行步",
+        "E-REC/E-REARM：reserved 恢复幂等 voided；dispatching 未知保留一步不二扣；持久 receipt 只补未应用部分；无 receipt 不猜 usage/proposal；§7.3 接管矩阵逐行为真（enqueued 但 Queue 空需查 Turn 回执，证实消费才 consumed）；epoch 写入者义务不变量、PATCH busy/enqueued 绑定与 explicit reset 两谓词、旧 callback 不清新 generation、未绑定用户 Turn 结算也 drain、一次性附件不重发",
+        "E-QCAS/E-QACK/E-QREC：三类原子写同一 immediate transaction、CAS 失败处置按 §8.2 表；创建替换取代同 Session 所有其它 pending 含普通并退役旧 answered-未接纳投递资格；人工 paused 可存、auto 要求 active+最新+到期；同毫秒按 rowid 决胜；只有 resume accepted:true 或一致接纳 receipt 才标 injected，accepted:false/busy/transport 错误不算；冻结输入重试不按当前 locale 重序列化；同稳定 ID 异 digest 报 ingress-conflict；恢复矩阵按 §8.5（过期 once 不注册过去时间、答案与期限保留）；事件/Scheduler 调用 commit 后、失败不重做写入",
+        "E-DELETE：同一 AppDb 事务退役资格+删除 Goal 及账本/回执/义务，保留已保存答案与同 Session 新 Goal；事务外取消失败不回滚已提交删除；迟到 request/verdict/job 重核原 identity，不 upsert 已删除 Goal、不转计新 Goal、丢弃费用留有限诊断",
+        "E-DIAG（source 侧）：consent-only、按需读 DB、最多 200 Goal 限量、脱敏（不导出 objective/transcript/完整 prompt/完整 raw receipt）；近期证据同时考虑请求/receipt 活动时间；诊断只读不改业务",
+        "E-CRUD（领域侧）：新 Goal 只替换已 complete；verifier child 禁 create/restart/retarget、允许 read/pause/clear；expectedGoalId 不符拒绝、资源编辑按读取 epoch CAS；裸 pause 原子 active→paused+取消 verification+阻止续跑+abort bound Turn；资源先落源字节再 commit 接纳、失败只 discard 新增资源；kickoff 失败按原创建回滚无半成品",
+        "竞争/崩溃行为用真实 SQLite 双连接与崩溃边界 fixture 证明，不只 mock repository 返回值；目录布局遵守 local-runtime-v2 AGENTS（根文件数、三文件成组、sibling 测试）"
+      ],
+      "depends_on": ["core-required-request-seam", "goal-storage-and-migration", "turn-execution-integration"],
+      "owned_paths": [
+        "packages/local-runtime-v2/src/service/goal/",
+        "packages/local-runtime-v2/test/integration/goal-service/"
+      ],
+      "verification": [
+        "node scripts/test/focused-vitest.mjs --package @mavis/local-runtime-v2 <service/goal sibling 测试与 goal-service 集成测试文件>",
+        "pnpm --filter @mavis/local-runtime-v2 typecheck",
+        "pnpm --filter @mavis/local-runtime-v2 check:architecture 与 test:architecture",
+        "pnpm --filter @mavis/local-runtime-v2 lint"
+      ]
+    },
+    {
+      "module_id": "assembly-entrypoints-application",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §2.1 GoalApplication、§6.4 入口工作流、§9.1 逐入口切换表、§9.2 生命周期与 §7.4 summary 退役的装配侧：新建 packages/local-runtime-v2/src/application/session/goal-application.ts（wire 转换、HTTP 与 process-local 各自的 enabled/sessionId/objective/tokenBudget 校验与错误形态、跨资产/Goal workflow、用已提交投影发布 thread_goal.updated/cleared）；services.ts 与 runtime-services-composition/runtime-user-applications/runtime-queue-selection 等 composition：注入 required request lifecycle 工厂、v2 classifier、prepareTurnAdmission、required cron conflict reader 与 verifier ports（去掉 bindAutomationOwnerConflictReader?./bindVerifier?. 可选绑定，改 required readiness 断言）、query-collapse 只读投影，保留 provenance/Plan/memory/MiniApp/Excel/Word/verifier 扩展与工具政策；HTTP：goal capability 完整 allowlist、四方法 controller 原子挂载经 Application 到同一 owner；基于 feature IDL（idl-goal-accounting-projection 分支）运行 pnpm gen:thrift -- --idl-dir 并提交 generated 输出（packages/thrift-gen、thrift-gen-client、http/routing *.gen.ts），记录 IDL 输入 SHA，重复生成幂等，不手改 generated；local/cli-service.ts 与 process-local-application：goals capability 指向 GoalApplication，方法形状保留；compat/v1/runtime.ts 删除 process-local 旧 facade 与 conversation bind 隐藏 recovery（bind 只绑定），compat/v1/session.ts 八方法（deleteSession、getBySession、classifyQueuedItem、prepareTurnAdmission、pauseActiveForAbort、bindAutomationOwnerConflictReader、bindVerifier、createSubagentExecution）逐项转 v2 后删除旧 business bridge，compat 只留类型/调用转换（含把 v2 GoalQuestionnairePolicy 绑定为 v1 GoalQuestionnaireDelegate 的薄转换）；service/session-system/initialize.ts 删除注入改 v2 required deleteBySession；Queue 历史 summary 项 startup 退役（队首/旧 claim 不执行不堵队，不新增全局 Queue gate，仅 Goal 执行入口 required readiness 并显式 wake）；application/agent/goal-budget-summary-reminder.ts 及 services.ts 注册删除（goal-budget-tool-policy 的 token 编辑 guard 保留）；§9.2 构造→BackgroundRuntime.start→ready→delivery→close 顺序与 ready 失败回滚；packages/shared/src/global-events.ts 的 Goal DTO/事件字段（accountingVersion 等显式版本化投影）；v2 src/index.ts 公共导出（diagnostics source 等）。",
+      "acceptance": [
+        "E-ENTRY：四 HTTP 方法 generated client→路由→Application→同一 owner 全路径请求级测试通过；scaffold 501 与旧业务 fallthrough 退役；CLI/process-local/TUI/ACP 同输入同保护同持久状态；query-collapse 读 v2；不支持 Goal 的宿主返回明确 unsupported，声明支持但 required owner 未 ready 返回 unavailable/启动失败；无旧 fallback",
+        "E-CONTRACT：generated 文件仅由 generator 产生且与登记的 feature IDL 输入 SHA 一致；重复生成第二次 git diff 无变化；旧 turns 字段保留、无新增可写次数限额；合入前由 P7.3 用已合入 IDL 重新生成对齐（在 MR 描述记录义务，不在本模块自动 merge）",
+        "E-ASSEMBLY：production composition 测试（非仅 typecheck）证明 retry/capture 任意配置下 required seam 透传；optional 旧 binder 不再掩盖缺失；MiniApp/Excel/Word/provenance/Plan/memory、cron reviewContent、evalSessionFields 全部保留；普通用户 Turn 不误绑 Goal 计量",
+        "E-LIFE：required ports 逐一缺失时 ready 失败且不留 timer/半绑定；恢复顺序＝Goal 请求/Turn/verifier receipt 恢复与旧 summary 退役→问卷恢复建立 blocker/投递责任→旧普通 kickoff/active 接管与 rearm→最后显式 wake；隐藏 Goal recovery 已从 conversation.bind 移除；正常 close 先停新触发、Goal 停新准入并保留有界记账窗口、drain 业务任务、最后关 DB",
+        "E-QUEUE：priority-user FIFO 让位、pending 问卷、Plan fence、CU readiness、ordinary Questionnaire response bypass 保留；旧 summary 队首/claim 退役不执行不堵塞用户队列；startup 只 recoverState/recoverClaims 不 claimNext",
+        "E-EVENT：事件用已提交投影发布；发布失败不回滚业务；重复通知不重复收费；断线重连重读持久数值；事件名/兼容字段保留",
+        "E-DELETE（wiring 侧）：Session 删除经 v2 required cleanup 并组合共享 Questionnaire/权限/资产清理；删除后取消前崩溃窗口有集成证据",
+        "E-CRUD（入口侧）：HTTP 与 process-local 保留各自错误形态，不为统一入口改写异常/HTTP code；拒绝只读 legacy Session mutation；pauseActiveForAbort 走 v2 用户停止 port 且 stop 后无自治续跑",
+        "composition 遵守 local-runtime-v2 AGENTS 边界（runtime.ts 只编排固定阶段、services.ts 不 import delivery、application 不 import Hono/concrete compat leaf、只从 compat aggregate 导入值）"
+      ],
+      "depends_on": [
+        "idl-goal-accounting-projection",
+        "core-required-request-seam",
+        "goal-storage-and-migration",
+        "turn-execution-integration",
+        "goal-service-domain",
+        "legacy-goal-retirement"
+      ],
+      "owned_paths": [
+        "packages/local-runtime-v2/src/services.ts",
+        "packages/local-runtime-v2/src/services.test.ts",
+        "packages/local-runtime-v2/src/runtime.ts",
+        "packages/local-runtime-v2/src/index.ts",
+        "packages/local-runtime-v2/src/http/",
+        "packages/local-runtime-v2/src/local/",
+        "packages/local-runtime-v2/src/application/",
+        "packages/local-runtime-v2/src/service/session-system/",
+        "packages/local-runtime-v2/src/service/v1-conversation-compat/",
+        "packages/local-runtime-v2/src/compat/v1/runtime.ts",
+        "packages/local-runtime-v2/src/compat/v1/session.ts",
+        "packages/local-runtime-v2/src/compat/v1/session.test.ts",
+        "packages/local-runtime-v2/test/unit/compat/",
+        "packages/local-runtime-v2/test/integration/goal-wiring/",
+        "packages/thrift-gen/src/generated/desktop-service/",
+        "packages/thrift-gen-client/src/generated/desktop-service/",
+        "packages/shared/src/global-events.ts"
+      ],
+      "verification": [
+        "pnpm gen:thrift -- --idl-dir <weaver/idl feature worktree>，随后第二次运行确认 git diff 无变化",
+        "pnpm --filter @mavis/thrift-gen build 与 test；pnpm --filter @mavis/thrift-gen-client build；pnpm --filter @mavis/local-runtime-v2 typecheck",
+        "node scripts/test/focused-vitest.mjs --package @mavis/local-runtime-v2 <entry/lifecycle/queue/goal-wiring 测试文件>",
+        "pnpm check:package-boundaries",
+        "pnpm --filter @mavis/local-runtime-v2 check:architecture 与 test:architecture；node scripts/test/local-runtime-layout-check.test.mjs"
+      ]
+    },
+    {
+      "module_id": "consumer-surfaces",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §2.4 消费面与 §9.3/§9.4 显示、文案、prompt、诊断消费方：UI packages/ui/src/services/thread-goal/（types/local-adapter/cloud/desktop，cloud adapter 只保持旧口径分流不迁云端业务）、store/thread-goal.ts、ThreadGoalBanner.tsx 用 accountingVersion 与字段存在性识别本地新口径（确认/legacy/未知/预占分开显示，缺 usage 不装 0）；TUI packages/tui/src/runtime/port.ts、adapter.ts、adapters/goal-access.ts、event-normalizer.ts 与 tui/features/goal/banner.ts、acp/extensions.ts（原命令/方法名保持）；CLI packages/cli/src/commands/diagnostics.ts 与 Electron apps/electron/main/ipc/system.ipc.ts 改用 v2 diagnostic source 公共导出（移除 @mavis/local-runtime 旧 source import，保留 artifact 路径 mavis-goal/goal-decision-evidence.json 与 consent）；packages/config/src/goal-config.ts 注释/单位说明（defaultMainTurns 键值保持、单位变 work 请求额度）；受控 prompt 资产 packages/local-runtime-v2/assets/agents/workflow/goal/ 六个现有文件逐项检查单位/独立总结假设、budget-limit.md 改当前 Turn 收尾内容来源，只改实际受影响内容，并更新 managed-prompts.json/prompt-exemptions.json 登记；packages/agent-modules/goal/（中立 types/tool-defs/tool-impls）文案与类型对齐『请求/历史占用/grace』语义，工具包保留不删除。",
+      "acceptance": [
+        "E-DISPLAY：本地 v2 确认发送/legacy 冻结/未知/预占四类分开呈现且互斥；云端与历史旧字段仍按旧 Turn 单位显示不误标；requestsUsed ?? turnsUsed 不直接标成请求；grace 总步可显示超过 work cap；无新增次数编辑入口；Desktop 文字遵守共享设计规范字号映射，不锁像素/Tailwind class/快照，Web/Native 字号不变",
+        "E-DIAG（消费侧）：CLI 与 Electron 两个入口在 consent 下产出原 artifact；限量/脱敏/输入时间窗口不退化；诊断只读；不再 import @mavis/local-runtime 旧 diagnostic source",
+        "E-TOOLS（文案侧）：get_goal/update_goal 工具说明与配置注释统一新口径；无 model create_goal 或步数编辑工具文案",
+        "prompt 资产仅实际受影响内容修改；managed-prompts.json/prompt-exemptions.json 登记一致并通过 pnpm check:prompt-asset-registry；不执行在线 Apollo 发布",
+        "TUI/ACP 原命令与方法名保持；事件重连按持久投影重读，不靠事件累计还原账本",
+        "既有 Goal Fork/导入导出路径不删除不禁用，也不新增对应能力"
+      ],
+      "depends_on": ["assembly-entrypoints-application"],
+      "owned_paths": [
+        "packages/ui/src/services/thread-goal/",
+        "packages/ui/src/store/thread-goal.ts",
+        "packages/ui/src/components/chat/ThreadGoalBanner.tsx",
+        "packages/ui/test/unit/",
+        "packages/tui/src/runtime/port.ts",
+        "packages/tui/src/runtime/adapter.ts",
+        "packages/tui/src/runtime/event-normalizer.ts",
+        "packages/tui/src/runtime/adapters/goal-access.ts",
+        "packages/tui/src/tui/features/goal/",
+        "packages/tui/src/acp/extensions.ts",
+        "packages/tui/test/",
+        "packages/cli/src/commands/diagnostics.ts",
+        "packages/cli/test/unit/commands/diagnostics.test.ts",
+        "packages/cli/test/integration/tui-goal-slash.integration.test.ts",
+        "apps/electron/main/ipc/system.ipc.ts",
+        "packages/config/src/goal-config.ts",
+        "packages/config/test/",
+        "packages/local-runtime-v2/assets/agents/workflow/goal/",
+        "packages/local-runtime-v2/assets/agents/managed-prompts.json",
+        "packages/local-runtime-v2/assets/agents/prompt-exemptions.json",
+        "packages/agent-modules/goal/"
+      ],
+      "verification": [
+        "node scripts/test/focused-vitest.mjs --package @mavis/ui <受影响 thread-goal/Banner 语义测试文件>",
+        "node scripts/test/focused-vitest.mjs --package @minimax/code <受影响 TUI/ACP goal 测试文件>",
+        "node scripts/test/focused-vitest.mjs --package @mavis/cli packages/cli/test/unit/commands/diagnostics.test.ts",
+        "pnpm --filter @mavis/config test 的受影响用例；pnpm --filter @mavis/goal typecheck",
+        "pnpm check:prompt-asset-registry"
+      ]
+    },
+    {
+      "module_id": "legacy-goal-retirement",
+      "repository": "/Users/minimax/code/mm/agent-archon",
+      "responsibility": "实现 plan §8.1 v1 侧问卷边界与 §7.4/P6 旧业务退役：在 packages/local-runtime/src/questionnaire/ 的通用 Questionnaire 消费边界定义中立 GoalQuestionnaireDelegate 接口（classify/prepare ownership、commit creation、reply、closed/retire、blocks continuation 完整职责），解除 LocalQuestionnaireService extends GoalQuestionnaireService 继承，通用服务改为消费注入的 delegate（缺 delegate 时 Goal 问卷明确 capability unavailable，不返回 not-goal 落普通问卷、不 noop 解环）；通用 normalize、request/reply validator、serializer、错误契约、普通与 Plan-owned workflow 留原模块不动。删除 packages/local-runtime/src/thread-goal/ 全部专属实现（store、gate、admission、lifecycle、settlement、continuation、rearm、verification、time、tool、prompt、diagnostic-source、admission-queue 的 budget-limit 特殊准入、kickoff.ts summary message/client ID 构造、kickoff-host.ts summary 扫描与提交等），并清理 v1 包内全部 Goal 业务引用与分支：src/api/（host、host-helpers、host-route-contexts、hosted-agent-capabilities、local-turn-tool-sources、routes）、src/http/（server.ts、desktop-service-support.ts 的 Goal 方法）、src/runtime/、src/observability/adapters.ts、src/messages/queue-serialization.ts 与 queue-source.ts（保留 kickoff 的 thread-goal ingress source 标识与 clientRequestId 序列化语义，仅删 summary 专属项）、src/usage/、src/sessions/、src/eval/、src/config/、src/background-task/、src/workspace-indexing/、src/index.ts 包导出；删除/标记迁移 packages/local-runtime/test/ 下旧 Goal 测试（test/unit/thread-goal/、local-thread-goal-store/orchestrator/wiring、thread-goal-kickoff-host、questionnaire Goal 分支用例、test/e2e/thread-goal-tool-guards 等），行为用例的等价迁移由 v2 各 owner 模块承接，不复制两套 owner 测试。@mavis/goal 中立包引用保留。",
+      "acceptance": [
+        "E-OWNER（v1 侧）：rg 静态检查 packages/local-runtime 内无残留旧 Goal 业务实现/专属 SQL/进程内 Goal timer/summary 构造；共享 Questionnaire/权限/附件/任务/Queue/Scheduler 能力与历史 migration（v13/14/15、v21/v22 定义）保留不动；不保留旧 Goal 业务接口壳",
+        "E-QSHARED：ordinary 问卷、Plan-owned 答复/取消、Browser Use admission、feature enable、agent scope、卡片字段 focused 回归通过；缺 Goal delegate 时明确不可用而非降级",
+        "delegate 接口完整表达 §8.1 五类职责与三类原子写/ACK 所需边界，作为中立消费接口不引用 v2 具体类型",
+        "kickoff 的 conversation.ingress.submit source=thread-goal 语义与稳定 clientRequestId 序列化保留；仅 summary 专属队列项/标识删除",
+        "删除后 @mavis/local-runtime 包内部 typecheck 与受影响 focused 测试通过（跨包引用切换由 assembly 模块与最终 integrator 复核）；未触碰 packages/local-runtime/src/persistence/（归 goal-storage-and-migration）",
+        "反向范围（P6.3）：本模块不修改云端 Goal、Fork/导入导出、无关共享行为；发现无关行为变化即撤回该范围"
+      ],
+      "depends_on": [],
+      "owned_paths": [
+        "packages/local-runtime/src/thread-goal/",
+        "packages/local-runtime/src/questionnaire/",
+        "packages/local-runtime/src/api/",
+        "packages/local-runtime/src/http/",
+        "packages/local-runtime/src/runtime/",
+        "packages/local-runtime/src/observability/",
+        "packages/local-runtime/src/messages/",
+        "packages/local-runtime/src/usage/",
+        "packages/local-runtime/src/sessions/",
+        "packages/local-runtime/src/eval/",
+        "packages/local-runtime/src/config/",
+        "packages/local-runtime/src/background-task/",
+        "packages/local-runtime/src/workspace-indexing/",
+        "packages/local-runtime/src/index.ts",
+        "packages/local-runtime/test/"
+      ],
+      "verification": [
+        "pnpm --filter @mavis/local-runtime typecheck",
+        "node scripts/test/focused-vitest.mjs --package @mavis/local-runtime <受影响的 questionnaire/api/queue 测试文件>",
+        "rg -n 'thread-goal|ThreadGoal|GoalQuestionnaireService' packages/local-runtime/src/ 核对残留仅为允许的中立标识（ingress source、@mavis/goal 类型、delegate 接口）",
+        "pnpm check:package-boundaries"
+      ]
+    }
+  ]
+}

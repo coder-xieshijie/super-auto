@@ -1,0 +1,110 @@
+Title: Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! | Lauren Tan
+URL: https://www.linkedin.com/posts/laurenelizabethtan_how-cursor-turned-ai-agents-into-better-engineers-activity-7493165544628703233-ZfM-
+Published: 2026-08-12T00:00:00.000Z
+Author: Lauren Tan
+Highlights:
+# Excited to share more about my journey building pstack (), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow! | Lauren Tan · LinkedIn · 2026-08-12
+...
+Excited to share more about my journey building pstack (https://lnkd.in/gSgTn6cX), shipping 2,000 PRs a month, and the client framework powering Grok Bot tomorrow!
+
+---
+
+Title: pstack gates its parallel agents behind a verification skill your project has to generate
+URL: https://theclarity.today/story/pstack-explained-lauren-tan-s-system-for-trustworthy-ai-agents-36efac25
+Published: 2026-09-10T14:50:29.000Z
+Author: N/A
+Highlights:
+Lauren Tan's MIT-licensed plugin routes a described task into one of 23 playbooks, but the part that decides whether any of it transfers is the per-project skill that drives the real product and recognises failure.
+...
+- Lauren Tan has open-sourced pstack, a collection of engineering skills, principles, playbooks, subagents and automations built around the way she works with coding agents.
+...
+- The plugin is at version 0.15.1 under an MIT license, with 23 task playbooks and 23 engineering principles carried in the repo.
+...
+- One entry command, /poteto-mode, takes a described task, picks the workflow, loads the matching playbook, builds the work sequence and calls specialised skills as it goes.
+...
+- The playbooks are shaped by task type: a bug gets reproduction, root-cause analysis, a targeted fix and runtime verification, while a long migration is split into units that each end in a verifiable state.
+...
+The load-bearing command here is /create-verification-skill, which gives a project its own mechanism for proving behavior [10]. Tan's working definition of verification is concrete: the agent performs the task, interacts with the actual product, inspects the result, recognises failure, tries again, and keeps going until it can demonstrate success [11]. That loop is not a prompt trick; it is a program driving your app and reading the result.
+...
+The adoption number is the one to be careful with. Cursor's engineering team had used Tan's personal skills 10,000 times in a single week at the point she announced open-sourcing them [2]. Spread across seven days that is roughly 1,430 invocations a day [20]. Team size is not given, so the per-engineer rate is unknown, and a usage count says nothing about defects caught. For the figure to mean anything in your shop you would need an application an agent can exercise end to end, and engineers who read the playbook rather than the diff.
+...
+The counts also need a caveat. The repo figures are 23 and 23, while the Cursor marketplace lists 47 skill entries and two specialised subagents [5], and the explainer does not say how those sets map onto each other [22]. At version 0.15.1 [3] that is a snapshot of a pre-1.0 plugin, not a stable inventory.
+...
+Then the ordering. Lesson 5 of Tan's guide, as theneuron.ai lays it out, is that parallelism comes after trust [15]. The tools that make parallelism easy are already in the box: /swarm splits slices of a problem across agents, /arena runs competing attempts at the same problem, /interrogate sets multiple models on a finished diff [14]. All three multiply output. Run them before the verification skill exists and you have bought more diffs against the same human reading capacity, which is the failure the writeup opens with, five agents producing code faster than anyone can read it, while every green check still raises a new question [19].
+...
+The license, the file counts, and the router behaviour are documented: /poteto-mode picks the workflow, loads the playbook, builds the work sequence, and invokes skills [7]. The claim underneath, that these 23 principles encode senior judgment rather than one engineer's habits, is not something this material lets you check. That test happens in a codebase that is not Cursor's.
+...
+- Whether the repo's 23/23 counts and the 0.15.1 version hold, since the inventory being cited is pre-1.0.
+- The cost figures behind the explainer's "absurdly expensive" section, which is where the token bill for /arena, /swarm and /interrogate would show up.
+- A report of verification skills generated against a codebase outside Cursor's, which is the only way the 10,000-use signal transfers.
+...
+The pstack repo contains 23 task playbooks and 23 engineering principles.
+...
+The Cursor marketplace currently exposes 47 skill entries and two specialized subagents for pstack.
+...
+pstack is Lauren Tan's open-source collection of engineering skills, principles, playbooks, subagents and automations built around the way she works with coding agents.
+...
+The current pstack plugin is version 0.15.1 under an MIT license.
+...
+With /poteto-mode you describe a task, and it decides which workflow fits, loads the relevant playbook, creates the work sequence, and invokes specialized skills as needed.
+...
+A bug might trigger reproduction, root-cause analysis, a targeted fix and runtime verification; a performance problem starts by measuring current behavior; a major architecture decision can fan out across competing designs; a long migration gets divided into small units that each end in a verifiable state.
+...
+The current pstack repo includes playbooks for investigation, bug fixing, performance work, runtime forensics, refactoring, prototyping, visual parity, autonomous runs, orchestration, shipping and multi-phase projects.
+...
+/create-verification-skill gives a project its own mechanism for proving behavior.
+...
+The explainer gives repo counts of 23 playbooks and 23 principles alongside marketplace counts of 47 skills and two subagents without stating how the two sets map onto each other.
+...
+The Cursor engineering team had already used Lauren Tan's personal skills 10,000 times in a single week when she announced she was open-sourcing them.
+...
+The operational claim is that agents must verify against the real artifact rather than compilation or self-report, and that repeated manual work should become a CLI every agent calls the same way. That is a maintenance commitment: a feature map to keep current, a verification tool to own, and, in the worked example, an agent permitted to open the application, click through it and flip feature flags. theneuron.ai does not reach the question of what that agent is allowed to touch or how a bad run is contained. Nor can an operator tell from the counts what actually installs, since the repo inventory and the marketplace inventory are reported side by side without being reconciled.
+...
+This story has no company behind it, no price attached and no revenue line to speak of. pstack is MIT-licensed and free, the distribution is a listing in Cursor's marketplace, and the only usage signal is Tan's own figure of 10,000 skill invocations in a week by the engineering team she works with, relayed once and confirmed nowhere. The commercially interesting detail is indirect: /swarm, /arena and /interrogate all spend model calls to buy confidence, which is why the piece needs a section on how expensive this gets.
+...
+The version string, the licence, the 23 playbooks and the 47 marketplace entries are all checkable against a public repo and a public listing. None of them has been checked by anyone other than theneuron.ai, whose account tracks Tan's own guide and store page closely enough to inherit their framing. The number asked to carry the most weight, 10,000 uses inside Cursor's engineering team in one week, arrives with no primary source attached.
+...
+Two things here are observable: pstack sits in Cursor's marketplace with a version and a licence, and Tan reports 10,000 skill invocations in a week by the engineering team around her. Heavy use by the group that has the author on hand is real but narrow, and it reaches us through one outlet. There is no install count, no issue traffic to point to, and no named team beyond Cursor itself.
+...
+Nobody bills for pstack itself. It carries an MIT licence, the plugin is free, and there is no product sitting behind it. The workflows are the other side of that. /swarm, /arena and /interrogate all spend model calls to buy confidence, which is exactly why the piece needs a section on how expensive this gets, and the marketplace distributing the plugin belongs to the company whose agents run those calls. No hidden hand, but an alignment worth naming.
+...
+and a text that stops mid-sentence before the later lessons and the cost section. What keeps this from sitting lower is how specific the mechanics are: anyone who installs the plugin can confirm or break the command list and the counts within an hour. The
+
+---
+
+Title: Lauren's Complete Guide to pstack, Pt. 1 · Start My AI
+URL: https://www3.skool.com/start-my-ai/laurens-complete-guide-to-pstack-pt-1
+Published: 2026-04-21T22:40:00.000Z
+Author: N/A
+Highlights:
+Lauren Tan just published part 1 of a written guide to pstack. This is not the Maven recording. This is how she actually uses it.
+...
+Part 1 is verification. The agent has to check its own work so you are not the bottleneck. She treats that skill like infrastructure. Install pstack, run /create-verification-skill, and give the agent a small CLI it can drive, not just markdown.
+...
+She has been doing this as the gardener on Grok Bot while the team lands hundreds of PRs a day. Volume only matters if the quality holds.
+
+---
+
+Title: Lauren Tan @poteto is an engineer at Cursor. Previously ... - YouTube
+URL: https://www.youtube.com/watch?v=Zc07HI9Ppxk
+Published: 2026-08-26T00:00:00.000Z
+Author: UninformedInvestors
+Highlights:
+thing for people who are on, you know, uh a a normal set of token usage, they don't have, you know, basically unlimited tokens uh to work with. Well, I think that's a really good point. I mean, like obviously, you know, I work at a AI lab where we have unlimited tokens, so uh I definitely cannot say that, you know, this is something everyone should do in the exact same way that I did it. I think it's possible to get to this point without, you know, breaking the bank. But, you know, if you're like an engineering leader or, you know, you're you're you have a startup that you lead, um I think that may be a question of ROI. Um and it's like uh yes, you spend a lot of money on tokens in the upfront stage. You know, you like refactoring your code base is going to take a lot of tokens. Uh adding all these things uh is going to take a bunch of tokens. But, if we're heading to a world where agents are writing all the code, and you know, you want to be very lean, right? You don't want to have to hire You don't want to be You don't want to become like meta, right? Like I mean like in terms of You don't want to become a 10,000-person engineering org because I mean, that's a cool problem to have, but also you know, you you have so much overhead. There's like planning, you know, like you it it's it's uh personally I I wouldn't uh it it's not super fun. But, um I think you want to stay very nimble, right? And you want to you want to be like agents are all about allowing you to do things that you couldn't do before. That's really to me like the value of agents. You know, it's not just throwing tokens on every single little thing. But, um to me like the thing I couldn't do before is like enforce this level of constraints in a code base by myself. Right? Like I'm just a single person, you know, uh it would have taken me years to build this framework uh and do it all the refactoring and test everything myself and verify, you know, like run Imagine if there was just me right now in in pre-agent era, just like running, you know, by my It would take me so long, right? And my salary is pretty high, right? Like So, you know, the the question I think an engineering leader might have is just then, you know, like what is there's a tradeoff of do you hire someone to do this, or do you spend the tokens to set up a code base so that even the the most naive, right, the dumbest agents can do a good job. And when you actually get to this point, like even agents that are not, you know, Fable size do an excellent job of writing code. And this pays a lot of dividends as well for me and personally where I've empowered not just myself, but again, like PMs, designers, engineers who are not familiar with Grok but to just contribute in a way that is sustainable. So, I think yeah, it's definitely like a trade-off for sure. You know, like nothing's like free for sure. Uh and tokens are pretty expensive. Uh but oh, actually, I don't I I I don't know how many of you have seen this, but we actually announced Grok 4.6 today. So, very exciting. Finally out. Um so, yeah, Grok 4.6 would be like a great It's very very smart. Uh it's really good on on the benchmarks. Uh and it's the same the tokens Uh well, uh I hopefully I'm not saying this thing correctly, but uh I believe the cost per token is the same as 4.5. So, you're actually getting more intelligence for the same cost. Uh I think this is an area that Cursor tries to Cursor and SpaceX AI try to really optimize for like that Pareto frontier of, you know, cost versus intelligence. Uh you know, we don't necessarily want to build the biggest model ever because that is extremely expensive to run. It's really about like how do you find that sweet spot, right? You don't You don't need a giant model, but it's just super smart, right? And it's not very expensive for inference. Uh but um yeah, I think to kind of round it up, um I think it's like a it's it's there's a If you do your own analysis, I feel like it's pretty positive. It It'll be pretty positive that the ROI you get from investing in stuff like this uh just empowers not just yourself, but your whole team to be so much more productive. Right? Like imagine if you have an army of engineers like me who are shipping so much improvements and and bug fixes uh you know, every day. Right? Like that is pretty exciting. Cool. One last question before we wrap up. This one is for the people in product on the on the call. So, let's say we do have an army of engineers who are shipping like Lauren. I'm just curious like how is the product team or other functions of your company keeping up given that like if you're shipping so quickly, have have are they using AI more to do their jobs? Like as much as you can speak to that. I obviously you don't have like you're not in that role, but just curious about how that works. Um I think this is where Grokbot has been actually exceedingly powerful. Uh where so before Grokbot like you know, obviously Cursor only had Cursor. Like we only had agent window. We had a CLI. We had an IDE. And these are really like power user tools, right? Like the they're designed for developers. So, it's very very developer-centric. You can do knowledge work in them, but it like the UI is not really optimized for that. So, we actually didn't really have uh well, I think like a lot of people like you know, GTM, product, like they might have used Cursor uh to do their work, but it definitely wasn't like a the like full experience with them. Um I think now with Grokbot uh it's become Grokbot is basically like the Cursor moment for people who are not in tech in my opinion. Like it's like it's like a very very accessible way to use agents in a very comfortable, very familiar interface. It looks like iMessage. Um and it's very fun too, you know, you can give your agent to be name. Uh you can have you can kind of do orchestration with in a very like natural way where you can sort of you know, each agent is like a person and now you're on a team of agents like working on you have one one agent per account that you manage as an example. Or if you're a PM, you have you know, you can have an agent that summarizes all the work that Lauren did last night and then now you know what I did, right? So, I think our PMs are leveraging that a lot. And they're shipping code, too. Uh, so you know, I often times they will just say, "Oh, here's a bug. I fix it. Can you look at it?" And then I'll go review it and actually it's just perfect. I'm like, "Okay, stamp." Uh, so uh, I think that shows that you know, the the Dune architecture is holding up, right? The all the the really strict constraints allow people who are not experts in engineering to contribute at a high level. Uh, so I'm I feel like I'm already seeing that pay off a lot where uh, you know, designers and PMs are just able to to to ship features directly. Um, and that just makes the Grock bot team super fast, right? Where we can ship so quickly. Um, and we have a lot planned, so I'm very excited uh, to you know, uh, to to ship more uh, ship more stuff. Yeah, that's awesome. Uh, we are at time, so I I guess Lauren, if if folks want to support you, maybe go try Grock bot, try out uh, 46 and uh, you know, just get to get provide some feedback. But yeah, this was awesome. Really appreciate you taking the time. Uh, thanks everyone for all the messages in the chat. Uh, lots of good questions. I know we didn't get through everything, but uh, as I kind of said at the top, way more questions than than we could get through. But uh, yeah, really really thanks thanks for for joining. Thanks everyone for joining and uh, hopefully you you enjoyed the session. Yep. All right. Yeah, I see see you thanks for having me and uh, if you have any more questions, yeah, just DM me on Twitter. Uh, I'll I'll open them up, I guess. I'll let the I'll let the floodgates to get you're going to get a lot of DMs. Yeah, I'll open the floodgates. So, yeah, DM me. Maybe I'll do like a
+
+---
+
+Title: A deep dive into pstack - Flavio Copes
+URL: https://flaviocopes.com/pstack/
+Published: 2026-08-21T00:00:00.000Z
+Author: Flavio Copes
+Highlights:
+It was created by Lauren Tan, also known as @poteto on X. The stated goal is not more code. It is less code, higher quality, and enough verification that several agents can work in parallel without turning the repository into a mess.
+...
+Lauren explained the thinking behind pstack in her article How I Use Cursor.
+...
+At launch, Lauren showed that her skills had been used 9,000 times inside Cursor in one week. pstack packages those internal habits into a public plugin.
+...
+pstack has 22 user-facing playbooks. There is also an internal Opening a PR playbook used by the others.
+...
+confirmed problems, and fix them

@@ -1,0 +1,43 @@
+{
+  "snapshot_source": "/Users/minimax/.codex/state/agent-lord/plan-runs/goal-v2-7252-62e88814.json",
+  "run_id": "goal-v2-7252-62e88814",
+  "modules": {
+    "assembly-entrypoints-application": {
+      "state": "delivered",
+      "commit_sha": "209775060508bf1aa1d50f6d5b0e172eb9e762b9"
+    },
+    "consumer-surfaces": {
+      "state": "delivered",
+      "commit_sha": "6082470353bfc947bfc7804e7814be9523bb9da7"
+    },
+    "core-required-request-seam": {
+      "state": "delivered",
+      "commit_sha": "fa39d803a6e26f602af2384a8fdc1d7c5eba0b39"
+    },
+    "goal-service-domain": {
+      "state": "delivered",
+      "commit_sha": "8c008e9299f93143e6014398a8fc805fec85f0c2"
+    },
+    "goal-storage-and-migration": {
+      "state": "delivered",
+      "commit_sha": "e053d983f53a44247cf1df83bc9e8673fc356d5a"
+    },
+    "idl-goal-accounting-projection": {
+      "state": "delivered",
+      "commit_sha": "0b5e68184489a057d2af3e0a52d4288d97f9e193"
+    },
+    "legacy-goal-retirement": {
+      "state": "delivered",
+      "commit_sha": "b3206d6c262ef1fbcc48099b0adb3d1c53d8c65d"
+    },
+    "turn-execution-integration": {
+      "state": "delivered",
+      "commit_sha": "19238362b4a2cda7919ab0b2fd7a103f392e2e0b"
+    }
+  },
+  "integration": {
+    "state": "dispatched",
+    "task_id": "goal-v2-7252-integrator-fable5-high"
+  },
+  "report": null
+}

@@ -1,0 +1,828 @@
+[
+  {
+    "id": "2102884954137080246",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @jediahkatz: I optimized Cursor's agent harness. Check it out for nitty gritty and interesting details on where token spend comes from.…",
+    "likes": 0,
+    "retweets": 9,
+    "replies": 0,
+    "views": 1329,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 22:16:57 +0000 2026",
+    "url": "https://x.com/poteto/status/2102884954137080246",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102876115287314479",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @maria_rcks: guess what i got https://t.co/OwTnSOy1hV",
+    "likes": 0,
+    "retweets": 4,
+    "replies": 0,
+    "views": 1297,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 21:41:50 +0000 2026",
+    "url": "https://x.com/poteto/status/2102876115287314479",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HS7Y_bfWUAEDt4J.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HS7Y_bfWUAEDt4J.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102846907894866022",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @cursor_ai: We've reduced token costs in Cursor by 7% with no drop in agent quality.\n\nSavings came from tighter prompts, selective tool…",
+    "likes": 0,
+    "retweets": 165,
+    "replies": 0,
+    "views": 1113,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 19:45:46 +0000 2026",
+    "url": "https://x.com/poteto/status/2102846907894866022",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102846105432297963",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @mattyp: Here's what's new in Grok @Bot this week\n\n0:08 Voice calls and voice memos\n0:35 1Password vault for Grok Bot\n0:53 Inline forms…",
+    "likes": 0,
+    "retweets": 350,
+    "replies": 0,
+    "views": 1160,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 19:42:35 +0000 2026",
+    "url": "https://x.com/poteto/status/2102846105432297963",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102835770784694385",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "we started a game studio last week with grok @bot on the grok bot galaxy livestream! here's our recap\n\nyou can watch our past streams on https://t.co/pkqZ3O6IZw and play our studio's first game at https://t.co/3rfSr1UyFj\n\nin addition to all the tips we dropped on stream, we have https://t.co/rqUVPf9PK9 that will help you use grok bot to do everything from marketing, development, to GTM, and more. let us know if you need any help!",
+    "likes": 601,
+    "retweets": 33,
+    "replies": 39,
+    "views": 34111,
+    "is_retweet": false,
+    "created_at": "Wed Sep 23 19:01:31 +0000 2026",
+    "url": "https://x.com/poteto/status/2102835770784694385",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102832736109268992/vid/avc1/480x270/_w-0XOpK7Lvfcqwh.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102832736109268992/img/-_HUjVPOXtD90LcH.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102616450708160612",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @CloudflareDev: @cursor_ai  → Cloudflare Workers is live.\n\nConnect an Origin repo to your Worker to automatically deploy on push, previe…",
+    "likes": 0,
+    "retweets": 44,
+    "replies": 0,
+    "views": 1514,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 04:30:01 +0000 2026",
+    "url": "https://x.com/poteto/status/2102616450708160612",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102615870837281067",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @jediahkatz: We heard feedback that @bot was a bad texter - your bots will now reply quicker. Oh, and another 6% more usage on average!…",
+    "likes": 0,
+    "retweets": 20,
+    "replies": 0,
+    "views": 1448,
+    "is_retweet": true,
+    "created_at": "Wed Sep 23 04:27:42 +0000 2026",
+    "url": "https://x.com/poteto/status/2102615870837281067",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102541988872827199",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @chrisparkX: Friends, X poasters, &amp; most importantly streamers worldwide—we’ve done it: introducing a new 𝕏 Livestream API. \n\nAnnouncing…",
+    "likes": 0,
+    "retweets": 109,
+    "replies": 0,
+    "views": 1485,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 23:34:08 +0000 2026",
+    "url": "https://x.com/poteto/status/2102541988872827199",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102533562973159732",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @bot: Some recent quality-of-life improvements to Grok Bot.\n\nA cleaner interface for working with your Bots. https://t.co/E0jioSxCxR",
+    "likes": 0,
+    "retweets": 134,
+    "replies": 0,
+    "views": 1069,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 23:00:39 +0000 2026",
+    "url": "https://x.com/poteto/status/2102533562973159732",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HS2waX4a4AAAIpX.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HS2waX4a4AAAIpX.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102529642485961090",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "meet my new grok @bot https://t.co/1Cd9miUXYO",
+    "likes": 1363,
+    "retweets": 17,
+    "replies": 143,
+    "views": 30654,
+    "is_retweet": false,
+    "created_at": "Tue Sep 22 22:45:04 +0000 2026",
+    "url": "https://x.com/poteto/status/2102529642485961090",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HS2vhVqaAAAk4kH.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HS2vhVqaAAAk4kH.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102504221648339170",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "the Grok @Bot desktop app just got even faster! we shipped 53 perf fixes over the past few days:  \n\n• reconnecting after a flaky connection: 60s → 0.7s \n• waking your laptop: 23s → 1s \n• switching back to a bot's Computer view: 868ms → 27ms\n• opening a chat with a long code block: 954ms → 228ms\n• the Media tab no longer re-downloads every time: 137MB → 0.7MB\n\nplus smoother sidebar animations, no more jumpy screenshot-heavy chats, and much lower memory usage while idle.\n\nstill more to improve!",
+    "likes": 3595,
+    "retweets": 250,
+    "replies": 253,
+    "views": 492859,
+    "is_retweet": false,
+    "created_at": "Tue Sep 22 21:04:03 +0000 2026",
+    "url": "https://x.com/poteto/status/2102504221648339170",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102484898300965075",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @poteto: here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i cou…",
+    "likes": 0,
+    "retweets": 682,
+    "replies": 0,
+    "views": 0,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 19:47:16 +0000 2026",
+    "url": "https://x.com/poteto/status/2102484898300965075",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102464979513532869",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @bot: We rebuilt customer support around Grok Bot to scale our operations without adding headcount.\n\nIt works autonomously to respond to…",
+    "likes": 0,
+    "retweets": 377,
+    "replies": 0,
+    "views": 1080,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 18:28:07 +0000 2026",
+    "url": "https://x.com/poteto/status/2102464979513532869",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102456292698890707",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "our lil guy is growing up so quickly 😭 soon he will be off to grok @bot college https://t.co/6sj7GMbXZA",
+    "likes": 1059,
+    "retweets": 30,
+    "replies": 61,
+    "views": 41168,
+    "is_retweet": false,
+    "created_at": "Tue Sep 22 17:53:36 +0000 2026",
+    "url": "https://x.com/poteto/status/2102456292698890707",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HS1swRObcAA8dBC.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HS1swRObcAA8dBC.jpg"
+    ],
+    "quoted_tweet": {
+      "id": "2102430656349544590",
+      "author": "Tesla",
+      "name": "Tesla",
+      "text": ".@Grok in your Tesla can now do meaningful work for you\n\nWith Connectors, you can manage your inbox, clean up your calendar, or talk through existing files/chat/tasks – all hands-free https://t.co/W1LuybQh0P",
+      "created_at": "Tue Sep 22 16:11:44 +0000 2026",
+      "url": "https://x.com/Tesla/status/2102430656349544590",
+      "has_media": true,
+      "media_urls": [
+        "https://video.twimg.com/amplify_video/2102430553047973888/vid/avc1/320x568/KOA6vJwxMMFb9grV.mp4?tag=29"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/amplify_video_thumb/2102430553047973888/img/fRlmoOqqT6cI3Q-T.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2102449800025415956",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @cursor_ai: Claude Opus 5.5 is now available in Cursor!\n\nIt's the new top model on CursorBench at 57.8% (Max) and costs 40% less per tas…",
+    "likes": 0,
+    "retweets": 198,
+    "replies": 0,
+    "views": 1221,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 17:27:48 +0000 2026",
+    "url": "https://x.com/poteto/status/2102449800025415956",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102448758105727106",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @elonmusk: Grok @Bot now in your Tesla!",
+    "likes": 0,
+    "retweets": 2652,
+    "replies": 0,
+    "views": 901,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 17:23:40 +0000 2026",
+    "url": "https://x.com/poteto/status/2102448758105727106",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102447280800616931",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @Tesla: .@Grok in your Tesla can now do meaningful work for you\n\nWith Connectors, you can manage your inbox, clean up your calendar, or…",
+    "likes": 0,
+    "retweets": 1051,
+    "replies": 0,
+    "views": 1350,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 17:17:47 +0000 2026",
+    "url": "https://x.com/poteto/status/2102447280800616931",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102279369767129543",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "i might be addicted to making games now",
+    "likes": 1656,
+    "retweets": 22,
+    "replies": 185,
+    "views": 64027,
+    "is_retweet": false,
+    "created_at": "Tue Sep 22 06:10:34 +0000 2026",
+    "url": "https://x.com/poteto/status/2102279369767129543",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102266937833386397",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @tldraw: @poteto @bot love u too",
+    "likes": 0,
+    "retweets": 2,
+    "replies": 0,
+    "views": 1587,
+    "is_retweet": true,
+    "created_at": "Tue Sep 22 05:21:10 +0000 2026",
+    "url": "https://x.com/poteto/status/2102266937833386397",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102145921148690852",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @Box: We put Grok 4.7 from @SpaceXAI to work on a $2 million insurance claim where one deductible error alone changes the calculation by…",
+    "likes": 0,
+    "retweets": 187,
+    "replies": 0,
+    "views": 1547,
+    "is_retweet": true,
+    "created_at": "Mon Sep 21 21:20:18 +0000 2026",
+    "url": "https://x.com/poteto/status/2102145921148690852",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102129266003771416",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @rauchg: I just gave Grok 4.7 a pretty hard problem, involving reverse-engineering a running binary. Beautifully solved. And it's so fas…",
+    "likes": 0,
+    "retweets": 159,
+    "replies": 0,
+    "views": 1431,
+    "is_retweet": true,
+    "created_at": "Mon Sep 21 20:14:07 +0000 2026",
+    "url": "https://x.com/poteto/status/2102129266003771416",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101749467951296526",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "im surprised we still have so many people playing the game (https://t.co/wVQ5Y2ZqW0) we made during the livestream!\n\nmy bot factory made a season 3 just for you - new mechanics, a ton of new cards, and lots of new items in the shop https://t.co/AIXUErIl9m",
+    "likes": 566,
+    "retweets": 17,
+    "replies": 45,
+    "views": 46052,
+    "is_retweet": false,
+    "created_at": "Sun Sep 20 19:04:56 +0000 2026",
+    "url": "https://x.com/poteto/status/2101749467951296526",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HSrpy6naUAAp3DH.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HSrpy6naUAAp3DH.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102124718740652407",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "coming soon in S4 (this Wed): Fusions and Relics, new captains, and 50 new bots/items https://t.co/o14LHETfvu",
+    "likes": 14,
+    "retweets": 0,
+    "replies": 4,
+    "views": 3793,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 19:56:03 +0000 2026",
+    "url": "https://x.com/poteto/status/2102124718740652407",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2102124098323439616/vid/avc1/432x270/hwAuAdRvELnt3q-u.mp4?tag=29",
+      "https://video.twimg.com/amplify_video/2102124098319249408/vid/avc1/432x270/VnMA8WA5fdHbUgDx.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2102124098323439616/img/YjCLNgQzlloVP3-I.jpg",
+      "https://pbs.twimg.com/amplify_video_thumb/2102124098319249408/img/1w7exQvl7YpXRog9.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102121441185632355",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @VictorTaelin: GitHub has taken down Bend's repository\n\nWe're trying to reach out to support so it is reinstated https://t.co/PBNHfRtWtt",
+    "likes": 0,
+    "retweets": 86,
+    "replies": 0,
+    "views": 1501,
+    "is_retweet": true,
+    "created_at": "Mon Sep 21 19:43:01 +0000 2026",
+    "url": "https://x.com/poteto/status/2102121441185632355",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HSw5cyUbgAAZ5oH.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HSw5cyUbgAAZ5oH.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102071050569978070",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "happy 4.7 day to those whose celebrate",
+    "likes": 2390,
+    "retweets": 98,
+    "replies": 148,
+    "views": 97926,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 16:22:47 +0000 2026",
+    "url": "https://x.com/poteto/status/2102071050569978070",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "2102069815225586149",
+      "author": "SpaceXAI",
+      "name": "SpaceXAI",
+      "text": "Grok 4.7 is here.\n\nIt's a notable improvement over Grok 4.6 at the same price and speed. https://t.co/H3OTBbXyvO",
+      "created_at": "Mon Sep 21 16:17:53 +0000 2026",
+      "url": "https://x.com/SpaceXAI/status/2102069815225586149",
+      "has_media": true,
+      "media_urls": [
+        "https://pbs.twimg.com/media/HSwLcNqXIAAwNtz.png"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/media/HSwLcNqXIAAwNtz.png"
+      ]
+    }
+  },
+  {
+    "id": "2102050467505430555",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "here's how i shipped 2,500 PRs last month to production\n\nthis was originally supposed to be for Cursor Compile in London. i couldn't make it since i was livestreaming for Grok @Bot Galaxy so i'm making it available for free here on X! watch it on 2x speed, i talk slowly https://t.co/NgrGz7tmPM",
+    "likes": 8701,
+    "retweets": 682,
+    "replies": 371,
+    "views": 1226019,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 15:01:00 +0000 2026",
+    "url": "https://x.com/poteto/status/2102050467505430555",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101938030122868736/vid/avc1/430x270/yyfU23snwfb5se7a.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101938030122868736/img/e-Vk06LcPlqFYO1q.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2102070411538337893",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "if you like this check out https://t.co/5HS6BQXgBh from @VictorTaelin \n\nhttps://t.co/wVrb8Woo8e",
+    "likes": 138,
+    "retweets": 8,
+    "replies": 3,
+    "views": 53047,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 16:20:15 +0000 2026",
+    "url": "https://x.com/poteto/status/2102070411538337893",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "2101384547543978195",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "very bullish on Bend, this is exactly what ive been trying to do in other languages, but you can only get so far with weak type systems and lint rules.\n\nwhen you have a codebase that can formally verify itself, you can ship at an incredible pace. code review is solved",
+      "created_at": "Sat Sep 19 18:54:52 +0000 2026",
+      "url": "https://x.com/poteto/status/2101384547543978195",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2101926376781885949",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "turn yourself into grok @bot",
+    "likes": 761,
+    "retweets": 42,
+    "replies": 55,
+    "views": 87181,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 06:47:54 +0000 2026",
+    "url": "https://x.com/poteto/status/2101926376781885949",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "2100800237619347535",
+      "author": "Multi_Serio_Ai",
+      "name": "Serio_ai",
+      "text": "그록봇 스타일 케릭터 만들어 주는 프롬프트 공유\n\nhttps://t.co/iB222nH4kg\n\n파딱이 아니라 긴 텍스트 업로드가 안되어 아예 웹앱 형태로 배포합니다. 다음 사이트에서 복사 버튼을 누르고 사용하는 이미지 생성 Ai에 붙여넣기해서 활용해 주세요 https://t.co/BzxqUuomtg",
+      "created_at": "Fri Sep 18 04:13:02 +0000 2026",
+      "url": "https://x.com/Multi_Serio_Ai/status/2100800237619347535",
+      "has_media": true,
+      "media_urls": [
+        "https://pbs.twimg.com/media/HSd-YMybUAAiTSB.jpg",
+        "https://pbs.twimg.com/media/HSd-YMjbUAA4ruA.jpg",
+        "https://pbs.twimg.com/media/HSd-YMdakAA-RNP.jpg",
+        "https://pbs.twimg.com/media/HSd-YM_bMAAL93u.jpg"
+      ],
+      "media_posters": [
+        "https://pbs.twimg.com/media/HSd-YMybUAAiTSB.jpg",
+        "https://pbs.twimg.com/media/HSd-YMjbUAA4ruA.jpg",
+        "https://pbs.twimg.com/media/HSd-YMdakAA-RNP.jpg",
+        "https://pbs.twimg.com/media/HSd-YM_bMAAL93u.jpg"
+      ]
+    }
+  },
+  {
+    "id": "2101928293385814172",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "@bot https://t.co/0NOEEuD3yP",
+    "likes": 288,
+    "retweets": 3,
+    "replies": 14,
+    "views": 15515,
+    "is_retweet": false,
+    "created_at": "Mon Sep 21 06:55:31 +0000 2026",
+    "url": "https://x.com/poteto/status/2101928293385814172",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HSuMn0daYAATFzd.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HSuMn0daYAATFzd.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101843355680608760",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @KrzysztofStaron: I love pstack so much, shoutout to @poteto \n\nhad a bug for 9 months in one of my projects, \nand decided to revisit and…",
+    "likes": 0,
+    "retweets": 7,
+    "replies": 0,
+    "views": 1554,
+    "is_retweet": true,
+    "created_at": "Mon Sep 21 01:18:01 +0000 2026",
+    "url": "https://x.com/poteto/status/2101843355680608760",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101761110756237418",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "congrats @Gabriel_x86 on rank 1 in S2!",
+    "likes": 13,
+    "retweets": 0,
+    "replies": 1,
+    "views": 5598,
+    "is_retweet": false,
+    "created_at": "Sun Sep 20 19:51:12 +0000 2026",
+    "url": "https://x.com/poteto/status/2101761110756237418",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101755483426373693",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @kevinrose: Built this Grok Bot, fully offline index of all your saved instagram videos via @karpathy-wiki-style .md. Uses @bot, @grok V…",
+    "likes": 0,
+    "retweets": 176,
+    "replies": 0,
+    "views": 1545,
+    "is_retweet": true,
+    "created_at": "Sun Sep 20 19:28:50 +0000 2026",
+    "url": "https://x.com/poteto/status/2101755483426373693",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101751094791827578",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "check out how cool this bot made by @Austen looks https://t.co/p9hMBvXp2B",
+    "likes": 62,
+    "retweets": 1,
+    "replies": 3,
+    "views": 11709,
+    "is_retweet": false,
+    "created_at": "Sun Sep 20 19:11:24 +0000 2026",
+    "url": "https://x.com/poteto/status/2101751094791827578",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101750955037589504/vid/avc1/320x406/DEUOJ-WI0RsIh9z3.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101750955037589504/img/FDtBIgrepXLOjlVs.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101719568184180881",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "10 years ago i predicted the future",
+    "likes": 1439,
+    "retweets": 43,
+    "replies": 76,
+    "views": 96876,
+    "is_retweet": false,
+    "created_at": "Sun Sep 20 17:06:07 +0000 2026",
+    "url": "https://x.com/poteto/status/2101719568184180881",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "868368125041012736",
+      "author": "poteto",
+      "name": "lauren",
+      "text": "any sufficiently elaborate if statement is indistinguishable from human intelligence",
+      "created_at": "Sat May 27 07:27:49 +0000 2017",
+      "url": "https://x.com/poteto/status/868368125041012736",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2101384547543978195",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "very bullish on Bend, this is exactly what ive been trying to do in other languages, but you can only get so far with weak type systems and lint rules.\n\nwhen you have a codebase that can formally verify itself, you can ship at an incredible pace. code review is solved",
+    "likes": 1527,
+    "retweets": 55,
+    "replies": 68,
+    "views": 185082,
+    "is_retweet": false,
+    "created_at": "Sat Sep 19 18:54:52 +0000 2026",
+    "url": "https://x.com/poteto/status/2101384547543978195",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "2101368242920972520",
+      "author": "VictorTaelin",
+      "name": "Taelin",
+      "text": "not on my most optimistic dreams I expected someone to \"get it\" as much as Giulio does and yes that's the point\n\ntoday models are already incredibly capable, and they're smart enough to build infinitely complex software, but mistakes accumulate, and it reaches a level of tech debt where progress stalls. if there only was some magic way to tell the agent \"hey, this is wrong, try again\" until no bugs are left, then, there would be no limits to the complexity of software that AI can build\n\nthat's what Bend does!!\n\nsure, it takes more time (and tokens) to solve the same problem, but that's exactly because writing correct code takes time! Bend refuses any incorrect output, and that's what you WANT to happen. merging bugs give you an illusion of progress, but it bites later\n\nI for one am not using any other language anymore. if Bend is an absolute failure, at least it is the language I'll be using for my own projects moving forward\n\n(and Bend in Bend is already in progress)",
+      "created_at": "Sat Sep 19 17:50:05 +0000 2026",
+      "url": "https://x.com/VictorTaelin/status/2101368242920972520",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2101391010442121672",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "https://t.co/wHjE4SRwPh",
+    "likes": 194,
+    "retweets": 5,
+    "replies": 6,
+    "views": 32033,
+    "is_retweet": false,
+    "created_at": "Sat Sep 19 19:20:33 +0000 2026",
+    "url": "https://x.com/poteto/status/2101391010442121672",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2100635838363349026",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "our game is live!! help us play test it!",
+    "likes": 585,
+    "retweets": 27,
+    "replies": 65,
+    "views": 105622,
+    "is_retweet": false,
+    "created_at": "Thu Sep 17 17:19:46 +0000 2026",
+    "url": "https://x.com/poteto/status/2100635838363349026",
+    "has_media": false,
+    "media_urls": [],
+    "media_posters": [],
+    "quoted_tweet": {
+      "id": "2100635485731516706",
+      "author": "thursdayarena",
+      "name": "thursdayarena",
+      "text": "We’re live at https://t.co/zFjkLgD4SJ!",
+      "created_at": "Thu Sep 17 17:18:22 +0000 2026",
+      "url": "https://x.com/thursdayarena/status/2100635485731516706",
+      "has_media": false,
+      "media_urls": [],
+      "media_posters": []
+    }
+  },
+  {
+    "id": "2101168181733998611",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "for people who are still playing this game, i got my bots to work on season 2, with new cards, a new mechanic, and  also a nicer UI coming soon https://t.co/nsyutWzphb",
+    "likes": 19,
+    "retweets": 0,
+    "replies": 6,
+    "views": 4728,
+    "is_retweet": false,
+    "created_at": "Sat Sep 19 04:35:06 +0000 2026",
+    "url": "https://x.com/poteto/status/2101168181733998611",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HSjZMKlaoAEwR4t.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HSjZMKlaoAEwR4t.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101015685413679414",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @bot: Grok Bot can now send you voice notes. https://t.co/mhVLP5IH6e",
+    "likes": 0,
+    "retweets": 290,
+    "replies": 0,
+    "views": 1127,
+    "is_retweet": true,
+    "created_at": "Fri Sep 18 18:29:09 +0000 2026",
+    "url": "https://x.com/poteto/status/2101015685413679414",
+    "has_media": true,
+    "media_urls": [
+      "https://video.twimg.com/amplify_video/2101002741590159360/vid/avc1/480x270/yUM6hpJ26IlEfHhA.mp4?tag=29"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/amplify_video_thumb/2101002741590159360/img/tXtaPa6tn3VQ8Oln.jpg"
+    ],
+    "quoted_tweet": null
+  },
+  {
+    "id": "2101015410535739639",
+    "author": "poteto",
+    "name": "lauren",
+    "text": "RT @SpaceXAI: Introducing Grok Voice Transcribe 2.0. It’s the world’s most accurate speech transcription model. https://t.co/7iXVmAEFW2",
+    "likes": 0,
+    "retweets": 434,
+    "replies": 0,
+    "views": 1143,
+    "is_retweet": true,
+    "created_at": "Fri Sep 18 18:28:03 +0000 2026",
+    "url": "https://x.com/poteto/status/2101015410535739639",
+    "has_media": true,
+    "media_urls": [
+      "https://pbs.twimg.com/media/HShFBEdbYAAI3D_.jpg"
+    ],
+    "media_posters": [
+      "https://pbs.twimg.com/media/HShFBEdbYAAI3D_.jpg"
+    ],
+    "quoted_tweet": null
+  }
+]
