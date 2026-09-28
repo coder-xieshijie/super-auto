@@ -12,3 +12,7 @@
 - [本目录文件清单与哈希](manifest.json)。
 
 本轮交付设计与示例，不包含 Agent Lord 实现、可运行的业务验收脚本或实际测试结果。下一步应选择真实需求绑定执行工具并完成一次完整试验，再将必要变动收敛到现有 pipeline/receipt。
+
+## 后续变化（2026-09-28 追加）
+
+设计中的 Agent Lord 接入部分依赖 receipt、integrator、`plan-report`，这些已在 Agent Lord PR #44（`4669739`）中删除。验收的范围、生成方法和交付物仍适用；接入点需改到串行 plan-to-implement 的 review 之后。见 [pipeline 优化讨论](../../discussions/2026-09-28-pipeline-optimization.md)。
