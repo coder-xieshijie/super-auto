@@ -22,13 +22,15 @@ A 仓库准备（每个仓库一次，随需求补）
     agent 能在 worktree 里启动、驱动、观察应用；验证 Skill、功能地图、冒烟、质量命令
 B 定义（你参与，唯一的决策阶段）
     grill-with-docs → spec.md → verify.md
-    → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 提交，此后只读
+    → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 冻结（记录 sha256），此后只读
 C 交付（全自动，一个 owner 连续运行）
     写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景
     → 全集自验 → 另一家模型独立验证 → MR → CI 与评审 → 可合入
     只在三种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作
 D 回流：把复盘里的仓库缺口补回 A
 ```
+
+对应的 Skill：B 用 grill-with-docs、core-spec、core-verify（第 6 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（待合并）。需求文档放在哪个目录，由你在每个需求开始时指定。
 
 旧流程（v0.3–v0.6，对照）：
 
@@ -63,6 +65,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 重建前提：最少决策 | 人只在开始时定 spec 和 verify 并尽量覆盖完整；之后全自动，交付一个 MR 或 PR |
 | B4 查漏 | 开新 session，用与写 spec、verify 不同的模型家族审（2026-09-29） |
 | C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
+| 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -135,6 +138,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.7：用户要求推倒重来，确认三条重建前提；原流程保留作对照，不再作为约束。从零设计的候选方案另存于 research，待确认。
 - 2026-09-29 v0.7 补充：用户确认“三家理念”中的 Llama 指 Lauren。
 - 2026-09-29 v0.8：用户确认 B4 用新 session 和不同模型家族查漏、C 阶段每个里程碑都跑场景，并开始按新流程构建。当前流程改为 A 仓库准备、B 定义、C 交付、D 回流；旧流程保留作对照。构建计划与缺口见 research。
+- 2026-09-29 v0.9：用户确认需求文档位置每次手动指定，不在 Skill 中规定；要求补全 spec、verify 并新建 deliver。已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)：core-spec 补目的、非目标、硬约束、交付与授权；core-verify 新增跨模型查漏；新建 deliver。B 阶段的只读由 sha256 记录保证，由 deliver 的机械检查核对。
 ## 附：用户原话
 
 2026-09-28，按时间顺序。
@@ -186,3 +190,6 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > B4 开新 session, 用不同的模型审
 > 同意 C 阶段每个里程碑都跑场景, 以效果优先
 > 现在我应该怎么去构建我的开发流程？我还缺什么？我要怎么去修改调整？
+
+> 1. 需求文档我会在最开始指定, 在 archon 一般会放在 .harness/docs/spec/<具体需求下>, 这个不用特别规定，我在每次需求的时候会手动指定的。
+> 2. 把 spec verify 和 deliver 相关的 skill 都修改和补充完整，然后创建 PR。

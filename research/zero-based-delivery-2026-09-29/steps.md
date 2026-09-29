@@ -21,7 +21,7 @@ timezone: Asia/Shanghai
 | B2 | 写 spec | core-spec | 同一 session | `spec.md` |
 | B3 | 写 verify | core-verify | 同一 session | `verify.md` |
 | B4 | 独立查漏 | core-verify（新增的查漏一步） | 1 个新 session，用与写文档不同的模型家族（用户 2026-09-29 确认） | 问题清单，转成给你的提问；答复后更新 spec、verify |
-| B5 | 你确认一次，提交 | — | 同一 session | 业务仓库 `docs/exec-plans/active/<需求>/` 下含 spec.md、verify.md 的一次提交 |
+| B5 | 你确认一次，冻结 | — | 同一 session | 用户每次指定的目录下的 spec.md、verify.md（Agent-Archon 一般为 `.harness/docs/spec/<需求>/`），记录 sha256 后只读 |
 | **C 交付**（每个需求，全自动） | | | | |
 | C1 | 开工：读文档、启动应用、跑冒烟 | deliver（新建）+ 项目验证 Skill | owner session | 冒烟证据；环境坏了先修好 |
 | C2 | 写计划 | deliver（ExecPlan 格式） | owner session | `plan.md` |

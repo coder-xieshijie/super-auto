@@ -61,7 +61,7 @@ C 交付       全自动：一个 owner 从读 spec 到 MR 可合入
 2. `/core-verify`：它在没有 spec 时先按 core-spec 生成 spec，再写 verify。一个命令产出两份。
 3. 新上下文查漏：由一个 fresh subagent 只读 spec 和 verify，找矛盾、未定的行为、没有场景覆盖的约定，结果变成给你的问题（S7、S9）。这一步替代原来的 cross review。
 4. 你确认一次。spec 同时写明交付授权：目标分支、可以 push 和开 MR、是否允许合入。
-5. 两份提交进业务仓库 `docs/exec-plans/active/<需求>/`，此后只读。
+5. 两份放在用户每次指定的目录（2026-09-29 确认；Agent-Archon 一般为 `.harness/docs/spec/<需求>/`），记录 sha256，此后只读。
 
 “决策覆盖完整”靠三处：grill 的决策树；core-verify 按每个入口和状态查 spec 缺口；第 3 步的独立查漏。三处发现的问题都在这个阶段问完。
 

@@ -1,6 +1,6 @@
 ---
 id: zero-based-delivery-build-plan
-status: 候选，未经用户确认
+status: 构建中；步骤 1 已定，步骤 3–4 已提交 dev-skills#12
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---
@@ -80,6 +80,31 @@ timezone: Asia/Shanghai
 
 ## 五、需要你决定
 
-1. 需求文档放 Agent-Archon 还是你自己的仓库。
+1. ~~需求文档放 Agent-Archon 还是你自己的仓库。~~ 已定：每次由用户指定。
 2. 第 2 步做出的验证 Skill 放哪：提交进 Agent-Archon（需要团队同意，也能让团队其他 agent 用），还是先放你本机。
 3. 从第 1 步开始执行吗。
+
+## 六、进度（2026-09-29）
+
+| 步 | 状态 |
+|---|---|
+| 1 定需求文档位置 | 已定：每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/` |
+| 2 Agent-Archon 验证能力 | 讨论中，见 [verification-capability.md](verification-capability.md)；功能地图的放法、团队是否同意提交进 Archon，待用户决定 |
+| 3 改 core-spec、core-verify | 已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)，待合并 |
+| 4 写 deliver v0 | 同上，在 #12 中 |
+| 5 安装 | 待 #12 合并 |
+| 6–8 | 未开始 |
+
+#12 覆盖了第三节的第 2、4、5、6、7 条缺口：
+
+- **deliver**：完成条件、产物、三种停下情况；ExecPlan 格式的 plan.md；验证者的固定说明；`check-delivery.mjs` 机械检查。
+- **core-spec**：补目的、非目标、硬约束、交付与授权。
+- **core-verify**：新增第 6 步，由另一家模型在新 session 中按固定说明查漏，最多两轮。
+- **跨模型调用约定**：写在 `core-verify/references/cross-model.md`。
+- **机械检查**：冻结改为记录 sha256，不依赖文档放在哪个目录。
+
+实测记录：
+
+- Codex 按查漏说明检查脱敏示例，约 1 分钟、4.1 万 token，报出 10 条。其中 2 条是 core-verify 示例的真实缺陷（S02 判别力不足、非目标没有对应要求），已在 #12 修正。
+- `check-delivery.mjs` 的 9 个用例都符合预期。
+- 在本会话的 shell 里，`claude -p` 显示未登录。从 Codex 调 Claude 做查漏或验证之前，需要先确认 `claude auth status` 中 `loggedIn` 为 `true`。
