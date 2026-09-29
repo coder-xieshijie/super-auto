@@ -393,3 +393,33 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 发现的产品侧问题：问卷等待期间 Goal 的 `wait_reason` 未投影 `questionnaire`，已写进 MR 待 owner 确认。
 - 外部动作：推送分支、创建 MR；共享登录在锁内被刷新过一次。GitLab API 要绕开本会话沙箱的 HTTPS 代理才能访问，推送走 SSH。
 - 待办：MR 评审与 CI；地图中未实跑的子功能；Windows 与界面入口。
+
+## 后续：core-spec 与 deliver 对照 agent-prompt-rules 审查
+
+用户原话：
+
+> Verify archon 已经在另一个 session 中开始执行了，你可以默认它已经完成。
+>
+> 第二件事是关于整个 skill，包括之前的 spec 和现在的 deliver。针对 skill 的描述、工作的交接以及整个流程的执行等相关内容，需要确认以下几点：
+> 1. 是否符合 agent prompt 的规则？
+> 2. 是否增加了过多的约束和强限制？
+> 3. 我们之前有一个 PR 专门增加了一个相关的 skill，用来参考不同模型厂商（Anthropic 和 OpenAI）指导模型的 prompt 规则。我们今天新增的这些 skill，是否有按照这个规则去做指导吗？
+
+做法：
+- 助手逐条对照 dev-skills `skills/agent-prompt-rules/SKILL.md`，统计约束类句子；
+- 按规范二-3，由 Codex（`gpt-5.6-sol`，xhigh，只读）在新 session 中独立审查。说明和报告原文存于 [raw/prompt-rules-audit-2026-09-29/](../research/zero-based-delivery-2026-09-29/raw/prompt-rules-audit-2026-09-29/codex-report.md)；
+- 按二-7 逐条裁决。结论写入 [prompt-rules-audit.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit.md)。
+
+结论：
+1. 结构上符合，包括单 owner、按上下文拆、新 session 检查、固定检查说明、跨家族、循环上限、只在需要决定时停下、按 plan 接续、细节放 references。具体违反的地方：
+   - description 写了流程；
+   - 几个必须每次发生的动作只靠 prompt：冻结哈希、机械检查不覆盖代码问题和环境原因的 UNVERIFIED、报告有效性；
+   - verify 写完后作者自查与查漏重复；
+   - 查漏方拿不到书面原始材料；
+   - 两处规则写得过于绝对；
+   - 验证者的环境边界没有交接。
+2. deliver 精简（14% 的句子含约束）；core-spec 偏密（约 20%，正文加 verify.md 278 行）。多数约束来自用户决定和过去漏过的问题，应保留；通用写作建议、三处重复、verify 的自查清单可以删。强限制不多，例外是 deliver 在另一家模型不可用时会降级后继续，与用户"用不同模型审"的决定冲突。
+3. 是否按规范写：#11（原 core-verify）与 #12（deliver、四项、查漏）按规范写了依据；core-spec 第 1–4 步正文写于 2026-09-21，早于规范（2026-09-28），从未按规范审过；#13 合并没有完整按规范第四节执行。
+- 裁决：Codex 的 24 条中 9 条成立、10 条部分成立、5 条不成立。不成立的是：目录默认值、金字塔写法（用户的决定）、基线与错误实现（等试跑消融）、默认开 MR（用户的前提）、循环上限（二-8 要求）。助手另外发现 6 项。
+- 待用户决定：是否按第四节提一个 dev-skills PR，分机械检查补全、交接补全、精简三组。
+- 另记：用户告知 verify-archon 已在另一个 session 开始执行，按已完成处理。

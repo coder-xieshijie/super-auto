@@ -1,0 +1,4 @@
+4:workdir: /Users/minimax/code/github/xieshijie/dev-skills
+5:model: gpt-5.6-sol
+8:sandbox: read-only
+9:reasoning effort: xhigh
