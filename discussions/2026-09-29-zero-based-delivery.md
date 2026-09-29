@@ -342,3 +342,17 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   5. **已查代码确认**：验证者在 detached HEAD 的检出里运行时，Archon 开发脚本取不到分支，会退回共享的 `~/.minimax` profile，并默认退出已安装的 MiniMax、MiniMax Agent；无论隔离与否都会退出 MiniMax Dev。verify-archon 必须为验证者强制隔离，并避免与 owner 的实例互相退出；
   6. 冒烟集和回归范围不在机械检查里；
   7. 尚未在真实需求上运行。
+
+## 后续：Agent Lord 的角色；是否还需要
+
+用户原话：
+
+> 我现在有个问题：在整开发流程中，Agent lord 扮演的角色是什么？还有必要存在吗？以及在自动化流程过程中，是不是有一些 session 的调度还需要它呢？
+
+助手核对了 Agent Lord main `775bc88` 的 SKILL.md 和 #48 的提交说明：底层有派发、有界等待、`recover`、换会话接续、worktree 隔离，以及 30 分钟未收结果时发飞书或 macOS 提醒；上层是三条 pipeline。答复写入 [agent-lord-role.md](../research/zero-based-delivery-2026-09-29/agent-lord-role.md)（候选，未经确认）：
+- 需求内部的会话都由 owner 自己调度：查漏和独立验证是会话内用 CLI 启动的新 session，结果写文件读回；CI 跟进是会话内的有界等待。三家也都这样做，不需要 Agent Lord。
+- 会话自己做不到的有三件：会话死了被发现并接上、无人值守地并行跑多个需求、可选的"作者以外的一方发起验证"。三家都在会话外放了一个很薄的看管层：Symphony、Managed Agents、Lauren root。
+- 建议：Agent Lord 的角色从编排器改为会话外的看管与派发层。单个需求、你在场时不用；你离开或多个需求并行时用。不另建看管。三条 pipeline 中，plan-cross-review、plan-to-implement 在试跑后删除；cross-review 是否留作高风险 MR 可以点名的额外评审，由用户决定。
+- Agent Lord 要当好看管层，还差三处：派发 deliver 时用 `/deliver` 加 plan.md 接续，不另写交接材料；按产出（plan 进度、提交、MR）判断停滞；Skill 依赖表加入 core-spec、deliver。另外，看管方自己也是会话，它死了只剩提醒。
+- 这会改变 v0.6 的"编排放在 Agent Lord"，需要用户确认。
+- 待用户决定：新角色；cross-review 去留；第一次试跑是否先不用 Agent Lord。
