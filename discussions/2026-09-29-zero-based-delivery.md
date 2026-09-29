@@ -284,3 +284,22 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - Codex 在隔离目录实际调用两个分支：只要 spec 时只产出 spec；已有 spec 时从第 5 步开始，spec 哈希不变，4 处缺口转成问题。
 - 未验证：合并后第 7 步查漏的真实调用、从讨论开始的完整八步、Claude Code 中的调用（软链接未安装）。
 - 同步本仓库：[流程文档](../process/complex-requirement-delivery.md)升到 v0.10；[steps.md](../research/zero-based-delivery-2026-09-29/steps.md) 的 B3、B4 两行；[tiers.md](../research/zero-based-delivery-2026-09-29/tiers.md)、[verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md)、[build-plan.md](../research/zero-based-delivery-2026-09-29/build-plan.md) 中对 core-verify 的引用；[merge-spec-verify.md](../research/zero-based-delivery-2026-09-29/merge-spec-verify.md) 记下决定。
+
+## 后续：合入 #13 并安装
+
+用户原话：
+
+> 合入 PR，然后安装 core-spec 和 deliver
+
+执行结果：
+- [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13) 按 #12 的做法 squash 合入 main（`4818e9f`），保留远端分支。合入前 CI 链接检查通过。
+- 本机 dev-skills 主检出原先落后 3 个提交，没有本地改动；fetch 并确认变更为 #11–#13 后快进到 `4818e9f`。
+- 安装：
+  - core-spec 的 `~/.agents/skills/core-spec` 和 `~/.claude/skills/core-spec` 本来就指向主检出，快进后自动变成合并版；
+  - 新建 `~/.agents/skills/deliver` → `dev-skills/skills/deliver`，以及 `~/.claude/skills/deliver` → `~/.agents/skills/deliver`；
+  - core-verify 没有安装过，无需清理。
+- 自检：
+  - 从两个安装路径解析 core-spec、deliver 的 28 个相对链接，包括 deliver 引用的相邻 core-spec、mr-for-human、explain-as-fool，全部存在；
+  - `check-delivery.mjs` 不带参数时按设计打印用法并返回 2；
+  - Codex 的模型可见 Skill 列表里没有这两个 Skill，这符合 `allow_implicit_invocation: false` 的设计。用 `$core-spec $deliver` 显式调用时，两份 SKILL.md 都被加载，core-spec 的标题是合并后的版本。
+- 未验证：Claude Code 能否发现。本 shell 的 `claude` CLI 未登录，当前桌面 session 的 Skill 列表在开始时加载，要在新 session 中用 `/core-spec`、`/deliver` 确认。入口写法与本 session 能加载的 explain-as-fool 相同。

@@ -92,7 +92,7 @@ timezone: Asia/Shanghai
 | 2 Agent-Archon 验证能力 | 讨论中，见 [verification-capability.md](verification-capability.md)；功能地图的放法、团队是否同意提交进 Archon，待用户决定 |
 | 3 改 core-spec、core-verify | 已完成：[coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12) 已合入（`97c230f`） |
 | 4 写 deliver v0 | 已完成，同在 #12 中 |
-| 5 安装 | 待用户确认：快进 dev-skills 主检出，建立 `core-spec`、`deliver` 的软链接（2026-09-29 起 core-verify 并入 core-spec，[coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)） |
+| 5 安装 | 已完成（2026-09-29）：dev-skills#13 合入 `4818e9f`，主检出已快进；core-spec 入口已有，deliver 入口新建；Codex 显式调用验证通过，Claude Code 待新 session 确认 |
 | 6–8 | 未开始 |
 
 #12 覆盖了第三节的第 2、4、5、6、7 条缺口：
