@@ -303,3 +303,24 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - `check-delivery.mjs` 不带参数时按设计打印用法并返回 2；
   - Codex 的模型可见 Skill 列表里没有这两个 Skill，这符合 `allow_implicit_invocation: false` 的设计。用 `$core-spec $deliver` 显式调用时，两份 SKILL.md 都被加载，core-spec 的标题是合并后的版本。
 - 未验证：Claude Code 能否发现。本 shell 的 `claude` CLI 未登录，当前桌面 session 的 Skill 列表在开始时加载，要在新 session 中用 `/core-spec`、`/deliver` 确认。入口写法与本 session 能加载的 explain-as-fool 相同。
+
+## 后续：整体流程怎样执行；是否与三家充分对齐
+
+用户原话：
+
+> 现在给我看一下整体的研发流程应该是怎么去执行的。跟三家做了充分的对齐了吗？
+
+答复写入 [execution-and-alignment.md](../research/zero-based-delivery-2026-09-29/execution-and-alignment.md)，其中的分档和待建部分未经确认：
+- 执行流程：
+  - A：verify-archon 未建；
+  - 选档：候选；
+  - B：`/grill-with-docs` → `/core-spec`，内部八步，含跨模型查漏和一次确认，已装；
+  - C：新 session `/deliver` 跑到可合入，已装；
+  - D：依赖 A。
+- 跨模型方向：Claude Code → `codex exec` 已跑通；Codex → `claude -p` 在本 shell 未登录，会降级为同家族。建议暂时在 Claude Code 里做定义和交付，或者先登录 `claude` CLI。
+- 对齐：
+  - 十项共同做法都有对应：人定目标和标准、单 owner 到 PR、活计划、逐段验证、冒烟、冻结判定、新上下文评判、只在需要判断时找人、先单 agent、按规模分流；
+  - 两处比三家重：细致的 verify.md、定义阶段跨模型查漏，需要用试跑数据证明值得；
+  - 五处缺口：agent 能操作和观察应用（最大，verify-archon 未建）、仓库当记录系统（受团队规则限制）、持续清理（S1 doc-gardening 与 L1 maintain）、会话外看管层、组件在真实任务上验证后删减。
+- 结论：结构上对齐，但还不能说充分对齐。三家放在最前面的基础还没建，流程也还没在真实需求上跑过。下一步按 build-plan：先建 verify-archon 和 Goal 地图，再用 goal-v2 校准 B 阶段，然后跑 1–2 个真实需求，最后按记录删减。
+- 小问题：dev-skills README 中 deliver 的示例路径 `.harness/docs/specs/` 与用户定的 `.harness/docs/spec/` 不一致，不影响行为。
