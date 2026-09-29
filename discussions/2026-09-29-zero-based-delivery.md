@@ -632,3 +632,25 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 按用户新要求提交了 dev-skills#18，只改 agent-prompt-rules、design-for-review、mr-for-human 三个 description。
 
 助手复核：在临时 worktree 把 #15 → #16 → #17 → #18 依次合到 origin/main，四个都没有冲突；全仓库链接检查、CI 链接检查、所有脚本的语法检查都通过；#18 的 CI 通过。#17 的 base 仍是 #15 的分支，#15 合入后需要改为 main。四者的合入都待用户决定。
+
+## 后续：补上 TUI 与 Electron 入口（2026-09-30）
+
+用户原话：
+
+> tui 和 electron 这两个入口都没验证? 这是最核心的入口啊, 没验证需要验证
+
+- 决定：用户可见的行为必须在用户实际使用的入口上验证，接口入口只作补充。写入[流程文档](../process/complex-requirement-delivery.md) v0.15 决定表。
+- 执行：
+  - verify-archon 增加 TUI 入口：node-pty 加无头 xterm，经 `launchTui` 注入共享登录；
+  - 增加 Electron 入口：Playwright，临时 userData，经旧版存储注入 token，关闭热更新，打开诊断端口；
+  - Goal 功能地图补上两个入口的步骤；
+  - 同一 MR 追加提交 `5d52419e39`、`d2a3c85483`，并更新了 MR 描述。
+- 验证：
+  - TUI 和 Electron 上，Goal 生命周期、后台续跑、完成都实跑通过，TUI 预算也通过；
+  - 两个新会话只读文档各复现一遍，它们发现的问题已修正并重测。
+- 发现 5 个只有界面入口才看得到的产品问题，写进 MR 待 owner 确认。最重要的是 TUI 在 Goal 成功时显示假报错且状态栏为 `state=fail`。详见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节。
+- 外部动作：
+  - 推送分支、更新 MR 描述，GitLab API 在沙箱外、去掉代理后调用；
+  - Electron 窗口在用户屏幕上打开过几次，使用真实账号，只做了 Goal 相关操作和关闭弹窗；
+  - 共享登录在锁内刷新过。
+- 流水线：941531 成功，941697 在推送后运行中，未轮询。

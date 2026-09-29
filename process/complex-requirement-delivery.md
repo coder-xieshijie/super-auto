@@ -68,6 +68,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
 | 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
+| 验证入口 | 用户可见的行为必须在用户实际使用的入口上验证（Agent-Archon 为 MCode TUI 和 Electron 桌面端）；只调接口的验证只能补充核对状态，不能代替（2026-09-30） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
@@ -152,6 +153,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.12：用户确认验证分两种：中间结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证。依据与取舍见 [subagent-vs-cross-model.md](../research/zero-based-delivery-2026-09-29/subagent-vs-cross-model.md)。deliver 尚未按此修改。
 - 2026-09-29 v0.13：用户确认试跑期间由 owner 发起最终验证，无人值守或多需求并行时改由 Agent Lord 派发（依据见 [verification-dispatch.md](../research/zero-based-delivery-2026-09-29/verification-dispatch.md)），并要求把 v0.12 的验证方式和审查中认可的几条合成一个 deliver PR：[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)（待合入）。
 - 2026-09-29 v0.14：用户确认把“卡住”作为交付中第四种停下的情况，并要求按 agent-prompt-rules 审查的 P0、P1 修改意见提 PR（依据见 [prompt-rules-audit-astra.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit-astra.md)）。core-spec 一侧已提交 [coder-xieshijie/dev-skills#16](https://github.com/coder-xieshijie/dev-skills/pull/16)；deliver 一侧在 [coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15) 合入后跟进，包括“卡住”。
+- 2026-09-30 v0.15：用户指出 TUI 和 Electron 是 Goal 最核心的入口，不能只验证接口。verify-archon 增加这两个入口并在 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 实跑，发现 5 个只有从界面入口才看得到的产品问题；验证入口规则写入决定表。过程见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节。
 
 ## 附：用户原话
 
@@ -224,3 +226,5 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 可以，合成一个 deliver 的 PR 吧
 
 > 同意把卡住作为第四种停下，按 P0 和 P1 提 PR
+
+> tui 和 electron 这两个入口都没验证? 这是最核心的入口啊, 没验证需要验证

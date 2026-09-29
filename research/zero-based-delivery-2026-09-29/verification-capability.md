@@ -454,3 +454,52 @@ Skill 本身放在 `.harness/skills/verify-archon/`。Archon 的团队 Skill 都
 ### 未覆盖
 
 Windows；TUI、Remote Control、Electron 界面入口；地图中标为未实跑的子功能。
+
+## 十二、补上 TUI 与 Electron 入口（2026-09-30）
+
+用户指出 TUI 和 Electron 是最核心的入口，只验证接口不够。两个入口都已加入 verify-archon，并在 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 上实跑。
+
+### 做法
+
+| 入口 | 启动 | 登录 | 操作与观察 |
+|---|---|---|---|
+| MCode TUI | node-pty 运行 `packages/tui/dist`，`@xterm/headless` 渲染屏幕；数据目录临时 | `launchTui` 的 `createSharedAuthSession` 注入点，让 TUI 使用 `~/.minimax` 的共享登录（复制 auth.json 不行：凭据键由数据目录路径算出） | 输入、按键、读屏幕和 build-mode 状态栏、等待横幅文字 |
+| Electron | Playwright 启动 `build:zh-staging` 构建；`--user-data-dir` 指向临时目录，启动后再核对 | 共享登录取出的 access token 写进临时 userData 的旧版存储；主进程在 oauth-core 匿名时读取它 | 点击、填写、截图、无障碍树；`--on electron` 把接口请求转发到应用内嵌 runtime |
+
+### 实跑结果
+
+- TUI：创建、暂停、摘要、暂停时改目标、恢复、完成、替换、清除；后台续跑；token 预算。
+- Electron：创建、授权卡片、完成、暂停、继续、编辑（替换确认）、清除；后台续跑。
+- 两个没有上下文的新会话分别只读文档，在 TUI 和 Electron 上各复现了一遍。它们发现的问题已修正并重新验证：
+  - TUI 空闲时命令要两次回车；
+  - `down` 会把 `/quit` 拼进草稿；
+  - 代理变量导致静默失败。
+
+### 只有从界面入口才看得到的产品问题（已写进 MR，待 owner 确认）
+
+1. TUI 在 Goal 成功完成的轮次显示 `× Error Runtime completed without a final assistant response.`，状态栏为 `state=fail`；实跑 4 次都出现。
+2. 轮次中间的等待（问卷、Electron 授权卡片）不投影成 `wait_reason`，横幅仍显示"进行中"或"正在验证目标结果"。
+3. Electron 智能授权、未选项目时：
+   - 执行和验证各要批准一次；
+   - 等待授权的时间计入 Goal 用时。
+4. 轮次进行中清除 Goal 时，这一轮不会结束。
+5. 首轮被暂停中断后，Electron 横幅轮数与接口不一致。
+
+### 过程中的环境问题
+
+- 本会话沙箱的代理访问不到 `*.xaminim.com`：
+  - TUI 会走代理，内容审核失败、回复被撤回；
+  - Electron 卡在 mcode-tools 准备，没有主窗口；
+  - Node 自带的 fetch 不走代理，所以接口入口不受影响。
+
+  处理：`tui up`、`electron up` 检测到代理变量就要求明确选 `--no-proxy` 或 `--keep-proxy`。
+- TUI 的斜杠补全规则：
+  - 补全列表打开时，回车先应用高亮项；
+  - 单独的 `/goal` 要先 Esc 再回车；
+  - 运行中按 Esc 会停止当前轮次。
+
+### 仍未覆盖
+
+- Windows 与 Remote Control。
+- Electron 上的预算、附件、问卷，TUI 上的附件、问卷。
+- 各地图里标为"尚未实跑"的子功能。
