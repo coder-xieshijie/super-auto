@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.12
+status: 工作稿 v0.13
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -70,6 +70,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
+| 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -148,6 +149,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.10 补充：用户要求合入并安装。dev-skills#13 已 squash 合入 main（`4818e9f`），本机 dev-skills 主检出快进到该提交。core-spec 的两个入口原本就指向主检出，已自动更新为合并版；新建 deliver 的两个入口（`~/.agents/skills/deliver` → 仓库，`~/.claude/skills/deliver` → 共享入口）。Codex 用 `$core-spec`、`$deliver` 显式调用可以加载；Claude Code 需在新 session 中确认。
 - 2026-09-29 v0.11：用户确认功能地图放在各功能的专题目录，要求基于最新 `preview_train`、以 Goal 为样例把 Agent-Archon 的验证 Skill 构建完整并提 MR。已提交 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556)：`.agents/skills/verify-archon/`（控制脚本、验证用服务、功能地图索引）和 `.harness/docs/goal/feature-map/` 六个地图文件。构建计划第 2 步完成；过程与发现见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十一节。
 - 2026-09-29 v0.12：用户确认验证分两种：中间结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证。依据与取舍见 [subagent-vs-cross-model.md](../research/zero-based-delivery-2026-09-29/subagent-vs-cross-model.md)。deliver 尚未按此修改。
+- 2026-09-29 v0.13：用户确认试跑期间由 owner 发起最终验证，无人值守或多需求并行时改由 Agent Lord 派发（依据见 [verification-dispatch.md](../research/zero-based-delivery-2026-09-29/verification-dispatch.md)），并要求把 v0.12 的验证方式和审查中认可的几条合成一个 deliver PR：[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)（待合入）。
 
 ## 附：用户原话
 
@@ -216,3 +218,5 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 我认同中间结果用 sub agent 验证，最终结果用另一家模型单独的 session 去做验证。
 >
 > 对于 sub agent，要继承主 agent 的模型，推理强度要保持一致。
+
+> 可以，合成一个 deliver 的 PR 吧

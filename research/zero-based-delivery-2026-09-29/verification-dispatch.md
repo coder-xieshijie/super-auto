@@ -1,6 +1,6 @@
 ---
 id: verification-dispatch
-status: 候选，未经用户确认
+status: 已确认（2026-09-29）：试跑期间 owner 发起并留调用记录，无人值守或多需求并行时改由 Agent Lord 派发
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---

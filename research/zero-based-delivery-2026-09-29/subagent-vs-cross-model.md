@@ -94,3 +94,7 @@ Anthropic 和 OpenAI 用同家族的新上下文做验证，所以同家族 suba
 - Claude Code subagent 的推理强度能不能观察到，还没有核实，需要实测。
 
 未修改 deliver。
+
+### 更正（2026-09-29，实测后）
+
+上表说"用了 Explore 这类预设了模型的类型，就会换成网关上的另一个模型"，实测不成立。在 Claude Code（`claude-opus-5-5[1m]`）里，general-purpose 和 Explore 两种 subagent 报告的模型都与主 agent 相同。差别在推理强度：general-purpose 的系统提示词里有推理强度值，Explore 的没有。所以仍然规定用 general-purpose，原因是推理强度，不是模型。另外，主 agent 在这个环境里看不到自己的推理强度值，deliver 因此规定：模型 ID 必须核对，推理强度在 owner 能看到时再核对。

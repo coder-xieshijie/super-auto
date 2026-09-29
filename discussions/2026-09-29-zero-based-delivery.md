@@ -505,3 +505,29 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 修改意见：P0 共 6 项（门禁补全、跨模型不降级、冻结绑定用户确认、验证环境边界、绑定命令交接、查漏拿到原始约定），P1 共 17 项，P2 共 3 项；不改 4 项。
 - 与 v0.12（另一个 session 中确认：中间结果用 subagent，最终用另一家模型）衔接：跨模型不降级只适用于最终验证和查漏；新增 P0 第 24 条，按 v0.12 在 deliver 的里程碑中加 subagent 验证。
 - 待用户决定：轮数上限是否作为第四种停下的情况（"卡住"）。
+
+## 后续：合成一个 deliver PR
+
+用户原话：
+
+> 可以，合成一个 deliver 的 PR 吧
+
+确认：试跑期间由 owner 发起最终验证，无人值守或多需求并行时改由 Agent Lord 派发（[流程文档](../process/complex-requirement-delivery.md) v0.13）。
+
+执行：提交 [coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)（待合入，CI 通过）。范围是用户在这几轮确认的事项，以及 agent-prompt-rules 审查中已认可的四条：
+- 里程碑检查：按固定的 `milestone-check.md`，用继承 owner 模型和推理强度的 subagent（Claude Code 用 general-purpose，Codex 用默认 agent），报告模型 ID，每个里程碑最多两轮；
+- 最终验证由 owner 通过新增的 `run-verifier.mjs` 启动另一家模型，脚本保存报告并写调用记录；`check-delivery.mjs` 核对记录、报告哈希和模型家族，家族按模型 ID 判断，放在共用的 `model-family.mjs`；
+- 另一家不可用时停下，不降级；
+- 验证者的环境边界；
+- 报告必需字段；
+- `/deliver` 绑定用户确认的哈希，开工时用 `--frozen-only` 核对。
+
+过程中的实测与修正：
+- subagent 继承：general-purpose 与 Explore 的模型都与主 agent 相同；general-purpose 的提示词里有推理强度值，Explore 的没有。这更正了上一轮"Explore 会换成网关模型"的说法。主 agent 看不到自己的推理强度，所以规定模型 ID 必须核对，推理强度在能看到时再核对。
+- mcode `exec --output-format json` 返回 `sessionId`、`model.providerId`、`model.modelId`，默认模型是 MiniMax-M3.1，可以作为第三家模型。
+- Codex（`gpt-6-astra`，high）只读审查改动，报出 5 个问题，都已修正：记录为 `null` 时绕过检查、把 provider 当作家族、截断报告通过、记录缺模型通过、错误退出码归错。
+- 测试：假 CLI 用例 `run-verifier` 12 个、`check-delivery` 15 个，全部符合预期；真实 Codex 端到端跑了两次，都通过，session id 能在会话日志里找到。
+
+未验证：`claude -p` 真实调用（本机 shell 未登录）、mcode 真实验证、里程碑检查在真实交付中的效果。
+
+没有纳入：审查（含 Astra 复审）中尚未确认的项，包括总体结论行、非场景要求的结果、绑定命令交给验证者、查漏方拿原始约定、各项精简。
