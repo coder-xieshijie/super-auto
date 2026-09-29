@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.7
+status: 工作稿 v0.8
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -15,7 +15,22 @@ timezone: Asia/Shanghai
 
 ## 一、当前流程
 
-> **2026-09-29 起重建中。** 用户要求忽略现有设计、推倒重来，并确认三条前提（见下表“重建前提”）。本节下方的 v0.3–v0.6 流程不再作为约束，保留作对照；新方案见[从零设计候选稿](../research/zero-based-delivery-2026-09-29/design.md)，未经确认。
+> **2026-09-29 起按重建后的流程执行。** 下图为当前流程，逐步说明见[完整步骤](../research/zero-based-delivery-2026-09-29/steps.md)，构建顺序见[构建计划](../research/zero-based-delivery-2026-09-29/build-plan.md)。“旧流程（v0.3–v0.6）”保留作对照，不再作为约束。
+
+```text
+A 仓库准备（每个仓库一次，随需求补）
+    agent 能在 worktree 里启动、驱动、观察应用；验证 Skill、功能地图、冒烟、质量命令
+B 定义（你参与，唯一的决策阶段）
+    grill-with-docs → spec.md → verify.md
+    → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 提交，此后只读
+C 交付（全自动，一个 owner 连续运行）
+    写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景
+    → 全集自验 → 另一家模型独立验证 → MR → CI 与评审 → 可合入
+    只在三种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作
+D 回流：把复盘里的仓库缺口补回 A
+```
+
+旧流程（v0.3–v0.6，对照）：
 
 ```text
 ① grill-with-docs session（用户参与）
@@ -46,6 +61,8 @@ timezone: Asia/Shanghai
 | 重建前提：推倒重来 | 忽略现有设计，按最合理、有依据的方式重建 |
 | 重建前提：三家理念 | 以 OpenAI、Anthropic、Lauren（pstack）为准，方向为自证闭环。用户原文写作 “Llama”，2026-09-29 确认指 Lauren |
 | 重建前提：最少决策 | 人只在开始时定 spec 和 verify 并尽量覆盖完整；之后全自动，交付一个 MR 或 PR |
+| B4 查漏 | 开新 session，用与写 spec、verify 不同的模型家族审（2026-09-29） |
+| C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -117,6 +134,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.6：用户确认沉淀与编排方式：流程各环节沉淀为 dev-skills 的 Skill，由 Agent Lord 编排并在节点加载对应 Skill。core-verify 状态更新为已合并。core-spec 补充、plan Skill、cross review 轻量化、中间产物的建议见[讨论记录](../discussions/2026-09-29-flow-questions.md)，待确认。
 - 2026-09-29 v0.7：用户要求推倒重来，确认三条重建前提；原流程保留作对照，不再作为约束。从零设计的候选方案另存于 research，待确认。
 - 2026-09-29 v0.7 补充：用户确认“三家理念”中的 Llama 指 Lauren。
+- 2026-09-29 v0.8：用户确认 B4 用新 session 和不同模型家族查漏、C 阶段每个里程碑都跑场景，并开始按新流程构建。当前流程改为 A 仓库准备、B 定义、C 交付、D 回流；旧流程保留作对照。构建计划与缺口见 research。
 ## 附：用户原话
 
 2026-09-28，按时间顺序。
@@ -164,3 +182,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 是的, 然后把本次的过程和结论都记录到仓库中并 commit
 
 （回复“Llama 是否指 Lauren？”）
+
+> B4 开新 session, 用不同的模型审
+> 同意 C 阶段每个里程碑都跑场景, 以效果优先
+> 现在我应该怎么去构建我的开发流程？我还缺什么？我要怎么去修改调整？
