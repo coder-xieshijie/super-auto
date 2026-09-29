@@ -138,3 +138,20 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - Archon 例子：代码里 `/goal` 出现在会话输入框、首页新会话输入框和 TUI，Goal 的地图就要列这三个入口，待第 1 步逐个确认。
 - 作用：操作说明；覆盖清单（只验一个方便入口不算验完，针对入口漏接）；B3 按"入口 × 状态"找 spec 缺口；决定回归范围；把踩过的坑记下来。
 - 区别：spec 和 verify 属于单个需求、冻结；地图属于整个仓库、持续维护；S4 的功能清单更接近 verify.md。
+
+## 后续：验证 Skill 与功能地图的关系；历史需求怎样补
+
+用户原话：
+
+> 1. 整个验证的功能、验证的 skill 和功能地图之间是什么关系？功能地图需要有单独的 skill 去创建吗？
+>
+> 2. 因为我已经有很多历史需求了，这些历史需求要怎么补？
+> 以 goal 这个功能为例，我后面还会做关于 goal 的新需求，以及做一些 bug fix 等等。我理解功能地图是很有必要的，那具体该怎么补呢？
+
+助手读了 L1 的 `docs/guide/06-verify-and-ship.md` 与 Benny 自动化的 control-adapter、feature-map 示例，并只读核对了 Agent-Archon 的 Goal 专题资料（`.harness/docs/goal/`：README、spec GOAL-01..15、verification、changes 8 条、手测清单；`thread-goal.playwright.ts`；`preview_train` 上含 goal 的提交 178 条）。答复写入 [verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md) 第七、八节（候选，未经确认）：
+
+- 关系：验证能力是目标；验证 Skill 是载体，每个应用一份。其中 `SKILL.md` 放全应用通用的启动、检查、操作、取证、清理，功能地图 `features/` 按功能写入口、操作、证据和坑，`scripts/` 放脚本。
+- 功能地图不需要单独的 Skill。L1 里由 `create-verification-skill` 初建、`maintain-verification-skill` 定期核对。本流程中由 repo-harness 合并这两者，提供初建、补一个功能、维护三种用法；deliver 的完成条件加上"行为或入口变了，同一个 MR 更新地图"。
+- 历史怎样补：按功能补，不按需求补；先补马上要动的、改动频繁的。Goal 的素材已很完整：spec 的 GOAL 编号可直接当子功能 ID，GOAL-14 列出入口，verification.md 第 3 节列出单测证明不了的结论，还有手测清单、Playwright 用例和修复提交。步骤：`SKILL.md` 先能起应用 → 起草按 GOAL 编号拆成约 6 个地图文件 → 每个入口实际走通一次 → 分类处理（地图错改地图、产品坏另报、工具缺补脚本）→ 提交。
+- 之后怎样保持：新需求在 B3 按"入口 × 状态"找缺口，owner 在 MR 里同步更新地图和 Goal 专题文档；bug 修复先照地图复现再修（L1 Benny），修完把触发路径写进地图；大的合并后跑一次维护。
+- 待用户决定：与上一节相同，仍是存放位置、默认操作方式、首批功能。本轮建议首批补 Goal。
