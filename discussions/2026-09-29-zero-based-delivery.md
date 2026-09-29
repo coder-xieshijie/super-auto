@@ -212,3 +212,25 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - L1 放在 Skill 目录下的原因：只有一个入口；维护范围清楚；内容属于验证工具。这不是硬性规定，Benny 就用 `feature_map_path` 指向别处。硬性要求只有三条：在仓库里、随代码版本化、`SKILL.md` 能找到。
 - Archon 的两种放法：A 全部放在 Skill 目录；B 每个功能的地图放在它的专题目录（如 `.harness/docs/goal/`），Skill 只放通用部分和索引。建议 B：Goal 专题目录已有且在持续维护，地图要引用 GOAL 编号和入口；没有专题目录的功能新建 `.harness/docs/<功能>/`。Skill 放 `.harness/skills/verify-archon/`。两种都需要走 MR 和团队同意。
 - 待用户决定：A 还是 B；团队是否同意提交进 Archon。
+
+## 后续：合入 dev-skills#12
+
+用户原话：
+
+> 合入，然后把本次的过程结论都在当前的仓库里面 commit
+
+- 已合入：[coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12) squash 合入 main，提交 `97c230f`，时间 2026-09-29 21:34（+08:00）。合入前 CI（Skill checks）通过，状态为可合入。
+- 合入后 dev-skills 中的状态：
+  - core-spec：写目的、非目标、硬约束，用于自动交付时写交付与授权。
+  - core-verify：第 6 步由另一家模型在新 session 中查漏；跨模型调用约定写在 `references/cross-model.md`。
+  - deliver：新建，含 `plan-format.md`、`verifier-brief.md`、`check-delivery.mjs`。
+  - 设计与验证记录：`docs/core-spec-design.md`、`docs/core-verify-design.md`、`docs/deliver-design.md`。
+- 查漏试运行的原始材料已存档：[raw/gap-check-trial-2026-09-29](../research/zero-based-delivery-2026-09-29/raw/gap-check-trial-2026-09-29/README.md)，包括输入的 spec、verify、Codex 报告原文和运行头信息。
+- 尚未做：
+  - 本机 dev-skills 主检出仍在 `88efec7`，没有快进；
+  - `core-verify`、`deliver` 的软链接没有建立，用户没有要求安装。
+  - worktree `dev-skills-deliver` 和远端分支 `shijie/spec-verify-deliver` 保留。
+- 下一步：
+  - 用户确认后，快进主检出并安装软链接，然后在 Claude Code 和 Codex 里手动调用确认；
+  - 构建计划第 2 步（Agent-Archon 验证能力）等待用户决定功能地图的放法，以及团队是否同意提交进 Archon；
+  - 之后按第 6、7 步校准和试跑。

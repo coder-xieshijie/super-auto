@@ -1,0 +1,12 @@
+Reading additional input from stdin...
+OpenAI Codex v0.158.0-alpha.2.1
+--------
+workdir: /tmp/gapcheck-test
+model: gpt-5.6-sol
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: xhigh
+reasoning summaries: none
+session id: 01a0ed4a-ac52-7082-be0d-8e92ab72bb99
+--------

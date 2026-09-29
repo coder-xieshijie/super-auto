@@ -1,6 +1,6 @@
 ---
 id: zero-based-delivery-build-plan
-status: 构建中；步骤 1 已定，步骤 3–4 已提交 dev-skills#12
+status: 构建中；步骤 1 已定，步骤 3–4 已完成（dev-skills#12 已合入）
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---
@@ -90,9 +90,9 @@ timezone: Asia/Shanghai
 |---|---|
 | 1 定需求文档位置 | 已定：每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/` |
 | 2 Agent-Archon 验证能力 | 讨论中，见 [verification-capability.md](verification-capability.md)；功能地图的放法、团队是否同意提交进 Archon，待用户决定 |
-| 3 改 core-spec、core-verify | 已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)，待合并 |
-| 4 写 deliver v0 | 同上，在 #12 中 |
-| 5 安装 | 待 #12 合并 |
+| 3 改 core-spec、core-verify | 已完成：[coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12) 已合入（`97c230f`） |
+| 4 写 deliver v0 | 已完成，同在 #12 中 |
+| 5 安装 | 待用户确认：快进 dev-skills 主检出，建立 `core-verify`、`deliver` 的软链接 |
 | 6–8 | 未开始 |
 
 #12 覆盖了第三节的第 2、4、5、6、7 条缺口：

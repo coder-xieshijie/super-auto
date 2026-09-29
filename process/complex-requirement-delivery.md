@@ -30,7 +30,7 @@ C 交付（全自动，一个 owner 连续运行）
 D 回流：把复盘里的仓库缺口补回 A
 ```
 
-对应的 Skill：B 用 grill-with-docs、core-spec、core-verify（第 6 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（待合并）。需求文档放在哪个目录，由你在每个需求开始时指定。
+对应的 Skill：B 用 grill-with-docs、core-spec、core-verify（第 6 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）。需求文档放在哪个目录，由你在每个需求开始时指定。
 
 旧流程（v0.3–v0.6，对照）：
 
@@ -139,6 +139,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.7 补充：用户确认“三家理念”中的 Llama 指 Lauren。
 - 2026-09-29 v0.8：用户确认 B4 用新 session 和不同模型家族查漏、C 阶段每个里程碑都跑场景，并开始按新流程构建。当前流程改为 A 仓库准备、B 定义、C 交付、D 回流；旧流程保留作对照。构建计划与缺口见 research。
 - 2026-09-29 v0.9：用户确认需求文档位置每次手动指定，不在 Skill 中规定；要求补全 spec、verify 并新建 deliver。已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)：core-spec 补目的、非目标、硬约束、交付与授权；core-verify 新增跨模型查漏；新建 deliver。B 阶段的只读由 sha256 记录保证，由 deliver 的机械检查核对。
+- 2026-09-29 v0.9 补充：用户要求合入，dev-skills#12 已 squash 合入 main（`97c230f`）；软链接尚未安装。
 ## 附：用户原话
 
 2026-09-28，按时间顺序。
