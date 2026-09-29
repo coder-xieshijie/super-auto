@@ -234,3 +234,24 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 用户确认后，快进主检出并安装软链接，然后在 Claude Code 和 Codex 里手动调用确认；
   - 构建计划第 2 步（Agent-Archon 验证能力）等待用户决定功能地图的放法，以及团队是否同意提交进 Archon；
   - 之后按第 6、7 步校准和试跑。
+
+## 后续：完整流程怎么走；是否需要快速版；三家怎样应对不同规模
+
+用户原话：
+
+> 如果 archon verify 和 spec/ verify /deliver 这些 skill 都完成了，
+> 那么我应该如何去做整个流程？如果有一个需求来了，我的开发流程应该是什么？
+> 对于不同复杂度的需求，简单和复杂需求的流程都是一样的吗？有没有那种“快速版”的流程，例如快速的 bug fix 和全需求, 都要走完整的流程？
+> 三家不同的理论是如何应对不同的规模的需求的？
+
+助手核对了 dev-skills main `97c230f` 中已合入的 deliver、core-spec、core-verify 正文，以及三家原文中与规模相关的段落：
+- OpenAI：S1"小改动用临时的轻量计划，复杂工作写 ExecPlan"、合入门禁少；S6 ExecPlan 只用于复杂功能和大重构。
+- Anthropic：S7"一句话能说清改动就跳过计划"，大功能先访谈写 SPEC 再开新 session；S5"独立评判只在任务超出模型单独可靠完成的范围时值得"。
+- Lauren：poteto-mode 按类型分到 playbook，含 bug fix 与 feature；大型或"人走开"的工作转 figure-it-out，"按任务决定严格程度"；多天项目转 orchestrate；小改动用 blast-radius。
+
+答复要点，写入 [tiers.md](../research/zero-based-delivery-2026-09-29/tiers.md)（候选，未经确认）：
+- 完整版六步：定义 session 里 grill → `/core-verify`（顺带写 spec）→ 跨模型查漏 → 确认一次并冻结 → 新 session 运行 `/deliver` 跑到 MR → 看汇报。你参与两处。
+- 三家共同点：文档和检查的多少随规模和风险变化；"在真实产品上证明"不随规模变化；越需要人离开，越需要预先写好的完成标准和独立评判。
+- 建议三档：L0 直接改、L1 快速版（行为已有规定的 bug 和小功能：先用 verify-archon 复现，修改后在同一入口复验，不写 spec 和 verify，按风险决定是否独立验证）、L2 完整版。按"一句话能否说清、行为是否已定、范围、代价、是否离开"选档。风险优先；档位只升不降。
+- L1 需要新建一个小 Skill（暂名 `fix`，参照 Lauren bug fix playbook）；不建议给 deliver 加快速模式。
+- 待用户决定：是否采用三档；是否新建 `fix`；档位由谁定。
