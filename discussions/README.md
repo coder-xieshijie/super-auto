@@ -38,7 +38,7 @@
 | 2026-09-28 | [core-verify 完整构建方案](2026-09-28-core-verify-build-plan.md) | 面向零背景读者的完整方案：作用、位置、五个步骤、规则、上下游、构建与评估步骤；四个问题待用户决定 |
 | 2026-09-28 | [自证闭环研发流程展开](2026-09-28-self-verifying-loop.md) | 用户确认自证闭环方向；依据 OpenAI 与 Anthropic 长任务 harness 写出十阶段候选流程与产出物，五项待确认 |
 | 2026-09-29 | [自证闭环流程的六个问题](2026-09-29-flow-questions.md) | core-spec 对照、status 与 verify 的关系、plan Skill、plan 与 cross review 的分工（ExecPlan）、实现中间产物、Skill 沉淀与 Agent Lord 编排；沉淀方式已确认，其余待定 |
-| 2026-09-29 | [从零设计：人只定 spec 和 verify](2026-09-29-zero-based-delivery.md) | 用户要求推倒重来；三家共同做法、三段流程、完整步骤、节奏、plan 更新、调度、构建计划、Archon 验证能力、verify-archon 介绍、功能地图的位置与历史补齐、spec/verify/deliver Skill（dev-skills#12 已合入）、按规模分档（完整版与快速版）；前提、B4、C 节奏、文档位置已确认，软链接待安装 |
+| 2026-09-29 | [从零设计：人只定 spec 和 verify](2026-09-29-zero-based-delivery.md) | 用户要求推倒重来；三家共同做法、三段流程、完整步骤、节奏、plan 更新、调度、构建计划、Archon 验证能力、verify-archon 介绍、功能地图的位置与历史补齐、spec/verify/deliver Skill（dev-skills#12 已合入）、按规模分档（完整版与快速版）、spec 与 verify Skill 合并；前提、B4、C 节奏、文档位置已确认，软链接待安装 |
 
 ## 相关资料入口
 

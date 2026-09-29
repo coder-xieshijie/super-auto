@@ -255,3 +255,16 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 建议三档：L0 直接改、L1 快速版（行为已有规定的 bug 和小功能：先用 verify-archon 复现，修改后在同一入口复验，不写 spec 和 verify，按风险决定是否独立验证）、L2 完整版。按"一句话能否说清、行为是否已定、范围、代价、是否离开"选档。风险优先；档位只升不降。
 - L1 需要新建一个小 Skill（暂名 `fix`，参照 Lauren bug fix playbook）；不建议给 deliver 加快速模式。
 - 待用户决定：是否采用三档；是否新建 `fix`；档位由谁定。
+
+## 后续：core-spec 与 core-verify 是否合并
+
+用户原话：
+
+> spec 和 verify 这两个 skill 是不是可以去合并啊？core spec 和 core verify 两个看着好像有重复。不感觉这两个可以合并吗？因为这两个理论上是不能单独工作的，它应该变成一个东西，最终产出两份内容。这样是不是更简单直接、更合理一些？三家是怎么做的？
+
+助手核对了 S2 `Prompt.md`（含 Done when）、S3 目标三要素、S6 Validation and Acceptance、S7 SPEC.md 结尾的端到端验证、S4 `feature_list.json`、S5 sprint contract 及其取消、L1 `06-verify-and-ship`，以及 dev-skills main `97c230f` 中两个 Skill 和 README 的引用关系。答复写入 [merge-spec-verify.md](../research/zero-based-delivery-2026-09-29/merge-spec-verify.md)（候选，未经确认）：
+
+- 三家都没有把写 spec 和写验收拆成两个工具或步骤，多数把验收写在 spec 或计划里。S4 把验收单独放成文件，只是为了限定 agent 只能改 `passes`，产出者仍是同一个 agent。三家要分开的是评判方与实现方。
+- 现状：`/core-verify` 已经顺带生成 spec；spec 要等 verify 写完才定稿；两份一起查漏、确认、冻结；重复的是过程说明。core-spec 另有单独用途（design-for-review、plan-for-agents、汇报）。
+- 建议：合并成一个 Skill，产出仍是两份文件。过程只写一遍；只要 spec 时写完 spec 就交付；细节放进 references；名字建议 `core-define`，或沿用 `core-spec`。需要一个 dev-skills PR，同步改 deliver 的引用、README 和设计文档，以及本仓库流程文档的 B2、B3。软链接还没装，现在合并不影响已安装的环境。grill-with-docs 保持独立。
+- 待用户决定：是否合并；名字；是否立即提 PR。
