@@ -249,3 +249,7 @@ S1：人不写代码，也不一定审每个 PR；人确定优先级、把反馈
 3. 需求文档放在业务仓库的 `docs/exec-plans/`。
 4. 实现阶段默认同一 session 连续做，改掉 plan-to-implement v2 以最后一条消息交接的方式。
 5. 复杂需求默认做第 7 阶段的独立验收。
+
+## 九、后续修订说明（2026-09-29）
+
+读 OpenAI ExecPlan（S6）和 Agent Lord #48 之后，以下建议有变，见[讨论记录](../../discussions/2026-09-29-flow-questions.md)：不单独建 `verify-status.json` 和 `progress.md`，进度、发现和决策写进 plan.md 的持续更新小节，最终场景结论以 acceptance tester 报告为准；cross review 改为单 session、重点校验 verify。正文暂未改写。

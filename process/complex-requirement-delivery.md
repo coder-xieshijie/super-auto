@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.5
+status: 工作稿 v0.7
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -14,6 +14,8 @@ timezone: Asia/Shanghai
 - 每次修改在“修订记录”追加原因；用户原话按时间收在文末；讨论过程记在 [discussions/](../discussions/README.md)。
 
 ## 一、当前流程
+
+> **2026-09-29 起重建中。** 用户要求忽略现有设计、推倒重来，并确认三条前提（见下表“重建前提”）。本节下方的 v0.3–v0.6 流程不再作为约束，保留作对照；新方案见[从零设计候选稿](../research/zero-based-delivery-2026-09-29/design.md)，未经确认。
 
 ```text
 ① grill-with-docs session（用户参与）
@@ -40,6 +42,10 @@ timezone: Asia/Shanghai
 | cross review | 新开 session，按 spec 对 verify 和 plan 做严格的一致性校验，并直接修改 |
 | 冻结时点 | verify.md 和 plan.md 在 cross review 产出后冻结 |
 | 方向 | 采用“自证闭环”：agent 能自己启动、操作、观察应用并证明结果；主要参考 OpenAI harness engineering 与 Anthropic 长任务 harness |
+| 沉淀与编排 | 流程各环节沉淀为 dev-skills 中的 Skill；编排放在 Agent Lord，由 Agent Lord 的节点加载对应 Skill 完成该环节 |
+| 重建前提：推倒重来 | 忽略现有设计，按最合理、有依据的方式重建 |
+| 重建前提：三家理念 | 以 OpenAI、Anthropic、Lauren（pstack）为准，方向为自证闭环。用户原文写作 “Llama”，2026-09-29 确认指 Lauren |
+| 重建前提：最少决策 | 人只在开始时定 spec 和 verify 并尽量覆盖完整；之后全自动，交付一个 MR 或 PR |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -59,7 +65,7 @@ grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要�
 - 对照原始材料双向核对，并用反例检查：是否存在符合文字、却违反已确认约定的实现。
 - 产出后即为需求的唯一依据。
 
-**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)（`92a648e`，未合并、未在真实 spec 上试用），设计依据见[讨论记录](../discussions/2026-09-28-core-verify-build-plan.md)。要点：spec 是唯一需求来源；验收以用户在一个入口上完成的一次完整操作为单位，默认从真实入口运行，由实现 agent 自证；结果不同就拆，同入口同前提同流程合并；每个场景有字面检查点、基线预期和错误实现；看不到的内部规则先补可观察性；另列冒烟集、验证工具缺口和覆盖盲区；单元测试属于实现。
+**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)（已合并，dev-skills main `8e8a310`；本机未安装，未在真实 spec 上试用），设计依据见[讨论记录](../discussions/2026-09-28-core-verify-build-plan.md)。要点：spec 是唯一需求来源；验收以用户在一个入口上完成的一次完整操作为单位，默认从真实入口运行，由实现 agent 自证；结果不同就拆，同入口同前提同流程合并；每个场景有字面检查点、基线预期和错误实现；看不到的内部规则先补可观察性；另列冒烟集、验证工具缺口和覆盖盲区；单元测试属于实现。
 
 **plan.md。** 依据 spec 和 verify 写。所用 Skill 未说明；现有 plan-cross-review 中重写 plan 用的是 `plan-for-agents`（`dev-skills` `88efec7`），它要求 plan 写明每项要求的验证方法、预期结果、证据位置和失败处置。
 
@@ -108,6 +114,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-28 v0.5：用户确认采用“自证闭环”方向，主要参考 OpenAI 与 Anthropic 的长任务 harness。新增“方向”决定；完整流程展开为候选稿，另存于 research，未写入当前流程。
 - 2026-09-28 v0.4 补充：用户表明采用“自证闭环”，以 OpenAI Harness engineering、Anthropic 长任务 harness 和 Lauren 工作流为主要参考；core-verify 据此改为以端到端场景为验收单位（dev-skills#11 `92a648e`），更新第二节 verify.md 说明。
 
+- 2026-09-29 v0.6：用户确认沉淀与编排方式：流程各环节沉淀为 dev-skills 的 Skill，由 Agent Lord 编排并在节点加载对应 Skill。core-verify 状态更新为已合并。core-spec 补充、plan Skill、cross review 轻量化、中间产物的建议见[讨论记录](../discussions/2026-09-29-flow-questions.md)，待确认。
+- 2026-09-29 v0.7：用户要求推倒重来，确认三条重建前提；原流程保留作对照，不再作为约束。从零设计的候选方案另存于 research，待确认。
+- 2026-09-29 v0.7 补充：用户确认“三家理念”中的 Llama 指 Lauren。
 ## 附：用户原话
 
 2026-09-28，按时间顺序。
@@ -143,3 +152,15 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 我的研发流程倾向于使用“自证闭环”的方式。现在先进行迭代，因为我更认可 openai 的 Harness 以及 anthropic 长任务 Harness 的相关内容，所以把这一部分内容详细展开。
 >
 > 完整的研发流程是什么？以及每个阶段要做什么，每个阶段的产出物是什么？
+
+> 最后一点：关于整个开发流程的沉淀与编排。我希望整个开发流程都能在 dev skills 里面沉淀成 skill，而整个流程的编排是放在 agent load 里面去做。理论上就是由 agent load 负责编排，对应的节点去加载对应的 skill，从而实现对应的功能。
+
+> 首先忽略目前已有的设计，我们用最合理、最合适并且有依据的方式去构建整个开发流程。
+>
+> 我认同 OpenAI、Anthropic 和 Llama 这三家的理念，他们整体的工作流方向之前也说过是“自证闭环”。后续我再提到“三家理念”时，就指这三家，我不会再重复了。
+>
+> 我的决策点要尽量少。我希望在最开始定下来 spec 和 verify 之后，理论上后面就应该完全做到自动化了。我只做最开始的决策，并尽量程度地把这些决策覆盖完整；后面就按照所有的决策点去全自动化，最终交付一个 MR 或 PR 就可以了。
+
+> 是的, 然后把本次的过程和结论都记录到仓库中并 commit
+
+（回复“Llama 是否指 Lauren？”）

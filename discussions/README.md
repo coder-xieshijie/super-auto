@@ -32,6 +32,8 @@
 | 2026-09-28 | [仓库资料中的 agent 研发流程派系](2026-09-28-workflow-schools.md) | 按核心押注归纳五类、三处分歧与共识；用户流程的位置；仓库未覆盖的 spec 驱动方法 |
 | 2026-09-28 | [core-verify 完整构建方案](2026-09-28-core-verify-build-plan.md) | 面向零背景读者的完整方案：作用、位置、五个步骤、规则、上下游、构建与评估步骤；四个问题待用户决定 |
 | 2026-09-28 | [自证闭环研发流程展开](2026-09-28-self-verifying-loop.md) | 用户确认自证闭环方向；依据 OpenAI 与 Anthropic 长任务 harness 写出十阶段候选流程与产出物，五项待确认 |
+| 2026-09-29 | [自证闭环流程的六个问题](2026-09-29-flow-questions.md) | core-spec 对照、status 与 verify 的关系、plan Skill、plan 与 cross review 的分工（ExecPlan）、实现中间产物、Skill 沉淀与 Agent Lord 编排；沉淀方式已确认，其余待定 |
+| 2026-09-29 | [从零设计：人只定 spec 和 verify](2026-09-29-zero-based-delivery.md) | 用户要求推倒重来；三家共同做法、三段流程、Skill 取舍、Agent Lord 是否需要及试跑方法；前提已确认，方案待定 |
 
 ## 相关资料入口
 
