@@ -543,3 +543,30 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 分工：对方只改 core-spec 一侧，包括 SKILL.md、verify.md、gap-check.md、新增 `freeze.mjs`、设计记录和 README 的 core-spec 一节。deliver 的其余各项等 #15 合入后由对方补上，包括"卡住"、门禁补全、场景 ID 到命令的对应表、冒烟按需、验证能力缺口按需、正面写法、重复句、plan-format、review-rules。本会话不再改 deliver 的这些项。
 - 已把 #15 中与之衔接的约定告诉对方：调用记录的检查项、报告必需字段；加 `verdict:` 行时要同时改两个脚本。
 - #15 何时合入仍待用户决定。
+
+## 后续：确认"卡住"为第四种停下，按 P0、P1 提 PR
+
+用户原话：
+
+> 同意把卡住作为第四种停下，按 P0 和 P1 提 PR
+
+决定：
+- 交付中停下的情况改为四种，新增"卡住"：同一个失败（场景、独立验证或 CI），一种修法连续 3 次无效就换思路；换了思路后再连续 3 次仍无进展，结束并汇报。它替代原来的"修复加复验最多 3 轮""同一个 CI 失败修 3 次"。
+- 已写入[流程文档](../process/complex-requirement-delivery.md) v0.14。
+
+执行：
+- **发现冲突，调整了分工。** 另一个 session"开发流程调优-deliver 流程优化"正在做 deliver 的 PR，改的文件与本轮 deliver 部分几乎完全重叠。它的 PR 已开为 [coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)，包含 v0.12、v0.13 的验证方式、`run-verifier.mjs` 调用记录、确认哈希输入、给验证者划定环境边界。助手给那个 session 发了两条消息，说明本轮用户确认的"卡住"和"core-spec 查漏也不降级"，并约定分工：本轮先做 core-spec 一侧，deliver 的其余项在 #15 合入后跟进。那个 session 已在 #15 中采纳"core-spec 查漏也不降级"。
+- **core-spec 一侧已提交 [coder-xieshijie/dev-skills#16](https://github.com/coder-xieshijie/dev-skills/pull/16)**，CI 通过，可以合入：
+  - 新增 `scripts/freeze.mjs`；
+  - 查漏方拿到原始约定和输入哈希，查漏说明新增第 6 项；
+  - 不降级；
+  - 两轮后的处理；
+  - description、第 4 步改为完成标准、删掉 verify 核对清单、非目标、目录、通用写作建议、重复句、"同基线"、证据、试运行、工具缺口、冒烟集、覆盖盲区完成条件。
+  每处改动对应的规范条目写在 dev-skills `docs/core-spec-design.md` 第四节，PR 描述也引用了条目。
+- **验证：**
+  - `freeze.mjs` 的 9 个构造用例和 2 份真实样本都符合预期；
+  - Codex `gpt-6-astra` 只读审查 diff，报出 5 条，都已修正：冻结脚本过宽、展示类证据与"必须断言交互"矛盾、查漏模板缺原始约定、只读查漏方算不了哈希、verify 路径例外被删；
+  - 按修改后的 Skill 实际执行"已有 spec 写验收"，从第 5 步开始，spec 哈希不变，没有试运行入口；
+  - 全仓库链接检查通过；
+  - 在本地把 #15 和 #16 一起合并，没有冲突。
+- **未完成：** deliver 一侧，包括门禁补全、场景命令交给验证者、"卡住"、冒烟与重跑、验证能力缺口、进度汇报措辞、重复句、plan 格式、review-rules。等 #15 合入后跟进。
