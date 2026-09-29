@@ -324,3 +324,21 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 五处缺口：agent 能操作和观察应用（最大，verify-archon 未建）、仓库当记录系统（受团队规则限制）、持续清理（S1 doc-gardening 与 L1 maintain）、会话外看管层、组件在真实任务上验证后删减。
 - 结论：结构上对齐，但还不能说充分对齐。三家放在最前面的基础还没建，流程也还没在真实需求上跑过。下一步按 build-plan：先建 verify-archon 和 Goal 地图，再用 goal-v2 校准 B 阶段，然后跑 1–2 个真实需求，最后按记录删减。
 - 小问题：dev-skills README 中 deliver 的示例路径 `.harness/docs/specs/` 与用户定的 `.harness/docs/spec/` 不一致，不影响行为。
+
+## 后续：deliver 流程详解
+
+用户原话：
+
+> 我们详细展开一下 deliver 的流程现在是怎么做的
+
+助手读了 dev-skills main `4818e9f` 中 deliver 的正文、`plan-format.md`、`verifier-brief.md`、`check-delivery.mjs` 和 `cross-model.md`，并只读核对了 Agent-Archon 的 `scripts/dev-electron-profile.mjs`、`scripts/dev-electron-latest.mjs`。答复写入 [deliver-walkthrough.md](../research/zero-based-delivery-2026-09-29/deliver-walkthrough.md)：
+- 流程：开工跑冒烟 → 写 plan.md（记冻结哈希）→ 里程碑循环（实现、在应用里跑场景、质量命令、提交、更新进度，失败先修）→ 全部自验 → 跨模型独立验证（修复加复验最多 3 轮）→ 开 MR → CI 与评审（有新提交就复验，同一失败最多修 3 次）→ `check-delivery.mjs` → 可合入或按授权合入 → 汇报。只在三种情况停下。
+- 三个机制：plan.md 按 ExecPlan 分稳定节和持续更新节；独立验证的输入、四件事、判定标准和复验规则；机械检查的三项。
+- 发现的问题（建议未经确认）：
+  1. 冻结哈希没有与用户确认的值绑定，建议 `/deliver` 输入用户确认的 sha256；
+  2. 验证由 owner 发起；
+  3. 会话中断没人发现；
+  4. verify-archon 未建；
+  5. **已查代码确认**：验证者在 detached HEAD 的检出里运行时，Archon 开发脚本取不到分支，会退回共享的 `~/.minimax` profile，并默认退出已安装的 MiniMax、MiniMax Agent；无论隔离与否都会退出 MiniMax Dev。verify-archon 必须为验证者强制隔离，并避免与 owner 的实例互相退出；
+  6. 冒烟集和回归范围不在机械检查里；
+  7. 尚未在真实需求上运行。
