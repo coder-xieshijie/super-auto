@@ -155,3 +155,19 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 历史怎样补：按功能补，不按需求补；先补马上要动的、改动频繁的。Goal 的素材已很完整：spec 的 GOAL 编号可直接当子功能 ID，GOAL-14 列出入口，verification.md 第 3 节列出单测证明不了的结论，还有手测清单、Playwright 用例和修复提交。步骤：`SKILL.md` 先能起应用 → 起草按 GOAL 编号拆成约 6 个地图文件 → 每个入口实际走通一次 → 分类处理（地图错改地图、产品坏另报、工具缺补脚本）→ 提交。
 - 之后怎样保持：新需求在 B3 按"入口 × 状态"找缺口，owner 在 MR 里同步更新地图和 Goal 专题文档；bug 修复先照地图复现再修（L1 Benny），修完把触发路径写进地图；大的合并后跑一次维护。
 - 待用户决定：与上一节相同，仍是存放位置、默认操作方式、首批功能。本轮建议首批补 Goal。
+
+## 后续：verify-archon 详细介绍
+
+用户原话：
+
+> 再详细介绍一下这个 verify 的 skill：
+> 1. 它都包含哪些内容？
+> 2. 执行完这个 skill 之后会产出什么东西？
+> 3. 它在整个研发流程的阶段是什么？作用是什么？
+> /explain-as-fool
+
+答复要点，写入 [verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md) 第九节（候选，未经确认）：
+- 先区分：core-verify 为单个需求写 verify.md，规定验什么、怎样判定；verify-archon 教 agent 在 Archon 上跑场景、取证。本轮介绍的是 verify-archon。
+- 内容：`SKILL.md`（名称和适用时机，加六节）、`features/`（索引 + 每功能一个文件）、`scripts/`。不含需求的判定标准、实现细节和产品代码。
+- 产出：建它时产出目录和首次跑通的证据；每次用它产出证据文件、每个场景一条运行记录、走不通入口的说明，并清理环境；维护时产出修正 PR 或"无需修改"。它本身不判定通过与否，由 owner 或验证者对照 verify.md 判定。
+- 位置：A 阶段产出，D 阶段修补；B3、B4、C1、C3、C3′、C4、C5、C7、bug 复现、C8/D1 都用它。owner 与验证者共用一份，操作方法一致，但 Skill 写错时两边会同错，需要定期维护，验证者也要对照 spec 审代码。
