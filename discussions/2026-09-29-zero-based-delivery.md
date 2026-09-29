@@ -486,3 +486,22 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 试跑中出现跳过、挑着验、改报告，就提前切换。
 - 细节：现在的检查要求报告 head 与 MR head 完全相同，rebase 后必须重新验证；Lauren 用 patch-id 判断结论是否仍然有效，可以视 rebase 频率再决定加不加。
 - 待用户决定：上述两个阶段的做法。
+
+## 后续：Codex CLI 改用 Astra 6 high，重新审查与复核
+
+用户原话：
+
+> 先把 codex cli 的默认配置改成 astra 6 high, 然后用 codex cli 重新审查并check, 找出合理的并给出修改意见
+
+执行：
+- 配置：CLI 入口 `~/.local/bin/codex` 把 `CODEX_HOME` 设为 `~/.codex-cli`，因此改的是 `~/.codex-cli/config.toml`：`gpt-5.6-sol`/`xhigh` 改为 `gpt-6-astra`/`high`，备份为 `config.toml.bak-20260929`。实测 `codex exec` 显示 `model: gpt-6-astra`、`reasoning effort: high`。桌面 App 的 `~/.codex/config.toml` 原本就是这个设置。
+- 用 Astra 跑了两轮，并行进行：
+  - 重新审查：说明与第一轮相同，不给看第一轮结果，报出 17 项；
+  - 复核：对第一轮 24 条和助手另外发现的 6 条逐条判断，另外指出 4 个新问题。
+  原文存于 [raw/prompt-rules-audit-2026-09-29/](../research/zero-based-delivery-2026-09-29/raw/prompt-rules-audit-2026-09-29/)。
+- 综合裁决与修改意见写入 [prompt-rules-audit-astra.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit-astra.md)，尚未改动 Skill：
+  - 改判：目录默认值改为成立；基线与错误实现改为部分成立（verify.md 自相矛盾）；跨模型降级在 core-spec 和 deliver 都不允许；plan 的接口一节改为不成立；通用写作建议只删常识；模型默认会做的句子改为压缩。
+  - 新发现：绑定命令没有交给验证者；覆盖盲区与"全部通过才验证"会死锁；复验会沿用环境原因的 UNVERIFIED；非场景要求没有结果。
+  - 修改意见：P0 共 6 项（门禁补全、跨模型不降级、冻结绑定用户确认、验证环境边界、绑定命令交接、查漏拿到原始约定），P1 共 17 项，P2 共 3 项；不改 4 项。
+- 与 v0.12（另一个 session 中确认：中间结果用 subagent，最终用另一家模型）衔接：跨模型不降级只适用于最终验证和查漏；新增 P0 第 24 条，按 v0.12 在 deliver 的里程碑中加 subagent 验证。
+- 待用户决定：轮数上限是否作为第四种停下的情况（"卡住"）。

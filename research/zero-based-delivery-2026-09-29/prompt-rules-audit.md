@@ -1,6 +1,6 @@
 ---
 id: prompt-rules-audit
-status: 审查结论；第四节的修改建议未经用户确认
+status: 第一轮审查结论；部分裁决已由 [prompt-rules-audit-astra.md](prompt-rules-audit-astra.md) 改判，修改建议以那份为准
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---
