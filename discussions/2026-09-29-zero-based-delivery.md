@@ -423,3 +423,27 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 裁决：Codex 的 24 条中 9 条成立、10 条部分成立、5 条不成立。不成立的是：目录默认值、金字塔写法（用户的决定）、基线与错误实现（等试跑消融）、默认开 MR（用户的前提）、循环上限（二-8 要求）。助手另外发现 6 项。
 - 待用户决定：是否按第四节提一个 dev-skills PR，分机械检查补全、交接补全、精简三组。
 - 另记：用户告知 verify-archon 已在另一个 session 开始执行，按已完成处理。
+
+## 后续：独立验证用 subagent 是否更好
+
+用户原话：
+
+> 如果用三家的理念和方法论，是不是用 subagent 去校验会更好一些？
+
+助手核对了以下原文：
+- S7 "have a subagent review the diff in a fresh context"；
+- S9 "fresh-context verifier subagents tend to outperform self-critique" 及按间隔验证；
+- S5 评判者仍会放水、"Out of the box, Claude is a poor QA agent"、调教评判提示词更可行；
+- S1 agent-to-agent 评审，以及 Codex subagents 的评审示例；
+- L1 `orchestrate` 的 "Scale verification to the unit"：验证昂贵、需要判断或影响面大时，才用另一家族的验证 agent。
+
+答复写入 [subagent-vs-cross-model.md](../research/zero-based-delivery-2026-09-29/subagent-vs-cross-model.md)（候选，未经确认）：
+- 要分开两件事。"新上下文"是三家一致的要求，subagent 和 CLI 新 session 都满足。"换模型家族"只有 Lauren 要求，用于昂贵、需要判断或影响面大的验证。Claude Code 和 Codex 的 subagent 只能用本家模型，所以要换家族只能用 CLI。
+- 本轮修正：助手起初建议最终验证默认改为同家族 subagent。随后核对了同日另一会话的 [agent-prompt-rules 审查](../research/zero-based-delivery-2026-09-29/prompt-rules-audit.md) 和 agent-prompt-rules 二-7 原文，改为维持跨家族。理由有两条：最终验证满足 L1 的三个条件；二-7 写明"同一模型、相近上下文的多个 agent 会犯同样的错"。
+- 结论：
+  - 里程碑自验由 owner 自己跑，按需要再加同家族 subagent 按间隔验证（S9）；
+  - 最终独立验证维持跨家族，在 Claude Code 和 Codex 里用 CLI；
+  - 另一家不可用时，交付阶段停下，不降级到可合入（采纳审查第 17 条）；
+  - 重点投入调教验证说明（S5）和让跨家族调用稳定；
+  - 试跑时可以额外跑同家族验证做对比。
+- 待用户决定：最终验证维持跨家族、不可用时停下；里程碑中间暂不加 subagent；试跑是否做对比。
