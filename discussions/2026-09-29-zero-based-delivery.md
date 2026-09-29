@@ -570,3 +570,22 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 全仓库链接检查通过；
   - 在本地把 #15 和 #16 一起合并，没有冲突。
 - **未完成：** deliver 一侧，包括门禁补全、场景命令交给验证者、"卡住"、冒烟与重跑、验证能力缺口、进度汇报措辞、重复句、plan 格式、review-rules。等 #15 合入后跟进。
+
+## 后续：与 dev-skills#16 的衔接核对（2026-09-30）
+
+另一个会话告知 core-spec 一侧已提交 dev-skills#16（`shijie/core-spec-prompt-rules`），并询问 #15 已经做了审查中的哪几项。
+
+核对：
+- 在临时 worktree 中把 #15、#16 依次合到 origin/main，无冲突；全仓库 49 个 Markdown 的链接检查、CI 的链接检查、两个 deliver 脚本的语法检查都通过。
+- #16 新增的 `core-spec/scripts/freeze.mjs` 输出的两行，原样写进 plan.md 并加上 owner 行后，`check-delivery.mjs --frozen-only` 通过，格式衔接没有问题。
+
+回复对方：
+- #15 已做、对方可以跳过的（按 [prompt-rules-audit-astra.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit-astra.md) 第三节编号）：
+  - P0 第 2 条，两处都不降级；
+  - P0 第 3 条的 deliver 一侧；
+  - P0 第 4 条；
+  - P0 第 24 条；
+  - P1 第 23 条的验证报告部分。
+- 仍归对方的：P0 第 1、5 条；P1 第 7 条的 deliver 部分，以及第 13、14、15、17、18、20、21、22 条；"卡住"。
+
+#15、#16 的合入都待用户决定。
