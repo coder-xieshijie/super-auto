@@ -605,3 +605,22 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 真实调用：叠合后的 `run-verifier.mjs` 调用 codex-cli（`gpt-6-astra`，high），在 `./hello.sh` 临时仓库里用时 1 分 18 秒。验证者按新格式写出三行结论和场景行，`run-verifier` 退出 0，`check-delivery` 通过。
 - #15 的记录检查在 #17 修改后仍然有效：报告事后被改、同家族、记录为 `null`、把 verdict 改成 FAIL，都被拦下。
 - 已把结果和 README 冲突的解法告诉对方。建议合入顺序为 #15 → #16 → #17，#17 先 rebase 到 main。三者的合入都待用户决定。
+
+## 后续：deliver 其余项（#17）与全部 Skill 的 description 审查（#18）
+
+用户原话（在上一轮进行中发来）：
+
+> 任务都完成之后，你需要再 check 一下 dev -skills项目，确认 dev 中所有 skill 的描述是否都符合官方 prompt 的规则。找出不符合的地方，并创建新的 PR 去修改。
+
+执行：
+- **deliver 其余项已提交 [coder-xieshijie/dev-skills#17](https://github.com/coder-xieshijie/dev-skills/pull/17)**，叠在 #15 上。
+  - 内容："卡住"作为第四种停下；门禁补全，报告新增 `verdict:`、`smoke-regression:`、`code-issues:` 三行，R 编号纳入门禁，UNVERIFIED 只放行声明过的盲区；报告解析抽成 `report-format.mjs`；验证输入加实际命令；冒烟、全量自验、验证能力缺口、进度汇报、plan 模板、review-rules 等精简项。
+  - Codex `gpt-6-astra` 只读审查 diff，报出 5 条，都已修正：两节只查是否存在、盲区豁免只看编号、R 编号解析、盲区条目识别过宽、里程碑没有盲区例外。其中"盲区写成条目"另在 #16 加提交 `ee17542`。
+  - 修正后 `check-delivery.mjs` 的 16 个用例、`run-verifier.mjs` 的 3 个假 CLI 端到端用例，都符合预期。
+- **全部 8 个 Skill 的 description 审查**，依据规范三-1、Anthropic "Writing effective descriptions"、OpenAI "Better skills"。说明与报告存于 [raw/prompt-rules-audit-2026-09-29/](../research/zero-based-delivery-2026-09-29/raw/prompt-rules-audit-2026-09-29/description-audit-report.md)。
+  - main 上确实违规的只有 core-spec、deliver：写进了流程，378 字和 307 字。它们的修改在 #16、#17 里，并补上了使用时机（`220e56a`、`19f4bd6`）。
+  - Codex `gpt-6-astra` 独立判断，其余 6 个没有实质违规。这些 Skill 都只能手动调用，description 不进入模型上下文。它否决了助手对 plan-for-agents 的拟改：写成"需求和决策已定"会把范围写窄，而正文允许交付待确认稿。
+  - 另外 3 个写清使用时机、精简后提交 [coder-xieshijie/dev-skills#18](https://github.com/coder-xieshijie/dev-skills/pull/18)：agent-prompt-rules 与 design-for-review 补使用时机；mr-for-human 删去正文已有的内容清单。explain-as-fool、review-rules、plan-for-agents 不改；#14 的 recon-to-contract 不属于本仓库这边开的 PR，不改。
+- **README 冲突。** #16 和 #17 改了 README 列表里相邻的两行，叠合时冲突。#17 恢复 deliver 那一行的原文后，在本地按 16→17→18、18→17→16、17→16→18 三种顺序合并都没有冲突，合并后链接检查和脚本语法检查都通过。另一个会话的叠合验证见上一节。
+- **CI。** #15、#16、#17、#18 都通过，都可以合入。#17 的 base 是 #15 的分支，#15 合入后需要 rebase 到 main。
+- **待用户决定：** 合入 #15、#16、#17、#18。
