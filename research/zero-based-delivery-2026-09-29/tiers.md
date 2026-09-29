@@ -7,14 +7,14 @@ timezone: Asia/Shanghai
 
 # 需求来了怎么走：完整版与按档位分流
 
-前提：verify-archon（含涉及功能的地图）、core-spec、core-verify、deliver 都已就绪。其中后三者已在 dev-skills main `97c230f` 合入（dev-skills#12）。来源编号见 [design.md](design.md)。
+前提：verify-archon（含涉及功能的地图）、core-spec、deliver 都已就绪。后两者已在 dev-skills main `97c230f` 合入（dev-skills#12）；2026-09-29 起 core-verify 并入 core-spec（[coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)）。来源编号见 [design.md](design.md)。
 
 ## 一、完整版：一个需求从开始到 MR
 
 | 步 | 你做什么 | agent 做什么 | 产出 |
 |---|---|---|---|
 | 1 | 在 Archon 的 worktree 里开一个定义 session，运行 `/grill-with-docs`，描述需求，逐轮回答 | 逐个问会影响结果的决定，事实自己去查 | 会话里的决定 |
-| 2 | 运行 `/core-verify`，给出需求目录，例如 `.harness/docs/spec/<需求>/` | 没有 spec 时先按 core-spec 写 spec（含目的、非目标、硬约束、交付与授权）；对照功能地图，按入口和状态查缺口；写 verify | spec.md、verify.md |
+| 2 | 运行 `/core-spec`，给出需求目录，例如 `.harness/docs/spec/<需求>/` | 写 spec（含目的、非目标、硬约束、交付与授权）；对照功能地图，按入口和状态查缺口并回写 spec；写 verify | spec.md、verify.md |
 | 3 | 回答查漏转来的问题 | 用另一家模型开新 session 查漏，最多两轮；问题转成给你的问题 | 更新后的两份文件 |
 | 4 | 确认一次 | 记录两份文件的 sha256，此后冻结 | 冻结的 spec、verify |
 | 5 | 开一个新 session，运行 `/deliver`，给出两份文件的路径，之后离开 | owner 写 plan.md；逐个里程碑实现，并在应用里跑涉及的场景；全部场景自验；另一家模型独立验证；开 MR；处理 CI 和评审，直到可合入；按授权合入或停在可合入；更新功能地图和专题文档 | 分支、MR、plan.md、evidence/、验证报告 |
@@ -78,7 +78,7 @@ timezone: Asia/Shanghai
 |---|---|---|
 | L0 | 不需要专门的 Skill；Archon AGENTS.md 已规定 MR、只跑相关测试 | 已有 |
 | L1 | 需要一个小 Skill（暂名 `fix`），参照 Lauren 的 bug fix playbook：用 verify-archon 在真实入口复现、找根因、最小修改、同一入口复验、按地图跑这个功能的其他入口、失败复现记录放在修复之前、MR 附前后证据；期望行为不清时问你，复现不了就写明试过什么再停下；按风险决定是否请另一家模型复验 | 没有，依赖 verify-archon |
-| L2 | grill-with-docs、core-spec、core-verify、deliver、verify-archon | 前四个已有，verify-archon 待建 |
+| L2 | grill-with-docs、core-spec、deliver、verify-archon | 前三个已有，verify-archon 待建 |
 
 不建议给 deliver 加一个"快速模式"。deliver 的完成条件依赖冻结的 spec、verify、plan 和独立验证报告；加模式会让一个 Skill 同时承担两种任务，也与 agent-prompt-rules 的写法不符。
 

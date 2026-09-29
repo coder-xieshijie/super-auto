@@ -318,7 +318,7 @@ Goal 两条都符合：`preview_train` 上提交信息含 goal 的有 178 条，
 
 | Skill | 在哪 | 做什么 | 用几次 |
 |---|---|---|---|
-| core-verify | dev-skills | 定义阶段为一个需求写 `verify.md`：验哪些场景、怎样算通过 | 每个需求一次 |
+| core-spec（2026-09-29 合并了原 core-verify） | dev-skills | 定义阶段为一个需求写 spec.md 和 `verify.md`：验哪些场景、怎样算通过 | 每个需求一次 |
 | verify-archon | Archon 或本机（待定） | 教 agent 怎样启动、操作、观察 Archon，并取证 | 每次需要在应用里验证时都用 |
 
 `verify.md` 规定验什么、怎样判定；verify-archon 提供在 Archon 上把这些场景跑起来、取到证据的方法。

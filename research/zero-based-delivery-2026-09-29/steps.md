@@ -19,8 +19,8 @@ timezone: Asia/Shanghai
 | **B 定义**（每个需求，你参与） | | | | |
 | B1 | 逐轮澄清需求 | grill-with-docs（grilling、domain-modeling） | 你的定义 session | 会话中的决定；`CONTEXT.md`、ADR（有内容时） |
 | B2 | 写 spec | core-spec | 同一 session | `spec.md` |
-| B3 | 写 verify | core-verify | 同一 session | `verify.md` |
-| B4 | 独立查漏 | core-verify（新增的查漏一步） | 1 个新 session，用与写文档不同的模型家族（用户 2026-09-29 确认） | 问题清单，转成给你的提问；答复后更新 spec、verify |
+| B3 | 写 verify | core-spec（2026-09-29 合并了原 core-verify） | 同一 session | `verify.md` |
+| B4 | 独立查漏 | core-spec 第 7 步 | 1 个新 session，用与写文档不同的模型家族（用户 2026-09-29 确认） | 问题清单，转成给你的提问；答复后更新 spec、verify |
 | B5 | 你确认一次，冻结 | — | 同一 session | 用户每次指定的目录下的 spec.md、verify.md（Agent-Archon 一般为 `.harness/docs/spec/<需求>/`），记录 sha256 后只读 |
 | **C 交付**（每个需求，全自动） | | | | |
 | C1 | 开工：读文档、启动应用、跑冒烟 | deliver（新建）+ 项目验证 Skill | owner session | 冒烟证据；环境坏了先修好 |
@@ -111,7 +111,7 @@ docs/                             架构、约定、质量评级、exec-plans/�
 | 定义 session 里开 subagent | 结果自动回到定义 session，直接转成给你的问题 | 与作者同一家模型；查漏说明由作者写 |
 | 另一家模型的 CLI（例如在定义 session 里用命令行启动 Codex 或 Claude Code） | 模型家族不同，犯同样错误的可能更小（L1；agent-prompt-rules 二-7） | 多一次调用；查漏说明要固定写在 core-verify 里，不由作者临时写 |
 
-用户已确认：开新 session，用不同模型家族审。查漏说明固定写在 core-verify 里。
+用户已确认：开新 session，用不同模型家族审。查漏说明固定写在 core-spec 的 `references/gap-check.md` 里（2026-09-29 合并前在 core-verify 中）。
 
 ## 七、C 阶段的执行节奏
 

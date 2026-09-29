@@ -1,6 +1,6 @@
 ---
 id: merge-spec-verify
-status: 候选，未经用户确认
+status: 已确认（2026-09-29）：合并，名称沿用 core-spec；PR 见第五节
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---
@@ -73,3 +73,22 @@ timezone: Asia/Shanghai
 1. 是否合并。
 2. 名字：`core-define` 还是沿用 `core-spec`。
 3. 合并后是否立即提 dev-skills PR。
+
+## 五、决定与执行（2026-09-29）
+
+用户原话：
+
+> 合并，用 core-spec，提 PR
+
+已提交 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)（待合入）：
+- `core-verify` 并入 `core-spec`，共八步，仍产出两个文件；
+- 有三种起点：从讨论开始、只要 spec、已有定稿 spec 写验收。最后一种是 Codex 审查时指出的退化，用来保留原 core-verify 的用法；
+- 写 verify 的规则放在 `references/verify.md`，示例、查漏说明、跨模型调用都移入 `core-spec/references/`；
+- deliver、README、设计记录同步修改。
+
+验证：
+- 全仓库链接检查通过；
+- Codex 对照合并前后做了只读审查，报出 3 条，都已处理；
+- Codex 实际调用了"只要 spec"和"已有 spec 写验收"两个分支，结果符合预期，详见 PR 描述和 dev-skills `docs/core-spec-design.md` 第一节。
+
+未验证：合并后第 7 步查漏的真实调用、从讨论开始走完八步的完整流程、Claude Code 中的调用（软链接未安装）。

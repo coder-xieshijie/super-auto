@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.8
+status: 工作稿 v0.10
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -30,7 +30,7 @@ C 交付（全自动，一个 owner 连续运行）
 D 回流：把复盘里的仓库缺口补回 A
 ```
 
-对应的 Skill：B 用 grill-with-docs、core-spec、core-verify（第 6 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）。需求文档放在哪个目录，由你在每个需求开始时指定。
+对应的 Skill：B 用 grill-with-docs 和 core-spec（产出 spec.md 与 verify.md，第 7 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）；core-spec 与 core-verify 于 2026-09-29 合并为一个 core-spec，见 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。需求文档放在哪个目录，由你在每个需求开始时指定。
 
 旧流程（v0.3–v0.6，对照）：
 
@@ -66,6 +66,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | B4 查漏 | 开新 session，用与写 spec、verify 不同的模型家族审（2026-09-29） |
 | C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
 | 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
+| spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -140,6 +141,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.8：用户确认 B4 用新 session 和不同模型家族查漏、C 阶段每个里程碑都跑场景，并开始按新流程构建。当前流程改为 A 仓库准备、B 定义、C 交付、D 回流；旧流程保留作对照。构建计划与缺口见 research。
 - 2026-09-29 v0.9：用户确认需求文档位置每次手动指定，不在 Skill 中规定；要求补全 spec、verify 并新建 deliver。已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)：core-spec 补目的、非目标、硬约束、交付与授权；core-verify 新增跨模型查漏；新建 deliver。B 阶段的只读由 sha256 记录保证，由 deliver 的机械检查核对。
 - 2026-09-29 v0.9 补充：用户要求合入，dev-skills#12 已 squash 合入 main（`97c230f`）；软链接尚未安装。
+- 2026-09-29 v0.10：用户认为 core-spec 与 core-verify 重复、不能单独工作，确认合并为一个 Skill，名称沿用 core-spec，产出两份文件。三家都没有把写 spec 与写验收拆成两个工具（对照见 [merge-spec-verify.md](../research/zero-based-delivery-2026-09-29/merge-spec-verify.md)）。已提交 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。
 ## 附：用户原话
 
 2026-09-28，按时间顺序。
@@ -194,3 +196,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 
 > 1. 需求文档我会在最开始指定, 在 archon 一般会放在 .harness/docs/spec/<具体需求下>, 这个不用特别规定，我在每次需求的时候会手动指定的。
 > 2. 把 spec verify 和 deliver 相关的 skill 都修改和补充完整，然后创建 PR。
+
+> spec 和 verify 这两个 skill 是不是可以去合并啊？core spec 和 core verify 两个看着好像有重复。不感觉这两个可以合并吗？因为这两个理论上是不能单独工作的，它应该变成一个东西，最终产出两份内容。这样是不是更简单直接、更合理一些？三家是怎么做的？
+
+> 合并，用 core-spec，提 PR

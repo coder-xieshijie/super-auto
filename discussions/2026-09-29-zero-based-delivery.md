@@ -268,3 +268,19 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 现状：`/core-verify` 已经顺带生成 spec；spec 要等 verify 写完才定稿；两份一起查漏、确认、冻结；重复的是过程说明。core-spec 另有单独用途（design-for-review、plan-for-agents、汇报）。
 - 建议：合并成一个 Skill，产出仍是两份文件。过程只写一遍；只要 spec 时写完 spec 就交付；细节放进 references；名字建议 `core-define`，或沿用 `core-spec`。需要一个 dev-skills PR，同步改 deliver 的引用、README 和设计文档，以及本仓库流程文档的 B2、B3。软链接还没装，现在合并不影响已安装的环境。grill-with-docs 保持独立。
 - 待用户决定：是否合并；名字；是否立即提 PR。
+
+## 后续：合并 core-spec 与 core-verify，提 PR
+
+用户原话：
+
+> 合并，用 core-spec，提 PR
+
+执行：
+- 在 dev-skills 新建 worktree `dev-skills-merge-spec`，分支 `shijie/merge-core-spec-verify`，基于 main `97c230f`，提交 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)（待合入）。
+- 合并后 core-spec 共八步：第 1–4 步写 spec 并核对，第 5 步按入口和状态找 spec 缺口，第 6 步按 `references/verify.md` 写 verify，第 7 步跨模型查漏，第 8 步请用户一次确认。有三种起点：从讨论开始、只要 spec、已有定稿 spec 写验收。原 core-verify 的示例、查漏说明、跨模型调用移入 `core-spec/references/`；deliver、README、设计记录同步修改。
+- 验证：
+  - 全仓库 48 个 Markdown 文件的链接和锚点检查通过；
+  - Codex（`gpt-5.6-sol`，xhigh，只读）对照合并前后审查，报出 3 条：README 的 Skill 数量、缺少真实调用、已有 spec 时会重新收敛。都已处理，第三条通过新增"已有定稿 spec"起点解决；
+  - Codex 在隔离目录实际调用两个分支：只要 spec 时只产出 spec；已有 spec 时从第 5 步开始，spec 哈希不变，4 处缺口转成问题。
+- 未验证：合并后第 7 步查漏的真实调用、从讨论开始的完整八步、Claude Code 中的调用（软链接未安装）。
+- 同步本仓库：[流程文档](../process/complex-requirement-delivery.md)升到 v0.10；[steps.md](../research/zero-based-delivery-2026-09-29/steps.md) 的 B3、B4 两行；[tiers.md](../research/zero-based-delivery-2026-09-29/tiers.md)、[verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md)、[build-plan.md](../research/zero-based-delivery-2026-09-29/build-plan.md) 中对 core-verify 的引用；[merge-spec-verify.md](../research/zero-based-delivery-2026-09-29/merge-spec-verify.md) 记下决定。
