@@ -378,3 +378,18 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - deliver 增加 `run-verifier.mjs`，记录 CLI、模型、session id、head 和报告哈希；`codex exec` 开头会打印 session id 和模型，`claude -p --output-format json` 也会返回这两项；
   - `check-delivery.mjs` 检查调用记录存在且 head 一致、报告在验证之后没被改过、验证者与 owner 不是同一家模型；
   - `/deliver` 的输入加上用户确认的 sha256。
+
+## 后续：功能地图用 B；构建 verify-archon 并提 MR
+
+用户原话：
+
+> 用 B，放到各功能的专题目录里
+> 基于最新的 preview train 代码去构建这个 skill。以 Goal 相关的 feature 为样例，把整个 skill 构建完整，并创建一个mr。
+
+- 决定：功能地图放在各功能的专题目录。已写入[流程文档](../process/complex-requirement-delivery.md) v0.11 决定表。
+- 执行：在 Agent-Archon 新建 worktree 和分支 `feat/verify-archon-skill`（基于 `preview_train` `56d36dea77`），构建 Skill 与 Goal 功能地图，实跑验证后提交 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556)。squash 已回读为 true，流水线 941531 创建时为 pending，未轮询。
+- 与此前设想不同的事实：Skill 放 `.agents/skills/`；runtime 没有独立服务，改写验证用服务包住 `createLocalRuntimeHost`；环境按托管主机推断；登录经 oauth-core token provider。详见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十一节。
+- 验证：冒烟、Goal 生命周期、后台续跑、等待时插入用户消息、完成、预算、计时、附件、问卷手动与自动回答全部实跑通过；新会话只读 Skill 复现通过，其指出的 9 处文档问题已修正。
+- 发现的产品侧问题：问卷等待期间 Goal 的 `wait_reason` 未投影 `questionnaire`，已写进 MR 待 owner 确认。
+- 外部动作：推送分支、创建 MR；共享登录在锁内被刷新过一次。GitLab API 要绕开本会话沙箱的 HTTPS 代理才能访问，推送走 SSH。
+- 待办：MR 评审与 CI；地图中未实跑的子功能；Windows 与界面入口。

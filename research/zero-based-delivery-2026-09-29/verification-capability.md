@@ -415,3 +415,42 @@ L1 的验证 Skill 是项目本地的 Skill：`create-verification-skill` 把它
 Skill 本身放在 `.harness/skills/verify-archon/`。Archon 的团队 Skill 都在这个目录下，如 `desktop-service-idl-first`、`release-docs-sync`。
 
 两种放法都要提交进 Archon，都需要走 MR 和团队同意。
+
+## 十一、构建记录（2026-09-29）
+
+用户确认放法 B，并要求基于最新 `preview_train`、以 Goal 为样例构建完整并提 MR。结果：[matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556)，分支 `feat/verify-archon-skill`，基于 `56d36dea77`，worktree 在 `/Users/minimax/code/mm/worktrees/agent-archon/verify-archon-skill`。
+
+### 交付内容
+
+| 路径 | 内容 |
+|---|---|
+| `.agents/skills/verify-archon/SKILL.md` | 准备、启动、检查、冒烟、操作、取证、清理、脚本、维护 |
+| `.agents/skills/verify-archon/scripts/verify-archon.mjs` | 控制命令：`prepare`、`up`、`doctor`、`api`、`poll`（`--hold`、包含匹配）、`snapshot`、`down`、`list` |
+| `.agents/skills/verify-archon/scripts/runtime-server.mjs` | 验证用服务：用 `createLocalRuntimeHost` 在临时目录建实例，挂在 `127.0.0.1` 空闲端口 |
+| `.agents/skills/verify-archon/features/README.md` | 功能地图索引、约定、格式、实跑情况 |
+| `.harness/docs/goal/feature-map/*.md` | 生命周期、持续执行、完成与验证、预算与限额、附件与注释、问卷 |
+| `.harness/docs/goal/README.md`、`AGENTS.md` | 链接与导航 |
+
+### 与第二、三节设想不同的事实
+
+- **Skill 放 `.agents/skills/`，不放 `.harness/skills/`。** 后者只在 Mavis 挂载团队 harness 时加载，Codex、Claude Code 都不会发现；`.agents/skills/` 是 Codex 约定路径，Mavis 工作区扫描也包含它，仓库已有 `prompt-release-prep` 先例。Claude Code 不自动发现（仓库 `.claude/` 被忽略），靠 AGENTS.md 导航。
+- **没有独立的 runtime 服务。** runtime 是库，Electron 和 CLI 都内嵌它；CLI 每次调用都新建临时实例，跑不了 Goal 续跑。所以写了一个小服务包住 `createLocalRuntimeHost`（与 Electron 相同，owner 为 `electron`），默认操作方式是 DesktopService HTTP 接口，即第三节的方式 A。
+- **准备步骤比 `dev-runtime.sh` 多。** 新 worktree 需要 `pnpm build:pi-vendor`、`@mavis/oauth-core` 构建和 `pnpm --filter '@mavis/local-runtime-v2...' build`。
+- **环境必须与登录一致。** 桌面路径会对用户输入做内容安全审核，失败就撤回消息。审核后端由 region 和 build env 决定，所以按模型 provider 的托管主机推断环境（本机 `matrix-pre.xaminim.com` 对应 `cn/staging`）。
+- **登录不能读旧缓存。** `~/.minimax/local-runtime.auth.json` 已过期；有效登录在 oauth-core 的 `~/.minimax/auth/<env>/<region>/mcode-public/`。改用 `createMCodeTokenProvider`（mcode-tools 同款的窄接口），在跨进程锁内刷新；实跑中刷新过一次，TUI 登录未受影响。
+- **Goal 的 Playwright 用例把 Goal 接口整个 mock 了**，证明不了 runtime 行为。
+
+### 实跑结果
+
+全部在 `56d36dea77` 的构建上执行：冒烟；Goal 生命周期（含暂停时改目标、完成后替换）；后台任务结束后续跑；等待时插入用户消息（队首让出）；完成后不续跑；预算限额四种情况；计时；首轮附件；问卷手动回答与 5 分钟超时自动回答；脚本自身的过期构建防护、清理和 `poll`。
+
+一个没有上下文的新会话只读 Skill 跑通了准备到清理的全流程，指出 9 处文档不清（准备的触发条件、冒烟取值字段、"等 8 秒"与"不用 sleep"矛盾、首轮会立即开始、`workspaceDir` 含义、memory 说法、事件结构、登录路径、`snapshot` 输出不全），均已修正。
+
+### 实跑中发现的产品侧问题（MR 中只报告，不修改）
+
+- Goal 在第一轮里提出问卷后，等待回答期间 `execution.wait_reason` 为空，也没有 `goal.admission_decided`；spec 写明等待原因可投影 `questionnaire`。待 Goal owner 确认。
+- 预算在轮次结算时检查，一轮可远超预算（3000 预算用了约 2 万 token），与 spec"不能承诺绝不超出"一致，写进了地图的坑。
+
+### 未覆盖
+
+Windows；TUI、Remote Control、Electron 界面入口；地图中标为未实跑的子功能。
