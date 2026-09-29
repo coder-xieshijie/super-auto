@@ -462,3 +462,27 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - Claude Code：没有设置默认 subagent 模型，也没有自定义 agent；不传 `model`、用 general-purpose 时继承主 agent 的模型。风险是 settings 把 `haiku`、`sonnet` 别名指向网关上的其他模型，用 Explore 这类预设了模型的类型就会换模型。Claude Code subagent 的推理强度能不能观察到，还没有核实。
 - 候选做法：用继承型的 subagent，不传模型和推理强度；subagent 在报告开头写出自己的模型 ID，owner 核对后记进 plan.md，不一致就重做。
 - 未修改 deliver。dev-skills 目前没有别人在改 deliver 的 PR（打开的只有与此无关的 #14）。
+
+## 后续：最终验证由 owner 发起还是 Agent Lord 调度
+
+用户原话：
+
+> 最终验证的时候，是由 owner 自己去拉起新的 session 做验证吗？还是说用 agent lord 做调度更好？其他 3 家怎么做的？
+
+助手核对了以下原文：
+- S1：作者让 Codex 自己请本地和云端的 agent 评审，迭代到所有 reviewer 满意；
+- Symphony（A04、A05）：成功的运行可以停在 `Human Review`；
+- S5：Agent SDK 程序串起 generator 和 evaluator；
+- S7：作者会话开 subagent 审 diff；
+- L1 `autopilot-full`："You own the verdicts, never the PRs"，由 root 在 owner 报告代码就绪的 head 上派发验证；
+- L1 `shipping`：记录 head、base 和 patch-id。
+
+答复写入 [verification-dispatch.md](../research/zero-based-delivery-2026-09-29/verification-dispatch.md)（候选，未经确认）：
+- 三家分成两类：作者自己发起（OpenAI S1、Anthropic S7），以及作者以外的一方发起（Anthropic S5 编排程序、Lauren root）。
+- 对比：owner 发起简单，但 owner 可能跳过或自己写报告；Agent Lord 派发独立，但需要"代码就绪"的交接约定和跨会话状态，本质上是一条很薄的 pipeline。
+- 建议分阶段：
+  - 试跑期间你在场、单个需求时，由 owner 自己发起，并加上 `run-verifier.mjs` 调用记录和 `check-delivery.mjs` 的检查；
+  - 无人值守或多需求并行时，Agent Lord 本来就在做看管，改由它派发，与 Lauren root 一致；
+  - 试跑中出现跳过、挑着验、改报告，就提前切换。
+- 细节：现在的检查要求报告 head 与 MR head 完全相同，rebase 后必须重新验证；Lauren 用 patch-id 判断结论是否仍然有效，可以视 rebase 频率再决定加不加。
+- 待用户决定：上述两个阶段的做法。
