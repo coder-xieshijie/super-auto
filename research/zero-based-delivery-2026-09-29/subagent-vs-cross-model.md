@@ -1,6 +1,6 @@
 ---
 id: subagent-vs-cross-model
-status: 候选，未经用户确认
+status: 已确认（2026-09-29），见第六节
 created_on: 2026-09-29
 timezone: Asia/Shanghai
 ---
@@ -69,3 +69,28 @@ Anthropic 和 OpenAI 用同家族的新上下文做验证，所以同家族 suba
 1. 最终独立验证维持跨家族；另一家不可用时停下，不降级到可合入。
 2. 里程碑中间暂不加 subagent 验证，试跑出现问题再加。
 3. 前 1–2 个试跑需求，是否额外跑同家族 subagent 验证做对比。
+
+## 六、用户决定（2026-09-29）
+
+> 我认同中间结果用 sub agent 验证，最终结果用另一家模型单独的 session 去做验证。
+>
+> 对于 sub agent，要继承主 agent 的模型，推理强度要保持一致。
+
+- 里程碑中间的结果：由 subagent 对照 spec 验证。这取代了第四节"暂不加，试跑出问题再加"。
+- subagent 继承主 agent 的模型和推理强度。
+- 最终结果：由另一家模型在单独的 session 中验证。
+
+### 怎样保证 subagent 继承模型和推理强度（2026-09-29 核对本机）
+
+| 宿主 | 默认行为 | 会打破继承的情况 | 本机现状 |
+|---|---|---|---|
+| Codex | 不在调用时指定模型和推理强度，`config.toml` 里也没有 `[agents]` 默认值时，subagent 继承主 agent 的模型和推理强度（Codex subagents 文档 "Choosing models and reasoning"） | 调用时指定了 model 或 effort；配置了 `[agents]` 默认值 | `~/.codex/config.toml`、`~/.codex-cli/config.toml` 都没有 `[agents]` 段 |
+| Claude Code | 不传 `model` 参数、agent 类型的定义里也没有指定模型时，继承主 agent 的模型；推理强度也来自 agent 定义 | 传了 `model` 参数；用了定义中预设了模型的类型（例如 Explore）；设置了默认 subagent 模型 | 没有设置默认 subagent 模型，也没有自定义 agent。但 settings 把 `haiku`、`sonnet` 别名指向网关上的 `qw-mid-4-5-20250929`、`qw-mid-5`，用了预设这些别名的 agent 类型，就会换成另一个模型 |
+
+写进 deliver 的做法（候选）：
+- 用继承型的 subagent：Claude Code 用 general-purpose，Codex 用默认 agent；
+- 不传模型和推理强度参数，不用预设了模型的类型；
+- subagent 在报告开头写出自己的模型 ID，owner 核对它与自己相同，并记进 plan.md 的进度；不一致时，这次验证作废，重做；
+- Claude Code subagent 的推理强度能不能观察到，还没有核实，需要实测。
+
+未修改 deliver。

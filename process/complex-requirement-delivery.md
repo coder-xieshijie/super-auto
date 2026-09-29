@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.10
+status: 工作稿 v0.12
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -24,8 +24,9 @@ B 定义（你参与，唯一的决策阶段）
     grill-with-docs → spec.md → verify.md
     → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 冻结（记录 sha256），此后只读
 C 交付（全自动，一个 owner 连续运行）
-    写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景
-    → 全集自验 → 另一家模型独立验证 → MR → CI 与评审 → 可合入
+    写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景，
+      再由 subagent 对照 spec 验证（继承主 agent 的模型和推理强度）
+    → 全集自验 → 另一家模型在单独的 session 中独立验证 → MR → CI 与评审 → 可合入
     只在三种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作
 D 回流：把复盘里的仓库缺口补回 A
 ```
@@ -68,6 +69,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
+| 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -145,6 +147,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.10：用户认为 core-spec 与 core-verify 重复、不能单独工作，确认合并为一个 Skill，名称沿用 core-spec，产出两份文件。三家都没有把写 spec 与写验收拆成两个工具（对照见 [merge-spec-verify.md](../research/zero-based-delivery-2026-09-29/merge-spec-verify.md)）。已提交 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。
 - 2026-09-29 v0.10 补充：用户要求合入并安装。dev-skills#13 已 squash 合入 main（`4818e9f`），本机 dev-skills 主检出快进到该提交。core-spec 的两个入口原本就指向主检出，已自动更新为合并版；新建 deliver 的两个入口（`~/.agents/skills/deliver` → 仓库，`~/.claude/skills/deliver` → 共享入口）。Codex 用 `$core-spec`、`$deliver` 显式调用可以加载；Claude Code 需在新 session 中确认。
 - 2026-09-29 v0.11：用户确认功能地图放在各功能的专题目录，要求基于最新 `preview_train`、以 Goal 为样例把 Agent-Archon 的验证 Skill 构建完整并提 MR。已提交 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556)：`.agents/skills/verify-archon/`（控制脚本、验证用服务、功能地图索引）和 `.harness/docs/goal/feature-map/` 六个地图文件。构建计划第 2 步完成；过程与发现见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十一节。
+- 2026-09-29 v0.12：用户确认验证分两种：中间结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证。依据与取舍见 [subagent-vs-cross-model.md](../research/zero-based-delivery-2026-09-29/subagent-vs-cross-model.md)。deliver 尚未按此修改。
 
 ## 附：用户原话
 
@@ -209,3 +212,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 
 > 用 B，放到各功能的专题目录里
 > 基于最新的 preview train 代码去构建这个 skill。以 Goal 相关的 feature 为样例，把整个 skill 构建完整，并创建一个mr。
+
+> 我认同中间结果用 sub agent 验证，最终结果用另一家模型单独的 session 去做验证。
+>
+> 对于 sub agent，要继承主 agent 的模型，推理强度要保持一致。

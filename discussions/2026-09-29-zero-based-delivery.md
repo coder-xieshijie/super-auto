@@ -447,3 +447,18 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
   - 重点投入调教验证说明（S5）和让跨家族调用稳定；
   - 试跑时可以额外跑同家族验证做对比。
 - 待用户决定：最终验证维持跨家族、不可用时停下；里程碑中间暂不加 subagent；试跑是否做对比。
+
+## 后续：确认中间用 subagent、最终用另一家模型
+
+用户原话：
+
+> 我认同中间结果用 sub agent 验证，最终结果用另一家模型单独的 session 去做验证。
+>
+> 对于 sub agent，要继承主 agent 的模型，推理强度要保持一致。
+
+- 已确认，写入[流程文档](../process/complex-requirement-delivery.md) v0.12：流程图 C 段、决定表"中间与最终验证"、修订记录。[subagent-vs-cross-model.md](../research/zero-based-delivery-2026-09-29/subagent-vs-cross-model.md) 第六节记下这个决定，它取代了第四节"里程碑中间暂不加 subagent"。
+- 核对本机能否做到"继承"：
+  - Codex：两份 `config.toml` 都没有 `[agents]` 默认值。按 Codex 文档，调用时不指定模型和推理强度，subagent 就继承主 agent 的；
+  - Claude Code：没有设置默认 subagent 模型，也没有自定义 agent；不传 `model`、用 general-purpose 时继承主 agent 的模型。风险是 settings 把 `haiku`、`sonnet` 别名指向网关上的其他模型，用 Explore 这类预设了模型的类型就会换模型。Claude Code subagent 的推理强度能不能观察到，还没有核实。
+- 候选做法：用继承型的 subagent，不传模型和推理强度；subagent 在报告开头写出自己的模型 ID，owner 核对后记进 plan.md，不一致就重做。
+- 未修改 deliver。dev-skills 目前没有别人在改 deliver 的 PR（打开的只有与此无关的 #14）。
