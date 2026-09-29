@@ -171,3 +171,44 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 内容：`SKILL.md`（名称和适用时机，加六节）、`features/`（索引 + 每功能一个文件）、`scripts/`。不含需求的判定标准、实现细节和产品代码。
 - 产出：建它时产出目录和首次跑通的证据；每次用它产出证据文件、每个场景一条运行记录、走不通入口的说明，并清理环境；维护时产出修正 PR 或"无需修改"。它本身不判定通过与否，由 owner 或验证者对照 verify.md 判定。
 - 位置：A 阶段产出，D 阶段修补；B3、B4、C1、C3、C3′、C4、C5、C7、bug 复现、C8/D1 都用它。owner 与验证者共用一份，操作方法一致，但 Skill 写错时两边会同错，需要定期维护，验证者也要对照 spec 审代码。
+
+## 后续：需求文档位置；补全 spec、verify 并新建 deliver
+
+用户原话：
+
+> 1. 需求文档我会在最开始指定, 在 archon 一般会放在 .harness/docs/spec/<具体需求下>, 这个不用特别规定，我在每次需求的时候会手动指定的。
+> 2. 把 spec verify 和 deliver 相关的 skill 都修改和补充完整，然后创建 PR。
+
+- 确认：需求文档位置每个需求开始时由用户手动指定，Skill 不作规定。已写入[流程文档](../process/complex-requirement-delivery.md) v0.9。Agent-Archon 现有目录是 `.harness/docs/specs/`，已被 git 跟踪。
+- 已提交 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（分支 `shijie/spec-verify-deliver`，提交 `1061f5d`，worktree `/Users/minimax/code/github/xieshijie/dev-skills-deliver`），待合并：
+  - **core-spec**：spec 写目的，必须有非目标，适用时写硬约束；用于自动交付时写交付与授权。非目标和授权只由用户决定。
+  - **core-verify**：新增第 6 步，由另一家模型在新 session 中按固定的 `references/gap-check.md` 查漏，最多两轮；最终回复给出两份文件的 sha256，用户确认后冻结。规范性内容加入非目标。跨模型调用约定写在 `references/cross-model.md`。
+  - **deliver**（新建）：一个 owner session 交付到 MR 可合入。
+    - 完成条件：场景在最终 head 上跑通；另一家模型的独立验证没有 FAIL；机械检查通过；CI 通过、评审意见已处理；plan.md 反映实际情况。
+    - 附件：ExecPlan 格式的 `plan-format.md`、独立验证者的 `verifier-brief.md`、`check-delivery.mjs`。
+- 冻结方式改为：在 plan.md 里记录 sha256，由脚本核对。原因是需求文档目录由用户指定，不一定在 MR 的比较范围内。
+- 实测：
+  - 查漏试运行：Codex（`gpt-5.6-sol`，xhigh，只读）按查漏说明检查脱敏示例，约 1 分钟、4.1 万 token，报出 10 条。其中 2 条是 core-verify 示例的真实缺陷（S02 判别力不足、非目标没有对应要求），已修正。
+  - `check-delivery.mjs` 的 9 个用例都符合预期。
+  - `codex exec` 的只读沙箱能拒绝写入。
+- 发现：
+  - 在本会话的 shell 里，`claude -p` 显示未登录，从 Codex 调 Claude 的路径未测试。
+  - `claude` 的 `--allowedTools`、`--add-dir` 会吞掉后面的参数，提示词要紧跟 `-p`。
+  - `codex exec` 在 stdin 不是终端时会读取 stdin，要接到 `/dev/null`。
+- 待办：
+  - 合并 #12 后安装 `core-verify`、`deliver` 的软链接；
+  - 验证 Skill 是否提交进 Agent-Archon，仍待用户决定；
+  - 构建计划第 2 步（Agent-Archon 验证能力）、第 6 步（历史需求校准）、第 7 步（试跑）未开始。
+
+## 后续：功能地图为什么放在 Skill 里
+
+用户原话：
+
+> Feature 为什么要放在 skill 当中啊？这个不应该是放在仓库当中吗？
+
+答复要点，写入 [verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md) 第十节（候选，未经确认）：
+- 地图本来就在仓库里。L1 的验证 Skill 是业务仓库里的目录 `.cursor/skills/verify-<app>/`，地图在其 `features/` 下，原文称其为仓库维护的验证依据。
+- 更正：第三节列过的"只放本机"方案不再建议。地图描述某个 commit 上的行为，要随分支在同一个 MR 里更新，必须在 Archon 仓库里。
+- L1 放在 Skill 目录下的原因：只有一个入口；维护范围清楚；内容属于验证工具。这不是硬性规定，Benny 就用 `feature_map_path` 指向别处。硬性要求只有三条：在仓库里、随代码版本化、`SKILL.md` 能找到。
+- Archon 的两种放法：A 全部放在 Skill 目录；B 每个功能的地图放在它的专题目录（如 `.harness/docs/goal/`），Skill 只放通用部分和索引。建议 B：Goal 专题目录已有且在持续维护，地图要引用 GOAL 编号和入口；没有专题目录的功能新建 `.harness/docs/<功能>/`。Skill 放 `.harness/skills/verify-archon/`。两种都需要走 MR 和团队同意。
+- 待用户决定：A 还是 B；团队是否同意提交进 Archon。
