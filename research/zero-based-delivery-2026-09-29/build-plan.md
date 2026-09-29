@@ -37,10 +37,10 @@ timezone: Asia/Shanghai
 | 验证能力 | 现状 |
 |---|---|
 | 按 worktree 隔离运行 | 有：profile 隔离 port、dataDir、PID，不同 worktree 自动分到不同 profile（AGENTS.md §5） |
-| 启动 | 有：`pnpm dev`、`pnpm dev:runtime`、CLI `node packages/cli/dist/index.js` |
+| 启动 | 有：`pnpm dev` 起 Electron；`pnpm web` 起 UI；CLI `node packages/cli/dist/index.js`。`pnpm dev:runtime` 只编译 runtime 相关包，不起服务（2026-09-29 更正） |
 | 驱动 UI | 有资产：`apps/electron`、`apps/native` 下的 Playwright E2E 脚本 |
 | 给 agent 用的验证 Skill 与功能地图 | 没有。`.harness/reins/tester/agent.md` 是 MR 评审用的 tester 角色，不是驱动应用的操作说明 |
-| 读实际结果（实际发出的请求、持久状态） | 未核实有没有给 agent 用的查询入口 |
+| 读实际结果（实际发出的请求、持久状态） | 部分有：LLM Context Inspector 按 session 保存实际发给模型的请求和响应（dev/test Electron 与 TUI 可开，CLI 不组装）；CLI `session messages / info / diff`、`diagnostics bundle`。结构化日志能否按 session 查未核实 |
 | 团队规则 | 仓库不再默认新增、维护或执行 E2E，端到端验收由外部 webhook 链路承担；开发期禁止全量测试；临时轨迹不写进仓库；普通变更不要求新增 specs（AGENTS.md §2–4） |
 | 需求文档先例 | `docs/superpowers/specs`、`plans` 下有你 7–8 月提交的 spec 和 plan |
 
@@ -48,7 +48,7 @@ timezone: Asia/Shanghai
 
 按对“全自动交付”的阻塞程度排序：
 
-1. **Agent-Archon 给 agent 用的验证能力。** 启动和隔离已有，缺一份把启动、健康检查、驱动、取证、清理写成实际命令的验证 Skill，以及功能地图。没有它，C 阶段每个里程碑“在应用里跑场景”无法执行。三家都把这一项放在最前面（S1、S4、L1）。
+1. **Agent-Archon 给 agent 用的验证能力**（展开见 [verification-capability.md](verification-capability.md)）。 启动和隔离已有，缺一份把启动、健康检查、驱动、取证、清理写成实际命令的验证 Skill，以及功能地图。没有它，C 阶段每个里程碑“在应用里跑场景”无法执行。三家都把这一项放在最前面（S1、S4、L1）。
 2. **deliver。** C 阶段 owner 的完成条件、产物、停下条件、跨模型独立验证的调用方式和固定说明、机械检查。
 3. **需求文档放在哪。** 团队规则与“计划和进度提交进仓库”（S1）不一致，需要你定：
    - 放 Agent-Archon（沿用 `docs/superpowers/` 先例，或新建 `docs/exec-plans/`），需要团队同意；

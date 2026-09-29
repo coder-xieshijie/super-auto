@@ -103,3 +103,21 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 助手核对现状：dev-skills 缺 deliver、repo-harness，core-spec 与 core-verify 待补，core-verify 未安装；本机 codex、claude、mcode 都可用于跨模型调用；Agent-Archon 已有 profile 隔离、dev 命令、CLI、Playwright 脚本，缺给 agent 用的验证 Skill 与功能地图；团队规则不在仓库维护 E2E、不把临时轨迹写进仓库，与“计划和进度提交进仓库”不一致，但 `docs/superpowers/` 有用户此前提交 spec 和 plan 的先例。
 - 助手建议的构建顺序见 [build-plan.md](../research/zero-based-delivery-2026-09-29/build-plan.md)：定文档位置 → 做 Agent-Archon 验证能力 → 改 core-spec、core-verify → 写 deliver → 安装 → 用历史需求校准 B 阶段 → 1–2 个新需求试跑 → 复盘定型（含 Agent Lord 去留、提炼 repo-harness）。
 - 待用户决定：需求文档放 Agent-Archon 还是用户自己的仓库；验证 Skill 是否提交进 Agent-Archon；是否从第 1 步开始执行。
+
+## 后续：Agent-Archon 验证能力展开
+
+用户原话：
+
+> 关于这个 agent archon 验证能力，我没太理解，你再详细展开一下：
+> 1. 具体要怎么去做？
+> 2. 都有哪些具体的实现方式？
+> 3. 结合开发流程，它的最终交付形式是什么？是 skill，还是一个编排，或者是其他形式？
+
+助手读了 L1 `create-verification-skill`、`maintain-verification-skill` 原文，并只读核对了 Agent-Archon，答复写入 [verification-capability.md](../research/zero-based-delivery-2026-09-29/verification-capability.md)（候选，未经确认）：
+
+- 是什么：一份写给 agent 的操作说明加脚本，让新 session 在自己的 worktree 里启动隔离实例、确认可用、像用户一样操作、取证、清理且保留证据。
+- 怎么做：按 L1 五步。从代码回答界面、启动、操作、观察、隔离五个问题；写 Launch、Doctor、Drive、Evidence、Cleanup、Helpers 六节；建 3–5 个功能的地图；自己跑通一次，并由新 session 只读 Skill 复现；之后按 maintain 流程维护。
+- 实现方式：操作方式有接口 / CLI、Web + Playwright、Electron + Playwright、TUI + 伪终端四种，建议默认接口 / CLI，涉及界面时加 Electron 或 Web；封装上建议文档加薄脚本，内部复用已有脚本；存放位置可以是 Archon、本机，或先本机后提 MR。
+- 交付形式：Skill，不是编排。项目验证 Skill 加首次跑通证据是这次要做的；dev-skills 里的通用生成器 repo-harness 以后从这次经验中提炼。B3、C1、C3、C4、D1 都加载它，Agent Lord 不参与。
+- 更正 [build-plan.md](../research/zero-based-delivery-2026-09-29/build-plan.md) 两处事实：`pnpm dev:runtime` 只编译、不起服务；读实际请求的入口已查到，就是 LLM Context Inspector。
+- 待用户决定：存放位置；默认操作方式；功能地图首批功能。
