@@ -356,3 +356,25 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - Agent Lord 要当好看管层，还差三处：派发 deliver 时用 `/deliver` 加 plan.md 接续，不另写交接材料；按产出（plan 进度、提交、MR）判断停滞；Skill 依赖表加入 core-spec、deliver。另外，看管方自己也是会话，它死了只剩提醒。
 - 这会改变 v0.6 的"编排放在 Agent Lord"，需要用户确认。
 - 待用户决定：新角色；cross-review 去留；第一次试跑是否先不用 Agent Lord。
+
+## 后续：deliver 中的新 session 怎样保证
+
+用户原话：
+
+> 我先确认一下，也就是说，现在核心流程就是：
+> 1. 先 spec 这个 skill，去确认对应的 spec 文档和 verify 文档；
+> 2. 根据这个内容去产生 plan，然后去实现；
+> 3. 在这个过程中不断地去做校验。
+>
+> 那么，在 deliver 的过程中是需要有新起 session 的过程的。这个是如何保障新起 session 的呢？Skill 里面是怎么实现的？
+
+助手重读了 dev-skills main `4818e9f` 的 deliver SKILL.md、`verifier-brief.md`、`check-delivery.mjs` 和 `cross-model.md`，参考了同日另一个会话的 [deliver 走查](../research/zero-based-delivery-2026-09-29/deliver-walkthrough.md)，并查看了 `codex exec` 输出的开头。答复写入 [deliver-new-sessions.md](../research/zero-based-delivery-2026-09-29/deliver-new-sessions.md)：
+- 确认理解，并补一句：校验分三层，owner 每个里程碑自验、另一家模型独立验证并在改动后复验、`check-delivery.mjs` 机械检查。
+- 新 session：
+  - owner 由用户手动开，Skill 不能启动自己；中断后靠用户开新 session，读 plan.md 接续；
+  - 独立验证由 owner 按 `cross-model.md` 用另一家模型的 CLI 启动。每次 CLI 调用都是新进程、新会话，只拿到命令里给的文件路径；验证说明固定，调用后检查报告不为空、检出目录没被改；对方不可用时降级为同家族并注明。
+- 发现：`check-delivery.mjs` 不检查验证者是谁，也没有调用记录可查。owner 跳过调用、自己写一份格式正确的报告，也能通过。这是走查第 2 条的具体表现。
+- 候选改进（未经确认）：
+  - deliver 增加 `run-verifier.mjs`，记录 CLI、模型、session id、head 和报告哈希；`codex exec` 开头会打印 session id 和模型，`claude -p --output-format json` 也会返回这两项；
+  - `check-delivery.mjs` 检查调用记录存在且 head 一致、报告在验证之后没被改过、验证者与 owner 不是同一家模型；
+  - `/deliver` 的输入加上用户确认的 sha256。
