@@ -333,6 +333,14 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 
 另外：本次决定都进 Goal 的 `changes/` 变更记录，不单独写 ADR。
 
+### 用户追问 Q4
+
+用户原话：
+
+> q4 没理解? 为什么是 block 而不是 update 呢?
+
+助手答复要点：`update_goal` 是工具名（提交 Goal 状态），`blocked` 是 `status` 参数的一个取值，另一个是 `complete`，两者不是二选一。现在 `complete` 被接纳后本轮立刻结束，不会有第二次提交；R3 让本轮继续，才留出第二次提交的空档。助手核对了 `packages/local-runtime/src/thread-goal/turn-context.ts` 的 `collectSignal`：同一轮只保留一个提交，`blocked` 优先。`complete` 后再交 `complete` 只是覆盖（影响小）；`complete` 后再交 `blocked` 会覆盖为阻塞、立刻结束本轮、不跑验证。建议不变：`complete` 已被接纳后，Goal 工具拒绝同一轮的任何第二次状态提交，返回错误并提示直接写最终回复，已接纳的提案不变。
+
 ## 待确认与待验证
 
 - 第三轮 Q1–Q5 待用户回答（第 15 节）；第二轮已答复。
