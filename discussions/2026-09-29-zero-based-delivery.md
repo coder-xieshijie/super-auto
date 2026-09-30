@@ -698,3 +698,22 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - dev-skills #14～#18（另一会话提出）均未合入。
 - 第 6～8 步（历史需求校准、新需求试跑、复盘定型）未开始。
 - MR 里报告的 5 个产品问题等待 Goal owner 确认。
+
+## 后续：补上 TUI 与 Electron 上的附件和问卷（2026-09-30）
+
+用户原话（引用上一轮"优先补 TUI 和 Electron 上的问卷、附件，因为这是用户实际会用到的"）：
+
+> 现在补上
+
+- 工具：
+  - `tui paste`：像终端一样括号粘贴。粘贴图片的绝对路径，TUI 就把它当作附件。
+  - `electron upload`：点击触发按钮后提供文件。桌面端输入框的"添加文件或图片"走主进程的原生对话框，网页的文件选择事件不会触发，所以只替换这一次对话框的结果。
+- 实跑（`56d36dea77` 的构建，`cn/staging`，都已清理）：
+  - Electron 附件：首页发送为首轮附件（`has_kickoff_attachments` 为 true，secret.txt 为 PAPAYA-42）；会话内发送为目标资源（`objective_resources` 带 `asset_id`，目标文字末尾追加资源清单，secret2.txt 为 MANGO-7）。
+  - TUI 附件：粘贴 64×64 红色 PNG，出现 `[Image #1]` 和 `Goal · 1 attachment`；首轮遇到模型服务 504 进入 `paused(infra_retryable)`，`/goal resume` 后请求仍带图片，color.txt 为 red。
+  - Electron 问卷：点选项即提交，fruit.txt 为 Banana；不回答时 5 分钟后按推荐项继续，fruit.txt 为 Apple，`responseSource` 为 `automatic_timeout`。
+  - TUI 问卷：`Ask` 面板按数字键即提交，Banana；新实例里不回答，5 分钟后为 Apple。
+- 新发现的产品问题（MR 第 6 条，待 owner 确认）：Electron 的横幅和完成标记用界面计时器，把问卷等待也算进用时。一次自动回答的 Goal 两处都显示 5min9s，接口 `time_used_seconds` 为 10；TUI 同样场景显示 11s。另外，等待回答时 TUI 横幅也仍是 `Active`，与第 2 条一致。
+- 提交：matrix/agent-archon!7556 追加 `fecf3071ed`、`6eb63b1b64`、`57e5dde5be`，已推送；MR 描述已更新并读回（squash 为 true，无乱码）；流水线 942111 运行中，未轮询。
+- 外部动作：Electron 窗口在用户屏幕上打开，使用真实账号，只操作了 Goal、附件和问卷，未点签到或套餐；注入的 token 随 `down` 删除。
+- 仍未覆盖：Electron 预算；各地图标为"尚未实跑"的子功能；Remote Control；Windows。详见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节末尾的补充。

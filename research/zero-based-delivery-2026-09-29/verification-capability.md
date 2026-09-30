@@ -510,3 +510,23 @@ Windows；TUI、Remote Control、Electron 界面入口；地图中标为未实�
 - 经 Clash 访问 `matrix-pre.xaminim.com`、`gitlab.xaminim.com`、`npmmirror.xaminim.com` 都连接失败，直连分别返回 200、302、200。
 
 所以原因是 Clash 这个代理访问不到公司内网，与沙箱无关。GitLab API 那次也是去掉代理变量才成功的。`--no-proxy` 的做法和结论不变。
+
+### 补充：TUI 与 Electron 上的附件和问卷（2026-09-30）
+
+用户要求优先补这两项，因为它们是用户实际会用到的。
+
+| 场景 | TUI | Electron |
+|---|---|---|
+| 附件 | `tui paste` 粘贴图片路径，成为首轮附件；首轮 504 后恢复，仍带着图片完成 | `electron upload` 经原生对话框选文件：首页发送为首轮附件，会话内发送为目标资源 |
+| 问卷 | `Ask` 面板：数字键手动回答；5 分钟超时按推荐项自动回答 | 问卷卡片：点选项手动回答；5 分钟超时自动回答 |
+
+新增的两条命令：
+- `tui paste`：括号粘贴。
+- `electron upload`：只替换这一次的原生对话框结果。桌面端输入框不触发网页的文件选择事件，Playwright 的常规做法用不上。
+
+新发现的产品问题（MR 第 6 条）：Electron 的横幅和完成标记用界面计时器，问卷等待也计入用时。一次自动回答的 Goal 显示 5min9s，runtime 为 10 秒。
+
+更新后仍未覆盖：
+- Electron 预算；
+- 各地图标为"尚未实跑"的子功能；
+- Remote Control 与 Windows。

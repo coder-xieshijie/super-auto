@@ -89,7 +89,7 @@ timezone: Asia/Shanghai
 | 步 | 状态 |
 |---|---|
 | 1 定需求文档位置 | 已定：每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/` |
-| 2 Agent-Archon 验证能力 | [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 流水线通过，等待评审（2026-09-30）：接口、MCode TUI、Electron 三个入口与 Goal 功能地图，三个入口的主路径已实跑；附件、问卷在 TUI/Electron 上及若干子功能未实跑，见功能地图索引。过程与发现见 [verification-capability.md](verification-capability.md) 第十一、十二节 |
+| 2 Agent-Archon 验证能力 | [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 流水线通过，等待评审（2026-09-30）：接口、MCode TUI、Electron 三个入口与 Goal 功能地图，三个入口的主路径、附件、问卷已实跑；Electron 预算及若干子功能未实跑，见功能地图索引。过程与发现见 [verification-capability.md](verification-capability.md) 第十一、十二节 |
 | 3 改 core-spec、core-verify | 已完成：[coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12) 已合入（`97c230f`） |
 | 4 写 deliver v0 | 已完成，同在 #12 中 |
 | 5 安装 | 已完成（2026-09-29）：dev-skills#13 合入 `4818e9f`，主检出已快进；core-spec 入口已有，deliver 入口新建；Codex 显式调用验证通过，Claude Code 待新 session 确认 |
