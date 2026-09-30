@@ -194,7 +194,16 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 
 结论：会话不能直接新建并启动会话（开关未开）。能做到的是用深链打开一个预填好目录和提示词的新会话页，用户确认后发送，不用再手动新建和粘贴。
 
+## 11. 7556 已 rebase，需求分支跟上
+
+“开发流程调优-archon-verify 优化”会话回复：!7556 已 rebase 到 `preview_train` `e0be4dfc0b`，`--force-with-lease` 推送，新 head `ffb4d4a94b`。分支共 7 个提交：原来 4 个，加上它补的问卷和附件 3 个（`8ccedc4a94`、`ab833dd283`、`ffb4d4a94b`）；range-diff 显示内容不变，无冲突；MR 描述加了“rebase 后未重跑”，squash 读回为 true，流水线 942120 已排队。
+
+助手处理：
+
+- 新的 grill 会话尚未出现，需求 worktree 干净，需求分支没有自己的提交。range-diff 确认旧的 4 个提交与新 7556 的前 4 个内容逐一相同后，用 `git reset --keep` 把 `fix/goal-final-result-delivery` 指到 `ffb4d4a94b`，仍不设上游。
+- 趁 grill 会话开始前更新交接文件：7 个提交、head `ffb4d4a94b`、rebase 已完成。现在就跟上，是因为 core-spec 写 verify 时要引用项目最新的验证能力，新增的问卷、附件入口就在这 3 个提交里。
+
 ## 待确认与待验证
 
 - 用户是否新开会话做 grill；Q1–Q6 在 grill 会话中回答，其中 Q5 按第 7 节修订后的目录。
-- 7556 的 rebase：等“开发流程调优-archon-verify 优化”会话回复，之后把需求分支换到新的 7556 上。
+- 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
