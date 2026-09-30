@@ -141,7 +141,20 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - 切换代价低：第一轮尚未回答，没有已做的决定；事实、草案和约束都在本文第 5–7 节。
 - 新会话里由用户手动输入 `/grill-with-docs`，Skill 按正常方式加载；本会话是读其说明照做。
 
-限制：本会话没有新建会话的工具，由用户在本仓库开新会话并粘贴交接提示词（原文见会话记录，要点：先读本文第 5–7 节、需求澄清文档与 sha256、需求 worktree 的 AGENTS.md 等；术语与 ADR 只写需求 worktree、不提交不推送；每轮续写本文并本地提交；不改飞书、工作项、!7424、!7435；glab 加 `--hostname`；7556 的 rebase 由其他会话负责，本会话转告）。本会话保留，负责接收 7556 rebase 的回复并转告新会话；本会话的第一轮问题作废，改在新会话回答。
+限制：本会话没有新建会话的工具，由用户开新会话并粘贴交接提示词（最初版本在会话中给出，其中有一个坏字符；后改为[交接文件](2026-09-30-goal-final-delivery-grill-handoff.md)，见第 9 节。最初版本的要点：先读本文第 5–7 节、需求澄清文档与 sha256、需求 worktree 的 AGENTS.md 等；术语与 ADR 只写需求 worktree、不提交不推送；每轮续写本文并本地提交；不改飞书、工作项、!7424、!7435；glab 加 `--hostname`；7556 的 rebase 由其他会话负责，本会话转告）。本会话保留，负责接收 7556 rebase 的回复并转告新会话；本会话的第一轮问题作废，改在新会话回答。
+
+## 9. 新会话开在哪里；为什么不能直接创建会话
+
+用户原话：
+
+> 1. 我新开不应该直接在 agent-archon 里面开吗?
+> 2. 你没有创建 session 的 api 吗? 你都有在不同 session 对话的 api, 为什么不能创建 session?
+
+答复要点：
+
+- 应该开在 agent-archon 的需求 worktree `/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery`。第 3 节里助手原本就是这样建议的，第 8 节改成本仓库是助手前后不一致。开在需求 worktree 的好处：agent-archon 的 `AGENTS.md` 自动加载，比“先读一遍”可靠；grill 写 `CONTEXT.md`、ADR，core-spec 读代码，都在这个仓库里。记录照样写到本仓库：交接文件写明用绝对路径、按本仓库 `AGENTS.md` 的约定续写并提交。开会话时选这个已有目录，不让应用另建 worktree，否则分支会变。
+- 本会话可用的会话工具包括读取、发消息、归档、改名、改模型等，但没有新建会话（`start_session`）。其他工具的说明里提到了它，说明应用有这项能力，只是没有提供给本会话；原因助手无法确认，也不能自己开启。agent-lord 可以派发外部 Claude Code 的无头任务，但 grill 需要用户逐轮回答，不适合。
+- 交接提示词改为文件 [2026-09-30-goal-final-delivery-grill-handoff.md](2026-09-30-goal-final-delivery-grill-handoff.md)，已检查没有坏字符；新会话里只输入一行引用它。原因：会话中给出的第一版提示词里“调整后再问我”一处出现了坏字符，本文此前两处坏字符也已在 `b64f70c` 修复。
 
 ## 待确认与待验证
 
