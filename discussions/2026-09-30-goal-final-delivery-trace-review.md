@@ -207,3 +207,24 @@ deliver 会话 20:05 正在问用户：复验在 Codex App 里手动跑（过不
 - 验证：假 CLI 用例 22 + 16 个通过；真实 codex 预检（默认、`--effort high`）通过；codex 以新参数在验证检出目录 `electron up` 成功（`mainUrl` 为 `app://./archon`）、`electron down` 成功、检出目录干净（session `01a0f28e-233b-7c70-8387-c259f080f8dd`）。
 - #22 推送 `d3d63ff`；#23 变基到它之上（设计记录末尾两段冲突，两段都保留），强推 `8ee7b6c`。三个 PR 的 CI 都通过、可合并。
 - 流程文档升到 v0.19。
+
+## 按顺序合入 dev-skills#21–#23，快进本机 main
+
+用户原话：
+
+> 按顺序合入三个 PR，然后本地 main 快进
+
+执行（沿用此前的 squash 合入）：
+
+| 顺序 | PR | main 上的提交 | 做法 |
+|---|---|---|---|
+| 1 | #21 里程碑检查记录与报告沿用 | `90c12c9` | 直接 squash；合入内容与 PR head `29c246a` 逐字相同 |
+| 2 | #22 run-verifier 限时、预检、验证默认不带沙箱 | `4a00174` | `rebase --onto` 只搬自己的 3 个提交到新 main，`--force-with-lease` 钉住旧 head 推送，base 改为 main；内容与变基前逐字相同 |
+| 3 | #23 删去推理强度核对、写明怎样等长任务 | `9af8ba1` | 同上，1 个提交 |
+
+- #22、#23 强推后 GitHub 没有触发 PR 的 CI。核对新旧 head 的文件树哈希完全相同（#22 都是 `84f0ebc…`，#23 都是 `065e892…`），旧 head 的 CI 已通过，本地链接检查也通过，据此合入。合入后 main 上三次推送的 CI 都通过。
+- 失误：#21 的 squash 说明里有一处坏字符（“下一个里程碑”中的“一”），扫描报了但命令没有停下就合入了。内容不受影响；改写需要强推 main，没有做。之后两次合入改为扫到坏字符就中止，#23 的说明因此被拦下一次，修正后才合入。
+- 本机 `/Users/minimax/code/github/xieshijie/dev-skills` 工作区干净，从 `46aa2d5` 快进到 `9af8ba1`。`~/.claude/skills/deliver`、`core-spec` 经 `~/.agents/skills/` 指向这个主检出，新脚本（`record-milestone-check.mjs`、`milestones.mjs`、`report-reuse.mjs`）都在，全部 `node --check` 通过；在主检出上重跑四组用例：37、23、22、16 个都通过。
+- 三个 PR 的 worktree 与分支（`dev-skills-deliver-milestone-gate`、`-verifier-runtime`、`-prompt-trim`）保留，未清理。
+
+待办：下一个需求用新版 deliver 交付后，用 `extract_trace.py` 出数字对照本次；下一批（Stop 钩子、A6 与 B7、E1）在那之后。
