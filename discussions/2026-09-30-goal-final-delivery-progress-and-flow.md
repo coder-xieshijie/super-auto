@@ -86,6 +86,16 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 - **流程文档升到 v0.16。** B 阶段末尾加交接，C 阶段从任意 worktree 开工；决定表新增“交接方式”。
 - 全量链接检查在 main 上本来就报 2 处：`prompting-claude-opus-5-5.md` 中的 `#time-signals-for-multi-agent-harnesses`、`#capability-improvements` 锚点缺失，与本次改动无关，未处理。
 
+## 追问：只限 MR，GitHub 的 PR 怎么办
+
+用户原话：
+
+> core spec 限定是 mr? 那如果是 pr 呢?
+
+答复要点：不限平台。第 9 步正文写的是“Draft MR/PR”，deliver 的平台操作写明 GitHub 用 `gh`、GitLab 用 `glab`；两个 CLI 都能开 draft 并取消（`gh pr create --draft`、`gh pr ready`；`glab mr create --draft`、`glab mr update --ready`，本机 `--help` 核对）。问题在措辞：第 9 步标题、“交付 MR”“MR 描述”、deliver 的标题和“## MR”一节只写 MR，在 GitHub 仓库上执行的 agent 可能以为只适用于 GitLab。GitHub 当前文档（curl 取得）没有写 draft PR 的套餐限制；dev-skills 是公开仓库。
+
+执行：第 9 步标题改为“开 Draft MR/PR”；core-spec 第 9 步和 deliver 开头各加一句“MR 同时指 GitHub 的 PR，Draft 对应 GitHub 的 draft PR 和 GitLab 的 Draft MR”；README 调用示例改为 `<Draft MR/PR 链接>`；设计记录写明原因，具体命令留给 CLI 帮助、不写进 Skill。提交 `af4b49a` 推到 [coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)，PR 描述同步。
+
 ## 待验证
 
 
