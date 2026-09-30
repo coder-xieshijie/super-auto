@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.14
+status: 工作稿 v0.16
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -23,15 +23,16 @@ A 仓库准备（每个仓库一次，随需求补）
 B 定义（你参与，唯一的决策阶段）
     grill-with-docs → spec.md → verify.md
     → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 冻结（记录 sha256），此后只读
+    → 两份文件提交到需求分支，开 Draft MR 交给 deliver
 C 交付（全自动，一个 owner 连续运行）
-    写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景，
+    在任意 worktree 检出需求分支 → 写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景，
       再由 subagent 对照 spec 验证（继承主 agent 的模型和推理强度）
-    → 全集自验 → 另一家模型在单独的 session 中独立验证 → MR → CI 与评审 → 可合入
+    → 全集自验 → 另一家模型在单独的 session 中独立验证 → 在交接的 MR 上推送、取消 Draft → CI 与评审 → 可合入
     只在四种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作；卡住
 D 回流：把复盘里的仓库缺口补回 A
 ```
 
-对应的 Skill：B 用 grill-with-docs 和 core-spec（产出 spec.md 与 verify.md，第 7 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）；core-spec 与 core-verify 于 2026-09-29 合并为一个 core-spec，见 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。需求文档放在哪个目录，由你在每个需求开始时指定。
+对应的 Skill：B 用 grill-with-docs 和 core-spec（产出 spec.md 与 verify.md，第 7 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）；core-spec 与 core-verify 于 2026-09-29 合并为一个 core-spec，见 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。需求文档放在哪个目录，由你在每个需求开始时指定；用于自动交付时放在目标仓库里，冻结后随需求分支交接（core-spec 第 9 步）。
 
 旧流程（v0.3–v0.6，对照）：
 
@@ -67,6 +68,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | B4 查漏 | 开新 session，用与写 spec、verify 不同的模型家族审（2026-09-29） |
 | C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
 | 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
+| 交接方式 | spec、verify 冻结后单独提交到需求分支，推送并开 Draft MR；deliver 在任意 worktree 检出这个分支，在同一个 MR 上交付，不再限定写 spec 的 worktree。Agent-Archon 放 `.harness/docs/specs/<需求>/`。plan.md 和证据按仓库规则，不允许提交时放用户指定的位置。spec 不允许推送或开 MR、或仓库规则不允许提交这两份文件时，只交本地路径（2026-09-30） |
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
 | 验证入口 | 用户可见的行为必须在用户实际使用的入口上验证（Agent-Archon 为 MCode TUI 和 Electron 桌面端）；只调接口的验证只能补充核对状态，不能代替（2026-09-30） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
@@ -155,6 +157,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.14：用户确认把“卡住”作为交付中第四种停下的情况，并要求按 agent-prompt-rules 审查的 P0、P1 修改意见提 PR（依据见 [prompt-rules-audit-astra.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit-astra.md)）。core-spec 一侧已提交 [coder-xieshijie/dev-skills#16](https://github.com/coder-xieshijie/dev-skills/pull/16)；deliver 一侧在 [coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15) 合入后跟进，包括“卡住”。
 - 2026-09-30 v0.15：用户指出 TUI 和 Electron 是 Goal 最核心的入口，不能只验证接口。verify-archon 增加这两个入口并在 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 实跑，发现 5 个只有从界面入口才看得到的产品问题；验证入口规则写入决定表。过程见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节。
 - 2026-09-30 v0.15 补充：用户要求合入，[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)–[#18](https://github.com/coder-xieshijie/dev-skills/pull/18) 已按 #15 → #16 → #17（rebase 到 main）→ #18 squash 合入（main `645bdd9`），本机 dev-skills 主检出已快进，已安装的 core-spec、deliver 直接生效。首个需求试跑见[讨论记录](../discussions/2026-09-30-goal-final-delivery.md)。
+- 2026-09-30 v0.16：用户在首个需求试跑中提出，定义阶段改为交付一个带 spec.md、verify.md 的 MR，deliver 就不用限定在同一个 worktree；用户确认采纳并要求改成默认流程。B 阶段末尾增加“提交到需求分支、开 Draft MR 交给 deliver”，C 阶段从任意 worktree 检出需求分支开工、在交接的 MR 上交付；决定表新增“交接方式”。依据与取舍见[讨论记录](../discussions/2026-09-30-goal-final-delivery-progress-and-flow.md)。Skill 改动见 [coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)（待合入）。
 
 ## 附：用户原话
 
@@ -229,3 +232,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 同意把卡住作为第四种停下，按 P0 和 P1 提 PR
 
 > tui 和 electron 这两个入口都没验证? 这是最核心的入口啊, 没验证需要验证
+
+> 这个如果改成交付一个 mr, mr有两份文件, 这样就不用限制在同一个 worktree, 是不是更好?
+
+> 同意，通知 grill 会话，同时改成默认流程提 PR

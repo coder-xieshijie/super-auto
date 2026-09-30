@@ -70,11 +70,24 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 
 代价与注意：改了第 15 节已确认的 (f) 中 spec、verify 的位置，要在 `/core-spec` 之前告诉 grill 会话；推送和开 Draft MR 提前到定义阶段；同一分支只能在一个 worktree 检出，旧 worktree 要让出；`CONTEXT.md` 必须在交接前提交，否则会留在旧 worktree；7556 若再 rebase，spec 提交的 SHA 会变，冻结以 sha256 为准；要成为默认流程，core-spec 第 8 步和 deliver 的输入需要改，流程文档升版本。
 
-状态：待用户确认。
+状态：用户已确认（见下一节）。
+
+## 用户确认：通知 grill 会话，改成默认流程
+
+用户原话：
+
+> 同意，通知 grill 会话，同时改成默认流程提 PR
+
+执行：
+
+- **通知 grill 会话。** 发消息时 grill 已结束（第四轮已答，主记录第 18 节），用户还没调用 `/core-spec`。消息写明：输出目录改为需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`；plan.md 与证据仍放本仓库；冻结后单独提交 `CONTEXT.md` 术语（之后 cherry-pick）和 spec、verify（只留开发分支），推送，开指向 `feat/verify-archon-skill` 的 Draft MR（显式 squash 并回读），需求 worktree 切到 detached；授权只覆盖这几个文件和这一个分支；spec 的交付与授权要写清的四点。grill 会话在搜索会话记录找到用户原话后，记为主记录第 19 节（`28b2a3b`），并决定执行交接前再请用户在那边确认一次。
+- **dev-skills PR：[coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)（待合入）。** core-spec 新增第 9 步“提交到需求分支，开 Draft MR 交给 deliver”；deliver 的输入改为交接信息，在任意 worktree 检出需求分支、在交接的 MR 上交付并取消 Draft，停下前推送；plan-format 允许绝对路径，冻结输入加“交接”一行；README 与两份设计记录同步。`check-delivery.mjs` 未改，三个构造用例验证了 plan.md 放在 spec 目录以外时的路径解析。
+  - Codex（`gpt-6-astra`，只读）审查 diff，报出 2 条 P0、1 条 P1，逐条核对后都成立并已修正：发布边界写成“只有交接提交和 Draft MR”，与“另行提交并推送术语、ADR”矛盾；不允许推送或开 MR 时退路却要 deliver 自己开 MR，deliver 停下前也要推送，越过授权；重新确认 spec 后一律推送，本地路径交接走不通。
+- **流程文档升到 v0.16。** B 阶段末尾加交接，C 阶段从任意 worktree 开工；决定表新增“交接方式”。
+- 全量链接检查在 main 上本来就报 2 处：`prompting-claude-opus-5-5.md` 中的 `#time-signals-for-multi-agent-harnesses`、`#capability-improvements` 锚点缺失，与本次改动无关，未处理。
 
 ## 待验证
 
-- 用户是否采纳“交接改成带两份文件的 MR”；采纳后通知 grill 会话，并决定是否改 Skill 与流程文档。
 
 - grill 子任务的结果，以及是否需要第四轮。
 - spec 的交付与授权是否写清 cherry-pick MR 的证据沿用方式。
