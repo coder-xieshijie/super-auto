@@ -261,7 +261,34 @@ Q3 的 (i) 指更正后三个选项中的“实验代码只读参考，第 11 �
 - 用户要求参考 Codex 会话 `01a0f194-2488-71d1-b430-7ef26492f816`（本机 `~/.codex/sessions/2026/09/30/rollout-2026-09-30T17-10-14-…` 与续接文件 `…T17-27-33-…`）里与 Rayna 讨论的限额构造方法。要点：Payment 测试台（`http://coverage.xaminim.com/payment`，OpenAPI `http://coverage.xaminim.com/openapi.json`）可以用接口直接设置测试账号的 5h 与 Weekly 使用率、积分余额，`POST /api/payment/token-plan/usage`（`percent`、`region`、`mode`）等；必须显式 `mode: "redis_simulation"`，接口默认 `real` 正式扣减；Weekly 需保持低使用率，否则界面优先展示周限额；客户端要关闭 Credits 自动消耗；上游 2056、2067 映射为 42212，普通限流为 50111（spec §7 的限流写法已据此改为 429、50111、50150）。
 - 由此提出的两个问题（待用户回答）：到点前手动恢复是拒绝（!7181 现状）还是真实尝试准入；是否授权 deliver 用 Payment 测试台接口构造真实额度耗尽。另说明风险：MiniMax 真实的额度错误若不带可信重置时间，托管账号上不会自动恢复。
 
+## 16. 手动恢复与额度授权；跨模型查漏第一轮
+
+用户原话：
+
+> Q1 选 (b)，Q2 授权
+
+- 到点前的手动恢复改为真实尝试（spec §7）；授权 deliver 用 Payment 测试台构造测试账号的额度耗尽（spec“交付与授权”）。verify 新增 S35（Electron）、S36（TUI）真实额度场景与工具缺口 G6。原话与选项见 original-decisions.md 5c 节。
+- core-spec 第 7 步：`codex exec`（模型 gpt-6-astra，只读）查漏第一轮，报告 [gap-check-round1.md](../requirements/goal-v2-and-feedback-fixes/gap-check-round1.md)，检查版本 spec `c3f65980…`、verify `91cecf9f…`。13 条的处置：
+
+| # | 问题 | 处置 |
+|---|---|---|
+| 1 | Payment 测试台授权缺少原始依据 | 不成立：查漏启动时 original-decisions.md 尚未补入用户最后的授权答复；已补 5c 节 |
+| 2 | 盲区替代测试没有通过门槛 | 改 verify 完成条件：每个盲区的替代测试必须通过，失败或未执行则交付不完成 |
+| 3 | S34 改变现有预算重开契约 | S34 改为接口同次 PATCH（提高、清除预算两种） |
+| 4 | TUI 把启动后失败当成未恢复 | S18、S30、S36 改为允许先 `Goal resumed.` 再显示失败；未启动的情况由 S09（预算受限被拒）、S40（等待）覆盖 |
+| 5 | S02 混淆数据保留与恢复执行 | 非 active 的五个 Goal 核对字段不变；active 的 Goal 核对身份、预算、历史占用不变，用量不小于旧值并继续执行 |
+| 6 | S03 不保证 get_goal，且比较不同时刻 | 目标要求调用一次 get_goal；比较该调用时刻的 Inspector 条数；补 verifier token 计入的检查 |
+| 7 | S07 没有制造迟到 usage | 改用 G1 暂扣响应结尾，清除并新建 Goal 后放行 |
+| 8 | S23 不保证冲突 | 新增 G7 请求屏障，S22、S23 在暂扣期间推进版本；核对暂停、清除请求不带版本 |
+| 9 | S09、S10 固定序列不能保证 | 目标要求每次响应至多一个工具调用；加前提核对，不满足时本次不计，多次不满足改由 B05 判断 |
+| 10 | 数值归属与投影漏测 | S03 补 verifier token；新增 S37（超预算不截断）、S38（崩溃未知占用）；S26 补编辑不清零；B17（evaluator）、B18（TUI 构成展示） |
+| 11 | 状态矩阵覆盖不全 | S10、S17、S39 补非 active 补充消息；S14、S27 补等待、校验时无三角；S39 补 blocked 三角；S40 补 TUI 恢复时等待；S22 补预算冲突；B16 补 TUI 重连挂接 |
+| 12 | 诊断约束未证明 | S32 补拒绝同意、数量与时间上限、原始回执排除、近期证据选取；M14 检查无常驻写文件服务 |
+| 13 | Electron 注入配置未列缺口 | 新增 G8，S10 依赖它 |
+
+修改后 verify 为 99 条要求、42 个场景（sha256 `35f31a8b…`），spec 未改。第二轮查漏进行中。
+
 ## 待确认与待验证
 
-- core-spec 进行中：手动恢复时机与 Payment 测试台授权两问待回答，之后跨模型查漏。
+- core-spec 进行中：跨模型查漏第二轮进行中。
 - 验证期待补：第 8 项 active 场景、第 10 项前台挂接、第 3 项“停止后历史消失”等需在 TUI、Electron 复现确认。
