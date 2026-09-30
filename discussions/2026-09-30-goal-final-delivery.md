@@ -302,8 +302,39 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - **Q5。** 讲了三条分支的关系、为什么开发分支要叠在 7556 上（verify-archon 只操作当前 worktree 的实例）、cherry-pick 是什么，逐项解释 (a)–(e) 的选项与建议，并说明 09:00 只是助手的建议时间。
 - **spec 与 verify 文档。** 第二轮 Q5 漏掉了第一轮提过的文档位置，这里补为 Q5 (f)。助手核对了 deliver 的规则：`plan.md` 与 spec 同目录，仓库规则不允许提交时留在本地、MR 里写摘要；证据放在 `plan.md` 旁的 `evidence/`；完成检查要求验证报告对应 MR 最终 head。建议：`spec.md`、`verify.md`、`plan.md`、`evidence/` 放本仓库 `requirements/goal-final-result-delivery/`，本地提交（录屏只留文件不提交）；agent-archon 只放派生的长期文档（Goal `changes/` 变更记录、Goal spec 的 GOAL-09/13、implementation、verification、`CONTEXT.md` 进产品提交，功能地图只进开发分支的工具提交）；MR 描述写决定摘要和两个 sha256。另外指出一个限制：`preview_train` 的 MR 是 cherry-pick 出来的，head 不同，那里也没有 verify-archon，只能靠“产品改动与已验证分支一致”沿用证据，这一条要在 spec 的交付与授权里写明。
 
+## 15. 第二轮答复；grill 第三轮
+
+用户原话：
+
+> Q1 ①，Q2 R3，Q3/Q4/Q5 同意
+
+助手按“Q5 同意”包含第 14 节补充的 (f) 理解，并在会话中请用户如有不同即指出。由此确认的决定：
+
+- **Q1：** A、B 都修；B 包括 TUI 自动化与 headless 把成功判为失败；blocked 不动；第 8 项按 B 类场景验收。
+- **Q2：** R3。已接纳的 complete 不再结束本轮，工具返回要求模型立刻写一次面向用户的最终回复（结果、文件位置、交付标记）；Desktop 把 Goal 消息过程区里的交付卡片提到结果区（取 !7424 的 UI 部分，不要“有媒体的正文优先”规则和 `deliverables`）。约束：最终回复不宣称验证已通过；verifier 口径不改；空回复重试一次仍为空时按现有流程结算，不判 Goal 失败；提示词改在 TS 常量里并同步 `.md`；`not_met` 照常续跑，前一次最终回复进过程区；complete 后模型仍调工具不加新的代码限制，作为已接受代价。
+- **Q3：** 只认正文交付标记，不新增 `deliverables`；产物面板、资产索引、IM 不改；没写标记就没卡片，最终回复仍要写出文件路径。
+- **Q4：** Desktop 实时、刷新和重启后的历史、右侧产物面板（只验证不改）；TUI 最终回复可见、自动化与 headless 完成轮不再误判，不改 TUI 代码；非目标 IM、Fork、v1、RC、Cloud；Windows 路径单测，列覆盖盲区。
+- **Q5：** 开发 MR 不合入产品代码，`preview_train` 的 MR 合入后关闭，工具改进单独交给 7556；产品提交与工具提交分开；deliver 验证后建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证分支一致，开 MR（squash=true 回读）、处理 CI，不合入；10 月 2 日 09:00 前可合入，到点未完成就停下汇报；只推两条需求分支，不推 `feat/verify-archon-skill`，不发布 Apollo、不改飞书与工作项、不动 !7424/!7435、不发消息。(f)：spec、verify、plan、evidence 放本仓库 `requirements/goal-final-result-delivery/` 并本地提交（录屏不提交）；agent-archon 只放派生的长期文档。
+
+助手补查的代码（需求 worktree `ffb4d4a94b`）：
+
+- `assistantSegments.ts` 的 `resolveActiveContent`：complete 之后还有正文时，比较 complete 前最近一段与最后一段的长度；前者更长时，它成为正文，**其余所有部分（包括 complete 之后的正文）都归入过程区**（`archiveNonActiveParts: true`，`eventParts` 为空）。子任务早先说“激活段之后的部分显示在正文下方”，只在后者更长时成立。所以按 R3，如果模型在 complete 前写了一段较长的过程文字，最终回复反而会被折叠。
+- 重复回复检测（`breaker.ts`、`settlement.ts` stage 8）只在 verifier 判 `not_met` 时计分，指纹是规范化换行后全文的 sha256，只有完全相同才算重复。R3 下最终回复进入指纹计算，连续几轮 `not_met` 且最终回复逐字相同时，会按已有的重复上限暂停为 `paused(no_progress_after_completion_claim)`；逐字相同的情况很少，作为连带影响接受，不单独提问。
+
+第三轮问题：
+
+| # | 问题 | 助手建议 |
+|---|---|---|
+| Q1 | 术语（写进需求 worktree 的 `CONTEXT.md`） | 完成提案、Goal 完成、最终回复、完成摘要、交付标记、交付卡片、卡片提升、过程区；用“最终回复”，不再另用“结果说明” |
+| Q2 | complete 之后有最终回复时，正文怎么选 | 固定取最终回复，不再比长度；只改 Goal 消息的这一分支 |
+| Q3 | 卡片提升的触发与去重 | 在 Goal 结算为 complete 时触发（与过程区折叠同时发生），不看工具调用是否成功；提升这条 Goal 消息过程区里的全部交付卡片，按规范化路径去重，正文已有的不重复；展开过程区时不再重复显示 |
+| Q4 | 同一轮已接纳 complete 后，模型再次调用 `update_goal` 提交状态 | Goal 工具拒绝（返回工具错误，不改已接纳的提案）；只改 Goal 工具，不限制其他工具 |
+| Q5 | 真实模型验收的最小集合 | Electron、TUI 各跑一次真实模型的 B 类任务（生成一个文件并完成），使用会触发子代理验证的模型路由；A 类用固定消息数据的 UI 测试覆盖；blocked 不变、非 Goal 对话不变、`not_met` 续跑用单测或脚本 provider 覆盖；deliver 的跨模型独立验证照常 |
+
+另外：本次决定都进 Goal 的 `changes/` 变更记录，不单独写 ADR。
+
 ## 待确认与待验证
 
-- 第二轮 Q1–Q5 与补充的 Q5 (f) 待用户回答（第 13、14 节）；第一轮（第 12 节）已按用户补充的前提重问，第 6 节草案已被替代。
+- 第三轮 Q1–Q5 待用户回答（第 15 节）；第二轮已答复。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
