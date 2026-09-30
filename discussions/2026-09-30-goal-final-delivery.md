@@ -520,10 +520,31 @@ dev-skills main 已合入 [coder-xieshijie/dev-skills#19](https://github.com/cod
 
 !7576 的交接提交没有 `Frozen` 两行。助手给出两种做法待用户选：这次照旧手动给两个 sha256；或在需求分支上追加一个只带两行的空提交（`read-handoff.mjs` 读取该提交时的文件内容，空提交也能通过核对，不用强推）。
 
+### Codex 审查与 PR
+
+Codex（`gpt-6-astra`，reasoning high，只读，session `01a0f158-cdeb-7662-ab30-b7904cf266ad`）审查 `a319dde` 的 diff，报出 6 条，助手全部采纳并修正：
+
+- P1：`git log HEAD` 搜全部祖先历史，新需求没有交接记录时会选中目标分支上别的需求的交接 → `read-handoff.mjs` 新增必填 `--base`（MR 目标分支），只看 `<base>..HEAD` 的第一父提交；
+- 正则扫整个提交正文，代码块里举例的两行也会命中 → 改用 git 的 `%(trailers:key=…)` 解析，重复或不完整的记录报错；
+- 路径含空格时读取端与 `check-delivery.mjs` 都解析失败 → 读取端取 ` sha256=` 前的全部内容，输出加反引号，`check-delivery.mjs` 接受反引号路径；
+- `freeze.mjs --trailers` 未比较两份文件所在仓库 → 不同仓库时拒绝；
+- 漏检已暂存的改动 → 用 `git status` 检查暂存区、工作区与冲突；
+- 旧 MR 无交接记录时的继续做法没写清 → deliver 与计划格式写明手写冻结输入。
+
+修正后在临时仓库（工作目录与文件路径均含空格）实跑 16 个用例均符合预期；在 !7576 的需求 worktree 上以 `origin/feat/verify-archon-skill` 为 `--base` 运行，返回 1 并提示向用户要 sha256。修正后没有再送审。
+
+提交 `467204a`（本地两次 amend：并入修正，修掉提交信息里的坏字符），推送 `shijie/deliver-mr-link`，开 [coder-xieshijie/dev-skills#20](https://github.com/coder-xieshijie/dev-skills/pull/20)，已绑定本会话；CI 1 项通过，GitHub 显示可合并。未合入，由用户决定。
+
+用户追问：
+
+> a/b 都是什么选项?
+
+助手解释：两者都针对 !7576（交接提交早于新规则，没有 `Frozen` 两行）。(a) 这次启动 deliver 时照旧另贴两个 sha256；(b) 在 `fix/goal-final-result-delivery` 上追加一个不改文件、只在提交信息末尾写两行的空提交并推送，此后只给 MR 链接即可，不改写历史、不强推，代价是 MR 多一个空提交。助手建议 (b)，两者都在 #20 合入后做。
+
 ## 待确认与待验证
 
 - core-spec 已完成并交接（第 22 节，!7576）；下一步由用户在新会话调用 `/deliver`，输入 MR 链接和两个 sha256（第 23 节）。
-- deliver 只收 MR 链接的改动：Codex 审查中，之后开 dev-skills PR 待用户合入（第 24 节）。
+- dev-skills#20（deliver 只收 MR 链接）待用户合入；合入后本机 dev-skills main 需快进，安装的 Skill 才生效（第 24 节）。
 - !7576 缺 `Frozen` 两行：手动给 sha256，还是追加空提交，待用户选（第 24 节）。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
