@@ -39,6 +39,7 @@
 | 2026-09-28 | [自证闭环研发流程展开](2026-09-28-self-verifying-loop.md) | 用户确认自证闭环方向；依据 OpenAI 与 Anthropic 长任务 harness 写出十阶段候选流程与产出物，五项待确认 |
 | 2026-09-29 | [自证闭环流程的六个问题](2026-09-29-flow-questions.md) | core-spec 对照、status 与 verify 的关系、plan Skill、plan 与 cross review 的分工（ExecPlan）、实现中间产物、Skill 沉淀与 Agent Lord 编排；沉淀方式已确认，其余待定 |
 | 2026-09-29 | [从零设计：人只定 spec 和 verify](2026-09-29-zero-based-delivery.md) | 用户要求推倒重来；三家共同做法、三段流程、完整步骤、节奏、plan 更新、调度、构建计划、Archon 验证能力、verify-archon 介绍、功能地图的位置与历史补齐、spec/verify/deliver Skill（dev-skills#12 已合入）、按规模分档（完整版与快速版）、spec 与 verify Skill 合并（dev-skills#13 已合入，core-spec、deliver 已安装）、执行流程与三家对齐核查、deliver 流程详解、Agent Lord 的角色、deliver 新 session 的保证、对照 agent-prompt-rules 审查（含 Astra 6 复核与修改意见；core-spec 一侧已提 dev-skills#16，“卡住”为第四种停下，deliver 其余项已提 #17，全部 Skill 的 description 审查已提 #18）、subagent 与跨模型验证（已确认：中间 subagent、最终另一家模型）、最终验证由谁发起（已确认）、deliver 验证方式 PR（dev-skills#15）；前提、B4、C 节奏、文档位置已确认，core-spec 与 deliver 已安装；功能地图放各功能专题目录，verify-archon 已提 MR（matrix/agent-archon!7556）；TUI 与 Electron 入口已补上并实跑；关闭代理后重试通过，地图缺口已盘点 |
+| 2026-09-30 | [首个需求试跑：Goal 最终结果与交付](2026-09-30-goal-final-delivery.md) | dev-skills#15–#18 已按序合入、本机 main 快进；怎样开发一个需求；需求叠在 matrix/agent-archon!7556 上（用户同意）；7556 的 rebase 转交正在改它的会话；需求 worktree 与分支 `fix/goal-final-result-delivery` 已建；grill 第一轮 Q1–Q6 待回答，Q5 文档目录按 AGENTS.md 修订 |
 
 ## 相关资料入口
 

@@ -154,6 +154,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-29 v0.13：用户确认试跑期间由 owner 发起最终验证，无人值守或多需求并行时改由 Agent Lord 派发（依据见 [verification-dispatch.md](../research/zero-based-delivery-2026-09-29/verification-dispatch.md)），并要求把 v0.12 的验证方式和审查中认可的几条合成一个 deliver PR：[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)（待合入）。
 - 2026-09-29 v0.14：用户确认把“卡住”作为交付中第四种停下的情况，并要求按 agent-prompt-rules 审查的 P0、P1 修改意见提 PR（依据见 [prompt-rules-audit-astra.md](../research/zero-based-delivery-2026-09-29/prompt-rules-audit-astra.md)）。core-spec 一侧已提交 [coder-xieshijie/dev-skills#16](https://github.com/coder-xieshijie/dev-skills/pull/16)；deliver 一侧在 [coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15) 合入后跟进，包括“卡住”。
 - 2026-09-30 v0.15：用户指出 TUI 和 Electron 是 Goal 最核心的入口，不能只验证接口。verify-archon 增加这两个入口并在 [matrix/agent-archon!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556) 实跑，发现 5 个只有从界面入口才看得到的产品问题；验证入口规则写入决定表。过程见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节。
+- 2026-09-30 v0.15 补充：用户要求合入，[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)–[#18](https://github.com/coder-xieshijie/dev-skills/pull/18) 已按 #15 → #16 → #17（rebase 到 main）→ #18 squash 合入（main `645bdd9`），本机 dev-skills 主检出已快进，已安装的 core-spec、deliver 直接生效。首个需求试跑见[讨论记录](../discussions/2026-09-30-goal-final-delivery.md)。
 
 ## 附：用户原话
 
