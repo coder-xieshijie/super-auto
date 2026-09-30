@@ -66,7 +66,7 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 3. deliver 在任意新会话、应用自建的 worktree 里开工：输入 MR 链接、spec 提交和两个 sha256，检出需求分支后在同一个 MR 上继续，最后更新描述并取消 Draft。
 4. plan.md 和证据仍不提交（按 `AGENTS.md` 第 35 行），照第 15 节 (f) 放本仓库 `requirements/goal-final-result-delivery/`，冻结输入写 spec、verify 的绝对路径。这只需要授予目录访问，不限定 worktree。
 
-好处：交接��靠 MR、提交和两个 sha256，换 worktree、换机器、以后由 Agent Lord 派发都行；冻结除 sha256 外还有 git 历史可查；评审者能在 MR 里直接读 spec，补上第 7、14 节提到的“本仓库无远端，评审者看不到 spec”。
+好处：交接只靠 MR、提交和两个 sha256，换 worktree、换机器、以后由 Agent Lord 派发都行；冻结除 sha256 外还有 git 历史可查；评审者能在 MR 里直接读 spec，补上第 7、14 节提到的“本仓库无远端，评审者看不到 spec”。
 
 代价与注意：改了第 15 节已确认的 (f) 中 spec、verify 的位置，要在 `/core-spec` 之前告诉 grill 会话；推送和开 Draft MR 提前到定义阶段；同一分支只能在一个 worktree 检出，旧 worktree 要让出；`CONTEXT.md` 必须在交接前提交，否则会留在旧 worktree；7556 若再 rebase，spec 提交的 SHA 会变，冻结以 sha256 为准；要成为默认流程，core-spec 第 8 步和 deliver 的输入需要改，流程文档升版本。
 
