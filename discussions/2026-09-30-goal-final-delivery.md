@@ -127,8 +127,23 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
   - 分支改为 `fix/goal-final-result-delivery`（见第 5 节）。
   - Q5 的文档目录需要重新定：`AGENTS.md` 规定复杂任务的临时计划、命令和验证记录放 `/tmp`、不提交，deliver 的 plan.md 因此不能进 MR。建议 spec、verify、plan、证据都放本仓库 `requirements/goal-final-result-delivery/`；agent-archon 的 MR 只含代码和长期文档（Goal spec 的 GOAL-09、GOAL-13，功能地图，`CONTEXT.md` 术语）。代价：本仓库无远端，MR 评审者看不到 spec，MR 描述要写清 spec 的决定。
 
+## 8. grill 在当前会话继续，还是新开会话
+
+用户原话：
+
+> 这个 grill 你是建议继续在当前会话, 还是新开会话, 例如你发起一个新的 session, 把上下文和要求带过去
+> 你觉得哪种更好?
+
+助手建议新开会话。理由：
+
+- core-spec 第 1 步以“当前会话”为主要依据找最终约定。本会话已用约 25 万 token，大部分是与需求无关的 dev-skills 合入、流程说明和叠分支讨论，还有许多未经确认的助手建议；新会话只有 grill 问答，找约定和给查漏方摘录“用户最终决定的原话”都更干净。
+- 这是首个需求试跑，流程规定定义阶段在一个 grill session 内完成，按原样跑，试跑结果才有参考价值。
+- 切换代价低：第一轮尚未回答，没有已做的决定；事实、草案和约束都在本文第 5–7 节。
+- 新会话里由用户手动输入 `/grill-with-docs`，Skill 按正常方式加载；本会话是读其说明照做。
+
+限制：本会话没有新建会话的工具，由用户在本仓库开新会话并粘贴交接提示词（原文见会话记录，要点：先读本文第 5–7 节、需求澄清文档与 sha256、需求 worktree 的 AGENTS.md 等；术语与 ADR 只写需求 worktree、不提交不推送；每轮续写本文并本地提交；不改飞书、工作项、!7424、!7435；glab 加 `--hostname`；7556 的 rebase 由其他会话负责，本会话转告）。本会话保留，负责接收 7556 rebase 的回复并转告新会话；本会话的第一轮问题作废，改在新会话回答。
+
 ## 待确认与待验证
 
 - Q1��Q6 的答复，其中 Q5 按第 7 节修订后的目录。
 - 7556 的 rebase：等“开发流程调优-archon-verify 优化”会话回复，之后把需求分支换到新的 7556 上。
-- 本会话同时承担 grill 与 core-spec；它的上下文里有与本需求无关的 dev-skills 合入内容，core-spec 第 1 步读“当前会话”时只取第 5 节之后与本需求相关的部分。
