@@ -227,8 +227,20 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 
 第二轮预计要问：实现路线（沿用 !7424、!7435、两者组合或其他），交付声明的机制，最终回复与验证的先后以及 verifier 判 `not_met` 时怎么显示，术语定义，真实模型验收场景。
 
+### 子任务结果（需求 worktree `ffb4d4a94b`，只读，未实跑）
+
+问题发出后三个子任务陆续完成，助手在会话中分三次转述，并说明这些不是用户的答复。要点：
+
+- **Runtime。** `update_goal` 的工具说明写着 "an accepted proposal ends the turn"；`continuation.md` 写着 "verify the completion evidence, immediately call update_goal with status "complete", and stop"。所有提示词都没有要求先交付再提交完成，6 个 Goal 提示词登记在 `managed-prompts.json` 的 desktop_agent 下。Turn 先结算为完成，再跑 Goal 结算和 verifier；Goal 完成时只发 `thread_goal.updated`，不往会话写任何消息；runtime 也不检测“无最终文本”。`not_met` 时 Goal 保持 active，排一个隐藏续跑 Turn，复用可见 user 消息的 query_key；验证模式为 none 时直接变成 `complete(worker_proposal)`。通用的空回复恢复 `terminal-response-recovery` 在生产装配中没有接上。
+- **Desktop。** 可见正文默认取最后一段 text；只有 complete 之后还有正文时，才拿 complete 前最近一段和最后一段比长度。更早轮次的长报告不参与这个比较。整条合并消息一段正文都没有时，过程区被强制展开，用户只看到“提交目标状态”。右侧产物面板和会话资产索引读整条消息的 `msg_content`，包含折叠段，所以 A 路径的卡片缺失主要发生在对话视图。完成标记和横幅读 Goal store，不读消息。
+- **TUI。** 没有整轮折叠：工具调用前的正文以 `·` preamble 保留在屏幕上，交付标记渲染为 `Created  file ↗`。`Runtime completed without a final assistant response` 只在 build-mode 状态栏加 `MCODE_TUI_RESULT_PATH` 的自动化模式（verify-archon 会设这两项）和 headless 的 `requireAnswer` 下出现；判定只认最后一次工具调用之后的 assistant 单元，complete 前写好的正文也不算数。普通交互式 TUI 按代码推断不报错。
+- **其他入口。** IM 只投递 `channel:*`、`questionnaire` 来源的 Turn，Goal 续跑来源是 `thread-goal`，按推断不会投递。RC 只转发 Goal 事件。
+- **!7424 与 !7435。** 两者都能各自干净合入 `e0be4dfc0b` 和 `c94c1b65b8`，互相之间有 4 个文件冲突，提示词直接矛盾。!7424 的最新流水线 typecheck 失败，失败文件不在它的改动里，疑似基线问题，未核实；MCode review 的两个 P1（Fork 投影、有媒体的正文优先会把后面完整的正文折叠）未修；卡片提升只看工具调用成功，不看 Host 结算。!7435 让 accepted complete 不结束本轮，“只回复一次”只靠提示词约束，没有代码限制；为 complete 这一种情况装配了空回复恢复；没改 TUI；由作者 2026-09-29 自己关闭，MR 上没有说明原因。
+
+据此修正第一轮的两处描述（建议不变）：Q1 的“TUI 假报错”改为“TUI 自动化与 headless 把成功判成失败”；Q4 的 TUI 部分改为“结果说明可见；自动化与 headless 下完成那一轮不再是 `EMPTY_RESPONSE` 或 `state=fail`；文件入口沿用现有的 `Created` 行”。另一个影响第二轮的事实：在 TUI 自动化判定下，complete 之前写好的结果说明仍会被判为空；complete 之后再生成一次回复则不会。
+
 ## 待确认与待验证
 
 - 第一轮 Q1–Q5 待用户回答（第 12 节）；第 6 节草案已被替代。
-- 三个只读子任务的结果，第二轮使用。
+- 三个只读子任务已完成，结果见第 12 节，第二轮使用。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
