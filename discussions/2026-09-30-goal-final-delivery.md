@@ -286,8 +286,24 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - Q2 的约束“提示词措辞对老客户端也成立”依据不成立，删去。改为：提示词改在 TS 常量里，`.md` 同步成相同措辞，随客户端发布生效，不需要 Apollo；md 与 TS 原有的其他差异不顺手对齐。
 - Q5(e) 的“不发布 Apollo”保留为授权边界，但它不再是上线前置条件；第一轮“合入后由用户发布 Apollo”的建议作废。
 
+## 14. 用户要求解释 Q2、Q5；spec 与 verify 文档怎么处理
+
+用户原话（依次三条）：
+
+> /explain-as-fool 详细解释下 q2 的问题, 我没理解
+
+> 在解释下 q5
+
+> 在这个过程中产生的 spec 和 verify 的 MD 文档，你会怎么处理？
+
+助手答复要点：
+
+- **Q2。** 从零讲了现状：`update_goal(complete)` 一被接纳就结束本轮，随后跑 verifier；Desktop 把同一问题下的多轮合成一条，只露最后一段文字。用 Ronny 案例讲 B 路径，用 6CPQVW0J 讲 A 路径。逐个说明 a、b′、R1、R2、R3 的做法、改动范围，以及对 A、B、TUI 的效果。解释了建议 R3 的理由和每条附带约束，并指出最需要用户权衡的两条：两次都写空时不判 Goal 失败；complete 后不加代码限制。
+- **Q5。** 讲了三条分支的关系、为什么开发分支要叠在 7556 上（verify-archon 只操作当前 worktree 的实例）、cherry-pick 是什么，逐项解释 (a)–(e) 的选项与建议，并说明 09:00 只是助手的建议时间。
+- **spec 与 verify 文档。** 第二轮 Q5 漏掉了第一轮提过的文档位置，这里补为 Q5 (f)。助手核对了 deliver 的规则：`plan.md` 与 spec 同目录，仓库规则不允许提交时留在本地、MR 里写摘要；证据放在 `plan.md` 旁的 `evidence/`；完成检查要求验证报告对应 MR 最终 head。建议：`spec.md`、`verify.md`、`plan.md`、`evidence/` 放本仓库 `requirements/goal-final-result-delivery/`，本地提交（录屏只留文件不提交）；agent-archon 只放派生的长期文档（Goal `changes/` 变更记录、Goal spec 的 GOAL-09/13、implementation、verification、`CONTEXT.md` 进产品提交，功能地图只进开发分支的工具提交）；MR 描述写决定摘要和两个 sha256。另外指出一个限制：`preview_train` 的 MR 是 cherry-pick 出来的，head 不同，那里也没有 verify-archon，只能靠“产品改动与已验证分支一致”沿用证据，这一条要在 spec 的交付与授权里写明。
+
 ## 待确认与待验证
 
-- 第二轮 Q1–Q5 待用户回答（第 13 节）；第一轮（第 12 节）已按用户补充的前提重问，第 6 节草案已被替代。
+- 第二轮 Q1–Q5 与补充的 Q5 (f) 待用户回答（第 13、14 节）；第一轮（第 12 节）已按用户补充的前提重问，第 6 节草案已被替代。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
