@@ -81,7 +81,7 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 执行：
 
 - **通知 grill 会话。** 发消息时 grill 已结束（第四轮已答，主记录第 18 节），用户还没调用 `/core-spec`。消息写明：输出目录改为需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`；plan.md 与证据仍放本仓库；冻结后单独提交 `CONTEXT.md` 术语（之后 cherry-pick）和 spec、verify（只留开发分支），推送，开指向 `feat/verify-archon-skill` 的 Draft MR（显式 squash 并回读），需求 worktree 切到 detached；授权只覆盖这几个文件和这一个分支；spec 的交付与授权要写清的四点。grill 会话在搜索会话记录找到用户原话后，记为主记录第 19 节（`28b2a3b`），并决定执行交接前再请用户在那边确认一次。
-- **dev-skills PR：[coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)（待合入）。** core-spec 新增第 9 步“提交到需求分支，开 Draft MR 交给 deliver”；deliver 的输入改为交接信息，在任意 worktree 检出需求分支、在交接的 MR 上交付并取消 Draft，停下前推送；plan-format 允许绝对路径，冻结输入加“交接”一行；README 与两份设计记录同步。`check-delivery.mjs` 未改，三个构造用例验证了 plan.md 放在 spec 目录以外时的路径解析。
+- **dev-skills PR：[coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)（已合入，见最后一节）。** core-spec 新增第 9 步“提交到需求分支，开 Draft MR 交给 deliver”；deliver 的输入改为交接信息，在任意 worktree 检出需求分支、在交接的 MR 上交付并取消 Draft，停下前推送；plan-format 允许绝对路径，冻结输入加“交接”一行；README 与两份设计记录同步。`check-delivery.mjs` 未改，三个构造用例验证了 plan.md 放在 spec 目录以外时的路径解析。
   - Codex（`gpt-6-astra`，只读）审查 diff，报出 2 条 P0、1 条 P1，逐条核对后都成立并已修正：发布边界写成“只有交接提交和 Draft MR”，与“另行提交并推送术语、ADR”矛盾；不允许推送或开 MR 时退路却要 deliver 自己开 MR，deliver 停下前也要推送，越过授权；重新确认 spec 后一律推送，本地路径交接走不通。
 - **流程文档升到 v0.16。** B 阶段末尾加交接，C 阶段从任意 worktree 开工；决定表新增“交接方式”。
 - 全量链接检查在 main 上本来就报 2 处：`prompting-claude-opus-5-5.md` 中的 `#time-signals-for-multi-agent-harnesses`、`#capability-improvements` 锚点缺失，与本次改动无关，未处理。
@@ -95,6 +95,18 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 答复要点：不限平台。第 9 步正文写的是“Draft MR/PR”，deliver 的平台操作写明 GitHub 用 `gh`、GitLab 用 `glab`；两个 CLI 都能开 draft 并取消（`gh pr create --draft`、`gh pr ready`；`glab mr create --draft`、`glab mr update --ready`，本机 `--help` 核对）。问题在措辞：第 9 步标题、“交付 MR”“MR 描述”、deliver 的标题和“## MR”一节只写 MR，在 GitHub 仓库上执行的 agent 可能以为只适用于 GitLab。GitHub 当前文档（curl 取得）没有写 draft PR 的套餐限制；dev-skills 是公开仓库。
 
 执行：第 9 步标题改为“开 Draft MR/PR”；core-spec 第 9 步和 deliver 开头各加一句“MR 同时指 GitHub 的 PR，Draft 对应 GitHub 的 draft PR 和 GitLab 的 Draft MR”；README 调用示例改为 `<Draft MR/PR 链接>`；设计记录写明原因，具体命令留给 CLI 帮助、不写进 Skill。提交 `af4b49a` 推到 [coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)，PR 描述同步。
+
+## 合入 dev-skills#19，本机 main 快进
+
+用户原话：
+
+> 合入 #19，然后本地 main 快进
+
+执行：
+
+- 合入前 PR 为 `MERGEABLE`、`CLEAN`，head `af4b49a`，CI 通过。沿用此前的 squash 合入，main 上的提交为 `8a6213d`，main 上这次推送的 CI 通过。
+- 本机 `/Users/minimax/code/github/xieshijie/dev-skills` 从 `a3319f4` 快进到 `8a6213d`。`~/.agents/skills/core-spec`、`deliver` 指向这个主检出，`~/.claude/skills/` 下的两个入口指向前者，新版本直接生效。
+- grill 会话此后调用 `/core-spec` 会加载带第 9 步的新版本，与发给它的交接做法一致；如果它在合入前已经加载过旧版本，就按消息里的步骤执行。
 
 ## 待验证
 
