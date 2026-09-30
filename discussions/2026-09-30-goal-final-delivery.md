@@ -203,7 +203,32 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - 新的 grill 会话尚未出现，需求 worktree 干净，需求分支没有自己的提交。range-diff 确认旧的 4 个提交与新 7556 的前 4 个内容逐一相同后，用 `git reset --keep` 把 `fix/goal-final-result-delivery` 指到 `ffb4d4a94b`，仍不设上游。
 - 趁 grill 会话开始前更新交接文件：7 个提交、head `ffb4d4a94b`、rebase 已完成。现在就跟上，是因为 core-spec 写 verify 时要引用项目最新的验证能力，新增的问卷、附件入口就在这 3 个提交里。
 
+## 12. grill 会话开始：核对与第一轮问题
+
+来源：新的 Claude Code 会话。用户手动调用 `/grill-with-docs`，参数引用[交接文件](2026-09-30-goal-final-delivery-grill-handoff.md)。助手按 Skill 加载 grilling，domain-modeling 按全局约定读 `~/.agents/skill-library/domain-modeling/SKILL.md`。
+
+核对与读取：
+
+- **会话位置与交接文件不符。** 应用为本会话另建了 worktree `/Users/minimax/.claude/worktree/agent-archon/quirky-gagarin-c32e50`（分支 `shijie/kind-tharp-99f07f`，`preview_train` `c94c1b65b8`），没有开在需求 worktree。自动加载的 `AGENTS.md` 来自这个 worktree，与需求 worktree 的版本只差几个提交。`CONTEXT.md` 和 ADR 仍用绝对路径写到需求 worktree，已为需求 worktree 和本仓库申请目录访问。
+- 需求 worktree 的 `fix/goal-final-result-delivery` 在 `ffb4d4a94b`，工作区干净；需求澄清.md 的 sha256 与交接文件一致。
+- 已读：需求澄清.md 全文；需求 worktree 的 `CONTEXT.md`（还没有 Goal 术语）、Goal spec 的 GOAL-09/10/13/14/15、`feature-map/completion.md`、ADR README、Goal 文档入口；core-spec 的 SKILL.md，确认 spec 需要目的、非目标、硬约束、交付与授权四项，grill 应提前把这些问到。
+- 新发现：Goal 文档入口要求每次修复在 `.harness/docs/goal/changes/` 写一条变更记录，并同步 spec、implementation、verification、feature-map；verify-archon 只操作“当前 worktree”启动的实例，需求分支要带着 7556 的提交才能用它验证。
+- 后台开了三个只读子任务：runtime 侧 accepted complete 之后的时序与提示词登记；Desktop、TUI 各展示面现状；!7424 与 !7435 的 diff 对比。结果用于第二轮。
+
+第一轮问题替代第 6 节草案。改动：草案 Q6（术语）依赖 Q2 的答案，移到第二轮；新增 blocked 是否纳入、Windows 验收方式、截止时间、7556 未及时合入的兜底、Apollo 发布归属、Goal 变更记录。
+
+| # | 问题 | 助手建议 |
+|---|---|---|
+| Q1 | 修哪几条路径：A 折叠；B complete 结束 Turn 无最终回复；B 在 TUI 上的假报错；`update_goal(blocked)` 同样结束 Turn | A 和 B 都修，TUI 假报错算 B 的一部分；blocked 不动；第 8 项按 B 类场景验收，不要求证明同一轨迹 |
+| Q2 | 收口后用户至少看到什么：a 只保证卡片；b 卡片加模型写给用户的结果说明；b′ 把 `update_goal.summary` 直接显示为结果说明；c 更早轮次的完整报告也默认展开 | b。附两条：结果说明不得宣称还没发生的验证已通过；更早的完整报告正文可留在过程区，但其中的交付卡片要提到结果区。已接受代价：6CPQVW0J 类场景默认看不到前一轮长报告全文 |
+| Q3 | 模型没声明的文件：a 只保证已声明的；b 自动发现 | a。一个都没声明时不出卡片，写进已接受代价；结果说明仍要告诉用户文件在哪 |
+| Q4 | 入口与平台范围 | 必须满足：Desktop 实时对话、刷新和重启后的历史（含分页）、右侧产物面板；TUI 要显示结果说明，不再出现假报错和 `state=fail`，TUI 是否展示文件入口等子任务核实后第二轮定。非目标：IM、Fork、v1、RC、Cloud。Windows 路径解析用单测覆盖，不做 Windows 真机验收，列为覆盖盲区 |
+| Q5 | 交付、授权、时间与文档位置 | 截止时间由用户给出；截止前 7556 未合入，就把需求提交 rebase 到 `preview_train`、MR 改指向 `preview_train`，产品文件不变时沿用真机证据、重跑单测和 CI；deliver 可推需求分支、开 MR（显式 squash=true 并回读）、处理 CI，不合入、不发布 Apollo、不改飞书与工作项、不动 !7424/!7435、不发消息；Apollo 提示词由用户在合入后发布，列为上线前置条件；spec、verify、plan、证据放本仓库 `requirements/goal-final-result-delivery/`，agent-archon 的 MR 含代码、Goal spec、功能地图、`CONTEXT.md` 术语和一条 Goal 变更记录 |
+
+第二轮预计要问：实现路线（沿用 !7424、!7435、两者组合或其他），交付声明的机制，最终回复与验证的先后以及 verifier 判 `not_met` 时怎么显示，术语定义，真实模型验收场景。
+
 ## 待确认与待验证
 
-- 用户是否新开会话做 grill；Q1–Q6 在 grill 会话中回答，其中 Q5 按第 7 节修订后的目录。
+- 第一轮 Q1–Q5 待用户回答（第 12 节）；第 6 节草案已被替代。
+- 三个只读子任务的结果，第二轮使用。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
