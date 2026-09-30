@@ -18,9 +18,10 @@ Goal 收口时，用户不用追问就能在对话里读到做成了什么、交
 
 - [x] (2026-09-30 16:10+08:00) 开工：在 owner worktree 检出需求分支 @ 50bd49ec08，冻结哈希核对通过（check-delivery --frozen-only）。
 - [x] (2026-09-30 16:30+08:00) 基线冒烟（接口）：PONG、Goal 跑到 complete(verifier_met)、有 goal.verification_dispatched；证据 evidence/baseline-api/。基线完成轮最后一条助手消息带 update_goal、之后没有文字（B 类复现）。
-- [ ] M1 runtime：complete 不结束本轮、拦截工具、空回复重试一次、提示词（S02、S03；B2 测试）
-- [ ] M2 Desktop：正文取最终回复、卡片提升（S01；B1、B5 测试；G1 重载能力）
-- [ ] M3 文档：Goal spec/implementation/verification/changes；功能地图与 verify-archon（仅开发分支）
+- [x] (2026-09-30 16:35+08:00) M1 runtime 代码与测试：405b113e07；措辞修正 395433de8e（S02 的最终回复写了 "Verified by reading…"，改为要求把自查写成检查）。S03 在 405b113e07 跑通（evidence/m1-api/），S02 跑通（evidence/m1-tui/，TUI 冒烟 PONG 同时通过）。里程碑检查进行中。
+- [x] (2026-09-30 16:50+08:00) M2 Desktop：e4742a609d；B1/B5 UI 测试 14 条通过；S01 在 e4742a609d（+未提交的 reload 脚本）跑通，含重载（evidence/m2-electron/，Electron 冒烟 PONG 同时通过）。里程碑检查进行中。
+- [x] (2026-09-30 17:05+08:00) G1 与功能地图（仅开发分支）：4abb95d974；M3 产品文档：dd1b1e1b93。
+- [ ] 最终 head 上重跑冒烟集、S01–S03、回归范围单测
 - [ ] 独立验证（跨模型）
 - [ ] 开发 MR 更新描述、取消 Draft
 - [ ] 上线 MR：fix/goal-final-result-delivery-preview-train → preview_train，CI
@@ -59,9 +60,37 @@ Goal 收口时，用户不用追问就能在对话里读到做成了什么、交
 
 ## 验证与验收
 
-- `V=.agents/skills/verify-archon/scripts/verify-archon.mjs`；改代码后 `node $V prepare runtime tui electron`，每个入口 `up` 时 `--evidence-dir` 指向 super-auto 本目录 `evidence/<入口>-<阶段>`。
-- 冒烟集（接口）：`/tmp/gfd-smoke-api.sh <runId> <前缀>`（内容按 verify.md 冒烟集：PONG、lifecycle 接口“跑到终态”、snapshot）。
-- 场景命令：实现后补齐（S01 的结构读取、选择器；S03 的 turn 结构与 Inspector 读取）。
+- `V=.agents/skills/verify-archon/scripts/verify-archon.mjs`（在需求 worktree 根目录执行）；改代码后 `node $V prepare runtime tui electron`，每个入口 `up` 时 `--evidence-dir` 指向 super-auto 本目录 `evidence/<阶段>-<入口>`。环境里没有代理变量，`tui up`、`electron up` 不需要 `--no-proxy`。
+- 本目录 `tools/gfd-turn-facts.mjs <快照前缀> [--tui]`：从 snapshot 读出完成那一轮 `update_goal`（accepted complete）之后的消息与工具、最终回复、Inspector 中 `update_goal` 结果之后的那次请求与响应（是否同一 turn、响应里有无 hello.html 的交付标记与路径、有无 tool_use）、`goal.turn_settled`/`goal.verification_dispatched` 与最终回复的先后。
+
+冒烟集：
+- 接口：`up`、`doctor`；新建会话发 PONG；lifecycle“创建”(count.txt, token_budget 80000) 后 `poll` 到终态并 `snapshot`（S03 脚本 `/tmp/gfd-smoke-api.sh <runId> <前缀>`，内容同 verify-archon SKILL“冒烟”和 lifecycle 地图“接口”）。判定：历史有 `PONG` 助手消息、无 `messages-rewound` 帧；Goal `complete(verifier_met)`、count.txt 为 1..3、runtime 事件有 `goal.verification_dispatched`。
+- Electron：`electron up` 后关闭“模型上新”弹窗；首页 `electron type --testid message-textarea --value "Reply with exactly the word PONG and nothing else."`、`electron click --testid send-button`、`electron wait --testid assistant-segment-active`，`electron text --testid assistant-segment-active` 为 PONG，`electron count --testid goal-completion-marker` 为 0。
+- TUI：S02 之后在同一实例 `tui type "Reply with exactly the word PONG and nothing else."`、`tui wait --status state=done`，屏幕有 PONG，`tui-results.jsonl` 该轮 `succeeded`。
+
+S01（Electron，冒烟之后同一实例）：
+1. `electron click --role button --name "新建任务"`；`electron click --text "智能授权" --exact`；`electron click --text "始终授权" --exact`；`electron type --testid message-textarea --value "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`；`electron click --testid send-button`；`electron wait --testid thread-goal-banner --timeout 60`。
+2. 会话 ID：`api GET /minimax-desktop/api/v1/agent/mavis/session --on electron` 取 `created_at` 最新；`poll /minimax-desktop/api/v1/session/$S/goal --on electron --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason,goal.turns_used --interval 3 --timeout 420 --save e-run`。
+3. `snapshot --session $S --on electron --save s01`；`electron screenshot --save s01-complete`。
+4. 读数：`electron text --testid assistant-segment-active`；`electron aria --selector '[data-testid="assistant-segment-active"]' --save s01-body-aria`；结果区卡片 `electron count --selector '[data-testid="assistant-segment-active"] [data-testid="deliver-assets-card"]:has-text("hello.html")'` 与 `electron count --testid goal-lifted-delivery-cards`（结果区包括正文下方的提升卡片）。
+5. `electron click --selector '[data-testid="assistant-segment-active"] [data-testid="deliver-assets-card"] [data-testid="file-display"]'`（卡片若在提升区，把前缀换成 `[data-testid="goal-lifted-delivery-cards"]`）；内置浏览器打开后 `electron click --role button --name "关闭 Mini App 提示"`（有提示时）、`electron click --testid file-panel-browser-address-input`、`electron aria --selector '[data-testid="file-panel-browser-address-input"]' --save s01-preview-address` 读到 `file:///…/workspace/hello.html`，标签页标题为页面 `<title>`；`electron press --key Escape`。
+6. `electron click --testid turn-process-trigger`；`electron count --selector '[data-testid="message-item"][data-role="assistant"] [data-testid="deliver-assets-card"]:has-text("hello.html")'`。
+7. `electron click --testid workspace-button`；`electron text --testid workspace-panel`。
+8. `electron reload --save s01-after-reload`；`electron wait --role button --name "新建任务" --timeout 90`（应用回到原会话）；重复 4、6、7；另读 `goal-completion-marker`、`thread-goal-banner-status`。
+9. 历史、事件、Inspector：`node tools/gfd-turn-facts.mjs <evidence>/NNN-s01`。
+
+S02（TUI）��`/tmp/gfd-s02.sh <evidence 子目录>`，即 `tui up`；`tui type "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`；`tui wait --text "Goal complete" --timeout 420 --save tui-s02`；`tui screen --all --save tui-s02-screen`；`tui snapshot --save s02`。读 `tui-results.jsonl`（完成轮 `status`、`answer`、`error`）、屏幕（`Update Goal` 之后的 `●` 回复、`Created  hello.html ↗`、`✓ Goal complete`、无 `× Error`、状态栏 `state`），`node tools/gfd-turn-facts.mjs <evidence>/NNN-s02 --tui`（Inspector 与事件）。
+
+S03（接口）：`/tmp/gfd-s03.sh <evidence 子目录>`，即 verify.md S03 的五步（新建会话 `{"title":"s03"}`）。判定用 `node tools/gfd-turn-facts.mjs <evidence>/NNN-s03`（`requestAfterCompletion.sameTurn`、`toolsRequestedAfterCompletion`、`history.toolCallsAfterCompletion`、`order.finalReplyBeforeDispatch`、事件里 `verification_decided verdict=met` 与 `state_transitioned to=complete`），`s03-after` 快照的 `-workspace/after.txt` 与 Goal 状态。
+
+回归范围单测（在需求 worktree 根目录）：
+- `node scripts/test/focused-vitest.mjs --package @mavis/goal test/unit/thread-goal/tool-impls.test.ts test/unit/thread-goal/reply-fingerprint.test.ts test/unit/thread-goal/final-reply.test.ts test/unit/thread-goal/tool-defs.test.ts test/unit/thread-goal/continuation.test.ts`
+- `node scripts/test/focused-vitest.mjs --package @mavis/local-runtime-v2 src/application/agent/goal-budget-tool-policy.test.ts src/service/turn-system/execution/turn-continuation.service.test.ts src/application/agent/goal-final-reply-extension.test.ts`
+- `node scripts/test/focused-vitest.mjs --package @mavis/local-runtime test/unit/thread-goal/host-integration-settlement.test.ts test/unit/thread-goal/host-integration-final-reply.test.ts`
+- `node scripts/test/focused-vitest.mjs --package @mavis/ui --config vitest.config.ts test/unit/components/assistantSegments.test.ts test/unit/components/coalesceAssistantMessages.test.ts test/unit/components/MessageContainer-GoalFinalReply.test.tsx`
+- `node scripts/test/focused-vitest.mjs --package @mavis/agent-extension test/terminal-response-recovery.test.ts`
+- `node scripts/test/focused-vitest.mjs --package @mavis/tui test/unit/headless-settlement.test.ts test/unit/tui-delegation-terminal-settlement.test.ts`（路径以仓库实际为准）
+- `node scripts/test/focused-vitest.mjs --package @mavis/shared test/unit/asset-markup.test.ts`
 
 ## 幂等与恢复
 
