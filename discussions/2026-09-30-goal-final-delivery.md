@@ -504,9 +504,26 @@ dev-skills main 已合入 [coder-xieshijie/dev-skills#19](https://github.com/cod
 
 可选的流程改动（未执行，待用户决定）：deliver 改为从交接提交的提交信息读取 sha256，并检查之后没有提交改过这两份文件，这样只给 MR 链接即可；代价是核对依据不再来自用户本人。属于 dev-skills 的改动。
 
+## 24. 把 deliver 改成只收 MR 链接
+
+用户原话：
+
+> 把 deliver 改成只收 MR 链接
+
+助手在 dev-skills 新建 worktree `/Users/minimax/code/github/xieshijie/dev-skills-deliver-mr-link`（分支 `shijie/deliver-mr-link`，从 `origin/main` `8a6213d`），本地提交 `a319dde`：
+
+- core-spec：`freeze.mjs` 新增 `--trailers`，两份文件配套且在 git 仓库里时输出 `Frozen-Spec: <仓库内路径> sha256=<值>`、`Frozen-Verify: …` 两行；第 9 步要求交接提交的提交信息以这两行结尾，重新确认的新交接提交也带；最终回复把 MR 链接作为 deliver 唯一需要的输入。
+- deliver：输入只要 MR/PR 链接；新增 `scripts/read-handoff.mjs`，在检出需求分支的 worktree 里从 HEAD 找最新的交接提交，核对记录值、之后无提交改动、工作区未改，用户另给 sha256 时以用户为准，输出 plan.md 冻结输入三行（交接一行带作者和时间）；找不到交接提交或只交本地路径时仍向用户要 sha256。plan 格式、README、两份设计记录同步。
+- 取舍写进设计记录：核对依据从用户手里的 sha256 变为交接提交记录的值；有人另加带新 `Frozen` 两行的提交并同时改文件时无法发现，缓解是记录交接提交的作者与时间、用户给的值优先。
+- 验证：两个脚本在临时 git 仓库实跑 12 类用例均符合预期，包括与 `check-delivery.mjs --frozen-only` 的衔接；在真实需求 worktree（!7576，交接早于本规则）上返回 1 并提示向用户要 sha256；三个脚本 `node --check` 通过；全仓库链接检查通过。测试中发现并改掉两处：删去会与工作区核对冲突的 `--ref` 选项；`--trailers` 失败时不再先打印 OK。
+- 进行中：Codex 只读审查这份 diff，之后开 PR，由用户决定是否合入。
+
+!7576 的交接提交没有 `Frozen` 两行。助手给出两种做法待用户选：这次照旧手动给两个 sha256；或在需求分支上追加一个只带两行的空提交（`read-handoff.mjs` 读取该提交时的文件内容，空提交也能通过核对，不用强推）。
+
 ## 待确认与待验证
 
 - core-spec 已完成并交接（第 22 节，!7576）；下一步由用户在新会话调用 `/deliver`，输入 MR 链接和两个 sha256（第 23 节）。
-- 是否改 deliver 为只收 MR 链接，待用户决定（第 23 节）。
+- deliver 只收 MR 链接的改动：Codex 审查中，之后开 dev-skills PR 待用户合入（第 24 节）。
+- !7576 缺 `Frozen` 两行：手动给 sha256，还是追加空提交，待用户选（第 24 节）。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
