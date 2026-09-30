@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.18
+status: 工作稿 v0.19
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -77,7 +77,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变判定的决定；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
 | 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、记录早于之后的提交（晚了只能由用户放行）。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 待合入） |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 待合入） |
-| 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；verify 要驱动图形界面时 codex 用不带沙箱的 `--unsandboxed`（与另两家权限相同）；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 待合入） |
+| 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；验证时三个 CLI 默认都不带沙箱（codex 用 `-s danger-full-access` 并关审批，claude `bypassPermissions`，mcode `--permission full`），查漏仍用只读沙箱；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 待合入） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23） |
 
@@ -166,6 +166,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.16 补充：用户要求合入，dev-skills#19 已 squash 合入 main（`8a6213d`），main 上的 CI 通过；本机 dev-skills 主检出已快进，已安装的 core-spec、deliver 直接生效。
 - 2026-09-30 v0.17：首个需求试跑的复盘发现，deliver 在 M1 提交后没做里程碑检查就开始 M2，检查到 M2 做完才一起开，M1 的问题晚发现，三个入口全部重跑；原因是这一步不在 owner 照着走的 plan 清单里，也没有脚本把关。用户确认三条改法，写入决定表“里程碑检查的顺序与把关”；dev-skills 尚未修改。依据见[复盘](../research/goal-final-delivery-trace-2026-09-30/README.md)第 5.4 节与[讨论记录](../discussions/2026-09-30-goal-final-delivery-trace-review.md)。
 - 2026-09-30 v0.18：用户要求每条建议有三家依据、说明限制，并按 agent-prompt-rules 少写 prompt、只做边界。复核后（[研究档案第 6 节](../research/goal-final-delivery-trace-2026-09-30/README.md)），用户同意：B1 改为由脚本核对、计划格式不加勾选项；run-verifier 加不带沙箱的 codex 选项；报告沿用改为只在差异仅限测试、文档、lint 配置时由脚本判断；试行 Stop 钩子；按“一次一项、先机制后 prompt”的顺序上线。第一批 PR：[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21)（里程碑检查记录与报告沿用，含 B2 的一句）、[#22](https://github.com/coder-xieshijie/dev-skills/pull/22)（run-verifier 限时、预检、无沙箱选项）、[#23](https://github.com/coder-xieshijie/dev-skills/pull/23)（删去核对推理强度、写明怎样等长任务），叠放、按序合入。grill 的输入与提问边界（A1、A2）写成本仓库的 [grill 交接模板](grill-handoff-template.md)，不改上游 Skill。Stop 钩子、改动范围检查（A6、B7）、坏字符钩子（E1）留到下一批。
+- 2026-09-30 v0.19：用户要求验证环节去掉沙箱，默认使用 codex CLI 时就不带沙箱。此前 #22 让 codex 默认带沙箱、要图形界面时再加 `--needs-gui --unsandboxed`；改为三个 CLI 验证时都不带沙箱，去掉这两个选项，查漏仍用只读沙箱。codex 以新参数起 Electron 已实测成功。改动推到 [coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22)，#23 随之变基。
 
 ## 附：用户原话
 
@@ -256,3 +257,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 都同意，按你建议的顺序提 PR
 
 （2026-09-30；第二句回复复核后的五项待决定：B1 改由脚本核对、C3、改写后的 C4、N1、上线顺序。）
+
+> run Verify 这个环节，去掉沙箱。默认使用 code CLI 的时候就是不带沙箱的状态，现在是这样的吗？
+
+（2026-09-30；“code CLI”按上下文理解为 codex CLI。）

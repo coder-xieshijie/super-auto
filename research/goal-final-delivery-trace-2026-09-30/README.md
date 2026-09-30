@@ -297,6 +297,8 @@ token 的大头是缓存读取：deliver 2.36 亿、grill 0.79 亿（1M 上下�
 
 ### 6.6 用户的决定（2026-09-30）
 
+用户随后追加：验证环节默认去掉沙箱，三个 CLI 都不带沙箱运行，替代 C3 原先“显式选项”的写法（流程文档 v0.19）。
+
 用户：“都同意，按你建议的顺序提 PR”。下面五项全部采纳，第一批 PR 为 [coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21)–[#23](https://github.com/coder-xieshijie/dev-skills/pull/23)，详见讨论记录。原来的待决定项：
 
 1. **B1 改为由脚本核对。** 已确认的 B1（里程碑一节加三个勾选项）与 OpenAI ExecPlan 的格式规定相反，作用也被 B3 覆盖；建议不改计划格式，由 B3 保证。

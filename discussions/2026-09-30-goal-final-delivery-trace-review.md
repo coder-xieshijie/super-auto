@@ -189,3 +189,21 @@ deliver 会话 20:05 正在问用户：复验在 Codex App 里手动跑（过不
 - **#22**：`run-verifier.mjs` 边跑边写日志和状态文件；总时长（默认 90 分钟）和停滞（默认 20 分钟没有证据变化）两个上限，到了就结束整个进程组并换 CLI；`--preflight` 开工时先试一次；`--needs-gui` 时 codex 须加 `--unsandboxed`；`--effort` 显式设推理强度；审查后补了进程组清理、信号、按流解码和流式输出。core-spec 的跨模型调用说明同步改掉“不许去掉沙箱”。
 - **#23**：删去核对子代理推理强度；加一句等长任务的环境知识（后台运行、结束通知、会退出的 CI 轮询脚本，不靠 `ScheduleWakeup`）；不加“等待前报状态”。
 - 对 owner 只多两个动作：开工跑一次预检；每轮里程碑检查多一条命令存报告。其余由脚本自动完成。
+
+## 追问：验证环节默认去掉沙箱
+
+用户原话：
+
+> run Verify 这个环节，去掉沙箱。默认使用 code CLI 的时候就是不带沙箱的状态，现在是这样的吗？
+
+“code CLI”按上下文理解为 codex CLI。
+
+核对当时 #22 的状态：codex 默认带沙箱（`-s workspace-write`），要显式加 `--unsandboxed` 才不带，加了 `--needs-gui` 却没加 `--unsandboxed` 会直接报错；claude 用 `bypassPermissions`，用户的 `settings.json` 里 sandbox 没有 `enabled: true`，不带沙箱；mcode 用 `--permission full`，运行日志里 `sandboxEnabled: false`。答复：不是，只有 codex 默认带沙箱。
+
+执行：
+
+- `run-verifier.mjs`：验证时 codex 改用 `-s danger-full-access -c approval_policy=never`，去掉 `--needs-gui`、`--unsandboxed`；调用记录的 `sandbox` 写 `none (...)`。查漏（core-spec）只读代码，仍用 `-s read-only`，没改。
+- deliver、跨模型调用说明、设计记录相应修改；#22 的标题和描述改为“验证时默认不带沙箱”。
+- 验证：假 CLI 用例 22 + 16 个通过；真实 codex 预检（默认、`--effort high`）通过；codex 以新参数在验证检出目录 `electron up` 成功（`mainUrl` 为 `app://./archon`）、`electron down` 成功、检出目录干净（session `01a0f28e-233b-7c70-8387-c259f080f8dd`）。
+- #22 推送 `d3d63ff`；#23 变基到它之上（设计记录末尾两段冲突，两段都保留），强推 `8ee7b6c`。三个 PR 的 CI 都通过、可合并。
+- 流程文档升到 v0.19。
