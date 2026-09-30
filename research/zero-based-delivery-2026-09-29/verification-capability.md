@@ -503,3 +503,10 @@ Windows；TUI、Remote Control、Electron 界面入口；地图中标为未实�
 - Windows 与 Remote Control。
 - Electron 上的预算、附件、问卷，TUI 上的附件、问卷。
 - 各地图里标为"尚未实跑"的子功能。
+
+更正（2026-09-30）：上文"本会话沙箱的代理"说错了。核实结果：
+- `HTTPS_PROXY`、`HTTP_PROXY=http://127.0.0.1:7897` 是 Claude 桌面端启动 Claude Code 时带进来的环境变量，关掉沙箱后依然存在；shell 配置和 launchctl 里都没有。
+- 7897 端口是本机 Clash 的代理端口，系统代理是关闭的。
+- 经 Clash 访问 `matrix-pre.xaminim.com`、`gitlab.xaminim.com`、`npmmirror.xaminim.com` 都连接失败，直连分别返回 200、302、200。
+
+所以原因是 Clash 这个代理访问不到公司内网，与沙箱无关。GitLab API 那次也是去掉代理变量才成功的。`--no-proxy` 的做法和结论不变。
