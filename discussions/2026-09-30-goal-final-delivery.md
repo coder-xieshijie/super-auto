@@ -421,9 +421,34 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 
 grill 结束：设计树的所有分支已走到，没有未定项。需求 worktree 的 `CONTEXT.md` 已写入 8 个术语（未提交）；不写 ADR，决定进 Goal `changes/` 变更记录。下一步由用户在本会话调用 `/core-spec`，spec 与 verify 写入本仓库 `requirements/goal-final-result-delivery/`。
 
+## 19. spec 与 verify 改为随开发 MR 交接
+
+来源：“目标交付与开发流程澄清”会话（`local_c37d557a-2d46-413d-85e4-e64f63ec0e7b`）发来的跨会话消息，不是用户在本会话中的输入。消息转述用户在该会话的原话：
+
+> 同意，通知 grill 会话，同时改成默认流程提 PR
+
+依据和取舍见[进度盘点与开发流程](2026-09-30-goal-final-delivery-progress-and-flow.md)的“追问：交接改成一个带两份文件的 MR”一节。本会话的核对：用会话检索在该会话记录中找到了这句原话；该节的状态行当时仍写着“待用户确认”，属于那边尚未更新。agent-archon `AGENTS.md` 第 35 行只要求临时计划、命令和验证记录不提交；需求 worktree 的 `.harness/docs/specs/` 下有 138 项，其中已有按需求建的子目录（如 `sandbox/`、`in-app-payment/`）。
+
+变更内容（替代第 14、15 节 (f) 中 spec、verify 放本仓库的约定；plan 与证据的位置不变）：
+
+1. `/core-spec` 的输出目录改为需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`（`spec.md`、`verify.md`）。
+2. `plan.md` 和 `evidence/` 仍放本仓库 `requirements/goal-final-result-delivery/`，由 deliver 写并在本仓库本地提交，不进 MR；冻结输入写 spec、verify 的绝对路径。
+3. 用户确认冻结后，由本会话交接：
+   - 在 `fix/goal-final-result-delivery` 上单独提交 `CONTEXT.md` 术语（产品一侧，之后 cherry-pick 到 `preview_train`）；
+   - 再单独提交 spec、verify（与功能地图一样只留在开发分支，不 cherry-pick）；
+   - 只 add 这几个文件，提交规范按 agent-archon `AGENTS.md`；
+   - 推送该分支，开指向 `feat/verify-archon-skill` 的 Draft MR，显式设置 squash 并用 API 回读；描述写明它是本需求的开发 MR、不合入，spec 与 verify 已冻结并附两个 sha256，代码由 deliver 在同一 MR 上继续提交；
+   - 把需求 worktree 切为 detached，让出分支。
+4. 授权：上述提交、推送、开 Draft MR 只覆盖交接文件里“不提交、不推送”一条，限于这些文件和这一个分支；其余边界不变（不推 `feat/verify-archon-skill`，不改飞书与工作项，不动 !7424/!7435，不发消息；glab 加 `--hostname`、去掉代理变量）。本会话会在用户确认冻结时，请用户在本会话同时确认交接操作，再执行。
+5. spec 的“交付与授权”要写清：开发 MR 就是交接用的 Draft MR，deliver 在它上面继续；spec、verify 的提交不 cherry-pick；`preview_train` 那条 MR 怎样沿用证据；冻结以 sha256 为准，7556 再 rebase 时提交 SHA 会变。
+6. 交接完成后告知用户：MR 链接、spec 提交的 SHA、两个 sha256、两份文件在仓库内的路径、`plan.md` 应放的本仓库路径。deliver 可以在任意新会话和 worktree 里开工。
+
+core-spec 与 deliver 会另提 dev-skills PR，把这种交接改成默认流程；本需求不等该 PR 合入。
+
 ## 待确认与待验证
 
-- grill 已结束（第 18 节）；待用户在本会话调用 `/core-spec`，产出写入 `requirements/goal-final-result-delivery/`。
+- grill 已结束（第 18 节）；待用户在本会话调用 `/core-spec`，spec 与 verify 写入需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`（第 19 节）。
+- 冻结后的交接（提交、推送、开 Draft MR、让出分支）执行前，请用户在本会话确认。
 - 需求 worktree 的 `CONTEXT.md` 已写入术语，未提交；deliver 开工后并入产品提交。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
