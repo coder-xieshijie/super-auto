@@ -17,7 +17,7 @@ Goal 收口时，用户不用追问就能在对话里读到做成了什么、交
 ## 进度
 
 - [x] (2026-09-30 16:10+08:00) 开工：在 owner worktree 检出需求分支 @ 50bd49ec08，冻结哈希核对通过（check-delivery --frozen-only）。
-- [x] (2026-09-30 16:30+08:00) 基线冒烟（接��）：PONG、Goal 跑到 complete(verifier_met)、有 goal.verification_dispatched；证据 evidence/baseline-api/。基线完成轮最后一条助手消息带 update_goal、之后没有文���（B 类复现）。
+- [x] (2026-09-30 16:30+08:00) 基线冒烟（接口）：PONG、Goal 跑到 complete(verifier_met)、有 goal.verification_dispatched；证据 evidence/baseline-api/。基线完成轮最后一条助手消息带 update_goal、之后没有文字（B 类复现）。
 - [ ] M1 runtime：complete 不结束本轮、拦截工具、空回复重试一次、提示词（S02、S03；B2 测试）
 - [ ] M2 Desktop：正文取最终回复、卡片提升（S01；B1、B5 测试；G1 重载能力）
 - [ ] M3 文档：Goal spec/implementation/verification/changes；功能地图与 verify-archon（仅开发分支）
@@ -54,7 +54,7 @@ Goal 收口时，用户不用追问就能在对话里读到做成了什么、交
 ## 里程碑
 
 - **M1 runtime。** `@mavis/goal`：已接纳的 complete 不再 `endTurn`，返回写最终回复的要求；工具说明与提示词常量同步，`.md` 同步；新增 Goal 最终回复扩展（拦截工具、空回复重试一次、两次空回复按正常结束）。测试：Goal 工具单测、turn-continuation 单测按新语义更新；新增脚本 provider 驱动的 runtime 集成测试（B2 各用例）。场景：S03、S02；回归范围的 runtime 与 TUI 单测。
-- **M2 Desktop。** Goal 消息正文取 complete 之后的最后一段文字；Goal 结算为 complete 时把过程区交付��片提升到结果区，按规范化路径去重，展开过程区不重复。补 verify-archon `electron reload`（G1，单独提交，只留开发分支）。测试：assistantSegments、MessageContainer 固定消息数据用例（B1）、Windows 路径（B5）。场景：S01。
+- **M2 Desktop。** Goal 消息正文取 complete 之后的最后一段文字；Goal 结算为 complete 时把过程区交付卡片提升到结果区，按规范化路径去重，展开过程区不重复。补 verify-archon `electron reload`（G1，单独提交，只留开发分支）。测试：assistantSegments、MessageContainer 固定消息数据用例（B1）、Windows 路径（B5）。场景：S01。
 - **M3 文档。** Goal `spec.md`（GOAL-09、GOAL-13）、`implementation.md`、`verification.md`、`changes/2026-09-30-goal-final-result-delivery.md`；功能地图与 verify-archon 说明（只留开发分支）。
 
 ## 验证与验收
