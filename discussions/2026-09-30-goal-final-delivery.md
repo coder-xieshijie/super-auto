@@ -547,10 +547,24 @@ Codex（`gpt-6-astra`，reasoning high，只读，session `01a0f158-cdeb-7662-ab
 
 助手用表格对比两项：(a) 不改任何东西，启动 deliver 时给 MR 链接加两个 sha256，不用等 #20；(b) 在需求分支追加只写两行 trailer 的空提交并推送，之后只给 MR 链接，需在 #20 合入、本机 dev-skills main 快进后由助手执行并用新脚本实跑确认。建议仍为 (b)，想立即开始则选 (a)。
 
+## 25. 合入 dev-skills#20，快进本机 main；deliver 已按 (a) 启动
+
+用户原话：
+
+> 先合入 #20 并快进 main
+> 我已经通过a启动了deliver了
+
+执行：
+
+- [coder-xieshijie/dev-skills#20](https://github.com/coder-xieshijie/dev-skills/pull/20) 按此前惯例 squash 合入，main 上为 `46aa2d5`（2026-09-30 08:27:45Z）；main 推送后的 CI 为 success。
+- 本机 `/Users/minimax/code/github/xieshijie/dev-skills` 工作区干净，`git merge --ff-only origin/main` 快进到 `46aa2d5`；安装目录 `~/.agents/skills/deliver`、`core-spec` 已是新版（有 `read-handoff.mjs`，说明含 `--trailers`），三个脚本 `node --check` 通过。
+- 用户已在另一个会话按 (a) 启动 deliver（MR 链接加两个 sha256），(b) 不再执行，!7576 不追加记录提交。该 deliver 会话在调用时已读入旧版说明，会按用户给的 sha256 走；快进后它调用的脚本变为新版，其中对旧脚本的唯一改动是 `check-delivery.mjs` 的冻结输入解析，兼容原写法，不影响它。
+- dev-skills 的 worktree `dev-skills-deliver-mr-link` 与分支 `shijie/deliver-mr-link` 保留，未清理。
+
 ## 待确认与待验证
 
-- core-spec 已完成并交接（第 22 节，!7576）；下一步由用户在新会话调用 `/deliver`，输入 MR 链接和两个 sha256（第 23 节）。
-- dev-skills#20（deliver 只收 MR 链接）待用户合入；合入后本机 dev-skills main 需快进，安装的 Skill 才生效（第 24 节）。
-- !7576 缺 `Frozen` 两行：手动给 sha256，还是追加空提交，待用户选（第 24 节）。
+- core-spec 已完成并交接（第 22 节，!7576）。
+- dev-skills#20 已合入，本机 main 已快进（第 25 节）。
+- deliver 已由用户在另一会话按 (a) 启动；交付进展由该会话负责（第 25 节）。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
