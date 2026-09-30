@@ -36,8 +36,26 @@
 - 可以就地补：工具执行前先查原文，查不到再让模型猜，把补好的内容换进工具输入再执行，并告诉 agent 补了哪几处、哪几处是猜的。补不出来（调用失败、超时）才拦下让 agent 自己改。
 - 直接回复用户的文字不经过工具，钩子改不了。
 
-## 钩子的做法（本机，未实现）
+## 本机钩子（2026-09-30 装好）
 
-- `~/.claude/settings.json` 的 PreToolUse 钩子。没有丢字时立即退出。
-- 返回 `hookSpecificOutput.updatedInput`（整体替换工具输入），不设 `permissionDecision`，权限照常判断；用 `additionalContext` 告诉 agent 补了什么。依据：Claude Code hooks 文档，“Replaces the entire input object”；Agent SDK hooks 文档，“If you omit `permissionDecision`, the modified input still applies and flows through the normal permission evaluation”（CLI 的 hooks 页没有写省略时的行为，要实测）。
-- 在钩子里调用 `claude -p` 要用干净环境（只保留 `HOME`、`PATH`、`USER`），否则桌面应用注入的托管认证变量会让它报 “Not logged in”；`haiku` 别名在本机网关上映射到无法识别的模型，要写明模型 ID。
+- 脚本 `~/.claude/hooks/restore-lost-chars.py`，测试 `~/.claude/hooks/test-restore-lost-chars.py`，日志 `~/.claude/hooks/restore-lost-chars.log`（每次补字一行 JSON）。`~/.claude/settings.json` 的 PreToolUse 加了一项，matcher `*`，超时 90 秒；原有两项 PreToolUse 钩子未动。钩子不进 dev-skills，也不进任何仓库。
+- 做法：工具执行前扫工具输入里连续 2 个及以上的 U+FFFD，单个的不管。每处依次尝试：
+  1. Edit 的 `old_string`：整段在目标文件里唯一出现，就按文件原文补。
+  2. 前后各 6、12、24 个字在会话已有文本（用户消息、工具结果，读 transcript 末尾 32 MB）或目标文件里唯一出现，就按原文补。
+  3. 其余一次批量交给模型猜，给前后各 80 个字，要码点。答案缺失或字数不对的交给下一个模型。
+- 补上后用 `updatedInput` 换掉工具输入，不设 `permissionDecision`；`additionalContext` 告诉 agent 补了哪几处、哪几处是猜的；`systemMessage` 给用户一句“已补回 N 处丢字”。还有没补上的：Write、Edit、NotebookEdit 照常执行并告诉 agent 去改；其他工具拒绝执行（`deny`），让 agent 补上后重调，避免带坏字的命令、提交说明或消息发出去。
+- 模型：直连本机网关（读 `settings.json` 的 `ANTHROPIC_BASE_URL`、`ANTHROPIC_CUSTOM_HEADERS` 和 `apiKeyHelper`），先 `qw-mid-5`（网关上的 Sonnet 档），失败再 `claude-opus-5`；可用 `RESTORE_LOST_CHARS_MODELS` 改。不用嵌套的 `claude -p`：它要干净环境才能认证，每次还要启动整个 Claude Code。
+- 选型数据（[eval_hook_guess.py](eval_hook_guess.py)，同一批 60 处，每处单独一次调用，与钩子一致）：
+
+| 配置 | 猜中 | 中位用时 | 90 分位 | 没有答案 |
+|---|---|---|---|---|
+| `qw-mid-5`，关思考 | 41/60 | 3.0 秒 | 3.8 秒 | 0 |
+| `qw-mid-5`，默认思考 | 44/60 | 3.6 秒 | 5.1 秒 | 1 |
+| `claude-opus-5`，默认思考 | 29/60 | 4.1 秒 | 8.2 秒 | 22 |
+
+  Opus 的 22 处没有答案，多是网关返回“safeguards flagged this message”，所以只作后备。钩子用 `qw-mid-5` 的默认思考。
+- 验证：
+  - 测试 13 项全部通过：干净输入不输出，单个 U+FFFD 不动，会话原文补回，文件原文补回，模型猜测，补不上时 Bash 拒绝、Write 照常执行并提示，一处丢两个字，JSON 转义输入，异常输入。
+  - 没有丢字时每次调用约 44 毫秒。
+  - 在本会话里实测：Write 一处按会话原文补对（“本[地] main”）；Bash 一处猜错，“补上”猜成“补还”，agent 收到了“猜测”的标注。
+- 局限：猜测约四分之三正确；直接回复用户的文字不经过工具，管不到；有意写连续 U+FFFD 的内容（例如引用坏字的记录）也会被补，需要时用 `\ufffd` 转义。
