@@ -365,9 +365,28 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - 最终回复生成中用户停止、进程重启，或本轮以失败结束时，已接纳的提案怎么结算，重启后会不会续跑。
 - 最终回复生成中用户“立即发送”补充消息，是注入当前 Goal Turn 还是排队。
 
+## 17. 新窗口里的状态；grill 第四轮与汇总
+
+子任务结果（需求 worktree `ffb4d4a94b`，只读）：只要本轮不是以 completed 结束，已收集的完成提案都会被丢弃，不进入验证。
+
+- Host 结算只收 `completed | failed | aborted`；stage3 在验证之前：failed 走 `goalFailureTransition`（`settlement.ts:325-331`，按失败类别映射为 `usage_limited`、`blocked(safety_policy)` 或 `paused(infra_retryable)`），aborted 返回 stopped、不写 Goal 状态；提案只在 stage9 落库。
+- 用户 Stop 会先把 Goal 暂停为 `paused(user_requested)`（`conversation-application.ts:299-305`、`lifecycle.ts:326-331`），提案作废。
+- 重启：binding 和信号都在进程内存里，重启后丢失；孤儿 Turn 记为 failed，Goal 仍为 active，启动恢复提交新的隐藏续跑 Turn（`kickoff-host.ts`）。
+- `terminates_turn` 只和 `endTurn` 一起写入。complete 不再 terminate 后，若断在 update_goal 之后、最终回复之前，会像其他被打断的 Goal Turn 一样提供“继续”；测试 `turn-continuation.service.test.ts:43-97` 钉住了现有行为，需要随实现更新。
+- 立即发送对 Goal Turn 没有特判：本轮 turn_end 带 toolCall 时注入当前 Turn；最终回复不带工具调用，所以用户消息退回队列，作为新 Turn。子任务推断这个窗口今天已小范围存在（steer 在 terminate 边界前到达时），未跑测试。
+- `terminal-response-recovery` 第二次仍为空时以 `terminal_empty` 失败，分类里没有专门分支，推断落为 `paused(infra_retryable)`（未确认）。所以第三轮定下的“两次都回空按正常结束结算”，实现时不能沿用 !7435 的失败路径。
+
+助手的处理：用户停止、重启、立即发送都沿用现有规则，作为默认告知用户，请用户有异议时指出；`complete` 不再写 `terminates_turn`，blocked 与 stale 照旧，作为实现约束，不提问。只有“写最终回复时模型服务出错”会比现在更差，作为第四轮唯一的问题：
+
+| # | 问题 | 助手建议 |
+|---|---|---|
+| Q1 | 写最终回复时模型服务出错（限流、额度用完、网络错误）：(i) 已接纳的提案照常进入验证；(ii) 沿用现有失败处理，提案作废，恢复后重做 | (ii)：窗口只有一次回复的时间；限流和额度用完时验证器大概率也会失败；不改结算里的失败分类。代价是这种情况下用户要手动恢复一次 |
+
+同时，助手在会话中给出全部决定的汇总（目的、范围、做法、交付声明、入口、验收、已接受代价、交付、文档），请用户回答 Q1 并确认理解一致；确认后 grill 结束，由用户在本会话调用 `/core-spec`。
+
 ## 待确认与待验证
 
-- 第三轮已答复（第 16 节）；新窗口里的停止、重启、失败与立即发送，待子任务结果决定是否需要第四轮。
+- 第四轮 Q1 与决定汇总待用户确认（第 17 节）；确认后 grill 结束，用户在本会话调用 `/core-spec`。
 - 需求 worktree 的 `CONTEXT.md` 已写入术语，未提交；deliver 开工后并入产品提交。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
