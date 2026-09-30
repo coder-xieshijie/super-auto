@@ -337,7 +337,20 @@ Q3 的 (i) 指更正后三个选项中的“实验代码只读参考，第 11 �
 
 修改后 verify `009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61`（102 条要求、44 个场景、21 个盲区、16 项机械检查），spec 不变 `2287ea872016cdbd8cb186697f863530c948fc59546a762fccb45fd9fbd0134a`。这些修改没有再经另一家模型复查。verify 在用户确认之后有变化，需用户重新确认后再提交交接。
 
+## 20. 重新确认冻结；交接
+
+用户原话：
+
+> 确认冻结
+
+确认的版本：spec `2287ea872016cdbd8cb186697f863530c948fc59546a762fccb45fd9fbd0134a`，verify `009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61`。按 core-spec 第 9 步：
+
+- 需求分支 `feat/goal-v2-and-feedback-fixes`：`preview_train` `3962b648ff` + !7556 的 7 个提交（cherry-pick，内容与 `ffb4d4a94b` 一致）+ 术语提交 `ffed5ec6ee` + 交接提交 `350965f50f`（只含 spec.md 与 verify.md，提交信息以 `Frozen-Spec`、`Frozen-Verify` 两行结尾，文件 sha256 与确认值一致）。已推送。
+- Draft MR：[matrix/agent-archon!7595](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595)，`feat/goal-v2-and-feedback-fixes` → `preview_train`，显式 `squash=true` 并回读确认；描述写明交付 MR 身份、两个 sha256、!7556 随本 MR 合入、IDL 合入顺序、不自动合入、10 月 8 日 09:00 目标。首次提交的描述有两处乱码，已用 API 更新并回读确认。
+- 本会话 worktree 已切到 detached（`350965f50f`），deliver 可在任意 worktree 检出需求分支。MR 已绑定到本会话的 PR 栏；当前为纯文档 MR，按用户全局规则不查询 CI。
+- deliver 开工只需 MR 链接。
+
 ## 待确认与待验证
 
-- 待用户重新确认 verify `009d61aa…`（spec 不变），之后提交交接提交、推送并开 Draft MR。
+- 交接完成，等待用户用 deliver 在 !7595 上开工。
 - 验证期待补：第 8 项 active 场景、第 10 项前台挂接、第 3 项“停止后历史消失”等需在 TUI、Electron 复现确认。
