@@ -273,8 +273,21 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 | Q4 | 入口范围（重问） | Desktop 实时、刷新和重启后的历史、右侧产物面板（现有读取已覆盖折叠段，只验证不改）；TUI 结果说明可见、自动化与 headless 完成轮不再误判，R2/R3 下不改 TUI 代码；非目标 IM、Fork、v1、RC、Cloud；Windows 路径单测，列覆盖盲区 |
 | Q5 | 交付流程细节 | 开发 MR 只用于开发和验证，不合入产品代码；产品提交与 7556 专属文件分开提交；deliver 验证后从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证分支一致，开 MR（squash=true 并回读）、处理 CI，不合入；10 月 2 日 09:00 前做到可合入，到点未完成就停下汇报；不发布 Apollo、不改飞书与工作项、不动 !7424/!7435，不推送 `feat/verify-archon-skill`，不发消息 |
 
+### 提示词来源的核查结果，修正第二轮的一个前提
+
+子任务（需求 worktree `ffb4d4a94b`，只读）与助手的补充核对：
+
+- `packages/local-runtime-v2/src/application/session/runtime-prompt-support.ts:37` 把远端 Prompt 写死为 `enabled: false`。这是 Ronny 2026-09-18 的 hotfix `b0748ff03f`（main hotfix 同步到 `preview_train`），已在 `origin/main` 和 `origin/preview_train` 上，`inside-v3.0.73-1` 起的 tag 都包含它；Ronny 案例的客户端是 3.0.73。
+- 客户端实际使用的 Goal 提示词是 `@mavis/goal` 的 TS 常量（`packages/agent-modules/goal/src/continuation.ts` 的 `DEFAULT_*_TEMPLATE` 等），随客户端发布，不读 Apollo。`workflow/goal/*.md` 只有 `mcode exec`（`promptMode: 'tui'`）会读，而且和 TS 常量已经不一致。`update_goal` 的工具说明和工具返回写死在代码里，不在 `managed-prompts.json` 中。
+- verify-archon 的 runtime-server 加载 `local-runtime-v2/dist`，交互式 TUI 和 Electron dev 都不传 `promptMode`，所以用的都是构建产物里的 TS 常量；改 TS 后要重新 build 再验证。
+
+对第二轮的修正（已在会话中告知用户，建议不变）：
+
+- Q2 的约束“提示词措辞对老客户端也成立”依据不成立，删去。改为：提示词改在 TS 常量里，`.md` 同步成相同措辞，随客户端发布生效，不需要 Apollo；md 与 TS 原有的其他差异不顺手对齐。
+- Q5(e) 的“不发布 Apollo”保留为授权边界，但它不再是上线前置条件；第一轮“合入后由用户发布 Apollo”的建议作废。
+
 ## 待确认与待验证
 
 - 第二轮 Q1–Q5 待用户回答（第 13 节）；第一轮（第 12 节）已按用户补充的前提重问，第 6 节草案已被替代。
-- 三个只读子任务已完成，结果见第 12 节；提示词来源的子任务进行中。
+- 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
