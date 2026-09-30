@@ -445,9 +445,19 @@ grill 结束：设计树的所有分支已走到，没有未定项。需求 work
 
 core-spec 与 deliver 会另提 dev-skills PR，把这种交接改成默认流程；本需求不等该 PR 合入。
 
+## 20. core-spec：spec 与 verify 初稿，跨模型查漏
+
+用户在本会话调用 `/core-spec`（从讨论开始，走第 1–8 步）。
+
+- **第 1–4 步。** 按第 12–19 节的最终约定写出 spec：需求 worktree `.harness/docs/specs/goal-final-result-delivery/spec.md`，初稿 sha256 `c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`。结构为五条核心决定（complete 不结束本轮写最终回复；之后拦下全部工具调用、两次空回复按正常结束；Goal 完成时卡片提升、正文取最终回复；只认交付标记；控制影响范围）加九组完整约束和“交付与授权”。
+- **第 5 步按入口和状态补查。** 新确认三点：结算时预算用尽会先判 `budget_limited` 并排预算总结，提案不进入验证（`store-bound-settlement.ts:75`、`settlement.ts` stage4），最终回复的消耗可能让临近上限的 Goal 进入该状态，这是“结算保持现状”的直接结果，写进 spec §3 表格与已接受代价，确认时单独提示用户；`mcode exec` 没有创建 Goal 的入口，headless 列为覆盖盲区；TUI 自动化结果为 `ExecResultV1`，误判时 `status: failed`、`error.code: EMPTY_RESPONSE`。另核对产物面板按路径去重（`workspace-collector.ts`），“面板只验证不改”不冲突。
+- **第 6 步 verify。** `verify.md` 与 spec 同目录：38 条要求、3 个场景（S01 Electron、S02 TUI、S03 接口，均为真实模型的 B 类任务）、1 个工具缺口（G1 Electron 保留数据重载）、5 个覆盖盲区（B1 Desktop 展示非默认输入用固定消息数据的 UI 测试；B2 runtime 非默认路径用脚本 provider 集成测试；B3 重启；B4 headless；B5 Windows），盲区的判断方式按用户第三轮 Q5 的决定。`freeze.mjs` 检查通过。
+- **第 7 步查漏输入。** 用户每轮原话与对应问题、选项整理为 [original-decisions.md](../requirements/goal-final-result-delivery/original-decisions.md)。用 `codex exec -s read-only` 启动第一轮查漏，报告写到 `requirements/goal-final-result-delivery/gap-check-round1.md`。
+- 一处更正待告知用户：第四轮称选 (b) 后“立即发送也不会插进这一轮”，不完全准确。模型在被拦前仍可能尝试调用工具，此时本轮 turn_end 带工具调用，立即发送按现有规则会注入当前轮；spec 按用户确认的“立即发送沿用现有规则”书写，不另加约束。
+
 ## 待确认与待验证
 
-- grill 已结束（第 18 节）；待用户在本会话调用 `/core-spec`，spec 与 verify 写入需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`（第 19 节）。
+- core-spec 进行中（第 20 节）：跨模型查漏第一轮运行中；之后请用户一次确认并冻结。
 - 冻结后的交接（提交、推送、开 Draft MR、让出分支）执行前，请用户在本会话确认。
 - 需求 worktree 的 `CONTEXT.md` 已写入术语，未提交；deliver 开工后并入产品提交。
 - 只读子任务均已完成，结果见第 12、13 节。
