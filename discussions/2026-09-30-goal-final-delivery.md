@@ -239,8 +239,42 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 
 据此修正第一轮的两处描述（建议不变）：Q1 的“TUI 假报错”改为“TUI 自动化与 headless 把成功判成失败”；Q4 的 TUI 部分改为“结果说明可见；自动化与 headless 下完成那一轮不再是 `EMPTY_RESPONSE` 或 `state=fail`；文件入口沿用现有的 `Created` 行”。另一个影响第二轮的事实：在 TUI 自动化判定下，complete 之前写好的结果说明仍会被判为空；complete 之后再生成一次回复则不会。
 
+## 13. 用户补充前提；grill 第二轮
+
+用户原话：
+
+> 在补充几个前提
+>
+> 1. 本次的 修复 要控制影响范围, 因为本次封板的核心需求不是 goal, 所以要避免改动过多而造成影响扩散
+> 2. 创建的 mr 应该是向 feat/verify-archon-skill 这个分支合入, 因为是要利用这个分支的 skill 和功能地图
+> 3. 截止时间就是 10.2 中午 12 点, 我的想法是往这个 feature 分支创建代码，到时候再单独 cherry-pick 出一个需求，只合入 preview train。因为它的核心不是为了解决本次的 goal，所以要尽量控制范围，但又需要复用我们之前讨论的那些 skill 的能力。
+
+用户没有逐条回答第一轮 Q1–Q4，这几题在第二轮按新前提重问。由原话直接定下（用户明确指定）：
+
+- **硬约束：** 控制影响范围。10 月 2 日封板的核心需求不是 Goal，改动不能扩散。
+- **开发 MR：** `fix/goal-final-result-delivery` 指向 `feat/verify-archon-skill`，复用该分支的 verify-archon 和功能地图。
+- **截止：** 10 月 2 日 12:00 前合入 `preview_train`。
+- **上线方式：** 从开发分支 cherry-pick 出单独的需求分支，只合入 `preview_train`。
+
+助手补查的事实：
+
+- `preview_train`（`e0be4dfc0b`）上已有 Goal 的 `spec.md`、`implementation.md`、`verification.md`、`changes/`；功能地图和 verify-archon 只在 7556 的分支上，cherry-pick 的提交不能碰这两处。
+- `governance:merge-strategy` 只约束目标为 `preview_train` 和 `main` 的 MR。
+- Apollo `prompt_desktop_agent` 只有一套 Stable，灰度按用户分桶，不按客户端版本区分（prompt-release-prep 及其路径生命周期文档）。新提示词会同时下发给老客户端；如果写成“提交完成后再交付”，老客户端上完成后就结束本轮，会重现 B 路径。
+- 后台新开只读子任务：verify-archon 起的本地实例读的是仓库里的 Goal 提示词还是 Apollo 版本，工具说明和工具返回是否受 Apollo 控制。
+
+第二轮问题：
+
+| # | 问题 | 助手建议 |
+|---|---|---|
+| Q1 | 修哪几条路径（重问） | A 和 B 都修（9/28 书面承诺折叠、9/30 答应 Ronny），blocked 不动；TUI 表述按第 12 节修正 |
+| Q2 | 结果说明怎么来（合并了原 Q2 与实现路线）：R3 = complete 后留一次最终回复 + Desktop 折叠段卡片提升；R2 = 只做前者；R1 = 保留结束本轮、提示词要求先交付；b′ = 显示 `summary`；a = 只提升卡片 | R3。约束：最终回复不宣称验证已通过；verifier 口径不改；空回复重试一次仍为空时按现有流程结算，不因缺最终回复判 Goal 失败（与 !7435 不同）；提示词写成“先交付，再或同时提交完成”，对老客户端也成立，complete 之后那次回复的指令放在工具返回里（代码随客户端发布）；`not_met` 照常续跑，前一次最终回复进过程区；complete 后模型仍调工具不加新的代码限制，列为已接受代价 |
+| Q3 | 交付声明 | 只认正文里的交付标记，不新增 `deliverables` 字段；产物面板、资产索引、IM 都不改 |
+| Q4 | 入口范围（重问） | Desktop 实时、刷新和重启后的历史、右侧产物面板（现有读取已覆盖折叠段，只验证不改）；TUI 结果说明可见、自动化与 headless 完成轮不再误判，R2/R3 下不改 TUI 代码；非目标 IM、Fork、v1、RC、Cloud；Windows 路径单测，列覆盖盲区 |
+| Q5 | 交付流程细节 | 开发 MR 只用于开发和验证，不合入产品代码；产品提交与 7556 专属文件分开提交；deliver 验证后从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证分支一致，开 MR（squash=true 并回读）、处理 CI，不合入；10 月 2 日 09:00 前做到可合入，到点未完成就停下汇报；不发布 Apollo、不改飞书与工作项、不动 !7424/!7435，不推送 `feat/verify-archon-skill`，不发消息 |
+
 ## 待确认与待验证
 
-- 第一轮 Q1–Q5 待用户回答（第 12 节）；第 6 节草案已被替代。
-- 三个只读子任务已完成，结果见第 12 节，第二轮使用。
+- 第二轮 Q1–Q5 待用户回答（第 13 节）；第一轮（第 12 节）已按用户补充的前提重问，第 6 节草案已被替代。
+- 三个只读子任务已完成，结果见第 12 节；提示词来源的子任务进行中。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
