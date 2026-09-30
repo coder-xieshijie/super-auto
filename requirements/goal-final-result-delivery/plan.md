@@ -79,7 +79,7 @@ S01（Electron，冒烟之后同一实例）：
 8. `electron reload --save s01-after-reload`；`electron wait --role button --name "新建任务" --timeout 90`（应用回到原会话）；重复 4、6、7；另读 `goal-completion-marker`、`thread-goal-banner-status`。
 9. 历史、事件、Inspector：`node tools/gfd-turn-facts.mjs <evidence>/NNN-s01`。
 
-S02（TUI）��`/tmp/gfd-s02.sh <evidence 子目录>`，即 `tui up`；`tui type "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`；`tui wait --text "Goal complete" --timeout 420 --save tui-s02`；`tui screen --all --save tui-s02-screen`；`tui snapshot --save s02`。读 `tui-results.jsonl`（完成轮 `status`、`answer`、`error`）、屏幕（`Update Goal` 之后的 `●` 回复、`Created  hello.html ↗`、`✓ Goal complete`、无 `× Error`、状态栏 `state`），`node tools/gfd-turn-facts.mjs <evidence>/NNN-s02 --tui`（Inspector 与事件）。
+S02（TUI）：`/tmp/gfd-s02.sh <evidence 子目录>`，即 `tui up`；`tui type "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`；`tui wait --text "Goal complete" --timeout 420 --save tui-s02`；`tui screen --all --save tui-s02-screen`；`tui snapshot --save s02`。读 `tui-results.jsonl`（完成轮 `status`、`answer`、`error`）、屏幕（`Update Goal` 之后的 `●` 回复、`Created  hello.html ↗`、`✓ Goal complete`、无 `× Error`、状态栏 `state`），`node tools/gfd-turn-facts.mjs <evidence>/NNN-s02 --tui`（Inspector 与事件）。
 
 S03（接口）：`/tmp/gfd-s03.sh <evidence 子目录>`，即 verify.md S03 的五步（新建会话 `{"title":"s03"}`）。判定用 `node tools/gfd-turn-facts.mjs <evidence>/NNN-s03`（`requestAfterCompletion.sameTurn`、`toolsRequestedAfterCompletion`、`history.toolCallsAfterCompletion`、`order.finalReplyBeforeDispatch`、事件里 `verification_decided verdict=met` 与 `state_transitioned to=complete`），`s03-after` 快照的 `-workspace/after.txt` 与 Goal 状态。
 
