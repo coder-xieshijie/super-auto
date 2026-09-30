@@ -1,0 +1,51 @@
+---
+id: discussion-2026-09-30-goal-final-delivery-progress-and-flow
+recorded_on: 2026-09-30
+timezone: Asia/Shanghai
+source: current-conversation（Claude Code 会话，工作目录为本仓库；盘点对象是 grill 会话“Goal 最终结果与交付需求澄清”）
+topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
+---
+
+# Goal 最终结果与交付：进度盘点与开发流程
+
+主记录见[首个需求试跑](2026-09-30-goal-final-delivery.md)，它由 grill 会话持续续写。本轮单独成文，是为了不和那个会话同时改一个文件。
+
+## 用户原话
+
+> Goal 最终结果与交付需求澄清
+> 看下这个 session, 我现在要开始进行开发, 目前进度是什么? 整体 dev 流程应该是什么?
+
+## 核对（2026-09-30 14:56 前后）
+
+- grill 会话（工作目录 `/Users/minimax/.claude/worktree/agent-archon/quirky-gagarin-c32e50`）最后一轮在 14:53 结束：第三轮已答，术语写入需求 worktree 的 `CONTEXT.md`，记录提交为本仓库 `586497a`。它在等一个只读子任务：R3 让本轮在完成提案之后继续，这段窗口里用户停止、进程重启、本轮失败，以及“立即发送”补充消息时，现有代码怎么处理。14:57 子任务仍在运行；完成后 grill 会话会自动继续，判断是否需要第四轮。
+- 需求 worktree `/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery`：分支 `fix/goal-final-result-delivery` 在 `ffb4d4a94b`，只有 `CONTEXT.md` 未提交。
+- `git ls-remote`：`feat/verify-archon-skill`（!7556）仍是 `ffb4d4a94b`，与需求分支一致；`preview_train` 已从 `e0be4dfc0b` 前进到 `532b7a1566`。
+- 本仓库还没有 `requirements/goal-final-result-delivery/`，spec.md、verify.md 尚未产出。
+- dev-skills 主检出在 `a3319f4`（#14 已合入）。本轮依据的 core-spec、deliver 说明取自这个版本。
+
+## 答复要点
+
+**进度：** 还不能开始交付。流程处在 B 定义阶段 grill 的收尾：三轮决定都已确认（第 13–16 节），差子任务结果和可能的第四轮；之后才是 core-spec、跨模型查漏、用户确认冻结。deliver 开工必须拿到两个冻结 sha256。
+
+**这个需求的完整流程：**
+
+1. grill 收尾：等子任务结果，必要时答第四轮，用户确认理解一致。
+2. 在同一个 grill 会话手动输入 `/core-spec`，指定目录 `/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/`。它依次写 spec（含目的、非目标、硬约束、交付与授权），按功能地图过入口和状态找缺口（可能再问最小必要问题），写 verify，用 Codex 查漏（最多两轮），`freeze.mjs` 给出两个 sha256。
+3. 用户确认一次，两份冻结，本仓库本地提交。确认时重点看：场景是否在 TUI 和 Electron 上跑；覆盖盲区；查漏结果；交付与授权是否写清 `preview_train` 的 MR 是 cherry-pick、证据怎样沿用。
+4. deliver 开工前核对 7556 有没有新提交，有就把需求分支移到最新的 7556 上。
+5. 新会话：目录选需求 worktree，不让应用另建 worktree（grill 会话就被另建了）；auto 或 bypass 权限；授予本仓库目录访问（plan.md、evidence 写在这里）；输入 `/deliver`，带 spec、verify 路径和两个 sha256。
+6. deliver 自动完成：plan.md 与 `--frozen-only` 检查，冒烟，逐个里程碑实现并在 Electron、TUI 跑场景，subagent 检查后提交（产品提交与工具提交分开），全集自验，Codex 在独立检出和独立实例上验证最终 head，推分支，开发 MR 指向 `feat/verify-archon-skill`，`check-delivery.mjs`，CI。
+7. 按 spec 的交付约定：从最新 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证分支一致，开 MR（squash=true 并回读），处理 CI，停在可合入。10 月 2 日 09:00 前可合入，到点未完成就停下汇报。
+8. 用户看汇报和 MR，12:00 前合入 `preview_train` 的 MR；之后关闭开发 MR，工具改进单独交给 7556。复盘缺口补回 verify-archon 和功能地图（D 回流）。
+
+**提醒：**
+
+- deliver 的完成条件 3 要求验证报告的 head 等于 MR head，只有开发 MR 能满足；`preview_train` 的 MR 是 cherry-pick，head 不同，那里也没有 verify-archon。这个例外要写进 spec 的交付与授权（主记录第 14 节已提出），否则 deliver 到这一步会停下或自行处理。
+- `preview_train` 已前进，开发分支仍基于 `e0be4dfc0b`，cherry-pick 可能有冲突。
+- 距 10 月 2 日 09:00 约 42 小时，定义阶段最好当天收完。
+- 这是整条链路第一次在真实需求上跑。
+
+## 待验证
+
+- grill 子任务的结果，以及是否需要第四轮。
+- spec 的交付与授权是否写清 cherry-pick MR 的证据沿用方式。
