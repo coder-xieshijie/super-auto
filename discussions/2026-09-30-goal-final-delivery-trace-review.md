@@ -141,3 +141,38 @@ deliver 会话 20:05 正在问用户：复验在 Codex App 里手动跑（过不
 5. **三家提到而原清单没有的：** 文字结尾当汇报、由 Stop 钩子判断是否续做（N1）；开工先让一个单元走完全程，包括跨家族验证者的预检（N2）；一次上一项、删规则要有对照（N3）；新句与旧规则逐条对照，避免冲突（N4）；脚本报错写明修法（N5）。
 
 待用户决定：研究档案 6.6 的五项（B1 改由脚本核对、C3、改写后的 C4、N1、上线顺序）。流程文档本轮没有改；B1 若按新建议调整，再更新 v0.17 的决定行。
+
+## 用户同意全部五项；按顺序提 PR
+
+用户原话：
+
+> 都同意，按你建议的顺序提 PR
+
+决定（写入[流程文档](../process/complex-requirement-delivery.md) v0.18）：B1 改为由脚本核对、计划格式不加勾选项；C3 run-verifier 加不带沙箱的 codex 选项；C4 报告沿用只在差异仅限测试、文档、lint 配置时由脚本判断，否则完整复验；N1 试行 Stop 钩子；按“一次一项、先机制后 prompt”的顺序上线。
+
+执行（dev-skills 三个叠放的 PR，按序合入）：
+
+| PR | 内容 | 验证 | Codex 审查 |
+|---|---|---|---|
+| [coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) | `record-milestone-check.mjs` 存每轮里程碑检查；`check-delivery.mjs` 第 5 项与 `--milestones-only`（写了场景的里程碑都有记录、连续覆盖、第一条只覆盖自己的提交、早于之后的提交）；报告沿用（仅测试、文档、lint 配置）；验证说明的复验改为完整验证；B2 的一句随顺序检查一起改 | 临时仓库 37 + 23 个用例；按 !7576 两个检查的真实返回时间回放，报出 M1、M2 第一轮都晚于之后的提交 | 两轮：8 条（4 条 P1）、复审 4 条（1 条 P1），都已修正 |
+| [#22](https://github.com/coder-xieshijie/dev-skills/pull/22) | `run-verifier.mjs` 异步、流式日志、状态文件、总时长与停滞上限、终止原因；`--preflight`（deliver 开工时跑）；`--needs-gui` + `--unsandboxed`；`--effort`；claude、mcode 改用 stream-json | 假 CLI 40 个用例；真实预检：codex 两种、mcode 正确引用通过，试跑中写错的 mcode 引用 3 秒返回 3 | 11 条（3 条 P1），都已修正 |
+| [#23](https://github.com/coder-xieshijie/dev-skills/pull/23) | 删去核对子代理推理强度；一句环境知识：长任务靠后台结束通知，CI 用会退出的轮询脚本，不靠 `ScheduleWakeup`；不新增等待前的状态汇报 | 链接检查；与现有规则逐条对照 | 只改文字，未送审 |
+
+与建议的差异：
+
+- B2 的一句放进了 #21，没有放在 prompt PR：顺序由 `check-delivery.mjs` 核对，说明必须同时告诉 owner，否则单独合入 #21 会让 owner 碰上事后无法补救的失败。
+- A1、A2 写成本仓库的 [grill 交接模板](../process/grill-handoff-template.md)，不改上游的 grill-with-docs。
+- 报告沿用没有实现 pstack 的“patch-id 不变时沿用”和两次构建比对，rebase 后仍要完整复验；已写进 #21 的未验证与注意。
+
+过程中的发现：
+
+- Codex 审查 #22 时指出，按块解码子进程输出会把跨块的中文变成替换字符（“验证模型”变成乱码）。这是本次一直遇到的坏字符的一种来源，#22 已改为按流解码。
+- deliver 会话在 20:21–20:32 按用户同意改用 `codex exec --dangerously-bypass-approvals-and-sandbox`、推理强度 high 复验：Electron 20:27 启动成功，11 分钟完成，结论 PASS（session `01a0f244-6650-73a0-b71f-5a5aff6e6df1`）。这是 C3 的实际佐证；同一模型经 mcode 的那次跑了 2 小时没有报告。
+- deliver 会话在复验后又在同一个验证者 session 里续问一次，请它按 verify 的覆盖盲区 B6 自行重判 S01，验证者改判为 PASS（首次回复原文已留存）。调用方在验证者 session 里追问，会削弱验证的独立性，待讨论；deliver 会话另提出 check-delivery 对“盲区给了替代判断标准”的判定口径要与验证说明对齐，待办。
+- 最终 !7576、!7590 都已取消 Draft、CI 通过；`check-delivery` 四项过三项（第 4 项缺 run-verifier 调用记录，属用户接受的偏离）。
+
+待办：
+
+- 按 #21 → #22 → #23 合入；每合一个，把下一个的 base 改成 main。合入后快进本机 dev-skills main。已经按旧版本开工的交付（如 !7576）沿用开工时的版本。
+- 下一批：N1 Stop 钩子试行；A6 与 B7（改动范围清单与提交前检查）；E1（坏字符钩子）。
+- 下一个需求结束后，用 `extract_trace.py` 出数字，对照本次看这批改动的效果（N3）。
