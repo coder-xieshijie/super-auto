@@ -20,11 +20,16 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [x] (2026-09-30 19:59+08:00) 基线冒烟 @ 350965f50f（staging 验证配置）：接口 PONG + lifecycle 跑到 complete(verifier_met)、count.txt 1–4（evidence/baseline-api/）；TUI Active→Paused、PONG succeeded（baseline-tui/）；Electron 跑到完成、横幅“已完成”、goal-completion-marker（baseline-electron/）。
 - [x] (2026-09-30 20:02+08:00) 并入 !7181：`git cherry-pick -m 2 1201a37aa5`（净改动，无冲突）；95181bc02f。
 - [x] (2026-09-30 20:10+08:00) 第 2 项 runtime：!7590 四个 runtime 提交按路径取净改动（不含 Desktop、文档）；goal 包 81、v2 16、v1 61 个相关测试通过；d0eb97cdc6。
-- [ ] M0 验证能力（G1–G8、G6）：subagent 在 `wip/gv2-verify-tools`（worktree `/Users/minimax/code/mm/worktrees/agent-archon/gv2-verify-tools`，基于 95181bc02f）开发中。
-- [ ] M1 迁移（进行中：新表与 migration 42 已写，未提交）
+- [x] (2026-09-30 22:30+08:00) M0 验证能力：`wip/gv2-verify-tools` 5 个提交（771e1f1e75、42dc9215de 带自 verify-archon 分支；1852e6e3fe G6；4e863e71af G1/G2/G3 接口；d770f05f30 G3 Electron/G4/G5/G7/G8），verify-archon 脚本测试 46 个通过；各能力在真实实例实跑，证据在 `/tmp/gv2-evidence/`（待并入本目录 evidence/m0/）。G6 在 staging 登录账号上查询返回“group not found”，S35、S36 按 B15 处理。
+- [ ] M1 迁移：Goal owner 已移入 v2（294ea74496 WIP），v2 lint/tsc/depcruise/layout 通过（bd75e6bdd1 WIP）；Goal 问卷策略移入 v2 `service/goal/questionnaire/`（0eadb3c24c WIP，v1 问卷只留通用能力与写入前置条件）。实跑 @ 0eadb3c24c：接口冒烟与 lifecycle（evidence/m1-api-probe/）；接口问卷手动回答 → complete(verifier_met)、turns 2、fruit.txt=Banana，超时自动回答 → complete(verifier_met)、fruit.txt=Apple、历史含 automatic_timeout 与 explicitUserConfirmation=false（evidence/m1b-api-questionnaire/）；TUI 冒烟（Active→Paused→clear、PONG succeeded，evidence/m1-tui/）；Electron 冒烟（跑到 complete(verifier_met)、横幅“已完成”，evidence/m1-electron/）。TUI、Electron 用 `--allow-stale` 启动：比构建新的只有测试 subagent 新建的 `auto-reply-timer.test.ts`。进行中：测试迁移（subagent：`gv2-tests` worktree 6 个；问卷测试 1 个在 owner worktree）；RG1 基线（subagent）；RG1 迁移版、RG1b、RG2。
 
 ## 意外与发现
 
+- 2026-09-30：Payment 测试台（国内测试环境）查不到 staging 登录账号（MCode UID 535878760497266695，`GetGroupOwnerUserInfo … group not found`），没有执行任何设置；S35、S36 与 limits.md 中用额度命令构造的子功能按 B15 记为覆盖盲区（evidence/m0/quota/）。
+- 2026-09-30：G1 实跑发现：HTTP 429 的 JSON 正文带 MiniMax `status_code`（如 2045、1002）时，`classifyLLMErrorToCode` 让内层码盖过 429，最终归为 50113，Goal 变为 `paused(infra_retryable)` 而不是 `usage_limited(rate_limit)`。与本需求的判定关系待 M3 核对。
+- 2026-09-30：G4 实测 Goal 横幅的请求数、token 目前没有悬停提示，S01、S06、S10 依赖第 6 项实现后核对。
+- 2026-09-30：v1 `host-helpers.ts`、`desktop-service-support.ts` 在基线上已有 `import/no-duplicates`，与本需求无关，不改。
+- 2026-09-30：v1 `persistence/db.ts` 的历史 migration 13–15 仍创建/扩展 `local_runtime_thread_goals`，`sqlite-table-roles.ts` 仍登记该表；它们是 v1 迁移历史与旧数据保留，不写行，不改。
 - 2026-09-30：`~/.minimax/config.yaml` 当前指向 prod（agent.minimaxi.com）。prod 下接口实例的 LLM Context Inspector 不装配（`resolveBuildVariant` 在 prod 且非 internal 构建时为 unavailable），`enableInspector` 返回 500。第 2 项那次验证时配置指向 staging。
 
 ## 决策日志
@@ -34,6 +39,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-09-30：第 2 项 runtime 先于迁移提交（排在迁移前验证基线之后），代码取自 !7590 的 runtime 提交，最后 rebase 时与第 2 项合入内容去重。
 
 - 2026-09-30：验证统一用 staging（`matrix-pre.xaminim.com`），配置为 `~/.minimax/verify-goal-v2/config.yaml`（由用户配置复制，只改 minimax provider 的 baseURL、去掉 tui 段；含凭据，不进证据目录）。三个入口都传 `--config` 这份文件；Electron 用 zh-staging 构建。原因：Inspector 取证、TUI 默认 staging、Payment 测试台只覆盖测试环境；不改用户的全局配置。
+- 2026-09-30：Goal 问卷的跨表原子写入改为“v1 问卷写入事务内同步执行 v2 Goal owner 给的前置条件”（`replacePendingWhen`、`markAnsweredIfLatestPendingWhen`，v2 用 Drizzle 同步读 `local_runtime_v2_goals`）。原因：v2 service 不写原生 SQL、v1 不再认识 Goal 表；两个连接同一 SQLite 文件，前置条件在持有写锁的同步事务内求值，其间没有其他写入能提交。
+- 2026-09-30：Goal 问卷自动回答计时器从 v1 `auto-reply-scheduler.ts` 原样搬到 v2 `service/goal/questionnaire/auto-reply-timer.ts`（git 识别为改名），不是新增调度框架（M03）。
 - 2026-09-30：!7181 按其合并提交 1201a37aa5 的第二父带入净改动（与该 MR 在 preview_train 上的最终内容一致），不重做冲突解决。
 
 ## 结果与复盘
