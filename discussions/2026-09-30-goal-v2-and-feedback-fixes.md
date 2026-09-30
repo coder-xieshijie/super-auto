@@ -241,6 +241,19 @@ Q3 的 (i) 指更正后三个选项中的“实验代码只读参考，第 11 �
 
 助手补充的推论（待用户确认）：最后一次 rebase 会改变代码，所以结束状态的“全部验证通过”以 rebase 之后的代码为准——rebase 后重跑第 2 项 verify 的场景和本需求 verify 的全部场景；若届时第 2 项尚未合入 `preview_train`，停下汇报，不自行等待或改用第 2 项开发分支。
 
+## 14. 确认与 grill 结束
+
+用户原话：
+
+> 都同意，ADR 写
+
+- 更正后的顺序、rebase 后的验证范围（重跑第 2 项与本需求 verify 的全部场景；第 2 项届时未合入则停下汇报）确认。
+- ADR：由 deliver 随 MR 提交 `.harness/docs/adr/goal-v2-ownership.md` 并登记索引。
+- 决定汇总确认，grill 结束。供 core-spec 第 7 步查漏的原始约定整理为 [original-decisions.md](../requirements/goal-v2-and-feedback-fixes/original-decisions.md)（逐轮用户原话＋对应问题与被采纳的建议）。
+- 术语在 agent-archon worktree `eager-leavitt-d0d8db` 的 `CONTEXT.md`（未提交），随 core-spec 冻结后提交到需求分支。
+- 下一步：用户在同一 session 调用 `/core-spec`，产出 spec.md 与 verify.md，写到需求目录 `.harness/docs/specs/goal-v2-and-feedback-fixes/`。
+
 ## 待确认与待验证
 
-- 更正后的顺序、rebase 后的验证范围、ADR 一问待用户确认；确认后用户在同一 session 调用 /core-spec。
+- 待用户调用 /core-spec。
+- 验证期待补：第 8 项 active 场景、第 10 项前台挂接、第 3 项“停止后历史消失”等需在 TUI、Electron 复现确认。
