@@ -1,0 +1,3595 @@
+Reading additional input from stdin...
+OpenAI Codex v0.159.0
+--------
+workdir: /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+model: gpt-6-astra
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+session id: 01a0f137-4717-7542-a490-91ffe4a53f49
+--------
+user
+按 /Users/minimax/.claude/skills/core-spec/references/gap-check.md 查漏。spec：/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/spec.md，sha256 c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d；verify：/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md，sha256 f37f6b4e29ef5dda202a05b9eaee3f6e785d444573fbade4bb3a40067f9e8df0；原始约定：/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/original-decisions.md，以及需求稿 /Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md；术语：/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/CONTEXT.md 的“Goal 收口与交付”一节；仓库：/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery（HEAD ffb4d4a94b，spec、verify、CONTEXT.md 的改动尚未提交）。
+warning: Under-development features enabled: respect_system_proxy. Under-development features are incomplete and may behave unpredictably. To suppress this warning, set `suppress_unstable_features_warning = true` in /Users/minimax/.codex-cli/config.toml.
+codex
+我会先读取 `core-spec` 的查漏流程，核对 spec、verify 的哈希，再对照原始约定、需求稿和术语检查遗漏与冲突。
+
+exec
+/bin/zsh -lc 'cat /Users/minimax/.claude/skills/core-spec/references/gap-check.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+# 查漏说明
+
+写给查漏方。调用方在命令里给出 spec、verify 的路径和 sha256，以及原始约定和相关仓库的路径。原始约定包括需求稿、已接受的 ADR，以及用户最终决定的原话和对应的问题、选项。
+
+## 目的
+
+这两份文件交给用户确认后冻结，之后由 agent 全自动实现，只按它们判断做没做对。你要在确认前找出会让交付做错或无法判定的问题。你看不到作者的推理过程和草稿，这是有意的：只按这两份文件、原始约定和仓库判断。
+
+只读，不修改任何文件；结果写在最终回复里。
+
+## 查什么
+
+1. **spec 自身**
+   - 自相矛盾：两处规定不能同时满足。
+   - 未定的行为：spec 涉及的功能在某个入口或状态（默认、加载、空、错误、禁用、取消、重复触发、并发、重启后）下怎样表现没有定，而不同的合理选择会让某个场景的判定结果不同。
+   - 含糊：两种都符合字面的合理实现，会得到不同的判定结果。
+   - 缺项：没有目的；用于自动交付却没有交付与授权（交付到哪个仓库和分支、能否推送并开 MR、能否合入）；某个具体的相邻事项会实质改变交付范围，spec 却没写做不做。
+2. **spec → verify**：spec 的每条规范性内容（行为、默认值、条件与例外、不得发生的事、必须保持的现有行为、非目标、接受的代价）都对应一条要求和证明方式；每个相关入口都有场景，或写明不需要的依据。
+3. **verify → spec**：没有 spec 以外的要求、阈值或语义。
+4. **判别力**：检查点取 spec 的字面值，不取被测代码算出的值；实现什么都不做、返回空、spec 规定了交互却只有界面没有交互效果，或者按场景里列出的错误实现去做，场景都会失败；“不得出现”都配有正向检查点；基线预期与 spec 的改动方向一致。
+5. **可执行**：场景引用的入口、命令和功能地图条目在仓库当前 commit 中存在，或已标为“实现后绑定命令”或列入工具缺口；工具看不到的检查点已列入覆盖盲区。
+6. **原始约定 ↔ spec**：原始约定里用户已确认的决定、限制、例外和接受的代价，在 spec 里都有落点；spec 的每条规范性内容都能在原始约定里找到依据，没有把助手的建议写成要求。
+
+## 报告什么
+
+报告开头写明调用方给出的 spec、verify 的 sha256，表明你检查的是哪个版本。只报告会让交付做错或无法判定的问题。措辞、排版和写法偏好不报；其他改进建议最多三条，标为“可选”。没有问题时直接写“未发现问题”，并列出检查过的范围。
+
+每条问题按以下字段写：
+
+```text
+类型：spec 矛盾 / spec 未定 / spec 含糊 / spec 缺项 / 偏离原始约定 / 缺少覆盖 / 越出 spec / 判别力不足 / 不可执行
+位置：文件与章节，或要求、场景 ID
+问题：一句话
+依据：引用原文
+影响：哪种合理实现会被误判为通过，或被误判为失败
+建议：verify 的具体改法；属于 spec 的问题，原始约定里有依据的给出改法，没有依据的写成要用户决定的问题和可选项
+```
+
+exec
+/bin/zsh -lc 'git status --short && git rev-parse HEAD && shasum -a 256 .harness/docs/specs/goal-final-result-delivery/spec.md .harness/docs/specs/goal-final-result-delivery/verify.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+ M CONTEXT.md
+?? .harness/docs/specs/goal-final-result-delivery/
+ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161
+c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d  .harness/docs/specs/goal-final-result-delivery/spec.md
+f37f6b4e29ef5dda202a05b9eaee3f6e785d444573fbade4bb3a40067f9e8df0  .harness/docs/specs/goal-final-result-delivery/verify.md
+
+exec
+/bin/zsh -lc 'cat /Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/original-decisions.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'nl -ba .harness/docs/specs/goal-final-result-delivery/verify.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'nl -ba .harness/docs/specs/goal-final-result-delivery/spec.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'cat /Users/minimax/.claude/skills/core-spec/SKILL.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'cat /Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+# 原始约定：用户最终决定的原话与对应问题
+
+供 core-spec 第 7 步的跨模型查漏使用。摘自 2026-09-30 的 grill 会话（Claude Code，agent-archon 需求 `fix/goal-final-result-delivery`），以及“目标交付与开发流程澄清”会话转来的一项决定。每条先列用户原话，再列它所回答的问题与选项；“同意”表示采纳助手在该题给出的建议，建议原文一并列出。完整过程见 super-auto 仓库 `discussions/2026-09-30-goal-final-delivery.md` 第 12–19 节。
+
+需求来源：`/Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md`（sha256 `bc7c4e40215bb0512d7cc037c4b96e04919faf84e717ecd7a4e3f5f6b752901c`）。本需求没有已接受的 ADR。
+
+## 1. 用户补充的前提（第一轮问题未逐条回答，由这些前提和第二轮替代）
+
+> 在补充几个前提
+>
+> 1. 本次的 修复 要控制影响范围, 因为本次封板的核心需求不是 goal, 所以要避免改动过多而造成影响扩散
+> 2. 创建的 mr 应该是向 feat/verify-archon-skill 这个分支合入, 因为是要利用这个分支的 skill 和功能地图
+> 3. 截止时间就是 10.2 中午 12 点, 我的想法是往这个 feature 分支创建代码，到时候再单独 cherry-pick 出一个需求，只合入 preview train。因为它的核心不是为了解决本次的 goal，所以要尽量控制范围，但又需要复用我们之前讨论的那些 skill 的能力。
+
+## 2. 第二轮
+
+用户原话：
+
+> Q1 ①，Q2 R3，Q3/Q4/Q5 同意
+
+- **Q1 修哪几条路径。** 选项：① 修 A（续跑折叠已交付内容）和 B（complete 结束本轮、没有最终回复，含 TUI 自动化与 headless 把成功判成失败），blocked 两种都不动；② 只修 A。用户选 ①。助手建议中的附注：第 8 项按 B 类场景验收，不要求证明同一轨迹。
+- **Q2 结果说明怎么来。** 选项：R3 = R2 加 Desktop 卡片提升（把折叠段里的交付卡片提到结果区，取 !7424 的 UI 部分，不要它“有媒体的正文优先”的规则，也不要 `deliverables`）；R2 = 已接纳的 complete 不再结束本轮，工具返回要求模型立刻写一段面向用户的最终回复（结果、文件位置、交付标记），回复为空就重试一次；R1 = 保留结束本轮、提示词要求先交付；b′ = 把 `summary` 直接显示成结果说明；a = 只做卡片提升。用户选 R3。R3 附带的约束（随建议给出，用户选 R3 时一并接受）：
+  - 最终回复不宣称验证已通过，verifier 在这次回复之后才跑，Goal 最终状态仍由 Host 结算；verifier 判定口径不改，不采用 !7435 的“也验证用户可见交付”。
+  - 重试一次仍为空时，按现有流程结算，照常进入验证，不因为缺最终回复把 Goal 判失败。
+  - 提示词改在 TS 常量里，`.md` 同步成相同措辞，随客户端发布生效，不需要 Apollo；md 与 TS 原有的其他差异不顺手对齐。（原建议还有“措辞对老客户端也成立”一条，其依据随后被更正作废：3.0.73 起客户端不读 Apollo 上的提示词。）
+  - `not_met` 照常续跑，前一次最终回复会进入过程区，接受。
+  - complete 之后模型仍调用工具：不新增代码限制，列为已接受代价。（此条在第四轮 Q2 被改为 (b)，见下文。）
+- **Q3 怎样算已声明交付（同意）。** 建议：只认正文里的交付标记，不新增 `deliverables` 字段；产物面板、资产索引、IM 三处读取不改；模型没写交付标记就不出卡片，接受；最终回复里仍要写出文件路径。
+- **Q4 入口范围（同意）。** 建议：Desktop 必须满足实时对话、刷新和重启后的历史、右侧产物面板（现有读取已覆盖折叠段，只验证不改代码）；TUI 必须满足最终回复可见，自动化模式和 headless 下 Goal 完成那一轮不再报 `EMPTY_RESPONSE` 或 `state=fail`，按 R2 或 R3 做时 TUI 代码不用改，文件入口沿用现有的 `Created` 行；非目标：IM、Fork、v1、RC、Cloud；Windows 路径解析用单测覆盖，列为覆盖盲区。
+- **Q5 交付流程（同意）。** 建议：
+  - (a) 开发 MR 只用来开发和验证，产品代码不合入 `feat/verify-archon-skill`；本需求顺带对 verify-archon 和功能地图的改进单独提交，交给 7556 的会话并入；`preview_train` 的 MR 合入后关闭开发 MR。
+  - (b) 产品代码，加上 `preview_train` 上已有的文档（Goal spec、implementation、verification、`changes/` 里的一条变更记录、`CONTEXT.md` 术语），放在能干净 cherry-pick 的提交里；功能地图和 verify-archon 的改动单独提交。
+  - (c) deliver 在开发分支验证通过后，从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证的分支一致，真实模型证据沿用开发分支上的；开 MR（显式 squash=true 并回读）、处理 CI，停在可合入，不合入。
+  - (d) 10 月 2 日 09:00 前把 `preview_train` 的 MR 做到可合入，到点没完成就停下汇报已有证据和缺口。
+  - (e) 只推送两条需求分支；不推送 `feat/verify-archon-skill`，不发布 Apollo，不改飞书和工作项，不动 !7424 和 !7435，不发消息。
+  - (f) spec、verify、plan、证据放 super-auto `requirements/goal-final-result-delivery/`；agent-archon 只放派生的长期文档（Goal `changes/` 变更记录、Goal spec、`CONTEXT.md`；功能地图只进开发分支）；MR 描述写决定摘要和两个 sha256；不写 ADR。（其中 spec、verify 的位置被第 5 节替代。）
+
+## 3. 第三轮
+
+用户原话：
+
+> Q1–Q5 都同意
+
+- **Q1 术语。** 建议：完成提案、Goal 完成、最终回复、完成摘要、交付标记、交付卡片、卡片提升、过程区（定义见需求 worktree 根目录 `CONTEXT.md` 的“Goal 收口与交付”一节）；“结果说明”统一改叫“最终回复”。
+- **Q2 有最终回复时正文选哪段。** 选项：固定取最终回复（Goal 消息里 complete 之后有文字时，正文固定取最后一段，不再比长度，只改 Goal 消息的这一分支）；保持现状。建议并采纳：固定取最终回复。
+- **Q3 卡片提升的触发与范围。** 建议：在 Goal 结算为 `complete` 时触发（与过程区折叠同时），不像 !7424 那样“完成工具调用成功就触发”；提升这条 Goal 消息过程区里的全部交付卡片（含更早各轮）；同一文件路径（规范化后）只显示一张，正文已有的不再重复；展开过程区时已提升的卡片不在过程区再显示一次。
+- **Q4 同一轮里完成提案被接纳后又调用 `update_goal`。** 选项：Goal 工具拒绝（返回工具错误，不改已接纳的提案，只改 Goal 工具）；不管（接受 `blocked` 覆盖 `complete`）。建议并采纳：拒绝，不论第二次填 `complete` 还是 `blocked`。（用户追问“为什么是 block 而不是 update”，助手解释 `update_goal` 是工具名、`blocked` 是其 `status` 取值后，用户同意。）
+- **Q5 真实模型验收最小集合。** 建议：Electron 和 TUI 各跑一次 B 类任务（让 Goal 生成一个文件并完成），核对最终回复可见且带文件卡片、Goal 完成、右侧产物面板有这个文件、刷新后仍然一样、TUI 不出现 `EMPTY_RESPONSE`；使用会触发子代理验证的模型路由；A 类改用固定消息数据的 UI 测试覆盖卡片提升和去重；blocked 不变、非 Goal 对话不变、`not_met` 续跑用单测或脚本 provider 覆盖；deliver 的跨模型独立验证照常进行。
+- 另附说明（用户未提出异议）：决定写进 Goal 的 `changes/` 变更记录，不单独写 ADR。
+
+## 4. 第四轮
+
+用户原话：
+
+> Q1 (ii)，Q2 (b)，汇总确认
+
+- 第四轮开头的表格（用户未提出异议，“汇总确认”涵盖）：写最终回复时用户按停止 → Goal 暂停 `paused(user_requested)`，提案作废，恢复后重做，沿用；应用重启或崩溃 → 提案丢失，Goal 仍进行中，启动恢复开一轮新的续跑，沿用；用户“立即发送” → 最终回复不带工具调用，消息退回队列作为新的一轮，沿用；模型两次都回空 → 按正常结束结算，提案照常进入验证，不走 !7435 的失败路径。另说明：`complete` 以后不再写 `terminates_turn`，`blocked` 和 stale 照旧写，完成之后、最终回复之前被打断时会像其他被打断的 Goal 轮一样显示“继续”。
+- **Q1 写最终回复时模型服务出错（限流、额度用完、网络错误）。** 选项：(i) 照常进入验证（改 Goal 结算里处理失败的那一步，只对已接纳完成提案生效，安全拒绝仍按阻塞）；(ii) 沿用现有的失败处理（提案作废，Goal 暂停或额度受限，恢复后重做，不改结算代码）。用户选 (ii)，列为已接受代价。
+- **Q2 complete 之后要不要拦下工具调用。** 选项：(a) 不拦；(b) 本轮完成提案被接纳后，Goal 的工具执行前检查拦下之后的所有工具调用，包括 `update_goal`（涵盖第三轮 Q4），被拦的调用返回“本轮已提交完成，不要再调用工具，直接写最终回复”，如果模型被拦了还继续尝试，所有尝试都会被拦，到本轮结束仍然没写出回复就按“两次都回空”的规则按正常结束结算。用户选 (b)；汇总的已接受代价删去“complete 之后模型仍可能调用其他工具”，做法增加“complete 之后拦下所有工具调用”。
+- **汇总（用户确认）。**
+  - 目的：Goal 收口时，用户不用追问，就能看到做成了什么、交付文件在哪；续跑、校验和过程折叠都不能再吞掉这些内容。
+  - 范围：修 A 和 B（含 TUI 自动化和 headless 的误判）；blocked 不动。
+  - 做法（R3）：已接纳的 complete 不再立刻结束本轮，工具返回要求写一次最终回复；Goal 完成时 Desktop 把过程区里的交付卡片提到结果区，按路径去重、展开过程区时不重复；Goal 消息里 complete 之后有文字时正文固定取最终回复；同一轮再次提交状态由 Goal 工具拒绝；最终回复不宣称验证已通过，verifier 口径不改；两次都回空按正常结束结算；提示词改在 TS 常量里、`.md` 同步；`not_met` 照常续跑；写最终回复时服务出错按 Q1。
+  - 交付声明：只认交付标记，不新增 `deliverables`；产物面板、资产索引、IM、TUI 的代码都不改。
+  - 入口：Desktop 实时对话、刷新和重启后的历史、右侧产物面板；TUI 最终回复可见、不再误判；非目标 IM、Fork、v1、RC、Cloud；Windows 路径单测，列覆盖盲区。
+  - 验收：真实模型在 Electron、TUI 各跑一次 B 类任务；A 类用固定消息数据的 UI 测试；回归用单测或脚本 provider；跨模型独立验证照常。
+  - 已接受代价：前一轮长报告正文默认折叠在过程区；模型没写交付标记就没卡片；`not_met` 后前一次最终回复进过程区；最终回复连续几轮逐字相同时触发已有的重复回复暂停；停止或重启时提案作废需重做收尾。
+  - 交付：开发 MR 指向 `feat/verify-archon-skill`、不合入产品代码；deliver cherry-pick 出 `fix/goal-final-result-delivery-preview-train`，证明产品改动一致，10 月 2 日 09:00 前可合入，不自己合，到点没完成就停下汇报；用户负责 12:00 前合入；授权按第二轮 Q5。
+  - 文档：spec、verify、plan、证据放 super-auto（spec、verify 的位置被第 5 节替代）；agent-archon 只放派生长期文档；不写 ADR。
+
+## 5. spec 与 verify 改为随开发 Draft MR 交接
+
+“目标交付与开发流程澄清”会话转述、并在该会话记录中核实的用户原话：
+
+> 同意，通知 grill 会话，同时改成默认流程提 PR
+
+它回答的建议（该会话“追问：交接改成一个带两份文件的 MR”一节）：
+
+1. core-spec 把 spec.md、verify.md 写到需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`。
+2. 用户确认冻结后，grill 会话在 `fix/goal-final-result-delivery` 上提交两个提交：`CONTEXT.md` 术语（属于产品一侧，之后 cherry-pick 到 `preview_train`）；spec 与 verify（与功能地图一样只留在开发分支，不 cherry-pick）。推送分支，开指向 `feat/verify-archon-skill` 的 Draft MR（显式 squash 并回读）；旧 worktree 切成 detached，把分支让给 deliver。
+3. deliver 在任意新会话、应用自建的 worktree 里开工：输入 MR 链接、spec 提交和两个 sha256，检出需求分支后在同一个 MR 上继续，最后更新描述并取消 Draft。
+4. plan.md 和证据仍不提交进 agent-archon，放 super-auto `requirements/goal-final-result-delivery/`。
+
+转来的消息另要求 spec 的“交付与授权”写清：开发 MR 就是交接用的 Draft MR，deliver 在它上面继续；spec、verify 的提交不 cherry-pick；`preview_train` 那条 MR 的证据怎么沿用；冻结以 sha256 为准，7556 再 rebase 时提交 SHA 会变。
+
+ succeeded in 0ms:
+     1	# Goal 收口的最终回复与交付卡片：验收要求
+     2	
+     3	本文依据 spec 规定本次需求怎样算做对、如何证明，是实现、独立验证和最终验收的共同依据。实现过程中由实现 agent 自己运行这些场景，实际跑通才算通过；冻结后不修改场景和检查点。本文只描述验收要求，不代表验证已经执行或通过。
+     4	
+     5	## 来源
+     6	
+     7	- spec：`.harness/docs/specs/goal-final-result-delivery/spec.md`，spec sha256 `c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`。
+     8	- 仓库：`matrix/agent-archon`，分支 `fix/goal-final-result-delivery`，基线 commit `ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161`（`preview_train` `e0be4dfc0b` 加 !7556 的 7 个提交）。
+     9	- 验证能力：[verify-archon](../../../../.agents/skills/verify-archon/SKILL.md)（接口、[TUI](../../../../.agents/skills/verify-archon/references/tui.md)、[Electron](../../../../.agents/skills/verify-archon/references/electron.md) 三个入口）；Goal 功能地图 [lifecycle.md](../../goal/feature-map/lifecycle.md)、[completion.md](../../goal/feature-map/completion.md)。下文 `V` 指 `.agents/skills/verify-archon/scripts/verify-archon.mjs`，`$S` 指场景中新建的会话 ID。
+    10	- 证据目录：super-auto 仓库 `requirements/goal-final-result-delivery/evidence/`，各入口 `up` 时用 `--evidence-dir` 指向它。
+    11	- spec 的“交付与授权”一节约束交付流程，由 deliver 的流程执行，不在本文验收。
+    12	
+    13	## 重点
+    14	
+    15	共 38 条要求、3 个场景。真实模型场景各跑一次：Electron 和 TUI 各一个 B 类任务，接口入口核对运行顺序；A 类多轮展示和 runtime 的非默认路径，按用户确认的方式分别用固定消息数据的 UI 测试和脚本 provider 的 runtime 集成测试判断，列为覆盖盲区。
+    16	
+    17	最容易出错的：
+    18	
+    19	- **S03 同一轮里 `update_goal` 之后还有一次模型请求。** 只改提示词、保留立即结束本轮的实现，界面上可能碰巧也有文字，但这里一定失败。
+    20	- **S01 外露正文是最终回复，结果区有 `hello.html` 的卡片。** 把 `summary` 显示成正文、或沿用“比长度”的正文选择，都会在这里失败。
+    21	- **S02 TUI 完成轮的自动化结果是 `succeeded`。** 靠修改 TUI 判定（把 preamble 算作回答）来消除报错，违反“TUI 代码不改”，并且 complete 之后没有助手回复。
+    22	- **覆盖盲区 B1、B2。** 卡片提升的触发时机、去重，以及工具拦截、空回复兜底，只能靠 UI 测试和脚本 provider 测试判断，最容易漏测。
+    23	
+    24	## 冒烟集
+    25	
+    26	开工前和每次改动后先跑，确认环境和已有功能没有坏：
+    27	
+    28	- 接口：按 verify-archon SKILL.md“冒烟”一节新建会话，发送 `Reply with exactly the word PONG and nothing else.`，历史里有 `msg_content` 为 `PONG` 的助手消息，没有 `messages-rewound` 帧。
+    29	- 接口：按 [lifecycle.md](../../goal/feature-map/lifecycle.md)“接口”一节创建 Goal 并“跑到终态”，结果为 `complete(verifier_met)`，工作目录有对应文件。
+    30	- Electron：首页发送普通消息 `Reply with exactly the word PONG and nothing else.`，`assistant-segment-active` 的文字为 `PONG`，页面上没有 `goal-completion-marker`。
+    31	- TUI：发送普通消息 `Reply with exactly the word PONG and nothing else.`，屏幕出现 `PONG`，`tui-results.jsonl` 该轮 `status` 为 `succeeded`。
+    32	
+    33	## 要求
+    34	
+    35	| ID | 要求 | spec 位置 | 证明方式 |
+    36	| --- | --- | --- | --- |
+    37	| R01 | 已接纳的 `complete` 不结束本轮：同一轮在 `update_goal` 的工具结果之后还有一次模型请求，并产生助手文字（最终回复） | 核心决定 1；§2 不结束本轮 | 场景 S01、S02、S03 |
+    38	| R02 | 最终回复写给用户，说明做成了什么、交付文件在哪，为交付文件写交付标记并写出路径 | §2 不结束本轮；§6 | 场景 S01、S02（含独立判断） |
+    39	| R03 | 最终回复不宣称验证已经通过 | 核心决定 1；§2 | 场景 S01、S02（独立判断）；评审 R04 |
+    40	| R04 | 工具返回和工具说明要求模型：写给用户、说明结果与文件位置和用法、写交付标记与路径、不再调用工具、不宣称验证已通过 | §2 不结束本轮 | 评审：逐项核对工具说明与已接纳 complete 的返回文本，缺任一项不通过 |
+    41	| R05 | 完成提案被接纳后，本轮之后的每个工具调用都不执行，包括任何模式的 `update_goal`；返回的原因要求不再调用工具、直接写最终回复 | 核心决定 2；§2 拦下后续工具调用 | 场景 S03（观察）；覆盖盲区 B2 |
+    42	| R06 | 已接纳的提案保持不变，不被随后的 `blocked` 或第二次 `complete` 覆盖 | §2 拦下后续工具调用 | 覆盖盲区 B2 |
+    43	| R07 | 拦截只在“本轮已接纳完成提案”时生效；提案之前的工具调用、其他 Goal 轮和普通对话的工具调用照常执行；拦截实现在 Goal 自己的工具执行前检查里，不改通用工具循环 | §2 拦下后续工具调用 | 场景 S01、S03；冒烟集；评审：改动文件中不出现通用工具循环 |
+    44	| R08 | 完成提案之后的回复既无文字也无工具调用时，重试一次 | 核心决定 2；§2 没有回复时的兜底 | 覆盖盲区 B2 |
+    45	| R09 | 重试后仍无回复，或被拦下后直到本轮结束都没有文字，本轮按正常结束结算，提案照常进入验证；Goal 不因此变成暂停、失败或其他状态 | §2 没有回复时的兜底；§9 | 覆盖盲区 B2 |
+    46	| R10 | 空回复重试只对已接纳的 `complete` 生效；不在全局装配通用的空回复恢复 | §2 没有回复时的兜底；§7 | 评审：生产装配中的空回复恢复只对已接纳 complete 触发；已有检查 `packages/agent-extension/test/terminal-response-recovery.test.ts` 通过 |
+    47	| R11 | Goal 提示词 TS 常量中与收口相关的指令与 §2 一致，不再要求“提交完成后直接停止”；`workflow/goal/*.md` 中对应语句逐字相同；两者原有的其他差异保持不变 | §2 提示词；§7 | 评审：对照 TS 常量与 `.md` 的改动行，收口相关句不一致或仍要求 complete 后停止即不通过；diff 中出现与收口无关的对齐改动即不通过 |
+    48	| R12 | `complete` 不再写 `terminates_turn`；`blocked` 与 stale 照旧写；complete 之后、最终回复之前被打断的一轮按其他被打断的 Goal 轮处理 | §2 被打断的这一轮 | 已有检查：`packages/local-runtime-v2/src/service/turn-system/execution/turn-continuation.service.test.ts` 按新语义更新后通过；覆盖盲区 B2 |
+    49	| R13 | 本轮结束后照常验证，Goal 最终状态以 Host 结算为准；验证在最终回复写完、本轮结束之后才开始 | 核心决定 1；§3 | 场景 S01、S02、S03 |
+    50	| R14 | `not_met`：Goal 保持 `active` 并续跑；前一次最终回复与其他内容进入过程区；新一轮结束时再写新的最终回复 | §3；§9 | 覆盖盲区 B1、B2 |
+    51	| R15 | verifier 的判定口径不改 | §3；§7 | 评审：verifier 提示词、evidence 与 verdict 结算无改动 |
+    52	| R16 | 写最终回复的阶段被用户停止、重启、模型服务出错，或结算时预算用尽，分别得到 `paused(user_requested)`、仍 `active` 并由启动恢复开新续跑、对应失败分类的状态、`budget_limited` 加预算总结；提案都不进入验证 | §3 表格；§9 | 覆盖盲区 B2 |
+    53	| R17 | 结算的失败分类和预算规则不改；“立即发送”不做 Goal 特判 | §3 | 评审：失败分类、预算结算、steer 路由无改动 |
+    54	| R18 | Goal 消息中，成功的 `update_goal(status=complete)` 之后还有文字时，外露正文是最后一段文字（最终回复）；complete 之前的文字进入过程区，即使它更长或含交付标记 | 核心决定 3；§4 正文选择 | 场景 S01；覆盖盲区 B1 |
+    55	| R19 | complete 之后没有文字的 Goal 消息按原规则展示；普通消息的正文选择和折叠不变 | §4 | 冒烟集；已有检查 `packages/ui/test/unit/components/assistantSegments.test.ts`；覆盖盲区 B1 |
+    56	| R20 | 卡片提升在 Goal 结算为 `complete` 时发生；验证中、`not_met` 续跑、暂停时不提升；不以工具调用成功为条件 | §4 卡片提升 | 场景 S01（complete 时）；覆盖盲区 B1 |
+    57	| R21 | 提升范围是这条 Goal 消息过程区里的全部交付卡片，包括更早各轮输出的 | §4 卡片提升 | 覆盖盲区 B1 |
+    58	| R22 | 同一文件（规范化路径相同）只显示一张卡片；正文已有的不再重复；展开过程区时已提升的卡片不再显示第二次 | 核心决定 3；§4 卡片提升 | 场景 S01；覆盖盲区 B1 |
+    59	| R23 | 只移动卡片，不移动正文；更早轮次的完整报告正文仍在过程区 | §4 卡片提升；§9 | 覆盖盲区 B1 |
+    60	| R24 | 写在代码块和行内代码里的标记不出卡片 | §4 卡片提升 | 已有检查：`packages/shared/test/unit/asset-markup.test.ts` 通过；覆盖盲区 B1 |
+    61	| R25 | 完成标记“目标已完成 用时 …”和 Goal 横幅不变 | §4 其他展示面 | 场景 S01 |
+    62	| R26 | 刷新、重启后从历史重建的对话，正文选择和卡片提升与实时展示一致 | §4 其他展示面 | 场景 S01（重载）；覆盖盲区 B3（重启） |
+    63	| R27 | 右侧产物面板列出本次交付的文件，同一文件只列一次；面板代码不改 | §4 其他展示面；§7 | 场景 S01；评审：`packages/ui/src/components/WorkspacePanel/` 无改动 |
+    64	| R28 | TUI 中最终回复作为完成提案之后的助手回复显示；交付标记显示为 `Created  file ↗` 行 | §5 | 场景 S02 |
+    65	| R29 | TUI 自动化模式下，有最终回复的 Goal 完成轮：结果 `status` 为 `succeeded`、`answer` 非空，没有 `EMPTY_RESPONSE`，屏幕没有 `× Error Runtime completed without a final assistant response.`，状态栏不是 `state=fail`；完成后出现 `✓ Goal complete` | §1；§5 | 场景 S02 |
+    66	| R30 | headless（`requireAnswer`）下，有最终回复的 Goal 完成轮不再判为没有回答 | §1；§5 | 覆盖盲区 B4 |
+    67	| R31 | TUI 代码不改 | §5；§7 | 评审：`packages/tui/` 无改动 |
+    68	| R32 | 声明交付文件只认正文里的交付标记；不新增 `deliverables` 或其他交付字段；不扫描工作区自动发现文件 | 核心决定 4；§6 | 评审：`update_goal` 参数 schema 与交付解析无新增字段、无工作区扫描 |
+    69	| R33 | 模型没写交付标记时不出卡片，正文里只写了路径也不出卡片 | §6；§9 | 覆盖盲区 B1 |
+    70	| R34 | 完成摘要（`summary`）不展示给用户，不充当最终回复 | §6 | 场景 S01；评审：界面没有渲染 `summary` 的新路径 |
+    71	| R35 | 被接纳的 `blocked` 提案和 stale 拒绝仍立即结束本轮 | §1；§7 | 回归范围；覆盖盲区 B2 |
+    72	| R36 | 非目标区域没有改动：IM 出站、Fork、v1 local-runtime、Remote Control、Cloud、会话资产索引、产物面板、通用工具循环；不发布 Apollo Prompt | §7 | 评审：产品提交的改动文件清单不含这些区域 |
+    73	| R37 | 产品改动限于：Goal 工具（实现、说明、返回）、Goal 提示词常量及对应 `.md`、Goal 专用的工具执行前检查、只对已接纳 complete 生效的空回复重试、Desktop 中 Goal 消息的正文选择与卡片提升，以及相应测试和文档 | 核心决定 5；§8 | 评审：逐个核对产品提交的改动文件，出现清单外的产品代码即不通过 |
+    74	| R38 | Windows 路径（盘符、反斜杠、含空格）的交付标记解析与去重正确 | §8 | 覆盖盲区 B5 |
+    75	
+    76	§9 的已接受代价由 R09、R14、R16、R23、R33 和回归范围中的重复回复暂停覆盖。
+    77	
+    78	## 场景
+    79	
+    80	真实模型场景各跑一次。模型没有写最终回复或没有写交付标记，按失败处理，查清原因后修改实现再跑，不用重跑后的偶然通过代替（仓库 `AGENTS.md` §4）。
+    81	
+    82	```text
+    83	S01 Electron：生成网页的 Goal 完成后，正文是最终回复，结果区有文件卡片　覆盖：R01、R02、R03、R07、R13、R18、R20、R22、R25、R26、R27、R34
+    84	入口：Electron 桌面端，Goal 生命周期地图“Electron”一节的“创建”“跑到完成”
+    85	前提：verify-archon 的 Electron 实例已 up，doctor 通过；按 electron.md 关闭首次启动弹窗；发送前点输入框的“智能授权”改选“始终授权”
+    86	操作步骤：
+    87	  1. 在首页输入框输入并发送 `/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.`
+    88	  2. 取会话 ID；按地图“跑到完成”用 poll 等 `goal.status` 到终态（--timeout 420，--save e-run）
+    89	  3. `snapshot --session $S --on electron --save s01`；截图 --save s01-complete
+    90	  4. 读 `assistant-segment-active` 的文字与其中的卡片；点 `turn-process-trigger` 展开过程区，统计整条消息中 hello.html 卡片数
+    91	  5. 点 `workspace-button` 打开产物面板，读 `workspace-panel`
+    92	  6. 重载渲染进程（缺口 G1），重复第 4、5 步读数
+    93	检查点：
+    94	  - 接口 `GET .../goal --on electron`：`goal.status` 为 `complete`，`status_reason` 为 `complete(verifier_met)`
+    95	  - 历史中完成那一轮：`update_goal`（status complete）工具结果之后，同一 turn 还有一段助手文字（最终回复）；Inspector 中该工具结果之后有一次发给模型的请求
+    96	  - runtime 事件：`goal.verification_dispatched` 的时间晚于这段最终回复
+    97	  - `assistant-segment-active` 的文字与这段最终回复一致
+    98	  - `assistant-segment-active` 内有文件名为 hello.html 的交付卡片
+    99	  - 展开过程区后，整条消息中 hello.html 的卡片只有 1 张
+   100	  - `goal-completion-marker` 显示“目标已完成 用时 …”；`thread-goal-banner-status` 为“已完成”
+   101	  - `workspace-panel` 中 hello.html 只出现 1 次
+   102	  - 重载后：`assistant-segment-active` 的文字、hello.html 卡片数、`workspace-panel` 中的条目与重载前相同
+   103	  - 独立判断（固定样本即本次最终回复）：说明了创建的 hello.html 及其位置；没有“已通过验证”“验证器已确认”一类表述
+   104	不得出现：
+   105	  - 外露正文是 `update_goal` 的 `summary` 文本
+   106	  - 外露正文是 complete 之前的过程句
+   107	基线预期：失败（complete 之后没有助手文字，外露正文是 complete 之前的文字）
+   108	错误实现：只改提示词、保留立即结束本轮（同一 turn 在 update_goal 之后没有模型请求）；把 summary 渲染成正文（正文不是 complete 之后的助手文字）
+   109	替身：无，真实模型与真实 verifier
+   110	证据：e-run 轨迹、s01 快照（历史、runtime 事件、Inspector、工作目录）、截图、aria
+   111	执行状态：入口已存在；重载需补验证能力（缺口 G1）；“历史中完成那一轮的结构”和“卡片元素的选择器”实现后绑定命令
+   112	```
+   113	
+   114	```text
+   115	S02 TUI：生成网页的 Goal 完成轮不再误判为没有回答　覆盖：R01、R02、R03、R13、R28、R29
+   116	入口：MCode TUI，Goal 生命周期地图“TUI”一节的“创建”，按“恢复并跑到完成”的方式等待完成
+   117	前提：verify-archon 的 TUI 实例已 up（build-mode 状态栏与结果文件已由 tui up 配置），doctor 通过
+   118	操作步骤：
+   119	  1. `tui type "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`
+   120	  2. `tui wait --text "Goal complete" --timeout 420 --save tui-s02`
+   121	  3. `tui screen --all --save tui-s02-screen`；`tui snapshot --save s02`
+   122	检查点：
+   123	  - 屏幕出现 `✓ Goal complete`
+   124	  - 屏幕上 `update_goal` 工具行之后有一条助手回复（`●` 标记），内容提到 hello.html
+   125	  - 屏幕出现 hello.html 的 `Created` 行
+   126	  - `tui-results.jsonl` 中完成那一轮的记录：`status` 为 `succeeded`，`answer` 非空，没有 `error.code` 为 `EMPTY_RESPONSE`
+   127	  - 该轮结束时状态栏 `state` 不是 `fail`
+   128	  - s02 的 `-workspace/hello.html` 存在，主标题为 Hello Goal
+   129	  - 独立判断（固定样本即本次最终回复）：说明了 hello.html 及其位置；没有“已通过验证”一类表述
+   130	不得出现：
+   131	  - `× Error Runtime completed without a final assistant response.`
+   132	基线预期：失败（完成轮 `status` 为 `failed`、`error.code` 为 `EMPTY_RESPONSE`，状态栏 `state=fail`）
+   133	错误实现：修改 TUI 判定，把 complete 之前的 preamble 算作回答（屏幕上 update_goal 之后没有助手回复，且违反 R31）
+   134	替身：无
+   135	证据：tui-s02 轨迹、屏幕文本、tui-results.jsonl、s02 快照
+   136	执行状态：入口已存在
+   137	```
+   138	
+   139	```text
+   140	S03 接口：完成提案之后的运行顺序　覆盖：R01、R05、R07、R13
+   141	入口：接口，Goal 生命周期地图“接口”一节的“创建”“跑到终态”
+   142	前提：verify-archon 接口实例已 up，doctor 通过；新建会话 `$S`
+   143	操作步骤：
+   144	  1. `api POST /minimax-desktop/api/v1/session/$S/goal --data '{"objective":"Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."}' --save s03-create`
+   145	  2. `poll .../goal --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason --interval 4 --timeout 420 --save s03-run`
+   146	  3. `snapshot --session $S --save s03`
+   147	检查点：
+   148	  - `goal.status` 为 `complete`；轨迹中先出现 `execution.wait_reason` 为 `verification`，再出现 `complete(verifier_met)`
+   149	  - 完成那一轮：`update_goal`（status complete）之前的工具调用照常执行并有结果
+   150	  - 同一 turn 中 `update_goal` 工具结果之后有助手文字；Inspector 中该工具结果之后有一次模型请求
+   151	  - 该 turn 中 `update_goal` 之后没有被执行的工具；若模型尝试调用工具，其工具结果是要求直接写最终回复的拦截原因，工作目录没有因此变化
+   152	  - runtime 事件中完成提案被接纳在前，本轮结算与 `goal.verification_dispatched` 在最终回复之后
+   153	不得出现：
+   154	  - 同一 turn 在 `update_goal` 之后执行了任何工具
+   155	基线预期：失败（`update_goal` 之后没有模型请求和助手文字）
+   156	错误实现：complete 之后另开一轮生成最终回复（最终回复不在同一 turn）
+   157	替身：无
+   158	证据：s03-run 轨迹、s03 快照（历史、runtime 事件、Inspector、工作目录）
+   159	执行状态：入口已存在；“turn 结构与 Inspector 请求的读取方式”实现后绑定命令
+   160	```
+   161	
+   162	## 回归范围
+   163	
+   164	本次改动触及、spec 没有要求改变的现有行为，在基线和改动后都应通过：
+   165	
+   166	- Goal 生命周期地图中已实跑的接口步骤（创建、暂停、暂停时修改、恢复、跑到终态、清除、替换）。
+   167	- [completion.md](../../goal/feature-map/completion.md) 的“完成后不续跑”：完成后发送普通消息，10 秒内 `goal.status` 保持 `complete`、`turns_used` 不变，`GET .../queue` 的 `items` 为空。
+   168	- 被接纳的 `blocked` 与 stale 拒绝立即结束本轮：`packages/agent-modules/goal/test/unit/thread-goal/tool-impls.test.ts` 中相应用例。
+   169	- 续跑轮修改预算的拦截：`packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.test.ts`。
+   170	- 重复回复暂停：`packages/agent-modules/goal/test/unit/thread-goal/reply-fingerprint.test.ts` 与 Goal 结算测试（`packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts`）。
+   171	- 普通消息的正文选择与合并：`packages/ui/test/unit/components/assistantSegments.test.ts` 中非 Goal 用例、`coalesceAssistantMessages.test.ts`。
+   172	- 通用空回复恢复的原有行为：`packages/agent-extension/test/terminal-response-recovery.test.ts`。
+   173	- TUI 与 headless 结算：`packages/tui/test/unit/headless-settlement.test.ts`、`tui-delegation-terminal-settlement.test.ts`。
+   174	- 交付标记解析（含代码块排除）：`packages/shared/test/unit/asset-markup.test.ts`。
+   175	
+   176	spec 明确改变的行为（complete 不结束本轮、不写 `terminates_turn`、Goal 消息的正文选择、提示词措辞），旧测试随之更新，不算回归。
+   177	
+   178	## 验证工具缺口
+   179	
+   180	| 缺口 | 服务场景 |
+   181	| --- | --- |
+   182	| G1 Electron 入口没有在保留数据的前提下重载渲染进程的命令（`electron down` 会删除数据）；补一个重载命令，例如 `electron reload` | S01 |
+   183	
+   184	## 覆盖盲区
+   185	
+   186	- **B1 Desktop 展示规则的非默认输入。** 影响 R14（界面部分）、R18（更长或含标记的更早正文）、R19、R20（验证中、`not_met`、暂停时不提升；不以工具调用成功为条件）、R21、R22（多处出现同一文件、展开后不重复）、R23、R24、R33。真实模型无法稳定构造 A 类多轮和这些状态。按用户确认，改用固定消息数据的 UI 组件或集成测试判断：每条规则至少一个用例，输入覆盖 A 类序列（报告带卡片、续跑 bash 校验、短确认、complete、最终回复）、验证中与暂停状态、同一路径多次出现、代码块内标记、只写路径不写标记、非 Goal 消息、complete 之后无文字的旧消息。
+   187	- **B2 runtime 的非默认路径。** 影响 R05（真实模型未尝试调用工具时）、R06、R08、R09、R12（被打断）、R14（续跑）、R16、R35。真实模型无法稳定触发“complete 后继续调工具”“两次空回复”“服务出错”等情况。按用户确认，改用脚本 provider 驱动的 runtime 集成测试判断：每种情况一个用例，断言本轮是否结束、提案是否进入验证、Goal 的最终状态与 spec §3 表格一致。
+   188	- **B3 应用重启后的历史。** 影响 R26 的“重启”部分。verify-archon 的 `electron down` 会删除数据，无法在保留数据时重启；以 G1 的重载代替判断，渲染进程同样从 runtime 历史重建对话。
+   189	- **B4 headless。** 影响 R30。仓库当前没有从 headless（`mcode exec`）创建 Goal 的入口，`packages/tui/src/headless/` 与 `run-exec-command.ts` 无 Goal 处理。改为评审：headless 取回答的规则（最后一次工具调用之后的助手文字）在有最终回复时得到非空回答。
+   190	- **B5 Windows 真机。** 影响 R38。本机只能在 macOS 运行实例；改用单元测试判断盘符、反斜杠、含空格路径的交付标记解析与卡片去重。
+   191	
+   192	## 完成条件
+   193	
+   194	- 除覆盖盲区里的检查点外，S01–S03 全部由实际运行通过；冒烟集与回归范围通过。
+   195	- 盲区里的检查点标为 UNVERIFIED 并单列，附对应的 UI 测试、脚本 provider 测试或评审结论。
+   196	- 评审类要求（R04、R07、R10、R11、R15、R17、R27、R31、R32、R34、R36、R37）逐条写明核对的文件与结论。
+   197	- 证据对应交付版本的代码和运行实例：记录 git HEAD、verify-archon 的 runId、模型与环境。
+   198	- 工具缺失的场景如实标为受阻，不用单元测试或其他更低层的检查代替。
+
+ succeeded in 0ms:
+     1	# Goal 收口的最终回复与交付卡片：核心决策与约束
+     2	
+     3	本文记录本次修复的核心决策与约束，作为方案设计、开发实现和代码审查的共同依据，也用于人工决策核对与对外说明。
+     4	
+     5	具体实现可以调整，但必须满足这些约定；需要改变约定时，应先明确影响并重新确认。本文描述的是目标要求，不代表实现已完成或验证已通过。
+     6	
+     7	**目的：** Goal 收口时，用户不用追问，就能在对话里读到本次任务做成了什么、交付文件在哪，并能直接打开模型声明的交付文件；续跑、最终校验和过程折叠不再吞掉这些内容。Goal 是否完成仍以 Host 结算为准。
+     8	
+     9	对应缺陷 #7125906243，跟 10 月 2 日版本。术语（完成提案、Goal 完成、最终回复、完成摘要、交付标记、交付卡片、卡片提升、过程区）按仓库根目录 [CONTEXT.md](../../../../CONTEXT.md) 的“Goal 收口与交付”一节使用。
+    10	
+    11	## 本次最核心的决定
+    12	
+    13	1. **已接纳的完成提案不再立即结束本轮。** 模型在同一轮写一次最终回复，然后本轮结束，Host 照常结算和验证。最终回复写在验证之前，不宣称验证已通过。
+    14	2. **完成提案被接纳后，本轮的工具调用全部被拦下，包括 `update_goal`。** 这一轮只剩写最终回复一步；两次都没有回复时按正常结束结算，不因缺最终回复把 Goal 判为失败。
+    15	3. **Goal 完成时，Desktop 把这条 Goal 消息过程区里的交付卡片提到结果区，正文固定取最终回复。** 只移动卡片，不移动正文；同一文件只显示一张卡片。
+    16	4. **交付只认正文里的交付标记。** 不新增交付字段，不自动发现未声明的文件；产物面板、会话资产索引、IM 和 TUI 的代码都不改。
+    17	5. **严格控制影响范围。** 10 月 2 日封板的核心需求不是 Goal；改动只落在 Goal 自己的工具、提示词、工具执行前检查、complete 专用的空回复重试，以及 Desktop 的 Goal 消息展示，普通对话的行为不变。
+    18	
+    19	## 完整决策与约束
+    20	
+    21	### 1. 修复范围：A、B 两条路径
+    22	
+    23	| 路径 | 现象 | 案例 |
+    24	| --- | --- | --- |
+    25	| A | 前一轮已经输出了报告或交付卡片，续跑校验后提交完成，报告和卡片被收进过程区，外露的只剩一句确认 | 6CPQVW0J |
+    26	| B | 模型先提交完成、打算之后再交付，本轮随即结束，最终回复没有生成，用户只看到过程句 | MG9FB8I4、MCT-202609-42YHZXRZ |
+    27	
+    28	- B 包括 TUI 自动化模式（build-mode 状态栏加 `MCODE_TUI_RESULT_PATH`）和 headless（`requireAnswer`）把 Goal 完成的那一轮判成 `EMPTY_RESPONSE`、显示 `× Error Runtime completed without a final assistant response.`、状态栏 `state=fail`。
+    29	- 用户反馈文档第 8 项按 B 类场景验收，不要求证明它与 B 是同一条内部轨迹。
+    30	- 被接纳的 `blocked` 提案和 stale 拒绝保持现状：仍立即结束本轮。
+    31	
+    32	### 2. 完成提案之后的这一轮：只写最终回复
+    33	
+    34	**不结束本轮。** `update_goal(status=complete)` 被接纳后，本轮继续。工具返回和工具说明要求模型立即写最终回复：
+    35	
+    36	- 写给用户，说明做成了什么、交付文件在哪、必要时怎么用；
+    37	- 为交付文件写交付标记，并写出文件路径；
+    38	- 不再调用任何工具；
+    39	- 不宣称验证已经通过。
+    40	
+    41	**拦下后续工具调用。** 同一轮完成提案被接纳后，之后的每个工具调用都不执行，包括再次调用 `update_goal`（任何模式）；调用方收到的原因要求它不再调用工具、直接写最终回复。已接纳的提案保持不变，不会被随后的 `blocked` 或第二次 `complete` 覆盖。这项拦截放在 Goal 自己的工具执行前检查里，只在“本轮已接纳完成提案”时生效，不改通用工具循环。
+    42	
+    43	**没有回复时的兜底。** 完成提案之后，模型的回复既没有文字、也没有工具调用时，重试一次。仍然没有回复，或者被拦下后直到本轮结束都没有写出文字，本轮按正常结束结算，完成提案照常进入验证；不走失败结算，不因此把 Goal 变成暂停、失败或其他状态。这种情况下用户看到的与现状相同：没有最终回复，TUI 自动化仍可能报 `EMPTY_RESPONSE`。这项重试只对“已接纳的 complete”生效，不在全局装配通用的空回复恢复。
+    44	
+    45	**提示词。** 客户端实际使用的 Goal 提示词是 `@mavis/goal` 中的 TS 常量（`packages/agent-modules/goal/src/continuation.ts` 等），随客户端发布，远端 Prompt 已停用。与收口相关的指令改在这些常量里，与本节行为一致，不再要求“提交完成后直接停止”；`packages/local-runtime-v2/assets/agents/workflow/goal/` 下对应的 `.md` 同步成相同措辞。两者之间原有的其他差异不在本次对齐。
+    46	
+    47	**被打断的这一轮。** `complete` 不再写“本轮有意结束”的标记（`terminates_turn`），`blocked` 与 stale 照旧写。完成提案之后、最终回复之前被打断的一轮，按其他被打断的 Goal 轮处理，例如可以显示“继续”。
+    48	
+    49	### 3. Host 结算与验证保持现状
+    50	
+    51	- Goal 的最终状态以 Host 结算为准。本轮结束后照常验证：`met` 为 `complete(verifier_met)`；`not_met` 保持 `active` 并续跑；验证模式为 `none` 时直接 `complete(worker_proposal)`。
+    52	- verifier 的判定口径不改，不新增“用户是否看到交付”之类的检查。
+    53	- `not_met` 续跑后，前一次最终回复与本条 Goal 消息的其他内容一起进入过程区，新一轮结束时再写新的最终回复。
+    54	- 写最终回复的阶段被中断或失败，或者结算时 Goal 已被暂停、修改、清除或预算用尽，都沿用现有结算规则，已接纳的完成提案不进入验证：
+    55	
+    56	| 情况 | 结果 |
+    57	| --- | --- |
+    58	| 用户停止 | Goal 暂停为 `paused(user_requested)`；用户恢复后，模型重新检查并重新提交完成 |
+    59	| 应用重启或崩溃 | 提案丢失；Goal 仍为 `active`，启动恢复开一轮新的续跑 |
+    60	| 模型服务出错 | 按现有失败分类：限流或额度用完为 `usage_limited`，安全拒绝为 `blocked(safety_policy)`，其余为 `paused(infra_retryable)` |
+    61	| 结算时预算用尽（包括最终回复的消耗使其用尽） | 按现有预算规则：`budget_limited`，另排一轮预算总结 |
+    62	
+    63	- 结算里的失败分类和预算规则不改。
+    64	- “立即发送”沿用现有规则，不做 Goal 特判。
+    65	
+    66	### 4. Desktop：正文取最终回复，交付卡片提到结果区
+    67	
+    68	以下规则只作用于 Goal 消息；普通消息的正文选择和折叠不变。
+    69	
+    70	**正文选择。** Goal 消息里，成功的 `update_goal(status=complete)` 调用之后还有文字时，外露的正文固定取最后一段文字，也就是最终回复；不再与 complete 之前的文字比较长度。complete 之前的文字进入过程区。complete 之后没有文字的消息（例如旧历史）按原规则展示。
+    71	
+    72	**卡片提升。**
+    73	
+    74	- 触发：Goal 结算为 `complete` 时，也就是过程区折叠的时候。不以工具调用成功为条件；验证中、`not_met` 续跑、暂停等状态下不提升。
+    75	- 范围：这条 Goal 消息过程区里的全部交付卡片，包括更早各轮输出的。
+    76	- 去重：同一文件（规范化路径相同）只显示一张；正文里已有的不再重复。用户展开过程区时，已提升的卡片不在过程区里再显示一次。
+    77	- 只移动卡片，不移动正文。更早轮次的完整报告正文仍在过程区。
+    78	- 写在代码块和行内代码里的标记不算交付，不出卡片。
+    79	- 不采用“含交付标记的正文优先当正文”这类规则。
+    80	
+    81	**其他展示面。**
+    82	
+    83	- 完成标记“目标已完成 用时 …”和 Goal 横幅不变。
+    84	- 刷新、重启后从历史重建的对话，正文选择和卡片提升与实时展示一致。
+    85	- 右侧产物面板列出本次交付的文件，同一文件只列一次。现有读取已包含过程区里的标记，也按路径去重，不改面板代码。
+    86	
+    87	### 5. TUI 与 headless
+    88	
+    89	- 最终回复作为完成提案之后的助手回复显示；交付标记沿用现有的 `Created  file ↗` 行。
+    90	- 自动化模式和 headless 下，有最终回复的 Goal 完成轮不再是 `EMPTY_RESPONSE`、`× Error` 或 `state=fail`；完成后照常出现 `✓ Goal complete`。
+    91	- TUI 代码不改；上述结果由第 2 节的最终回复产生。
+    92	
+    93	### 6. 交付声明：只认交付标记
+    94	
+    95	- 声明交付文件的唯一方式是正文里的交付标记（`<deliver-assets>`、`<media/>`）。不新增 `deliverables` 或其他交付字段，不扫描工作区自动发现文件。
+    96	- 模型没写交付标记时不出卡片；最终回复仍要写出文件路径。
+    97	- 完成摘要（`update_goal` 的 `summary`）用途不变：交给 verifier，不展示给用户，不能代替最终回复。
+    98	
+    99	### 7. 非目标
+   100	
+   101	- `blocked` 提案与 stale 拒绝的行为。
+   102	- IM 出站、Fork、v1 local-runtime、Remote Control、Cloud 会话的展示与交付。
+   103	- 新增交付字段、自动发现未声明的文件。
+   104	- verifier 的判定口径；结算里的失败分类。
+   105	- 产物面板、会话资产索引、IM、TUI 的代码。
+   106	- 把更早轮次的完整报告正文默认展开。
+   107	- 对齐 Goal 提示词 `.md` 与 TS 常量之间原有的其他差异。
+   108	- 通用工具循环；全局装配通用的空回复恢复。
+   109	- 发布 Apollo Prompt。
+   110	
+   111	### 8. 硬约束
+   112	
+   113	- **影响范围：** 改动限于 Goal 工具（实现、说明、返回）、Goal 提示词常量及对应 `.md`、Goal 专用的工具执行前检查、只对已接纳 complete 生效的空回复重试、Desktop 中 Goal 消息的正文选择与卡片提升，以及随之更新的测试和文档。普通对话的行为不变。
+   114	- **平台：** 产品逻辑兼容 macOS 与 Windows。Windows 路径（盘符、反斜杠、含空格）的交付标记解析与去重用单测覆盖。
+   115	- **时间：** 10 月 2 日 12:00 前合入 `preview_train`。
+   116	
+   117	### 9. 已接受的代价
+   118	
+   119	- 更早轮次的长报告正文默认留在过程区，只有其中的交付卡片被提升。
+   120	- 模型没写交付标记时没有卡片。
+   121	- `not_met` 后，前一次最终回复进入过程区。
+   122	- 连续几轮 `not_met` 且最终回复逐字相同时，触发已有的重复回复暂停 `paused(no_progress_after_completion_claim)`。
+   123	- 写最终回复的阶段遇到用户停止、重启或模型服务出错时，完成提案作废，需要恢复后重新收尾。
+   124	- 最终回复消耗 token；接近预算上限的 Goal 可能因此在结算时进入 `budget_limited`，而不是进入验证。
+   125	- 完成提案之后模型两次都没有回复时，没有最终回复，与现状相同。
+   126	
+   127	## 交付与授权
+   128	
+   129	- **仓库与分支：** `matrix/agent-archon`。开发分支 `fix/goal-final-result-delivery` 叠在 !7556（`feat/verify-archon-skill`）之上，用它的 verify-archon 和 Goal 功能地图验证。
+   130	- **开发 MR：** 即交接用的 Draft MR，目标 `feat/verify-archon-skill`。deliver 在这个 MR 上继续提交，完成后更新描述并取消 Draft；它不合入产品代码，`preview_train` 的 MR 合入后关闭。本需求对 verify-archon 和功能地图的改进单独提交，交给 7556 的维护会话并入。
+   131	- **提交划分：**
+   132	  - 产品提交：代码，以及 `preview_train` 上已有的文档，即 Goal 的 `spec.md`（GOAL-09、GOAL-13）、`implementation.md`、`verification.md`、`changes/` 下新增的一条变更记录（背景、范围、决策、行为差异、验收摘要），和 `CONTEXT.md` 术语。这些提交要能干净 cherry-pick 到 `preview_train`。
+   133	  - 只留在开发分支的提交：功能地图、verify-archon 的改动，以及本 spec 与 verify 所在的提交。
+   134	- **上线 MR：** deliver 在开发分支验证通过后，从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交；跑相关单测和 typecheck；证明其产品改动与已验证的开发分支一致（两边产品文件的 diff 相同），真实模型证据沿用开发分支上的；开 MR 到 `preview_train`，显式设置 squash 为 `true` 并用 API 回读；处理 CI；不合入。
+   135	- **时间：** 10 月 2 日 09:00 前把 `preview_train` 的 MR 做到可合入；到点仍未完成就停下，汇报已有证据和缺口。用户在 12:00 前合入。
+   136	- **允许：** 推送 `fix/goal-final-result-delivery` 和 `fix/goal-final-result-delivery-preview-train`；创建、更新这两个 MR；处理它们的 CI。
+   137	- **不允许：** 合入任何 MR；推送 `feat/verify-archon-skill`；发布 Apollo；修改飞书文档和工作项；改动 !7424、!7435；发送消息。
+   138	- **冻结：** 本 spec 与 verify 以 sha256 为准。7556 再 rebase 时，这两份文件所在提交的 SHA 会变，内容的 sha256 不变。
+   139	- **过程文件：** `plan.md` 和证据放在 super-auto 仓库的 `requirements/goal-final-result-delivery/`，在该仓库本地提交（录屏只留文件、不提交），不进 MR。
+   140	- **文档：** 不单独写 ADR；决定写进 Goal `changes/` 变更记录。MR 描述写决定摘要和本 spec、verify 的 sha256。
+
+ succeeded in 0ms:
+---
+name: core-spec
+disable-model-invocation: true
+description: 讨论和澄清结束后，把会话与材料收敛为核心决策 spec.md；需要自动交付时，再写验收要求 verify.md。
+---
+
+# 将讨论收敛为 spec，并写出验收要求
+
+交付两份可独立阅读的中文 Markdown：
+
+- **spec.md**《<主题>：核心决策与约束》：已经选定什么、必须满足什么。读者快速浏览能抓住最重要的改变，深入阅读能逐项判断方案与实现是否符合约定。
+- **verify.md**《<主题>：验收要求》：一个实现怎样才算满足 spec，要在哪里操作、观察什么结果、留下什么证据，才能宣布完成。
+
+两份在同一次工作中完成：写验收时按入口和状态找出的缺口要回写 spec，spec 到 verify 写完才定稿；两份一起查漏、一起请用户确认、一起冻结。两份仍是两个文件：spec 给人和实现方看，verify 给实现方和独立验证者看，冻结后各自核对 sha256。先定 spec 再写 verify。
+
+按用户给出的起点选择范围：
+
+- **从讨论开始**（默认）：做完第 1–8 步。
+- **只要 spec**（例如用于方案设计、design-for-review、plan-for-agents 或汇报）：做完第 1–4 步即交付。
+- **已有定稿 spec，要写验收**：从第 5 步开始，把给定的 spec 当作唯一依据，不重新收敛；第 5–7 步需要回写 spec 时，按第 1–4 步的规则只改受影响的部分。
+
+这是讨论结束后的收敛动作。沿用已经完成的澄清和 grill；只有影响最终结论的未决冲突才需要继续提问。
+
+## 1. 找到最终有效的约定
+
+读取当前会话、用户指定的历史会话及相关需求、ADR、术语和方案文档。跨会话使用可用的会话读取能力，或按确切 session ID 定位本地记录；摘要缺失、分页未读完或 fork 后续不可见时，继续读取与决定相关的原文。无法取得的材料明确说明，不用推测填补。
+
+先在工作过程中建立简短的对应关系：**议题 → 最终约定 → 依据 → 确认状态 → 成稿位置**。它服务于核对，默认不另行交付决策台账。
+
+- **已确认决定：** 找到用户选择、认可或明确指定的权威定稿。简短的“同意”“A”要连同对应问题和选项读取。后来的明确修订替代旧结论。
+- **保留行为与约束：** 区分现状事实与目标要求。结合已确认的范围判断哪些现有行为必须保持；仅有现状描述不能自动推导出永久不变的要求。
+- **建议与未决项：** 助手建议、源码推断和未经采纳的草案保持原身份。文档较新、重复出现、用户没有反对，都不等于已经批准。
+
+遇到冲突，先核对上下文和约定适用范围。源码可以证实现状或限制，不能替用户决定目标行为。确有影响范围、行为或取舍的未决冲突时，写清冲突与影响，提出最小必要问题，同时整理不受影响的部分；答复前保留“待确认”状态。接口命名、文件划分等留给后续设计，不为这些问题重开 grill。
+
+完成条件：每个影响目标、范围、行为和正确性的议题，都能区分最终约定、被替代内容或尚未确认内容。
+
+## 2. 提炼决定，保留判断边界
+
+围绕“未来的方案或实现怎样才算符合约定”筛选内容：
+
+- 选定的行为、职责归属、改动范围、复用与兼容边界。
+- 会改变正确性判断的条件、例外、限制，以及明确接受的代价。
+- 已确认必须保持的不变量；按任务需要保留计量、并发、持久化、恢复等语义。
+
+将问答改成直接的结论，将具体实现建议还原为它要满足的约束。只有接口、字段或实现机制本身已经被明确选定且构成约束时，才保留为要求。
+
+删除调查过程、被否决的选项、重复解释、实施步骤和详细测试清单。必要理由可用一句话解释取舍；具体例子如果能消除规则歧义，就放在对应决定旁边。保留关键条件与数值，不用“保持兼容”“保证可靠”代替原有可核对的规则。
+
+按问题及需要一起判断的约定归组，不机械分成“开发决策”和“Review 原则”，也不沿代码目录或工作阶段拆散同一决定。
+
+除了决定本身，spec 还要写清下面四项。交付阶段的 agent 按 spec 自行判断，缺了它们只能猜，或停下来问人。
+
+| 内容 | 写什么 | 缺了会怎样 |
+|---|---|---|
+| 目的 | 一两句：完成后用户能做什么以前做不到的事，怎样看到它生效 | 实现只满足条款字面，做出能运行却没有用的东西 |
+| 非目标 | 本次明确不做的事，尤其是相邻、容易被顺手改掉的功能 | 自主执行时范围扩大，改动没人要求的行为 |
+| 硬约束 | 适用时逐类检查性能、平台、兼容、依赖和安全，保留原有数值 | 必须满足的条件被当作可以取舍的偏好 |
+| 交付与授权 | 交付到哪个仓库和基线分支；能否推送自己的分支并开 MR/PR；能否合入，还是停在可合入；授权范围内允许哪些不可逆操作 | 交付做到一半停下等人，或做了没被授权的操作 |
+
+这四项只写有依据的内容，不替用户补定。非目标写用户已明确的；讨论中没有谈到时写“未单列非目标”，只有某个具体的相邻事项会实质改变交付范围时，才作为最小必要问题提出。交付与授权只由用户决定：用于自动交付、讨论中又没有定下时提问；spec 不用于自动交付时可以不写。
+
+## 3. 用金字塔结构写成 spec
+
+开头简短说明用途与效力，可按主题调整：
+
+> 本文记录本次改造的核心决策与约束，作为方案设计、开发实现和代码审查的共同依据，也用于人工决策核对与对外说明。
+>
+> 具体实现可以调整，但必须满足这些约定；需要改变约定时，应先明确影响并重新确认。本文描述的是目标要求，不代表实现已完成或验证已通过。
+
+用途说明之后，用一两句写目的，再进入正文。
+
+正文采用两层：
+
+### 第一层：最核心的决定
+
+通常选 3–5 个，内容较少时更少。优先突出最影响本次工作方向、外部行为、范围和取舍的决定，一屏内建立整体认识。
+
+每点用**结论句 + 必要解释**，让人知道具体选了什么。开头有意不覆盖全部细节；不要为了穷尽内容而把结论抽象成“迁移范围”“数据一致性”等主题标签，也不把所有条款平均压缩后堆在开头。
+
+### 第二层：完整决策与约束
+
+围绕核心决定展开，其他重要约定放在就近的分组，必要时增加独立分组。分组是阅读结构，不代表要实现对应数量的模块。
+
+- 标题直接表达决定，下面紧跟相关的规则、边界与取舍。
+- 摘要和正文允许必要重复；详细规则在正文保留一个权威位置，其他地方引用它。
+- 编号按最终阅读顺序组织。仅用于整理核对的旧编号不带入成稿；已经用于外部引用的稳定标识保留。
+- 非目标和硬约束放在第二层，单独成组或并入相关决定；交付与授权放在文末单独一节。
+
+最终约定齐全时，不设空的“待决问题”章节。仍有关键未决项时，明确标为待确认稿，并在文末隔离这些问题，不把它们混进已定约束。必要来源链接可就近保留，正文应足以独立理解规则，无需读者回看聊天。
+
+需要判断摘要与完整规则如何分层，或如何处理被替代的结论时，读取[收敛示例](references/spec-example.md)。
+
+只写一个 spec 文件，不附带过程台账、额外摘要或拆分版，写入用户本次指定的目录；没有给出目录时先问，同时继续不需要落盘的整理。更新已有 spec 时整篇保持一致；原始讨论与来源文档保留，不因收敛而删除。
+
+## 4. spec 的完成标准
+
+成稿以第 1 步读取的原始需求、已接受 ADR 和最终澄清为基线，满足下面的条件。记清依据的来源范围和成稿版本；中间摘要仅作索引。重排前后文字相同，只能证明这次重排没有丢字，不能证明此前的压缩没有遗漏。
+
+### 条件
+
+按“议题 → 约定 → 依据 → 成稿位置”的对应关系判断：
+
+- **原材料 → 成稿：** 已确认的关键决定、限制、例外和接受的取舍都有落点。合并条款不能吞掉条件，删掉过程不能连带删掉结论。
+- **成稿 → 原材料：** 每个规范性断言都有依据，没有将建议升级为承诺，也没有借整理文档新增需求。
+- **摘要 → 正文：** 最核心决定都有展开；摘要没有超出正文，也没有让局部例外看起来适用于全部情况。
+- **独立阅读：** 人扫开头能抓住重点；agent 读正文能判断符合或偏离。目标要求和实现、验证状态明确分开。
+- **自动交付所需：** 目的和非目标已写明；用于自动交付时，交付与授权已写明。四项都有依据，没有替用户补定。
+- **精简有效：** 过程、被替代方案和非必要实现细节没有混入最终要求。已有工程规范可以明确引用适用文档及范围；决定本次行为的关键边界仍在正文写清。
+
+对疑似遗漏或歧义，用反例判断其影响：**是否存在一种符合当前文字、却违反已确认约定的合理实现？** 若能指出具体场景和违背的原始约定，就在对应决定旁补足最小必要表述。重要的已接受代价也应直接说明，不能只留给读者推导。
+
+检查建议不是新需求。每项问题记清“依据、成稿位置、影响、处置”：已有条款明确覆盖的，无需再补；已有工程规范能承接的，引用即可；纯命名或实现方式留给设计。仅凭“原稿写得更详细”不能要求全部补回；来源中的冲突或未决选择按第 1 步处理。
+
+需要判断哪些缺失必须补、哪些无需补时，读取[检查案例](references/spec-example.md#检查案例与验收判断)。修正后，受影响的条款、相邻边界和摘要仍要满足这些条件。
+
+### 通过条件
+
+在已声明的来源范围内，关键遗漏、无依据新增、实质冲突和会改变实现的歧义均已解决；原有关键约定可定位，摘要与正文一致，过程与非必要细节已剔除。条目数相同、关键词齐全或格式检查通过，不能替代上述判断。
+
+影响关键约定的材料无法取得，或关键决定仍未确认时，交付明确标注缺口的待确认稿，说明缺什么及影响；不宣称完整通过。检查通过仅代表文档忠实承接约定，不代表产品实现或测试已通过。
+
+完整流程中，第 7 步的查漏会对照原始约定独立核验，这里不另设一轮作者复查。
+
+**只要 spec 时**，到此交付。最终回复给出文件链接及简短检查结论：核对了哪些来源、修正了哪些实质问题、通过或仍有哪些缺口。核对过程默认留在工作上下文中，无需另交长报告。
+
+## 5. 按入口和状态找 spec 的缺口
+
+对 spec 涉及的每个功能过一遍它的用户入口（按钮、快捷键、CLI、API 等）和适用的状态（默认、加载、空、错误、禁用、取消、重复触发、并发、重启后），找 spec 没有定下的行为。项目有功能地图时，按地图列出的入口逐个过，不只看一个方便的入口。
+
+会改变场景判定结果的缺口，按第 1–4 步更新 spec：从会话中找出最终约定，仍未确定时向用户提出最小必要问题。答复前，相关内容标为待确认，其余部分继续。只影响实现方式、不影响判定的，留给实现。
+
+完成条件：每个相关入口和状态都已归入 spec 的约定、确认不适用，或作为问题提出。
+
+## 6. 依据 spec 写 verify
+
+读取 [verify 的写法](references/verify.md)，按其中的规则写 verify.md：把 spec 的规范性内容写成可判断的要求，为行为要求设计从真实入口运行的场景，定位项目的验证能力，列出验证工具缺口和覆盖盲区。写 verify 时又发现 spec 没定的行为，回到第 5 步处理。
+
+完成条件：[verify 的写法](references/verify.md)各节的完成条件全部满足。
+
+## 7. 换一家模型查漏
+
+作者自查容易放过自己的遗漏，同一家模型也容易犯同样的错；交付阶段全自动，这里漏掉的问题会一直带到 MR。用与写 spec、verify 的模型不同家族的 CLI 开一个新 session 查漏。它拿到 spec、verify、相关仓库和原始约定：需求稿、已接受的 ADR，以及用户最终决定的原话和对应的问题、选项（从第 1 步的对应关系里摘出，存成一个文件）；拿不到作者的推理过程和草稿。查什么、怎样报告写在[查漏说明](references/gap-check.md)里，调用时引用这份说明，不另写；启动方式见[跨模型调用](references/cross-model.md)。
+
+查漏方只报告，修改由本 session 按报告逐条处理：
+
+- verify 的问题（覆盖缺失、检查点不能失败、越出 spec、入口不存在）：直接改 verify.md。
+- spec 的问题：原始约定里已有依据的，按第 1–4 步直接改 spec；自相矛盾、缺少会改变判定的决定或缺少交付与授权，而原始约定里没有依据的，转成给用户的最小必要问题，答复按第 1–4 步写进 spec 后，更新对应场景。
+- 不成立的：在最终回复里写一句理由。
+
+用户的答复新增或改变了 spec 的要求时，对改动后的两份文件再查一次。查漏最多两轮。第二轮之后仍未解决的问题保留为未通过，写进最终回复；其中只有需要用户选择的目标、行为或取舍，才转成问题。
+
+另一家模型用不了时（未安装、未登录，或重试后仍失败），先换另一个不同家族的 CLI；都用不了，就记为“跨模型查漏未完成”：可以交付待确认稿，但不请用户冻结。只有用户明确放宽这一要求时，才用同家族查漏，并在最终回复里写明。
+
+完成条件：报告中的每条问题都已修改、转成问题并得到答复、保留为未通过，或写明不成立的理由。
+
+## 8. 请用户一次确认
+
+运行 `node <本 Skill 目录>/scripts/freeze.mjs --spec <spec.md> --verify <verify.md>`。它输出两份文件的 sha256，并核对 verify.md 来源里记的 spec 哈希与 spec 当前内容一致；不一致时先更新 verify.md 的来源，再运行一次。
+
+最终回复给出 spec 与 verify 的文件链接和 sha256、要求数与场景数、冒烟集、工具缺口、覆盖盲区、查漏结果（查漏用的模型、问题数与处置）和仍待确认的问题，请用户一次确认；sha256 用脚本的输出，交付时原样交给 deliver。跨模型查漏未完成时写明原因，不请用户冻结。用户确认后两份文件冻结，交付阶段不再修改；需要改变时回到本 Skill，重新查漏和确认。
+
+本 Skill 不实现产品、不编写测试代码、不执行验证、不发布到远端；除查漏 session 外不启动其他 agent。
+
+ succeeded in 0ms:
+# Goal 完成与最终交付：需求澄清及 preview_train 分析
+
+9 月 29 日首轮结论：这是 Goal 收口协议与交付展示之间的缺口，至少包含“已输出的交付被后续轮次折叠”和“终态工具结束 Turn，预定的交付没有发出”两条路径。10 月 2 日版本已经明确承诺修复多媒体产物折叠；完整最终正文、完全无正文的交付、未登记文件的兜底，需要明确验收边界。截至首轮固定 SHA，preview_train 仍没有 MR !7424 的交付修复。
+
+
+**9 月 30 日补充：** Ronny 转发对应 MCT-202609-42YHZXRZ，既有排查记录支持“完成工具截断最终回复”路径。用户明确要求任务摘要，因此该案例验收必须覆盖可见摘要，不能只验文件卡片。最新 preview_train 已刷新为 `e0be4dfc0b6d69c5c2babe9e841ecff6ba0a25c8`，下述相关实现目录与首轮 SHA 无差异；详见第 8 节。第 1–7 节的消息窗口和状态记录保留首轮时间口径。
+## 1. 证据范围与当前状态
+
+- 飞书消息窗口：2026-09-26 20:41:36 至 2026-09-29 20:41:36，Asia/Shanghai。
+- `--is-at-me` 全分页返回 47 条，包含直接 @世杰及 @全体；`has_more=false`。补充搜索 Goal 64 条、产物 39 条、折叠 7 条、final response 1 条，均已取完分页。数量是每个查询的结果数，彼此重复，不能相加当作独立消息数。
+- 对相关群、私聊和话题展开上下文；话题接口不含根消息时用搜索结果补齐。相关原文保存在 [消息全文.md](消息全文.md)。9 月 25 日原始讨论属于窗口外历史背景，单独列示。
+- 用户文档实时读取为 revision 56，已有 8 项，第 8 项明确写“goal模式下主agent完成不告知用户（第二个问题是同样的问题）”。[文档第 8 项截图](item8.png)可确认完成状态、过程性文案、无可见成品卡片；无法仅凭截图判断卡片从未产生还是被折叠，也不能确定其现场版本。
+- 已 fetch 最新 `origin/preview_train` 并固定分析 SHA：`51c6932e64d6cb625788b8e3fd6693a0886826e9`，提交时间 2026-09-29 17:37:05 +08:00。当前工作目录 HEAD 是另一个 SHA，本报告全部源码结论来自上述 Git 对象，不把当前工作树当最新分支。
+- [缺陷 #7125906243](https://project.feishu.cn/mcode/issue/detail/7125906243)：P1，**IN PROGRESS**，经办人世杰；原文档的 OPEN 已过时。
+- [需求 #7101175806](https://project.feishu.cn/mcode/story/detail/7101175806)：执行过程输出优化，代码合入/上车中。其 PRD 为更广的工具展示优化，不能把该需求整体状态当作本缺陷已修复。
+- [MR !7424](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7424)：opened，源 `fix/goal-media-delivery-before-complete`，目标 `preview_train`，HEAD `cb27594be789fb85acdf11d3c0202c37b5169764`，未合并。HEAD 不在当前 preview_train 祖先链内，当前源码也未发现相应 deliverables 能力。MR 是对照材料，本轮没有更新 MR 或查询 CI。
+
+## 2. 任务上下文与已确定的产品决策
+
+### 历史起因：两种冲突已明确提出
+
+9 月 25 日 11:14，破晓最初认为 final response 需要调整；11:45 判断“看起来是被 goal 顶掉了”；Rayna 提供 MCT-202609-6CPQVW0J，并说明类似案例基本都是 Goal。14:31，破晓 @世杰明确区分：
+
+1. 先输出 final response，但 Goal 未完成，自动多跑一轮，前面的结果被折叠。
+2. 先 update 完成 Goal，计划随后输出 final response，但终态工具之后不再有模型轮次，交付物未输出。
+
+15:48，世杰回复“我看下”。[原始讨论](https://applink.feishu.cn/client/chat/open?openChatId=oc_eef01f3e7f23325283c0d01a03454e77&position=529)
+
+案例证据要分级：
+
+- **6CPQVW0J：已交付却被折叠。** 原始反馈是报告产物卡片被折叠。MR 描述记录：第一轮已有报告与媒体标记，续跑做 bash 校验后输出短确认并完成 Goal，合并展示后报告落入过程。原自动排查通知实际是 `need_human`，不能称自动工单已完成根因确认；详细链路依据 MR 作者记录及本轮源码核对。
+- **MG9FB8I4：生成成功但首次交付没有发出。** [排查文档](https://vrfi1sk8a0.feishu.cn/docx/O8gIdq7HMofe5vxkrBBcilkYnWd)记录视频已落盘、可解码，模型只说“正在标记任务完成并交付文件”，随后调用 `update_goal(complete)`，没有媒体标记。用户追问后补发标记，卡片才出现。本轮重读该报告，没有重新下载 LocalLog 或复现用户现场。
+- **第 8 项：主 agent 没有告知完成。** 用户要求生成 MiniMax 公司介绍 MP4，截图停留在“做最后一步：确认交付物存在……”却已显示目标完成。它增加了最终说明的验收诉求，不能仅凭截图证明与上述任一案例共享完全相同的内部轨迹。
+
+### 最近 72 小时：版本范围已有结论
+
+9 月 28 日，持续优化 Goal 需求群的完整讨论链：
+
+- 12:06–12:07 Ronny @世杰，要求收集用户反馈、与产品敏捷讨论。
+- 12:12 世杰说明正在整理，预计与 v2 重构一起上线。
+- 12:14 Ronny 建议先小步快跑，挑共性且收益高的修复；星云说明当日 3.1.0 发包，下一版本预计 10 月 2 日。
+- 12:56 沐阳 @世杰，提出下午一起对齐。
+- 14:09 世杰分享本次用户提供的文档；14:10 沐阳请求编辑权限。
+- 16:20–16:36 双方发起并结束视频讨论。未取得会议录音或逐字稿，不推断口头决策。
+- **16:39 世杰在群里发布书面结论：Goal 多媒体被折叠的 fix 跟 10 月 2 日版本；其他改动较大、收益较低的项跟 Goal v2。** [书面结论](https://applink.feishu.cn/client/chat/open?openChatId=oc_31e73335b3d1e91d51a1ffda3877f4dc&position=155)
+- **17:10–17:11 Rayna 私聊确认，国庆版本产物输出问题是否就是 #7125906243；世杰答“是的”，Rayna 答“那我改到下个版本修复吧”。** [确认记录](https://applink.feishu.cn/client/chat/open?openChatId=oc_bdd86f87337da8eadb2d146b3c02e0dc&position=30)
+
+因此，本任务已绑定既有缺陷与版本安排，不需要重新猜任务归属，也不应默认以完整 Goal v2 重构为前置条件。这是已沟通的计划，不代表代码已经合入、Prompt 已发布或客户端已上线。
+
+### 最近 @你的相邻问题：用于约束回归，不直接合并根因
+
+| 时间 | 消息上下文 | 与本需求关系 |
+| --- | --- | --- |
+| 9/28 15:26–16:07 | Andy 反馈 verifier 异常后手动重试子 agent，Goal 仍 paused；Ronny @世杰/沐阳。后续又讨论 Goal 状态与输入框三角按钮不一致，世杰针对后者说已修复、回归中 | verifier 生命周期和输入框状态问题。不能把“已修复”移用到产物缺失 |
+| 9/29 12:33 | MCT-202609-01JN5OGN 排查通知 @世杰：每轮交付都通知，Goal 长时间不结束 | 与“Turn 完成不等于 Goal 完成”相关，但通知、无进展收敛属于独立机制；不应靠删除终态终止来解决本需求 |
+| 9/29 18:52 | MCT-202609-G6T8W4S7 排查通知 @世杰：长任务无阶段交付，末尾 `GOAL_TURN_NOT_CURRENT` | stale binding 与长任务收口，不等于成功完成时产物折叠；作为异常收口回归边界 |
+
+两份新工单报告均未取得现场精确部署 SHA，本轮只将它们作为既有排查材料。G6T8W4S7 报告还在两处给出不同尾部的归因 commit SHA，不能将其 commit 归因当作已核实事实。
+
+@你的 Goal 额度恢复、常驻 Vite、steer/替换目标讨论已识别为独立主题；会话列表批量归档/删除、设置重置、@全体发布通知等未纳入本问题上下文。检索穷尽的是当前权限和搜索索引可见结果，不承诺已删除或不可见内容。
+
+## 3. 最新 preview_train 的实际行为
+
+### 3.1 工具调用结束的是 Turn，最终 Goal 状态由 Host 决定
+
+`tool-impls.ts:118–123` 的 `endTurn` 设置 `terminate: true`，并持久化 `terminates_turn`。`287–297` 返回的内容明确是：
+
+```text
+proposal.accepted = true
+proposal.settlement = pending_host_validation
+goalSnapshotPhase = before_host_settlement
+```
+
+因此：**完成提案接纳、Turn 结束、Goal 最终 complete，是三个不同事实。** 根据验证配置，Host 还可能继续工作、暂停或阻塞；不能把成功的 `update_goal` 工具行当成最终完成状态。
+
+当前 `tool-defs.ts:50–107` 没有 `deliverables`；可选 `summary` 上限 2000 字符，明确供独立 verifier 作为待验证 claim 使用。它既不是产品最终正文，也不是文件交付清单。
+
+源码快照：[工具实现](source/packages/agent-modules/goal/src/tool-impls.ts)、[工具定义](source/packages/agent-modules/goal/src/tool-defs.ts)、[GOAL-09 / GOAL-10](source/.harness/docs/goal/spec.md)。
+
+### 3.2 正文回复结束不会自动完成 Goal
+
+`settlement.ts:447–456` 在前面预算、依赖、verifier、breaker、终态决策等分支均未结束结算时，继续 `enqueueActive`。所以正文说“已完成”而没有 completion proposal，仍可能继续执行；这不能简单改成“出现 final 文本就完成”，否则会绕过完成判定。
+
+`query-collapse-identity.ts:55–65` 的 continuation 优先复用已有 query identity；`coalesceAssistantMessages.ts:59–74` 在 query 相同时允许不同 Turn 合并展示。它们解释了为什么后来的一轮会影响前一轮结果的可见性。
+
+源码快照：[结算](source/packages/local-runtime/src/thread-goal/settlement.ts)、[continuation 展示身份](source/packages/local-runtime-v2/src/application/conversation/query-collapse-identity.ts)、[消息合并](source/packages/ui/src/components/MessageContainer/coalesceAssistantMessages.ts)。
+
+### 3.3 当前 UI 没有可靠的最终交付选择规则
+
+`assistantSegments.ts:85–98` 找成功 complete 工具之前最近一段正文，与最后正文按长度比较；更早的报告可能没有进入候选。`useMessageItemModel.ts:214–240` 将其余正文放进过程区。
+
+直接执行固定 SHA 的实际纯函数得到：
+
+| 输入序列 | 当前默认可见正文 | 折叠区 |
+| --- | --- | --- |
+| 报告 + complete | 报告 | 无报告折叠 |
+| 报告 + bash 校验 + “已确认完成” + complete | “已确认完成” | 完整报告及其中媒体标记 |
+| 只有 complete 工具 | 无正文 | 工具记录 |
+
+这证明具体展示选择缺口，不代表本轮跑过 Desktop、模型或现场 E2E。[运行结果](static-reproduction.json)
+
+### 3.4 已有通用空回复恢复不覆盖这条终态工具路径
+
+`terminal-response-recovery.ts` 会在成功工具后的空 assistant 响应中补一次重试，但看到 tool intent 就直接继续。Goal 工具执行后立即 terminate，不会自然产生“工具后的空 assistant”供它补救；不能把该能力当作 Goal final 的交付保证。
+
+### 3.5 文件存在、文本提到路径、交付卡片出现也要区分
+
+右侧产物面板、Desktop 会话资产索引、IM 出站分别消费正文交付标记。当前分支没有从 `update_goal.deliverables` 读取的能力。落盘成功不能证明已交付，工具 `summary` 中有路径也不能证明客户端会展示卡片。
+
+## 4. MR !7424 已提供什么，还缺什么
+
+MR 当前候选改动共 26 个文件，包含工具 schema、Goal 提示词、UI 卡片提升、shared 解析、产物面板、会话索引与 IM 读取。本轮读取了实际代码和 diff；没有重跑 MR 描述里的单测和真实窗口验收。
+
+已有方向：
+
+1. `update_goal` 可选 `deliverables`，要求模型列出文件绝对路径。
+2. 将早期折叠正文中的真实交付标记，以及工具参数中的文件，提升到正文下方展示并去重。
+3. 排除代码块、行内代码中的伪媒体标记。
+4. 补充其他交付面读取工具参数，减少“对话里有、右侧面板没有”的割裂。
+5. 提示词要求完成前交付，不依赖工具后的新回复；保留立即 terminate。
+
+需要澄清或补验证：
+
+| 边界 | 当前 MR 行为 / 风险 | 需求含义 |
+| --- | --- | --- |
+| 最终正文 | 候选窗口仍被 bash 等非 Goal 工具截断；卡片可提升，但旧报告正文保留在过程里 | “卡片可见”不等于“完整最终答复可见”；需要明确是否接受正文折叠 |
+| 只有 deliverables、完全无正文 | `AssistantMessage.tsx:403–411` 只有存在可见 activeSegment 才进入接收 `goalDeliverablesMarkup` 的分支；工具-only 路径没有该输出入口 | 静态代码显示漏卡风险，需专门组件/真实路径验证，不能只测提取 helper |
+| 完成真实性 | 卡片 helper 识别 `tool status=done + input.status=complete`，不是 Host 最终 complete | 卡片可提前交付，但不得因此宣称 Goal 已通过验证 |
+| 模型未登记文件 | deliverables 可选；无标记、无清单仍无文件卡片；Host 没有交付完整性检查 | 不能承诺任意生成文件都会自动补卡，也不能把 schema 字段称为强制交付门禁 |
+| 纯文本结果 | 文件路径机制无法挽回没有进入可见正文的文本 | 第 8 项若覆盖纯文字，必须单独定义最低可见结果 |
+| 其他交付面 | MR 声明 IM 跨轮可能重复、v1 索引未覆盖、Fork 不改写工具参数路径 | 不应默认承诺全平台/跨会话完全一致 |
+
+MR 的成功说明有两类真实窗口记录，但它们属于 MR 作者的既有证据；线上还需要客户端代码与受控 Prompt `workflow/goal/continuation.md` 的 Apollo 发布对齐。源码合入不能代替这两项发布验证。
+
+MR 源码快照：[候选正文窗口](mr-source/packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts)、[卡片提取](mr-source/packages/ui/src/components/MessageContainer/MessageItem/models/goalDeliverables.ts)、[渲染入口](mr-source/packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx)、[工具参数解析](mr-source/packages/shared/src/asset-markup/goal-deliverables.ts)。
+
+## 5. 建议采用的需求定义
+
+> Goal 收口时，用户应直接看到本次任务的结果说明和明确交付的文件；自动续跑、最终校验及过程折叠不得吞掉这些交付。终态工具结束当前 Turn 前，交付信息必须已进入可持久化的消息或结构化记录；最终 Goal 状态仍以 Host 结算为准。
+
+其中，结果说明面向用户，`summary` 面向验证器，文件清单表达交付意图。三者可以关联，但不能互相冒充。
+
+**按已有 10 月 2 日决策，建议最小交付范围：** Desktop Goal 的产物卡片完整展示、重载与面板一致性、展开不重复，以及收口处有可理解的结果说明。沿用 !7424 的候选方向并补边界，避免为修卡片引入完整 Goal v2 生命周期重构。首轮建议不直接删除 `terminate`，也不依赖工具后的额外轮次补交付。9 月 30 日发现 !7435 提供了仅对 accepted complete 保留同一 Turn 最终生成机会的另一候选，见第 8 节；两者尚需按统一验收比较，不能把首轮建议理解成已确定的技术约束。
+
+以下是建议而非已确认产品结论：
+
+- 对纯文本报告，保留明确的最终结果正文；过程性文案继续允许折叠。若 10 月 2 日只做媒体卡片，应在需求描述和验收中明确正文限制。
+- 已登记的文件卡片应独立于正文是否为空；工具-only 完成也不能漏卡。
+- 即使文件能展示，也需区分“已提供产物”和“Goal 已完成”，避免 verifier 尚未通过就报成功。
+- 模型没有登记产物时，短期不得承诺扫描工作区自动交付所有文件；那会混入临时文件与上下文文件。若要求绝对不漏，应另行设计明确的交付登记或校验契约。
+
+## 6. 验收矩阵
+
+| 场景 | 预期 |
+| --- | --- |
+| 正文含合法媒体标记，同响应提出 complete | 结果与文件可见，目标状态按 Host 结算显示 |
+| 第一轮已有报告/卡片，续跑做 bash 校验后完成 | 文件不因续跑被折叠；正文按明确的产品选择保留，不以确认短句无意替代结果 |
+| 完成参数中只有 deliverables，没有媒体标记 | 卡片直接可见 |
+| 完全没有 assistant 正文，只有 complete + deliverables | 卡片仍可见；有明确收口说明，不能停留在“正在交付” |
+| 同一路径同时出现在正文、历史轮次、deliverables | 对话结果区不重复；展开执行过程不重复卡片 |
+| 多文件 / Windows 路径 / 含空格路径 | 正确解析并可打开；目录、失效路径应有明确处理，不虚构交付成功 |
+| 刷新、重启、历史分页、右侧产物面板 | 交付记录可恢复，身份稳定、无丢失或重复 |
+| verifier not_met / unavailable / stale proposal | 不冒充最终完成；已真实交付的文件仍保留；按既有恢复规则处理 |
+| 纯文本任务 | 不要求伪造文件；用户能读到结果说明 |
+| Ronny 陀飞轮 HTML / 代码案例 | 无需追问，最终可见任务摘要及本次交付文件入口；不得只留下“最后做一遍规范参数逐条核对”；工具内部 summary 不算用户交付 |
+| 模型只在代码块中讨论媒体标签 | 不误识别为已交付 |
+| 暂停、预算耗尽、普通非 Goal 对话 | 不误触发完成交付或破坏已有状态与展示 |
+
+实现阶段应运行受影响的 Goal tool、消息分段、卡片组件、shared 资产解析、历史索引测试；如沿用 MR 的 IM 改动，则补相应检查。真实模型行为需用真实 Desktop 或仓库外验收链路验证，mock 测试不能证明模型一定填写 deliverables。此处是建议验收清单，本轮未执行这些产品验收。
+
+## 7. 尚需明确的三个产品取舍
+
+1. **10 月 2 日是否必须保留完整最终正文？** 已确认的书面承诺是多媒体折叠修复；第 2 项标题与第 8 项的用户感知更宽。建议至少保留可独立理解的最终说明；全文折叠规则由产品明确，不能用“卡片出现了”声称全部修复。
+2. **没有任何交付标记/清单时保证到哪一层？** !7424 无法兜底。建议本版保证已声明交付的可靠呈现；“模型完全未声明也必须自动发现全部文件”作为单独契约。
+3. **验收平台范围是什么？** 建议 Desktop 对话、历史和产物面板为本版必验；IM、Fork、v1 的覆盖与限制单列，不能默认为本版全覆盖。
+
+本轮已完成证据收集、源码核对和纯函数复现。未修改仓库、飞书文档、工作项或 MR；未执行产品 E2E、线上 Prompt 发布或客户端上线验证。原始 API 响应、源码快照、运行结果与 SHA-256 清单均保存在同目录，可追溯本报告的每一层结论。
+
+
+## 8. 9 月 30 日补充：Ronny 陀飞轮案例
+
+### 8.1 上下文及关联依据
+
+此案例发生在首轮检索截止时间 9 月 29 日 20:41:36 之后，因此首轮 72 小时结果不包含它。本次按截图中的“交作业”“陀飞轮”检索，再读完整转发、群内后续消息、精确工单号命中及关联排查文档；相关查询均 `has_more=false`。原始用户话题通过转发取得，未取得原话题所在会话的全部独立回复，不能把转发称作原话题全量导出。
+
+| 时间（Asia/Shanghai） | 事实及出处 |
+| --- | --- |
+| 9 月 29 日 21:08:40 | 原用户反馈“goal打开状态下，交作业这一步做得不太对”，@元鹤、@雨露。转发截图显示用户名“湖底默人”，API 名称为“飞书用户9575UU”，不额外推断账户身份。 |
+| 21:09:07 | Ronny 回复“提交一个反馈，我们看看吧”，并在 Goal 需求群转发。[转发与原话](https://applink.feishu.cn/client/chat/open?openChatId=oc_31e73335b3d1e91d51a1ffda3877f4dc&position=156) |
+| 21:14:26 | 工单 MCT-202609-42YHZXRZ 建立。任务标题“生成浅色背景陀飞轮 3D 演示代码”，反馈“goal下面，最后一步本来应该返回任务摘要，但这里看起来不太对”。产品 session `mvs_e131c8f112bc43078be94da5dca27b1a`，Windows Desktop 3.0.73、cn-prod。[工单](https://vrfi1sk8a0.feishu.cn/record/UETsrLjKdee0LycIdWMc21SZnUf) |
+| 21:39:21 | 自动排查结束并发通知，归因为 complete 提案立即结束 Turn，最终摘要及文件交付没有输出。[通知](https://applink.feishu.cn/client/chat/open?openChatId=oc_1e8383f0c7db21ff2b982e20c168f6fe&position=7829) |
+| 9 月 30 日 11:10 | 世杰回复 Ronny：“这个问题看起来是 goal 多媒体类的产物没有交付, 这个是会跟着10.2 版本修复”。Ronny 对消息作 OK reaction。[回复](https://applink.feishu.cn/client/chat/open?openChatId=oc_31e73335b3d1e91d51a1ffda3877f4dc&position=157) |
+
+任务标题、截图中的任务内容和收口状态、紧邻转发的工单时间相互吻合，足以把该工单作为 Ronny 案例的对应排查。截图里的产品消息日期是 9 月 28 日，不应与 9 月 29 日反馈时间混淆。
+
+### 8.2 属于同一问题的哪条路径
+
+**按既有排查记录，属于第二条路径：完成工具终止 Turn，最终用户回复没有生成。尚无证据把这个案例归为“已生成摘要被 UI 折叠”。**
+
+[原始产品截图](ronny-case-20260930/原始产品截图.jpg)可以直接确认：Goal 显示完成，可见正文停留在“最后做一遍规范参数逐条核对”，右侧交付步骤被勾选；截图本身不能证明内部调用顺序。
+
+[既有排查文档（revision 3）](https://vrfi1sk8a0.feishu.cn/docx/STqVd6iP9ombgBxF311cmCQbn2g)记录：
+
+1. LocalLog `446990716121347` 中，文件编写、浏览器检查和规范核对之后调用 `update_goal`，工具结果含 proposal 和内部 summary，随后没有 assistant 最终文本。
+2. Goal evidence 记录 `active→complete(verifier_met)`、`summaryPresent=true`；runtime-events 有 proposal accepted、turn settled、verification dispatched/decided。
+3. 文件与 HTML 检查成功，验证器也判 met，缺口在用户交付，并非 Goal 没完成。
+
+这些是本轮读取的既有诊断证据，**本轮没有重新下载 LocalLog 或独立复核其中的日志行**。工具内部 summary 和 verifier_met 均不能替代用户可见的任务摘要。
+
+### 8.3 最新 preview_train 与两个候选方案
+
+本轮通过 GitLab API 和 fetch 刷新 `preview_train` 至 `e0be4dfc0b6d69c5c2babe9e841ecff6ba0a25c8`。对 Goal tool、Host 结算、conversation、MessageContainer、agent-core、agent-extension、shared 资产解析目录与首轮 SHA 比较，没有文件变化。[核对范围](ronny-case-20260930/code-refresh.json)
+
+- **!7424** 仍 opened，HEAD `cb27594be789fb85acdf11d3c0202c37b5169764` 未变，未合入。第 4 节对“先交付再终止 + 卡片提升”的实现分析仍适用。
+- 排查文档引用的 **[!7435](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7435)** 是另一候选：accepted complete 不终止同一 Turn，允许最后一次交付回复，之后 Host 验证；blocked/stale 仍终止，并针对空回复做一次有界恢复。API 本轮确认它 **closed、merged_at=null**，HEAD `4ee0921a23a0d995178b1098f5eb3e49086fc936`。它不是已合入或已上线的修复。本轮核对了 MR 元数据和描述，未重新审查其全部 diff 或重跑测试。
+
+既有自动报告按 !7435 作者将负责人写作 poxiao，不能据此覆盖主缺陷 #7125906243 的经办人，也不能把该报告中的修复建议直接视为产品已选方案。本次没有变更负责人、工作项或 MR。
+
+### 8.4 对需求澄清的增量
+
+Ronny 案例使“最低可见任务摘要”从泛化建议变成有原始反馈支持的具体诉求。用户要求的是陀飞轮 HTML / 代码成果，应验收摘要和可用文件入口；只验证视频或图片卡片不覆盖这个案例。
+
+建议统一验收表达：**Goal 收口后，无需用户追问，就能看到本次任务做成了什么、交付文件在哪里以及必要的使用说明；不能只有过程性短句、完成徽标、勾选步骤或工具内部 summary。** 实际完成状态仍由 Host 决定，回复不得提前宣称未执行的验证已经通过。
+
+9 月 30 日对 Ronny 的回复已把这个案例纳入 10 月 2 日修复预期，但它不是“已有媒体被折叠”的等价样本。实现方案需要同时证明摘要生成及可见性、文件交付及可见性。既有完整长报告是否保留全文、未声明产物是否自动发现等更宽边界，仍按第 7 节单独澄清。
+
+本次只补充上下文、核对远端代码与候选 MR 状态并更新本地报告；没有修改业务源码或飞书内容，也没有执行现场复现、真实模型验收或发布。
+
+exec
+/bin/zsh -lc "rg -n -A 90 -B 8 'Goal 收口与交付' CONTEXT.md" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+207-**Model Selection**:
+208-用户对模型及可选参数的选择意图；未指定与明确关闭是不同状态。
+209-_Avoid_: treating omitted values as false, reconstructing intent from resolved defaults
+210-
+211-**Resolved Model**:
+212-一次执行受理后确定的有效模型参数；明确且合法的用户选择优先，缺省按对应配置解析。
+213-_Avoid_: credentials in public model state, rereading mutable session selection during a turn
+214-
+215:### Goal 收口与交付
+216-
+217-**完成提案（Completion Proposal）**:
+218-主执行者在 Goal Turn 中以 `update_goal(status=complete)` 声明目标已达成。提案被接纳只表示 Host 收到了它，Goal 是否完成由 Host 结算决定。
+219-_Avoid_: 把提案被接纳或工具调用成功当作 Goal 完成
+220-
+221-**Goal 完成（Goal Complete）**:
+222-Host 结算后 Goal 状态为 `complete`。完成提案被接纳、Turn 结束、出现交付卡片或出现最终回复，都不等于 Goal 完成。
+223-_Avoid_: Turn 完成, 提案已接纳
+224-
+225-**最终回复（Final Reply）**:
+226-完成提案被接纳后，主执行者在同一 Turn 内写给用户的一次回复：做成了什么、交付文件在哪、必要时怎么用，并带交付标记。它写在 Host 验证之前，不宣称验证已通过。
+227-_Avoid_: 结果说明, 任务摘要, 泛称 final response
+228-
+229-**完成摘要（Completion Summary）**:
+230-`update_goal` 的 `summary` 参数，是交给 verifier 的待验证声明，不展示给用户。
+231-_Avoid_: 把它当作最终回复或任务摘要
+232-
+233-**交付标记（Delivery Markup）**:
+234-正文中的 `<deliver-assets>` 或 `<media/>` 标记，是声明交付文件的唯一方式；代码块和行内代码里的不算。
+235-_Avoid_: 文件已落盘, 正文提到路径, 交付清单
+236-
+237-**交付卡片（Delivery Card）**:
+238-客户端根据交付标记渲染出的、可以直接打开的文件入口。
+239-_Avoid_: 把出现卡片当作 Goal 完成
+240-
+241-**卡片提升（Card Lifting）**:
+242-Goal 完成时，把该 Goal 消息过程区里的交付卡片显示到结果区，同一路径只显示一次；只移动卡片，不移动正文。
+243-_Avoid_: 正文提升, 交付物提升
+244-
+245-**过程区（Process Disclosure）**:
+246-Desktop 中一条助手消息默认折叠的执行过程部分，与外露的正文相对。
+247-_Avoid_: 归档区
+
+exec
+/bin/zsh -lc 'cat .harness/docs/specs/goal-final-result-delivery/spec.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+# Goal 收口的最终回复与交付卡片：核心决策与约束
+
+本文记录本次修复的核心决策与约束，作为方案设计、开发实现和代码审查的共同依据，也用于人工决策核对与对外说明。
+
+具体实现可以调整，但必须满足这些约定；需要改变约定时，应先明确影响并重新确认。本文描述的是目标要求，不代表实现已完成或验证已通过。
+
+**目的：** Goal 收口时，用户不用追问，就能在对话里读到本次任务做成了什么、交付文件在哪，并能直接打开模型声明的交付文件；续跑、最终校验和过程折叠不再吞掉这些内容。Goal 是否完成仍以 Host 结算为准。
+
+对应缺陷 #7125906243，跟 10 月 2 日版本。术语（完成提案、Goal 完成、最终回复、完成摘要、交付标记、交付卡片、卡片提升、过程区）按仓库根目录 [CONTEXT.md](../../../../CONTEXT.md) 的“Goal 收口与交付”一节使用。
+
+## 本次最核心的决定
+
+1. **已接纳的完成提案不再立即结束本轮。** 模型在同一轮写一次最终回复，然后本轮结束，Host 照常结算和验证。最终回复写在验证之前，不宣称验证已通过。
+2. **完成提案被接纳后，本轮的工具调用全部被拦下，包括 `update_goal`。** 这一轮只剩写最终回复一步；两次都没有回复时按正常结束结算，不因缺最终回复把 Goal 判为失败。
+3. **Goal 完成时，Desktop 把这条 Goal 消息过程区里的交付卡片提到结果区，正文固定取最终回复。** 只移动卡片，不移动正文；同一文件只显示一张卡片。
+4. **交付只认正文里的交付标记。** 不新增交付字段，不自动发现未声明的文件；产物面板、会话资产索引、IM 和 TUI 的代码都不改。
+5. **严格控制影响范围。** 10 月 2 日封板的核心需求不是 Goal；改动只落在 Goal 自己的工具、提示词、工具执行前检查、complete 专用的空回复重试，以及 Desktop 的 Goal 消息展示，普通对话的行为不变。
+
+## 完整决策与约束
+
+### 1. 修复范围：A、B 两条路径
+
+| 路径 | 现象 | 案例 |
+| --- | --- | --- |
+| A | 前一轮已经输出了报告或交付卡片，续跑校验后提交完成，报告和卡片被收进过程区，外露的只剩一句确认 | 6CPQVW0J |
+| B | 模型先提交完成、打算之后再交付，本轮随即结束，最终回复没有生成，用户只看到过程句 | MG9FB8I4、MCT-202609-42YHZXRZ |
+
+- B 包括 TUI 自动化模式（build-mode 状态栏加 `MCODE_TUI_RESULT_PATH`）和 headless（`requireAnswer`）把 Goal 完成的那一轮判成 `EMPTY_RESPONSE`、显示 `× Error Runtime completed without a final assistant response.`、状态栏 `state=fail`。
+- 用户反馈文档第 8 项按 B 类场景验收，不要求证明它与 B 是同一条内部轨迹。
+- 被接纳的 `blocked` 提案和 stale 拒绝保持现状：仍立即结束本轮。
+
+### 2. 完成提案之后的这一轮：只写最终回复
+
+**不结束本轮。** `update_goal(status=complete)` 被接纳后，本轮继续。工具返回和工具说明要求模型立即写最终回复：
+
+- 写给用户，说明做成了什么、交付文件在哪、必要时怎么用；
+- 为交付文件写交付标记，并写出文件路径；
+- 不再调用任何工具；
+- 不宣称验证已经通过。
+
+**拦下后续工具调用。** 同一轮完成提案被接纳后，之后的每个工具调用都不执行，包括再次调用 `update_goal`（任何模式）；调用方收到的原因要求它不再调用工具、直接写最终回复。已接纳的提案保持不变，不会被随后的 `blocked` 或第二次 `complete` 覆盖。这项拦截放在 Goal 自己的工具执行前检查里，只在“本轮已接纳完成提案”时生效，不改通用工具循环。
+
+**没有回复时的兜底。** 完成提案之后，模型的回复既没有文字、也没有工具调用时，重试一次。仍然没有回复，或者被拦下后直到本轮结束都没有写出文字，本轮按正常结束结算，完成提案照常进入验证；不走失败结算，不因此把 Goal 变成暂停、失败或其他状态。这种情况下用户看到的与现状相同：没有最终回复，TUI 自动化仍可能报 `EMPTY_RESPONSE`。这项重试只对“已接纳的 complete”生效，不在全局装配通用的空回复恢复。
+
+**提示词。** 客户端实际使用的 Goal 提示词是 `@mavis/goal` 中的 TS 常量（`packages/agent-modules/goal/src/continuation.ts` 等），随客户端发布，远端 Prompt 已停用。与收口相关的指令改在这些常量里，与本节行为一致，不再要求“提交完成后直接停止”；`packages/local-runtime-v2/assets/agents/workflow/goal/` 下对应的 `.md` 同步成相同措辞。两者之间原有的其他差异不在本次对齐。
+
+**被打断的这一轮。** `complete` 不再写“本轮有意结束”的标记（`terminates_turn`），`blocked` 与 stale 照旧写。完成提案之后、最终回复之前被打断的一轮，按其他被打断的 Goal 轮处理，例如可以显示“继续”。
+
+### 3. Host 结算与验证保持现状
+
+- Goal 的最终状态以 Host 结算为准。本轮结束后照常验证：`met` 为 `complete(verifier_met)`；`not_met` 保持 `active` 并续跑；验证模式为 `none` 时直接 `complete(worker_proposal)`。
+- verifier 的判定口径不改，不新增“用户是否看到交付”之类的检查。
+- `not_met` 续跑后，前一次最终回复与本条 Goal 消息的其他内容一起进入过程区，新一轮结束时再写新的最终回复。
+- 写最终回复的阶段被中断或失败，或者结算时 Goal 已被暂停、修改、清除或预算用尽，都沿用现有结算规则，已接纳的完成提案不进入验证：
+
+| 情况 | 结果 |
+| --- | --- |
+| 用户停止 | Goal 暂停为 `paused(user_requested)`；用户恢复后，模型重新检查并重新提交完成 |
+| 应用重启或崩溃 | 提案丢失；Goal 仍为 `active`，启动恢复开一轮新的续跑 |
+| 模型服务出错 | 按现有失败分类：限流或额度用完为 `usage_limited`，安全拒绝为 `blocked(safety_policy)`，其余为 `paused(infra_retryable)` |
+| 结算时预算用尽（包括最终回复的消耗使其用尽） | 按现有预算规则：`budget_limited`，另排一轮预算总结 |
+
+- 结算里的失败分类和预算规则不改。
+- “立即发送”沿用现有规则，不做 Goal 特判。
+
+### 4. Desktop：正文取最终回复，交付卡片提到结果区
+
+以下规则只作用于 Goal 消息；普通消息的正文选择和折叠不变。
+
+**正文选择。** Goal 消息里，成功的 `update_goal(status=complete)` 调用之后还有文字时，外露的正文固定取最后一段文字，也就是最终回复；不再与 complete 之前的文字比较长度。complete 之前的文字进入过程区。complete 之后没有文字的消息（例如旧历史）按原规则展示。
+
+**卡片提升。**
+
+- 触发：Goal 结算为 `complete` 时，也就是过程区折叠的时候。不以工具调用成功为条件；验证中、`not_met` 续跑、暂停等状态下不提升。
+- 范围：这条 Goal 消息过程区里的全部交付卡片，包括更早各轮输出的。
+- 去重：同一文件（规范化路径相同）只显示一张；正文里已有的不再重复。用户展开过程区时，已提升的卡片不在过程区里再显示一次。
+- 只移动卡片，不移动正文。更早轮次的完整报告正文仍在过程区。
+- 写在代码块和行内代码里的标记不算交付，不出卡片。
+- 不采用“含交付标记的正文优先当正文”这类规则。
+
+**其他展示面。**
+
+- 完成标记“目标已完成 用时 …”和 Goal 横幅不变。
+- 刷新、重启后从历史重建的对话，正文选择和卡片提升与实时展示一致。
+- 右侧产物面板列出本次交付的文件，同一文件只列一次。现有读取已包含过程区里的标记，也按路径去重，不改面板代码。
+
+### 5. TUI 与 headless
+
+- 最终回复作为完成提案之后的助手回复显示；交付标记沿用现有的 `Created  file ↗` 行。
+- 自动化模式和 headless 下，有最终回复的 Goal 完成轮不再是 `EMPTY_RESPONSE`、`× Error` 或 `state=fail`；完成后照常出现 `✓ Goal complete`。
+- TUI 代码不改；上述结果由第 2 节的最终回复产生。
+
+### 6. 交付声明：只认交付标记
+
+- 声明交付文件的唯一方式是正文里的交付标记（`<deliver-assets>`、`<media/>`）。不新增 `deliverables` 或其他交付字段，不扫描工作区自动发现文件。
+- 模型没写交付标记时不出卡片；最终回复仍要写出文件路径。
+- 完成摘要（`update_goal` 的 `summary`）用途不变：交给 verifier，不展示给用户，不能代替最终回复。
+
+### 7. 非目标
+
+- `blocked` 提案与 stale 拒绝的行为。
+- IM 出站、Fork、v1 local-runtime、Remote Control、Cloud 会话的展示与交付。
+- 新增交付字段、自动发现未声明的文件。
+- verifier 的判定口径；结算里的失败分类。
+- 产物面板、会话资产索引、IM、TUI 的代码。
+- 把更早轮次的完整报告正文默认展开。
+- 对齐 Goal 提示词 `.md` 与 TS 常量之间原有的其他差异。
+- 通用工具循环；全局装配通用的空回复恢复。
+- 发布 Apollo Prompt。
+
+### 8. 硬约束
+
+- **影响范围：** 改动限于 Goal 工具（实现、说明、返回）、Goal 提示词常量及对应 `.md`、Goal 专用的工具执行前检查、只对已接纳 complete 生效的空回复重试、Desktop 中 Goal 消息的正文选择与卡片提升，以及随之更新的测试和文档。普通对话的行为不变。
+- **平台：** 产品逻辑兼容 macOS 与 Windows。Windows 路径（盘符、反斜杠、含空格）的交付标记解析与去重用单测覆盖。
+- **时间：** 10 月 2 日 12:00 前合入 `preview_train`。
+
+### 9. 已接受的代价
+
+- 更早轮次的长报告正文默认留在过程区，只有其中的交付卡片被提升。
+- 模型没写交付标记时没有卡片。
+- `not_met` 后，前一次最终回复进入过程区。
+- 连续几轮 `not_met` 且最终回复逐字相同时，触发已有的重复回复暂停 `paused(no_progress_after_completion_claim)`。
+- 写最终回复的阶段遇到用户停止、重启或模型服务出错时，完成提案作废，需要恢复后重新收尾。
+- 最终回复消耗 token；接近预算上限的 Goal 可能因此在结算时进入 `budget_limited`，而不是进入验证。
+- 完成提案之后模型两次都没有回复时，没有最终回复，与现状相同。
+
+## 交付与授权
+
+- **仓库与分支：** `matrix/agent-archon`。开发分支 `fix/goal-final-result-delivery` 叠在 !7556（`feat/verify-archon-skill`）之上，用它的 verify-archon 和 Goal 功能地图验证。
+- **开发 MR：** 即交接用的 Draft MR，目标 `feat/verify-archon-skill`。deliver 在这个 MR 上继续提交，完成后更新描述并取消 Draft；它不合入产品代码，`preview_train` 的 MR 合入后关闭。本需求对 verify-archon 和功能地图的改进单独提交，交给 7556 的维护会话并入。
+- **提交划分：**
+  - 产品提交：代码，以及 `preview_train` 上已有的文档，即 Goal 的 `spec.md`（GOAL-09、GOAL-13）、`implementation.md`、`verification.md`、`changes/` 下新增的一条变更记录（背景、范围、决策、行为差异、验收摘要），和 `CONTEXT.md` 术语。这些提交要能干净 cherry-pick 到 `preview_train`。
+  - 只留在开发分支的提交：功能地图、verify-archon 的改动，以及本 spec 与 verify 所在的提交。
+- **上线 MR：** deliver 在开发分支验证通过后，从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交；跑相关单测和 typecheck；证明其产品改动与已验证的开发分支一致（两边产品文件的 diff 相同），真实模型证据沿用开发分支上的；开 MR 到 `preview_train`，显式设置 squash 为 `true` 并用 API 回读；处理 CI；不合入。
+- **时间：** 10 月 2 日 09:00 前把 `preview_train` 的 MR 做到可合入；到点仍未完成就停下，汇报已有证据和缺口。用户在 12:00 前合入。
+- **允许：** 推送 `fix/goal-final-result-delivery` 和 `fix/goal-final-result-delivery-preview-train`；创建、更新这两个 MR；处理它们的 CI。
+- **不允许：** 合入任何 MR；推送 `feat/verify-archon-skill`；发布 Apollo；修改飞书文档和工作项；改动 !7424、!7435；发送消息。
+- **冻结：** 本 spec 与 verify 以 sha256 为准。7556 再 rebase 时，这两份文件所在提交的 SHA 会变，内容的 sha256 不变。
+- **过程文件：** `plan.md` 和证据放在 super-auto 仓库的 `requirements/goal-final-result-delivery/`，在该仓库本地提交（录屏只留文件、不提交），不进 MR。
+- **文档：** 不单独写 ADR；决定写进 Goal `changes/` 变更记录。MR 描述写决定摘要和本 spec、verify 的 sha256。
+
+exec
+/bin/zsh -lc 'cat /Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/original-decisions.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+# 原始约定：用户最终决定的原话与对应问题
+
+供 core-spec 第 7 步的跨模型查漏使用。摘自 2026-09-30 的 grill 会话（Claude Code，agent-archon 需求 `fix/goal-final-result-delivery`），以及“目标交付与开发流程澄清”会话转来的一项决定。每条先列用户原话，再列它所回答的问题与选项；“同意”表示采纳助手在该题给出的建议，建议原文一并列出。完整过程见 super-auto 仓库 `discussions/2026-09-30-goal-final-delivery.md` 第 12–19 节。
+
+需求来源：`/Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md`（sha256 `bc7c4e40215bb0512d7cc037c4b96e04919faf84e717ecd7a4e3f5f6b752901c`）。本需求没有已接受的 ADR。
+
+## 1. 用户补充的前提（第一轮问题未逐条回答，由这些前提和第二轮替代）
+
+> 在补充几个前提
+>
+> 1. 本次的 修复 要控制影响范围, 因为本次封板的核心需求不是 goal, 所以要避免改动过多而造成影响扩散
+> 2. 创建的 mr 应该是向 feat/verify-archon-skill 这个分支合入, 因为是要利用这个分支的 skill 和功能地图
+> 3. 截止时间就是 10.2 中午 12 点, 我的想法是往这个 feature 分支创建代码，到时候再单独 cherry-pick 出一个需求，只合入 preview train。因为它的核心不是为了解决本次的 goal，所以要尽量控制范围，但又需要复用我们之前讨论的那些 skill 的能力。
+
+## 2. 第二轮
+
+用户原话：
+
+> Q1 ①，Q2 R3，Q3/Q4/Q5 同意
+
+- **Q1 修哪几条路径。** 选项：① 修 A（续跑折叠已交付内容）和 B（complete 结束本轮、没有最终回复，含 TUI 自动化与 headless 把成功判成失败），blocked 两种都不动；② 只修 A。用户选 ①。助手建议中的附注：第 8 项按 B 类场景验收，不要求证明同一轨迹。
+- **Q2 结果说明怎么来。** 选项：R3 = R2 加 Desktop 卡片提升（把折叠段里的交付卡片提到结果区，取 !7424 的 UI 部分，不要它“有媒体的正文优先”的规则，也不要 `deliverables`）；R2 = 已接纳的 complete 不再结束本轮，工具返回要求模型立刻写一段面向用户的最终回复（结果、文件位置、交付标记），回复为空就重试一次；R1 = 保留结束本轮、提示词要求先交付；b′ = 把 `summary` 直接显示成结果说明；a = 只做卡片提升。用户选 R3。R3 附带的约束（随建议给出，用户选 R3 时一并接受）：
+  - 最终回复不宣称验证已通过，verifier 在这次回复之后才跑，Goal 最终状态仍由 Host 结算；verifier 判定口径不改，不采用 !7435 的“也验证用户可见交付”。
+  - 重试一次仍为空时，按现有流程结算，照常进入验证，不因为缺最终回复把 Goal 判失败。
+  - 提示词改在 TS 常量里，`.md` 同步成相同措辞，随客户端发布生效，不需要 Apollo；md 与 TS 原有的其他差异不顺手对齐。（原建议还有“措辞对老客户端也成立”一条，其依据随后被更正作废：3.0.73 起客户端不读 Apollo 上的提示词。）
+  - `not_met` 照常续跑，前一次最终回复会进入过程区，接受。
+  - complete 之后模型仍调用工具：不新增代码限制，列为已接受代价。（此条在第四轮 Q2 被改为 (b)，见下文。）
+- **Q3 怎样算已声明交付（同意）。** 建议：只认正文里的交付标记，不新增 `deliverables` 字段；产物面板、资产索引、IM 三处读取不改；模型没写交付标记就不出卡片，接受；最终回复里仍要写出文件路径。
+- **Q4 入口范围（同意）。** 建议：Desktop 必须满足实时对话、刷新和重启后的历史、右侧产物面板（现有读取已覆盖折叠段，只验证不改代码）；TUI 必须满足最终回复可见，自动化模式和 headless 下 Goal 完成那一轮不再报 `EMPTY_RESPONSE` 或 `state=fail`，按 R2 或 R3 做时 TUI 代码不用改，文件入口沿用现有的 `Created` 行；非目标：IM、Fork、v1、RC、Cloud；Windows 路径解析用单测覆盖，列为覆盖盲区。
+- **Q5 交付流程（同意）。** 建议：
+  - (a) 开发 MR 只用来开发和验证，产品代码不合入 `feat/verify-archon-skill`；本需求顺带对 verify-archon 和功能地图的改进单独提交，交给 7556 的会话并入；`preview_train` 的 MR 合入后关闭开发 MR。
+  - (b) 产品代码，加上 `preview_train` 上已有的文档（Goal spec、implementation、verification、`changes/` 里的一条变更记录、`CONTEXT.md` 术语），放在能干净 cherry-pick 的提交里；功能地图和 verify-archon 的改动单独提交。
+  - (c) deliver 在开发分支验证通过后，从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交，跑相关单测和 typecheck，证明产品改动与已验证的分支一致，真实模型证据沿用开发分支上的；开 MR（显式 squash=true 并回读）、处理 CI，停在可合入，不合入。
+  - (d) 10 月 2 日 09:00 前把 `preview_train` 的 MR 做到可合入，到点没完成就停下汇报已有证据和缺口。
+  - (e) 只推送两条需求分支；不推送 `feat/verify-archon-skill`，不发布 Apollo，不改飞书和工作项，不动 !7424 和 !7435，不发消息。
+  - (f) spec、verify、plan、证据放 super-auto `requirements/goal-final-result-delivery/`；agent-archon 只放派生的长期文档（Goal `changes/` 变更记录、Goal spec、`CONTEXT.md`；功能地图只进开发分支）；MR 描述写决定摘要和两个 sha256；不写 ADR。（其中 spec、verify 的位置被第 5 节替代。）
+
+## 3. 第三轮
+
+用户原话：
+
+> Q1–Q5 都同意
+
+- **Q1 术语。** 建议：完成提案、Goal 完成、最终回复、完成摘要、交付标记、交付卡片、卡片提升、过程区（定义见需求 worktree 根目录 `CONTEXT.md` 的“Goal 收口与交付”一节）；“结果说明”统一改叫“最终回复”。
+- **Q2 有最终回复时正文选哪段。** 选项：固定取最终回复（Goal 消息里 complete 之后有文字时，正文固定取最后一段，不再比长度，只改 Goal 消息的这一分支）；保持现状。建议并采纳：固定取最终回复。
+- **Q3 卡片提升的触发与范围。** 建议：在 Goal 结算为 `complete` 时触发（与过程区折叠同时），不像 !7424 那样“完成工具调用成功就触发”；提升这条 Goal 消息过程区里的全部交付卡片（含更早各轮）；同一文件路径（规范化后）只显示一张，正文已有的不再重复；展开过程区时已提升的卡片不在过程区再显示一次。
+- **Q4 同一轮里完成提案被接纳后又调用 `update_goal`。** 选项：Goal 工具拒绝（返回工具错误，不改已接纳的提案，只改 Goal 工具）；不管（接受 `blocked` 覆盖 `complete`）。建议并采纳：拒绝，不论第二次填 `complete` 还是 `blocked`。（用户追问“为什么是 block 而不是 update”，助手解释 `update_goal` 是工具名、`blocked` 是其 `status` 取值后，用户同意。）
+- **Q5 真实模型验收最小集合。** 建议：Electron 和 TUI 各跑一次 B 类任务（让 Goal 生成一个文件并完成），核对最终回复可见且带文件卡片、Goal 完成、右侧产物面板有这个文件、刷新后仍然一样、TUI 不出现 `EMPTY_RESPONSE`；使用会触发子代理验证的模型路由；A 类改用固定消息数据的 UI 测试覆盖卡片提升和去重；blocked 不变、非 Goal 对话不变、`not_met` 续跑用单测或脚本 provider 覆盖；deliver 的跨模型独立验证照常进行。
+- 另附说明（用户未提出异议）：决定写进 Goal 的 `changes/` 变更记录，不单独写 ADR。
+
+## 4. 第四轮
+
+用户原话：
+
+> Q1 (ii)，Q2 (b)，汇总确认
+
+- 第四轮开头的表格（用户未提出异议，“汇总确认”涵盖）：写最终回复时用户按停止 → Goal 暂停 `paused(user_requested)`，提案作废，恢复后重做，沿用；应用重启或崩溃 → 提案丢失，Goal 仍进行中，启动恢复开一轮新的续跑，沿用；用户“立即发送” → 最终回复不带工具调用，消息退回队列作为新的一轮，沿用；模型两次都回空 → 按正常结束结算，提案照常进入验证，不走 !7435 的失败路径。另说明：`complete` 以后不再写 `terminates_turn`，`blocked` 和 stale 照旧写，完成之后、最终回复之前被打断时会像其他被打断的 Goal 轮一样显示“继续”。
+- **Q1 写最终回复时模型服务出错（限流、额度用完、网络错误）。** 选项：(i) 照常进入验证（改 Goal 结算里处理失败的那一步，只对已接纳完成提案生效，安全拒绝仍按阻塞）；(ii) 沿用现有的失败处理（提案作废，Goal 暂停或额度受限，恢复后重做，不改结算代码）。用户选 (ii)，列为已接受代价。
+- **Q2 complete 之后要不要拦下工具调用。** 选项：(a) 不拦；(b) 本轮完成提案被接纳后，Goal 的工具执行前检查拦下之后的所有工具调用，包括 `update_goal`（涵盖第三轮 Q4），被拦的调用返回“本轮已提交完成，不要再调用工具，直接写最终回复”，如果模型被拦了还继续尝试，所有尝试都会被拦，到本轮结束仍然没写出回复就按“两次都回空”的规则按正常结束结算。用户选 (b)；汇总的已接受代价删去“complete 之后模型仍可能调用其他工具”，做法增加“complete 之后拦下所有工具调用”。
+- **汇总（用户确认）。**
+  - 目的：Goal 收口时，用户不用追问，就能看到做成了什么、交付文件在哪；续跑、校验和过程折叠都不能再吞掉这些内容。
+  - 范围：修 A 和 B（含 TUI 自动化和 headless 的误判）；blocked 不动。
+  - 做法（R3）：已接纳的 complete 不再立刻结束本轮，工具返回要求写一次最终回复；Goal 完成时 Desktop 把过程区里的交付卡片提到结果区，按路径去重、展开过程区时不重复；Goal 消息里 complete 之后有文字时正文固定取最终回复；同一轮再次提交状态由 Goal 工具拒绝；最终回复不宣称验证已通过，verifier 口径不改；两次都回空按正常结束结算；提示词改在 TS 常量里、`.md` 同步；`not_met` 照常续跑；写最终回复时服务出错按 Q1。
+  - 交付声明：只认交付标记，不新增 `deliverables`；产物面板、资产索引、IM、TUI 的代码都不改。
+  - 入口：Desktop 实时对话、刷新和重启后的历史、右侧产物面板；TUI 最终回复可见、不再误判；非目标 IM、Fork、v1、RC、Cloud；Windows 路径单测，列覆盖盲区。
+  - 验收：真实模型在 Electron、TUI 各跑一次 B 类任务；A 类用固定消息数据的 UI 测试；回归用单测或脚本 provider；跨模型独立验证照常。
+  - 已接受代价：前一轮长报告正文默认折叠在过程区；模型没写交付标记就没卡片；`not_met` 后前一次最终回复进过程区；最终回复连续几轮逐字相同时触发已有的重复回复暂停；停止或重启时提案作废需重做收尾。
+  - 交付：开发 MR 指向 `feat/verify-archon-skill`、不合入产品代码；deliver cherry-pick 出 `fix/goal-final-result-delivery-preview-train`，证明产品改动一致，10 月 2 日 09:00 前可合入，不自己合，到点没完成就停下汇报；用户负责 12:00 前合入；授权按第二轮 Q5。
+  - 文档：spec、verify、plan、证据放 super-auto（spec、verify 的位置被第 5 节替代）；agent-archon 只放派生长期文档；不写 ADR。
+
+## 5. spec 与 verify 改为随开发 Draft MR 交接
+
+“目标交付与开发流程澄清”会话转述、并在该会话记录中核实的用户原话：
+
+> 同意，通知 grill 会话，同时改成默认流程提 PR
+
+它回答的建议（该会话“追问：交接改成一个带两份文件的 MR”一节）：
+
+1. core-spec 把 spec.md、verify.md 写到需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`。
+2. 用户确认冻结后，grill 会话在 `fix/goal-final-result-delivery` 上提交两个提交：`CONTEXT.md` 术语（属于产品一侧，之后 cherry-pick 到 `preview_train`）；spec 与 verify（与功能地图一样只留在开发分支，不 cherry-pick）。推送分支，开指向 `feat/verify-archon-skill` 的 Draft MR（显式 squash 并回读）；旧 worktree 切成 detached，把分支让给 deliver。
+3. deliver 在任意新会话、应用自建的 worktree 里开工：输入 MR 链接、spec 提交和两个 sha256，检出需求分支后在同一个 MR 上继续，最后更新描述并取消 Draft。
+4. plan.md 和证据仍不提交进 agent-archon，放 super-auto `requirements/goal-final-result-delivery/`。
+
+转来的消息另要求 spec 的“交付与授权”写清：开发 MR 就是交接用的 Draft MR，deliver 在它上面继续；spec、verify 的提交不 cherry-pick；`preview_train` 那条 MR 的证据怎么沿用；冻结以 sha256 为准，7556 再 rebase 时提交 SHA 会变。
+
+exec
+/bin/zsh -lc 'nl -ba .harness/docs/specs/goal-final-result-delivery/verify.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+     1	# Goal 收口的最终回复与交付卡片：验收要求
+     2	
+     3	本文依据 spec 规定本次需求怎样算做对、如何证明，是实现、独立验证和最终验收的共同依据。实现过程中由实现 agent 自己运行这些场景，实际跑通才算通过；冻结后不修改场景和检查点。本文只描述验收要求，不代表验证已经执行或通过。
+     4	
+     5	## 来源
+     6	
+     7	- spec：`.harness/docs/specs/goal-final-result-delivery/spec.md`，spec sha256 `c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`。
+     8	- 仓库：`matrix/agent-archon`，分支 `fix/goal-final-result-delivery`，基线 commit `ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161`（`preview_train` `e0be4dfc0b` 加 !7556 的 7 个提交）。
+     9	- 验证能力：[verify-archon](../../../../.agents/skills/verify-archon/SKILL.md)（接口、[TUI](../../../../.agents/skills/verify-archon/references/tui.md)、[Electron](../../../../.agents/skills/verify-archon/references/electron.md) 三个入口）；Goal 功能地图 [lifecycle.md](../../goal/feature-map/lifecycle.md)、[completion.md](../../goal/feature-map/completion.md)。下文 `V` 指 `.agents/skills/verify-archon/scripts/verify-archon.mjs`，`$S` 指场景中新建的会话 ID。
+    10	- 证据目录：super-auto 仓库 `requirements/goal-final-result-delivery/evidence/`，各入口 `up` 时用 `--evidence-dir` 指向它。
+    11	- spec 的“交付与授权”一节约束交付流程，由 deliver 的流程执行，不在本文验收。
+    12	
+    13	## 重点
+    14	
+    15	共 38 条要求、3 个场景。真实模型场景各跑一次：Electron 和 TUI 各一个 B 类任务，接口入口核对运行顺序；A 类多轮展示和 runtime 的非默认路径，按用户确认的方式分别用固定消息数据的 UI 测试和脚本 provider 的 runtime 集成测试判断，列为覆盖盲区。
+    16	
+    17	最容易出错的：
+    18	
+    19	- **S03 同一轮里 `update_goal` 之后还有一次模型请求。** 只改提示词、保留立即结束本轮的实现，界面上可能碰巧也有文字，但这里一定失败。
+    20	- **S01 外露正文是最终回复，结果区有 `hello.html` 的卡片。** 把 `summary` 显示成正文、或沿用“比长度”的正文选择，都会在这里失败。
+    21	- **S02 TUI 完成轮的自动化结果是 `succeeded`。** 靠修改 TUI 判定（把 preamble 算作回答）来消除报错，违反“TUI 代码不改”，并且 complete 之后没有助手回复。
+    22	- **覆盖盲区 B1、B2。** 卡片提升的触发时机、去重，以及工具拦截、空回复兜底，只能靠 UI 测试和脚本 provider 测试判断，最容易漏测。
+    23	
+    24	## 冒烟集
+    25	
+    26	开工前和每次改动后先跑，确认环境和已有功能没有坏：
+    27	
+    28	- 接口：按 verify-archon SKILL.md“冒烟”一节新建会话，发送 `Reply with exactly the word PONG and nothing else.`，历史里有 `msg_content` 为 `PONG` 的助手消息，没有 `messages-rewound` 帧。
+    29	- 接口：按 [lifecycle.md](../../goal/feature-map/lifecycle.md)“接口”一节创建 Goal 并“跑到终态”，结果为 `complete(verifier_met)`，工作目录有对应文件。
+    30	- Electron：首页发送普通消息 `Reply with exactly the word PONG and nothing else.`，`assistant-segment-active` 的文字为 `PONG`，页面上没有 `goal-completion-marker`。
+    31	- TUI：发送普通消息 `Reply with exactly the word PONG and nothing else.`，屏幕出现 `PONG`，`tui-results.jsonl` 该轮 `status` 为 `succeeded`。
+    32	
+    33	## 要求
+    34	
+    35	| ID | 要求 | spec 位置 | 证明方式 |
+    36	| --- | --- | --- | --- |
+    37	| R01 | 已接纳的 `complete` 不结束本轮：同一轮在 `update_goal` 的工具结果之后还有一次模型请求，并产生助手文字（最终回复） | 核心决定 1；§2 不结束本轮 | 场景 S01、S02、S03 |
+    38	| R02 | 最终回复写给用户，说明做成了什么、交付文件在哪，为交付文件写交付标记并写出路径 | §2 不结束本轮；§6 | 场景 S01、S02（含独立判断） |
+    39	| R03 | 最终回复不宣称验证已经通过 | 核心决定 1；§2 | 场景 S01、S02（独立判断）；评审 R04 |
+    40	| R04 | 工具返回和工具说明要求模型：写给用户、说明结果与文件位置和用法、写交付标记与路径、不再调用工具、不宣称验证已通过 | §2 不结束本轮 | 评审：逐项核对工具说明与已接纳 complete 的返回文本，缺任一项不通过 |
+    41	| R05 | 完成提案被接纳后，本轮之后的每个工具调用都不执行，包括任何模式的 `update_goal`；返回的原因要求不再调用工具、直接写最终回复 | 核心决定 2；§2 拦下后续工具调用 | 场景 S03（观察）；覆盖盲区 B2 |
+    42	| R06 | 已接纳的提案保持不变，不被随后的 `blocked` 或第二次 `complete` 覆盖 | §2 拦下后续工具调用 | 覆盖盲区 B2 |
+    43	| R07 | 拦截只在“本轮已接纳完成提案”时生效；提案之前的工具调用、其他 Goal 轮和普通对话的工具调用照常执行；拦截实现在 Goal 自己的工具执行前检查里，不改通用工具循环 | §2 拦下后续工具调用 | 场景 S01、S03；冒烟集；评审：改动文件中不出现通用工具循环 |
+    44	| R08 | 完成提案之后的回复既无文字也无工具调用时，重试一次 | 核心决定 2；§2 没有回复时的兜底 | 覆盖盲区 B2 |
+    45	| R09 | 重试后仍无回复，或被拦下后直到本轮结束都没有文字，本轮按正常结束结算，提案照常进入验证；Goal 不因此变成暂停、失败或其他状态 | §2 没有回复时的兜底；§9 | 覆盖盲区 B2 |
+    46	| R10 | 空回复重试只对已接纳的 `complete` 生效；不在全局装配通用的空回复恢复 | §2 没有回复时的兜底；§7 | 评审：生产装配中的空回复恢复只对已接纳 complete 触发；已有检查 `packages/agent-extension/test/terminal-response-recovery.test.ts` 通过 |
+    47	| R11 | Goal 提示词 TS 常量中与收口相关的指令与 §2 一致，不再要求“提交完成后直接停止”；`workflow/goal/*.md` 中对应语句逐字相同；两者原有的其他差异保持不变 | §2 提示词；§7 | 评审：对照 TS 常量与 `.md` 的改动行，收口相关句不一致或仍要求 complete 后停止即不通过；diff 中出现与收口无关的对齐改动即不通过 |
+    48	| R12 | `complete` 不再写 `terminates_turn`；`blocked` 与 stale 照旧写；complete 之后、最终回复之前被打断的一轮按其他被打断的 Goal 轮处理 | §2 被打断的这一轮 | 已有检查：`packages/local-runtime-v2/src/service/turn-system/execution/turn-continuation.service.test.ts` 按新语义更新后通过；覆盖盲区 B2 |
+    49	| R13 | 本轮结束后照常验证，Goal 最终状态以 Host 结算为准；验证在最终回复写完、本轮结束之后才开始 | 核心决定 1；§3 | 场景 S01、S02、S03 |
+    50	| R14 | `not_met`：Goal 保持 `active` 并续跑；前一次最终回复与其他内容进入过程区；新一轮结束时再写新的最终回复 | §3；§9 | 覆盖盲区 B1、B2 |
+    51	| R15 | verifier 的判定口径不改 | §3；§7 | 评审：verifier 提示词、evidence 与 verdict 结算无改动 |
+    52	| R16 | 写最终回复的阶段被用户停止、重启、模型服务出错，或结算时预算用尽，分别得到 `paused(user_requested)`、仍 `active` 并由启动恢复开新续跑、对应失败分类的状态、`budget_limited` 加预算总结；提案都不进入验证 | §3 表格；§9 | 覆盖盲区 B2 |
+    53	| R17 | 结算的失败分类和预算规则不改；“立即发送”不做 Goal 特判 | §3 | 评审：失败分类、预算结算、steer 路由无改动 |
+    54	| R18 | Goal 消息中，成功的 `update_goal(status=complete)` 之后还有文字时，外露正文是最后一段文字（最终回复）；complete 之前的文字进入过程区，即使它更长或含交付标记 | 核心决定 3；§4 正文选择 | 场景 S01；覆盖盲区 B1 |
+    55	| R19 | complete 之后没有文字的 Goal 消息按原规则展示；普通消息的正文选择和折叠不变 | §4 | 冒烟集；已有检查 `packages/ui/test/unit/components/assistantSegments.test.ts`；覆盖盲区 B1 |
+    56	| R20 | 卡片提升在 Goal 结算为 `complete` 时发生；验证中、`not_met` 续跑、暂停时不提升；不以工具调用成功为条件 | §4 卡片提升 | 场景 S01（complete 时）；覆盖盲区 B1 |
+    57	| R21 | 提升范围是这条 Goal 消息过程区里的全部交付卡片，包括更早各轮输出的 | §4 卡片提升 | 覆盖盲区 B1 |
+    58	| R22 | 同一文件（规范化路径相同）只显示一张卡片；正文已有的不再重复；展开过程区时已提升的卡片不再显示第二次 | 核心决定 3；§4 卡片提升 | 场景 S01；覆盖盲区 B1 |
+    59	| R23 | 只移动卡片，不移动正文；更早轮次的完整报告正文仍在过程区 | §4 卡片提升；§9 | 覆盖盲区 B1 |
+    60	| R24 | 写在代码块和行内代码里的标记不出卡片 | §4 卡片提升 | 已有检查：`packages/shared/test/unit/asset-markup.test.ts` 通过；覆盖盲区 B1 |
+    61	| R25 | 完成标记“目标已完成 用时 …”和 Goal 横幅不变 | §4 其他展示面 | 场景 S01 |
+    62	| R26 | 刷新、重启后从历史重建的对话，正文选择和卡片提升与实时展示一致 | §4 其他展示面 | 场景 S01（重载）；覆盖盲区 B3（重启） |
+    63	| R27 | 右侧产物面板列出本次交付的文件，同一文件只列一次；面板代码不改 | §4 其他展示面；§7 | 场景 S01；评审：`packages/ui/src/components/WorkspacePanel/` 无改动 |
+    64	| R28 | TUI 中最终回复作为完成提案之后的助手回复显示；交付标记显示为 `Created  file ↗` 行 | §5 | 场景 S02 |
+    65	| R29 | TUI 自动化模式下，有最终回复的 Goal 完成轮：结果 `status` 为 `succeeded`、`answer` 非空，没有 `EMPTY_RESPONSE`，屏幕没有 `× Error Runtime completed without a final assistant response.`，状态栏不是 `state=fail`；完成后出现 `✓ Goal complete` | §1；§5 | 场景 S02 |
+    66	| R30 | headless（`requireAnswer`）下，有最终回复的 Goal 完成轮不再判为没有回答 | §1；§5 | 覆盖盲区 B4 |
+    67	| R31 | TUI 代码不改 | §5；§7 | 评审：`packages/tui/` 无改动 |
+    68	| R32 | 声明交付文件只认正文里的交付标记；不新增 `deliverables` 或其他交付字段；不扫描工作区自动发现文件 | 核心决定 4；§6 | 评审：`update_goal` 参数 schema 与交付解析无新增字段、无工作区扫描 |
+    69	| R33 | 模型没写交付标记时不出卡片，正文里只写了路径也不出卡片 | §6；§9 | 覆盖盲区 B1 |
+    70	| R34 | 完成摘要（`summary`）不展示给用户，不充当最终回复 | §6 | 场景 S01；评审：界面没有渲染 `summary` 的新路径 |
+    71	| R35 | 被接纳的 `blocked` 提案和 stale 拒绝仍立即结束本轮 | §1；§7 | 回归范围；覆盖盲区 B2 |
+    72	| R36 | 非目标区域没有改动：IM 出站、Fork、v1 local-runtime、Remote Control、Cloud、会话资产索引、产物面板、通用工具循环；不发布 Apollo Prompt | §7 | 评审：产品提交的改动文件清单不含这些区域 |
+    73	| R37 | 产品改动限于：Goal 工具（实现、说明、返回）、Goal 提示词常量及对应 `.md`、Goal 专用的工具执行前检查、只对已接纳 complete 生效的空回复重试、Desktop 中 Goal 消息的正文选择与卡片提升，以及相应测试和文档 | 核心决定 5；§8 | 评审：逐个核对产品提交的改动文件，出现清单外的产品代码即不通过 |
+    74	| R38 | Windows 路径（盘符、反斜杠、含空格）的交付标记解析与去重正确 | §8 | 覆盖盲区 B5 |
+    75	
+    76	§9 的已接受代价由 R09、R14、R16、R23、R33 和回归范围中的重复回复暂停覆盖。
+    77	
+    78	## 场景
+    79	
+    80	真实模型场景各跑一次。模型没有写最终回复或没有写交付标记，按失败处理，查清原因后修改实现再跑，不用重跑后的偶然通过代替（仓库 `AGENTS.md` §4）。
+    81	
+    82	```text
+    83	S01 Electron：生成网页的 Goal 完成后，正文是最终回复，结果区有文件卡片　覆盖：R01、R02、R03、R07、R13、R18、R20、R22、R25、R26、R27、R34
+    84	入口：Electron 桌面端，Goal 生命周期地图“Electron”一节的“创建”“跑到完成”
+    85	前提：verify-archon 的 Electron 实例已 up，doctor 通过；按 electron.md 关闭首次启动弹窗；发送前点输入框的“智能授权”改选“始终授权”
+    86	操作步骤：
+    87	  1. 在首页输入框输入并发送 `/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.`
+    88	  2. 取会话 ID；按地图“跑到完成”用 poll 等 `goal.status` 到终态（--timeout 420，--save e-run）
+    89	  3. `snapshot --session $S --on electron --save s01`；截图 --save s01-complete
+    90	  4. 读 `assistant-segment-active` 的文字与其中的卡片；点 `turn-process-trigger` 展开过程区，统计整条消息中 hello.html 卡片数
+    91	  5. 点 `workspace-button` 打开产物面板，读 `workspace-panel`
+    92	  6. 重载渲染进程（缺口 G1），重复第 4、5 步读数
+    93	检查点：
+    94	  - 接口 `GET .../goal --on electron`：`goal.status` 为 `complete`，`status_reason` 为 `complete(verifier_met)`
+    95	  - 历史中完成那一轮：`update_goal`（status complete）工具结果之后，同一 turn 还有一段助手文字（最终回复）；Inspector 中该工具结果之后有一次发给模型的请求
+    96	  - runtime 事件：`goal.verification_dispatched` 的时间晚于这段最终回复
+    97	  - `assistant-segment-active` 的文字与这段最终回复一致
+    98	  - `assistant-segment-active` 内有文件名为 hello.html 的交付卡片
+    99	  - 展开过程区后，整条消息中 hello.html 的卡片只有 1 张
+   100	  - `goal-completion-marker` 显示“目标已完成 用时 …”；`thread-goal-banner-status` 为“已完成”
+   101	  - `workspace-panel` 中 hello.html 只出现 1 次
+   102	  - 重载后：`assistant-segment-active` 的文字、hello.html 卡片数、`workspace-panel` 中的条目与重载前相同
+   103	  - 独立判断（固定样本即本次最终回复）：说明了创建的 hello.html 及其位置；没有“已通过验证”“验证器已确认”一类表述
+   104	不得出现：
+   105	  - 外露正文是 `update_goal` 的 `summary` 文本
+   106	  - 外露正文是 complete 之前的过程句
+   107	基线预期：失败（complete 之后没有助手文字，外露正文是 complete 之前的文字）
+   108	错误实现：只改提示词、保留立即结束本轮（同一 turn 在 update_goal 之后没有模型请求）；把 summary 渲染成正文（正文不是 complete 之后的助手文字）
+   109	替身：无，真实模型与真实 verifier
+   110	证据：e-run 轨迹、s01 快照（历史、runtime 事件、Inspector、工作目录）、截图、aria
+   111	执行状态：入口已存在；重载需补验证能力（缺口 G1）；“历史中完成那一轮的结构”和“卡片元素的选择器”实现后绑定命令
+   112	```
+   113	
+   114	```text
+   115	S02 TUI：生成网页的 Goal 完成轮不再误判为没有回答　覆盖：R01、R02、R03、R13、R28、R29
+   116	入口：MCode TUI，Goal 生命周期地图“TUI”一节的“创建”，按“恢复并跑到完成”的方式等待完成
+   117	前提：verify-archon 的 TUI 实例已 up（build-mode 状态栏与结果文件已由 tui up 配置），doctor 通过
+   118	操作步骤：
+   119	  1. `tui type "/goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."`
+   120	  2. `tui wait --text "Goal complete" --timeout 420 --save tui-s02`
+   121	  3. `tui screen --all --save tui-s02-screen`；`tui snapshot --save s02`
+   122	检查点：
+   123	  - 屏幕出现 `✓ Goal complete`
+   124	  - 屏幕上 `update_goal` 工具行之后有一条助手回复（`●` 标记），内容提到 hello.html
+   125	  - 屏幕出现 hello.html 的 `Created` 行
+   126	  - `tui-results.jsonl` 中完成那一轮的记录：`status` 为 `succeeded`，`answer` 非空，没有 `error.code` 为 `EMPTY_RESPONSE`
+   127	  - 该轮结束时状态栏 `state` 不是 `fail`
+   128	  - s02 的 `-workspace/hello.html` 存在，主标题为 Hello Goal
+   129	  - 独立判断（固定样本即本次最终回复）：说明了 hello.html 及其位置；没有“已通过验证”一类表述
+   130	不得出现：
+   131	  - `× Error Runtime completed without a final assistant response.`
+   132	基线预期：失败（完成轮 `status` 为 `failed`、`error.code` 为 `EMPTY_RESPONSE`，状态栏 `state=fail`）
+   133	错误实现：修改 TUI 判定，把 complete 之前的 preamble 算作回答（屏幕上 update_goal 之后没有助手回复，且违反 R31）
+   134	替身：无
+   135	证据：tui-s02 轨迹、屏幕文本、tui-results.jsonl、s02 快照
+   136	执行状态：入口已存在
+   137	```
+   138	
+   139	```text
+   140	S03 接口：完成提案之后的运行顺序　覆盖：R01、R05、R07、R13
+   141	入口：接口，Goal 生命周期地图“接口”一节的“创建”“跑到终态”
+   142	前提：verify-archon 接口实例已 up，doctor 通过；新建会话 `$S`
+   143	操作步骤：
+   144	  1. `api POST /minimax-desktop/api/v1/session/$S/goal --data '{"objective":"Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."}' --save s03-create`
+   145	  2. `poll .../goal --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason --interval 4 --timeout 420 --save s03-run`
+   146	  3. `snapshot --session $S --save s03`
+   147	检查点：
+   148	  - `goal.status` 为 `complete`；轨迹中先出现 `execution.wait_reason` 为 `verification`，再出现 `complete(verifier_met)`
+   149	  - 完成那一轮：`update_goal`（status complete）之前的工具调用照常执行并有结果
+   150	  - 同一 turn 中 `update_goal` 工具结果之后有助手文字；Inspector 中该工具结果之后有一次模型请求
+   151	  - 该 turn 中 `update_goal` 之后没有被执行的工具；若模型尝试调用工具，其工具结果是要求直接写最终回复的拦截原因，工作目录没有因此变化
+   152	  - runtime 事件中完成提案被接纳在前，本轮结算与 `goal.verification_dispatched` 在最终回复之后
+   153	不得出现：
+   154	  - 同一 turn 在 `update_goal` 之后执行了任何工具
+   155	基线预期：失败（`update_goal` 之后没有模型请求和助手文字）
+   156	错误实现：complete 之后另开一轮生成最终回复（最终回复不在同一 turn）
+   157	替身：无
+   158	证据：s03-run 轨迹、s03 快照（历史、runtime 事件、Inspector、工作目录）
+   159	执行状态：入口已存在；“turn 结构与 Inspector 请求的读取方式”实现后绑定命令
+   160	```
+   161	
+   162	## 回归范围
+   163	
+   164	本次改动触及、spec 没有要求改变的现有行为，在基线和改动后都应通过：
+   165	
+   166	- Goal 生命周期地图中已实跑的接口步骤（创建、暂停、暂停时修改、恢复、跑到终态、清除、替换）。
+   167	- [completion.md](../../goal/feature-map/completion.md) 的“完成后不续跑”：完成后发送普通消息，10 秒内 `goal.status` 保持 `complete`、`turns_used` 不变，`GET .../queue` 的 `items` 为空。
+   168	- 被接纳的 `blocked` 与 stale 拒绝立即结束本轮：`packages/agent-modules/goal/test/unit/thread-goal/tool-impls.test.ts` 中相应用例。
+   169	- 续跑轮修改预算的拦截：`packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.test.ts`。
+   170	- 重复回复暂停：`packages/agent-modules/goal/test/unit/thread-goal/reply-fingerprint.test.ts` 与 Goal 结算测试（`packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts`）。
+   171	- 普通消息的正文选择与合并：`packages/ui/test/unit/components/assistantSegments.test.ts` 中非 Goal 用例、`coalesceAssistantMessages.test.ts`。
+   172	- 通用空回复恢复的原有行为：`packages/agent-extension/test/terminal-response-recovery.test.ts`。
+   173	- TUI 与 headless 结算：`packages/tui/test/unit/headless-settlement.test.ts`、`tui-delegation-terminal-settlement.test.ts`。
+   174	- 交付标记解析（含代码块排除）：`packages/shared/test/unit/asset-markup.test.ts`。
+   175	
+   176	spec 明确改变的行为（complete 不结束本轮、不写 `terminates_turn`、Goal 消息的正文选择、提示词措辞），旧测试随之更新，不算回归。
+   177	
+   178	## 验证工具缺口
+   179	
+   180	| 缺口 | 服务场景 |
+   181	| --- | --- |
+   182	| G1 Electron 入口没有在保留数据的前提下重载渲染进程的命令（`electron down` 会删除数据）；补一个重载命令，例如 `electron reload` | S01 |
+   183	
+   184	## 覆盖盲区
+   185	
+   186	- **B1 Desktop 展示规则的非默认输入。** 影响 R14（界面部分）、R18（更长或含标记的更早正文）、R19、R20（验证中、`not_met`、暂停时不提升；不以工具调用成功为条件）、R21、R22（多处出现同一文件、展开后不重复）、R23、R24、R33。真实模型无法稳定构造 A 类多轮和这些状态。按用户确认，改用固定消息数据的 UI 组件或集成测试判断：每条规则至少一个用例，输入覆盖 A 类序列（报告带卡片、续跑 bash 校验、短确认、complete、最终回复）、验证中与暂停状态、同一路径多次出现、代码块内标记、只写路径不写标记、非 Goal 消息、complete 之后无文字的旧消息。
+   187	- **B2 runtime 的非默认路径。** 影响 R05（真实模型未尝试调用工具时）、R06、R08、R09、R12（被打断）、R14（续跑）、R16、R35。真实模型无法稳定触发“complete 后继续调工具”“两次空回复”“服务出错”等情况。按用户确认，改用脚本 provider 驱动的 runtime 集成测试判断：每种情况一个用例，断言本轮是否结束、提案是否进入验证、Goal 的最终状态与 spec §3 表格一致。
+   188	- **B3 应用重启后的历史。** 影响 R26 的“重启”部分。verify-archon 的 `electron down` 会删除数据，无法在保留数据时重启；以 G1 的重载代替判断，渲染进程同样从 runtime 历史重建对话。
+   189	- **B4 headless。** 影响 R30。仓库当前没有从 headless（`mcode exec`）创建 Goal 的入口，`packages/tui/src/headless/` 与 `run-exec-command.ts` 无 Goal 处理。改为评审：headless 取回答的规则（最后一次工具调用之后的助手文字）在有最终回复时得到非空回答。
+   190	- **B5 Windows 真机。** 影响 R38。本机只能在 macOS 运行实例；改用单元测试判断盘符、反斜杠、含空格路径的交付标记解析与卡片去重。
+   191	
+   192	## 完成条件
+   193	
+   194	- 除覆盖盲区里的检查点外，S01–S03 全部由实际运行通过；冒烟集与回归范围通过。
+   195	- 盲区里的检查点标为 UNVERIFIED 并单列，附对应的 UI 测试、脚本 provider 测试或评审结论。
+   196	- 评审类要求（R04、R07、R10、R11、R15、R17、R27、R31、R32、R34、R36、R37）逐条写明核对的文件与结论。
+   197	- 证据对应交付版本的代码和运行实例：记录 git HEAD、verify-archon 的 runId、模型与环境。
+   198	- 工具缺失的场景如实标为受阻，不用单元测试或其他更低层的检查代替。
+
+codex
+两份文件的哈希和仓库 HEAD 均与提供值一致。我已读完 spec、verify 和最终约定，接下来核对验收入口、命令和现有测试，重点检查错误实现能否通过，以及正确实现是否会被误判。
+
+exec
+/bin/zsh -lc 'cat .agents/skills/verify-archon/SKILL.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'cat .harness/docs/goal/feature-map/lifecycle.md .harness/docs/goal/feature-map/completion.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc 'cat .agents/skills/verify-archon/references/tui.md .agents/skills/verify-archon/references/electron.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+---
+name: verify-archon
+description:
+  在隔离的本地实例里像用户一样驱动 Agent-Archon 并取证，入口有三种：接口（local-runtime 的 Desktop
+  HTTP 契约）、MCode TUI（伪终端）、Electron 桌面端（Playwright）。需要证明
+  Goal、队列、后台任务、模型轮次等产品行为在真实运行中成立，或复现相关问题时使用；不是 CI 门禁或 E2E
+  套件。
+---
+
+# verify-archon
+
+这个 Skill 让没有背景的 agent 在当前 worktree 启动隔离的实例，像用户一样操作，并留下可复核的证据。按需使用，不进入 commit、MR
+CI 或 test-surface 门禁（AGENTS.md §4）。
+
+每个功能怎样进入、操作和证明，写在该功能专题目录里的功能地图，索引见
+[features/README.md](features/README.md)。先读本文件和所用入口的说明把实例起来，再读场景涉及的功能文件。
+
+所有命令在仓库根目录执行，下文 `V` 指：
+
+```bash
+V=.agents/skills/verify-archon/scripts/verify-archon.mjs
+```
+
+每条命令在 stdout 输出一个 JSON，`ok` 为 `false` 时退出码非零；进度和流式事件写到 stderr。`api`
+的响应体在 `body` 字段里，流式响应的每一帧在 `frames` 数组里；`poll` 的最终响应在
+`final`，状态轨迹在 `trajectory`。
+
+每个命令默认作用于本 worktree 里最新的、同一入口的存活实例（接口、TUI、Electron 分开找）。同一个 worktree 里有多个 agent 同时验证时，每条命令都加
+`--run <runId>`。
+
+## 入口
+
+| 入口            | 用在哪里                                         | 命令                                                                                                         | 说明                                             |
+| --------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ |
+| 接口            | runtime 行为、状态迁移、快速复现；不证明界面接线 | `up`、`doctor`、`api`、`poll`、`snapshot`、`down`                                                            | 本文件下文                                       |
+| MCode TUI       | 用户在终端里看到和输入的一切                     | `tui up`、`tui type`、`tui paste`、`tui keys`、`tui screen`、`tui wait`、`tui snapshot`、`tui down`          | [references/tui.md](references/tui.md)           |
+| Electron 桌面端 | 用户在桌面端看到和点击的一切                     | `electron up`、`electron click`、`electron upload` 等，加 `api`/`poll`/`snapshot --on electron` 核对 runtime | [references/electron.md](references/electron.md) |
+
+验证用户可见的行为时，必须在用户实际使用的入口上跑（TUI、Electron），接口入口只能补充核对状态，不能代替。功能地图的每个场景写明走哪个入口。
+
+## 边界
+
+- 模型、内容安全和托管服务都是真实调用，会消耗配额。Electron 入口登录的是真实账号，只操作要验证的功能。
+- 实例使用临时数据目录，不读写任何开发 profile 的会话数据。只读
+  `~/.minimax/config.yaml`（TUI 在临时数据目录里放一份副本，随清理删除）。
+- 共享登录只经 `@mavis/oauth-core` 的 token provider 使用：需要时在
+  `~/.minimax/auth/<buildEnv>/<region>/`
+  的跨进程锁内刷新，和再开一个 TUI 一样，不覆盖 TUI 或 Desktop 的登录。该环境没有登录时，先在对应环境的 MCode
+  TUI 里 `/login`。
+- `mavis` / `mcode` CLI 默认会另起一个嵌入式 runtime，不连接这些实例；读状态用下面的接口。
+- TUI 和 Electron 会使用环境里的
+  `HTTP(S)_PROXY`、`ALL_PROXY`。设置了这些变量时，`tui up`、`electron up`
+  要求明确选择：`--no-proxy`（只对该实例去掉代理），或 `--keep-proxy`（代理能访问 `*.xaminim.com`
+  时）。代理访问不到内网时，TUI 的内容审核失败、回复被撤回，Electron 启动时卡在 mcode-tools 准备，没有主窗口。
+
+## 准备
+
+```bash
+node $V prepare [runtime] [tui] [electron]
+```
+
+默认只准备 `runtime`：缺依赖时
+`pnpm install --frozen-lockfile`；`pnpm build:pi-vendor`；`pnpm --filter @mavis/oauth-core build`；`pnpm --filter '@mavis/local-runtime-v2...' build`，增量约 10 秒。`tui`、`electron`
+另外构建对应入口，见各自说明。只运行 `bash scripts/dev-runtime.sh --once` 不够：它不构建 pi
+vendor 和 oauth-core，启动时会报找不到模块。
+
+不确定要不要准备时，直接启动：构建过期或缺失时 `up`、`tui up`、`electron up`
+会拒绝启动并列出原因，这时再准备。
+
+以下"启动"到"清理"是接口入口。
+
+## 启动
+
+```bash
+node $V up [--model <provider>/<model>] [--evidence-dir <dir>] [--region cn|en] [--build-env dev|test|staging|prod] [--config <config.yaml>] [--live-mcp]
+```
+
+- 启动后台进程 `scripts/runtime-server.mjs`：实例目录
+  `<os.tmpdir()>/verify-archon/<runId>/`，数据在其中的 `data/`，监听 `127.0.0.1` 的空闲端口。
+- 就绪标志：输出 `"ok": true`、`runId`、`baseUrl`、`evidenceDir`。`/mavis/health` 回显
+  `startupToken` 等于 `runId`，每个响应带 `x-verify-archon-run` 头。
+- 输出的 `workspaceDir` 是实例的备用工作目录，只在新建会话时显式传给 `workspace_dir`
+  才会用到；不传时会话使用自己的默认目录 `data/sessions/<session_id>/workspace`。`snapshot`
+  会按会话实际的目录取证。
+- 模型默认取 config 的 `defaultModel`。配置在内存中注入：`permissionMode` 为
+  `bypassPermissions`；hooks、skill hub 和 config 的 `memory.enabled` 设为关闭，与 desktop
+  real-agent E2E 相同。会话自己的 `memory_policy` 不受影响，写入也只落在临时数据目录。`--live-mcp`
+  才启动 config 里的 MCP server。
+- region 和 build env 按模型 provider 的托管主机推断，例如 `matrix-pre.xaminim.com` 对应
+  `cn/staging`；非托管 provider 默认
+  `cn/dev`。内容安全和托管服务按这组值选择后端，必须与登录所在环境一致。
+- 共享登录：从 `~/.minimax/auth/<buildEnv>/<region>/mcode-public/` 取 token（输出的 `auth.store`
+  显示到 `<buildEnv>/<region>`
+  一级），剩余不足 10 分钟时在该目录的跨进程锁内刷新，不覆盖 TUI 或 Desktop 的登录。该环境没有登录时，先在对应环境的 MCode
+  TUI 里 `/login`。
+- runtime 相关包的源码比构建新时拒绝启动，先 `prepare`。确需验证旧构建时加
+  `--allow-stale`，并在报告中写明。
+- 自动执行：打开 LLM Context Inspector 捕获；把所有全局事件追加到 `<evidenceDir>/events.jsonl`。
+- 证据目录默认在实例目录内。需要随需求保留时，用 `--evidence-dir` 指向需求文档的证据目录。
+
+## 检查
+
+```bash
+node $V doctor
+```
+
+必需项全部通过才开始操作：进程存活；health 回显本次 `runId`；Goal capability 为
+`true`；实例属于本 worktree；实例启动后没有 runtime 相关包被重新构建；runtime 相关包没有比构建新的源码；模型凭据存在。任何意外（5xx、流中断、状态长时间不变）之后先重跑
+`doctor`。不通过时按检查项的 `fix` 处理；改了源码后是 `prepare`，再 `down`、`up`。
+
+## 冒烟
+
+```bash
+node $V api POST /minimax-desktop/api/v1/agent/mavis/session --data '{"title":"smoke"}' --save smoke-session
+```
+
+输出的 `body.session_id` 是会话 ID，下面记作 `$S`：
+
+```bash
+node $V api POST /minimax-desktop/api/v1/session/$S/message --data '{"content":"Reply with exactly the word PONG and nothing else."}' --save smoke-send
+node $V api GET /minimax-desktop/api/v1/session/$S/message --save smoke-history
+```
+
+通过条件：
+
+- `smoke-history` 输出的 `body.messages` 里有 `role` 为 `assistant`、`msg_content` 为 `PONG`
+  的消息；
+- `smoke-send` 输出的 `frames` 里没有 `type` 为 `messages-rewound` 的帧。
+
+出现 `messages-rewound`，且实例目录的 `server.log` 有
+`[content-safety] review failed ... "statusCode":401`，说明登录与 region / build env 不一致。
+
+## 操作
+
+- 用户在 Desktop 里的每个动作都对应一个 DesktopService 接口，经 `api` 发出：
+
+  ```bash
+  node $V api <METHOD> <path> [--data '<json>' | --data @file.json] [--save <name>] [--timeout <秒>]
+  ```
+
+  只调用产品接口；不直接写 SQLite，不调用内部方法或测试专用接口。
+
+- 等状态变化，或确认状态在一段时间内保持不变，都用 `poll`，不用固定 sleep：
+
+  ```bash
+  node $V poll <path> --until <字段>=<值1|值2> [--hold <秒>] [--show <字段,...>] [--interval <秒>] [--timeout <秒>] [--save <name>]
+  ```
+
+  - `<字段>=<值1|值2>`：字段等于其中任一值；`<字段>~<文本>`：字段包含这段文本。
+  - 字段是点路径，数组可用下标，负数从末尾数（`messages.-1.role`）。
+  - `--hold <秒>`：条件满足后还要持续成立这么久；期间变化则失败，输出 `poll hold-broken`。
+  - 超时输出 `poll timeout`。`--save` 保存状态轨迹和最终响应，失败时文件名带 `-timeout` 或
+    `-hold-broken`。
+
+- 常用接口：
+
+  | 用户动作                               | 接口                                                                                                                                                                 |
+  | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | 新建会话                               | `POST /minimax-desktop/api/v1/agent/mavis/session`，`{"title": "...", "workspace_dir": "..."}`，`workspace_dir` 可省略                                               |
+  | 会话空闲时发消息                       | `POST /minimax-desktop/api/v1/session/<id>/message`，`{"content": "..."}`；返回 SSE，回合结束时流结束                                                                |
+  | 会话有排队项时发消息（如 Goal 等待中） | `POST /minimax-desktop/api/v1/session/<id>/queue`，`{"content": "...", "client_request_id": "..."}`；此时 `message` 接口返回 409 `local_session_has_queued_messages` |
+  | 读会话、历史、队列                     | `GET .../session/<id>`、`GET .../session/<id>/message`、`GET .../session/<id>/queue`                                                                                 |
+
+- 功能相关的接口和步骤见功能地图。
+
+## 取证
+
+证据标准：
+
+- 走用户路径（产品接口），不用内部 setter 或测试接口。
+- 同时记录动作和结果状态：每个动作加 `--save`，状态变化用 `poll --save` 记录轨迹。
+- 核对副作用：用 `snapshot` 保存工作目录里的文件。
+- 用只读的第二视角交叉核对：runtime 事件和 Inspector 里发给模型的请求。
+- 模型输出不稳定：判定看状态、事件和文件，不看回复措辞。
+
+```bash
+node $V snapshot --session <id> --save <name>
+```
+
+产出：
+
+- `NNN-<name>.json`：会话、Goal、历史、队列四个接口的响应。
+- `-workspace/` 和 `-workspace.json`：会话工作目录里的文件，不超过 64 KB 的原样复制，全部记 sha256。
+- `-runtime-events.jsonl`：该会话的 runtime 事件，每行一个 JSON，事件名在 `fields.eventType`，内容在
+  `fields.payload`，时间在 `tsMs`。
+- `-inspector/`：发给模型的 request 和 response，在 `payloads/` 下。
+
+`events.jsonl` 是全局事件，每行有 `type`（如 `thread_goal.updated`、`questionnaire.ask`）和
+`payload_json`。每个 `NNN-` 证据文件记录 `runId`、时间、git HEAD 和是否有未提交改动。
+
+报告每个场景时写：场景 ID、功能与子功能 ID、入口、命令、看到的结果、证据文件路径、git
+HEAD。入口走不通时，写尝试的命令和缺的前提；不算通过，也不能用别的入口的结果代替。
+
+## 清理
+
+```bash
+node $V down
+```
+
+只停止本次 `up`
+启动的进程：先调用实例的 shutdown 接口，再按记录的 pid 发信号，从不按进程名结束进程。删除 data 和 workspace，保留证据、`server.log`
+和实例元数据（`state.json` 等）；输出的 `evidence` 列表非空才算成功。失败的尝试也要 `down`。清理前先
+`snapshot`，否则工作目录里的副作用会被删除。
+
+`node $V list` 列出所有实例，包括已经 `down` 的；各命令可用 `--run <runId>`
+指定实例，不指定时取本 worktree 最新的存活实例。
+
+数据目录里的 runtime 日志（`data/v2/observability/logs`）在删除前复制到
+`<evidenceDir>/runtime-logs/`。
+
+## 脚本
+
+| 文件                                              | 作用                                                                                              |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| `scripts/verify-archon.mjs`                       | 控制命令：`prepare`、`up`、`doctor`、`api`、`poll`、`snapshot`、`down`、`list`、`tui`、`electron` |
+| `scripts/runtime-server.mjs`                      | 由 `up` 启动的验证用服务，不要手动运行                                                            |
+| `scripts/tui-server.mjs`、`scripts/tui-entry.mjs` | 由 `tui up` 启动：伪终端、屏幕渲染和带共享登录的 TUI 入口                                         |
+| `scripts/electron-server.mjs`                     | 由 `electron up` 启动：Playwright 会话、界面操作和到内嵌 runtime 的转发                           |
+
+环境变量：`VERIFY_ARCHON_HOME` 改实例根目录，默认
+`<os.tmpdir()>/verify-archon`；`VERIFY_ARCHON_AUTH_HOME` 改共享登录目录，默认
+`~/.minimax`；`VERIFY_ARCHON_ELECTRON_BUILD` 改 Electron 的构建变体。
+
+## 维护
+
+改了某个功能的用户可见行为或入口时，在同一个 MR 里更新该功能的地图文件和
+[索引](features/README.md)的实跑情况。定期逐个功能从源码核对、实际操作一遍；只改地图和本 Skill 的目录，发现产品本身有问题时单独报告。
+
+ succeeded in 0ms:
+# MCode TUI 入口
+
+用户在终端里用的 MCode
+TUI（`packages/tui`），在伪终端里真实运行、真实渲染。验证 TUI 可见的行为（`/goal`
+命令、横幅、提示、状态栏）时用它；只核对 runtime 状态时用 SKILL.md 的接口入口更快。
+
+## 准备
+
+```bash
+node $V prepare tui
+```
+
+在 runtime 的构建之外再构建 `@minimax/code`（`packages/tui/dist`）。TUI 构建约 20 秒。
+
+## 启动
+
+```bash
+node $V tui up [--build-env staging] [--region cn] [--no-proxy] [--cols 200] [--rows 50] [--config <config.yaml>] [--evidence-dir <dir>]
+```
+
+- `scripts/tui-server.mjs` 用 node-pty 在伪终端里运行 `scripts/tui-entry.mjs`，用 `@xterm/headless`
+  渲染屏幕，并在 `127.0.0.1` 提供控制接口。
+- `tui-entry.mjs` 按 `packages/tui/src/index.ts` 的方式启动 TUI，只把共享登录指向 `~/.minimax`（经
+  `launchTui` 的 `createSharedAuthSession` 注入点）；会话和数据在实例的 `data/`，工作目录是实例的
+  `workspace/`。
+- 数据目录的 `config.yaml` 由你的 config 生成：加上 build-mode 状态栏，`permissionMode` 为
+  `bypassPermissions`，关闭 hooks、memory 写入和 skill hub。这份副本随 `tui down` 删除。
+- 默认环境 `staging/cn`，与 `~/.minimax/auth/staging/cn` 的登录对应；换环境用
+  `--build-env`、`--region`，该环境要先有登录。
+- 就绪标志：输出 `"ok": true`，`status.state` 为 `ready`。屏幕出现 `Sign in` 时 `up`
+  失败，说明该环境没有登录。
+- 自动执行：`MAVIS_TUI_LLM_CONTEXT_INSPECTOR=1` 捕获发给模型的请求；每个结束的轮次写入
+  `<evidenceDir>/tui-results.jsonl`；终端原始输出写入 `tui-output.raw`。
+- 代理：环境里有 `HTTP(S)_PROXY`、`ALL_PROXY` 时必须选 `--no-proxy` 或
+  `--keep-proxy`（见 SKILL.md）。代理到不了 `*.xaminim.com` 时，首轮在 1 秒内被撤回，Goal 进入
+  `paused(retracted)`；屏幕上是
+  `! Warning Content review did not return a usable result…`，运行日志里是
+  `[content-safety] review failed ... "failureKind":"transport"`。
+
+## 操作
+
+```bash
+node $V tui type "<text>" [--no-submit]        # 输入文字并提交；确认输入框已清空，最多按 3 次回车
+node $V tui paste "<text>"                     # 括号粘贴，像终端粘贴一样；不提交
+node $V tui keys <key...>                      # enter escape tab shift-tab up down left right space backspace ctrl-c
+node $V tui screen [--save <name>] [--all]     # 当前屏幕、状态栏字段、completionOpen
+node $V tui wait --text "<a|b>" | --status <字段>=<值1|值2> [--hold <秒>] [--timeout <秒>] [--save <name>]
+```
+
+- 状态栏：`[V] seq=… state=… session=… turn=… request=… agents=a/t background=n`。`state` 取
+  `ready`、`run`、`perm`、`ask`、`plan`、`done`、`fail`、`cancel`、`error`；`session`
+  是 runtime 的会话 ID。
+- `tui wait` 的轨迹只记录状态栏和含 `Goal`、`◎`、`✓`、`×`、`Waiting for`
+  的行，用于判断 Goal 状态变化。
+- 斜杠补全的回车规则（`packages/tui/src/tui/engine/components/editor.ts`）：补全列表打开时，回车先应用高亮项。
+  - 完整命令（`/goal pause`、`/goal resume`、`/goal clear`、`/goal <目标>`）直接 `tui type`
+    即可提交。
+  - 单独的 `/goal`（查看摘要）：高亮项 `goal`
+    还要继续补全，回车只会展开子命令列表。只在空闲时（`state` 不是 `run`）依次运行
+    `tui type "/goal" --no-submit`、`tui keys escape`、`tui keys enter`。
+  - 运行中按 Esc 会停止当前轮次（提示 `Esc stop`），不要用 Esc 关列表。
+  - 不小心留下半截输入时，`tui keys ctrl-c` 清空草稿（再按一次会退出）。
+- 附图片：先 `tui type "/goal <目标> " --no-submit`，再
+  `tui paste "<图片绝对路径>"`。TUI把粘贴的图片路径识别为附件，输入框末尾出现 `[Image #1]`，上方为
+  `Goal · 1 attachment · Enter start`；然后 `tui keys enter`。只支持图片和视频；`@文件` 只是文字。
+- 回答问卷：模型提问时状态栏 `state=ask`，屏幕出现 `╭─ Ask ─` 面板，底部
+  `↑↓ move · 1-N select · Enter send · Esc cancel`。等提问用 `tui wait --status state=ask`；单选题用
+  `tui type "<序号>" --no-submit`，按数字键就提交。
+
+## 取证
+
+```bash
+node $V tui snapshot [--session <id>] [--save <name>]
+```
+
+不传 `--session` 时取状态栏里的会话。TUI 没有 HTTP 接口，所以 `.json`
+里只有屏幕，没有 Goal 和历史的接口响应；这一轮没有捕获到模型调用时没有
+`-inspector/`。产出：`NNN-<name>.json` 和
+`.txt`（屏幕）、`-runtime-events.jsonl`、`-inspector/`、`-workspace/` 与
+`-workspace.json`。判定以屏幕上的横幅和提示、runtime 事件、工作目录文件为准，不看模型回复措辞。
+
+## 清理
+
+```bash
+node $V tui down
+```
+
+输入框有残留草稿时先用 Ctrl+C 清空（否则 `/quit` 会拼进草稿，可能改掉目标或发出一条消息），再提交
+`/quit`
+让 TUI 正常关闭嵌入的 runtime，等待退出（超时再发 SIGTERM，同样走正常关闭），把 runtime 日志复制进证据，保存
+`tui-final-screen.txt`，删除 data（含 config 副本）和 workspace，保留证据。
+
+## 坑
+
+- TUI 的编辑器把紧跟文字的回车当作粘贴；`tui type` 已在文字和回车之间等待 300 毫秒，自己用
+  `tui keys` 拼输入时也要留间隔。
+- 屏幕宽 200 列，长行会折行；`--text` 匹配用短而稳定的片段（如 `◎ Goal · Paused`）。
+- 状态栏的 `state` 描述的是最近一个轮次，不是 Goal 的状态；Goal 状态看横幅。
+- 屏幕上的旧内容会保留（例如之前 `/goal` 摘要里的 `Goal · Paused`），`tui wait`
+  的轨迹也会带着它们；判断当前状态看最下方的横幅行 `◎ Goal · …`。
+- `tui wait --text` 会匹配到屏幕上刚输入的目标文字。等待模型的输出或提问时，选目标里没有的文字，或用
+  `--status`。
+- Goal 成功完成的轮次也会显示
+  `× Error Runtime completed without a final assistant response.`，状态栏
+  `state=fail`（已报告，待确认）。判定以 `✓ Goal complete` 为准。
+# Electron 桌面端入口
+
+用户实际使用的桌面应用（`apps/electron`），用 Playwright 启动并操作真实界面。验证桌面端可见的行为（输入框、Goal 横幅、弹窗、授权卡片）时用它；应用内嵌 runtime 的状态经
+`api`、`poll`、`snapshot` 的 `--on electron` 核对。
+
+## 准备
+
+```bash
+node $V prepare electron
+```
+
+在 runtime 的构建之外：缺 Electron 二进制时运行
+`node node_modules/electron/install.js`（有本机缓存时约 1 秒）；再运行
+`pnpm --filter @mmx-agent/electron build:zh-staging`，约 2 分钟。后者把 `.env.zh.staging` 复制成
+`apps/electron/.env.local`（已被 gitignore），构建主进程 `dist/` 和静态前端 `out/`。应用的 build
+env 和语言由这次构建决定；要别的变体，设 `VERIFY_ARCHON_ELECTRON_BUILD`（如
+`build:en-staging`）。改了界面或主进程代码后都要重新准备。
+
+## 启动
+
+```bash
+node $V electron up [--no-proxy] [--evidence-dir <dir>]
+```
+
+- 在屏幕上打开一个真实的应用窗口。它登录的是你的真实账号，会加载账号的云端信息；只操作要验证的功能，不点签到、升级套餐等会改动账号的入口。
+- userData 和数据目录都在实例目录内。启动后核对 `app.getPath('userData')`
+  是这个临时目录，不是就立即关闭并失败。
+- 登录：从 `~/.minimax/auth/<buildEnv>/<region>/mcode-public/` 取有效期至少 50 分钟的 access
+  token，写进临时 userData 的旧版存储（`minimax-agent-cn-config-staging.json` 的
+  `tokens.accessToken`）。主进程在自己的 oauth-core 存储为匿名时读取它（`apps/electron/main/modules/auth/desktop-auth-session.ts`）。应用不会刷新这个 token，一次运行超过约 50 分钟时
+  `down` 后重新 `up`。
+- 关闭热更新（userData 的 `hot-update/state.json`），否则下载的前端会替换被测的 `out/`。
+- 打开诊断端口（`MAVIS_ELECTRON_ENABLE_DIAGNOSTIC_SIDECAR`），开启 LLM Context Inspector 捕获。
+- 就绪标志：输出 `"ok": true`，`mainUrl` 为 `app://./archon`。主窗口是登录页时 `up` 失败。
+- 代理：环境里有代理变量时必须选 `--no-proxy` 或
+  `--keep-proxy`（见 SKILL.md）。代理访问不到内部 npm 源时，启动卡满 120 秒后报
+  `no main window`，`electron-main.log` 里是
+  `mcode-tools development resource preparation failed`；这时重新准备没有用，要换 `--no-proxy`。
+- 核对 userData：`node $V electron status` 的 `userData` 是真实路径（macOS 上带 `/private`
+  前缀），与 `up` 输出的路径指向同一个目录。
+
+## 操作
+
+```bash
+node $V electron click|fill|type|press|wait|text|count <目标> [--value <文字>] [--key <按键>] [--state visible|hidden] [--timeout <秒>] [--save <截图名>]
+node $V electron upload <目标> --files <路径[,路径...]>
+node $V electron screenshot --save <name>
+node $V electron aria [--selector <selector>] [--save <name>]
+node $V electron status
+```
+
+- 目标：`--testid <id>`、`--role <role> [--name <名称>]`、`--text <文字>` 或
+  `--selector <Playwright 选择器>`；加 `--exact` 精确匹配。操作失败时自动截图。
+- `type` 逐字输入，适用于输入框 `message-textarea`（可编辑区域）；`fill` 直接替换内容。
+- 核对 runtime 状态：`node $V api|poll|snapshot ... --on electron`，路径与接口入口相同，请求转发到应用内嵌的 runtime。会话 ID 从
+  `node $V api GET /minimax-desktop/api/v1/agent/mavis/session --on electron` 取，按 `created_at`
+  最新的一条。
+
+### 首次启动的弹窗
+
+新的 userData 会弹出"模型上新"对话框和"每日签到"浮层，挡住输入框。只点关闭：
+
+```bash
+node $V electron click --selector 'role=dialog >> role=button[name="关闭"]'
+node $V electron click --role button --name "关闭签到" --exact
+```
+
+另有"云端任务 New""探索 Mini App New"等提示气泡，不挡输入框，但可能遮住截图里的部分内容，不必点。
+
+### 新建任务与会话 ID
+
+回首页：`node $V electron click --role button --name "新建任务"`。发送后取会话 ID：
+`node $V api GET /minimax-desktop/api/v1/agent/mavis/session --on electron`，按 `created_at`
+取最新一条。
+
+### 授权卡片
+
+默认授权模式是"智能授权"。会话没有选项目文件夹时，读取文件会出现"文件夹权限"卡片（按钮"拒绝"和"仅本对话"），执行轮次和独立验证的子会话都会触发。按用户路径点
+`--role button --name "仅本对话"`，或在发送前点输入框的"智能授权"按钮，改选"始终授权"（`--text 始终授权 --exact`）。等待卡片期间 Goal 仍显示"进行中"或"正在验证目标结果"，`poll`
+会一直等不到结果。场景不是验证授权本身时，在发送前改成"始终授权"；要验证智能授权时，用较短的
+`--timeout` 分段 `poll`，每段之间运行 `electron count --role button --name "仅本对话"`，有卡片就点。
+
+### 选文件
+
+应用经主进程的原生对话框选文件，网页里的 `filechooser` 事件不会触发。`electron upload`
+点击目标，并只替换这一次的对话框结果：
+
+```bash
+node $V electron click --testid attach-button
+node $V electron upload --text "添加文件或图片" --exact --files /abs/a.txt,/abs/b.png
+```
+
+输出的 `mechanism` 为 `input`（目标是 `input[type=file]`）、`filechooser` 或 `native-dialog`。选中后
+`electron text --testid attachment-bar` 显示文件。首页发送的是首轮附件，会话里发送的是目标资源，见
+[Goal 附件地图](../../../../.harness/docs/goal/feature-map/attachments.md)。
+
+### 问卷卡片
+
+模型提问时，问卷卡片替换输入框：`--role radiogroup --name "<问题>"`
+等它出现；选项是 radio（推荐项名称带"（推荐）"），另有radio
+"其他..."、输入框 "Others..." 和按钮"跳过"。单选题点一下选项就提交。标题旁的时钟按钮显示剩余时间
+`M:SS`。
+
+## 取证
+
+- `electron screenshot` 和各操作的 `--save` 截图保存为 `screenshot-<时间>-<name>.png`。
+- `electron aria --save` 保存无障碍树文本，适合核对文字和按钮。
+- `snapshot --session <id> --on electron`
+  保存会话、Goal、历史、队列、runtime 事件、Inspector 和工作目录。
+- 应用主进程输出在 `electron-main.log`，页面控制台在 `electron-renderer-console.log`。
+
+## 清理
+
+```bash
+node $V electron down
+```
+
+截最后一张图，关闭应用，删除 userData（含注入的 token）、data 和 workspace，保留证据。
+
+## 坑
+
+- 界面语言跟随构建（zh 构建是中文）：状态标签为"进行中""已停止""等待后台任务完成""正在验证目标结果""已完成"，按钮名为中文。
+- 单独发送 `/goal` 会作为普通聊天发出，不会打开 Goal 摘要。
+- 编辑已有 Goal 后发送，会弹出"替换当前目标?"（`goal-replace-confirm-modal`），点"替换目标"才生效。
+- 清除 Goal 的确认框 `goal-clear-confirm-modal` 里，删除按钮没有 testid，用
+  `--selector '[data-testid="goal-clear-confirm-modal"] >> role=button[name="删除"]'`。
+- 渲染进程使用 MemoryRouter，没有可直接跳转的 URL；回首页点侧栏"新建任务"。
+- Goal 横幅和 `goal-completion-marker` 的用时用界面计时器，问卷等待也计入；runtime 的
+  `time_used_seconds`
+  不含这段。一次问卷自动回答的 Goal 两处都显示 5min9s，接口为 10 秒（2026-09-30 实跑，已报告，待确认）。核对用时看接口。
+- 轮次进行中清除 Goal：横幅消失、`GET .../goal` 返回
+  `{}`，但这一轮还在运行，停止按钮和它的授权卡片仍在（2026-09-29 实跑观察）。清除后要结束这一轮，用输入框右侧的停止按钮。
+
+ succeeded in 0ms:
+# Goal 生命周期
+
+用户为会话设定一个长期目标，Runtime 持有状态并自动推进；用户可以暂停、恢复、修改目标、调整预算和清除。行为规则见
+[当前规格](../spec.md) GOAL-01～04、GOAL-07 的预算命令和 GOAL-14。本文件只写怎样进入、操作和证明。
+
+## 子功能
+
+- `GOAL-01` 创建与替换：会话没有未完成 Goal 时创建；已有 `complete` 的 Goal 时，新建会替换它。
+- `GOAL-02`
+  状态：`active`、`paused`、`blocked`、`complete`、`budget_limited`、`usage_limited`，原因写在
+  `status_reason`。
+- `GOAL-03` 修改目标：不同状态、不同端修改 objective 的结果不同。
+- `GOAL-04` 暂停、恢复、清除。
+- `GOAL-07` 预算命令：设置、修改、清除 `token_budget`。
+
+## 入口（用户视角）
+
+| 入口                                                                          | 用户动作   | verify-archon 入口 | 对应接口                                                     |
+| ----------------------------------------------------------------------------- | ---------- | ------------------ | ------------------------------------------------------------ |
+| Desktop 首页或会话输入框：`/goal <目标>`                                      | 输入并发送 | Electron           | `POST /minimax-desktop/api/v1/session/<id>/goal`             |
+| Desktop Goal 横幅：暂停 / 继续 / 编辑 / 清除目标                              | 点击       | Electron           | `PATCH .../goal` 的 `status`、`objective`；`DELETE .../goal` |
+| MCode TUI：`/goal <目标>`、`/goal pause\|resume\|edit\|clear`、单独的 `/goal` | 输入命令   | TUI                | 进程内 CliService，共用本地 Goal owner，不经 HTTP            |
+| Desktop 与 TUI 的 `budget=50K`、`/goal budget=<N\|K\|M\|clear>`               | 输入命令   | TUI；接口          | `token_budget`：正数设置，`0` 清除，不传保留                 |
+| Remote Control                                                                | 手机端操作 | 暂未覆盖           | 调回 Desktop Runtime                                         |
+
+普通 Cloud 会话只有客户端 adapter，不属于本地 Goal（GOAL-14）。
+
+## 用 verify-archon 操作
+
+前提：已按 [verify-archon](../../../../.agents/skills/verify-archon/SKILL.md)
+启动所用入口的实例，`V` 指其控制脚本。每个场景新建会话。
+
+### Electron
+
+入口说明见
+[electron.md](../../../../.agents/skills/verify-archon/references/electron.md)。先关闭首次启动的弹窗。
+
+- **创建。** 在首页输入框输入并发送。运行
+  `node $V electron type --testid message-textarea --value "/goal Write the numbers 1 to 3 into count.txt, one number per line, then stop."`
+  和 `node $V electron click --testid send-button`，再运行
+  `node $V electron wait --testid thread-goal-banner --timeout 60 --save goal-banner`。横幅出现，`thread-goal-banner-status`
+  为"进行中"。会话 ID 用 `node $V api GET /minimax-desktop/api/v1/agent/mavis/session --on electron`
+  取最新一条，下文记作 `$S`。
+- **授权。** 默认"智能授权"下会出现"文件夹权限"卡片，执行轮次和独立验证各一次。点
+  `node $V electron click --role button --name "仅本对话"`；或在发送前点"智能授权"改选"始终授权"。
+- **跑到完成。** 运行
+  `node $V poll /minimax-desktop/api/v1/session/$S/goal --on electron --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason,goal.turns_used --interval 3 --timeout 420 --save e-run`，结果为
+  `complete(verifier_met)`。界面上 `goal-completion-marker`
+  为"目标已完成 用时 …"，横幅为"已完成"，输入框退出目标模式。
+- **暂停。**
+  先回首页（`node $V electron click --role button --name "新建任务"`），发送一个前台运行约 30 秒的目标，留出操作时间：`/goal Run the shell command sleep 30 in the foreground, then write done.txt containing ok.`。横幅出现后运行
+  `node $V electron click --testid thread-goal-banner-pause`。状态标签为"已停止"，接口为
+  `paused(user_requested)`。
+- **继续。** 运行
+  `node $V electron click --testid thread-goal-banner-resume`。状态标签为"进行中"，接口为 `active`。
+- **编辑。** 暂停后运行
+  `node $V electron click --testid thread-goal-banner-edit-button`，目标文字进入下方输入框（目标模式）。用
+  `electron fill --testid message-textarea --value "<新目标>"` 替换后点
+  `send-button`，弹出"替换当前目标?"（`goal-replace-confirm-modal`）；点
+  `--role button --name 替换目标 --exact`。Goal 以新目标重新变为
+  `active`，跑到完成后工作目录里是新目标的结果。
+- **清除。** 运行 `node $V electron click --testid thread-goal-banner-clear`，在
+  `goal-clear-confirm-modal` 里点
+  `--selector '[data-testid="goal-clear-confirm-modal"] >> role=button[name="删除"]'`。横幅消失（`electron wait --testid thread-goal-banner --state hidden`），`GET .../goal --on electron`
+  返回 `{}`。
+- **完成后替换。** 在已完成的会话里再发送 `/goal <新目标>`，得到新的 Goal。
+
+### TUI
+
+入口说明见 [tui.md](../../../../.agents/skills/verify-archon/references/tui.md)。
+
+- **创建。** 运行
+  `node $V tui type "/goal Write the numbers 1 to 3 into count.txt, one number per line, then stop."`
+  和 `node $V tui wait --text "◎ Goal · Active" --timeout 30 --save tui-active`。
+- **暂停。** 运行 `node $V tui type "/goal pause"` 和
+  `node $V tui wait --text "◎ Goal · Paused" --timeout 30 --save tui-paused`。正在运行的轮次显示 "Interrupted"，状态栏
+  `state=cancel`。
+- **查看摘要。** 空闲时依次运行
+  `node $V tui type "/goal" --no-submit`、`node $V tui keys escape`、`node $V tui keys enter`，再
+  `node $V tui wait --text "Objective:" --timeout 15 --save tui-summary`。摘要列出状态、Objective、Time
+  used、用量和可用命令。
+- **暂停时改目标。** 运行
+  `node $V tui type "/goal Write the numbers 1 to 4 into count.txt, one number per line, then stop."`，出现 "Goal
+  objective updated."；运行
+  `node $V tui wait --text "◎ Goal · Paused" --hold 8 --timeout 20`，Goal 保持暂停。
+- **恢复并跑到完成。** 运行 `node $V tui type "/goal resume"` 和
+  `node $V tui wait --text "Goal complete" --timeout 420 --save tui-complete`，出现"Goal resumed."和
+  `✓ Goal complete · … turns`。`tui snapshot --save tui-lifecycle` 的 `-workspace/count.txt`
+  为 1 到 4。
+- **完成后替换、清除。** 完成后再 `/goal <新目标>` 会开始新 Goal；`/goal clear` 出现 "Goal
+  cleared."。
+
+### 接口
+
+前提：`up` 和 `doctor` 通过；新建会话：
+`node $V api POST /minimax-desktop/api/v1/agent/mavis/session --data '{"title":"goal lifecycle"}' --save lifecycle-session`，`$S`
+为返回的 `session_id`。
+
+- **创建。** 运行
+  `node $V api POST /minimax-desktop/api/v1/session/$S/goal --data '{"objective":"Write the numbers 1 to 3 into count.txt, one number per line, then stop.","token_budget":80000}' --save lifecycle-create`。返回200，`goal.status`
+  为 `active`，`token_budget` 为 80000。
+- **暂停。** 运行
+  `node $V api PATCH /minimax-desktop/api/v1/session/$S/goal --data '{"status":"paused"}' --save lifecycle-pause`。`status_reason`
+  为 `paused(user_requested)`。
+- **暂停时修改目标。** 运行
+  `node $V api PATCH /minimax-desktop/api/v1/session/$S/goal --data '{"objective":"Write the numbers 1 to 4 into count.txt, one number per line, then stop."}' --save lifecycle-edit-paused`。`objective`
+  已更新，状态仍是 `paused(user_requested)`。
+- **确认暂停期间不会自行继续。** 运行
+  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status=paused --hold 8 --show goal.status,goal.turns_used --save lifecycle-still-paused`。
+- **恢复。** 运行
+  `node $V api PATCH /minimax-desktop/api/v1/session/$S/goal --data '{"status":"active"}' --save lifecycle-resume`。
+- **跑到终态。** 运行
+  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason,goal.turns_used --interval 4 --timeout 420 --save lifecycle-run`。轨迹依次出现
+  `active`、`execution.wait_reason` 为 `verification`、`complete(verifier_met)`；`snapshot` 的
+  `count.txt` 为 1 到 4。
+- **清除。** 运行
+  `node $V api DELETE /minimax-desktop/api/v1/session/$S/goal --save lifecycle-clear`，再
+  `GET .../goal` 返回 `{}`。
+- **替换已完成的 Goal。** 在 `complete` 的会话上再 `POST .../goal`，返回新的 `goal_id`。确认后
+  `DELETE`。
+
+## 坑
+
+- 各端修改目标的语义不同（GOAL-03）：Desktop 编辑已暂停的 Goal 会同时发送
+  `status: active`，改完立即重新开始；TUI 和接口只改 objective，保持暂停。
+- 创建后首轮会立即开始，即使在 200 毫秒内暂停也来不及。暂停会中止这一轮；接口的 `turns_used`
+  已经是 1，而 Electron 横幅此时显示"0 轮"，跑完后两边一致（2026-09-29 实跑观察）。判断执行的是哪个目标，看跑到终态后的文件。
+- 恢复（paused 到 active）和修改 objective 不产生 `goal.state_transitioned`
+  事件（2026-09-29 实跑观察）；判断恢复看响应和之后的轨迹。
+- 已有未完成 Goal 时，接口 POST 会被拒绝，要先 DELETE 或 PATCH；TUI 的 `/goal <目标>`
+  在这种情况下改为 PATCH objective。
+- PATCH 带 `expected_goal_id` 时必须同时带 `expected_updated_at`；过期的 `updated_at` 返回 409
+  `GOAL_CHANGED`。
+- 修改 objective 不清零 tokens、turns 和耗时。
+- TUI 单独的 `/goal` 显示摘要；Desktop 单独发送 `/goal` 是普通聊天。
+- 智能授权下等待授权卡片的时间计入耗时（示例：一次 Goal 显示"用时 9min7s"，大部分是在等授权）。
+- TUI 在 Goal 完成的轮次显示
+  `× Error Runtime completed without a final assistant response.`，状态栏为
+  `state=fail`，而 Goal 实际为
+  `complete`（2026-09-29 实跑 3 次均出现，已报告，待确认）。判定以横幅的 `✓ Goal complete` 为准。
+# Goal 完成与独立验证
+
+主执行者认为目标达成时提出完成；Host 在本轮结算后派发独立验证，验证通过才进入
+`complete`。完成后 Goal 不再自动续跑。规则见 [当前规格](../spec.md) GOAL-09、GOAL-10 和 GOAL-13。
+
+## 子功能
+
+- `GOAL-09` 完成提案：主执行者通过 goal 工具提出 `complete` 或 `blocked`。
+- `GOAL-10` 独立验证：派发 verifier（`subagent` 或 evaluator），得出 verdict。
+- `GOAL-10` 验证等待：验证期间 `execution.wait_reason` 为 `verification`。
+- `GOAL-13` 完成后不续跑：之后的普通消息不触发 Goal 轮次。
+- `GOAL-01` 完成后设定新 Goal：替换已完成的 Goal。
+
+## 入口（用户视角）
+
+| 入口                        | 用户看到或做的事                                                                                                     | verify-archon 入口 | 对应接口                                                                                  |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------- | ------------------ | ----------------------------------------------------------------------------------------- |
+| Desktop Goal 横幅           | 验证时为"正在验证目标结果"，右侧 Subagents 出现 "Goal verification"；完成后为"已完成"，对话里出现"目标已完成 用时 …" | Electron           | `GET .../goal` 的 `status`、`status_reason`、`execution.wait_reason`、`last_verification` |
+| Desktop 输入框，Goal 完成后 | 输入框退出目标模式；继续聊天，或设定新目标                                                                           | Electron；接口     | `POST .../message`；`POST .../goal`                                                       |
+| MCode TUI                   | 横幅 `◎ Goal · Verifying the result`；完成后横幅消失，出现 `✓ Goal complete · <时间> · <tokens> · <轮数> turns`      | TUI                | 进程内                                                                                    |
+
+## 用 verify-archon 操作
+
+### Electron 与 TUI
+
+按 [生命周期](lifecycle.md) 或 [持续执行](continuation.md)
+的 Electron、TUI 步骤让 Goal 跑到完成，再核对：
+
+- **Electron。** 验证期间 `thread-goal-banner-status`
+  为"正在验证目标结果"。智能授权下验证子会话读文件也会出现授权卡片，要点"仅本对话"。完成后
+  `goal-completion-marker` 为"目标已完成 用时 …"，横幅为"已完成"，接口为
+  `complete(verifier_met)`；输入框的"目标"标签消失。
+- **TUI。** 验证期间横幅为 `◎ Goal · Verifying the result`；完成后出现 `✓ Goal complete`。
+
+### 接口
+
+前提：已按 [verify-archon](../../../../.agents/skills/verify-archon/SKILL.md) 完成 `up` 和
+`doctor`；按 [生命周期](lifecycle.md) 或 [持续执行](continuation.md) 让一个 Goal 跑到终态，下文 `$S`
+为该会话。
+
+- **验证通过后完成。** 看"跑到终态"保存的轨迹。先出现 `execution.wait_reason` 为
+  `verification`，再出现 `complete(verifier_met)`。`GET .../goal` 的 `last_verification.backend` 为
+  `subagent`，`verdict` 为 `met`，`reason` 写明检查过程。
+- **核对验证过程。** 运行 `node $V snapshot --session $S --save completion`。`-runtime-events.jsonl`
+  里依次有：`goal.verification_dispatched`；`goal.verification_child_started`（含
+  `childSessionId`）；`goal.state_transitioned`（`active` 到
+  `complete`）；`goal.verification_decided`（`verdict` 为 `met`，`disposition` 为
+  `accepted`）；`goal.worker_proposal_decided`（`proposal` 为 `complete`）。
+- **完成后不续跑。** 继续聊天。运行
+  `node $V api POST /minimax-desktop/api/v1/session/$S/message --data '{"content":"Reply with just OK."}' --save completion-plain`，助手回复
+  `OK`。再运行
+  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status=complete --hold 10 --show goal.status,goal.turns_used --save completion-no-continuation`：10秒内一直是
+  `complete`，`turns_used` 不变；`GET .../queue` 的 `items` 为空。
+- **完成后设定新 Goal。** 运行
+  `node $V api POST /minimax-desktop/api/v1/session/$S/goal --data '{"objective":"Reply with the single word DONE.","token_budget":40000}' --save completion-replace`。返回新的
+  `goal_id`，状态 `active`，`turns_used` 为 0。确认后 `DELETE .../goal`。
+
+以下子功能尚未实跑：verdict 不是 `met` 时的路径（Goal 继续或阻塞），以及主执行者提出
+`blocked`。构造它们需要一个模型会过早宣布完成、或确实无法完成的目标。
+
+## 坑
+
+- 验证者在另一个子会话里运行，会产生额外的模型调用；子会话 ID 在 `goal.verification_child_started`
+  里。
+- 验证子会话里禁止创建 Goal，返回 `GOAL_VERIFIER_SESSION_FORBIDDEN`。
+- 完成标记和"目标已更新"气泡是客户端投影，不能代替 Runtime 状态；判定以 `GET .../goal`
+  和 runtime 事件为准。
+- `last_verification.reason` 是模型写的文字，只作参考，判定看 `verdict` 和事件。
+- TUI 在 Goal 完成的轮次同时显示
+  `× Error Runtime completed without a final assistant response.`，build-mode 状态栏为
+  `state=fail`（2026-09-29 实跑 3 次均出现，已报告，待确认）。依赖状态栏判断成败的自动化会把成功误判为失败；判定以
+  `✓ Goal complete` 和 runtime 事件为准。Electron 不显示这个错误。
+
+exec
+/bin/zsh -lc "rg -n 'terminates_turn|complete|beforeTool|before_tool' packages/agent-modules/goal/src/tool-impls.ts packages/agent-modules/goal/src/module.ts packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ exited 2 in 0ms:
+rg: packages/agent-modules/goal/src/module.ts: No such file or directory (os error 2)
+packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts:44:  return (input as { status?: unknown }).status === 'complete';
+packages/agent-modules/goal/src/tool-impls.ts:195:          'cannot create a new goal because this thread has an unfinished goal; complete the existing goal first',
+packages/agent-modules/goal/src/tool-impls.ts:239:    if (status !== 'complete' && status !== 'blocked') {
+packages/agent-modules/goal/src/tool-impls.ts:242:        'status must be "complete" or "blocked" when proposing a terminal status',
+packages/agent-modules/goal/src/tool-impls.ts:262:      type: status === 'complete' ? 'completion_proposed' : 'block_proposed',
+
+exec
+/bin/zsh -lc "rg -n 'goal.verification_dispatched|verification_dispatched|requireAnswer|Created  |Goal complete' packages/local-runtime packages/local-runtime-v2 packages/tui/src packages/agent-modules/goal/src" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/tui/src/headless/runner.ts:224:                requireAnswer: true,
+packages/tui/src/headless/runner.ts:227:          : { policy: { requireAnswer: true } }),
+packages/tui/src/application/run-coordinator.ts:52:    requireAnswer?: boolean;
+packages/tui/src/application/run-coordinator.ts:287:      if (request.policy?.requireAnswer === true && status === 'succeeded' && answer === null) {
+packages/local-runtime-v2/docs/dev/local-runtime-v2-session-conversation-agent-host-review.md:484:- Goal complete/delete 或指向其他 Goal 的陈旧 Queue item 会被原子 cancel；
+packages/tui/src/tui/controller/chat-controller.ts:446:          ...(this.writeAutomationResult ? { policy: { requireAnswer: true } } : {}),
+packages/local-runtime/src/thread-goal/events.ts:118:  'goal.verification_dispatched': {
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:313:      type: 'goal.verification_dispatched',
+packages/tui/src/tui/features/goal/banner.ts:137:    '✓ Goal complete',
+packages/tui/src/tui/transcript/delivered-assets.ts:17:  const label = 'Created  ';
+packages/local-runtime/test/unit/thread-goal/runtime-events.test.ts:16:  'goal.verification_dispatched',
+packages/local-runtime/test/unit/thread-goal/host-integration-dependency-gates.test.ts:478:  it('retires the owning questionnaire when a Goal completes or is deleted', async () => {
+packages/local-runtime/test/unit/questionnaire-auto-reply-service.test.ts:574:  it('supersedes a pending questionnaire when its owning Goal completed before timeout settlement', async () => {
+packages/local-runtime/test/unit/thread-goal-verifier-contract.test.ts:555:            type: 'goal.verification_dispatched',
+
+exec
+/bin/zsh -lc 'cat packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc "sed -n '1,340p' packages/agent-modules/goal/src/tool-impls.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc "sed -n '1,90p' /Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+import type { MessagePart } from '@/store/message.js';
+
+export type AssistantSegmentContentPart = Extract<MessagePart, { type: 'text' }>;
+
+export interface AssistantSegment {
+  id: string;
+  contentPart: AssistantSegmentContentPart;
+  eventParts: MessagePart[];
+}
+
+export interface AssistantSegmentResult {
+  leadingParts: MessagePart[];
+  archivedParts: MessagePart[];
+  timelineSegments: AssistantSegment[];
+  activeSegment: AssistantSegment | null;
+}
+
+export interface BuildAssistantSegmentsOptions {
+  preferGoalCompletionResult?: boolean;
+  /** Keep the first pre-steer body stable while the Turn runs or waits for input. */
+  preservePreSteerBody?: boolean;
+}
+
+function isSegmentContentPart(part: MessagePart): part is AssistantSegmentContentPart {
+  return part.type === 'text';
+}
+
+function parseToolInput(input: unknown): unknown {
+  if (typeof input !== 'string') return input;
+  try {
+    return JSON.parse(input) as unknown;
+  } catch {
+    return input;
+  }
+}
+
+function isCompletedGoalUpdate(part: MessagePart): boolean {
+  if (part.type !== 'tool_call') return false;
+  if (part.tool_call.status !== 'done' || part.tool_call.name.toLowerCase() !== 'update_goal') {
+    return false;
+  }
+  const input = parseToolInput(part.tool_call.input);
+  if (!input || typeof input !== 'object' || Array.isArray(input)) return false;
+  return (input as { status?: unknown }).status === 'complete';
+}
+
+function findPreviousContentIndex(parts: MessagePart[], fromIndex: number): number {
+  for (let index = fromIndex; index >= 0; index -= 1) {
+    const part = parts[index];
+    if (part && isSegmentContentPart(part)) return index;
+  }
+  return -1;
+}
+
+function findFirstPreSteerContentIndex(parts: MessagePart[]): number {
+  for (let index = 0; index < parts.length; index += 1) {
+    if (parts[index]?.type !== 'steered_user') continue;
+    const contentIndex = findPreviousContentIndex(parts, index - 1);
+    if (contentIndex >= 0) return contentIndex;
+  }
+  return -1;
+}
+
+interface ActiveContentSelection {
+  index: number;
+  archiveNonActiveParts: boolean;
+}
+
+function resolveActiveContent(
+  parts: MessagePart[],
+  lastContentIndex: number,
+  options: BuildAssistantSegmentsOptions,
+): ActiveContentSelection {
+  if (options.preservePreSteerBody) {
+    const preSteerContentIndex = findFirstPreSteerContentIndex(parts);
+    if (preSteerContentIndex >= 0) {
+      return { index: preSteerContentIndex, archiveNonActiveParts: false };
+    }
+  }
+
+  if (!options.preferGoalCompletionResult) {
+    return { index: lastContentIndex, archiveNonActiveParts: false };
+  }
+
+  for (let index = parts.length - 1; index >= 0; index -= 1) {
+    const part = parts[index];
+    if (!part || !isCompletedGoalUpdate(part)) continue;
+
+    const precedingContentIndex = findPreviousContentIndex(parts, index - 1);
+    if (precedingContentIndex < 0 || precedingContentIndex === lastContentIndex) {
+      return { index: lastContentIndex, archiveNonActiveParts: false };
+    }
+
+    const precedingContent = parts[precedingContentIndex] as AssistantSegmentContentPart;
+    const latestContent = parts[lastContentIndex] as AssistantSegmentContentPart;
+    return precedingContent.content.trim().length > latestContent.content.trim().length
+      ? { index: precedingContentIndex, archiveNonActiveParts: true }
+      : { index: lastContentIndex, archiveNonActiveParts: false };
+  }
+
+  return { index: lastContentIndex, archiveNonActiveParts: false };
+}
+
+export function buildAssistantSegments(
+  parts: MessagePart[],
+  options: BuildAssistantSegmentsOptions = {},
+): AssistantSegmentResult {
+  const firstContentIndex = parts.findIndex(isSegmentContentPart);
+  const lastContentIndex = (() => {
+    for (let index = parts.length - 1; index >= 0; index -= 1) {
+      const part = parts[index];
+      if (part && isSegmentContentPart(part)) return index;
+    }
+    return -1;
+  })();
+
+  if (lastContentIndex < 0) {
+    return {
+      leadingParts: parts,
+      archivedParts: parts,
+      timelineSegments: [],
+      activeSegment: null,
+    };
+  }
+
+  const leadingParts = firstContentIndex > 0 ? parts.slice(0, firstContentIndex) : [];
+  const activeContent = resolveActiveContent(parts, lastContentIndex, options);
+  const activeContentIndex = activeContent.index;
+  const archivedParts = activeContent.archiveNonActiveParts
+    ? parts.filter((_, index) => index !== activeContentIndex)
+    : parts.slice(0, activeContentIndex);
+  const timelineSegments = buildTimelineSegments(archivedParts);
+  const eventParts = activeContent.archiveNonActiveParts ? [] : parts.slice(activeContentIndex + 1);
+  const activeContentPart = parts[activeContentIndex] as AssistantSegmentContentPart;
+
+  return {
+    leadingParts,
+    archivedParts,
+    timelineSegments,
+    activeSegment: {
+      id: `segment-${activeContentPart.id}`,
+      contentPart: activeContentPart,
+      eventParts,
+    },
+  };
+}
+
+function buildTimelineSegments(parts: MessagePart[]): AssistantSegment[] {
+  const timelineSegments: AssistantSegment[] = [];
+  let currentSegment: AssistantSegment | null = null;
+
+  for (const part of parts) {
+    if (isSegmentContentPart(part)) {
+      if (currentSegment) {
+        timelineSegments.push(currentSegment);
+      }
+      currentSegment = {
+        id: `segment-${part.id}`,
+        contentPart: part,
+        eventParts: [],
+      };
+      continue;
+    }
+
+    if (currentSegment) {
+      currentSegment.eventParts.push(part);
+    }
+  }
+
+  if (currentSegment) {
+    timelineSegments.push(currentSegment);
+  }
+
+  return timelineSegments;
+}
+
+ succeeded in 0ms:
+/**
+ * Thread Goal tool implementations — `@bindTool`ed concrete classes that
+ * back `create_goal` / `update_goal` / `get_goal`. They are host-agnostic:
+ * they only depend on the `ThreadGoalStore` port, so the same impls work
+ * in local-runtime today and could be reused by cloud-runtime later.
+ *
+ * `create_goal` accepts an optional `onChanged` callback for hosts that expose
+ * model-owned creation. `update_goal` is deliberately asymmetric: terminal
+ * status is only a turn-local proposal, while a user-requested token-budget
+ * edit goes through a separate host-owned durable mutation port.
+ */
+
+import { bindTool, TURN_TERMINATING_TOOL_RESULT_DETAIL } from '@mavis/agent-core/tools';
+import type { ToolExecutionContext, ToolImpl, ToolResult } from '@mavis/agent-core/tools';
+
+import { ThreadGoalAlreadyExistsError, type ThreadGoalStore } from './store-port.js';
+import {
+  CreateGoalToolDef,
+  GetGoalToolDef,
+  UpdateGoalToolDef,
+  resolveUpdateGoalMode,
+  type CreateGoalToolInput,
+  type GetGoalToolInput,
+  type UpdateGoalToolInput,
+} from './tool-defs.js';
+import {
+  validateThreadGoalObjective,
+  type GoalTurnSignal,
+  type ThreadGoalSignalCollectionResult,
+  type ThreadGoalState,
+  type ThreadGoalStatus,
+} from './types.js';
+import { digestThreadGoalObjective } from './objective-digest.js';
+
+/**
+ * Host hook invoked after a successful mutation. local-runtime wires
+ * this to its SSE bus (`thread_goal.updated`) so the banner re-renders
+ * live when the model creates or closes a goal mid-turn.
+ */
+export type ThreadGoalToolMutationListener = (
+  goal: ThreadGoalState,
+  previousStatus?: ThreadGoalStatus,
+) => void;
+
+/** Host-owned turn-local sink. Collection never mutates the durable Goal row. */
+export interface ThreadGoalSignalCollector {
+  collect(context: ToolExecutionContext, signal: GoalTurnSignal): ThreadGoalSignalCollectionResult;
+}
+
+export interface ThreadGoalTokenBudgetMutationInput {
+  readonly tokenBudget: number | null;
+  readonly expectedGoalId: string;
+  readonly expectedUpdatedAt: number;
+}
+
+export type ThreadGoalTokenBudgetMutationResult =
+  | {
+      readonly updated: true;
+      readonly goal: ThreadGoalState;
+      readonly previousTokenBudget: number | null;
+      readonly resumed: boolean;
+    }
+  | {
+      readonly updated: false;
+      readonly error: string;
+      readonly currentGoal?: ThreadGoalState;
+    };
+
+/** Host-owned durable mutation seam; tool code never writes Goal state directly. */
+export interface ThreadGoalTokenBudgetMutationPort {
+  updateTokenBudget(
+    context: ToolExecutionContext,
+    input: ThreadGoalTokenBudgetMutationInput,
+  ): Promise<ThreadGoalTokenBudgetMutationResult>;
+}
+
+/** Build the canonical text+content payload returned to the model. */
+function ok(toolName: string, body: Record<string, unknown>): ToolResult {
+  const text = JSON.stringify(body);
+  return {
+    tool_name: toolName,
+    text,
+    content: [{ type: 'text', text }],
+    details: body,
+  };
+}
+
+/**
+ * Build the canonical rejection payload returned to the model.
+ *
+ * `isError` is part of the contract, not decoration: without it a refused
+ * proposal reaches the model as ordinary tool output, so "your goal is stale /
+ * paused / has no goal" reads like a normal result. GOAL-09 requires those
+ * rejections to be legible as failures.
+ */
+function err(toolName: string, message: string, body: Record<string, unknown> = {}): ToolResult {
+  const payload = { error: message, ...body };
+  const text = JSON.stringify(payload);
+  return {
+    tool_name: toolName,
+    text,
+    content: [{ type: 'text', text }],
+    isError: true,
+    details: payload,
+  };
+}
+
+/**
+ * End the Turn and record that fact where it survives.
+ *
+ * `terminate` is consumed by the agent loop and dropped; only `details` reach
+ * canonical history. Turn continuation reads that tail, so a Turn ended by an
+ * accepted or stale terminal proposal must be legible as "ended on purpose"
+ * rather than "interrupted" — otherwise the product offers to resume a Goal
+ * that is already settled. The marker stays out of the serialized `text` so
+ * the model-facing payload is unchanged.
+ */
+function endTurn(result: ToolResult): ToolResult {
+  return {
+    ...result,
+    details: { ...(result.details ?? {}), [TURN_TERMINATING_TOOL_RESULT_DETAIL]: true },
+    terminate: true,
+  };
+}
+
+function serializeGoal(goal: ThreadGoalState): Record<string, unknown> {
+  return {
+    goalId: goal.goalId,
+    sessionId: goal.sessionId,
+    objective: goal.objective,
+    ...(goal.objectiveResources?.length ? { objectiveResources: goal.objectiveResources } : {}),
+    status: goal.status,
+    createdAt: goal.createdAt,
+    updatedAt: goal.updatedAt,
+    tokensUsed: goal.tokensUsed,
+    timeUsedSeconds: goal.timeUsedSeconds,
+    tokenBudget: goal.tokenBudget,
+  };
+}
+
+// ─── create_goal ───────────────────────────────────────────────────────
+
+@bindTool(CreateGoalToolDef)
+export class CreateGoalTool implements ToolImpl<
+  typeof CreateGoalToolDef.schema,
+  ToolExecutionContext
+> {
+  constructor(
+    private readonly store: ThreadGoalStore,
+    private readonly onChanged?: ThreadGoalToolMutationListener,
+  ) {}
+
+  async execute(ctx: ToolExecutionContext, input: CreateGoalToolInput): Promise<ToolResult> {
+    const objective = (input.objective ?? '').trim();
+    const invalid = validateThreadGoalObjective(objective);
+    if (invalid) {
+      return err(CreateGoalToolDef.name, invalid);
+    }
+
+    // Give the model an explicit, actionable rejection before attempting the
+    // write when work is already active or intentionally paused. The store's
+    // uniqueness guard remains the race-safe backstop for concurrent creates
+    // and for other unfinished statuses.
+    const existing = await this.store.getBySession(ctx.sessionId);
+    if (existing && (existing.status === 'active' || existing.status === 'paused')) {
+      return err(
+        CreateGoalToolDef.name,
+        `this thread already has a goal with status ${existing.status}; do not create another goal`,
+        {
+          existingGoalId: existing.goalId,
+          existingStatus: existing.status,
+        },
+      );
+    }
+
+    // Pass through the optional token_budget verbatim. Schema already
+    // enforced `minimum: 1`; the store treats `undefined` as "no cap".
+    const createInput: { sessionId: string; objective: string; tokenBudget?: number } = {
+      sessionId: ctx.sessionId,
+      objective,
+    };
+    if (typeof input.token_budget === 'number') {
+      createInput.tokenBudget = input.token_budget;
+    }
+
+    try {
+      const goal = await this.store.create(createInput);
+      this.onChanged?.(goal);
+      return ok(CreateGoalToolDef.name, { goal: serializeGoal(goal) });
+    } catch (e) {
+      if (e instanceof ThreadGoalAlreadyExistsError) {
+        // codex-verbatim rejection (tool.rs handle_create).
+        return err(
+          CreateGoalToolDef.name,
+          'cannot create a new goal because this thread has an unfinished goal; complete the existing goal first',
+          { existingGoalId: e.existingGoalId },
+        );
+      }
+      throw e;
+    }
+  }
+}
+
+// ─── update_goal ───────────────────────────────────────────────────────
+
+@bindTool(UpdateGoalToolDef)
+export class UpdateGoalTool implements ToolImpl<
+  typeof UpdateGoalToolDef.schema,
+  ToolExecutionContext
+> {
+  private readonly successfulBudgetUpdateTurns = new Set<string>();
+
+  constructor(
+    private readonly store: ThreadGoalStore,
+    private readonly collector: ThreadGoalSignalCollector,
+    private readonly budgetMutation?: ThreadGoalTokenBudgetMutationPort,
+  ) {}
+
+  async execute(ctx: ToolExecutionContext, input: UpdateGoalToolInput): Promise<ToolResult> {
+    const mode = resolveUpdateGoalMode(input);
+    if (mode === 'mixed') {
+      return err(
+        UpdateGoalToolDef.name,
+        'cannot combine status and token_budget in one update; set mode to "status" or "token_budget" to disambiguate',
+      );
+    }
+    if (mode === 'none') {
+      return err(UpdateGoalToolDef.name, 'provide either status or token_budget');
+    }
+    if (mode === 'token_budget') return this.updateTokenBudget(ctx, input);
+    return this.proposeTerminalStatus(ctx, input);
+  }
+
+  private async proposeTerminalStatus(
+    ctx: ToolExecutionContext,
+    input: UpdateGoalToolInput,
+  ): Promise<ToolResult> {
+    const status = input.status;
+    if (status !== 'complete' && status !== 'blocked') {
+      return err(
+        UpdateGoalToolDef.name,
+        'status must be "complete" or "blocked" when proposing a terminal status',
+      );
+    }
+
+    const existing = await this.store.getBySession(ctx.sessionId);
+    if (!existing) {
+      // codex-verbatim rejection (tool.rs handle_update).
+      return err(UpdateGoalToolDef.name, 'cannot update goal because this thread has no goal');
+    }
+
+    if (existing.status === 'paused') {
+      return err(
+        UpdateGoalToolDef.name,
+        'cannot update goal because it is paused; resume the goal before completing or blocking it',
+        { currentStatus: existing.status },
+      );
+    }
+
+    const summary = input.summary?.trim();
+    const collection = this.collector.collect(ctx, {
+      type: status === 'complete' ? 'completion_proposed' : 'block_proposed',
+      goalId: existing.goalId,
+      objectiveDigest: digestThreadGoalObjective(existing.objective),
+      ...(summary ? { summary } : {}),
+    });
+    if (collection === 'stale') {
+      return endTurn(
+        err(
+          UpdateGoalToolDef.name,
+          'cannot update goal because the objective changed during this turn; stop the stale turn and continue with the updated goal before completing or blocking it',
+          { currentGoal: serializeGoal(existing) },
+        ),
+      );
+    }
+    if (collection === 'no_goal') {
+      return err(UpdateGoalToolDef.name, 'cannot update goal because this thread has no goal');
+    }
+    if (collection === 'paused') {
+      return err(
+        UpdateGoalToolDef.name,
+        'cannot update goal because it is paused; resume the goal before completing or blocking it',
+        { currentStatus: 'paused' },
+      );
+    }
+
+    return endTurn(
+      ok(UpdateGoalToolDef.name, {
+        proposal: {
+          status,
+          ...(summary ? { summary } : {}),
+          accepted: true,
+          settlement: 'pending_host_validation',
+        },
+        goal: serializeGoal(existing),
+        goalSnapshotPhase: 'before_host_settlement',
+      }),
+    );
+  }
+
+  private async updateTokenBudget(
+    ctx: ToolExecutionContext,
+    input: UpdateGoalToolInput,
+  ): Promise<ToolResult> {
+    if (
+      input.token_budget !== null &&
+      (typeof input.token_budget !== 'number' ||
+        !Number.isInteger(input.token_budget) ||
+        input.token_budget <= 0)
+    ) {
+      return err(UpdateGoalToolDef.name, 'token_budget must be a positive integer or null');
+    }
+    if (
+      typeof input.expected_goal_id !== 'string' ||
+      input.expected_goal_id.length === 0 ||
+      typeof input.expected_updated_at !== 'number' ||
+      !Number.isInteger(input.expected_updated_at) ||
+      input.expected_updated_at < 0
+    ) {
+      return err(
+        UpdateGoalToolDef.name,
+        'expected_goal_id and expected_updated_at are required; call get_goal immediately before updating the token budget',
+      );
+    }
+    if (!this.budgetMutation) {
+      return err(UpdateGoalToolDef.name, 'token-budget updates are not available in this runtime');
+    }
+
+    const turnKey = `${ctx.sessionId}\u0000${ctx.turnId}`;
+    if (this.successfulBudgetUpdateTurns.has(turnKey)) {
+      return err(
+        UpdateGoalToolDef.name,
+        'already updated the token budget during this turn; start a new explicit user turn for another update',
+      );
+    }
+
+    const result = await this.budgetMutation.updateTokenBudget(ctx, {
+      tokenBudget: input.token_budget ?? null,
+      expectedGoalId: input.expected_goal_id,
+      expectedUpdatedAt: input.expected_updated_at,
+
+ succeeded in 0ms:
+# Goal 完成与最终交付：需求澄清及 preview_train 分析
+
+9 月 29 日首轮结论：这是 Goal 收口协议与交付展示之间的缺口，至少包含“已输出的交付被后续轮次折叠”和“终态工具结束 Turn，预定的交付没有发出”两条路径。10 月 2 日版本已经明确承诺修复多媒体产物折叠；完整最终正文、完全无正文的交付、未登记文件的兜底，需要明确验收边界。截至首轮固定 SHA，preview_train 仍没有 MR !7424 的交付修复。
+
+
+**9 月 30 日补充：** Ronny 转发对应 MCT-202609-42YHZXRZ，既有排查记录支持“完成工具截断最终回复”路径。用户明确要求任务摘要，因此该案例验收必须覆盖可见摘要，不能只验文件卡片。最新 preview_train 已刷新为 `e0be4dfc0b6d69c5c2babe9e841ecff6ba0a25c8`，下述相关实现目录与首轮 SHA 无差异；详见第 8 节。第 1–7 节的消息窗口和状态记录保留首轮时间口径。
+## 1. 证据范围与当前状态
+
+- 飞书消息窗口：2026-09-26 20:41:36 至 2026-09-29 20:41:36，Asia/Shanghai。
+- `--is-at-me` 全分页返回 47 条，包含直接 @世杰及 @全体；`has_more=false`。补充搜索 Goal 64 条、产物 39 条、折叠 7 条、final response 1 条，均已取完分页。数量是每个查询的结果数，彼此重复，不能相加当作独立消息数。
+- 对相关群、私聊和话题展开上下文；话题接口不含根消息时用搜索结果补齐。相关原文保存在 [消息全文.md](消息全文.md)。9 月 25 日原始讨论属于窗口外历史背景，单独列示。
+- 用户文档实时读取为 revision 56，已有 8 项，第 8 项明确写“goal模式下主agent完成不告知用户（第二个问题是同样的问题）”。[文档第 8 项截图](item8.png)可确认完成状态、过程性文案、无可见成品卡片；无法仅凭截图判断卡片从未产生还是被折叠，也不能确定其现场版本。
+- 已 fetch 最新 `origin/preview_train` 并固定分析 SHA：`51c6932e64d6cb625788b8e3fd6693a0886826e9`，提交时间 2026-09-29 17:37:05 +08:00。当前工作目录 HEAD 是另一个 SHA，本报告全部源码结论来自上述 Git 对象，不把当前工作树当最新分支。
+- [缺陷 #7125906243](https://project.feishu.cn/mcode/issue/detail/7125906243)：P1，**IN PROGRESS**，经办人世杰；原文档的 OPEN 已过时。
+- [需求 #7101175806](https://project.feishu.cn/mcode/story/detail/7101175806)：执行过程输出优化，代码合入/上车中。其 PRD 为更广的工具展示优化，不能把该需求整体状态当作本缺陷已修复。
+- [MR !7424](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7424)：opened，源 `fix/goal-media-delivery-before-complete`，目标 `preview_train`，HEAD `cb27594be789fb85acdf11d3c0202c37b5169764`，未合并。HEAD 不在当前 preview_train 祖先链内，当前源码也未发现相应 deliverables 能力。MR 是对照材料，本轮没有更新 MR 或查询 CI。
+
+## 2. 任务上下文与已确定的产品决策
+
+### 历史起因：两种冲突已明确提出
+
+9 月 25 日 11:14，破晓最初认为 final response 需要调整；11:45 判断“看起来是被 goal 顶掉了”；Rayna 提供 MCT-202609-6CPQVW0J，并说明类似案例基本都是 Goal。14:31，破晓 @世杰明确区分：
+
+1. 先输出 final response，但 Goal 未完成，自动多跑一轮，前面的结果被折叠。
+2. 先 update 完成 Goal，计划随后输出 final response，但终态工具之后不再有模型轮次，交付物未输出。
+
+15:48，世杰回复“我看下”。[原始讨论](https://applink.feishu.cn/client/chat/open?openChatId=oc_eef01f3e7f23325283c0d01a03454e77&position=529)
+
+案例证据要分级：
+
+- **6CPQVW0J：已交付却被折叠。** 原始反馈是报告产物卡片被折叠。MR 描述记录：第一轮已有报告与媒体标记，续跑做 bash 校验后输出短确认并完成 Goal，合并展示后报告落入过程。原自动排查通知实际是 `need_human`，不能称自动工单已完成根因确认；详细链路依据 MR 作者记录及本轮源码核对。
+- **MG9FB8I4：生成成功但首次交付没有发出。** [排查文档](https://vrfi1sk8a0.feishu.cn/docx/O8gIdq7HMofe5vxkrBBcilkYnWd)记录视频已落盘、可解码，模型只说“正在标记任务完成并交付文件”，随后调用 `update_goal(complete)`，没有媒体标记。用户追问后补发标记，卡片才出现。本轮重读该报告，没有重新下载 LocalLog 或复现用户现场。
+- **第 8 项：主 agent 没有告知完成。** 用户要求生成 MiniMax 公司介绍 MP4，截图停留在“做最后一步：确认交付物存在……”却已显示目标完成。它增加了最终说明的验收诉求，不能仅凭截图证明与上述任一案例共享完全相同的内部轨迹。
+
+### 最近 72 小时：版本范围已有结论
+
+9 月 28 日，持续优化 Goal 需求群的完整讨论链：
+
+- 12:06–12:07 Ronny @世杰，要求收集用户反馈、与产品敏捷讨论。
+- 12:12 世杰说明正在整理，预计与 v2 重构一起上线。
+- 12:14 Ronny 建议先小步快跑，挑共性且收益高的修复；星云说明当日 3.1.0 发包，下一版本预计 10 月 2 日。
+- 12:56 沐阳 @世杰，提出下午一起对齐。
+- 14:09 世杰分享本次用户提供的文档；14:10 沐阳请求编辑权限。
+- 16:20–16:36 双方发起并结束视频讨论。未取得会议录音或逐字稿，不推断口头决策。
+- **16:39 世杰在群里发布书面结论：Goal 多媒体被折叠的 fix 跟 10 月 2 日版本；其他改动较大、收益较低的项跟 Goal v2。** [书面结论](https://applink.feishu.cn/client/chat/open?openChatId=oc_31e73335b3d1e91d51a1ffda3877f4dc&position=155)
+- **17:10–17:11 Rayna 私聊确认，国庆版本产物输出问题是否就是 #7125906243；世杰答“是的”，Rayna 答“那我改到下个版本修复吧”。** [确认记录](https://applink.feishu.cn/client/chat/open?openChatId=oc_bdd86f87337da8eadb2d146b3c02e0dc&position=30)
+
+因此，本任务已绑定既有缺陷与版本安排，不需要重新猜任务归属，也不应默认以完整 Goal v2 重构为前置条件。这是已沟通的计划，不代表代码已经合入、Prompt 已发布或客户端已上线。
+
+### 最近 @你的相邻问题：用于约束回归，不直接合并根因
+
+| 时间 | 消息上下文 | 与本需求关系 |
+| --- | --- | --- |
+| 9/28 15:26–16:07 | Andy 反馈 verifier 异常后手动重试子 agent，Goal 仍 paused；Ronny @世杰/沐阳。后续又讨论 Goal 状态与输入框三角按钮不一致，世杰针对后者说已修复、回归中 | verifier 生命周期和输入框状态问题。不能把“已修复”移用到产物缺失 |
+| 9/29 12:33 | MCT-202609-01JN5OGN 排查通知 @世杰：每轮交付都通知，Goal 长时间不结束 | 与“Turn 完成不等于 Goal 完成”相关，但通知、无进展收敛属于独立机制；不应靠删除终态终止来解决本需求 |
+| 9/29 18:52 | MCT-202609-G6T8W4S7 排查通知 @世杰：长任务无阶段交付，末尾 `GOAL_TURN_NOT_CURRENT` | stale binding 与长任务收口，不等于成功完成时产物折叠；作为异常收口回归边界 |
+
+两份新工单报告均未取得现场精确部署 SHA，本轮只将它们作为既有排查材料。G6T8W4S7 报告还在两处给出不同尾部的归因 commit SHA，不能将其 commit 归因当作已核实事实。
+
+@你的 Goal 额度恢复、常驻 Vite、steer/替换目标讨论已识别为独立主题；会话列表批量归档/删除、设置重置、@全体发布通知等未纳入本问题上下文。检索穷尽的是当前权限和搜索索引可见结果，不承诺已删除或不可见内容。
+
+## 3. 最新 preview_train 的实际行为
+
+### 3.1 工具调用结束的是 Turn，最终 Goal 状态由 Host 决定
+
+`tool-impls.ts:118–123` 的 `endTurn` 设置 `terminate: true`，并持久化 `terminates_turn`。`287–297` 返回的内容明确是：
+
+```text
+proposal.accepted = true
+proposal.settlement = pending_host_validation
+goalSnapshotPhase = before_host_settlement
+```
+
+因此：**完成提案接纳、Turn 结束、Goal 最终 complete，是三个不同事实。** 根据验证配置，Host 还可能继续工作、暂停或阻塞；不能把成功的 `update_goal` 工具行当成最终完成状态。
+
+当前 `tool-defs.ts:50–107` 没有 `deliverables`；可选 `summary` 上限 2000 字符，明确供独立 verifier 作为待验证 claim 使用。它既不是产品最终正文，也不是文件交付清单。
+
+源码快照：[工具实现](source/packages/agent-modules/goal/src/tool-impls.ts)、[工具定义](source/packages/agent-modules/goal/src/tool-defs.ts)、[GOAL-09 / GOAL-10](source/.harness/docs/goal/spec.md)。
+
+### 3.2 正文回复结束不会自动完成 Goal
+
+`settlement.ts:447–456` 在前面预算、依赖、verifier、breaker、终态决策等分支均未结束结算时，继续 `enqueueActive`。所以正文说“已完成”而没有 completion proposal，仍可能继续执行；这不能简单改成“出现 final 文本就完成”，否则会绕过完成判定。
+
+`query-collapse-identity.ts:55–65` 的 continuation 优先复用已有 query identity；`coalesceAssistantMessages.ts:59–74` 在 query 相同时允许不同 Turn 合并展示。它们解释了为什么后来的一轮会影响前一轮结果的可见性。
+
+源码快照：[结算](source/packages/local-runtime/src/thread-goal/settlement.ts)、[continuation 展示身份](source/packages/local-runtime-v2/src/application/conversation/query-collapse-identity.ts)、[消息合并](source/packages/ui/src/components/MessageContainer/coalesceAssistantMessages.ts)。
+
+### 3.3 当前 UI 没有可靠的最终交付选择规则
+
+`assistantSegments.ts:85–98` 找成功 complete 工具之前最近一段正文，与最后正文按长度比较；更早的报告可能没有进入候选。`useMessageItemModel.ts:214–240` 将其余正文放进过程区。
+
+exec
+/bin/zsh -lc "rg -n 'none|worker_proposal|modified|stale|goal.*clear|paused|budget_limited|infra_retryable' packages/local-runtime/src/thread-goal/settlement.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+201:    // the Goal without a runner: the pipeline above stopped at the stale stage
+265:    const reason = 'paused(accounting_unavailable)' as const;
+270:      next: { status: 'paused', statusReason: reason },
+272:    if (settled.status === 'stale') {
+275:        action: 'stale',
+276:        reason: settled.staleReason,
+299:    if (accounting.result.staleReason || !goal || accounting.result.decisionEpoch === undefined) {
+302:        action: 'stale',
+303:        reason: accounting.result.staleReason ?? 'missing_goal',
+318:      const next = { status: 'paused', statusReason: 'paused(retracted)' } as const;
+348:    if (context.goal.status !== 'budget_limited') return undefined;
+354:      action: 'budget_limited',
+355:      reason: context.goal.statusReason ?? 'budget_limited',
+369:    context.goal = await this.deps.breaker.clearNoToolStreak(
+442:      this.verification.emitDecision(context, settled.status === 'stale' ? 'stale' : 'unavailable');
+466:    if (!decisionGoal) return { status: 'stale', staleReason: 'missing_goal' };
+
+exec
+/bin/zsh -lc "rg -n 'assistant-segment-active|goalDeliver|deliver|onClick' packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantContent.tsx packages/ui/src/components/MessageContainer/MessageItem/useMessageItemModel.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ exited 2 in 0ms:
+rg: packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantContent.tsx: No such file or directory (os error 2)
+packages/ui/src/components/MessageContainer/MessageItem/useMessageItemModel.ts:91:  onClickMessage,
+packages/ui/src/components/MessageContainer/MessageItem/useMessageItemModel.ts:477:      onClickMessage,
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx:56:  onClickMessage,
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx:112:  onClickMessage?: (message: Message) => void;
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx:385:        onClick={(event) => {
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx:387:          onClickMessage?.(message);
+
+exec
+/bin/zsh -lc "rg -n 'goal|requireAnswer|answer|terminal' packages/tui/test/unit/headless-settlement.test.ts packages/tui/src/headless/runner.ts packages/tui/src/application/run-coordinator.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/tui/test/unit/headless-settlement.test.ts:11:  it('waits for running to become terminal', async () => {
+packages/tui/test/unit/headless-settlement.test.ts:12:    const getActiveRun = vi.fn().mockResolvedValueOnce(snapshot('running')).mockResolvedValue(snapshot('terminal'));
+packages/tui/test/unit/headless-settlement.test.ts:25:  it('rejects a terminal snapshot for another session', async () => {
+packages/tui/test/unit/headless-settlement.test.ts:26:    expect(await waitForExecSettlement({ getActiveRun: async () => snapshot('terminal') }, 'other', 500)).toBe(false);
+packages/tui/src/headless/runner.ts:118:  let terminal:
+packages/tui/src/headless/runner.ts:122:        readonly lastMessage?: { readonly filePath: string; readonly answer: string };
+packages/tui/src/headless/runner.ts:127:  let answerSelection: Readonly<Record<string, unknown>> = {};
+packages/tui/src/headless/runner.ts:140:            answerSelection = event;
+packages/tui/src/headless/runner.ts:224:                requireAnswer: true,
+packages/tui/src/headless/runner.ts:227:          : { policy: { requireAnswer: true } }),
+packages/tui/src/headless/runner.ts:269:          answer: null,
+packages/tui/src/headless/runner.ts:276:    originalAnswer = outcome.answer;
+packages/tui/src/headless/runner.ts:279:        ? validateExecOutput(outcome.answer, input.outputSchema)
+packages/tui/src/headless/runner.ts:317:      evidence?.failure(outcome.answer, {
+packages/tui/src/headless/runner.ts:319:        ...answerSelection,
+packages/tui/src/headless/runner.ts:325:    terminal = {
+packages/tui/src/headless/runner.ts:332:              answer: reviewResult ? renderReviewResultText(reviewResult) : (outcome.answer ?? ''),
+packages/tui/src/headless/runner.ts:361:    if (terminal) {
+packages/tui/src/headless/runner.ts:362:      if (shutdownFailure && terminal.result.status === 'succeeded') {
+packages/tui/src/headless/runner.ts:363:        terminal.result = internalFailureResult(
+packages/tui/src/headless/runner.ts:364:          terminal.result,
+packages/tui/src/headless/runner.ts:370:      if (terminal.result.status === 'succeeded' && terminal.lastMessage) {
+packages/tui/src/headless/runner.ts:373:            terminal.lastMessage.filePath,
+packages/tui/src/headless/runner.ts:374:            terminal.lastMessage.answer,
+packages/tui/src/headless/runner.ts:377:          terminal.result = internalFailureResult(
+packages/tui/src/headless/runner.ts:378:            terminal.result,
+packages/tui/src/headless/runner.ts:386:          terminal.result.status !== 'succeeded' &&
+packages/tui/src/headless/runner.ts:387:          terminal.result.error?.category === 'internal'
+packages/tui/src/headless/runner.ts:390:            ...answerSelection,
+packages/tui/src/headless/runner.ts:391:            status: terminal.result.status,
+packages/tui/src/headless/runner.ts:392:            error: terminal.result.error,
+packages/tui/src/headless/runner.ts:395:        await terminal.encoder.result(terminal.result);
+packages/tui/src/headless/runner.ts:396:        exitCode = exitCodeForExecResult(terminal.result);
+packages/tui/src/headless/runner.ts:397:        if (terminal.result.status !== 'succeeded') {
+packages/tui/src/headless/runner.ts:399:            `mcode exec ${terminal.result.status}: ${formatTuiExecResultFailure(terminal.result)}\n`,
+packages/tui/src/headless/runner.ts:443:  terminal: { readonly outcome: TuiReviewOutcome; readonly content: string } | undefined,
+packages/tui/src/headless/runner.ts:447:  if (!terminal) {
+packages/tui/src/headless/runner.ts:457:  if (terminal.outcome === 'failed') {
+packages/tui/src/headless/runner.ts:462:        message: terminal.content.trim() || 'Runtime rejected an invalid code review result.',
+packages/tui/src/headless/runner.ts:468:    terminal.outcome === 'pass'
+packages/tui/src/headless/runner.ts:469:      ? createPassingReviewResult(terminal.content)
+packages/tui/src/headless/runner.ts:470:      : parseTuiReviewResult(terminal.content);
+packages/tui/src/headless/runner.ts:553:  // Diagnostics must not hold the terminal result open when an inspection RPC stalls.
+packages/tui/src/application/run-coordinator.ts:52:    requireAnswer?: boolean;
+packages/tui/src/application/run-coordinator.ts:181:    let answer: string | null = null;
+packages/tui/src/application/run-coordinator.ts:241:              // Pre-tool prose is not the final answer.
+packages/tui/src/application/run-coordinator.ts:243:                kind: 'answer_excluded',
+packages/tui/src/application/run-coordinator.ts:247:              answer = null;
+packages/tui/src/application/run-coordinator.ts:253:              answer = completed.trim() ? completed : null;
+packages/tui/src/application/run-coordinator.ts:255:                kind: 'answer_selected',
+packages/tui/src/application/run-coordinator.ts:257:                answerSource: event.message.content?.trim()
+packages/tui/src/application/run-coordinator.ts:260:                answerBytes: Buffer.byteLength(completed),
+packages/tui/src/application/run-coordinator.ts:280:          kind: 'answer_selected',
+packages/tui/src/application/run-coordinator.ts:281:          answerSource: 'trailing_draft',
+packages/tui/src/application/run-coordinator.ts:282:          answerBytes: Buffer.byteLength(assistantDraft),
+packages/tui/src/application/run-coordinator.ts:283:          replacedAnswer: answer !== null,
+packages/tui/src/application/run-coordinator.ts:285:        answer = assistantDraft;
+packages/tui/src/application/run-coordinator.ts:287:      if (request.policy?.requireAnswer === true && status === 'succeeded' && answer === null) {
+packages/tui/src/application/run-coordinator.ts:314:      answer,
+packages/tui/src/application/run-coordinator.ts:359:      // Optional diagnostics must never alter execution or final-answer selection.
+
+exec
+/bin/zsh -lc "rg -n 'none|worker_proposal|verifier_met|verificationMode|verification_mode' packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts packages/local-runtime/src/thread-goal packages/agent-modules/goal/src | head -100" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:161:      statusReason: 'complete(worker_proposal)',
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:169:        action: 'none' as const,
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:213:      reason: 'complete(worker_proposal)',
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:229:      next: { status: 'complete', statusReason: 'complete(worker_proposal)' },
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:285:      type: 'goal.worker_proposal_decided',
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:809:          action: paused ? ('pause' as const) : streak >= 2 ? ('nudge' as const) : ('none' as const),
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:858:      action: 'none' as const,
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:939:      action: 'none' as const,
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:984:      return { action: 'none' as const, goal: cleared, epoch: cleared.updatedAt };
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts:1025:      action: 'none' as const,
+packages/local-runtime/src/thread-goal/store-row.ts:37:  last_worker_proposal?: string | null;
+packages/local-runtime/src/thread-goal/store-row.ts:75:    lastWorkerProposal: readLastWorkerProposal(row.last_worker_proposal, row.goal_id),
+packages/agent-modules/goal/src/verification/verification-policy.ts:18:export function verificationModeForRoute(
+packages/agent-modules/goal/src/verification/verification-policy.ts:24:  return 'none';
+packages/agent-modules/goal/src/tool-impls.ts:227:    if (mode === 'none') {
+packages/agent-modules/goal/src/store-port.ts:192:      readonly action: 'none' | 'nudge' | 'pause';
+packages/agent-modules/goal/src/store-port.ts:195:      /** Absent when `action` is `none`. */
+packages/agent-modules/goal/src/store-port.ts:206:   * Return the current goal for `sessionId`, or `undefined` if none exists.
+packages/agent-modules/goal/src/types.ts:51:export const THREAD_GOAL_VERIFICATIONS = ['none', 'evaluator', 'subagent'] as const;
+packages/agent-modules/goal/src/types.ts:86:  'complete(worker_proposal)',
+packages/agent-modules/goal/src/types.ts:87:  'complete(verifier_met)',
+packages/local-runtime/src/thread-goal/worker-proposal.ts:50:    type: 'goal.worker_proposal_decided',
+packages/local-runtime/src/thread-goal/store-verification.ts:46:             last_worker_proposal = COALESCE(?, last_worker_proposal)
+packages/agent-modules/goal/src/verification/verifier-port.ts:38:    readonly transitionOnMet: 'complete(verifier_met)';
+packages/agent-modules/goal/src/index.ts:138:export { verificationModeForRoute } from './verification/verification-policy.js';
+packages/agent-modules/goal/src/tool-defs.ts:126:export type UpdateGoalResolvedMode = 'status' | 'token_budget' | 'mixed' | 'none';
+packages/agent-modules/goal/src/tool-defs.ts:148:  return 'none';
+packages/agent-modules/goal/src/verification/evaluator-adapter.ts:137:- The Goal transitions to \`complete(verifier_met)\` only after you return a met verdict.
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:13:  verificationModeForRoute,
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:54:   * the Goal is deleted — none of which are visible to the adapter.
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:81:    if (verification === 'none' || !claimsCompletion(context)) {
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:114:          transitionOnMet: 'complete(verifier_met)',
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:162:    if (!providerId) return 'none';
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:163:    return verificationModeForRoute(resolveModelCallRoute(config, providerId));
+packages/local-runtime/src/thread-goal/verification-dispatch.ts:356:    ? { status: 'complete', statusReason: 'complete(worker_proposal)' }
+packages/local-runtime/src/thread-goal/verification-settlement.ts:420:      return { status: 'complete', statusReason: 'complete(verifier_met)' };
+packages/local-runtime/src/thread-goal/turn-work-signals.ts:35:/** Usage counters arrive from hosts; a negative or non-finite value counts as none. */
+packages/local-runtime/src/thread-goal/events.ts:106:    action: 'none' | 'nudge' | 'pause' | 'skipped';
+packages/local-runtime/src/thread-goal/events.ts:115:    /** Which independent condition decided a non-`none` action. */
+packages/local-runtime/src/thread-goal/events.ts:154:  'goal.worker_proposal_decided': {
+packages/local-runtime/src/thread-goal/store-bound-settlement.ts:160:             last_worker_proposal = COALESCE(?, last_worker_proposal)
+packages/local-runtime/src/thread-goal/breaker.ts:125:   * flight — none of which can schedule a replacement afterwards. So a reset
+packages/local-runtime/src/thread-goal/breaker.ts:192:    action: 'none' | 'nudge' | 'pause' | 'skipped',
+packages/local-runtime/src/thread-goal/store-patch.ts:120:           last_worker_proposal = ?,
+packages/local-runtime/src/thread-goal/store-breaker.ts:12:type BreakerAction = 'none' | 'nudge' | 'pause';
+packages/local-runtime/src/thread-goal/store-breaker.ts:22:  return occurrences >= 2 ? 'nudge' : 'none';
+packages/local-runtime/src/thread-goal/store-breaker.ts:28:  return 'none';
+packages/local-runtime/src/thread-goal/store-breaker.ts:73:      : 'none';
+packages/local-runtime/src/thread-goal/store-breaker.ts:79:      input.toolActivity === 'absent' ? decideAction(nextNoToolStreak, occurrenceLimit) : 'none';
+packages/local-runtime/src/thread-goal/store-breaker.ts:83:      action === 'none' ? undefined : replyAction === action ? 'repeated_reply' : 'no_tool';
+packages/local-runtime/src/thread-goal/store-breaker.ts:86:      action === 'none' &&
+packages/local-runtime/src/thread-goal/store-breaker.ts:101:      return { action: 'none', epoch: state.updatedAt, goal: state };
+
+exec
+/bin/zsh -lc "rg --files packages | rg '(assistantSegments|coalesceAssistantMessages|tool-impls|goal-budget-tool-policy|reply-fingerprint|host-integration-settlement|terminal-response-recovery|headless-settlement|tui-delegation-terminal-settlement|asset-markup|turn-continuation.service)\\.test\\.'" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/shared/test/unit/asset-markup.test.ts
+packages/agent-modules/goal/test/unit/thread-goal/tool-impls.test.ts
+packages/agent-modules/goal/test/unit/thread-goal/reply-fingerprint.test.ts
+packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.test.ts
+packages/tui/test/unit/headless-settlement.test.ts
+packages/tui/test/unit/tui-delegation-terminal-settlement.test.ts
+packages/agent-extension/test/terminal-response-recovery.test.ts
+packages/local-runtime-v2/src/service/turn-system/execution/turn-continuation.service.test.ts
+packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts
+packages/ui/test/unit/components/assistantSegments.test.ts
+packages/ui/test/unit/components/coalesceAssistantMessages.test.ts
+
+exec
+/bin/zsh -lc 'cat /Users/minimax/.claude/skills/core-spec/references/verify.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+# verify.md 的写法
+
+core-spec 第 6 步按本文写 verify.md。交付一份可独立阅读的中文 Markdown《<主题>：验收要求》，默认文件名 `verify.md`。读者据此判断：一个实现怎样才算满足 spec，要在哪里操作、观察什么结果、留下什么证据，才能宣布完成。
+
+这份文档在写 plan 和代码之前完成，依据见第 1 节，计划和实现中的遗漏因此不会缩小验收范围。验收以用户能观察到的完整操作为单位，由实现的 agent 在开发过程中自己驱动真实应用运行，实际跑通才算通过。verify.md 规定验什么、怎样判定；怎样启动和驱动应用属于项目自己的验证能力（控制命令、功能地图、测试工具），verify.md 引用它们。实现步骤、单元测试和执行结果不在其中。
+
+## 1. 列出 spec 的规范性内容
+
+读取 spec 全文，记录路径、内容 sha256 和相关仓库的当前 commit；spec 之后再更新时，重新记录哈希。spec 是需求的唯一来源。当前会话、ADR 和术语表用于理解 spec 的用词、找具体例子；要求只从 spec 来。
+
+逐条列出 spec 中的规范性内容：选定的行为、默认值、条件与例外、不得发生的事、必须保持的现有行为、非目标、接受的代价和不变量。非目标涉及的现有行为进入回归范围。只解释理由的句子不列。
+
+完成条件：spec 的每条规范性内容都有去处，成为一条要求，或并入另一条要求并注明。
+
+## 2. 把约定写成可判断的要求
+
+每条要求给一个稳定 ID（R01、R02……），写成可观察的结论，并注明 spec 位置。一条约定带多个条件或例外时拆开，让每个例外都能单独判定。
+
+为每条要求选定证明方式：
+
+| 证明方式 | 适用内容 |
+|---|---|
+| 场景 | 行为、状态、输出、副作用；从真实入口运行 |
+| 机械检查 | 结构性约束，例如分层方向、复用指定能力、不新增依赖、接口保持兼容；写成 lint 或结构测试，一个约束一条规则。确实无法机械化的，写明评审时检查什么、怎样算不通过 |
+| 已有检查 | 仓库现有的端到端测试、结构测试或 lint 已能证明的部分；写明具体文件或命令 |
+
+完成条件：每条要求都有证明方式，读者无需猜测怎样判定。
+
+## 3. 为行为要求设计场景
+
+一个场景是用户在一个入口上完成的一次完整操作及其结果，写成“用户在某入口做某事，看到或产生某结果”，默认从真实入口驱动。按以下字段写：
+
+```text
+S01 <标题>　覆盖：R01、R03
+入口：本场景驱动的用户入口（功能地图条目或具体入口）
+前提：用测试数据、配置或 fixture 安排的初始状态
+操作步骤：用户在入口上依次做什么
+检查点：每个结果一条，写取自 spec 的字面预期值或状态，以及从哪里读到
+不得出现：
+基线预期：在改动前的代码上失败 / 通过 / 基线没有此功能
+错误实现：同基线 / 基线覆盖不到的关键风险：一个看似合理、会让本场景失败的做法
+替身：无 / 哪个外部依赖用替身、放在哪个对接层
+证据：
+执行状态：入口已存在 / 需补验证能力（见工具缺口）/ 实现后绑定命令
+```
+
+**拆与合。** 结果不同就拆开：spec 的每条规定、每个例外、每个入口、会导致不同结果的每个状态，都要有场景覆盖。同一入口、同一前提、能在一次操作流程里依次检查的，合成一个场景，每个结果一个检查点；需要不同入口或不同前提的，分成不同场景。拆分依据是用户能观察到的结果，实现步骤和内部函数不作为拆分依据。
+
+**按改动类型选证明形式。**
+
+| 改动 | 证明形式 |
+|---|---|
+| CLI | 运行真实命令，核对输出和退出码 |
+| UI | 在运行中的应用里走一遍改动的流程 |
+| 存储 | 写入后从另一个只读视图读回 |
+| 解析或迁移 | 重放保存下来的真实输入 |
+| 平台支持 | 在 spec 点名的目标平台上运行 |
+| 性能（spec 有要求时） | 同一环境先测基线再测改动，写明指标和判定失败的数值 |
+
+**内部规则先变得可观察。** 从入口看不到的内部规则，例如计数、实际发出的参数、写入的数据，先补可观察性：日志、指标、链路追踪或只读查询，并列入验证工具缺口，场景仍从入口发起。外部依赖的失败、限流等情况，用放在对接外部系统那一层的替身触发，替身只证明它边界内的行为；spec 要求真实 provider、真实设备或目标平台时，场景在真实环境上运行。单元测试属于实现，不写进 verify.md。
+
+**走真实用户路径。** 前提可以用测试数据、配置、权限或受支持的测试开关安排；被验证的行为必须由入口上的真实操作产生。内部 setter、测试专用接口和直接写存储只用于安排前提。
+
+**观察实际结果。** 证据直接证明 spec 要求的结果。要求本身是展示时，界面就是直接证据；要求涉及实际发出的参数、持久化后的状态、默认启动下的装配或其他副作用时，同时观察动作和它引起的状态变化，读回实际的值或状态，不凭界面提示、函数被调用或某行日志推断。
+
+**断言要能失败。** 检查点取 spec 给出的字面值，不用被测代码算出来的值。每条“不得出现”在同一场景里配一条正向检查点，证明流程确实跑过。检验方法：实现什么都不做或返回空时，场景是否仍会通过；会通过就重写检查点。spec 规定了交互的功能，只能显示、不能交互的空壳也必须失败，所以这类检查点断言交互产生的效果，而不只是控件出现。
+
+**用基线对照。** 新增或改变的行为，场景在改动前的代码上应当失败；必须保持的行为，在改动前后都应通过；基线没有此功能时写明这一点，改为判定新增行为和用户最终等待的状态。基线是第一个现成的错误实现；它覆盖不到的关键风险，再写一个看似合理的错误实现，并确认检查点会让它失败。
+
+**覆盖每个入口。** 同一行为能从多个用户入口触发时，每个入口要么有场景，要么写明不需要的依据；一个入口的结果不代表其他入口。
+
+**只约束 spec 约定的内容。** 检查点检查 spec 要求的结果。spec 没有指定的内部结构、命名和实现路径留给实现，其他正确实现应当能通过。
+
+**无法用代码断言的结果**，如模型输出质量或视觉效果，写明固定样本、参照和判定标准，并注明需要独立判断。
+
+完成条件：spec 的每条规定、例外、相关入口和会导致不同结果的状态都有场景覆盖；每个场景都有字面检查点和基线预期，基线覆盖不到关键风险的另有错误实现；没有两个场景的入口、前提和操作流程完全相同。
+
+## 4. 定位验证能力，列出工具缺口和覆盖盲区
+
+先找项目已有的验证能力：验证 Skill、控制命令、功能地图、端到端测试工具、现有测试、日志、指标和数据查询。有功能地图时，场景的“入口”引用其条目和驱动命令，不在 verify.md 里重写驱动步骤。引用的入口必须能在记录的 commit 中找到；从仓库确认不了的，标为“实现后绑定命令”或列入验证工具缺口。能否实际运行，由交付阶段验证。
+
+本次才实现的功能，写明入口类型和观察方式，具体命令留到实现后的验收时绑定。尚未确定的命令、参数和路径，按“实现后绑定命令”标注。
+
+现在观察或驱动不了的，列入“验证工具缺口”：缺什么、服务哪些场景。交付时优先复用项目已有的验证能力，只补这些场景需要的最小缺口，并按仓库规则保留成可复用的入口，例如给控制命令加一个观察项、加一个只读查询或指标、给功能地图加一个条目。
+
+现有工具看不到或操作不了、本次也不补的部分（例如驱动工具看不到浏览器原生弹窗），列入“覆盖盲区”：每个盲区写成一个列表项或表格行，写明影响的场景 ID 和检查点、改用什么方式判断。deliver 的门禁只从这些条目读取盲区，段落里顺带提到的编号不算。盲区内的检查点不能标为已验证。
+
+完成条件：每个场景的执行状态如实标注，每个缺口和盲区都对应到场景。
+
+## 5. 写成文档
+
+文档依次包含：
+
+1. **用途与效力**，可按主题调整：
+
+   > 本文依据 spec 规定本次需求怎样算做对、如何证明，是实现、独立验证和最终验收的共同依据。实现过程中由实现 agent 自己运行这些场景，实际跑通才算通过；冻结后不修改场景和检查点。本文只描述验收要求，不代表验证已经执行或通过。
+
+   随后写来源：spec 路径与 sha256，相关仓库与 commit，引用的验证 Skill 或功能地图。
+2. **重点**：要求数、场景数，以及 3–5 个最容易出错的场景，通常是跨模块真实路径、默认装配和关键例外，一屏内看清。
+3. **冒烟集**：按本次改动的风险选几条核心用户旅程，优先选本次改动会碰到的已有功能，用来确认环境和已有功能没有被弄坏。
+4. **要求表**：ID、要求、spec 位置、证明方式。
+5. **场景**。
+6. **回归范围**：本次改动触及、spec 没有要求改变的现有行为，用仓库已有测试或补充场景覆盖，这些场景在基线和改动后都应通过。spec 明确改变的行为，旧测试随之更新，不算回归。
+7. **验证工具缺口**。
+8. **覆盖盲区**。
+9. **完成条件**：除覆盖盲区里的检查点外，全部场景由实际运行通过；盲区里的检查点标为 UNVERIFIED 并单列；证据对应交付版本的代码和运行实例；工具缺失的场景如实标为受阻，不用单元测试或其他更低层的检查代替。
+
+判断拆分粒度、检查点松紧、证明方式或错误实现写法时，读取[示例与检查案例](verify-example.md)。
+
+交付一个 `verify.md`，放在用户指定的位置；没有单独指定时，与 spec 放在同一目录。
+
+exec
+/bin/zsh -lc "cat packages/agent-modules/goal/src/verification/verification-policy.ts && sed -n '300,370p' packages/local-runtime/src/thread-goal/verification-dispatch.ts && sed -n '200,275p' packages/ui/src/components/MessageContainer/MessageItem/useMessageItemModel.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+import type { EvaluatorRouteKind } from './evaluator-adapter.js';
+import type { ThreadGoalVerification } from '../types.js';
+
+/**
+ * Which verification backend a Goal runs, derived from the model route the
+ * worker turn actually used.
+ *
+ * The mode is **not** a persisted, user-picked property of a Goal: there is no
+ * default, no initialization, and no UI for it. A user who wants a specific
+ * mode writes `goal.verification` into the config file; everyone else gets the
+ * route-derived answer below, recomputed on every settlement.
+ *
+ * Routes we bill ourselves (`managed_token_plan`, `minimax_api_key`) can afford
+ * a read-only subagent verifier. BYOK routes (`custom_provider`,
+ * `configured_provider`) spend the user's own quota, so we accept the worker's
+ * completion proposal instead of silently doubling their bill.
+ */
+export function verificationModeForRoute(
+  kind: EvaluatorRouteKind | undefined,
+): ThreadGoalVerification {
+  if (kind === 'managed_token_plan' || kind === 'minimax_api_key') return 'subagent';
+  // `custom_provider` / `configured_provider`, and any route we could not
+  // resolve at all, settle on the worker's proposal.
+  return 'none';
+}
+   * the attempt actually spends is charged afterwards: subagent-backend usage
+   * draws against `goal.tokensUsed` in
+   * `ThreadGoalVerificationSettlement.chargeVerifierUsage`, evaluator-backend usage is
+   * report-only.
+   */
+  private verifierMaxTokens(backend: VerificationAttempt['backend']): number | undefined {
+    return backend === 'subagent'
+      ? threadGoalSubagentMaxTokens(this.deps.configGetter)
+      : threadGoalEvaluatorMaxTokens(this.deps.configGetter);
+  }
+
+  private emitDispatched(attempt: VerificationAttempt): void {
+    this.deps.emitRuntimeEvent({
+      type: 'goal.verification_dispatched',
+      at: this.deps.nowMs(),
+      payload: {
+        goalId: attempt.goalId,
+        sessionId: attempt.sessionId,
+        turnId: attempt.turnId,
+        backend: attempt.backend,
+        goalUpdatedAt: attempt.goalUpdatedAt,
+      },
+    });
+  }
+
+  private report(
+    context: ThreadGoalVerificationSettlementContext,
+    code: string,
+    error: unknown,
+  ): void {
+    this.deps.reportFailure(context.input.sessionId, `${code}:${this.deps.formatError(error)}`);
+  }
+}
+
+/**
+ * Verification adjudicates exactly one thing: the worker's claim that the
+ * objective is done. A turn that makes no such claim has nothing to adjudicate,
+ * so it settles on the worker's own proposal — `blocked(worker_reported)` for an
+ * explicit block, otherwise another continuation.
+ *
+ * `collectSignal` only accepts a proposal on a `main` bound turn, so the kind
+ * check that used to guard dispatch separately lives here now.
+ */
+function claimsCompletion(context: ThreadGoalVerificationSettlementContext): boolean {
+  return (
+    context.accounting.boundTurn.kind === 'main' && context.signal?.type === 'completion_proposed'
+  );
+}
+
+function workerProposalTransition(
+  signal: GoalTurnSignal | undefined,
+): ThreadGoalSettleBoundTurnInput['next'] | undefined {
+  if (signal?.type === 'block_proposed') {
+    return { status: 'blocked', statusReason: 'blocked(worker_reported)' };
+  }
+  return signal?.type === 'completion_proposed'
+    ? { status: 'complete', statusReason: 'complete(worker_proposal)' }
+    : undefined;
+}
+
+function currentVerificationStaleReason(
+  context: ThreadGoalVerificationSettlementContext,
+  current: ThreadGoalState | undefined,
+): ThreadGoalDecisionStaleReason | undefined {
+  return classifyThreadGoalBindingStale(current, {
+    expectedEpoch: context.goal.updatedAt,
+    objectiveDigest: context.accounting.boundTurn.binding.objectiveDigest,
+  });
+}
+
+function unavailableTransition(): ThreadGoalSettleBoundTurnInput['next'] {
+    message.meta?.source === 'thread-goal' ||
+    message.meta?.goalId !== undefined ||
+    message.meta?.queryKey?.startsWith('goal:') === true;
+  const groupRenderLimit = useMemo(() => readGroupRenderLimit(), []);
+  const shouldUseAssistantSegments =
+    renderMode === 'parts' &&
+    !isUser &&
+    resolvedRenderConfig.assistantSegmentStrategy === 'latest-content-active';
+  // message_finished settles one model step, while the Turn can keep running
+  // tools or waiting for input. Keep the anchor until both have settled.
+  const preservePreSteerBody =
+    turnProcessStatus === 'running' ||
+    hasPendingInteraction ||
+    ((turnProcessStatus === undefined || turnProcessStatus === 'unknown') && message.is_streaming);
+  const assistantSegments = useMemo(
+    () =>
+      renderableParts
+        ? buildAssistantSegments(renderableParts, {
+            preferGoalCompletionResult: isGoalMessage,
+            preservePreSteerBody,
+          })
+        : null,
+    [isGoalMessage, preservePreSteerBody, renderableParts],
+  );
+  const activeSegment = assistantSegments?.activeSegment ?? null;
+  const activeContentPartOrdinal = useMemo(
+    () => getAssistantContentPartOrdinal(displayParts, activeSegment?.contentPart),
+    [activeSegment?.contentPart, displayParts],
+  );
+  const activeTimelinePersistScope =
+    activeContentPartOrdinal !== null ? `active-content:${activeContentPartOrdinal}` : undefined;
+  const hasSegmentedAssistantContent =
+    shouldUseAssistantSegments &&
+    hasVisibleAssistantTextPart(assistantSegments?.activeSegment?.contentPart);
+  const archivedPartsForTimeline = useMemo(() => {
+    if (!assistantSegments) {
+      return [] as MessagePart[];
+    }
+
+    return assistantSegments.archivedParts.map(toArchivedActivityPart);
+  }, [assistantSegments]);
+  const rawActiveTrailingBlocks = useMemo(() => {
+    if (renderMode !== 'parts' || isUser || !activeSegment) return null;
+
+    const activeEventParts = activeSegment.eventParts;
+
+    return activeEventParts.length > 0
+      ? buildRenderBlocks(activeEventParts, { wrapSingleActivity: groupRenderLimit > 0 })
+      : null;
+  }, [renderMode, isUser, activeSegment, groupRenderLimit]);
+  const archivedParts = useMemo(() => {
+    if (!assistantSegments) return [];
+
+    return archivedPartsForTimeline;
+  }, [assistantSegments, archivedPartsForTimeline]);
+  const rawArchivedBlocks = useMemo(
+    () =>
+      renderMode === 'parts' && !isUser && archivedParts.length > 0
+        ? buildRenderBlocks(archivedParts, { wrapSingleActivity: groupRenderLimit > 0 })
+        : null,
+    [renderMode, isUser, archivedParts, groupRenderLimit],
+  );
+  const archivedBlocks = rawArchivedBlocks;
+  const activeTrailingBlocks = rawActiveTrailingBlocks;
+  const { activeTimelineBlocks, activePostContentBlocks } = useMemo(() => {
+    if (!activeTrailingBlocks || activeTrailingBlocks.length === 0) {
+      return {
+        activeTimelineBlocks: null as RenderBlock[] | null,
+        activePostContentBlocks: null as RenderBlock[] | null,
+      };
+    }
+
+    const timelineBlocks = activeTrailingBlocks.filter(isTimelineRenderBlock);
+    const postContentBlocks = activeTrailingBlocks.filter((block) => !isTimelineRenderBlock(block));
+
+    return {
+
+codex
+已确认两个实质问题：卡片验收只检查显示和数量，没有验证点击能否打开文件；S03 又要求每 4 秒轮询的轨迹捕获短暂的 `verification` 状态，可能把正确实现判为失败。我还在核对工具拦截、空回复重试和验证模式的覆盖。
+
+exec
+/bin/zsh -lc "nl -ba .harness/docs/specs/goal-final-result-delivery/spec.md | sed -n '32,160p'" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+    32	### 2. 完成提案之后的这一轮：只写最终回复
+    33	
+    34	**不结束本轮。** `update_goal(status=complete)` 被接纳后，本轮继续。工具返回和工具说明要求模型立即写最终回复：
+    35	
+    36	- 写给用户，说明做成了什么、交付文件在哪、必要时怎么用；
+    37	- 为交付文件写交付标记，并写出文件路径；
+    38	- 不再调用任何工具；
+    39	- 不宣称验证已经通过。
+    40	
+    41	**拦下后续工具调用。** 同一轮完成提案被接纳后，之后的每个工具调用都不执行，包括再次调用 `update_goal`（任何模式）；调用方收到的原因要求它不再调用工具、直接写最终回复。已接纳的提案保持不变，不会被随后的 `blocked` 或第二次 `complete` 覆盖。这项拦截放在 Goal 自己的工具执行前检查里，只在“本轮已接纳完成提案”时生效，不改通用工具循环。
+    42	
+    43	**没有回复时的兜底。** 完成提案之后，模型的回复既没有文字、也没有工具调用时，重试一次。仍然没有回复，或者被拦下后直到本轮结束都没有写出文字，本轮按正常结束结算，完成提案照常进入验证；不走失败结算，不因此把 Goal 变成暂停、失败或其他状态。这种情况下用户看到的与现状相同：没有最终回复，TUI 自动化仍可能报 `EMPTY_RESPONSE`。这项重试只对“已接纳的 complete”生效，不在全局装配通用的空回复恢复。
+    44	
+    45	**提示词。** 客户端实际使用的 Goal 提示词是 `@mavis/goal` 中的 TS 常量（`packages/agent-modules/goal/src/continuation.ts` 等），随客户端发布，远端 Prompt 已停用。与收口相关的指令改在这些常量里，与本节行为一致，不再要求“提交完成后直接停止”；`packages/local-runtime-v2/assets/agents/workflow/goal/` 下对应的 `.md` 同步成相同措辞。两者之间原有的其他差异不在本次对齐。
+    46	
+    47	**被打断的这一轮。** `complete` 不再写“本轮有意结束”的标记（`terminates_turn`），`blocked` 与 stale 照旧写。完成提案之后、最终回复之前被打断的一轮，按其他被打断的 Goal 轮处理，例如可以显示“继续”。
+    48	
+    49	### 3. Host 结算与验证保持现状
+    50	
+    51	- Goal 的最终状态以 Host 结算为准。本轮结束后照常验证：`met` 为 `complete(verifier_met)`；`not_met` 保持 `active` 并续跑；验证模式为 `none` 时直接 `complete(worker_proposal)`。
+    52	- verifier 的判定口径不改，不新增“用户是否看到交付”之类的检查。
+    53	- `not_met` 续跑后，前一次最终回复与本条 Goal 消息的其他内容一起进入过程区，新一轮结束时再写新的最终回复。
+    54	- 写最终回复的阶段被中断或失败，或者结算时 Goal 已被暂停、修改、清除或预算用尽，都沿用现有结算规则，已接纳的完成提案不进入验证：
+    55	
+    56	| 情况 | 结果 |
+    57	| --- | --- |
+    58	| 用户停止 | Goal 暂停为 `paused(user_requested)`；用户恢复后，模型重新检查并重新提交完成 |
+    59	| 应用重启或崩溃 | 提案丢失；Goal 仍为 `active`，启动恢复开一轮新的续跑 |
+    60	| 模型服务出错 | 按现有失败分类：限流或额度用完为 `usage_limited`，安全拒绝为 `blocked(safety_policy)`，其余为 `paused(infra_retryable)` |
+    61	| 结算时预算用尽（包括最终回复的消耗使其用尽） | 按现有预算规则：`budget_limited`，另排一轮预算总结 |
+    62	
+    63	- 结算里的失败分类和预算规则不改。
+    64	- “立即发送”沿用现有规则，不做 Goal 特判。
+    65	
+    66	### 4. Desktop：正文取最终回复，交付卡片提到结果区
+    67	
+    68	以下规则只作用于 Goal 消息；普通消息的正文选择和折叠不变。
+    69	
+    70	**正文选择。** Goal 消息里，成功的 `update_goal(status=complete)` 调用之后还有文字时，外露的正文固定取最后一段文字，也就是最终回复；不再与 complete 之前的文字比较长度。complete 之前的文字进入过程区。complete 之后没有文字的消息（例如旧历史）按原规则展示。
+    71	
+    72	**卡片提升。**
+    73	
+    74	- 触发：Goal 结算为 `complete` 时，也就是过程区折叠的时候。不以工具调用成功为条件；验证中、`not_met` 续跑、暂停等状态下不提升。
+    75	- 范围：这条 Goal 消息过程区里的全部交付卡片，包括更早各轮输出的。
+    76	- 去重：同一文件（规范化路径相同）只显示一张；正文里已有的不再重复。用户展开过程区时，已提升的卡片不在过程区里再显示一次。
+    77	- 只移动卡片，不移动正文。更早轮次的完整报告正文仍在过程区。
+    78	- 写在代码块和行内代码里的标记不算交付，不出卡片。
+    79	- 不采用“含交付标记的正文优先当正文”这类规则。
+    80	
+    81	**其他展示面。**
+    82	
+    83	- 完成标记“目标已完成 用时 …”和 Goal 横幅不变。
+    84	- 刷新、重启后从历史重建的对话，正文选择和卡片提升与实时展示一致。
+    85	- 右侧产物面板列出本次交付的文件，同一文件只列一次。现有读取已包含过程区里的标记，也按路径去重，不改面板代码。
+    86	
+    87	### 5. TUI 与 headless
+    88	
+    89	- 最终回复作为完成提案之后的助手回复显示；交付标记沿用现有的 `Created  file ↗` 行。
+    90	- 自动化模式和 headless 下，有最终回复的 Goal 完成轮不再是 `EMPTY_RESPONSE`、`× Error` 或 `state=fail`；完成后照常出现 `✓ Goal complete`。
+    91	- TUI 代码不改；上述结果由第 2 节的最终回复产生。
+    92	
+    93	### 6. 交付声明：只认交付标记
+    94	
+    95	- 声明交付文件的唯一方式是正文里的交付标记（`<deliver-assets>`、`<media/>`）。不新增 `deliverables` 或其他交付字段，不扫描工作区自动发现文件。
+    96	- 模型没写交付标记时不出卡片；最终回复仍要写出文件路径。
+    97	- 完成摘要（`update_goal` 的 `summary`）用途不变：交给 verifier，不展示给用户，不能代替最终回复。
+    98	
+    99	### 7. 非目标
+   100	
+   101	- `blocked` 提案与 stale 拒绝的行为。
+   102	- IM 出站、Fork、v1 local-runtime、Remote Control、Cloud 会话的展示与交付。
+   103	- 新增交付字段、自动发现未声明的文件。
+   104	- verifier 的判定口径；结算里的失败分类。
+   105	- 产物面板、会话资产索引、IM、TUI 的代码。
+   106	- 把更早轮次的完整报告正文默认展开。
+   107	- 对齐 Goal 提示词 `.md` 与 TS 常量之间原有的其他差异。
+   108	- 通用工具循环；全局装配通用的空回复恢复。
+   109	- 发布 Apollo Prompt。
+   110	
+   111	### 8. 硬约束
+   112	
+   113	- **影响范围：** 改动限于 Goal 工具（实现、说明、返回）、Goal 提示词常量及对应 `.md`、Goal 专用的工具执行前检查、只对已接纳 complete 生效的空回复重试、Desktop 中 Goal 消息的正文选择与卡片提升，以及随之更新的测试和文档。普通对话的行为不变。
+   114	- **平台：** 产品逻辑兼容 macOS 与 Windows。Windows 路径（盘符、反斜杠、含空格）的交付标记解析与去重用单测覆盖。
+   115	- **时间：** 10 月 2 日 12:00 前合入 `preview_train`。
+   116	
+   117	### 9. 已接受的代价
+   118	
+   119	- 更早轮次的长报告正文默认留在过程区，只有其中的交付卡片被提升。
+   120	- 模型没写交付标记时没有卡片。
+   121	- `not_met` 后，前一次最终回复进入过程区。
+   122	- 连续几轮 `not_met` 且最终回复逐字相同时，触发已有的重复回复暂停 `paused(no_progress_after_completion_claim)`。
+   123	- 写最终回复的阶段遇到用户停止、重启或模型服务出错时，完成提案作废，需要恢复后重新收尾。
+   124	- 最终回复消耗 token；接近预算上限的 Goal 可能因此在结算时进入 `budget_limited`，而不是进入验证。
+   125	- 完成提案之后模型两次都没有回复时，没有最终回复，与现状相同。
+   126	
+   127	## 交付与授权
+   128	
+   129	- **仓库与分支：** `matrix/agent-archon`。开发分支 `fix/goal-final-result-delivery` 叠在 !7556（`feat/verify-archon-skill`）之上，用它的 verify-archon 和 Goal 功能地图验证。
+   130	- **开发 MR：** 即交接用的 Draft MR，目标 `feat/verify-archon-skill`。deliver 在这个 MR 上继续提交，完成后更新描述并取消 Draft；它不合入产品代码，`preview_train` 的 MR 合入后关闭。本需求对 verify-archon 和功能地图的改进单独提交，交给 7556 的维护会话并入。
+   131	- **提交划分：**
+   132	  - 产品提交：代码，以及 `preview_train` 上已有的文档，即 Goal 的 `spec.md`（GOAL-09、GOAL-13）、`implementation.md`、`verification.md`、`changes/` 下新增的一条变更记录（背景、范围、决策、行为差异、验收摘要），和 `CONTEXT.md` 术语。这些提交要能干净 cherry-pick 到 `preview_train`。
+   133	  - 只留在开发分支的提交：功能地图、verify-archon 的改动，以及本 spec 与 verify 所在的提交。
+   134	- **上线 MR：** deliver 在开发分支验证通过后，从 `origin/preview_train` 建 `fix/goal-final-result-delivery-preview-train`，cherry-pick 产品提交；跑相关单测和 typecheck；证明其产品改动与已验证的开发分支一致（两边产品文件的 diff 相同），真实模型证据沿用开发分支上的；开 MR 到 `preview_train`，显式设置 squash 为 `true` 并用 API 回读；处理 CI；不合入。
+   135	- **时间：** 10 月 2 日 09:00 前把 `preview_train` 的 MR 做到可合入；到点仍未完成就停下，汇报已有证据和缺口。用户在 12:00 前合入。
+   136	- **允许：** 推送 `fix/goal-final-result-delivery` 和 `fix/goal-final-result-delivery-preview-train`；创建、更新这两个 MR；处理它们的 CI。
+   137	- **不允许：** 合入任何 MR；推送 `feat/verify-archon-skill`；发布 Apollo；修改飞书文档和工作项；改动 !7424、!7435；发送消息。
+   138	- **冻结：** 本 spec 与 verify 以 sha256 为准。7556 再 rebase 时，这两份文件所在提交的 SHA 会变，内容的 sha256 不变。
+   139	- **过程文件：** `plan.md` 和证据放在 super-auto 仓库的 `requirements/goal-final-result-delivery/`，在该仓库本地提交（录屏只留文件、不提交），不进 MR。
+   140	- **文档：** 不单独写 ADR；决定写进 Goal `changes/` 变更记录。MR 描述写决定摘要和本 spec、verify 的 sha256。
+
+exec
+/bin/zsh -lc "rg -n 'it\\(|test\\(|none|worker_proposal|verification' packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+29:  it('accounts a bound main Turn and durably queues its continuation', async () => {
+89:  it('pauses a bound Goal with a distinct reason when accounting fails', async () => {
+150:  it('settles an accepted completion proposal only after accounting and breaker CAS', async () => {
+161:      statusReason: 'complete(worker_proposal)',
+169:        action: 'none' as const,
+213:      reason: 'complete(worker_proposal)',
+229:      next: { status: 'complete', statusReason: 'complete(worker_proposal)' },
+236:  it('lets a block proposal win over completion in the same Turn and skips the breaker', async () => {
+285:      type: 'goal.worker_proposal_decided',
+304:  it('keeps a concurrent user pause authoritative after proposal collection', async () => {
+345:  it('queues a deferable continuation without breaker work when a dependency appears', async () => {
+397:  it('applies the dependency gate even without a terminal proposal', async () => {
+430:    'pauses %s verification when no verifier provider is installed',
+431:    async (verification) => {
+448:      integration.bindConfigGetter(() => ({ goal: { verification } }));
+450:      // Only a completion claim opens a verification, so only a claiming turn
+480:  it('discards a collected proposal when the process-local Turn lifecycle is lost', async () => {
+509:  it('ignores an ordinary unbound Turn even when the session currently has an active Goal', async () => {
+536:  it('never attributes an old binding to a replacement Goal in the same session', async () => {
+620:  it('persists a repeated reply and puts a no-progress nudge in the next Turn', async () => {
+672:  it('injects one terminal audit after the fifth settled main Goal Turn', async () => {
+717:  it('records when the repeated-reply threshold overrides a completion proposal', async () => {
+789:  it('pauses after three consecutive tool-less main Turns even when every reply differs', async () => {
+809:          action: paused ? ('pause' as const) : streak >= 2 ? ('nudge' as const) : ('none' as const),
+855:  it('reports a real tool call as `used` and a missing work signal as `unknown`', async () => {
+858:      action: 'none' as const,
+896:  it('retries a failed continuation enqueue without charging the same Turn twice', async () => {
+931:  it('replays the first breaker decision when a tool-less Turn is settled again', async () => {
+939:      action: 'none' as const,
+974:  it('clears the no-tool streak on a dependency wait that really used tools', async () => {
+984:      return { action: 'none' as const, goal: cleared, epoch: cleared.updatedAt };
+1022:  it('leaves a dependency wait alone when there is no live no-tool streak', async () => {
+1025:      action: 'none' as const,
+1106:  it('pauses a retracted bound Turn through the same settlement CAS', async () => {
+1140:  it('accounts an aborted bound Turn but leaves Goal completion authority untouched', async () => {
+
+exec
+/bin/zsh -lc "rg -n 'async function.*[Pp]oll|function.*[Pp]oll|trajectory|interval' .agents/skills/verify-archon/scripts/verify-archon.mjs | head -65" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+604:async function cmdPoll(positional, flags) {
+609:      'usage: poll <path> --until <field>=<v1|v2> | <field>~<text> [--hold s] [--show a,b] [--interval s] [--timeout s] [--save name]',
+615:  const interval = Number(flags.interval ?? (flags.hold ? 2 : 5)) * 1000;
+618:  const trajectory = [];
+628:            trajectory,
+636:      trajectory,
+649:      trajectory.push({ at: Date.now(), ...view });
+659:    await new Promise((resolve) => setTimeout(resolve, interval));
+830:// Lines worth showing in a trajectory: the build-mode status line and Goal banner/transcript lines.
+938:    const interval = Number(flags.interval ?? 1) * 1000;
+940:    const trajectory = [];
+949:              trajectory,
+957:        trajectory,
+968:        trajectory.push({ at: Date.now(), highlights });
+983:      await new Promise((resolve) => setTimeout(resolve, interval));
+
+exec
+/bin/zsh -lc "rg -n 'beforeTool|onBeforeTool|before_tool|tool_execution|ToolExecution' packages/agent-modules/goal/src packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.ts" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.ts:8:    async beforeToolCall(input) {
+packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.ts:26:    async beforeToolCall(input) {
+packages/local-runtime-v2/src/application/agent/goal-budget-tool-policy.ts:28:        const decision = await guard.beforeToolCall(input);
+packages/agent-modules/goal/src/tool-impls.ts:14:import type { ToolExecutionContext, ToolImpl, ToolResult } from '@mavis/agent-core/tools';
+packages/agent-modules/goal/src/tool-impls.ts:47:  collect(context: ToolExecutionContext, signal: GoalTurnSignal): ThreadGoalSignalCollectionResult;
+packages/agent-modules/goal/src/tool-impls.ts:72:    context: ToolExecutionContext,
+packages/agent-modules/goal/src/tool-impls.ts:146:  ToolExecutionContext
+packages/agent-modules/goal/src/tool-impls.ts:153:  async execute(ctx: ToolExecutionContext, input: CreateGoalToolInput): Promise<ToolResult> {
+packages/agent-modules/goal/src/tool-impls.ts:209:  ToolExecutionContext
+packages/agent-modules/goal/src/tool-impls.ts:219:  async execute(ctx: ToolExecutionContext, input: UpdateGoalToolInput): Promise<ToolResult> {
+packages/agent-modules/goal/src/tool-impls.ts:235:    ctx: ToolExecutionContext,
+packages/agent-modules/goal/src/tool-impls.ts:302:    ctx: ToolExecutionContext,
+packages/agent-modules/goal/src/tool-impls.ts:360:export class GetGoalTool implements ToolImpl<typeof GetGoalToolDef.schema, ToolExecutionContext> {
+packages/agent-modules/goal/src/tool-impls.ts:363:  async execute(ctx: ToolExecutionContext, _input: GetGoalToolInput): Promise<ToolResult> {
+
+exec
+/bin/zsh -lc "sed -n '604,662p' .agents/skills/verify-archon/scripts/verify-archon.mjs" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+async function cmdPoll(positional, flags) {
+  const [apiPath] = positional;
+  const condition = parseCondition(flags.until);
+  if (!apiPath || !condition) {
+    fail(
+      'usage: poll <path> --until <field>=<v1|v2> | <field>~<text> [--hold s] [--show a,b] [--interval s] [--timeout s] [--save name]',
+    );
+  }
+  const { state } = resolveRun(flags, flags.on ?? 'runtime');
+  const { field } = condition;
+  const show = typeof flags.show === 'string' ? flags.show.split(',') : [field];
+  const interval = Number(flags.interval ?? (flags.hold ? 2 : 5)) * 1000;
+  const holdMs = Number(flags.hold ?? 0) * 1000;
+  const deadline = Date.now() + Number(flags.timeout ?? 600) * 1000;
+  const trajectory = [];
+  let last;
+  let final;
+  let heldSince;
+  const finish = (ok, reason) => {
+    const suffix = ok ? '' : `-${reason}`;
+    const saved =
+      typeof flags.save === 'string'
+        ? writeEvidence(state, `${flags.save}${suffix}`, {
+            poll: { path: apiPath, until: flags.until, holdSeconds: holdMs / 1000 },
+            trajectory,
+            final,
+          })
+        : undefined;
+    const result = {
+      ok,
+      matched: pick(final, field),
+      ...(saved ? { saved } : {}),
+      trajectory,
+      final,
+    };
+    if (ok) out(result);
+    else fail(`poll ${reason}`, result);
+  };
+  while (Date.now() < deadline || heldSince !== undefined) {
+    const result = await request(state, 'GET', apiPath, undefined, 30_000);
+    final = result.body;
+    const view = Object.fromEntries(show.map((key) => [key, pick(final, key)]));
+    const signature = JSON.stringify(view);
+    if (signature !== last) {
+      last = signature;
+      trajectory.push({ at: Date.now(), ...view });
+      process.stderr.write(`${new Date().toISOString()} ${signature}\n`);
+    }
+    const matches = condition.test(pick(final, field));
+    // With --hold, the condition must stay true for the whole window after it first matches.
+    if (heldSince !== undefined && !matches) return finish(false, 'hold-broken');
+    if (matches) {
+      heldSince ??= Date.now();
+      if (Date.now() - heldSince >= holdMs) return finish(true);
+    }
+    await new Promise((resolve) => setTimeout(resolve, interval));
+  }
+  finish(false, 'timeout');
+}
+
+exec
+/bin/zsh -lc "rg -n -A 9 -B 7 'assistant-segment-active' packages/ui/src/components/MessageContainer/MessageItem/assistant/*" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+exec
+/bin/zsh -lc "rg -n 'poll|model|verification' .harness/docs/goal/feature-map/lifecycle.md .harness/docs/goal/feature-map/completion.md" in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-168-            undefined,
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-169-            cloudResult,
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-170-          )}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-171-        </div>
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-172-      ) : null}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-173-
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-174-      <div className="space-y-4" data-testid="assistant-active-flow">
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx:175:        <div className="space-y-4" data-testid="assistant-segment-active">
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-176-          <AssistantTextBlock
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-177-            content={activeSegment.contentPart.content}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-178-            workspaceDir={workspaceDir}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-179-            onSend={onSend}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-180-            submitted={submitted}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-181-            agentTeamRecommendationStatus={agentTeamRecommendationStatus}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-182-            streaming={messageIsStreaming}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-183-            streamRevealMode={streamRevealMode}
+packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx-184-            messageId={messageId}
+
+ succeeded in 0ms:
+.harness/docs/goal/feature-map/completion.md:10:- `GOAL-10` 验证等待：验证期间 `execution.wait_reason` 为 `verification`。
+.harness/docs/goal/feature-map/completion.md:18:| Desktop Goal 横幅           | 验证时为"正在验证目标结果"，右侧 Subagents 出现 "Goal verification"；完成后为"已完成"，对话里出现"目标已完成 用时 …" | Electron           | `GET .../goal` 的 `status`、`status_reason`、`execution.wait_reason`、`last_verification` |
+.harness/docs/goal/feature-map/completion.md:42:  `verification`，再出现 `complete(verifier_met)`。`GET .../goal` 的 `last_verification.backend` 为
+.harness/docs/goal/feature-map/completion.md:45:  里依次有：`goal.verification_dispatched`；`goal.verification_child_started`（含
+.harness/docs/goal/feature-map/completion.md:47:  `complete`）；`goal.verification_decided`（`verdict` 为 `met`，`disposition` 为
+.harness/docs/goal/feature-map/completion.md:52:  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status=complete --hold 10 --show goal.status,goal.turns_used --save completion-no-continuation`：10秒内一直是
+.harness/docs/goal/feature-map/completion.md:63:- 验证者在另一个子会话里运行，会产生额外的模型调用；子会话 ID 在 `goal.verification_child_started`
+.harness/docs/goal/feature-map/completion.md:68:- `last_verification.reason` 是模型写的文字，只作参考，判定看 `verdict` 和事件。
+.harness/docs/goal/feature-map/lifecycle.md:47:  `node $V poll /minimax-desktop/api/v1/session/$S/goal --on electron --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason,goal.turns_used --interval 3 --timeout 420 --save e-run`，结果为
+.harness/docs/goal/feature-map/lifecycle.md:109:  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status=paused --hold 8 --show goal.status,goal.turns_used --save lifecycle-still-paused`。
+.harness/docs/goal/feature-map/lifecycle.md:113:  `node $V poll /minimax-desktop/api/v1/session/$S/goal --until goal.status='complete|paused|blocked|budget_limited|usage_limited' --show goal.status,goal.status_reason,goal.execution.wait_reason,goal.turns_used --interval 4 --timeout 420 --save lifecycle-run`。轨迹依次出现
+.harness/docs/goal/feature-map/lifecycle.md:114:  `active`、`execution.wait_reason` 为 `verification`、`complete(verifier_met)`；`snapshot` 的
+
+exec
+/bin/zsh -lc 'shasum -a 256 .harness/docs/specs/goal-final-result-delivery/spec.md .harness/docs/specs/goal-final-result-delivery/verify.md /Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md' in /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery
+ succeeded in 0ms:
+c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d  .harness/docs/specs/goal-final-result-delivery/spec.md
+f37f6b4e29ef5dda202a05b9eaee3f6e785d444573fbade4bb3a40067f9e8df0  .harness/docs/specs/goal-final-result-delivery/verify.md
+bc7c4e40215bb0512d7cc037c4b96e04919faf84e717ecd7a4e3f5f6b752901c  /Users/minimax/Documents/Codex/2026-09-29/goal-final-response-clarification/需求澄清.md
+
+codex
+已核对本次检查版本：
+
+- spec sha256：`c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`
+- verify sha256：`f37f6b4e29ef5dda202a05b9eaee3f6e785d444573fbade4bb3a40067f9e8df0`
+- HEAD：`ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161`
+
+对照了原始约定、需求稿、术语、验证工具、功能地图和相关源码、测试。发现 **6 项验收问题**；未修改文件，未执行产品验证。
+
+**1. 卡片能显示，但不能打开的实现也可能通过**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：S01、B1](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:83)
+- **问题：** 只检查卡片出现和数量，没有检查点击交付文件的实际效果。
+- **依据：** spec 目的要求“能直接打开模型声明的交付文件”；S01 仅要求“有文件名为 hello.html 的交付卡片”，B1 也没有打开操作。
+- **影响：** 卡片提升后丢失文件路径、工作目录上下文或点击处理，仍可能通过。
+- **建议：** S01 点击卡片并确认打开对应的 `hello.html`，内容包含 `Hello Goal`；B1 对从更早轮次提升的卡片验证打开目标。无法观察实际打开结果时，明确列为工具缺口或覆盖盲区。
+
+**2. B2 的统一断言不足以证明工具拦截和一次重试**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：R05、R06、R08、B2](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:187)
+- **问题：** B2 只明确断言结束、是否验证和最终状态，不能区分若干错误实现。
+- **依据：** B2 写的是“断言本轮是否结束、提案是否进入验证、Goal 的最终状态”；R08 则要求“重试一次”，R05 要求工具不执行，R06 要求提案不被覆盖。
+- **影响：** 零次重试、重试多次、执行了额外工具后正常完成、第二次 complete 覆盖第一次摘要，都可能得到相同终态。
+- **建议：** B2 分别明确断言：空回复后的请求次数；被拦工具的执行次数为零及副作用不存在；返回明确拦截原因；原提案内容保持不变。加入“第一次空、第二次有回复”和“两次都空”两组输入。
+
+**3. 验证模式的前提与 `none` 分支覆盖不完整**
+
+- **类型：** 缺少覆盖
+- **位置：** [verify.md：R13、S01–S03](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:49)
+- **问题：** 场景要求真实 verifier，却未固定能触发子代理验证的路由；也未覆盖 `none` 下的新收口流程。
+- **依据：** spec §3 明确“验证模式为 `none` 时直接 `complete(worker_proposal)`”；原始约定第三轮 Q5 要求“使用会触发子代理验证的模型路由”。现有 `verificationModeForRoute` 对部分路由返回 `none`。
+- **影响：** 正确实现使用默认 BYOK 路由时，会因没有 `verifier_met` 被误判失败；只在子代理验证模式生成最终回复的错误实现，也可能通过现有场景。
+- **建议：** 为真实模型场景补上路由选择和核验前提；补脚本 provider 用例，确认 `none` 下仍先生成同一 Turn 的最终回复，再结算为 `complete(worker_proposal)`，且不派发 verifier。
+
+**4. 没有正向证明工具拦截不会泄漏到后续轮次和普通对话**
+
+- **类型：** 缺少覆盖
+- **位置：** [verify.md：R07、冒烟集、B2](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:43)
+- **问题：** R07 要求其他轮次和普通对话正常执行工具，但对应证明主要是提案前调用和纯文本 PONG。
+- **依据：** R07 明确“其他 Goal 轮和普通对话的工具调用照常执行”；冒烟集普通对话只要求回复 `PONG`。
+- **影响：** 拦截标志错误地保存在 session 或共享实例上、未随 Turn 清除，可能不影响已有检查，却阻断后续任务。
+- **建议：** 增加正向用例：`not_met` 后下一轮成功执行工具；Goal 完成后普通对话成功执行工具并产生预期副作用。将它们明确映射到 R07。
+
+**5. 轮询必须捕获短暂验证状态，会误判正确实现**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：S03 步骤 2、检查点 1](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:145)
+- **问题：** 每 4 秒采样，却要求轨迹必然出现 `execution.wait_reason=verification`。
+- **依据：** S03 使用 `--interval 4`，同时要求“轨迹中先出现……`verification`”。当前 `cmdPoll` 只保存采样时看到的状态，不回放中间状态。
+- **影响：** 验证在两个采样点之间完成，正确实现也会失败；spec 没有规定验证状态的最短持续时间。
+- **建议：** poll 只判断最终状态；验证发生及顺序改由同一 Goal、Turn 的持久化 runtime 事件证明，不要求采样轨迹必然捕获中间态。
+
+**6. S01 额外限定卡片必须位于正文 DOM 容器内**
+
+- **类型：** 越出 spec
+- **位置：** [verify.md：S01 卡片检查点](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:98)
+- **问题：** 把“结果区可见”收窄成了“必须在 `assistant-segment-active` 内”。
+- **依据：** spec §4 只要求卡片“提到结果区”“只移动卡片，不移动正文”；S01 要求“`assistant-segment-active` 内有……交付卡片”。
+- **影响：** 将卡片放在最终回复下方、同属默认可见结果区的独立容器，是符合 spec 的实现，却会被判失败。
+- **建议：** 正文继续通过 `assistant-segment-active` 检查；卡片改为检查该 Goal 消息默认可见的结果区，具体选择器实现后绑定，并保留展开前后的去重断言。
+tokens used
+84,678
+已核对本次检查版本：
+
+- spec sha256：`c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`
+- verify sha256：`f37f6b4e29ef5dda202a05b9eaee3f6e785d444573fbade4bb3a40067f9e8df0`
+- HEAD：`ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161`
+
+对照了原始约定、需求稿、术语、验证工具、功能地图和相关源码、测试。发现 **6 项验收问题**；未修改文件，未执行产品验证。
+
+**1. 卡片能显示，但不能打开的实现也可能通过**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：S01、B1](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:83)
+- **问题：** 只检查卡片出现和数量，没有检查点击交付文件的实际效果。
+- **依据：** spec 目的要求“能直接打开模型声明的交付文件”；S01 仅要求“有文件名为 hello.html 的交付卡片”，B1 也没有打开操作。
+- **影响：** 卡片提升后丢失文件路径、工作目录上下文或点击处理，仍可能通过。
+- **建议：** S01 点击卡片并确认打开对应的 `hello.html`，内容包含 `Hello Goal`；B1 对从更早轮次提升的卡片验证打开目标。无法观察实际打开结果时，明确列为工具缺口或覆盖盲区。
+
+**2. B2 的统一断言不足以证明工具拦截和一次重试**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：R05、R06、R08、B2](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:187)
+- **问题：** B2 只明确断言结束、是否验证和最终状态，不能区分若干错误实现。
+- **依据：** B2 写的是“断言本轮是否结束、提案是否进入验证、Goal 的最终状态”；R08 则要求“重试一次”，R05 要求工具不执行，R06 要求提案不被覆盖。
+- **影响：** 零次重试、重试多次、执行了额外工具后正常完成、第二次 complete 覆盖第一次摘要，都可能得到相同终态。
+- **建议：** B2 分别明确断言：空回复后的请求次数；被拦工具的执行次数为零及副作用不存在；返回明确拦截原因；原提案内容保持不变。加入“第一次空、第二次有回复”和“两次都空”两组输入。
+
+**3. 验证模式的前提与 `none` 分支覆盖不完整**
+
+- **类型：** 缺少覆盖
+- **位置：** [verify.md：R13、S01–S03](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:49)
+- **问题：** 场景要求真实 verifier，却未固定能触发子代理验证的路由；也未覆盖 `none` 下的新收口流程。
+- **依据：** spec §3 明确“验证模式为 `none` 时直接 `complete(worker_proposal)`”；原始约定第三轮 Q5 要求“使用会触发子代理验证的模型路由”。现有 `verificationModeForRoute` 对部分路由返回 `none`。
+- **影响：** 正确实现使用默认 BYOK 路由时，会因没有 `verifier_met` 被误判失败；只在子代理验证模式生成最终回复的错误实现，也可能通过现有场景。
+- **建议：** 为真实模型场景补上路由选择和核验前提；补脚本 provider 用例，确认 `none` 下仍先生成同一 Turn 的最终回复，再结算为 `complete(worker_proposal)`，且不派发 verifier。
+
+**4. 没有正向证明工具拦截不会泄漏到后续轮次和普通对话**
+
+- **类型：** 缺少覆盖
+- **位置：** [verify.md：R07、冒烟集、B2](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:43)
+- **问题：** R07 要求其他轮次和普通对话正常执行工具，但对应证明主要是提案前调用和纯文本 PONG。
+- **依据：** R07 明确“其他 Goal 轮和普通对话的工具调用照常执行”；冒烟集普通对话只要求回复 `PONG`。
+- **影响：** 拦截标志错误地保存在 session 或共享实例上、未随 Turn 清除，可能不影响已有检查，却阻断后续任务。
+- **建议：** 增加正向用例：`not_met` 后下一轮成功执行工具；Goal 完成后普通对话成功执行工具并产生预期副作用。将它们明确映射到 R07。
+
+**5. 轮询必须捕获短暂验证状态，会误判正确实现**
+
+- **类型：** 判别力不足
+- **位置：** [verify.md：S03 步骤 2、检查点 1](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:145)
+- **问题：** 每 4 秒采样，却要求轨迹必然出现 `execution.wait_reason=verification`。
+- **依据：** S03 使用 `--interval 4`，同时要求“轨迹中先出现……`verification`”。当前 `cmdPoll` 只保存采样时看到的状态，不回放中间状态。
+- **影响：** 验证在两个采样点之间完成，正确实现也会失败；spec 没有规定验证状态的最短持续时间。
+- **建议：** poll 只判断最终状态；验证发生及顺序改由同一 Goal、Turn 的持久化 runtime 事件证明，不要求采样轨迹必然捕获中间态。
+
+**6. S01 额外限定卡片必须位于正文 DOM 容器内**
+
+- **类型：** 越出 spec
+- **位置：** [verify.md：S01 卡片检查点](/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery/.harness/docs/specs/goal-final-result-delivery/verify.md:98)
+- **问题：** 把“结果区可见”收窄成了“必须在 `assistant-segment-active` 内”。
+- **依据：** spec §4 只要求卡片“提到结果区”“只移动卡片，不移动正文”；S01 要求“`assistant-segment-active` 内有……交付卡片”。
+- **影响：** 将卡片放在最终回复下方、同属默认可见结果区的独立容器，是符合 spec 的实现，却会被判失败。
+- **建议：** 正文继续通过 `assistant-segment-active` 检查；卡片改为检查该 Goal 消息默认可见的结果区，具体选择器实现后绑定，并保留展开前后的去重断言。
