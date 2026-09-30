@@ -253,7 +253,15 @@ Q3 的 (i) 指更正后三个选项中的“实验代码只读参考，第 11 �
 - 术语在 agent-archon worktree `eager-leavitt-d0d8db` 的 `CONTEXT.md`（未提交），随 core-spec 冻结后提交到需求分支。
 - 下一步：用户在同一 session 调用 `/core-spec`，产出 spec.md 与 verify.md，写到需求目录 `.harness/docs/specs/goal-v2-and-feedback-fixes/`。
 
+## 15. core-spec：初稿、按入口查出的缺口、限额构造方法
+
+用户调用 `/core-spec`。spec 与 verify 写在 agent-archon worktree `eager-leavitt-d0d8db` 的 `.harness/docs/specs/goal-v2-and-feedback-fixes/`（未提交）。
+
+- 第 5 步按功能地图查出的缺口与推导细节、文案与语言、请求数展示，经用户逐项确认，原话与决定见 [original-decisions.md](../requirements/goal-v2-and-feedback-fixes/original-decisions.md) 第 5b 节。核对到的事实：Desktop 用 i18next 提供 zh-Hans 与 en，语言按 Electron 平台 locale → localStorage → 构建语言 → 浏览器语言 → en 决定；系统通知走同一套 i18n，现有格式为标题=会话标题、正文“等待你的确认”，3 秒去重、子会话不通知、前台聚焦的当前会话不通知；TUI 的 Goal 文案写死为英文，只有状态栏设置、升级提示等少数功能按系统 locale 切中英文；两端现状都只显示已用量，不显示任何上限。
+- 用户要求参考 Codex 会话 `01a0f194-2488-71d1-b430-7ef26492f816`（本机 `~/.codex/sessions/2026/09/30/rollout-2026-09-30T17-10-14-…` 与续接文件 `…T17-27-33-…`）里与 Rayna 讨论的限额构造方法。要点：Payment 测试台（`http://coverage.xaminim.com/payment`，OpenAPI `http://coverage.xaminim.com/openapi.json`）可以用接口直接设置测试账号的 5h 与 Weekly 使用率、积分余额，`POST /api/payment/token-plan/usage`（`percent`、`region`、`mode`）等；必须显式 `mode: "redis_simulation"`，接口默认 `real` 正式扣减；Weekly 需保持低使用率，否则界面优先展示周限额；客户端要关闭 Credits 自动消耗；上游 2056、2067 映射为 42212，普通限流为 50111（spec §7 的限流写法已据此改为 429、50111、50150）。
+- 由此提出的两个问题（待用户回答）：到点前手动恢复是拒绝（!7181 现状）还是真实尝试准入；是否授权 deliver 用 Payment 测试台接口构造真实额度耗尽。另说明风险：MiniMax 真实的额度错误若不带可信重置时间，托管账号上不会自动恢复。
+
 ## 待确认与待验证
 
-- 待用户调用 /core-spec。
+- core-spec 进行中：手动恢复时机与 Payment 测试台授权两问待回答，之后跨模型查漏。
 - 验证期待补：第 8 项 active 场景、第 10 项前台挂接、第 3 项“停止后历史消失”等需在 TUI、Electron 复现确认。
