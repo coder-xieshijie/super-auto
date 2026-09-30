@@ -471,10 +471,31 @@ dev-skills main 已合入 [coder-xieshijie/dev-skills#19](https://github.com/cod
 
 > 等第二轮跑完
 
+## 22. 用户确认冻结；core-spec 第 9 步交接
+
+用户原话：
+
+> 确认
+
+确认前助手提示了三处：最终回复的 token 消耗可能让临近上限的 Goal 进入 `budget_limited`（新发现，已写进 spec §3 与已接受代价）；第四轮“选 (b) 后立即发送不会插进这一轮”的说法不完全准确，spec 按“立即发送沿用现有规则”书写；确认后执行第 9 步的提交、推送和开 Draft MR。用户确认后，spec 与 verify 冻结：
+
+- spec：`.harness/docs/specs/goal-final-result-delivery/spec.md`，sha256 `c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`
+- verify：`.harness/docs/specs/goal-final-result-delivery/verify.md`，sha256 `287deca056b86150d276684c90a817d91f33e89dc3f17b8acfc13f1d0dd51018`
+
+执行（需求 worktree `/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery`）：
+
+1. `7b4519c01d` 单独提交 `CONTEXT.md` 术语（产品一侧，之后 cherry-pick 到 `preview_train`）。
+2. `50bd49ec08` 交接提交，只含 spec 与 verify；从提交中读出的两份文件 sha256 与确认值一致。提交 trailer 用 `Assisted-by: cc reason:goal-final-delivery-handoff` 和 `Docs-Impact:`；本仓库的 commit-msg、pre-commit、pre-push hook 现在都只提示不拦截。
+3. 去掉代理变量，用 `MAVIS_PUSH_TARGET=feat/verify-archon-skill` 推送 `fix/goal-final-result-delivery`（新建远端分支，设上游）。推送前核对远端 `feat/verify-archon-skill` 仍为 `ffb4d4a94b`。
+4. 用 `glab api --hostname gitlab.xaminim.com` 创建 [matrix/agent-archon!7576](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7576)：标题“Draft: fix(goal): Goal 收口的最终回复与交付卡片（开发 MR，不合入）”，目标 `feat/verify-archon-skill`，`squash=true`。API 回读：opened、draft、squash 为 true、head `50bd49ec08`、MR 只含上述 2 个提交、描述含两个 sha256。描述写明本 MR 不合入，产品改动验证后 cherry-pick 到 `fix/goal-final-result-delivery-preview-train` 另开 MR，代码由 deliver 在本 MR 上继续。
+5. 需求 worktree `git switch --detach`，停在 `50bd49ec08`，分支让给 deliver。
+
+!7576 没有绑定到本会话的 PR 监控：后续由 deliver 接手，且目前只有文档改动。
+
+交接信息：MR !7576；需求分支 `fix/goal-final-result-delivery`；交接提交 `50bd49ec086747a52a735f0744bbc4ecc2057edf`；两份文件的仓库内路径与 sha256 见上；`plan.md` 与证据放本仓库 `requirements/goal-final-result-delivery/`。
+
 ## 待确认与待验证
 
-- core-spec 第 8 步：请用户一次确认 spec 与 verify（第 21 节的最终 sha256）；确认后执行第 9 步交接。
-- 冻结后的交接（提交、推送、开 Draft MR、让出分支）执行前，请用户在本会话确认。
-- 需求 worktree 的 `CONTEXT.md` 已写入术语，未提交；deliver 开工后并入产品提交。
+- core-spec 已完成并交接（第 22 节，!7576）；下一步由用户在新会话调用 `/deliver`，输入交接信息。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
