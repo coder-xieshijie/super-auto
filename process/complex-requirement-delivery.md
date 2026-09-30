@@ -168,6 +168,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.18：用户要求每条建议有三家依据、说明限制，并按 agent-prompt-rules 少写 prompt、只做边界。复核后（[研究档案第 6 节](../research/goal-final-delivery-trace-2026-09-30/README.md)），用户同意：B1 改为由脚本核对、计划格式不加勾选项；run-verifier 加不带沙箱的 codex 选项；报告沿用改为只在差异仅限测试、文档、lint 配置时由脚本判断；试行 Stop 钩子；按“一次一项、先机制后 prompt”的顺序上线。第一批 PR：[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21)（里程碑检查记录与报告沿用，含 B2 的一句）、[#22](https://github.com/coder-xieshijie/dev-skills/pull/22)（run-verifier 限时、预检、无沙箱选项）、[#23](https://github.com/coder-xieshijie/dev-skills/pull/23)（删去核对推理强度、写明怎样等长任务），叠放、按序合入。grill 的输入与提问边界（A1、A2）写成本仓库的 [grill 交接模板](grill-handoff-template.md)，不改上游 Skill。Stop 钩子、改动范围检查（A6、B7）、坏字符钩子（E1）留到下一批。
 - 2026-09-30 v0.19：用户要求验证环节去掉沙箱，默认使用 codex CLI 时就不带沙箱。此前 #22 让 codex 默认带沙箱、要图形界面时再加 `--needs-gui --unsandboxed`；改为三个 CLI 验证时都不带沙箱，去掉这两个选项，查漏仍用只读沙箱。codex 以新参数起 Electron 已实测成功。改动推到 [coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22)，#23 随之变基。
 - 2026-09-30 v0.19 补充：用户要求按顺序合入并快进本机 main。dev-skills#21、#22、#23 依次 squash 合入 main（`90c12c9`、`4a00174`、`9af8ba1`），每个合入的内容与对应 PR 的 head 逐字相同，main 上三次推送的 CI 都通过；本机 dev-skills 主检出已快进到 `9af8ba1`，已安装的 deliver、core-spec 直接生效。
+- 2026-09-30 v0.19 补充：用户决定 E1（拦截坏字符）不进通用流程。坏字符来自本机所用的接口，不具通用性，改为本机钩子；dev-skills 与 `check-delivery` 不加相关检查。钩子能否就地补回丢字见[研究档案](../research/goal-final-delivery-trace-2026-09-30/fffd/README.md)。
 
 ## 附：用户原话
 
@@ -264,5 +265,16 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 （2026-09-30；“code CLI”按上下文理解为 codex CLI。）
 
 > 按顺序合入三个 PR，然后本地 main 快进
+
+（2026-09-30。）
+
+> 这个 E1 可以改成本地的 hook 吧?
+> 这个乱码的原因主要是因为 API 的一些接口，不是常规原因，而是我本机可能某些 API 有问题。所以这个问题不具备通用性，只放在我本地解决就行。
+>
+> 但是我不明白它的原理：
+> 1. 是在遇到乱码的时候直接拦截，让模型重新写？
+> 2. 还是说直接能够把这个乱码给还原？
+>
+> 有办法能够把乱码直接还原，不用让 Agent 重新去实现吗？
 
 （2026-09-30。）

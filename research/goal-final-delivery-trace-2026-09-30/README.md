@@ -299,6 +299,8 @@ token 的大头是缓存读取：deliver 2.36 亿、grill 0.79 亿（1M 上下�
 
 用户随后追加：验证环节默认去掉沙箱，三个 CLI 都不带沙箱运行，替代 C3 原先“显式选项”的写法（流程文档 v0.19）。
 
+用户随后决定：E1 不进通用流程，改为本机钩子，因为坏字符来自本机所用的接口；能否就地补回见 [fffd/](fffd/README.md)。
+
 用户：“都同意，按你建议的顺序提 PR”。下面五项全部采纳，第一批 PR 为 [coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21)–[#23](https://github.com/coder-xieshijie/dev-skills/pull/23)，详见讨论记录。原来的待决定项：
 
 1. **B1 改为由脚本核对。** 已确认的 B1（里程碑一节加三个勾选项）与 OpenAI ExecPlan 的格式规定相反，作用也被 B3 覆盖；建议不改计划格式，由 B3 保证。
@@ -312,7 +314,7 @@ token 的大头是缓存读取：deliver 2.36 亿、grill 0.79 亿（1M 上下�
 - 复验结果：用户已取消 mcode 复验，改用哪种方式由 deliver 会话向用户确认中；`check-delivery`、取消 Draft、汇报都在复验之后。
 - `ScheduleWakeup` 在非 `/loop` 会话里什么时候触发。
 - mcode 路径慢的原因：模型路由、推理强度、读文件的方式还是验证说明的范围。
-- 第 6.6 节的五项已由用户同意；第一批 PR（dev-skills#21–#23）已合入（main `9af8ba1`），Stop 钩子、A6 与 B7、E1 留到下一批。
+- 第 6.6 节的五项已由用户同意；第一批 PR（dev-skills#21–#23）已合入（main `9af8ba1`），Stop 钩子、A6 与 B7 留到下一批；E1 改为本机钩子，不进 dev-skills。
 - #21 的里程碑记录经不起 rebase 到更新后的基线：已检查的提交被去重，或上下文行变了，记录就不再计入（复现：[rebase-gap.sh](rebase-gap.sh)）。修法待用户决定；MR 7595 在 M6 会碰上。
 
 ## 附：数据怎样重新生成
