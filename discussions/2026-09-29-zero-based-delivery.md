@@ -717,3 +717,16 @@ topics: [推倒重来, 三家理念, 最少决策, 全自动交付, dev-skills, 
 - 提交：matrix/agent-archon!7556 追加 `fecf3071ed`、`6eb63b1b64`、`57e5dde5be`，已推送；MR 描述已更新并读回（squash 为 true，无乱码）；流水线 942111 运行中，未轮询。
 - 外部动作：Electron 窗口在用户屏幕上打开，使用真实账号，只操作了 Goal、附件和问卷，未点签到或套餐；注入的 token 随 `down` 删除。
 - 仍未覆盖：Electron 预算；各地图标为"尚未实跑"的子功能；Remote Control；Windows。详见[验证能力](../research/zero-based-delivery-2026-09-29/verification-capability.md)第十二节末尾的补充。
+
+## 后续：按另一会话转达，把 !7556 rebase 到最新 preview_train（2026-09-30）
+
+来源：另一个会话（"两个 session 的进度与待办 (fork)"）转达用户的要求。那个会话负责基于 7556 做 Goal 最终交付需求（分支 `feat/goal-final-delivery`，本会话不写入它的 worktree）。
+
+- 执行：
+  - 本轮补问卷和附件的提交推送后，把 `feat/verify-archon-skill` rebase 到 `preview_train` `e0be4dfc0b`（落后 9 个提交），用 `--force-with-lease` 推送。新 head 为 `ffb4d4a94b`。
+  - 本地有个名为 `origin/preview_train` 的分支，会让引用名有歧义，所以用 `refs/remotes/origin/preview_train`。
+- 核对：
+  - range-diff 显示 7 个提交内容都不变，没有冲突。
+  - 上游 9 个提交只改了下载页、升级弹窗文案、Markdown 代码块、首页图片和版本号，不涉及 verify-archon 依赖的 runtime、TUI、登录和 Goal 界面。所以 rebase 后没有重跑实例。
+  - MR 描述补了一句"rebase 后未重跑"，读回确认 squash 为 true、没有乱码。流水线 942120 已排队，未轮询。
+- 已回复对方会话，请它把需求分支换到新的 7556 上。
