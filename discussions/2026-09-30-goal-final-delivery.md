@@ -455,9 +455,25 @@ core-spec 与 deliver 会另提 dev-skills PR，把这种交接改成默认流�
 - **第 7 步查漏输入。** 用户每轮原话与对应问题、选项整理为 [original-decisions.md](../requirements/goal-final-result-delivery/original-decisions.md)。用 `codex exec -s read-only` 启动第一轮查漏，报告写到 `requirements/goal-final-result-delivery/gap-check-round1.md`。
 - 一处更正待告知用户：第四轮称选 (b) 后“立即发送也不会插进这一轮”，不完全准确。模型在被拦前仍可能尝试调用工具，此时本轮 turn_end 带工具调用，立即发送按现有规则会注入当前轮；spec 按用户确认的“立即发送沿用现有规则”书写，不另加约束。
 
+## 21. 跨模型查漏两轮；core-spec 第 9 步已进默认流程
+
+**第一轮**（Codex `gpt-6-astra`，reasoning high，session `01a0f137-4717-7542-a490-91ffe4a53f49`；报告 [gap-check-round1.md](../requirements/goal-final-result-delivery/gap-check-round1.md)）：6 项，全在 verify，spec 无问题。全部采纳并修改 verify：S01 增加点击卡片并核对打开的是 hello.html，新增 R39 与覆盖盲区 B6（预览内容读不到时的判断方式）；B2 拆成逐项断言（执行次数、副作用、拦截原因、提案不变、两组空回复序列的精确请求次数、`none` 模式、`not_met` 后下一轮工具照常）；真实场景加模型路由前提并核对 `last_verification.backend` 为 `subagent`；S03 增加完成后普通消息写 `after.txt`，证明拦截不泄漏；poll 只判最终状态，验证先后改看 runtime 事件；卡片位置从 `assistant-segment-active` 放宽为“默认可见的结果区”。
+
+**第二轮**（同一模型，session `01a0f13c-91f1-7f03-8571-327252a83691`；报告 [gap-check-round2.md](../requirements/goal-final-result-delivery/gap-check-round2.md)）：确认第一轮 4 项已解决、2 项部分解决，另发现 3 项，共 5 项，全在 verify。助手核实了其中两处源码：`verification-settlement.ts` 先 `emitStateTransition` 再 `emitDecision`；`doctor` 只解析接口实例。全部采纳：S02 加路由前提并用 runtime 事件证明子代理验证与 `complete(verifier_met)`；冒烟集开头统一规定引用地图的 poll 只判最终状态，回归与冒烟相应改写；S03 不再限定 `verification_decided` 与 `state_transitioned` 的先后；S01、S02 的前提改用各入口自己的就绪检查（`electron up`/`electron status`、`tui up`），不再要求 doctor；S01、S02 增加检查点：最终回复本身的原始正文里有指向 hello.html 的交付标记。
+
+按 core-spec 查漏最多两轮，第二轮的修改没有再送第三轮复核。最终版本：spec sha256 `c85ea2f1ec3c8eb0545137c87dedb3cc8189ec5bc3339c62012f0075289a179d`（两轮都未改），verify sha256 `287deca056b86150d276684c90a817d91f33e89dc3f17b8acfc13f1d0dd51018`，39 条要求、3 个场景，`freeze.mjs` 通过。
+
+**core-spec 第 9 步。** 用户原话：
+
+> 看下最新的 /core-spec 创建 mr
+
+dev-skills main 已合入 [coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)（`8a6213d`），本机安装的 core-spec 指向该目录。第 9 步：用户确认冻结后，把 spec、verify 单独提交到需求分支（交接提交），本 session 在该仓库的其他改动另行提交，推送并开 Draft MR（目标取 spec 的交付与授权，平台属性按仓库规则设置并读回），检出需求分支的 worktree 切为 detached，交接信息给出 MR 链接、需求分支、交接提交、仓库内路径和两个 sha256。deliver 相应改为在交接的 Draft MR 上继续、完成时取消 Draft，`plan.md` 可放用户指定位置、冻结输入可写绝对路径。与第 19 节的做法和 spec 的“交付与授权”一致，spec 不需要改。助手向用户说明第 9 步要在确认冻结之后做；用户原话：
+
+> 等第二轮跑完
+
 ## 待确认与待验证
 
-- core-spec 进行中（第 20 节）：跨模型查漏第一轮运行中；之后请用户一次确认并冻结。
+- core-spec 第 8 步：请用户一次确认 spec 与 verify（第 21 节的最终 sha256）；确认后执行第 9 步交接。
 - 冻结后的交接（提交、推送、开 Draft MR、让出分支）执行前，请用户在本会话确认。
 - 需求 worktree 的 `CONTEXT.md` 已写入术语，未提交；deliver 开工后并入产品提交。
 - 只读子任务均已完成，结果见第 12、13 节。
