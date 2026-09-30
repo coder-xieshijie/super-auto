@@ -156,6 +156,44 @@ grill-with-docs 只能手动调用，助手按其说明（grilling + domain-mode
 - 本会话可用的会话工具包括读取、发消息、归档、改名、改模型等，但没有新建会话（`start_session`）。其他工具的说明里提到了它，说明应用有这项能力，只是没有提供给本会话；原因助手无法确认，也不能自己开启。agent-lord 可以派发外部 Claude Code 的无头任务，但 grill 需要用户逐轮回答，不适合。
 - 交接提示词改为文件 [2026-09-30-goal-final-delivery-grill-handoff.md](2026-09-30-goal-final-delivery-grill-handoff.md)，已检查没有坏字符；新会话里只输入一行引用它。原因：会话中给出的第一版提示词里“调整后再问我”一处出现了坏字符，本文此前两处坏字符也已在 `b64f70c` 修复。
 
+## 10. 能否由会话新建会话：调研与尝试
+
+用户原话：
+
+> 你做下网络调研和搜索, 看看能不能开新 session, 理论上可以的? 做一些尝试
+
+调研：
+
+- [anthropics/claude-code#94697](https://github.com/anthropics/claude-code/issues/94697)（已作为重复关闭）与 [#89783](https://github.com/anthropics/claude-code/issues/89783)（open）：`mcp__ccd_session__start_session`、`hand_off_to_session` 已存在于桌面应用的 `ccd_session` MCP 服务上，与 `spawn_task` 并列，但受服务端特性开关 `2371478310` 控制；`claude -p` 的记录带 `"entrypoint":"sdk-cli"`，会被侧边栏过滤；`claude --bg` 不出现在侧边栏。[#90349](https://github.com/anthropics/claude-code/issues/90349) 是同类请求，有人在 Windows 上用模拟按键加剪贴板凑合。
+- 本机应用 Claude 2.9939.4 的 `app.asar`：`sideSessions` 能力由 `Ox("2371478310")` 决定，取值来自服务端下发的开关，本账号未开启，所以本会话没有这两个工具。包里也有本地强制开启的入口，但那等于绕过厂商对未发布功能的灰度控制，助手没有去改。
+- 同一安装包里有正式的深链 `claude://code/new`：Finder 服务“New Claude Code Session Here”用的就是 `claude://code/new?folder=<路径>`。处理代码读取 `q` 或 `prompt`（预填提示词）、`folder`（可多个）、`file`，把它们带到新会话页并标记 `src=external`，不会替用户发送。另有 `claude://resume?session=<CLI 会话 id>`，调用 `importCliSession` 把 CLI 会话导入桌面应用（未试）。
+- 官方文档（`code.claude.com/docs/en/desktop.md`，用 curl 取得；WebFetch 被拦截）：新建会话靠 Cmd+N 或侧边栏；CLI 用 `/desktop` 把会话移到桌面应用；Claude 可以以任务 chip 的形式建议新会话，点击后在新 worktree 里启动；Dispatch 可以从手机新建 Code 会话。文档没有写 `claude://code/new` 的参数。
+
+尝试：
+
+- 用 `open` 打开 `claude://code/new?folder=<需求 worktree>&q=<一行 /grill-with-docs 命令>`，返回 0。随后窗口布局显示主窗口切到一个新页面，本会话不在屏幕上，与“打开预填好的新会话页”一致。是否需要用户按发送、worktree 选项是否默认关闭，待用户在界面上确认。
+
+结论：会话不能直接新建并启动会话（开关未开）。能做到的是用深链打开一个预填好目录和提示词的新会话页，用户确认后发送，不用再手动新建和粘贴。
+
+## 10. 能否由会话新建会话：调研与尝试
+
+用户原话：
+
+> 你做下网络调研和搜索, 看看能不能开新 session, 理论上可以的? 做一些尝试
+
+调研：
+
+- [anthropics/claude-code#94697](https://github.com/anthropics/claude-code/issues/94697)（已作为重复关闭）与 [#89783](https://github.com/anthropics/claude-code/issues/89783)（open）：`mcp__ccd_session__start_session`、`hand_off_to_session` 已存在于桌面应用的 `ccd_session` MCP 服务上，与 `spawn_task` 并列，但受服务端特性开关 `2371478310` 控制；`claude -p` 的记录带 `"entrypoint":"sdk-cli"`，会被侧边栏过滤；`claude --bg` 不出现在侧边栏。[#90349](https://github.com/anthropics/claude-code/issues/90349) 是同类请求，有人在 Windows 上用模拟按键加剪贴板凑合。
+- 本机应用 Claude 2.9939.4 的 `app.asar`：`sideSessions` 能力由 `Ox("2371478310")` 决定，取值来自服务端下发的开关，本账号未开启，所以本会话没有这两个工具。包里也有本地强制开启的入口，但那等于绕过厂商对未发布功能的灰度控制，助手没有去改。
+- 同一安装包里有正式的深链 `claude://code/new`：Finder 服务“New Claude Code Session Here”用的就是 `claude://code/new?folder=<路径>`。处理代码读取 `q` 或 `prompt`（预填提示词）、`folder`（可多个）、`file`，把它们带到新会话页并标记 `src=external`，不会替用户发送。另有 `claude://resume?session=<CLI 会话 id>`，调用 `importCliSession` 把 CLI 会话导入桌面应用（未试）。
+- 官方文档（`code.claude.com/docs/en/desktop.md`，用 curl 取得；WebFetch 被拦截）：新建会话靠 Cmd+N 或侧边栏；CLI 用 `/desktop` 把会话移到桌面应用；Claude 可以以任务 chip 的形式建议新会话，点击后在新 worktree 里启动；Dispatch 可以从手机新建 Code 会话。文档没有写 `claude://code/new` 的参数。
+
+尝试：
+
+- 用 `open` 打开 `claude://code/new?folder=<需求 worktree>&q=<一行 /grill-with-docs 命令>`，返回 0。随后窗口布局显示主窗口切到一个新页面，本会话不在屏幕上，与“打开预填好的新会话页”一致。是否需要用户按发送、worktree 选项是否默认关闭，待用户在界面上确认。
+
+结论：会话不能直接新建并启动会话（开关未开）。能做到的是用深链打开一个预填好目录和提示词的新会话页，用户确认后发送，不用再手动新建和粘贴。
+
 ## 待确认与待验证
 
 - 用户是否新开会话做 grill；Q1–Q6 在 grill 会话中回答，其中 Q5 按第 7 节修订后的目录。
