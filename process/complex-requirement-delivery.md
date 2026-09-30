@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.16
+status: 工作稿 v0.17
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -75,6 +75,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变判定的决定；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
+| 里程碑检查的顺序与把关 | 计划格式给每个里程碑列场景跑通、里程碑检查、提交三个勾选项；场景跑通后立即在后台启动检查，可以接着做下一个里程碑，但提交下一个里程碑或跑下一轮场景之前，必须处理完上一个的检查结果；检查报告落盘并写明 commit 范围，`check-delivery.mjs` 核对每个里程碑的提交都有报告覆盖，且报告早于下一个里程碑的第一个提交（2026-09-30，dev-skills 尚未修改） |
 
 grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
 
@@ -159,6 +160,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.15 补充：用户要求合入，[coder-xieshijie/dev-skills#15](https://github.com/coder-xieshijie/dev-skills/pull/15)–[#18](https://github.com/coder-xieshijie/dev-skills/pull/18) 已按 #15 → #16 → #17（rebase 到 main）→ #18 squash 合入（main `645bdd9`），本机 dev-skills 主检出已快进，已安装的 core-spec、deliver 直接生效。首个需求试跑见[讨论记录](../discussions/2026-09-30-goal-final-delivery.md)。
 - 2026-09-30 v0.16：用户在首个需求试跑中提出，定义阶段改为交付一个带 spec.md、verify.md 的 MR，deliver 就不用限定在同一个 worktree；用户确认采纳并要求改成默认流程。B 阶段末尾增加“提交到需求分支、开 Draft MR 交给 deliver”，C 阶段从任意 worktree 检出需求分支开工、在交接的 MR 上交付；决定表新增“交接方式”。依据与取舍见[讨论记录](../discussions/2026-09-30-goal-final-delivery-progress-and-flow.md)。Skill 改动见 [coder-xieshijie/dev-skills#19](https://github.com/coder-xieshijie/dev-skills/pull/19)。
 - 2026-09-30 v0.16 补充：用户要求合入，dev-skills#19 已 squash 合入 main（`8a6213d`），main 上的 CI 通过；本机 dev-skills 主检出已快进，已安装的 core-spec、deliver 直接生效。
+- 2026-09-30 v0.17：首个需求试跑的复盘发现，deliver 在 M1 提交后没做里程碑检查就开始 M2，检查到 M2 做完才一起开，M1 的问题晚发现，三个入口全部重跑；原因是这一步不在 owner 照着走的 plan 清单里，也没有脚本把关。用户确认三条改法，写入决定表“里程碑检查的顺序与把关”；dev-skills 尚未修改。依据见[复盘](../research/goal-final-delivery-trace-2026-09-30/README.md)第 5.4 节与[讨论记录](../discussions/2026-09-30-goal-final-delivery-trace-review.md)。
 
 ## 附：用户原话
 
@@ -237,3 +239,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 这个如果改成交付一个 mr, mr有两份文件, 这样就不用限制在同一个 worktree, 是不是更好?
 
 > 同意，通知 grill 会话，同时改成默认流程提 PR
+
+> 这个可以, 除了这些, 还有哪些建议, 一起都列出来
+
+（2026-09-30，回复里程碑检查的三条建议：计划格式三个勾选项、deliver 说明写清顺序、检查报告落盘并由脚本核对。）
