@@ -292,3 +292,78 @@ deliver 会话 20:05 正在问用户：复验在 Codex App 里手动跑（过不
 - 记录里已不在分支上的提交直接略去。覆盖仍然按当前分支逐个提交检查，所以不会放松；
 - 比较时只比文件和增删的行，不比上下文；
 - 只有 rebase 冲突改了增删内容的提交，才需要重新检查。
+
+## 追问：MR 7576 会话里关于交叉 Review 的讨论，建议是什么
+
+用户原话：
+
+> 在重新看下 MR 7576 这个 session, 关于 cross review 的讨论, 你的建议是什么?
+
+### deliver 会话里的讨论（21:28–21:32）
+
+- 用户问：交付里有没有 code review，需不需要交叉 Review；接着问：用 skill、流程还是单独 session，出了问题怎么修，怎样保证修复不引入新问题、是否要再走一遍验证，放在整个流程的哪一环。
+- deliver 会话的答复：
+  - 现有三道评审（同模型里程碑检查、Codex 最终验证、!7590 的 4 个人工审批）都没有专门从代码质量角度审过；
+  - 建议用 Agent Lord 的 cross-review 流程审 !7590，MCode Opus 5 xhigh 与 Codex gpt-6-astra high 各审、互相质询，新会话 MCode 核对，约 1 小时；
+  - 修由 owner 做，改 spec 行为就停下问用户；修完补测试、重跑受影响场景、Codex 复验；
+  - 理想位置在全部场景跑通之后、最终验证之前；要长期融入，就在 deliver 里加这一步，并写清何时必做、何时可跳过。
+- 会话停在等用户回“交叉 Review”（transcript 第 7885 行，21:32）。
+
+### 核对的事实
+
+- 最终验证（head `c071a9c`）的代码核对记录 `evidence/verifier-c071a9c86eac/review/review-notes.md` 共 9 条，全部按 R 编号对照 spec，没有一条针对 review-rules 的第 2–5 条（最少改造、复杂度、扩展性、理解成本）。
+- 验证说明第 3 步规定只把影响正确性或违反 spec 的情况记为问题，其他建议最多三条（`dev-skills` `9af8ba1` `skills/deliver/references/verifier-brief.md`）。
+- 第一轮跨模型验证读 diff 查出了 R22；此前两轮同模型里程碑检查都没发现（plan.md 复盘一条）。
+- 2026-09-29 的设计已判断 cross-review 作为默认环节被最终验证替代，高风险改动可以点名使用（[design.md](../research/zero-based-delivery-2026-09-29/design.md) 第四节）；“高风险 MR 是否保留 cross-review 作为可以点名使用的额外评审”一直留给用户决定（[agent-lord-role.md](../research/zero-based-delivery-2026-09-29/agent-lord-role.md) “待你决定”第 2 条）。
+- Agent Lord cross-review 正常路径 5 次模型调用，初审不设严重度门槛，互审按证据、严重度、最小修法三项裁定，核对者用新会话、看不到谁同意了什么（`agent-lord` `references/pipelines/cross-review.md`）。
+- !7590 head `7337b129ad` 与 `preview_train` 的合并基点是 `f344353`：38 个文件，+2397/−169；`preview_train` 此后又前进了 8 个提交。
+- 在 deliver 会话的 worktree 上用新版脚本跑 `check-delivery.mjs --milestones-only`：M1、M2 没有里程碑检查记录，报 2 个问题（这个需求开工早于 dev-skills#21）。
+- 此刻 22:05：!7576、!7590 均已取消 Draft、CI 通过；!7590 等 4 个审批。离 10 月 2 日 09:00 约 35 小时。
+
+### 建议
+
+**这次做，作为点名使用的额外评审，同时当试点。流程上不设成 deliver 的默认步骤，由用户在冻结 spec 时决定。**
+
+这次做的理由：
+
+- 缺口成立：代码质量至今只有作者自己看过；守卫依赖“同一次运行里几个钩子拿到同一个上下文对象”这类取舍没人审。
+- 这个需求处在模型独自做不可靠的边缘，同模型两轮检查漏了 R22。Anthropic：“It is worth the cost when the task sits beyond what the current model does reliably solo.”（HD L131）；“Separating the agent doing the work from the agent judging it proves to be a strong lever”（HD L25）；“A fresh context improves code review since Claude won't be biased toward code it just wrote.”（CCBP L492）
+- Lauren：“Before handing back, spawn a subagent on a different model family from the one that did the work. Self-review is not a substitute.”（`show-me-your-work/SKILL.md:67`）
+- OpenAI 把评审几乎全交给 agent 互审，人可以不看（HE L35、L37）。我们的仓库要求 4 个人审批，这一点不变；交叉 Review 先把问题滤掉，给审批人一张确认过的问题表。
+
+不设成默认步骤的理由：
+
+- Anthropic 也提醒：任务在模型能力内时，评估者是纯开销（HD L129）；额外的验证步骤会导致过度验证（O5 L61）；评审者被要求找问题总能找出一些，照单全改会过度设计（CCBP L565）。这条流程约 1 小时、5 次模型调用。
+- 该不该做不由 owner 判断：让作者评估自己改动的风险，正是自评偏宽（HD L23）。由用户在冻结时决定，spec 的“交付与授权”加一行；core-spec 在改动涉及运行时、并发、持久化、权限时提示。这回答了 9 月 29 日留下的问题：保留，点名使用。
+
+deliver 会话方案要改的地方：
+
+| 它的说法 | 应改为 | 原因 |
+|---|---|---|
+| 修完后 Codex 复验“重跑受影响的场景” | 完整验证；只有改动只在测试、文档、lint 配置时才沿用旧报告，由 `check-delivery.mjs` 判断 | dev-skills#21 已合入 |
+| 复验照今天的方式直接调 Codex | 走 `run-verifier.mjs`，开新会话，不在原验证会话里追问 | #22 后默认不带沙箱，能留回执，第 4 项检查可以通过；上次 S01 在同一会话里重判，独立性打了折扣 |
+| 审“!7590 相对 `preview_train` 的改动” | 固定为相对合并基点 `f344353` | `preview_train` 已前进 8 个提交，直接比会混进别人的改动 |
+| 没说评审拿到什么 | 只给固定的 head 与 base、spec（行为边界）、review-rules；不给 MR 描述、plan.md、验证报告 | Lauren：“Audit the diff, distrusting the PR body.”（`autopilot-full.md:6`）；不让评审者先知道已经验证通过 |
+
+另外两点：
+
+- 新版 `check-delivery.mjs` 多了里程碑记录一项，本需求 M1、M2 没有记录会报错。属于开工早于新机制的已知偏离，在 MR 里写明，不为过检查补记录。
+- MCode 占两个角色，今天 mcode 进程改过 `~/.minimax/config.yaml`。开跑前备份、结束后比对，并且不和场景验证同时跑。最好赶在审批人开始看之前跑完，修完要新推送，已给的审批可能要重给。
+
+查出问题后的处理：
+
+- 分三类，参照 pstack 的 `references/bugbot-triage.md`（fix / dismiss / ask）：
+  - 确认的正确性问题：修，并补一个先失败的测试，覆盖同类缺陷的所有位置（`autopilot-full.md:6`：“ask for a red test that covers every site with the same defect”）；
+  - 质量取舍：改动小且明显降风险就修，否则写进 MR 作为已知取舍，留给审批人；
+  - 要改 spec 规定行为的：停下问用户。
+- 确认的问题写进复验输入，作为复验重点（`autopilot-full.md:6`：“Add that defect to the next round's review brief.”）。
+- 修复默认不再走一遍交叉 Review，由完整复验把关；修得多时请原评审者只复查“修对没有”，最多一轮。
+
+试点要记的数：两位初审各报几条，互审和核对后确认几条、放弃几条，耗时和 token。初审的结果就是“两家各审一遍”这种轻量做法的产出，一次运行就能比较。互审和核对刷掉的很少，以后简化成两家各一个评审者并行、owner 按上面三类处理（OpenAI `codex-subagents.md` 的 PR review 示例、pstack 的多条评审通道都是这种形状）；刷掉的多，保留现流程。反复出现的问题类型写进 review-rules、lint 或测试（HE L108：“When documentation falls short, we promote the rule into code”）。
+
+待用户决定：
+
+1. 这次是否做交叉 Review（deliver 会话在等回复），以及是否按上面的改法做。
+2. 是否确认“交叉 Review 作为点名使用的额外评审，由用户在冻结 spec 时决定”。确认后写进流程文档，试点有了数字再改 dev-skills。
+
+本轮没有改流程文档：以上是建议，用户尚未确认。
