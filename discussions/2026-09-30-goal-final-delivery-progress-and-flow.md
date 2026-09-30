@@ -45,7 +45,36 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 - 距 10 月 2 日 09:00 约 42 小时，定义阶段最好当天收完。
 - 这是整条链路第一次在真实需求上跑。
 
+## 追问：交接改成一个带两份文件的 MR
+
+用户原话（引用第 5 步“开一个新会话：目录选需求 worktree……”）：
+
+> 这个如果改成交付一个 mr, mr有两份文件, 这样就不用限制在同一个 worktree, 是不是更好?
+
+核对：
+
+- agent-archon `AGENTS.md` 第 35 行：“复杂任务的临时计划、命令和验证记录放 `/tmp`，不提交到仓库。”它管的是临时计划和验证记录，不管 spec。
+- `.harness/docs/specs/` 已有 144 个文件，是“功能方案、行为约定和历史交付记录”，模板带 `MR / Branch` 字段；README 写明普通任务不要求新建 Spec，但没有禁止。用户 2026-09-29 定的“Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`”与此一致，实际目录名是复数 `specs`。
+- 需求 worktree 没有 `node_modules`，也没有 `local-runtime-v2/dist`；deliver 在哪个 worktree 开工都要安装和构建。
+- deliver 的 `check-delivery.mjs` 用 `path.resolve(plan 所在目录, 路径)` 解析冻结输入，绝对路径也可用。
+- [构建计划](../research/zero-based-delivery-2026-09-29/build-plan.md)第 3 条记过：OpenAI（S1）的做法是计划和进度提交进仓库，与团队规则有冲突，需要用户决定。
+
+助手建议采纳，做法：
+
+1. core-spec 把 spec.md、verify.md 写到需求 worktree 的 `.harness/docs/specs/goal-final-result-delivery/`。
+2. 用户确认冻结后，grill 会话在 `fix/goal-final-result-delivery` 上提交两个提交：`CONTEXT.md` 术语（属于产品一侧，之后 cherry-pick 到 `preview_train`）；spec 与 verify（与功能地图一样只留在开发分支，不 cherry-pick）。推送分支，开指向 `feat/verify-archon-skill` 的 Draft MR（显式 squash 并回读）；旧 worktree 切成 detached，把分支让给 deliver。
+3. deliver 在任意新会话、应用自建的 worktree 里开工：输入 MR 链接、spec 提交和两个 sha256，检出需求分支后在同一个 MR 上继续，最后更新描述并取消 Draft。
+4. plan.md 和证据仍不提交（按 `AGENTS.md` 第 35 行），照第 15 节 (f) 放本仓库 `requirements/goal-final-result-delivery/`，冻结输入写 spec、verify 的绝对路径。这只需要授予目录访问，不限定 worktree。
+
+好处：交接��靠 MR、提交和两个 sha256，换 worktree、换机器、以后由 Agent Lord 派发都行；冻结除 sha256 外还有 git 历史可查；评审者能在 MR 里直接读 spec，补上第 7、14 节提到的“本仓库无远端，评审者看不到 spec”。
+
+代价与注意：改了第 15 节已确认的 (f) 中 spec、verify 的位置，要在 `/core-spec` 之前告诉 grill 会话；推送和开 Draft MR 提前到定义阶段；同一分支只能在一个 worktree 检出，旧 worktree 要让出；`CONTEXT.md` 必须在交接前提交，否则会留在旧 worktree；7556 若再 rebase，spec 提交的 SHA 会变，冻结以 sha256 为准；要成为默认流程，core-spec 第 8 步和 deliver 的输入需要改，流程文档升版本。
+
+状态：待用户确认。
+
 ## 待验证
+
+- 用户是否采纳“交接改成带两份文件的 MR”；采纳后通知 grill 会话，并决定是否改 Skill 与流程文档。
 
 - grill 子任务的结果，以及是否需要第四轮。
 - spec 的交付与授权是否写清 cherry-pick MR 的证据沿用方式。
