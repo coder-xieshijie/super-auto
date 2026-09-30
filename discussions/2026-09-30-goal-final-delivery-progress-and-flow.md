@@ -108,6 +108,14 @@ topics: [首个需求试跑的进度, 从 grill 到 MR 的开发流程]
 - 本机 `/Users/minimax/code/github/xieshijie/dev-skills` 从 `a3319f4` 快进到 `8a6213d`。`~/.agents/skills/core-spec`、`deliver` 指向这个主检出，`~/.claude/skills/` 下的两个入口指向前者，新版本直接生效。
 - grill 会话此后调用 `/core-spec` 会加载带第 9 步的新版本，与发给它的交接做法一致；如果它在合入前已经加载过旧版本，就按消息里的步骤执行。
 
+## 追问：deliver 改了吗
+
+用户原话：
+
+> deliver 你改了吗?
+
+答复要点：改了，在 dev-skills#19（`8a6213d`）里，包括 `skills/deliver/SKILL.md` 和 `references/plan-format.md`；上一轮汇报只提了 core-spec 第 9 步，没写 deliver。核对已安装的 `~/.claude/skills/deliver/SKILL.md`，交接信息、Draft、MR 与 PR 的定义都在。deliver 其余文件（`verifier-brief.md`、`milestone-check.md`、三个脚本）没有“开 MR”“与 spec 同目录”“自己的分支”这类与新流程冲突的写法；`check-delivery.mjs` 按 plan.md 所在目录解析路径，绝对路径也可用，已用构造用例验证，所以没改。
+
 ## 待验证
 
 
