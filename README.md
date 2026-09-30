@@ -24,6 +24,7 @@
 
 ## 专题解读
 
+- [首个需求试跑的完整 trace 与复盘](research/goal-final-delivery-trace-2026-09-30/README.md)（2026-09-30）：Goal 最终结果与交付从 grill、core-spec、交接到 deliver 的时间线、耗时、返工，问题与三档优化建议；建议未经确认。
 - [从零设计：人只定 spec 和 verify，之后全自动交付 MR](research/zero-based-delivery-2026-09-29/design.md)（2026-09-29）：三家共同做法、新流程、Skill 与 Agent Lord 的取舍；未经确认。
 - [自证闭环研发流程候选稿](research/self-verifying-loop-2026-09-28/flow.md)（2026-09-28）：依据 OpenAI 与 Anthropic 长任务 harness，十个阶段的做法、产出物与依据；未经确认。
 - [新增需求验收环节：范围、生成方法、交付物与 Agent Lord 接入](research/verification-stage-2026-09-28/README.md)（2026-09-28）：设计、结构示例、当前源码快照与独立审查；尚未实施。
