@@ -1,0 +1,50 @@
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  ● I'll start by checking the current workspace state to see what's already there.                                                                                                                   
+   
+  ├ • Listed (d*.txt in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace)
+  └ • Thought for 0.8s
+   
+  ● Workspace is empty, so I'm starting from scratch. Creating the first file.                                                                                                                        
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace/d1.txt)
+   
+  ● d1.txt is in place. Moving to the second file.                                                                                                                                                    
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace/d2.txt)
+  └ • Thought for 3.0s
+    × Not applied · What is 5 + 6? Reply with only the number.
+   
+  ● - Completed: Successful writes for d1.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace/d1.txt) and d2.txt                             
+      (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace/d2.txt), containing 1 and 2.                                                           
+    - Incomplete: d3.txt, d4.txt, and d5.txt were not created. Their current filesystem state could not be reverified because tools are no longer available this turn.                                
+    - Execution stopped because the active Goal reached its request budget. To continue, create a new Goal.                                                                                           
+   
+                                                                                                                                                                                                      
+   › What is 5 + 6? Reply with only the number.                                                                                                                                                       
+                                                                                                                                                                                                      
+   
+  ● 11                                                                                                                                                                                                
+   
+    └ Completed in 1s · ⚡ 167 tok/s
+
+    ◎ Goal · Budget limited · 20s active
+  25K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                                        Tip: /rewind restores an earlier turn
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=a state=done session=mvs_d00dad68497d42c898bab6cbd8903bce turn=turn_55a229a3-0047-40ac-91fa-6adb00da46fd request=none agents=0/0 background=0

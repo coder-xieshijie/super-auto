@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+    Goal · Paused                                                                                                                                                                                     
+    Objective: Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                               
+    Time used: 0s                                                                                                                                                                                     
+    3.3K+ tokens · 5 requests                                                                                                                                                                         
+    Requests: 5 (work 3, wrap-up 1, unconfirmed 1) · 6 turns before upgrade · usage incomplete                                                                                                        
+    /goal resume · /goal edit · /goal clear                                                                                                                                                           
+
+    ◎ Goal · Paused · 0s active
+  3.3K+ tokens · 5 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                           Tip: /compact frees context in a long conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=0 state=ready session=mvs_0ef0dcdcd85847c8a6b0d640f424cc26 turn=none request=none agents=0/0 background=0
+
+
+
+
+
+
+
+
+
+
+

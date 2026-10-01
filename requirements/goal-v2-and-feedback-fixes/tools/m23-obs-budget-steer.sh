@@ -5,13 +5,16 @@
 # 期望：Goal 以 budget_limited(main_turn) 结束（不是 paused(infra_retryable)）；普通消息在 Goal Turn 关闭后
 # 自己的一轮里回答，不在 Goal Turn 里。
 # 用法（agent-archon worktree 根目录）：bash <tools>/m23-obs-budget-steer.sh <尝试名>
-# 证据：<M2_ROOT>/OBS-budget-steer/<尝试名>/
+# 证据：<M2_ROOT>/<OBS_SCN，默认 OBS-budget-steer>/<尝试名>/
+# OBS_GRACE（默认 1）改 graceSteps；不为 1 时派生配置名 turns3g<OBS_GRACE>，场景名默认 OBS-budget-steer-g<OBS_GRACE>
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/m3-lib.sh"
 ATTEMPT=$1
 T() { vr tui "$@"; }
-m2_begin OBS-budget-steer "$ATTEMPT"
-M2_UP_CONFIG=$(m2_config turns3 3 1) m3_up tui --fault || exit 1
+OBS_GRACE=${OBS_GRACE:-1}
+if [ "$OBS_GRACE" = 1 ]; then CFGNAME=turns3; else CFGNAME=turns3g$OBS_GRACE; fi
+m2_begin "${OBS_SCN:-$([ "$OBS_GRACE" = 1 ] && echo OBS-budget-steer || echo "OBS-budget-steer-g$OBS_GRACE")}" "$ATTEMPT"
+M2_UP_CONFIG=$(m2_config "$CFGNAME" 3 "$OBS_GRACE") m3_up tui --fault || exit 1
 RULE=$(vr fault add --on tui --session next --nth 3 --action hold --note "OBS: hold the tail of the Goal's 3rd main request" --save fault-rule | jget "(d.get('rule') or {}).get('id') or d.get('id') or d.get('ruleId')")
 echo "$RULE" >"$OUT/rule-id"
 # 1 S09 的目标

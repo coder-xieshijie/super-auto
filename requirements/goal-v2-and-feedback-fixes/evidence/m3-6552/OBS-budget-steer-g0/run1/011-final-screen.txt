@@ -1,0 +1,50 @@
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  └ • Thought for 3.0s
+   
+  ● I'll check the workspace state first, then create the five files one at a time.                                                                                                                   
+   
+  ├ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/workspace · 3 output lines
+  └ • Thought for 0.8s
+   
+  ● Workspace is empty, so I'll create each file one at a time. Starting with d1.txt.                                                                                                                 
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/workspace/d1.txt)
+   
+  ● d1.txt is in place. Now d2.txt.                                                                                                                                                                   
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/workspace/d2.txt)
+    × Not applied · What is 5 + 6? Reply with only the number.
+   
+                                                                                                                                                                                                      
+   › What is 5 + 6? Reply with only the number.                                                                                                                                                       
+                                                                                                                                                                                                      
+   
+  ● 11                                                                                                                                                                                                
+   
+    └ Completed in 1s · ⚡ 2000 tok/s
+
+    ◎ Goal · Budget limited · 16s active
+  17K tokens · 3 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                           Tip: /compact frees context in a long conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=a state=done session=mvs_c5bf0e9b52f7442bbd962e7d4c0606c3 turn=turn_1b0042e6-0127-43f6-a2e5-a1246efd69e2 request=none agents=0/0 background=0

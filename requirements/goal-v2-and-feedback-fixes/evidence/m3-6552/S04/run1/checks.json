@@ -1,0 +1,92 @@
+{
+  "scenario": "S04",
+  "attempt": "run1",
+  "evidenceDir": "S04/run1",
+  "head": "6552dcbd9c5b0872a3cd9a9a7b7f5ff6e8e3a346",
+  "runId": "20261001-165541-80cbd4",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165541-80cbd4/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "摘要列出请求数与构成（work N、wrap-up M 都在），无 turns 用量",
+      "result": "PASS",
+      "detail": {
+        "summaryLine": "Requests: 3 (work 3, wrap-up 0)",
+        "hasWork": true,
+        "hasWrapUp": true
+      }
+    },
+    {
+      "id": "暂停前/摘要/完成 请求数单调不减；完成时请求数 = Inspector 条数 + 代理日志 client-closed 主执行请求数（verify 9d998c8968）",
+      "result": "PASS",
+      "detail": {
+        "beforePause": 2,
+        "summary": 3,
+        "complete": 6,
+        "inspectorGoalMain": 5,
+        "faultProxyClientClosedMainN": [
+          3
+        ],
+        "inspectorPlusClientClosed": 6,
+        "faultProxyMainRequestsSent": 6,
+        "faultProxyMainSentN": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "faultProxyInjections": 0,
+        "ledgerSettled": 6,
+        "settledOutcomes": [
+          "success",
+          "success",
+          "abort",
+          "success",
+          "success",
+          "success"
+        ],
+        "pauseAbortedInFlightRequest": true
+      }
+    },
+    {
+      "id": "完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致",
+      "result": "PASS",
+      "detail": {
+        "line": "✓ Goal complete · 18s · 17K+ tokens · 6 requests",
+        "runtimeRequestSettled": 6
+      }
+    },
+    {
+      "id": "观察：被取消请求无用量时 token 显示“+”（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "summaryTokens": [
+          "16K+ tokens"
+        ],
+        "finalTokens": [
+          "16K+ tokens",
+          "17K+ tokens"
+        ],
+        "pausedScreenTokens": [
+          "16K+ tokens"
+        ],
+        "abortedSettled": [
+          {
+            "outcome": "abort",
+            "kind": "work",
+            "attempts": 1,
+            "requestId": "ed1691ad-cdb8-4351-9e6c-888dd9f389fd"
+          }
+        ],
+        "usageIncompleteMarkerInSummary": true
+      }
+    }
+  ]
+}

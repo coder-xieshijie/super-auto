@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  ● I'll check whether count.txt already exists in the workspace before writing.                                                                                                                      
+   
+  ├ • Listed (count.txt)
+  └ • Thought for 0.6s
+   
+  ● No existing file — writing the three lines now.                                                                                                                                                   
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165541-80cbd4/workspace/count.txt)
+
+    ◎ Goal · Active · 6s active
+  16K tokens · 2 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal pause · /goal edit · /goal clear
+    ⠴ Loading 7s · ⚡ 81 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=2 state=run session=mvs_af16c8558b2c4b19a02bd414273a4172 turn=turn_78224c59-ad12-4fbd-8df9-1dc4f683f36c request=none agents=0/0 background=0
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,142 @@
+{
+  "observation": "budget-closed Goal Turn hands user steering back (0af5e8a219)",
+  "scenario": "OBS-budget-steer-g0",
+  "attempt": "run1",
+  "head": "6552dcbd9c5b0872a3cd9a9a7b7f5ff6e8e3a346",
+  "dirty": false,
+  "runId": "20261001-165505-36a9ca",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "checks": [
+    {
+      "id": "前提：普通消息在第 3 次主执行请求被暂扣（在途）期间发出",
+      "result": "PASS",
+      "detail": {
+        "heldN": [
+          3
+        ],
+        "heldAt": 1790844926641,
+        "sentAt": 1790844927798,
+        "releasedAt": 1790844930819,
+        "releasedEvents": 1
+      }
+    },
+    {
+      "id": "Goal 以 budget_limited(main_turn) 结束；没有 paused(infra_retryable)",
+      "result": "PASS",
+      "detail": {
+        "transitions": [
+          [
+            1790844931119,
+            "active",
+            "budget_limited",
+            "budget_limited(main_turn)"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Goal Turn 的请求（含收尾请求）里没有这条普通消息",
+      "result": "PASS",
+      "detail": {
+        "goalTurns": [
+          "turn_7de92146-f8d8-422b-8515-f5e3b2922efe"
+        ],
+        "goalCalls": [
+          [
+            20,
+            [
+              "bash"
+            ]
+          ],
+          [
+            20,
+            [
+              "write"
+            ]
+          ],
+          [
+            20,
+            [
+              "write"
+            ]
+          ]
+        ],
+        "goalCallsContainingMessage": [],
+        "settledKinds": [
+          "work",
+          "work",
+          "work"
+        ],
+        "settledOutcomes": [
+          "success",
+          "success",
+          "success"
+        ]
+      }
+    },
+    {
+      "id": "普通消息在 Goal Turn 关闭后自己的一轮（不绑定 Goal 的 Turn）里回答 11",
+      "result": "PASS",
+      "detail": {
+        "replyTurnId": "turn_1b0042e6-0127-43f6-a2e5-a1246efd69e2",
+        "replyStartedAt": 1790844931185,
+        "lastGoalCallEndedAt": 1790844930856,
+        "budgetLimitedAt": 1790844931119,
+        "replyText": [
+          "11"
+        ],
+        "callsContainingMessage": 1
+      }
+    },
+    {
+      "id": "屏幕：没有错误块；最后横幅为 Budget limited",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "banner": [
+          "◎ Goal · Budget limited · 16s active"
+        ]
+      }
+    }
+  ],
+  "info": {
+    "finalBanner": [
+      "◎ Goal · Budget limited · 16s active"
+    ],
+    "errorLinesOnFinalScreen": [],
+    "linesAfterMessage": [
+      "● 11",
+      "└ Completed in 1s · ⚡ 2000 tok/s",
+      "◎ Goal · Budget limited · 16s active",
+      "17K tokens · 3 requests",
+      "Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.",
+      "/goal clear, then /goal <objective> starts a new Goal",
+      "Message · Enter send · Ctrl+J newline                                                                                                           Tip: /compact frees context in a long conversation",
+      "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+      "›  Ask Mcode to do anything",
+      "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+      "[V] seq=a state=done session=mvs_c5bf0e9b52f7442bbd962e7d4c0606c3 turn=turn_1b0042e6-0127-43f6-a2e5-a1246efd69e2 request=none agents=0/0 background=0"
+    ],
+    "afterSendHints": [
+      "⠏ Running 15s · ⚡ 118 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop"
+    ],
+    "eventTypeCounts": {
+      "goal.created": 1,
+      "goal.admission_decided": 2,
+      "goal.turn_bound": 1,
+      "goal.request_settled": 3,
+      "goal.turn_settled": 1,
+      "goal.breaker_decided": 1,
+      "goal.state_transitioned": 1
+    }
+  }
+}

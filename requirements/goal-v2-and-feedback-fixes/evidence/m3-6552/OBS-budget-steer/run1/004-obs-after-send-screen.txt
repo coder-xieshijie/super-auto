@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /plan before a change that needs design or investigation.                                                                                                                                  │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  ● I'll start by checking the current workspace state to see what's already there.                                                                                                                   
+   
+  ├ • Listed (d*.txt in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace)
+  └ • Thought for 0.8s
+   
+  ● Workspace is empty, so I'm starting from scratch. Creating the first file.                                                                                                                        
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/workspace/d1.txt)
+   
+  ● d1.txt is in place. Moving to the second file.                                                                                                                                                    
+   
+  └ • Writing
+    ↳ Next · What is 5 + 6? Reply with only the number.
+
+    ◎ Goal · Active · 10s active
+  16K tokens · 2 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal pause · /goal edit · /goal clear
+    ⠏ Running 12s · ⚡ 118 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=2 state=run session=mvs_d00dad68497d42c898bab6cbd8903bce turn=turn_3e590cbe-24cf-4467-8cf5-a7da3c8ba06f request=none agents=0/0 background=0
+
+
+
+
+
+

@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  └ • Thought for 6.1s
+   
+  ● I'll check the workspace state first, then create the five files one at a time.                                                                                                                   
+   
+  ├ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/workspace · 3 output lines
+  └ • Thought for 0.8s
+   
+  ● Workspace is empty, so I'll create each file one at a time. Starting with d1.txt.                                                                                                                 
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165505-36a9ca/workspace/d1.txt)
+   
+  ● d1.txt is in place. Now d2.txt.                                                                                                                                                                   
+   
+  └ • Writing
+    ↳ Next · What is 5 + 6? Reply with only the number.
+
+    ◎ Goal · Active · 13s active
+  16K tokens · 2 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal pause · /goal edit · /goal clear
+    ⠏ Running 15s · ⚡ 118 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=2 state=run session=mvs_c5bf0e9b52f7442bbd962e7d4c0606c3 turn=turn_7de92146-f8d8-422b-8515-f5e3b2922efe request=none agents=0/0 background=0
+
+
+
+

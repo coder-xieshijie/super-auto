@@ -1,0 +1,148 @@
+{
+  "observation": "budget-closed Goal Turn hands user steering back (0af5e8a219)",
+  "scenario": "OBS-budget-steer",
+  "attempt": "run1",
+  "head": "6552dcbd9c5b0872a3cd9a9a7b7f5ff6e8e3a346",
+  "dirty": false,
+  "runId": "20261001-165446-defaab",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165446-defaab/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "checks": [
+    {
+      "id": "前提：普通消息在第 3 次主执行请求被暂扣（在途）期间发出",
+      "result": "PASS",
+      "detail": {
+        "heldN": [
+          3
+        ],
+        "heldAt": 1790844904873,
+        "sentAt": 1790844905949,
+        "releasedAt": 1790844908944,
+        "releasedEvents": 1
+      }
+    },
+    {
+      "id": "Goal 以 budget_limited(main_turn) 结束；没有 paused(infra_retryable)",
+      "result": "PASS",
+      "detail": {
+        "transitions": [
+          [
+            1790844916521,
+            "active",
+            "budget_limited",
+            "budget_limited(main_turn)"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Goal Turn 的请求（含收尾请求）里没有这条普通消息",
+      "result": "PASS",
+      "detail": {
+        "goalTurns": [
+          "turn_3e590cbe-24cf-4467-8cf5-a7da3c8ba06f"
+        ],
+        "goalCalls": [
+          [
+            20,
+            [
+              "glob"
+            ]
+          ],
+          [
+            20,
+            [
+              "write"
+            ]
+          ],
+          [
+            20,
+            [
+              "write"
+            ]
+          ],
+          [
+            0,
+            []
+          ]
+        ],
+        "goalCallsContainingMessage": [],
+        "settledKinds": [
+          "work",
+          "work",
+          "work",
+          "grace"
+        ],
+        "settledOutcomes": [
+          "success",
+          "success",
+          "success",
+          "success"
+        ]
+      }
+    },
+    {
+      "id": "普通消息在 Goal Turn 关闭后自己的一轮（不绑定 Goal 的 Turn）里回答 11",
+      "result": "PASS",
+      "detail": {
+        "replyTurnId": "turn_55a229a3-0047-40ac-91fa-6adb00da46fd",
+        "replyStartedAt": 1790844916598,
+        "lastGoalCallEndedAt": 1790844915835,
+        "budgetLimitedAt": 1790844916521,
+        "replyText": [
+          "11"
+        ],
+        "callsContainingMessage": 1
+      }
+    },
+    {
+      "id": "屏幕：没有错误块；最后横幅为 Budget limited",
+      "result": "PASS",
+      "detail": {
+        "errors": [],
+        "banner": [
+          "◎ Goal · Budget limited · 20s active"
+        ]
+      }
+    }
+  ],
+  "info": {
+    "finalBanner": [
+      "◎ Goal · Budget limited · 20s active"
+    ],
+    "errorLinesOnFinalScreen": [],
+    "linesAfterMessage": [
+      "● 11",
+      "└ Completed in 1s · ⚡ 167 tok/s",
+      "◎ Goal · Budget limited · 20s active",
+      "25K tokens · 4 requests",
+      "Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.",
+      "/goal clear, then /goal <objective> starts a new Goal",
+      "Message · Enter send · Ctrl+J newline                                                                                                                        Tip: /rewind restores an earlier turn",
+      "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+      "›  Ask Mcode to do anything",
+      "──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────",
+      "[V] seq=a state=done session=mvs_d00dad68497d42c898bab6cbd8903bce turn=turn_55a229a3-0047-40ac-91fa-6adb00da46fd request=none agents=0/0 background=0"
+    ],
+    "afterSendHints": [
+      "⠏ Running 12s · ⚡ 118 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop"
+    ],
+    "eventTypeCounts": {
+      "goal.created": 1,
+      "goal.admission_decided": 2,
+      "goal.turn_bound": 1,
+      "goal.request_settled": 4,
+      "goal.turn_settled": 1,
+      "goal.breaker_decided": 1,
+      "goal.state_transitioned": 1
+    }
+  }
+}

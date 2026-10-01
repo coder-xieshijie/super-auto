@@ -1,0 +1,30 @@
+{
+  "scenario": "S41",
+  "attempt": "tui-run1",
+  "evidenceDir": "S41/tui-run1",
+  "head": "6552dcbd9c5b0872a3cd9a9a7b7f5ff6e8e3a346",
+  "dirty": false,
+  "runId": "20261001-165515-c99f4a",
+  "seedRunId": "20261001-165456-d17141",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-165515-c99f4a/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "note": "只跑 S41 的 TUI 一行（步骤 4），判定同 m2-analyze.py 的 s41() TUI 一项；接口、Electron、get_goal 各行本轮不在范围",
+  "checks": [
+    {
+      "id": "TUI（步骤4）",
+      "result": "PASS",
+      "detail": {
+        "summary": "Requests: 5 (work 3, wrap-up 1, unconfirmed 1) · 6 turns before upgrade · usage incomplete",
+        "tokenLines": [
+          "3.3K+ tokens · 5 requests",
+          "3.3K+ tokens · 5 requests"
+        ]
+      }
+    }
+  ]
+}

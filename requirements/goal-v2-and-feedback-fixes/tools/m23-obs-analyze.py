@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """观察（非 verify 检查点）判定：m23-obs-budget-steer.sh 的证据 → <dir>/checks.json。
 
-用法：python3 m23-obs-analyze.py <尝试目录名> [OBS-budget-steer|OBS-budget-steer-api]（默认 TUI 的 OBS-budget-steer）
+用法：python3 m23-obs-analyze.py <尝试目录名> [OBS-budget-steer|OBS-budget-steer-g0|OBS-budget-steer-api]（默认 TUI 的 OBS-budget-steer；
+不以 -api 结尾的都按 TUI 判定）
 期望（0af5e8a219）：第 3 次工作请求在途时发出的普通消息不并入 Goal Turn；Goal 以 budget_limited(main_turn) 结束，
 不是 paused(infra_retryable)；普通消息在 Goal Turn 关闭后自己的一轮里回答。
 """
@@ -95,7 +96,7 @@ def main():
             'eventTypeCounts': {}}
     for e in ev:
         info['eventTypeCounts'][e['type']] = info['eventTypeCounts'].get(e['type'], 0) + 1
-    if kind == 'OBS-budget-steer':
+    if not kind.endswith('-api'):
         check('屏幕：没有错误块；最后横幅为 Budget limited', not errs and any('Budget limited' in b for b in info['finalBanner']),
               {'errors': errs, 'banner': info['finalBanner']})
     else:
