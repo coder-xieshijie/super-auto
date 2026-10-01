@@ -234,6 +234,20 @@ topics: [MR 7595 的完整 trace, deliver 会话复盘, 人工介入的原因, �
 - **V3。** 检查说明拆成代码与证据两部分；代码部分在里程碑提交后立即开始，与场景同时；记录脚本收两份报告合成一轮，`milestones.mjs` 不改。门禁要求第一轮记录早于其后的提交，所以代码部分找到的问题先在工作区改好，记录存好后再提交。拿 M2 套，三轮场景变两轮。
 - **待用户决定。** V1 放不放进 7595：(a) 先在 spec §18 加一条要求、重新冻结，由 owner 实现（建议，与“MR 交付的东西都写进 spec”一致）；(b) 不改 spec，由 owner 按 deliver 的“先补验证能力”补；(c) 7595 不用。修法 B 现在做还是等。V2、V3 推不推给 7595（按约定默认不推）。
 
+## 按清单提 PR（dev-skills#26）
+
+用户原话：
+
+> 按清单提 PR，可选的那半句先不加
+
+执行：
+
+- 在 dev-skills 旁建 worktree `dev-skills-deliver-acceptance-deviation`（分支 `shijie/deliver-acceptance-deviation`，起点 main `4c45165`），不碰安装中的主检出。改前先跑原有七组用例作基线，全部通过。
+- 按[改动清单](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)改 deliver/SKILL.md、plan-format.md、verifier-brief.md、core-spec/SKILL.md、README.md、`docs/deliver-design.md`；新增 `scripts/deviations.mjs`；改 `run-verifier.mjs`（`--plan`）、`check-delivery.mjs`（第 6 项）。milestone-check.md 按用户意见不改。
+- 用例：[deliver-deviation-cases.sh](../research/goal-v2-deliver-trace-2026-10-01/deliver-deviation-cases.sh)。
+- Codex（gpt-6-astra，high）只读审查第一版，报 6 条。4 条 P1：只按编号核对、验证后改写正文可过关；认不出的写法被静默当成没有偏差；代码块示例与重复节；报告示例行与同一编号的重复判断覆盖“放宽”。2 条 P2：空的“改用”与理由；原文放命令行会超长（E2BIG）。都已修正：按编号和 sha256 核对；认不出的写法报错；代码块不算、重复节报错；只读报告的“口径偏差”一节，重复判断报错且“放宽”不被覆盖；四项标签与理由非空；原文改为写进报告旁的文件。修正后用例 58 个全部通过（改前 41 个不通过），原有七组全部通过。
+- 推送并开 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，已绑定到本会话；未合入。流程文档“交付中验收口径偏差”一行的实现状态改为 PR 已开（`37711e9`）。
+
 ## 待确认与待验证
 
 见研究档案第 9 节。

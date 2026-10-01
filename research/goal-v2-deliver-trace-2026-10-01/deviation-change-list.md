@@ -3,7 +3,7 @@ id: research-goal-v2-deliver-trace-deviation-change-list
 recorded_on: 2026-10-01
 timezone: Asia/Shanghai
 source: dev-skills main `4c45165`（含 #25）的 deliver、core-spec 现行文字与脚本
-scope: “交付中验收口径不一致时由 owner 自定、记偏差、跨家族验证者判断是否放宽”这一改动的具体落点；用户 2026-10-01 同意方向，清单待确认后提 dev-skills PR
+scope: “交付中验收口径不一致时由 owner 自定、记偏差、跨家族验证者判断是否放宽”这一改动的具体落点；用户 2026-10-01 同意方向与清单（milestone-check.md 的半句不加），已提 coder-xieshijie/dev-skills#26
 ---
 
 # 改动清单：验收口径偏差由 owner 自定，验证者判断是否放宽
@@ -102,3 +102,11 @@ deliver 正文：改一句（停下第 1 种）、加一段（口径偏差，四
 
 1. 清单是否照此提 PR；milestone-check.md 的半句加不加。
 2. 合入后是否通知在途的 MR 7595：它还有 M3、M4、M6 的场景要跑，可能再遇到口径问题。
+
+## 7. 执行结果（2026-10-01）
+
+- 用户：“按清单提 PR，可选的那半句先不加”。
+- [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，分支 `shijie/deliver-acceptance-deviation`（worktree `dev-skills-deliver-acceptance-deviation`），两个提交 `c5b9d5a`、`452fe22`；未合入。
+- 与清单的差别：Codex 审查后，偏差原文改为写进报告旁的 `<报告>.deviations.md`（不再放在命令行里），调用记录存每条的 sha256；plan.md 的条目要求字面、不成立的原因、改用、推翻后重跑四项都不能空；新增共用模块 `scripts/deviations.mjs`；另改了 dev-skills 的 README 与 `docs/deliver-design.md`。
+- 验证：[deliver-deviation-cases.sh](deliver-deviation-cases.sh) 58 个断言全部通过，改前的脚本 41 个不通过；原有七组用例全部通过；链接检查通过。
+- Codex（gpt-6-astra，high，session `01a0f6b6-97ff-79d2-bf08-805c4950ba56`）报 6 条（4 条 P1），都已修正，修正后没有再送审。
