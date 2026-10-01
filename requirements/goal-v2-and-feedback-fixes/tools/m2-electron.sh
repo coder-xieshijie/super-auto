@@ -73,6 +73,18 @@ print(next((str(x["id"]) for x in p if x.get("kind")=="hold"),""))')
   goal_e "$S" s07-final-goal >/dev/null
   vr snapshot --session "$S" --on electron --save s07 >/dev/null
   vr fault log --on electron --session "$S" --tail 200 --save fault-s07 >/dev/null
+  # 新 Goal 的 verifier 子会话的 Inspector（tokens 检查点用）
+  CHILD7=$(python3 - "$OUT" "$NEW" <<'EOF'
+import glob,json,sys,os
+f=sorted(glob.glob(os.path.join(sys.argv[1],'[0-9][0-9][0-9]-s07-runtime-events.jsonl')))[-1]
+for l in open(f):
+    e=json.loads(l); p=e.get('fields',{}).get('payload') or {}
+    if e.get('fields',{}).get('eventType')=='goal.verification_child_started' and p.get('childSessionId') and p.get('goalId') in (sys.argv[2], None):
+        print(p['childSessionId'])
+EOF
+)
+  echo "$CHILD7" >"$OUT/s07-verifier-children"
+  for c in $CHILD7; do vr snapshot --session "$c" --on electron --save "s07-verifier-$c" >/dev/null; done
 
   # ---------------- S03 ----------------
   new_task

@@ -38,7 +38,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [x] (2026-10-01 10:33+08:00) M2 提交并推送（350965f50f..619c419149）：531d1426c7 第 6 项请求计量（含 IDL 生成、展示、zero-delta 预算修复）；e92fbb6f24 第 12 项同轮收尾与退役预算总结 Turn；619c419149 诊断（请求证据与 Developer Tools 入口）。拆分时每个中间提交单独通过 tsc（v2/ui/tui/agent-core/shared/goal/electron）、相关测试、lint、架构、layout 与边界检查（第 6 项提交：v2 55 个文件 1009 个；第 12 项提交：54 个文件 1005 个）；最终树与测试过的工作区逐文件一致。补修 `repository.test.ts` 的 migration 列表（漏了 43）。
 - [x] (2026-10-01 12:05+08:00，汇总写入 evidence/m2/README.md 的时间) M2 场景第一轮 @ 619c419149（gv2-tests，构建/启动成功；两次启动作废已说明）：S02、S05、S06、S07、S08、S09、S11、S37、S38 全部检查点 PASS；S01 检查点 PASS 但发现收尾请求返回的 `edit` 被执行（违反 spec §5.2）；S41 事件一行 FAIL（POST/PATCH 与其事件无计量字段）；S32 两项 FAIL（同意框被 Developer Tools 遮罩挡住；文件含 objective 与对话原文）；S04“完成时请求数=Inspector 条数”FAIL（7 对 6：暂停中止了一次已发出的请求，按 R20 计数，Inspector 只保存成功调用）；S03 补充消息一项 UNVERIFIED（依赖 M4）；S10 三次前提不满足（模型先用 bash/glob），受阻。证据 evidence/m2/（README.md 为报告原文，各场景 summary.md）。
 - [x] (12:06 前) 修复并推送（ced846b1a8..163f31f8ce）：a383cca918 收尾请求的工具意图在交给 agent 循环前去掉、不执行（agent-core 测试 32 个）；a879b27943 store 返回的所有 Goal 状态（create、patch、执行等待、恢复列表）都带计量投影（v2 相关 97 个文件 1456 个测试）；163f31f8ce 诊断只留 reasonPresent/missingCount/missingFingerprint/summaryPresent，不含模型原文，同意框层级高于 Developer Tools 面板与遮罩。lint、tsc 通过。
-- [ ] M2 场景第二轮 @ 163f31f8ce（全部 M2 场景，S10 最多 6 次尝试），subagent 进行中。
+- [x] (2026-10-01 12:42+08:00，汇总写入 evidence/m2-163f/README.md 的时间) M2 场景第二轮 @ 163f31f8ce（产品代码与 9d998c8968 相同；gv2-tests，构建/启动成功）：S01、S02、S04（按 verify 89b494e7 口径）、S05、S06、S07、S08、S09、S10（第 5 次满足前提）、S11、S32（鼠标点击同意框）、S37、S38、S41 全部检查点 PASS；S03 补充消息一项 UNVERIFIED，依赖 M4（输入框仍为目标模式），M4 落地后在其提交上重跑 S03；覆盖盲区 B05、B19、B20、B21 的检查点为 UNVERIFIED。S01 三次运行的收尾响应都是纯文本，收尾工具意图的丢弃路径未被实跑触发，由 a383cca918 的单测与 B05 覆盖。作废运行：同时启动两个 Electron 刷新了共享登录，使先起的接口/TUI 实例出现内容审核 401（S02/S04/S08/S11 各一次），已重跑。证据 evidence/m2-163f/。
 - [x] (2026-10-01 12:24+08:00) S04 与 R20 冲突由用户决定：由我按 core-spec 起草、用户确认后更新 verify（S04 以故障注入 provider 只记录模式启动，完成时请求数 = Inspector 条数 + 代理日志中已发出且被暂停取消的主执行请求；R20 覆盖加 S04；G1 表加 S04（只记录））。用户确认 verify sha256 89b494e7…，spec 不变；交接提交 9d998c8968 已推送，MR 描述哈希已更新并读回；read-handoff 与 check-delivery --frozen-only 通过，冻结输入已改为新三行。
 - [ ] 门禁问题（如实记录，未写放行、未改提交时间）：按 deliver 规定把交接行改为新交接 9d998c8968 后，`milestones.mjs` 从新交接点起算 owner 提交，M0–M2 的提交与 milestone-M1-r1/r2 都落在范围外（“no longer matches the branch … does not count”），报 M1–M4 无检查记录；M1 的提交全部在新交接点之前，之后无法再为 M1 产生有效记录。已告知维护 deliver 的 session；不受影响的工作继续。
 - [x] (2026-10-01 10:55+08:00) 首个 MR 流水线 943781（合并结果 feae47ab4b）有 10 个 job 失败，逐个定位：①`check:fast:sensitive-keyword-diff`：M0 故障注入工具里的厂商词，384cef525d 改为转义常量与改写注释（门禁 3962b648ff..HEAD 通过，verify-archon 脚本测试 46 个通过）；②`check:unit:local-runtime` 两个测试在 preview_train 基线上本来就过时（`cuModeActive` 已改名、mavis skill 标题已改），本 MR 触及 local-runtime 才触发该 job，42c9857a02 按当前源码修正（34 个通过）；③typecheck、lint 与 v2/electron/cli/mcode-exec 单测都因合并结果编译失败：preview_train 新合入的 2ed882f7f8（TUI 0922 发布）在 `compat/v1/runtime.ts`、`compat/v1/session.ts` 调用 v1 `api.threadGoal.pauseActiveGoalForAbort`，并改了 v1 `thread-goal/turn-context.ts` 与 goal 包 `tool-impls.ts`/`types.ts`，最后 rebase 时需移植到 v2 Goal owner；④`check:contract:desktop-service-idl`：CI 用 IDL main 生成，与 feature IDL 生成物不同，待用户合入 weaver/idl!13599 后用 main 重新生成；⑤`check:unit:tui`：runner 上 pnpm store ENOENT，基础设施失败。已推送 619c419149..42c9857a02，两个修复只动工具与测试，不影响 M2 场景所测的产品代码。
@@ -105,6 +105,19 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - **M6 最后 rebase（含第 2 项）、全量复验、独立验证、MR 收尾**。
 
 ## 验证与验收
+
+在验证检出（如 gv2-tests）根目录执行，`T=/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/tools`，`export M2_ROOT=<证据目录>`；判定 `python3 $T/m2-analyze.py <场景> <尝试> [--shared <flow A 尝试>]`。同一时刻只启动一个 Electron，或先起 Electron 再起接口/TUI（共享登录会被刷新）。
+
+| 场景 | 绑定命令 |
+| --- | --- |
+| S01 | 在迁移前验证基线 d770f05f30 上 `prepare runtime` 后 `bash $T/m2-baseline-data.sh s01`；在被测提交上 `bash $T/m2-electron.sh S01 <尝试> <旧数据 runId>` |
+| S02 | 基线上 `bash $T/m2-baseline-data.sh s02`；`python3 $T/m2-s02-arrange-budget-item.py <runId> <BUDGET 会话> <证据目录>`；被测提交上 `bash $T/m2-api.sh S02 <尝试> <runId>` |
+| S03、S06、S07、S32 | 同一 Electron 实例：`bash $T/m2-electron.sh A <尝试> && bash $T/m2-s32.sh <尝试>` |
+| S04、S09 | `M2_TUI_UP_EXTRA=--fault bash $T/m2-tui.sh <场景> <尝试>` |
+| S05、S08、S11、S37 | `bash $T/m2-api.sh <场景> <尝试>` |
+| S10、S38 | `bash $T/m2-electron.sh S10\|S38 <尝试>` |
+| S41 | `bash $T/m2-s41.sh seed`；`bash $T/m2-s41.sh api <尝试>`；`bash $T/m2-s41.sh tui <尝试>`（再按 lifecycle.md 键序 `/sessions` → `tui type $'\x01' --no-submit` → `tui keys enter` → `/goal`）；`bash $T/m2-electron.sh S41 <尝试> <种子 runId>`；判定 `M2_S41_TUI=<tui 目录> M2_S41_ELECTRON=<electron 目录> python3 $T/m2-analyze.py S41 <尝试>` |
+| 冒烟集 | `RG1_ROOT=<证据目录> RG1_TAG=<标签> bash $T/m1-smoke.sh`；`python3 $T/m1-smoke-analyze.py <证据目录> --tag <标签>` |
 
 ## 幂等与恢复
 

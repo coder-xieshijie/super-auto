@@ -30,7 +30,8 @@ seed)
   SID=$(printf '%s' "$G" | jget "d['rows'][0]['session_id']")
   echo "$SID" >"$OUT/session"; echo "$GID" >"$OUT/goal-id"
   NOW=$(now_ms)
-  # 安排的账本事实（直接写存储，verify S41 前提）：历史占用 6、已确认工作请求 3、收尾 1、未知占用 1、usageIncomplete 为 true、无进行中预占
+  # 安排的账本事实（直接写存储，verify S41 前提）：历史占用 6、已确认工作请求 3、收尾 1、未知占用 1、usageIncomplete 为 true、无进行中预占；
+  # tokens_used 写成账本已知用量之和 3300（与安排的账本一致；619c 那轮是手动补的这一步）
   ROWS=""
   i=0
   for spec in "work settled success 0" "work settled success 0" "work settled success 1" "grace settled success 0" "work unresolved NULL 0"; do
@@ -39,7 +40,7 @@ seed)
     tin=$([ "$4" = 1 ] && echo 0 || echo 1000); tout=$([ "$4" = 1 ] && echo 0 || echo 100)
     ROWS="$ROWS INSERT INTO local_runtime_v2_goal_requests (request_id, goal_id, session_id, turn_id, kind, phase, attempts, outcome, input_tokens, output_tokens, cache_read_tokens, cache_write_tokens, usage_incomplete, discard_reason, created_at_ms, updated_at_ms) VALUES ('m2seed-req-$i', '$GID', '$SID', 'turn_m2seed', '$1', '$2', 1, $out, $tin, $tout, 0, 0, $4, NULL, $((NOW + i)), $((NOW + i)));"
   done
-  node "$V" db --data "$RID" --sql "DELETE FROM local_runtime_v2_goal_requests WHERE goal_id = '$GID'; UPDATE local_runtime_v2_goals SET turns_used = 6, status = 'paused', status_reason = 'paused(user_requested)', execution_wait_reason = NULL, execution_wait_since_ms = NULL, execution_wait_epoch = NULL WHERE goal_id = '$GID'; $ROWS" --save s41-arrange-ledger >"$OUT/arrange.json" 2>>"$OUT/steps.stderr.log"
+  node "$V" db --data "$RID" --sql "DELETE FROM local_runtime_v2_goal_requests WHERE goal_id = '$GID'; UPDATE local_runtime_v2_goals SET turns_used = 6, tokens_used = 3300, status = 'paused', status_reason = 'paused(user_requested)', execution_wait_reason = NULL, execution_wait_since_ms = NULL, execution_wait_epoch = NULL WHERE goal_id = '$GID'; $ROWS" --save s41-arrange-ledger >"$OUT/arrange.json" 2>>"$OUT/steps.stderr.log"
   node "$V" db --data "$RID" --query "SELECT request_id, kind, phase, outcome, input_tokens, output_tokens, usage_incomplete FROM local_runtime_v2_goal_requests WHERE goal_id = '$GID' ORDER BY created_at_ms" --save s41-arranged-ledger >"$OUT/arranged-ledger.json" 2>>"$OUT/steps.stderr.log"
   node "$V" db --data "$RID" --query "SELECT goal_id, session_id, status, status_reason, tokens_used, turns_used, updated_at_ms FROM local_runtime_v2_goals" --save s41-arranged-goal >"$OUT/arranged-goal.json" 2>>"$OUT/steps.stderr.log"
   m2_log "seed runId=$RID session=$SID goal=$GID"

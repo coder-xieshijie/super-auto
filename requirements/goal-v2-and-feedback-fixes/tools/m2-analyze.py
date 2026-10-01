@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from m2_evidence import (fault_lines, goal_events, goal_main_calls, goal_of_saved, inspector_calls, latest,
                          load_json, runtime_events, tool_names, usage_sum)
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'evidence', 'm2')
+ROOT = os.environ.get('M2_ROOT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'evidence', 'm2')
 checks = []
 
 
@@ -106,14 +106,21 @@ def s04(d):
     pre = max(int(x) for x in re.findall(r'(\d+) requests', two))
     mc = re.search(r'✓ Goal complete · [^\n]*?(\d+) requests', final)
     n = int(mc.group(1)) if mc else None
-    check('暂停前/摘要/完成 请求数单调不减', mc is not None and pre <= int(m.group(1)) <= n, {'beforePause': pre, 'summary': int(m.group(1)), 'complete': n})
     fault = os.path.join(d, 'fault-proxy.jsonl')
     sid = [e['payload'].get('sessionId') for e in ev if e['type'] == 'goal.turn_bound'][0]
-    sent = len({(e.get('n')) for e in fault_lines(fault, sid) if e.get('event') == 'attempt' and e.get('role') == 'main'}) if os.path.exists(fault) else None
-    check('完成时请求数 = Inspector Goal 主执行请求条数', n == len(gm),
-          {'complete': n, 'inspectorGoalMain': len(gm), 'ledgerSettled': len(settled), 'faultProxyMainRequestsSent': sent,
-           'abortedRequests': [e['payload'].get('outcome') for e in settled].count('abort'),
-           'note': 'Inspector 不保存被暂停中止的那次请求；fault-proxy 的 attempt 日志显示它已发出'})
+    fl = fault_lines(fault, sid) if os.path.exists(fault) else []
+    sent = sorted({e.get('n') for e in fl if e.get('event') == 'attempt' and e.get('role') == 'main'})
+    closed = sorted({e.get('n') for e in fl if e.get('event') == 'attempt-end' and e.get('role') == 'main' and e.get('outcome') == 'client-closed'})
+    rules = [e for e in fl if e.get('event') in ('injected', 'hung', 'held')]
+    mono = mc is not None and pre <= int(m.group(1)) <= n
+    # verify 9d998c8968 口径：完成时请求数 = Inspector 条数 + 代理日志中已发出但被暂停取消（client-closed）的主执行请求数
+    check('暂停前/摘要/完成 请求数单调不减；完成时请求数 = Inspector 条数 + 代理日志 client-closed 主执行请求数（verify 9d998c8968）',
+          bool(fault and os.path.exists(fault)) and mono and n == len(gm) + len(closed),
+          {'beforePause': pre, 'summary': int(m.group(1)), 'complete': n, 'inspectorGoalMain': len(gm),
+           'faultProxyClientClosedMainN': closed, 'inspectorPlusClientClosed': len(gm) + len(closed),
+           'faultProxyMainRequestsSent': len(sent), 'faultProxyMainSentN': sent, 'faultProxyInjections': len(rules),
+           'ledgerSettled': len(settled), 'settledOutcomes': [e['payload'].get('outcome') for e in settled],
+           'pauseAbortedInFlightRequest': bool(closed)})
     check('完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致', mc is not None and 'turns' not in mc.group(0) and n == len(settled),
           {'line': mc.group(0) if mc else None, 'runtimeRequestSettled': len(settled)})
 
@@ -145,6 +152,26 @@ def s08(d):
           {'v0': v0, 'grown': grown})
     check('PATCH 带 v0 返回 200，objective 已更新（无 409 GOAL_CHANGED）', patch.get('status') == 200 and 'c5.txt' in patch['body']['goal']['objective'],
           {'status': patch.get('status'), 'objective': patch['body']['goal']['objective']})
+    snake = ['accounting_version', 'requests_used', 'work_requests', 'grace_requests', 'legacy_turns', 'reserved_requests', 'unknown_requests', 'usage_incomplete']
+    camel = ['accountingVersion', 'requestsUsed', 'workRequests', 'graceRequests', 'legacyTurns', 'reservedRequests', 'unknownRequests', 'usageIncomplete']
+    post = load_json(latest(d, '*-s08-create.json'))['response']['body']['goal']
+    pg = patch['body']['goal']
+    sid = text_of(d, 'session')
+    evs = []
+    for line in open(os.path.join(d, 'events.jsonl')):
+        e = json.loads(line)
+        if e.get('type') == 'thread_goal.updated':
+            gl = (json.loads(e.get('payload_json') or '{}').get('goal') or {})
+            if gl.get('sessionId') == sid:
+                evs.append(gl)
+    missing_ev = [i for i, gl in enumerate(evs) if not all(k in gl for k in camel)]
+    check('POST、PATCH 响应与 thread_goal.updated 事件都带计量字段',
+          all(k in post for k in snake) and all(k in pg for k in snake) and evs and not missing_ev,
+          {'post': {k: post.get(k, '<missing>') for k in snake}, 'patch': {k: pg.get(k, '<missing>') for k in snake},
+           'threadGoalUpdatedEvents': len(evs), 'eventsMissingFields': missing_ev,
+           'firstEvent': {k: evs[0].get(k, '<missing>') for k in camel} if evs else None,
+           'lastEvent': {k: evs[-1].get(k, '<missing>') for k in camel} if evs else None,
+           'accountingVersions': sorted({gl.get('accountingVersion') for gl in evs}, key=str)})
 
 
 def s09(d):
@@ -239,7 +266,7 @@ def s03(d):
     hist = load_json(latest(d, '[0-9][0-9][0-9]-s03.json'))['http']['messages']['body']['messages']
     sup = [m for m in hist if 'What is 2 + 2' in str(m.get('msg_content'))]
     check('补充消息那一轮不计入、回复为 4', False, {'supplementaryInHistory': len(sup),
-          'blocked': '619c419149 上 active Goal 的输入框处于“目标”模式，普通发送弹出“替换当前目标吗？”确认框，消息没有发出（截图 s03-supplement-sent）；输入意图改动属 M4（R75/R76），本提交未实现'},
+          'blocked': '被测提交上 active Goal 的输入框处于“目标”模式，普通发送弹出“替换当前目标吗？”确认框，消息没有发出（截图 s03-supplement-sent）；输入意图改动属 M4（R75/R76），本提交未实现'},
           'UNVERIFIED')
     v = load_json(latest(d, '*-s03-verifying.json'))['trajectory'][-1]['goal.tokens_used']
     ver = []
@@ -269,7 +296,7 @@ def s32(d):
     mouse = [st for st in steps if any(a in ('s32-decline', 's32-decline-mouse', 's32-accept', 's32-accept-mouse') for a in st['args'])]
     check('入口：同意提示的“拒绝”“同意并生成”可用鼠标点击', all(st['rc'] == 0 for st in mouse),
           {'mouseClicks': [(st['args'][-1], st['rc'], 'developer-tools-backdrop intercepts pointer events' if 'developer-tools-backdrop' in json.dumps(st['out']) else '') for st in mouse]})
-    check('步骤1 拒绝不生成内容（键盘操作）', re.search(r'\d+', text_of(d, 's32-files-after-decline.txt')).group(0) == '0',
+    check('步骤1 拒绝不生成内容', re.search(r'\d+', text_of(d, 's32-files-after-decline.txt')).group(0) == '0',
           {'filesAfterDecline': text_of(d, 's32-files-after-decline.txt')})
     doc = load_json(os.path.join(d, 's32-diagnostics', files[0]))
     rs = doc['requestSummary']
@@ -293,10 +320,18 @@ def s32(d):
             if o:
                 objectives.add(o)
     leaks = [o for o in objectives if o in text]
-    free = [(x['goalId'], len((x.get('lastVerification') or {}).get('reason') or ''), bool((x.get('lastWorkerProposal') or {}).get('summary'))) for x in doc['goals']]
-    transcript_hint = [k for k in ('messages.jsonl', 'local_runtime_message_rows', 'msg_content') if k in text]
-    check('不含 objective、prompt、transcript 原文或原始回执', not leaks and not transcript_hint,
-          {'objectiveLeaks': leaks, 'transcriptMarkers': transcript_hint, 'freeTextFields(goalId, lastVerification.reason 长度, 有 lastWorkerProposal.summary)': free})
+    prose = []
+    shape = []
+    for x in doc['goals']:
+        lv, lw = x.get('lastVerification') or {}, x.get('lastWorkerProposal') or {}
+        bad = [k for k in ('reason', 'missing') if k in lv] + [k for k in ('summary',) if k in lw]
+        if bad:
+            prose.append((x['goalId'], bad))
+        shape.append({'goalId': x['goalId'], 'lastVerification': sorted(lv), 'lastWorkerProposal': sorted(lw),
+                      'reasonPresent': lv.get('reasonPresent'), 'missingCount': lv.get('missingCount'), 'summaryPresent': lw.get('summaryPresent')})
+    transcript_hint = [k for k in ('messages.jsonl', 'local_runtime_message_rows', 'msg_content', 'tool_result', 'requestMessages', 'raw_json') if k in text]
+    check('不含 objective、prompt、transcript 原文或原始回执', not leaks and not transcript_hint and not prose,
+          {'objectiveLeaks': leaks, 'objectivesChecked': len(objectives), 'transcriptMarkers': transcript_hint, 'proseFields': prose, 'decisionShape': shape})
     same = []
     for f in os.listdir(d):
         if f.endswith('.json') and 's32-before-' in f:
@@ -374,9 +409,23 @@ def s01(d):
     ps2, hv2 = text_of(d, 'policy-summary-after.txt'), load_json(f'{d}/requests-hover-after.json').get('title')
     n = int(re.search(r'(\d+) 次请求', ps2).group(1))
     check('步骤4后横幅“N 次请求”= 接口本目标请求数；悬停含“升级前 6 轮”', n == after.get('requests_used') and '升级前 6 轮' in (hv2 or ''), {'policy': ps2, 'hover': hv2})
-    grace_tools = tool_names(calls[-1]) if calls else []
-    checks.append({'id': '附带观察：收尾请求响应中的工具调用', 'result': 'FINDING' if grace_tools else 'NONE',
-                   'detail': {'graceResponseTools': grace_tools, 'note': '收尾请求 tools 为空，但模型仍返回 tool_use 且被执行（count.txt 多写一行）' if grace_tools else ''}})
+    grace = calls[-1] if calls and calls[-1]['toolCount'] == 0 else None
+    grace_tools = tool_names(grace) if grace else []
+    snap = load_json(latest(d, '[0-9][0-9][0-9]-s01.json'))
+    hist = snap['http']['messages']['body']['messages']
+    after = [m for m in hist if m.get('role') == 'assistant' and (m.get('timestamp') or 0) >= start]
+    executed = [(m.get('timestamp'), [t.get('tool_name') for t in m.get('tool_calls') or []]) for m in after if m.get('tool_calls')]
+    in_grace = [x for x in executed if grace and x[0] >= grace['startedAtMs']]
+    ws = latest(d, '[0-9][0-9][0-9]-s01-workspace')
+    count = open(os.path.join(ws, 'count.txt')).read().split() if ws and os.path.exists(os.path.join(ws, 'count.txt')) else None
+    grace_msgs = [{'ts': m.get('timestamp'), 'finish_reason': m.get('finish_reason'), 'text': str(m.get('msg_content'))[:200],
+                   'tool_calls': len(m.get('tool_calls') or [])} for m in after if grace and (m.get('timestamp') or 0) >= grace['startedAtMs']]
+    check('收尾请求响应中的工具意图不执行（spec §5.2）', bool(grace) and not in_grace,
+          {'graceRequestStartedAt': grace['startedAtMs'] if grace else None,
+           'graceResponseToolIntents(Inspector 原始响应)': grace_tools,
+           'graceResponseText': [b['text'] for b in grace['response'] if b['type'] == 'text'] if grace else None,
+           'toolCallsInHistoryAfterGraceStart': in_grace, 'graceStepMessages': grace_msgs,
+           'toolCallsAfterResume(ts, names)': executed, 'count.txt': count})
 
 
 def s41(d_api, d_tui, d_e):
@@ -410,7 +459,8 @@ def main():
     shared = sys.argv[sys.argv.index('--shared') + 1] if '--shared' in sys.argv else None
     d = os.path.join(ROOT, 'S07', shared) if shared else os.path.join(ROOT, sc, attempt)
     if sc == 'S41':
-        s41(os.path.join(ROOT, 'S41', 'api-' + attempt), os.path.join(ROOT, 'S41', 'tui-run1'), os.path.join(ROOT, 'S41', 'electron-run1'))
+        s41(os.path.join(ROOT, 'S41', 'api-' + attempt), os.path.join(ROOT, 'S41', os.environ.get('M2_S41_TUI', 'tui-run1')),
+            os.path.join(ROOT, 'S41', os.environ.get('M2_S41_ELECTRON', 'electron-run1')))
         d = os.path.join(ROOT, 'S41', 'api-' + attempt)
     else:
         globals()[sc.lower()](d)
