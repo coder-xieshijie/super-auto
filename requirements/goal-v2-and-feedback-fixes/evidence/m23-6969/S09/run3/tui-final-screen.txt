@@ -1,0 +1,50 @@
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  ● I'll create the five files one at a time, one tool call per response. Starting with d1.txt.                                                                                                       
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d1.txt)
+   
+  ● d1.txt is done. Now d2.txt.                                                                                                                                                                       
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d2.txt)
+   
+  ● Two down. Creating d3.txt next.                                                                                                                                                                   
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d3.txt)
+  └ • Thought for 3.1s
+   
+    └ Completed in 14s · ⚡ 118 tok/s
+   
+  ● Created and verified these files:                                                                                                                                                                 
+                                                                                                                                                                                                      
+    - d1.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d1.txt)                                                                         
+    - d2.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d2.txt)                                                                         
+    - d3.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163056-0edfab/workspace/d3.txt)                                                                         
+                                                                                                                                                                                                      
+    d4.txt and d5.txt remain unfinished. Execution stopped because the active Goal reached its request budget. To continue, create a new Goal.                                                        
+   
+    × Error  This Goal exhausted its execution budget. Clear it, then start a new Goal.                                                                                                               
+
+    ◎ Goal · Budget limited · 15s active
+  24K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                        Tip: /steer guides a response without interrupting it
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›   sk Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=done session=mvs_ba9c4c262c4a413fb7fcb46d86716edb turn=turn_93a59d62-b6ca-45c1-9f0e-11275cbee086 request=none agents=0/0 background=0
+
+Continue this session with:
+  mcode --session mvs_ba9c4c262c4a413fb7fcb46d86716edb
+
+Intelligence with everyone, bye~
+

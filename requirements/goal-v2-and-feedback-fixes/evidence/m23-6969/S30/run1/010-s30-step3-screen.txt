@@ -1,0 +1,50 @@
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command sleep 600 as a background task (bash tool with run_in_background: true) and end your turn right away.                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll kick that off now.                                                                                                                                                                           
+   
+  ● sleep 600 is now running as a background task (id bg_863f972e-31ea-4a0e-8025-afb73dbd09c6) and will finish in about 10 minutes. The conversation will resume automatically when it exits — nothing
+    else to do until then.                                                                                                                                                                            
+   
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+    └ Completed in 6s · ⚡ 104 tok/s
+   
+    × Error  The response failed.                                                                                                                                                                     
+    Reason: [Error] 502 {"type":"error","error":{"type":"api_error","message":"Bad gateway"}}                                                                                                         
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+   
+    Goal resumed.                                                                                                                                                                                     
+   
+    × Error  The response failed.                                                                                                                                                                     
+    Reason: [Error] 502 {"type":"error","error":{"type":"api_error","message":"Bad gateway"}}                                                                                                         
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+   
+    × Error  The model provider is temporarily unavailable.                                                                                                                                           
+    Code: 50113                                                                                                                                                                                       
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+
+    ◎ Goal · Paused · 2s active
+  0+ tokens · 2 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+  ◐ Tasks · 1 background active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /plugins manages installed capabilities
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=8 state=fail session=mvs_e57949aca56f407597c51f5615de460a turn=turn_b016f6f5-323d-4149-b30b-3e7c8f345b16 request=none agents=0/0 background=1

@@ -27,7 +27,7 @@ m3_up() {
   local rc
   m3_lock
   m2_log "up lock acquired"
-  m2_up "$@"; rc=$?
+  M2_LOCK_HELD=1 m2_up "$@"; rc=$?
   sleep "$M3_UP_GAP"
   m3_unlock
   return $rc

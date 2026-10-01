@@ -1,0 +1,50 @@
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  ● I'll check what already exists in the workspace before creating anything.                                                                                                                         
+   
+  ├ • Listed (d*.txt)
+  └ • Thought for 10.1s
+   
+  ● Workspace check done: no d*.txt files exist yet, so all five still need creating.                                                                                                                 
+                                                                                                                                                                                                      
+    I used this response's single tool call for the state inspection rather than a write. Since the objective caps me at one tool call per response, I'm not going to squeeze a file creation in on   
+    top of it — that would break the constraint. Next response creates d1.txt with 1, and the following ones do d2–d5 in the same pattern until all five exist.                                       
+   
+  └ • Thought for 0.1s
+   
+  ● Creating the first file now.                                                                                                                                                                      
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163231-6c31ad/workspace/d1.txt)
+   
+                                                                                                                                                                                                      
+   › What is 5 + 6? Reply with only the number.                                                                                                                                                       
+                                                                                                                                                                                                      
+   
+  ● 11                                                                                                                                                                                                
+   
+    └ Completed in 9s · ⚡ 76 tok/s
+
+    ◎ Goal · Budget limited · 27s active
+  25K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /sessions resumes earlier conversations
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=a state=done session=mvs_bfe23e9437534bd7b5ece1b823d5c9c8 turn=turn_3f89a9d1-8da5-4ea6-853c-11b43e29d3c8 request=none agents=0/0 background=0

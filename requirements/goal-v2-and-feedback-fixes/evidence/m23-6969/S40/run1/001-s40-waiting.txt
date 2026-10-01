@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /plan before a change that needs design or investigation.                                                                                                                                  │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met     
+     only when sub.txt contains sub-done.                                                                                                                                                             
+                                                                                                                                                                                                      
+   
+  └ • Thought for 2.1s
+   
+  ● Kicking off the background subagent now, then I'll end the turn.                                                                                                                                  
+   
+  └ • Delegated (worker · Write sub.txt after 40s delay)
+   
+    └ Completed in 9s · ⚡ 133 tok/s
+   
+  ● Background subagent started (task id bg_ec776ddf-4a94-4a2f-b473-52e5f23394da). It will sleep 40 seconds, then write sub.txt with sub-done at                                                      
+    /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162820-643638/workspace/sub.txt, and read it back to confirm.                                                     
+                                                                                                                                                                                                      
+    Ending this turn now as requested — the goal stays active until sub.txt actually contains sub-done, which I'll verify when the task completes and this conversation resumes.                      
+
+    ◎ Goal · Waiting for background tasks · 10s active
+  17K tokens · 2 requests
+  Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 agent active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                      Tip: /feedback previews redacted feedback before upload
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=done session=mvs_670fb66c9ea04c72be008d453fcc5eee turn=turn_2aa41633-3e43-459d-b49f-1fb2d67b9d57 request=none agents=1/1 background=0
+
+

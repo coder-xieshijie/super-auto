@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › Use /history to review and branch from earlier prompts.                                                                                                                                        │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.                                                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll check the current state of the workspace first.                                                                                                                                              
+   
+  └ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163129-27b4a3/workspace · 3 output lines
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    Goal resumed.                                                                                                                                                                                     
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Code: 42212                                                                                                                                                                                       
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+
+    ◎ Goal · Usage limited · 5s active
+  16K+ tokens · 3 requests · Goal will continue automatically after the quota resets.
+  Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                       Tip: /context shows the current Session context budget
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=error session=mvs_ea8230cb56b54d6daf38910eee8d3f47 turn=none request=none agents=0/0 background=1
+
+

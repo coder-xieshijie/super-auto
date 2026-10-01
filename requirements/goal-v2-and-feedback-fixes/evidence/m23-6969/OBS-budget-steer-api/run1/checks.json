@@ -1,0 +1,161 @@
+{
+  "observation": "budget-closed Goal Turn hands user steering back (0af5e8a219)",
+  "scenario": "OBS-budget-steer-api",
+  "attempt": "run1",
+  "head": "69696e4f2c32100bb372c6d6fbdbd60f1a9f9562",
+  "dirty": false,
+  "runId": "20261001-163840-20b6dc",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163840-20b6dc/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "checks": [
+    {
+      "id": "前提：普通消息在第 3 次主执行请求被暂扣（在途）期间发出",
+      "result": "PASS",
+      "detail": {
+        "heldN": [
+          3
+        ],
+        "heldAt": 1790843937804,
+        "sentAt": 1790843939118,
+        "releasedAt": 1790844240568,
+        "releasedEvents": 1
+      }
+    },
+    {
+      "id": "Goal 以 budget_limited(main_turn) 结束；没有 paused(infra_retryable)",
+      "result": "PASS",
+      "detail": {
+        "transitions": [
+          [
+            1790844238466,
+            "active",
+            "budget_limited",
+            "budget_limited(main_turn)"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "Goal Turn 的请求（含收尾请求）里没有这条普通消息",
+      "result": "PASS",
+      "detail": {
+        "goalTurns": [
+          "turn_849a8c41-5db7-40d6-9dba-9d84be0bd44a"
+        ],
+        "goalCalls": [
+          [
+            25,
+            [
+              "glob"
+            ]
+          ],
+          [
+            25,
+            [
+              "write"
+            ]
+          ],
+          [
+            25,
+            [
+              "write"
+            ]
+          ],
+          [
+            0,
+            []
+          ]
+        ],
+        "goalCallsContainingMessage": [],
+        "settledKinds": [
+          "work",
+          "work",
+          "work",
+          "grace"
+        ],
+        "settledOutcomes": [
+          "success",
+          "success",
+          "success",
+          "success"
+        ]
+      }
+    },
+    {
+      "id": "普通消息在 Goal Turn 关闭后自己的一轮（不绑定 Goal 的 Turn）里回答 11",
+      "result": "PASS",
+      "detail": {
+        "replyTurnId": "turn_f597d117-04fb-4cd4-a04c-b9e06fcb944e",
+        "replyStartedAt": 1790844238532,
+        "lastGoalCallEndedAt": 1790844237710,
+        "budgetLimitedAt": 1790844238466,
+        "replyText": [
+          "11"
+        ],
+        "callsContainingMessage": 1
+      }
+    }
+  ],
+  "info": {
+    "finalBanner": [],
+    "errorLinesOnFinalScreen": [],
+    "linesAfterMessage": [],
+    "afterSendHints": [],
+    "eventTypeCounts": {
+      "goal.created": 1,
+      "goal.admission_decided": 2,
+      "goal.turn_bound": 1,
+      "goal.request_settled": 4,
+      "goal.turn_settled": 1,
+      "goal.breaker_decided": 1,
+      "goal.state_transitioned": 1
+    },
+    "sendResponse": 200,
+    "historyTail": [
+      {
+        "role": "assistant",
+        "turn_id": "turn_849a8c41-5db7-40d6-9dba-9d84be0bd44a",
+        "text": "I'll start by checking what's already in the workspace."
+      },
+      {
+        "role": "assistant",
+        "turn_id": "turn_849a8c41-5db7-40d6-9dba-9d84be0bd44a",
+        "text": "Workspace is empty — creating the five files one at a time now."
+      },
+      {
+        "role": "assistant",
+        "turn_id": "turn_849a8c41-5db7-40d6-9dba-9d84be0bd44a",
+        "text": "d1.txt is in. Moving to d2."
+      },
+      {
+        "role": "assistant",
+        "turn_id": "turn_849a8c41-5db7-40d6-9dba-9d84be0bd44a",
+        "text": "Created `d1.txt` and `d2.txt`. Files `d3.txt`, `d4.txt`, and `d5.txt` remain unfinished.\n\nExecution stopped because the "
+      },
+      {
+        "role": "user",
+        "turn_id": "turn_f597d117-04fb-4cd4-a04c-b9e06fcb944e",
+        "text": "What is 5 + 6? Reply with only the number."
+      },
+      {
+        "role": "assistant",
+        "turn_id": "turn_f597d117-04fb-4cd4-a04c-b9e06fcb944e",
+        "text": "11"
+      }
+    ],
+    "goalFinal": {
+      "status_reason": "budget_limited(main_turn)",
+      "requests_used": 4,
+      "work_requests": 3,
+      "grace_requests": 1
+    }
+  }
+}

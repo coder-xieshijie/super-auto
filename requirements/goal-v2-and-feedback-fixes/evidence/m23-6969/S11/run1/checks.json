@@ -1,0 +1,72 @@
+{
+  "scenario": "S11",
+  "attempt": "run1",
+  "evidenceDir": "S11/run1",
+  "head": "69696e4f2c32100bb372c6d6fbdbd60f1a9f9562",
+  "runId": "20261001-162755-52fa6d",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162755-52fa6d/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "2 次主执行请求同属一个 Turn：第1次带工具调 update_goal(complete)，第2次无工具纯文本",
+      "result": "PASS",
+      "detail": {
+        "calls": [
+          [
+            25,
+            [
+              "update_goal"
+            ]
+          ],
+          [
+            0,
+            []
+          ]
+        ]
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": [
+          {
+            "startedAtMs": 1790843288947,
+            "turnId": "turn_c6456cf9-a0c4-414f-b06b-7ef4cd2a37e6",
+            "mentionsCreateNewGoal": false,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": false,
+            "mentionsRequestBudget": false,
+            "responseText": [
+              "Done—there was no work to perform, and no deliverable files were created."
+            ],
+            "responseToolIntents": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "接口：工作 1、收尾 1",
+      "result": "PASS",
+      "detail": {
+        "work_requests": 1,
+        "grace_requests": 1,
+        "requests_used": 2
+      }
+    },
+    {
+      "id": "verification_dispatched 晚于第2次响应；verdict met；complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "dispatchedAt": 1790843293462,
+        "secondResponseEnd": 1790843292703,
+        "final": "complete(verifier_met)"
+      }
+    }
+  ]
+}

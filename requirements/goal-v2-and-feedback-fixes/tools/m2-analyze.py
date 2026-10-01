@@ -109,6 +109,23 @@ def s02(d):
            'cancelledEventTs': cancel_ts, 'queueAfterHold': q_after})
 
 
+def wrapup_info(calls):
+    """收尾请求（tools 为空）里带的收尾说明：a2594f4fca 起请求预算说“create a new goal”，token 预算点名 token budget。"""
+    out = []
+    for c in calls:
+        if c['toolCount'] != 0:
+            continue
+        blob = json.dumps(c['requestMessages'], ensure_ascii=False) + c['system']
+        out.append({'startedAtMs': c['startedAtMs'], 'turnId': c['turnId'],
+                    'mentionsCreateNewGoal': 'create a new goal' in blob,
+                    'mentionsOldRaiseOrClearBudget': 'raise or clear the budget or create a new goal' in blob,
+                    'mentionsTokenBudget': 'reached its token budget' in blob or 'used its token budget' in blob,
+                    'mentionsRequestBudget': 'request budget' in blob or 'execution budget' in blob,
+                    'responseText': [b['text'][:160] for b in c['response'] if b['type'] == 'text'],
+                    'responseToolIntents': tool_names(c)})
+    return out
+
+
 def s04(d):
     ev = runtime_events(latest(d, '[0-9][0-9][0-9]-s04-runtime-events.jsonl'))
     gm = goal_main_calls(inspector_calls(latest(d, '[0-9][0-9][0-9]-s04-inspector')), ev)
@@ -116,8 +133,13 @@ def s04(d):
     summ = open(latest(d, '*-s04-summary-screen.txt')).read()
     final = open(latest(d, '*-s04-final-screen.txt')).read()
     m = re.search(r'Requests: (\d+) \(([^)]*)\)', summ)
-    check('摘要列出请求数与构成，无 turns 用量', bool(m) and 'turns' not in summ.split('Objective:')[1].split('/goal resume')[0],
-          {'summaryLine': m.group(0) if m else None})
+    # 7cb172da5b 起摘要总是同时列出 work N、wrap-up M（spec §4.7），缺任一项判 FAIL
+    parts = m.group(2) if m else ''
+    check('摘要列出请求数与构成（work N、wrap-up M 都在），无 turns 用量',
+          bool(m) and bool(re.search(r'\bwork \d+', parts)) and bool(re.search(r'\bwrap-up \d+', parts))
+          and 'turns' not in summ.split('Objective:')[1].split('/goal resume')[0],
+          {'summaryLine': m.group(0) if m else None, 'hasWork': bool(re.search(r'\bwork \d+', parts)),
+           'hasWrapUp': bool(re.search(r'\bwrap-up \d+', parts))})
     two = open(latest(d, '*-s04-two-requests.txt')).read()
     pre = max(int(x) for x in re.findall(r'(\d+) requests', two))
     mc = re.search(r'✓ Goal complete · [^\n]*?(\d+) requests', final)
@@ -159,6 +181,11 @@ def s05(d):
     goal = g(d, 's05-goal')
     check('步骤2 paused(infra_retryable)、请求数 4', goal.get('status_reason') == 'paused(infra_retryable)' and goal.get('requests_used') == 4,
           {k: goal.get(k) for k in ('status_reason', 'requests_used', 'work_requests', 'tokens_used')})
+    ev1 = runtime_events(latest(d, '[0-9][0-9][0-9]-s05-runtime-events.jsonl'))
+    checks.append({'id': '观察：发出后失败、没有用量的请求（规则 B 50113）使 usageIncomplete 为 true（919b53f1d4，非检查点）', 'result': 'INFO',
+                   'detail': {'usage_incomplete': goal.get('usage_incomplete'), 'tokens_used': goal.get('tokens_used'),
+                              'settled': [{k: e['payload'].get(k) for k in ('outcome', 'kind', 'attempts', 'usageKnown', 'usage')}
+                                          for e in ev1 if e['type'] == 'goal.request_settled']}})
     c = g(d, 's05-cancel-goal')
     fl2 = fault_lines(os.path.join(d, 'fault-proxy.jsonl'), s2)
     sent = {e['n'] for e in fl2 if e.get('event') == 'attempt' and e.get('role') == 'main'}
@@ -237,6 +264,8 @@ def s09(d):
           {'turnBound': len([e for e in ev2 if e['type'] == 'goal.turn_bound']), 'goalMainAfterHold': len(gm2),
            'holdWindowMs': [h0, h1], 'goalMainInHold': len(goal_in_hold),
            'auxiliaryInHold': [{'turnId': c['turnId'], 'isTitle': c['isTitle'], 'tools': c['tools'][:3]} for c in in_hold if c not in goal_in_hold]})
+    checks.append({'id': '观察：收尾请求的收尾说明（a2594f4fca：请求预算说 create a new goal，非检查点）', 'result': 'INFO',
+                   'detail': {'wrapUp': wrapup_info(gm), 'status': [ln.strip() for ln in scr.splitlines() if 'Budget limited' in ln][-1:]}})
     rs = open(latest(d, '*-s09-resume-screen.txt')).read()
     ev3 = runtime_events(latest(d, '[0-9][0-9][0-9]-s09-after-resume-runtime-events.jsonl'))
     msg = [line.strip() for line in rs.splitlines() if 'exhausted its execution budget' in line]
@@ -253,6 +282,7 @@ def s11(d):
     check('2 次主执行请求同属一个 Turn：第1次带工具调 update_goal(complete)，第2次无工具纯文本',
           len(gm) == 2 and len({c['turnId'] for c in gm}) == 1 and gm[0]['toolCount'] > 0 and tool_names(gm[0]) == ['update_goal']
           and gm[1]['toolCount'] == 0 and not tool_names(gm[1]), {'calls': [(c['toolCount'], tool_names(c)) for c in gm]})
+    checks.append({'id': '观察：收尾请求的收尾说明（非检查点）', 'result': 'INFO', 'detail': {'wrapUp': wrapup_info(gm)}})
     goal = g(d, 's11-goal')
     check('接口：工作 1、收尾 1', goal.get('work_requests') == 1 and goal.get('grace_requests') == 1, {k: goal.get(k) for k in ('work_requests', 'grace_requests', 'requests_used')})
     disp = [e for e in ev if e['type'] == 'goal.verification_dispatched']
@@ -268,6 +298,10 @@ def s37(d):
     check('tokens_used > 3000 且等于 Inspector 输入+输出之和', goal['tokens_used'] > 3000 and goal['tokens_used'] == usage_sum(gm),
           {'tokens_used': goal['tokens_used'], 'inspectorInOut': usage_sum(gm), 'calls': len(gm), 'status': goal.get('status_reason')})
     check('usageIncomplete 为 false', goal.get('usage_incomplete') is False, {'usage_incomplete': goal.get('usage_incomplete')})
+    checks.append({'id': '观察：token 预算用尽后的收尾（a2594f4fca：不带工具、计为收尾、说明点名 token budget，非检查点）', 'result': 'INFO',
+                   'detail': {'goal': {k: goal.get(k) for k in ('status_reason', 'requests_used', 'work_requests', 'grace_requests', 'tokens_used', 'token_budget')},
+                              'requestToolCounts': [c['toolCount'] for c in gm], 'turns': len({c['turnId'] for c in gm}),
+                              'wrapUp': wrapup_info(gm)}})
 
 
 def s07(d):
@@ -414,6 +448,7 @@ def s10(d):
     ev2 = runtime_events(latest(d, '[0-9][0-9][0-9]-s10-after-hold-runtime-events.jsonl'))
     check('队列无预算总结项；hold 无新 Turn', not q.get('items') and len([e for e in ev2 if e['type'] == 'goal.turn_bound']) == 1,
           {'queue': q, 'turnBound': len([e for e in ev2 if e['type'] == 'goal.turn_bound'])})
+    checks.append({'id': '观察：收尾请求的收尾说明（a2594f4fca，非检查点）', 'result': 'INFO', 'detail': {'wrapUp': wrapup_info(gm)}})
     hist = load_json(latest(d, '*-s10-history.json'))['response']['body']['messages']
     goal = g(d, 's10-goal-after-message')
     check('步骤5：回复 11；Goal 仍 budget_limited，objective 不变，横幅仍“已达上限”',
@@ -464,6 +499,7 @@ def s01(d):
     ps2, hv2 = text_of(d, 'policy-summary-after.txt'), load_json(f'{d}/requests-hover-after.json').get('title')
     n = int(re.search(r'(\d+) 次请求', ps2).group(1))
     check('步骤4后横幅“N 次请求”= 接口本目标请求数；悬停含“升级前 6 轮”', n == after.get('requests_used') and '升级前 6 轮' in (hv2 or ''), {'policy': ps2, 'hover': hv2})
+    checks.append({'id': '观察：收尾请求的收尾说明（a2594f4fca，非检查点）', 'result': 'INFO', 'detail': {'wrapUp': wrapup_info(calls)}})
     grace = calls[-1] if calls and calls[-1]['toolCount'] == 0 else None
     grace_tools = tool_names(grace) if grace else []
     snap = load_json(latest(d, '[0-9][0-9][0-9]-s01.json'))

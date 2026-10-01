@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command python3 -m http.server 8765 as a background task (bash tool with run_in_background: true) and end your turn right away.                                                  
+                                                                                                                                                                                                      
+   
+  ● I'll start the server in the background now.                                                                                                                                                      
+   
+  └ • Started background task  bg_ad328a04-7556-40f1-81ca-2f10de83eafb
+   
+  ● The server is running as a background task (bg_ad328a04-7556-40f1-81ca-2f10de83eafb), serving the workspace directory on port 8765. Ending the turn here as requested.                            
+   
+    └ Completed in 7s · ⚡ 102 tok/s
+
+  ◐ Tasks · 1 background active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                           Tip: /compact frees context in a long conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=2 state=done session=mvs_3b866c7935104f40a43e793b03d9b18b turn=turn_mup9u0hh_0m7lqi request=none agents=0/0 background=1
+
+
+
+
+
+
+
+
+
+
+
+

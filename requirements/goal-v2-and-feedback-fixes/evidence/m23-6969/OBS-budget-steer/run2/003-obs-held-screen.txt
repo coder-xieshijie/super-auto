@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  ● I'll start by checking the current state of the workspace.                                                                                                                                        
+   
+  ├ • Listed (d*.txt in .)
+  └ • Thought for 0.5s
+   
+  ● No files yet. Creating d1.txt first, one per turn as required.                                                                                                                                    
+   
+  └ • Wrote (d1.txt)
+   
+  ● d1.txt is done. Now d2.txt.                                                                                                                                                                       
+   
+  └ • Writing
+
+    ◎ Goal · Active · 5s active
+  16K tokens · 2 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal pause · /goal edit · /goal clear
+    ⠇ Running 8s · ⚡ 116 tok/s · Option+Enter queue · Enter steer · Ctrl+O details · Esc stop
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=2 state=run session=mvs_938c7d7d33764efea568db74d00b94d6 turn=turn_37b0085f-07a4-40b8-878a-c768c17dfc98 request=none agents=0/0 background=0
+
+
+
+
+
+
+

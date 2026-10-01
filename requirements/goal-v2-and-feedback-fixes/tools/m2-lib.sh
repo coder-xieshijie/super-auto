@@ -69,8 +69,23 @@ print(json.dumps({"at":int(time.time()*1000),"rc":int(sys.argv[1]),"args":sys.ar
   return $rc
 }
 
-# m2_up <runtime|tui|electron> [启动参数...]：--config 默认 $M2_CONFIG，可用 M2_UP_CONFIG 覆盖
+# m2_up <runtime|tui|electron> [启动参数...]：--config 默认 $M2_CONFIG，可用 M2_UP_CONFIG 覆盖。
+# 设了 M2_UP_LOCK（目录路径）时，up 经这把锁串行，up 后再等 M2_UP_GAP 秒（默认 6）放锁；与 m3-lib 的 M3_UP_LOCK
+# 指向同一路径即可让 M2、M3 脚本共用一把启动锁（m3_up 已持锁时传 M2_LOCK_HELD=1，不重复加锁）
 m2_up() {
+  if [ -n "${M2_UP_LOCK:-}" ] && [ -z "${M2_LOCK_HELD:-}" ]; then
+    local rc waited=0
+    until mkdir "$M2_UP_LOCK" 2>/dev/null; do
+      sleep 1; waited=$((waited + 1))
+      if [ "$waited" -gt 900 ]; then rmdir "$M2_UP_LOCK" 2>/dev/null; waited=0; fi
+    done
+    echo "$$ ${SC:-?} $(date +%s)" >"$M2_UP_LOCK/owner"
+    m2_log "up lock acquired"
+    M2_LOCK_HELD=1 m2_up "$@"; rc=$?
+    sleep "${M2_UP_GAP:-6}"
+    rm -f "$M2_UP_LOCK/owner"; rmdir "$M2_UP_LOCK" 2>/dev/null
+    return $rc
+  fi
   local kind=$1; shift
   local cfg=${M2_UP_CONFIG:-$M2_CONFIG} out proxy=()
   case " $* " in *" --fault "*) ;; *) [ "$kind" = runtime ] || proxy=($M2_PROXY_FLAG) ;; esac

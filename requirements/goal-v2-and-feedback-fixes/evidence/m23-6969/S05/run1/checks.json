@@ -1,0 +1,129 @@
+{
+  "scenario": "S05",
+  "attempt": "run1",
+  "evidenceDir": "S05/run1",
+  "head": "69696e4f2c32100bb372c6d6fbdbd60f1a9f9562",
+  "runId": "20261001-162711-d815cb",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162711-d815cb/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "替身：规则 A 两次 attempt，规则 B 已发出",
+      "result": "PASS",
+      "detail": {
+        "ruleA": [
+          [
+            1,
+            "injected",
+            500
+          ],
+          [
+            2,
+            "completed",
+            200
+          ]
+        ],
+        "ruleB": [
+          [
+            "injected",
+            502
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤2 paused(infra_retryable)、请求数 4",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(infra_retryable)",
+        "requests_used": 4,
+        "work_requests": 4,
+        "tokens_used": 20525
+      }
+    },
+    {
+      "id": "观察：发出后失败、没有用量的请求（规则 B 50113）使 usageIncomplete 为 true（919b53f1d4，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "usage_incomplete": true,
+        "tokens_used": 20525,
+        "settled": [
+          {
+            "outcome": "success",
+            "kind": "work",
+            "attempts": 1,
+            "usageKnown": null,
+            "usage": null
+          },
+          {
+            "outcome": "success",
+            "kind": "work",
+            "attempts": 2,
+            "usageKnown": null,
+            "usage": null
+          },
+          {
+            "outcome": "success",
+            "kind": "work",
+            "attempts": 1,
+            "usageKnown": null,
+            "usage": null
+          },
+          {
+            "outcome": "error",
+            "kind": "work",
+            "attempts": 1,
+            "usageKnown": null,
+            "usage": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "步骤3 paused(user_requested)、被取消的请求计入；请求数 = Inspector 条数 + 替身日志 client-closed 主执行请求数（verify 8b46dcd7）",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 2,
+        "inspectorGoalMain": 1,
+        "inspectorAllCalls": 1,
+        "faultProxyClientClosedMainN": [
+          2
+        ],
+        "inspectorPlusClientClosed": 2,
+        "mainRequestsSent(fault log)": 2,
+        "mainSentN": [
+          1,
+          2
+        ],
+        "clientClosedAll": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "观察：被取消请求无用量时 usageIncomplete（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "usage_incomplete": true,
+        "tokens_used": 20096,
+        "settled": [
+          {
+            "outcome": "success",
+            "kind": "work",
+            "attempts": 1
+          },
+          {
+            "outcome": "abort",
+            "kind": "work",
+            "attempts": 1
+          }
+        ]
+      }
+    }
+  ]
+}

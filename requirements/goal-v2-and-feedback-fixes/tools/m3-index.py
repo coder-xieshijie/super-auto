@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""汇总 evidence/m3/<场景>/<尝试>/checks.json 为 evidence/m3/runs-index.json（只读各运行的判定，不重新分析）。"""
+"""汇总 <M2_ROOT>/<场景>/<尝试>/checks.json 为 <M2_ROOT>/runs-index.json（只读各运行的判定，不重新分析）。
+
+m2-analyze、m3-analyze、m23-obs-analyze 三种格式都认；M23_HEAD 指定被测提交（默认 512fd9792f）。
+"""
 import glob
 import json
 import os
@@ -9,19 +12,26 @@ VERIFY_SHA = '8b46dcd7a097eac0f1213dd0ac6064a661667aee9c5c929f1bb0d6143819b03f'
 runs = []
 for f in sorted(glob.glob(os.path.join(ROOT, '*', '*', 'checks.json'))):
     d = json.load(open(f))
+    # m2-analyze 的格式：authCheck 单个对象、没有 valid；前提一项（S09/S10）为 UNVERIFIED 时视为前提不满足
+    auth = d.get('auth') or ([d['authCheck']] if d.get('authCheck') else [])
+    bad = sum((a.get('contentSafety401') or 0) + (a.get('electronAuthLost') or 0) for a in auth)
+    pre_items = [c for c in d['checks'] if c['id'].startswith('前提')]
+    pre_ok = d['precondition'].get('ok') if isinstance(d.get('precondition'), dict) else all(c['result'] == 'PASS' for c in pre_items)
+    valid = d['valid'] if 'valid' in d else (pre_ok and bad == 0)
     runs.append({
-        'scenario': d['scenario'], 'attempt': d['attempt'], 'dir': os.path.relpath(os.path.dirname(f), os.path.join(ROOT, '..')),
+        'scenario': d.get('scenario') or 'OBS-budget-steer', 'attempt': d['attempt'],
+        'dir': os.path.relpath(os.path.dirname(f), os.path.join(ROOT, '..')),
         'head': d.get('head'), 'dirty': d.get('dirty'), 'runId': d.get('runId'), 'restartRunId': d.get('restartRunId'),
-        'valid': d.get('valid'), 'precondition': d.get('precondition', {}).get('ok'),
-        'contentSafety401': sum((a.get('contentSafety401') or 0) for a in d.get('auth') or []),
-        'electronAuthLost': sum((a.get('electronAuthLost') or 0) for a in d.get('auth') or []),
+        'valid': valid, 'precondition': pre_ok,
+        'contentSafety401': sum((a.get('contentSafety401') or 0) for a in auth),
+        'electronAuthLost': sum((a.get('electronAuthLost') or 0) for a in auth),
         'checks': [{'id': c['id'], 'result': c['result']} for c in d['checks']],
     })
 quota = os.path.join(ROOT, 'S35', 'q1', 'quota-show.out.json')
 out = {
-    'head': '512fd9792f3e971a38f5cad92fe518313fc192db', 'verifySha256': VERIFY_SHA,
+    'head': os.environ.get('M23_HEAD', '512fd9792f3e971a38f5cad92fe518313fc192db'), 'verifySha256': VERIFY_SHA,
     'quotaReadOnlyCheck': {'dir': 'm3/S35/q1', 'result': json.load(open(quota)).get('error') if os.path.exists(quota) else None,
-                           'appliesTo': ['S35', 'S36'], 'blindSpot': 'B15'},
+                           'appliesTo': ['S35', 'S36'], 'blindSpot': 'B15'} if os.path.exists(quota) else None,
     'runs': runs,
 }
 json.dump(out, open(os.path.join(ROOT, 'runs-index.json'), 'w'), indent=2, ensure_ascii=False)

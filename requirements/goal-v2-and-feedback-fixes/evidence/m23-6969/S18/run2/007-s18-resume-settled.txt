@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.                                                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll check the current state of the workspace before creating anything.                                                                                                                           
+   
+  ├ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163924-389a50/workspace · 3 output lines
+  └ • Get Goal
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    Goal resumed.                                                                                                                                                                                     
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Code: 42212                                                                                                                                                                                       
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+
+    ◎ Goal · Usage limited · 4s active
+  16K+ tokens · 3 requests · Goal will continue automatically after the quota resets.
+  Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /plugins manages installed capabilities
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=error session=mvs_47318564ec9b4e9ab030f5d2f60f6d4f turn=none request=none agents=0/0 background=1
+

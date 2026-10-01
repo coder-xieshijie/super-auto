@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+  ● I'll write count.txt in the working directory with the numbers 1 to 3, one per line.                                                                                                              
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162701-0376e0/workspace/count.txt)
+   
+  ● Let me verify the file contents.                                                                                                                                                                  
+   
+  └ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162701-0376e0/workspace/count.txt)
+   
+    └ Interrupted after 7s · ⚡ 119 tok/s
+
+    ◎ Goal · Paused · 7s active
+  16K+ tokens · 3 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                                        Tip: /rewind restores an earlier turn
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=4 state=cancel session=mvs_85808ec10e574c9a879b588d246b3160 turn=turn_937d853a-fb84-42ac-ac7c-912b96ae8b9f request=none agents=0/0 background=1
+
+
+
+
+
+
+
+

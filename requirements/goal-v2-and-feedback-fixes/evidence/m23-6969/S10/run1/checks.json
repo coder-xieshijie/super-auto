@@ -1,0 +1,97 @@
+{
+  "scenario": "S10",
+  "attempt": "run1",
+  "evidenceDir": "S10/run1",
+  "head": "69696e4f2c32100bb372c6d6fbdbd60f1a9f9562",
+  "runId": "20261001-162805-c692c8",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-162805-c692c8/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "前提（S09 步骤3）：前 3 次各一个写文件工具调用",
+      "result": "UNVERIFIED",
+      "detail": {
+        "first3Tools": [
+          [
+            "glob"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "横幅“4 次请求”；悬停含“工作 3、收尾 1”",
+      "result": "PASS",
+      "detail": {
+        "policy": "3.7万 tokens\n4 次请求",
+        "hover": "本目标请求 4（工作 3、收尾 1）"
+      }
+    },
+    {
+      "id": "横幅“已达上限”，提示“创建新目标后继续”，无额度恢复文案",
+      "result": "PASS",
+      "detail": {
+        "status": "已达上限",
+        "guide": "创建新目标后继续"
+      }
+    },
+    {
+      "id": "continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "count": 0
+      }
+    },
+    {
+      "id": "队列无预算总结项；hold 无新 Turn",
+      "result": "PASS",
+      "detail": {
+        "queue": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        },
+        "turnBound": 1
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（a2594f4fca，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": [
+          {
+            "startedAtMs": 1790843315123,
+            "turnId": "turn_a19d090c-53c7-4b1f-9241-d31f0385b899",
+            "mentionsCreateNewGoal": true,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": false,
+            "mentionsRequestBudget": true,
+            "responseText": [
+              "已创建并确认：\n\n- `d1.txt`，内容为 `1`\n- `d2.txt`，内容为 `2`\n\n尚未创建 `d3.txt`、`d4.txt`、`d5.txt`。本轮执行因 Goal 达到请求预算而停止；如需继续，请创建新 Goal。\n\n<deliver-assets>\n<media type=\"file\" src=\"/"
+            ],
+            "responseToolIntents": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "步骤5：回复 11；Goal 仍 budget_limited，objective 不变，横幅仍“已达上限”",
+      "result": "PASS",
+      "detail": {
+        "reply": "11",
+        "status": "budget_limited(main_turn)",
+        "bannerAfter": "已达上限"
+      }
+    }
+  ]
+}

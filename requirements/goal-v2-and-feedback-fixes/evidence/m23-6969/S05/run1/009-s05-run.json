@@ -1,0 +1,88 @@
+{
+  "runId": "20261001-162711-d815cb",
+  "capturedAt": 1790843255568,
+  "git": {
+    "head": "69696e4f2c32100bb372c6d6fbdbd60f1a9f9562",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_c83619678b9842b7b0c7c46bb484a555/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790843245500,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 0,
+      "goal.work_requests": 0,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 0,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790843249510,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 1,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20114,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790843253522,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20320,
+      "goal.usage_incomplete": true
+    },
+    {
+      "at": 1790843255526,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(infra_retryable)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 4,
+      "goal.work_requests": 4,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20525,
+      "goal.usage_incomplete": true
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_5slxno4enlmup9tvsg",
+      "session_id": "mvs_c83619678b9842b7b0c7c46bb484a555",
+      "objective": "Create files b1.txt, b2.txt, b3.txt, b4.txt one at a time in this single turn, each containing its own number.",
+      "status": "paused",
+      "created_at": 1790843245360,
+      "updated_at": 1790843254636,
+      "tokens_used": 20525,
+      "time_used_seconds": 10,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "paused(infra_retryable)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 4,
+      "work_requests": 4,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": true
+    }
+  }
+}

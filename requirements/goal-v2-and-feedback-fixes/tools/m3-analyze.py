@@ -539,9 +539,18 @@ def s18(d):
     check('步骤2：只有一个新的 goal.turn_bound；屏幕先 Goal resumed. 再额度错误；回到额度受限，横幅仍为自动继续提示', ok2, det2)
     ok2b, det2b = one('2b', t_retry, reset, 's18-step2-screen', 's18-step2b-screen')
     info['rawGoalResumedCount'] = raw_count(d, 'Goal resumed.')
-    tui_turns = {s.get('turn') for s in [screen_status(d, 's18-step2b-screen')]}
+    tui_turns = {s.get('turn') for s in [screen_status(d, 's18-step2b-screen')]} - {None, '', 'none'}
     bound_turns = {e['payload'].get('turnId') for e in turn_bounds(ev, gid)}
-    det2b['retryTurnBound'] = bool(tui_turns & bound_turns)
+    # 没有不绑定 Goal 的续跑：状态栏有 turn 时它必须是绑定 Goal 的 Turn；Goal Turn 失败后状态栏为 turn=none（69696e4f2c
+    # 实测），这时改看代理日志：/retry 之后、重置之前的主执行 attempt 都属于唯一那个新绑定的 Turn（attempt 数等于该 Turn 的请求，
+    # 没有额外的普通续跑请求）
+    win_attempts = [x for x in fault_lines(os.path.join(d, 'fault-proxy.jsonl'), S)
+                    if x.get('event') == 'attempt' and x.get('role') == 'main' and t_retry <= x['at'] < reset]
+    det2b['statusBarTurn'] = sorted(tui_turns) or 'none'
+    det2b['mainAttemptsAfterRetry'] = [(x.get('n'), x.get('attempt')) for x in win_attempts]
+    tb_retry = turn_bounds(ev, gid, after=t_retry, before=reset)
+    det2b['retryTurnBound'] = bool(tui_turns & bound_turns) if tui_turns else (
+        len(tb_retry) == 1 and len({x.get('n') for x in win_attempts}) == 1)
     det2b['retryUnavailableNotice'] = [ln.strip() for ln in screen_lines(d, 's18-step2b-screen') if 'There is no failed response to retry' in ln]
     check('步骤2b：与步骤2 相同；没有不绑定 Goal 的续跑', ok2b and det2b['retryTurnBound'], det2b)
     fin = screen_lines(d, 's18-final-screen')

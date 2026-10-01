@@ -1,0 +1,50 @@
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › Use /plan before a change that needs design or investigation.                                                                                                                                  │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+  ● I'll write the file and verify it.                                                                                                                                                                
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163830-aca3e4/workspace/count.txt)
+  └ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163830-aca3e4/workspace/count.txt)
+   
+    Goal · Paused                                                                                                                                                                                     
+    Objective: Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                               
+    Time used: 8s                                                                                                                                                                                     
+    16K+ tokens · 3 requests                                                                                                                                                                          
+    Requests: 3 (work 3, wrap-up 0) · usage incomplete                                                                                                                                                
+    /goal resume · /goal edit · /goal clear                                                                                                                                                           
+   
+    Goal resumed.                                                                                                                                                                                     
+   
+  ├ • Thought for 1.3s
+  └ • Update Goal
+   
+  ● Done. count.txt now holds the numbers 1 through 3, one per line.                                                                                                                                  
+                                                                                                                                                                                                      
+    - Path: /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-163830-aca3e4/workspace/count.txt                                                                         
+    - Content check I ran: read the file back after writing — 3 lines, values 1, 2, 3 (6 bytes, trailing newline after 3).                                                                            
+    
+    Created  count.txt ↗
+   
+    └ Completed in 6s · ⚡ 139 tok/s
+   
+    ✓ Goal complete · 15s · 17K+ tokens · 5 requests                                                                                                                                                  
+
+    Message · Enter send · Ctrl+J newline                                                                                                        Tip: /steer guides a response without interrupting it
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=d state=done session=mvs_5a00f735263e4308b17c4cf217f84fd7 turn=turn_0f3abd1a-567e-4202-8658-8331469635fe request=none agents=0/1 background=0
