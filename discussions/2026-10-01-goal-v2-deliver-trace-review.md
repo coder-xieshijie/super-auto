@@ -306,6 +306,24 @@ topics: [MR 7595 的完整 trace, deliver 会话复盘, 人工介入的原因, �
 
 决定：无新决定；V1 落点仍待用户。
 
+## 用户：合入 #26，V1 按 (a)，投递 7595
+
+用户原话：
+
+> 先把当前的 PR 合入，然后在本地的 main 分支拉取到最新。
+> 接着，把v1的落点告诉他，V1 按 (a) 来，先改 spec §18, 把消息投递到 7595 这个 session 当中，同时把当前所有的变更都一起告诉这个 session。
+
+做了什么：
+
+- [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26) 按此前惯例 squash 合入（`74ae69d`，合入前核对 head 为 `ee4c96d`、CI 通过）。本机 `dev-skills` main 从 `4c45165` 快进到 `74ae69d`，`~/.agents/skills/deliver` 与 `core-spec` 的软链接指向这个目录，在途会话读到的就是新版。main 上重跑 [deliver-select-cases.sh](../research/goal-v2-deliver-trace-2026-10-01/deliver-select-cases.sh) 55 个、[deliver-deviation-cases.sh](../research/goal-v2-deliver-trace-2026-10-01/deliver-deviation-cases.sh) 58 个断言，全部通过。
+- 投递前读了 7595 会话的跨会话消息：它最后收到的是 #25（`4c45165`）的说明，所以这次只讲 #26 与 V1。会话当时空闲（M4 场景与 M3 重跑在后台子代理里跑），用 SendMessage 排队投递，没有中断；回执为已送达、回合已开始。
+- 消息内容（[修复方案第 9 节](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md#9-投递-7595合入-26v1-按-a2026-10-01)有要点）：
+  - #26 三项：口径偏差由 owner 记录、验证者判断（`run-verifier.mjs --plan`、门禁第 6 项；已重新冻结的 S04、S05、S09 不补记）；里程碑检查分代码、证据两部分，代码部分提交后即开始，修复等本轮记录存下再提交；修复后的重跑用 `select-scenarios.mjs` 选，建议一次性把 plan 的“验证与验收”改成带涉及路径的表。
+  - V1 按 (a)：spec §18 加一节“验证实例并行”的参考写法；用户原话只确认方向，具体文字请用户确认后按 #25 的规则写“重新确认”行并重新交接；先探针再实现修法 A；场景分组；不打断 M4，赶在 M6 之前完成；注意 M4 之后第一个提交的门禁时间。
+- 新加的一点：§18.1 的场景会改测试账号额度。V1 让实例共用账号并行之后，改额度的场景要独占账号单独成组，否则会让同时在跑的场景撞上额度限制。修复方案第 2.4 节原先没写，这次写进了给 7595 的参考写法。
+
+决定：#26 合入（用户）；V1 按 (a)，先改 spec §18 再由 7595 的 owner 实现（用户）；修法 B 仍按建议先不做。
+
 ## 待确认与待验证
 
 见研究档案第 9 节。
