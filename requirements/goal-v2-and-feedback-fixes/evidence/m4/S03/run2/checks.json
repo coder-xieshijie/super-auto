@@ -1,0 +1,150 @@
+{
+  "scenario": "S03",
+  "attempt": "run2",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-185252-0fa0c3",
+  "evidenceDir": "S03/run2",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-185252-0fa0c3/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "getGoalCalls": [
+        [
+          17,
+          17
+        ],
+        [
+          22,
+          22
+        ]
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：首个 Goal Turn 结算前请求数 >= 3、token > 0",
+      "result": "PASS",
+      "detail": {
+        "at": 1790852006813,
+        "requests": 3,
+        "tokens": 28298,
+        "firstTurnSettled": 1790852070848
+      }
+    },
+    {
+      "id": "步骤3：横幅“N 次请求”与接口一致；重载后一致且不小于重载前",
+      "result": "PASS",
+      "detail": {
+        "bannerBefore": "2.8万 tokens\n3 次请求",
+        "apiBefore": 3,
+        "bannerAfter": "2.8万 tokens\n4 次请求",
+        "apiAfter": 4
+      }
+    },
+    {
+      "id": "get_goal 结果的请求数 = 截至发出该次调用的请求（含）的 Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "(inspectorUpTo, get_goal.requestsUsed)": [
+          [
+            17,
+            17
+          ],
+          [
+            22,
+            22
+          ]
+        ]
+      }
+    },
+    {
+      "id": "终态：请求数 = Inspector 中 Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 25,
+        "inspector": 25,
+        "status_reason": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "补充消息（输入框默认排队发送）那一轮的模型请求不在 Goal 主执行请求中，请求数不包含它；助手回复为 4",
+      "result": "PASS",
+      "detail": {
+        "replaceDialogShown": false,
+        "sentAt": 1790852010246,
+        "firstRequestWithSupplement": {
+          "turnId": "turn_35942ad7-4e29-4761-aa3e-f037e450150f",
+          "startedAt": 1790852152005,
+          "goalBound": false,
+          "isLastUserMessage": true
+        },
+        "answeredInsideGoalTurn": false,
+        "reply": "4",
+        "requests_used": 25,
+        "goalMain": 25,
+        "queueAfterSend": [
+          {
+            "item_id": "queue_b3b41967-b068-48d9-88cc-cb4995f15256",
+            "session_id": "mvs_7fc8c1ae94784948a0b2e7274545a2c2",
+            "status": "queued",
+            "source": "api",
+            "content": "What is 2 + 2? Reply with only the number.",
+            "attachments": [],
+            "model_info": {
+              "provider_id": "minimax",
+              "model_id": "MiniMax-M3.1-Flash-Preview",
+              "context_limit": 512000,
+              "reasoning": true,
+              "thinking": {
+                "effort": "default"
+              }
+            },
+            "created_at": 1790852010324
+          }
+        ]
+      }
+    },
+    {
+      "id": "verifier 请求不计入请求数；验证前后 tokens 增量 = verifier 输入+输出之和（多次验证时加上其间主执行请求的用量）",
+      "result": "PASS",
+      "detail": {
+        "tokensAtVerification": 33383,
+        "final": 92495,
+        "delta": 59112,
+        "verifierInOut": 55695,
+        "verifierChildren": [
+          "mvs_694943b1087440669fa974e9d85bd19f",
+          "mvs_5b2c663704464e32a2ab51e845acb938"
+        ],
+        "mainAfterFirstVerification": 4,
+        "mainAfterInOut": 3417,
+        "status_reason": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "accountingVersion 为 2",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2
+      }
+    },
+    {
+      "id": "不得出现：第一个 Goal Turn 结算前横幅显示“0 次请求”或“0 tokens”",
+      "result": "PASS",
+      "detail": {
+        "bannerBefore": "2.8万 tokens\n3 次请求"
+      }
+    }
+  ],
+  "info": {}
+}

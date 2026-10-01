@@ -1,0 +1,110 @@
+{
+  "scenario": "S23",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-175739-43f741",
+  "evidenceDir": "S23/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-175739-43f741/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "pauseRecorded": 1,
+      "resumeHeld": 1
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1 与步骤4 记录的暂停、清除请求都不带版本字段",
+      "result": "PASS",
+      "detail": {
+        "pause": [
+          [
+            "PATCH",
+            "{\"status\":\"paused\"}"
+          ]
+        ],
+        "clear": [
+          [
+            "DELETE",
+            "/minimax-desktop/api/v1/session/mvs_56ce475b69a044d69e799865d1b0d4b5/goal",
+            null
+          ]
+        ],
+        "step4Records": [
+          [
+            "PATCH",
+            "{\"status\":\"active\",\"expected_goal_id\":\"tg_0mahs7xx1kmupd29r7\",\"expected_updated_at\":1790848677510}"
+          ],
+          [
+            "DELETE",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤3：提示“目标已在后台更新，已刷新为最新状态”；Goal 仍为 paused；token_budget 为 500000",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态"
+        ],
+        "status": "paused(user_requested)",
+        "token_budget": 500000,
+        "heldBody": {
+          "status": "active",
+          "expected_goal_id": "tg_0mahs7xx1kmupd29r7",
+          "expected_updated_at": 1790848676358
+        },
+        "bannerStatus": "已停止"
+      }
+    },
+    {
+      "id": "步骤4 的恢复请求携带的版本等于步骤2 之后接口读到的最新版本",
+      "result": "PASS",
+      "detail": {
+        "resumeBody": {
+          "status": "active",
+          "expected_goal_id": "tg_0mahs7xx1kmupd29r7",
+          "expected_updated_at": 1790848677510
+        },
+        "latestAfterStep2": {
+          "goal_id": "tg_0mahs7xx1kmupd29r7",
+          "updated_at": 1790848677510
+        },
+        "resumeRequests": 1
+      }
+    },
+    {
+      "id": "步骤4：恢复成功（10 秒内出现新的 goal.turn_bound）；清除后 GET .../goal 返回 {}",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResumeMs": [
+          57
+        ],
+        "bannerStatus": "进行中",
+        "getAfterClear": {}
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "conflict_resume",
+        "expected": "目标已在后台更新，已刷新为最新状态",
+        "seen": "目标已在后台更新，已刷新为最新状态",
+        "exact": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "scenario": "S39",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-180818-65d575",
+  "evidenceDir": "S39/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-180818-65d575/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "blocked(worker_reported)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：continue-button 为 1",
+      "result": "PASS",
+      "detail": {
+        "continueButton": 1,
+        "banner": "受阻"
+      }
+    },
+    {
+      "id": "步骤3：回复为 13；Goal 仍为 blocked，objective 不变",
+      "result": "PASS",
+      "detail": {
+        "reply": "13",
+        "status_reason": "blocked(worker_reported)",
+        "objectiveSame": true,
+        "continueButtonAfterReply": 1,
+        "banner": "受阻"
+      }
+    },
+    {
+      "id": "步骤4：10 秒内出现属于该 Goal 的新 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          73,
+          3139
+        ],
+        "statusAfterClick": null,
+        "final": "blocked(worker_reported)"
+      }
+    }
+  ],
+  "info": {}
+}

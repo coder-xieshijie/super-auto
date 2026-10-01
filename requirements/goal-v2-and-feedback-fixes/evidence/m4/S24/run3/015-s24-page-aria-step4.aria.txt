@@ -1,0 +1,255 @@
+- alert
+- button "新建任务":
+  - img
+  - text: 新建任务 ⌘N
+- button "新建云端任务":
+  - img
+- button "插件·技能":
+  - img
+  - text: 插件·技能
+- button "定时":
+  - img
+  - text: 定时
+- button "网站":
+  - img
+  - text: 网站
+- button "远程":
+  - img
+  - text: 远程
+- radio "本地" [checked]
+- img
+- text: 本地
+- radio "云端"
+- img
+- text: 云端
+- button "项目" [expanded]:
+  - text: 项目
+  - img
+- button "筛选与分组":
+  - img
+- button "新建项目":
+  - img
+- button "未选项目" [disabled]:
+  - button "未选项目" [disabled]:
+    - img
+    - text: 未选项目
+    - button "新建任务":
+      - img
+- complementary "你的 Agents 现已移至插件":
+  - paragraph: 你的 Agents 现已移至插件
+  - button "关闭 Agents 引导":
+    - img
+  - button "立即查看"
+- status
+- text: MiniMax480534 Max
+- button "站内信，4 条未读消息":
+  - img
+- separator "Resize sidebar"
+- text: 创建包含 Hello 标题的 page.html
+- button:
+  - img
+- button "打开终端":
+  - img
+- button "工作区面板" [pressed]:
+  - img
+- button "侧边面板":
+  - img
+- img
+- text: Goal Create a file named page.html containing a heading that says Hello. 18:03
+- button "回退":
+  - img
+- button "复制":
+  - img
+- text: "共执行 14 秒 输出速度: 168 token/s"
+- paragraph: I'll check the workspace state first, then create the file if needed.
+- button "思考 1 次, 查看 1 个文件, 执行 1 条命令":
+  - img
+  - text: 思考 1 次, 查看 1 个文件, 执行 1 条命令
+- paragraph:
+  - text: Empty workspace — creating
+  - code: page.html
+  - text: with the heading now.
+- button "编辑 1 个文件":
+  - img
+  - text: 编辑 1 个文件
+- paragraph: Now verifying the file content on disk.
+- button "思考 1 次, 查看 1 个文件":
+  - img
+  - text: 思考 1 次, 查看 1 个文件
+- paragraph: File verified on disk with the required heading. Marking the goal complete.
+- button "使用 1 个工具":
+  - img
+  - text: 使用 1 个工具
+- paragraph:
+  - code: page.html
+  - text: 已创建在工作区根目录,内容为最小可用的 HTML 页面,
+  - code: <body>
+  - text: 中包含唯一的标题元素
+  - code: <h1>Hello</h1>
+  - text: 。
+- paragraph:
+  - strong: 文件路径
+- paragraph:
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-180306-bb0a44/data/sessions/mvs_8284d6e3706f4714af5f932f0ab729c7/workspace/page.html": page.html
+- paragraph:
+  - strong: 我做的检查
+- list:
+  - listitem:
+    - text: 创建前用 glob 确认工作区中不存在
+    - code: page.html
+    - text: (目录为空),因此不存在覆盖既有文件的风险。
+  - listitem:
+    - text: 写入后用 read 从磁盘读回文件,确认 11 行 / 213 字节,结构为 DOCTYPE +
+    - code: <head>
+    - text: (charset、viewport、
+    - code: <title>Hello</title>
+    - text: )+
+    - code: <body>
+    - text: 中的
+    - code: <h1>Hello</h1>
+    - text: 。
+- paragraph:
+  - strong: 使用方式
+  - text: :直接双击文件或拖入浏览器打开即可看到 "Hello" 标题;若需要本地服务,可在该目录执行
+  - code: python3 -m http.server
+  - text: 后访问
+  - code: http://localhost:8000/page.html
+  - text: 。
+- button "page.html — 含 Hello 标题的 HTML 页面": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 18:03 Also make the heading text bold. 18:03
+- button "回退":
+  - img
+- button "复制":
+  - img
+- text: "已执行 18 秒 输出速度: 117 token/s"
+- button "思考 1 次":
+  - img
+  - text: 思考 1 次
+- paragraph:
+  - text: Making the heading bold with a semantic
+  - code: <strong>
+  - text: plus an explicit style rule.
+- button "编辑 1 个文件, 查看 1 个文件":
+  - img
+  - text: 编辑 1 个文件, 查看 1 个文件
+- paragraph:
+  - text: 标题已加粗,做了两层处理:语义标签
+  - code: <strong>
+  - text: 包裹文字,同时在
+  - code: <head>
+  - text: 的样式里显式声明
+  - code: "h1 { font-weight: 700; }"
+  - text: ",这样即使浏览器默认样式不同,加粗效果也保持稳定。"
+- paragraph:
+  - strong: 文件路径
+- paragraph:
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-180306-bb0a44/data/sessions/mvs_8284d6e3706f4714af5f932f0ab729c7/workspace/page.html": page.html
+- paragraph:
+  - strong: 我做的检查
+- paragraph:
+  - text: 编辑后用 read 从磁盘读回文件,确认现在共 16 行:第 7–11 行是新增的
+  - code: <style>
+  - text: 规则,第 14 行为
+  - code: <h1><strong>Hello</strong></h1>
+  - text: ",DOCTYPE、meta、title 结构保持原样未受影响。原先的"
+  - code: <h1>Hello</h1>
+  - text: 已不存在,替换只命中了那一处。
+- paragraph:
+  - text: 如果你只想保留其中一种方式(比如去掉 CSS 只留
+  - code: <strong>
+  - text: ",或反过来去掉标签只留样式),告诉我即可调整。"
+- button "page.html — 标题已加粗": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "思考 1 次":
+  - img
+  - text: 思考 1 次
+- paragraph: Goal is still active, so let me re-confirm the file's current state before closing it out.
+- button "查看 1 个文件":
+  - img
+  - text: 查看 1 个文件
+- text: Use a blue color for the heading. 18:05
+- button "复制":
+  - img
+- text: 思考中...
+- button "跳转到第 1 条对话"
+- button "跳转到第 2 条对话"
+- button "单击跳转回答起点，双击跳转顶部":
+  - img
+- status:
+  - img
+  - text: 进行中
+  - button "Create a file named page.html containing a heading that says Hello."
+  - text: 4.4万 tokens 6 次请求 33s
+  - button "编辑":
+    - img
+  - button "暂停":
+    - img
+  - button "清除目标":
+    - img
+- paragraph: 问任何问题
+- group:
+  - button "添加附件或技能":
+    - img
+  - button "始终授权":
+    - img
+    - text: 始终授权
+  - button "上下文已使用 6%"
+  - button "选择模型 · M3.1-Flash-Preview · default"
+  - button:
+    - img
+  - button "停止生成"
+- paragraph: 内容由AI生成，重要信息请务必核查
+- complementary:
+  - button "进度":
+    - text: 进度
+    - img
+  - text: 跟踪较长任务的进度
+  - button "Subagents":
+    - text: Subagents
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "交付物":
+    - text: 交付物
+    - img
+  - button "workspace"
+  - button:
+    - img
+  - button:
+    - img
+  - button "page.html — 含 Hello 标题的 HTML 页面":
+    - img
+    - text: page.html — 含 Hello 标题的 HTML 页面
+- complementary "开发者面板":
+  - heading "拖动或使用方向键移动开发者面板" [level=2]:
+    - button "拖动或使用方向键移动开发者面板": 开发者面板
+  - button "展开开发者面板":
+    - img
+- complementary
+- button "收起侧边栏":
+  - img
+- button "搜索":
+  - img
+- tooltip "云端任务 New 关闭 显示同步到 Web 和 App 的任务":
+  - text: 云端任务 New
+  - button "关闭":
+    - img
+  - paragraph: 显示同步到 Web 和 App 的任务

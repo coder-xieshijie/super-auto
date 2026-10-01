@@ -1,0 +1,223 @@
+{
+  "scenario": "S29",
+  "attempt": "run2",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-182235-ec2322",
+  "evidenceDir": "S29/run2",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-182235-ec2322/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "waitReasonReached": true,
+      "subagent": [
+        {
+          "taskId": "bg_b5f59e2c-fe44-4ee8-93fd-91b5b1567b3c",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790850188235,
+          "updatedAtMs": 1790850188344,
+          "endedAtMs": null,
+          "parentTurnId": "turn_78573aa4-d5e3-4439-b9f9-b7226473bb09",
+          "description": "Write sub.txt after 40s wait"
+        }
+      ],
+      "sideTurn": "turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+      "sideTurnGoalBound": false,
+      "reply": "42"
+    }
+  },
+  "checks": [
+    {
+      "id": "会话 A 的 Goal 有至少 2 个 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "goalTurnBound": 2
+      }
+    },
+    {
+      "id": "会话 A 的通知共 2 条：普通轮“等待你的确认”与“目标已完成”，标题都为会话 A 的标题",
+      "result": "PASS",
+      "detail": {
+        "titleA": "Run background subagent writing sub.txt",
+        "notificationsA": [
+          [
+            "Run background subagent writing sub.txt",
+            "等待你的确认",
+            1790850195421
+          ],
+          [
+            "Run background subagent writing sub.txt",
+            "目标已完成",
+            1790850310275
+          ]
+        ],
+        "allShown": [
+          [
+            "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+            "Run background subagent writing sub.txt",
+            "等待你的确认"
+          ],
+          [
+            "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+            "Run background subagent writing sub.txt",
+            "目标已完成"
+          ]
+        ],
+        "requestedNotShownA": []
+      }
+    },
+    {
+      "id": "除这两条外没有会话 A 的通知（Goal Turn 结束时没有通知）",
+      "result": "PASS",
+      "detail": {
+        "countA": 2,
+        "perNotificationTurn": [
+          {
+            "body": "等待你的确认",
+            "shownAtMs": 1790850195421,
+            "data": {
+              "sessionId": "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+              "source": "local",
+              "action": "navigate_to_session"
+            },
+            "turn": {
+              "turnId": "turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+              "first": 1790850193243,
+              "last": 1790850194866,
+              "source": "api",
+              "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+              "firstRole": "user",
+              "firstText": "What is 17 + 25? Answer with just the number.",
+              "goalBound": false
+            }
+          },
+          {
+            "body": "目标已完成",
+            "shownAtMs": 1790850310275,
+            "data": {
+              "sessionId": "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+              "source": "local",
+              "action": "navigate_to_session"
+            },
+            "turn": {
+              "turnId": "turn_506701fe-24ef-4fdd-a7b6-5b1347a1d691",
+              "first": 1790850237383,
+              "last": 1790850243427,
+              "source": "thread-goal",
+              "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+              "firstRole": "assistant",
+              "firstText": "The background task finished — let me read its output and verify the file.",
+              "goalBound": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "点击“目标已完成”通知后界面进入会话 A",
+      "result": "PASS",
+      "detail": {
+        "clicked": {
+          "ok": true,
+          "sessionId": "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+          "body": "目标已完成",
+          "title": "Run background subagent writing sub.txt",
+          "clickedAtMs": 1790850317329,
+          "url": "app://./archon"
+        },
+        "bannerObjectiveAfterClick": "Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only when sub.txt contains sub-done.",
+        "homeBeforeClick": true
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "notify_completed",
+        "expected": "目标已完成",
+        "seen": "目标已完成",
+        "exact": true
+      }
+    ],
+    "s29NotificationTurns": [
+      {
+        "body": "等待你的确认",
+        "shownAtMs": 1790850195421,
+        "data": {
+          "sessionId": "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+          "source": "local",
+          "action": "navigate_to_session"
+        },
+        "turn": {
+          "turnId": "turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+          "first": 1790850193243,
+          "last": 1790850194866,
+          "source": "api",
+          "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+          "firstRole": "user",
+          "firstText": "What is 17 + 25? Answer with just the number.",
+          "goalBound": false
+        }
+      },
+      {
+        "body": "目标已完成",
+        "shownAtMs": 1790850310275,
+        "data": {
+          "sessionId": "mvs_8502a4f4a4a14c5d954f92e09dd15356",
+          "source": "local",
+          "action": "navigate_to_session"
+        },
+        "turn": {
+          "turnId": "turn_506701fe-24ef-4fdd-a7b6-5b1347a1d691",
+          "first": 1790850237383,
+          "last": 1790850243427,
+          "source": "thread-goal",
+          "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+          "firstRole": "assistant",
+          "firstText": "The background task finished — let me read its output and verify the file.",
+          "goalBound": true
+        }
+      }
+    ],
+    "s29Turns": [
+      {
+        "turnId": "turn_78573aa4-d5e3-4439-b9f9-b7226473bb09",
+        "first": 1790850181569,
+        "last": 1790850191531,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_78573aa4-d5e3-4439-b9f9-b7226473bb09",
+        "firstRole": "user",
+        "firstText": "Start a background subagent task (task tool, run in background) that waits 40 se"
+      },
+      {
+        "turnId": "turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+        "first": 1790850193243,
+        "last": 1790850194866,
+        "source": "api",
+        "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+        "firstRole": "user",
+        "firstText": "What is 17 + 25? Answer with just the number."
+      },
+      {
+        "turnId": "turn_506701fe-24ef-4fdd-a7b6-5b1347a1d691",
+        "first": 1790850237383,
+        "last": 1790850243427,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_cr50mp1pyemupdyjst:turn:turn_a9d6a6e1-349c-4603-bf96-780ea56bb0f6",
+        "firstRole": "assistant",
+        "firstText": "The background task finished — let me read its output and verify the file."
+      }
+    ],
+    "s29GoalA": "complete(verifier_met)"
+  }
+}

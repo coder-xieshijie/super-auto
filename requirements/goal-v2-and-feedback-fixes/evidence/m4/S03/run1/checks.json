@@ -1,0 +1,26 @@
+{
+  "scenario": "S03",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-183747-4647e5",
+  "evidenceDir": "S03/run1",
+  "auth": [
+    {}
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": false,
+    "detail": {
+      "inputContaminated": true
+    }
+  },
+  "checks": [
+    {
+      "id": "analyzer-error",
+      "result": "UNVERIFIED",
+      "detail": "Traceback (most recent call last):\n  File \"/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/tools/m4-analyze.py\", line 724, in run\n    FNS[scn](d)\n  File \"/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/tools/m4-analyze.py\", line 139, in s03\n    three['goal.requests_used'] >= 3 and three['goal.tokens_used'] > 0 and (not first_settle or three['at'] < first_settle),\nKeyError: 'goal.requests_used'\n"
+    }
+  ],
+  "info": {}
+}

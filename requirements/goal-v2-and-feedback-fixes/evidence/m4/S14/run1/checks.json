@@ -1,0 +1,76 @@
+{
+  "scenario": "S14",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-185734-6dc20f",
+  "evidenceDir": "S14/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-185734-6dc20f/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "waitReasonReached": true,
+      "subagentTasks": [
+        {
+          "taskId": "bg_37149397-e2f6-43b3-912c-3aff4007c60e",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790852286827,
+          "updatedAtMs": 1790852286932,
+          "endedAtMs": null,
+          "parentTurnId": "turn_43ac65ae-d0d7-491a-b65f-615e42df628d",
+          "description": "Write sub-done marker after 40s"
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：横幅为“等待后台任务完成”；continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "banner": "等待后台任务完成",
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "步骤3：消息在 Goal 等待时得到回复 42，接口 wait_reason 仍为 required_background",
+      "result": "PASS",
+      "detail": {
+        "electronSendBlockedByReplaceDialog": false,
+        "reply": "42",
+        "waitReasonAfterReply": "required_background",
+        "subagentStatusAfterReply": [
+          "running"
+        ]
+      }
+    },
+    {
+      "id": "subagent 任务结束后出现新的 goal.turn_bound（只一次），最终 complete(verifier_met)，sub.txt 为 sub-done",
+      "result": "PASS",
+      "detail": {
+        "subagentEndedAt": 1790852336815,
+        "turnBoundAt": [
+          1790852277856,
+          1790852336826
+        ],
+        "turnBoundBeforeEndAfterFirst": 0,
+        "turnBoundAfterEnd": 1,
+        "status_reason": "complete(verifier_met)",
+        "sub.txt": "sub-done\n"
+      }
+    }
+  ],
+  "info": {
+    "s14SentFromComposer": true
+  }
+}

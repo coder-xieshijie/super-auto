@@ -1,0 +1,110 @@
+{
+  "scenario": "S16",
+  "attempt": "run2-nohold",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-190319-f72e8c",
+  "evidenceDir": "S16/run2-nohold",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-190319-f72e8c/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "runningBashTasks": [
+        {
+          "taskId": "bg_a0a2ea06-188d-4e03-8f85-861ffa55a374",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790852634476,
+          "updatedAtMs": 1790852634479,
+          "endedAtMs": null,
+          "parentTurnId": "51b4421f-6d2c-4b88-ac32-31ca33d47a87",
+          "description": "python3 -m http.server 8767"
+        }
+      ],
+      "port8767": "200",
+      "statusBeforeResume": "paused(user_requested)",
+      "sentFromComposer": true
+    }
+  },
+  "checks": [
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound，且只有一个（两次快速点击）",
+      "result": "PASS",
+      "detail": {
+        "mode": "nohold",
+        "clicks": {
+          "1": {
+            "startAtOffsetMs": 15,
+            "endAtOffsetMs": 83,
+            "ok": true,
+            "error": null
+          },
+          "2": {
+            "startAtOffsetMs": 77,
+            "endAtOffsetMs": 5308,
+            "ok": false,
+            "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByTestId('thread-goal-banner-resume').first()\n"
+          }
+        },
+        "bothClicksReachedButton": false,
+        "resumePatchRequests": [
+          {
+            "seq": 1,
+            "at": 59,
+            "held": false,
+            "body": "{\"status\":\"active\",\"expected_goal_id\":\"tg_tmesyjlnrcmupfeu6l\",\"expected_updated_at\":1790852621801}"
+          }
+        ],
+        "heldAfterBothClicks": [],
+        "releaseAtOffsetMs": null,
+        "turnBoundAfterClickMs": [
+          70
+        ],
+        "within10s": 1,
+        "resumeButtonAfterClicks": 0,
+        "toasts": []
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，step.txt 为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "step.txt": "1"
+      }
+    },
+    {
+      "id": "不得出现：恢复后 active、无新 turn_bound、wait_reason 为空持续 30 秒以上",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAfterReachMs": 70,
+        "activeNoWaitSamples": 4
+      }
+    }
+  ],
+  "info": {
+    "s16Clicks": {
+      "1": {
+        "startAtOffsetMs": 15,
+        "endAtOffsetMs": 83,
+        "ok": true,
+        "error": null
+      },
+      "2": {
+        "startAtOffsetMs": 77,
+        "endAtOffsetMs": 5308,
+        "ok": false,
+        "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByTestId('thread-goal-banner-resume').first()\n"
+      }
+    }
+  }
+}

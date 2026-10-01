@@ -1,0 +1,86 @@
+{
+  "scenario": "S31",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-182802-8773b6",
+  "evidenceDir": "S31/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-182802-8773b6/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "paused(verifier_runtime)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：status_reason 以 paused(verifier_ 开头",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(verifier_runtime)"
+      }
+    },
+    {
+      "id": "步骤3：子会话里“重试”按钮为 0，页面有“校验由父目标管理”；点入口后回到父会话",
+      "result": "PASS",
+      "detail": {
+        "retryButtons": 0,
+        "noticeCount": 1,
+        "managedText": true,
+        "openParentEntry": true,
+        "childContinueButton": 0,
+        "childBanner": 0,
+        "parentObjectiveAfterOpen": "Write the numbers 1 to 3 into count.txt, one number per line, then stop."
+      }
+    },
+    {
+      "id": "步骤4 之后：一个新的 goal.turn_bound；该 Turn 第一次请求含校验中断说明与原因标识；之后只派发一次校验；最终 complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResumeMs": [
+          76
+        ],
+        "noticeInFirstRequest": true,
+        "noticeReason": "paused(verifier_runtime",
+        "statusReasonToken": "verifier_runtime",
+        "verificationDispatchedAfterResume": [
+          13781
+        ],
+        "status_reason": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "不得出现：恢复后不经工作 Goal Turn 直接派发校验",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBound": 76,
+        "firstDispatch": 13781
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "verifier_managed",
+        "expected": "校验由父目标管理",
+        "seen": "校验由父目标管理",
+        "exact": true
+      },
+      {
+        "key": "verifier_open_parent",
+        "expected": "打开父目标会话",
+        "seen": "打开父目标会话",
+        "exact": true
+      }
+    ]
+  }
+}

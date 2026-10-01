@@ -394,7 +394,8 @@ def s15(d):
     ev = all_events(d)
     g = goal(d, 's15-final')
     gid = g.get('goal_id')
-    srv = [t for t in bg(d, 's15-bg-tasks-at-terminal') if t['kind'] == 'bash' and '8766' in t['description']]
+    # 只认 http.server 任务（模型自查时另起的 curl 等短任务描述里也会带 8766，m4 S15 run2 实测）
+    srv = [t for t in bg(d, 's15-bg-tasks-at-terminal') if t['kind'] == 'bash' and '8766' in t['description'] and 'http.server' in t['description']]
     port = (jl(d, 's15-port-at-terminal.json') or {}).get('httpCode')
     precondition(bool(srv), {'goalStartedServerTask': srv})
     served = workspace_file(d, 's15', 'served.txt')

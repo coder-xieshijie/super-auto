@@ -1,0 +1,112 @@
+{
+  "scenario": "S16",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-190026-1ae0e3",
+  "evidenceDir": "S16/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-190026-1ae0e3/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "runningBashTasks": [
+        {
+          "taskId": "bg_30dab35b-f64e-44d2-813d-ae71c0a7cad2",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790852466180,
+          "updatedAtMs": 1790852466182,
+          "endedAtMs": null,
+          "parentTurnId": "536cb280-ce1c-491e-b4d4-14ff8aa55122",
+          "description": "python3 -m http.server 8767"
+        }
+      ],
+      "port8767": "200",
+      "statusBeforeResume": "paused(user_requested)",
+      "sentFromComposer": true
+    }
+  },
+  "checks": [
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound，且只有一个（两次快速点击）",
+      "result": "PASS",
+      "detail": {
+        "mode": "hold",
+        "clicks": {
+          "1": {
+            "startAtOffsetMs": 19,
+            "endAtOffsetMs": 104,
+            "ok": true,
+            "error": null
+          },
+          "2": {
+            "startAtOffsetMs": 75,
+            "endAtOffsetMs": 165,
+            "ok": true,
+            "error": null
+          }
+        },
+        "bothClicksReachedButton": true,
+        "resumePatchRequests": [
+          {
+            "seq": 1,
+            "at": 81,
+            "held": true,
+            "body": "{\"status\":\"active\",\"expected_goal_id\":\"tg_v8lp7be72wmupfb54a\",\"expected_updated_at\":1790852449374}"
+          }
+        ],
+        "heldAfterBothClicks": [
+          1
+        ],
+        "releaseAtOffsetMs": 2001,
+        "turnBoundAfterClickMs": [
+          2051
+        ],
+        "within10s": 1,
+        "resumeButtonAfterClicks": 1,
+        "toasts": []
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，step.txt 为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "step.txt": "1\n"
+      }
+    },
+    {
+      "id": "不得出现：恢复后 active、无新 turn_bound、wait_reason 为空持续 30 秒以上",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAfterReachMs": 50,
+        "activeNoWaitSamples": 5
+      }
+    }
+  ],
+  "info": {
+    "s16Clicks": {
+      "1": {
+        "startAtOffsetMs": 19,
+        "endAtOffsetMs": 104,
+        "ok": true,
+        "error": null
+      },
+      "2": {
+        "startAtOffsetMs": 75,
+        "endAtOffsetMs": 165,
+        "ok": true,
+        "error": null
+      }
+    }
+  }
+}

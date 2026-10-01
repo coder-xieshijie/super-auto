@@ -1,0 +1,140 @@
+{
+  "scenario": "S17",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-190554-8d66c9",
+  "evidenceDir": "S17/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-190554-8d66c9/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)",
+      "resetAtMs": 1790852961000
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：服务商受限，提示“额度恢复后自动继续”无时刻；continue-button 为 1；补充消息回复 9，之后仍 usage_limited、objective 不变",
+      "result": "PASS",
+      "detail": {
+        "bannerStatus": "服务商受限",
+        "guide": "额度恢复后自动继续",
+        "continueButton": 1,
+        "reply": "9",
+        "statusAfter": "usage_limited(provider_quota)",
+        "objectiveSame": true,
+        "sideSentViaApiFallback": false,
+        "usage_recovery_scheduled": true
+      }
+    },
+    {
+      "id": "步骤4：点击后一个新 goal.turn_bound，其请求收到额度错误，回到 usage_limited(provider_quota)；会话里出现失败提示；横幅仍“额度恢复后自动继续”无时刻；接口仍有自动恢复安排",
+      "result": "PASS",
+      "detail": {
+        "entry": "continue-button",
+        "clickAt": 1790852785393,
+        "turnBoundBeforeReset": [
+          58
+        ],
+        "mainAttemptsAfterClick": [
+          [
+            4,
+            "injected",
+            429
+          ]
+        ],
+        "statusAfter": "usage_limited(provider_quota)",
+        "guideAfter": "额度恢复后自动继续",
+        "usage_recovery_scheduled": true,
+        "failureInAria": [
+          "- paragraph: 当前请求的可用对话额度不足。",
+          "- paragraph: 当前请求的可用对话额度不足。"
+        ],
+        "failureMessagesInHistory": []
+      }
+    },
+    {
+      "id": "步骤5：重置时间之后只有一个新的 goal.turn_bound；最终 complete(verifier_met)，e1–e3 存在",
+      "result": "PASS",
+      "detail": {
+        "resetAt": 1790852961000,
+        "turnBoundAfterResetMs": [
+          29,
+          7720
+        ],
+        "status_reason": "complete(verifier_met)",
+        "files": {
+          "e1.txt": "1\n",
+          "e2.txt": "2\n",
+          "e3.txt": "3\n"
+        },
+        "firstRecoveryTurnSettledAfterResetMs": 7708,
+        "turnBoundBeforeFirstSettled": 1,
+        "continuationTurnBoundAfterFirstSettledMs": [
+          7720
+        ],
+        "literalOneTurnBound": false,
+        "note": "重置后只启动了一个恢复 Turn；它结算（无完成提案）之后，Goal 按正常续跑又开了一个 Goal Turn，不是第二次启动。verify 原文“只有一个新的 goal.turn_bound”按字面不成立，按“到点后只启动一次”判定"
+      }
+    },
+    {
+      "id": "不得出现：步骤4 点击没有产生 Goal Turn、停在 active 或被拒",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClick": 1
+      }
+    },
+    {
+      "id": "步骤4 入口：重置之前点输入框 continue-button（usage_limited 时显示，spec §11）",
+      "result": "PASS",
+      "detail": {
+        "continueButtonBeforeClick": "1",
+        "entryUsed": "continue-button",
+        "clickRc": 0
+      }
+    }
+  ],
+  "info": {
+    "step4ClickOk": true,
+    "step4Entry": "continue-button",
+    "continueButtonBeforeClick": "1",
+    "transitions": [
+      [
+        1790852780741,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790852785719,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790853040301,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ],
+    "copy": [
+      {
+        "key": "quota_auto",
+        "expected": "额度恢复后自动继续",
+        "seen": "额度恢复后自动继续",
+        "exact": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "scenario": "S34",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-175157-c05007",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-175157-c05007/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "A.status": "budget_limited(token)",
+      "B.status": "budget_limited(token)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2（会话 A，token_budget 250000）：PATCH 200，10 秒内出现新的 goal.turn_bound，终态，notes.md 存在",
+      "result": "PASS",
+      "detail": {
+        "patchStatus": 200,
+        "turnBoundAfterPatchMs": [
+          59
+        ],
+        "final": "complete(verifier_met)",
+        "token_budget": 250000,
+        "notes.md": "1. Rust is a systems programming language focused on speed, memory safety, and t",
+        "requests_used": 7
+      }
+    },
+    {
+      "id": "步骤3（会话 B，token_budget 0）：PATCH 200，10 秒内出现新的 goal.turn_bound，终态，notes.md 存在",
+      "result": "PASS",
+      "detail": {
+        "patchStatus": 200,
+        "turnBoundAfterPatchMs": [
+          48
+        ],
+        "final": "complete(verifier_met)",
+        "token_budget": null,
+        "notes.md": "1. Rust is a systems programming language focused on speed, memory safety, and t",
+        "requests_used": 7
+      }
+    }
+  ],
+  "info": {}
+}

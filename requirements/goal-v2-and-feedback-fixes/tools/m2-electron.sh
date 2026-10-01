@@ -27,7 +27,7 @@ open_session() { # open_session <标题>：关掉签到浮层，展开侧栏“�
 }
 turn_end() { E wait --testid stop-button --state hidden --timeout "${1:-120}" >/dev/null; }
 send_msg() { # send_msg <文本>：普通发送（Enter 对应的发送按钮）
-  E type --testid message-textarea --value "$1" >/dev/null
+  type_checked "$1" || input_abort
   E click --testid send-button >/dev/null
 }
 
@@ -62,7 +62,7 @@ print(next((str(x["id"]) for x in p if x.get("kind")=="hold"),""))')
   E wait --testid thread-goal-banner --state hidden --timeout 30 >/dev/null
   goal_e "$S" s07-after-clear >/dev/null
   # 3
-  E type --testid message-textarea --value "/goal Reply with the single word DONE." >/dev/null
+  type_checked "/goal Reply with the single word DONE." || input_abort
   E click --testid send-button --save s07-new-send >/dev/null
   poll_e "$S" --until "goal.status=active|complete|paused|blocked|budget_limited|usage_limited" --show "goal.goal_id,goal.status" --interval 1 --timeout 60 --save s07-new-goal >"$OUT/s07-new-goal.json"
   NEW=$(jget "d['final']['goal']['goal_id']" <"$OUT/s07-new-goal.json"); echo "$NEW" >"$OUT/s07-new-goal-id"

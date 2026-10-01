@@ -177,8 +177,40 @@ items.sort(key=lambda s: s.get("created_at") or 0)
 print(items[-1]["session_id"] if items else "")'
 }
 
+# 输入框写入并核对（2026-10-01 S03 事故后加）：测试窗口在屏幕上时，真实键盘输入可能混进输入框。
+# 写入前输入框非空先清空；写入后读回，必须与预期逐字一致才返回 0；不一致清空重写一次，仍不一致返回 1。
+# 不一致时只记长度和哈希（input-mismatch.jsonl），不记录混入的原文。
+type_checked() {
+  local want=$1 got i
+  for i in 1 2; do
+    got=$(node "$V" electron text --testid message-textarea --timeout 5 --run "$RID" 2>/dev/null | jget "(d.get('text') or '').strip()")
+    if [ -n "$got" ]; then
+      vr electron press --testid message-textarea --key "Meta+a" >/dev/null
+      vr electron press --testid message-textarea --key Backspace >/dev/null
+    fi
+    vr electron type --testid message-textarea --value "$want" >/dev/null
+    got=$(node "$V" electron text --testid message-textarea --timeout 5 --run "$RID" 2>/dev/null | jget "(d.get('text') or '').strip()")
+    [ "$got" = "$want" ] && return 0
+    python3 -c 'import hashlib,json,sys,time
+w,g=sys.argv[1],sys.argv[2]
+print(json.dumps({"at":int(time.time()*1000),"try":int(sys.argv[3]),"wantLen":len(w),"gotLen":len(g),"gotSha1":hashlib.sha1(g.encode()).hexdigest()[:12],"gotEndsWithWant":g.endswith(w)}))' "$want" "$got" "$i" >>"$OUT/input-mismatch.jsonl"
+    m2_log "message-textarea content mismatch (try $i)"
+  done
+  return 1
+}
+# 输入被污染：清空输入框、截图、down，作废本次运行（退出码 3）
+input_abort() {
+  vr electron press --testid message-textarea --key "Meta+a" >/dev/null
+  vr electron press --testid message-textarea --key Backspace >/dev/null
+  echo input-contaminated >"$OUT/input-contaminated"
+  m2_log "input contaminated: aborting run"
+  vr electron screenshot --save input-contaminated >/dev/null
+  m2_down
+  exit 3
+}
+
 m2_send_goal_electron() { # m2_send_goal_electron <objective> <save 前缀>
-  vr electron type --testid message-textarea --value "/goal $1" >/dev/null
+  type_checked "/goal $1" || input_abort
   vr electron click --testid send-button >/dev/null
   vr electron wait --testid thread-goal-banner --timeout 60 --save "$2-banner" >/dev/null
 }

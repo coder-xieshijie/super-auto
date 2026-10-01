@@ -1,0 +1,70 @@
+{
+  "scenario": "S20",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-192845-a35f43",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-192845-a35f43/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：提示“服务商额度恢复后可继续”；hold 期间没有新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "guide": "服务商额度恢复后可继续",
+        "holdSeconds": 180.571,
+        "turnBoundInHold": 0,
+        "usage_recovery_scheduled": null
+      }
+    },
+    {
+      "id": "步骤3：恢复后一个新的 goal.turn_bound，随后回到 usage_limited(provider_quota)；会话里出现失败提示；横幅“服务商受限”",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          85
+        ],
+        "statusAfter": "usage_limited(provider_quota)",
+        "bannerStatus": "服务商受限",
+        "mainAttemptsAfterClick": [
+          [
+            3,
+            "injected",
+            429
+          ]
+        ],
+        "failureInAria": [
+          "- paragraph: 当前请求的可用对话额度不足。",
+          "- paragraph: 当前请求的可用对话额度不足。"
+        ],
+        "failureMessagesInHistory": []
+      }
+    },
+    {
+      "id": "不得出现：提示“额度恢复后自动继续”",
+      "result": "PASS",
+      "detail": {
+        "guides": [
+          "服务商额度恢复后可继续",
+          "服务商额度恢复后可继续"
+        ]
+      }
+    }
+  ],
+  "info": {}
+}

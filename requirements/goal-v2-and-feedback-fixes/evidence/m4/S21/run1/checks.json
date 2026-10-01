@@ -1,0 +1,78 @@
+{
+  "scenario": "S21",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-193223-30eb63",
+  "restartRunId": "20261001-193559-d74d15",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-193223-30eb63/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    },
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-193559-d74d15/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)",
+      "closedAt": 1790854372439,
+      "resetAt": 1790854550000,
+      "restartUpAt": 1790854559579
+    }
+  },
+  "checks": [
+    {
+      "id": "重启后读到的请求数不小于重启前",
+      "result": "PASS",
+      "detail": {
+        "before": 2,
+        "after": 7,
+        "statusAfterRestart": null,
+        "tokensBefore": 27476,
+        "tokensAfter": 57050
+      }
+    },
+    {
+      "id": "启动后出现一个新的 goal.turn_bound，最终 complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterStartMs": [
+          9395
+        ],
+        "status_reason": "complete(verifier_met)",
+        "files": {
+          "e1.txt": "1\n",
+          "e2.txt": "2\n",
+          "e3.txt": "3\n"
+        }
+      }
+    }
+  ],
+  "info": {
+    "transitionsAfterRestart": [
+      [
+        1790854369495,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790854627321,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ]
+  }
+}

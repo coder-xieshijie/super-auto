@@ -18,11 +18,15 @@ for f in sorted(glob.glob(os.path.join(ROOT, '*', '*', 'checks.json'))):
     pre_items = [c for c in d['checks'] if c['id'].startswith('前提')]
     pre_ok = d['precondition'].get('ok') if isinstance(d.get('precondition'), dict) else all(c['result'] == 'PASS' for c in pre_items)
     valid = d['valid'] if 'valid' in d else (pre_ok and bad == 0)
+    rundir = os.path.dirname(f)
+    contaminated = os.path.exists(os.path.join(rundir, 'input-contaminated')) or os.path.exists(os.path.join(rundir, 'incident.json'))
+    tool_invalid = os.path.exists(os.path.join(rundir, 'tool-invalid.json'))
+    valid = valid and not contaminated and not tool_invalid
     runs.append({
         'scenario': d.get('scenario') or 'OBS-budget-steer', 'attempt': d['attempt'],
         'dir': os.path.relpath(os.path.dirname(f), os.path.join(ROOT, '..')),
         'head': d.get('head'), 'dirty': d.get('dirty'), 'runId': d.get('runId'), 'restartRunId': d.get('restartRunId'),
-        'valid': valid, 'precondition': pre_ok,
+        'valid': valid, 'precondition': pre_ok, 'inputContaminated': contaminated, 'toolInvalid': tool_invalid,
         'contentSafety401': sum((a.get('contentSafety401') or 0) for a in auth),
         'electronAuthLost': sum((a.get('electronAuthLost') or 0) for a in auth),
         'checks': [{'id': c['id'], 'result': c['result']} for c in d['checks']],
@@ -30,7 +34,8 @@ for f in sorted(glob.glob(os.path.join(ROOT, '*', '*', 'checks.json'))):
 quota = os.path.join(ROOT, 'S35', 'q1', 'quota-show.out.json')
 out = {
     'head': os.environ.get('M23_HEAD', '512fd9792f3e971a38f5cad92fe518313fc192db'), 'verifySha256': VERIFY_SHA,
-    'quotaReadOnlyCheck': {'dir': 'm3/S35/q1', 'result': json.load(open(quota)).get('error') if os.path.exists(quota) else None,
+    'verifySha256Refrozen': os.environ.get('M4_VERIFY_REFROZEN'),
+    'quotaReadOnlyCheck': {'dir': os.path.relpath(os.path.join(ROOT, 'S35', 'q1'), os.path.join(ROOT, '..')), 'result': json.load(open(quota)).get('error') if os.path.exists(quota) else None,
                            'appliesTo': ['S35', 'S36'], 'blindSpot': 'B15'} if os.path.exists(quota) else None,
     'runs': runs,
 }

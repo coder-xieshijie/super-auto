@@ -1,0 +1,87 @@
+{
+  "scenario": "S27",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-180915-7ccab3",
+  "evidenceDir": "S27/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-180915-7ccab3/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "firstDispatchedAt": 1790849383997,
+      "supplementSentAt": 1790849385524,
+      "decidedBeforeSend": 0
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：continue-button 数量为 0",
+      "result": "PASS",
+      "detail": {
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "第一次校验的 verdict 没有被接受（disposition 不是 accepted，或没有 decided）",
+      "result": "PASS",
+      "detail": {
+        "firstVerificationDecided": [
+          {
+            "goalId": "tg_xsjurwyjlwmupdh6v2",
+            "sessionId": "mvs_d168a815af3544848ce89523c9a653e5",
+            "turnId": "turn_e2e0ca85-51c4-4f26-8789-4a73d248bf2f",
+            "backend": "subagent",
+            "source": "verifier",
+            "verdict": "not_met",
+            "disposition": "stale",
+            "reportedTokens": "****",
+            "activeSeconds": 108,
+            "childTurns": 8,
+            "childSessionId": "mvs_a546c328a62e40e985109ffdf7ee9cf6",
+            "childTurnId": "turn_task_bg_bg_f8f44016-97e0-47e1-b808-fa0022935353",
+            "reasonPresent": true,
+            "missingCount": 7
+          }
+        ]
+      }
+    },
+    {
+      "id": "补充消息之后有新的 Goal Turn，并有第二次 goal.verification_dispatched",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterSendMs": [
+          106305
+        ],
+        "verificationDispatched": [
+          -1527,
+          120099
+        ]
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)；count.txt 最后一行为 end",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "count.txt": [
+          "1",
+          "2",
+          "3",
+          "end"
+        ],
+        "replaceDialog": false
+      }
+    }
+  ],
+  "info": {}
+}

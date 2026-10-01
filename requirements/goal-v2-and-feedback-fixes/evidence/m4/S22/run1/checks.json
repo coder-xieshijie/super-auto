@@ -1,0 +1,155 @@
+{
+  "scenario": "S22",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-175652-a4a8f0",
+  "evidenceDir": "S22/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-175652-a4a8f0/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "heldRequests": 1,
+      "goalAtStep1": null
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤4：暂扣的请求携带版本字段，值为步骤1 读到的版本",
+      "result": "PASS",
+      "detail": {
+        "heldBody": {
+          "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+          "objective_resources": [],
+          "expected_goal_id": "tg_d7iky3ptn3mupd19a5",
+          "expected_updated_at": 1790848628285
+        },
+        "step1": {
+          "goal_id": "tg_d7iky3ptn3mupd19a5",
+          "updated_at": 1790848628285
+        },
+        "goalWhileHeld": {
+          "updated_at": 1790848628285,
+          "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing one."
+        }
+      }
+    },
+    {
+      "id": "步骤5：提示为冲突文案；横幅目标为 three；输入框仍是 two；接口 objective 为 three，status 仍为 active",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交"
+        ],
+        "bannerObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
+        "textarea": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+        "apiObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
+        "apiStatus": null
+      }
+    },
+    {
+      "id": "页面没有 “epoch changed”、GOAL_CHANGED 或“目标命令执行失败”",
+      "result": "PASS",
+      "detail": {
+        "found": {
+          "s22-page-aria-step5": [],
+          "s22-page-aria-step7": []
+        },
+        "badToasts": [],
+        "ariaPresent": {
+          "s22-page-aria-step5": true,
+          "s22-page-aria-step7": true
+        }
+      }
+    },
+    {
+      "id": "步骤5 与步骤6 之间 objective 没有再次变更（没有自动重试）",
+      "result": "PASS",
+      "detail": {
+        "samples": [
+          [
+            1790848636489,
+            "ining three.",
+            1790848632639
+          ],
+          [
+            1790848637561,
+            "ining three.",
+            1790848632639
+          ],
+          [
+            1790848638624,
+            "ining three.",
+            1790848632639
+          ],
+          [
+            1790848639696,
+            "ining three.",
+            1790848632639
+          ],
+          [
+            1790848640755,
+            "ining three.",
+            1790848632639
+          ],
+          [
+            1790848641815,
+            "ining three.",
+            1790848632639
+          ]
+        ],
+        "objectivePatchesBetween": []
+      }
+    },
+    {
+      "id": "步骤6：objective 为 two 的文本",
+      "result": "PASS",
+      "detail": {
+        "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+        "status": null
+      }
+    },
+    {
+      "id": "步骤7：出现同一句冲突提示；输入框仍是 /goal budget=300K；接口 token_budget 为 400000",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交"
+        ],
+        "textarea": "/goal budget=300K",
+        "token_budget": 400000,
+        "samples": [
+          400000,
+          400000,
+          400000,
+          400000
+        ],
+        "heldBudgetBody": {
+          "token_budget": 300000,
+          "expected_goal_id": "tg_d7iky3ptn3mupd19a5",
+          "expected_updated_at": 1790848643271
+        }
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "conflict_edit",
+        "expected": "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交",
+        "seen": "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交",
+        "exact": true
+      }
+    ],
+    "s22ReplaceModal": "- text: 替换当前目标吗？\n- button \"关闭\":\n  - img\n- text: 这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标 Run the shell command sleep 60 in the foreground, then write v.txt containing two.\n- button \"取消\"\n- button \"替换目标\"\n"
+  }
+}

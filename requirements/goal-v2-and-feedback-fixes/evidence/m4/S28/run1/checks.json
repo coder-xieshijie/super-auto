@@ -1,0 +1,74 @@
+{
+  "scenario": "S28",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-175850-bfc1e7",
+  "evidenceDir": "S28/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-175850-bfc1e7/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "goalTurnRunningAtStep1": {
+        "at": 1790848754134,
+        "stopButton": "1",
+        "goal": "active|"
+      }
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：Goal Turn 运行中 continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "步骤2、3：continue-button 为 1（停止后、重载后、切换会话再切回后），接口为 paused(user_requested)",
+      "result": "PASS",
+      "detail": {
+        "afterStop": 1,
+        "afterReload": 1,
+        "afterSwitch": 1,
+        "banner": "已停止",
+        "status": [
+          "paused(user_requested)",
+          "paused(user_requested)",
+          "paused(user_requested)"
+        ],
+        "otherSessionBanner": 0
+      }
+    },
+    {
+      "id": "步骤4：10 秒内出现属于该 Goal 的新 goal.turn_bound；横幅“进行中”时 continue-button 为 0；最终 complete(verifier_met)，t.txt 为 ok",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          84
+        ],
+        "banner": "进行中",
+        "continueButton": 0,
+        "status_reason": "complete(verifier_met)",
+        "t.txt": "ok\n"
+      }
+    },
+    {
+      "id": "不得出现：点击后 Goal 仍为 paused 而出现一个不绑定 Goal 的普通续跑",
+      "result": "PASS",
+      "detail": {
+        "nonGoalRequestsAfterClick": []
+      }
+    }
+  ],
+  "info": {}
+}

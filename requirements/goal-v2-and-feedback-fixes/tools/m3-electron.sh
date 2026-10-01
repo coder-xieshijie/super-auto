@@ -30,7 +30,7 @@ try: print(walk(json.load(sys.stdin)))
 except Exception: print(0)'; }
 # 普通发送；若弹出“替换当前目标？”（M4 之前 active Goal 让输入框处于目标模式），截图后取消并返回 1
 send_plain() {
-  E type --testid message-textarea --value "$1" >/dev/null
+  type_checked "$1" || input_abort
   E click --testid send-button --save "$2-send" >/dev/null
   sleep 1.5
   local n
@@ -331,7 +331,7 @@ S19)
   E click --selector '[data-testid="goal-clear-confirm-modal"] >> role=button[name="删除"]' --save s19-clear-confirm >/dev/null
   E wait --testid thread-goal-banner --state hidden --timeout 30 >/dev/null
   goal_e "$S" s19-after-clear >/dev/null
-  E type --testid message-textarea --value "/goal Reply with the single word DONE." >/dev/null
+  type_checked "/goal Reply with the single word DONE." || input_abort
   E click --testid send-button --save s19-new-send >/dev/null
   poll_e "$S" --until "goal.status=active|complete|paused|blocked|budget_limited|usage_limited" --show "goal.goal_id,goal.status" --interval 1 --timeout 60 --save s19-new-goal >/dev/null
   poll_e "$S" --until "$TERMINAL" --show "$SHOW,goal.goal_id" --interval 2 --timeout 420 --save s19-new-run >/dev/null

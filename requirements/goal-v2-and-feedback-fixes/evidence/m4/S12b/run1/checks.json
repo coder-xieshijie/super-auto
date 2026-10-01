@@ -1,0 +1,61 @@
+{
+  "scenario": "S12b",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-191722-fc7c9e",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-191722-fc7c9e/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step1Subagent": [
+        {
+          "taskId": "bg_b817d98a-65f7-4884-9325-d5ec6b4608a1",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790853471004,
+          "updatedAtMs": 1790853471112,
+          "endedAtMs": null,
+          "parentTurnId": "a8afe27a-52bd-438e-983a-c61c98b32e05",
+          "description": "Wait 120s then write side.txt"
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "Goal 在 subagent 任务结束前就出现 goal.turn_bound；最终 complete(verifier_met)，count.txt 为 1 到 3",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAt": 1790853476416,
+        "subagentEndedAt": 1790853599179,
+        "subagentStatus": "succeeded",
+        "status_reason": "complete(verifier_met)",
+        "count.txt": "1\n2\n3\n"
+      }
+    },
+    {
+      "id": "期间横幅从未出现“等待后台任务完成”，没有 deferred(required_background)",
+      "result": "PASS",
+      "detail": {
+        "bannerSamples": 18,
+        "distinctTexts": [
+          "正在验证目标结果",
+          "进行中"
+        ],
+        "deferredRequiredBackground": 0
+      }
+    }
+  ],
+  "info": {}
+}

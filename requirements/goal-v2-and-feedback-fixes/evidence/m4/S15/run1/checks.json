@@ -1,0 +1,45 @@
+{
+  "scenario": "S15",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-192004-c98493",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-192004-c98493/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": false,
+    "detail": {
+      "goalStartedServerTask": []
+    }
+  },
+  "checks": [
+    {
+      "id": "最终 complete(verifier_met)；served.txt 为 up；http.server 任务在 Goal 完成时仍为 running",
+      "result": "FAIL",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "served.txt": "up\n",
+        "serverTask": [],
+        "port8766": "200",
+        "taskStartedByGoalTurn": false
+      }
+    },
+    {
+      "id": "runtime 事件中没有该 Goal 的 deferred(required_background)",
+      "result": "PASS",
+      "detail": {
+        "deferredRequiredBackground": 0
+      }
+    }
+  ],
+  "info": {}
+}

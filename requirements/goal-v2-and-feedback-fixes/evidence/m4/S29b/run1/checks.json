@@ -1,0 +1,68 @@
+{
+  "scenario": "S29b",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-181305-594257",
+  "evidenceDir": "S29/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-181305-594257/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "pendingQuestionnaire": "ask_4f239c678dfe774fcae00766"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：会话 B 有 1 条通知，标题为会话 B 的标题，正文“目标需要你处理”",
+      "result": "PASS",
+      "detail": {
+        "titleB": "Ask user to pick a fruit and save it to fruit.txt",
+        "notificationsB": [
+          [
+            "Ask user to pick a fruit and save it to fruit.txt",
+            "目标需要你处理",
+            1790849772622
+          ]
+        ],
+        "requestedB": [
+          [
+            "Ask user to pick a fruit and save it to fruit.txt",
+            "目标需要你处理",
+            true
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4：会话 C 没有通知（接口暂停 = 用户主动暂停）",
+      "result": "PASS",
+      "detail": {
+        "notificationsC": [],
+        "requestedC": [],
+        "statusC": "paused(user_requested)"
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "notify_attention",
+        "expected": "目标需要你处理",
+        "seen": "目标需要你处理",
+        "exact": true
+      }
+    ],
+    "s29bFinalB": "blocked(worker_reported)",
+    "s29bFruit": "Banana"
+  }
+}

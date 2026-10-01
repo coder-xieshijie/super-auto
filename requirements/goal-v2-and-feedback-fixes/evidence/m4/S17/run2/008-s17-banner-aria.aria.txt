@@ -1,0 +1,9 @@
+- status:
+  - img
+  - text: 服务商受限
+  - button "Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop."
+  - text: 2.7万+ tokens 2 次请求 额度恢复后自动继续 5s
+  - button "继续":
+    - img
+  - button "清除目标":
+    - img

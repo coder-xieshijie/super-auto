@@ -1,0 +1,51 @@
+{
+  "scenario": "S33",
+  "attempt": "run1",
+  "head": "f938e48db18fa52e5f528b0733c8c07e436b8911",
+  "dirty": false,
+  "runId": "20261001-182937-667637",
+  "evidenceDir": "S33/run1",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-182937-667637/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "pendingStep1": "ask_bce28c163bfe7b82f0efd322"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：问卷仍为待回答（status 0），历史中没有 automatic_timeout 的回答；请求数与步骤1 相同",
+      "result": "PASS",
+      "detail": {
+        "pendingStatus": 0,
+        "expiresAt": 1790850907861,
+        "automaticTimeoutAnswers": 0,
+        "requests": [
+          2,
+          2
+        ],
+        "status": "paused(user_requested)",
+        "waitedSeconds": 360.166
+      }
+    },
+    {
+      "id": "步骤4：回答被接受；最终 fruit.txt 为 Banana",
+      "result": "PASS",
+      "detail": {
+        "pendingAfterAnswer": {},
+        "fruit.txt": "Banana",
+        "status_reason": "complete(verifier_met)"
+      }
+    }
+  ],
+  "info": {}
+}
