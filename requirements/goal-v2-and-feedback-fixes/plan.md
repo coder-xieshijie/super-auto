@@ -29,7 +29,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - 迁移代码上的入口实跑（@ 0eadb3c24c，与 6d0823cc14 产品代码相同）：接口冒烟与问卷手动/超时自动（evidence/m1-api-probe/、m1b-api-questionnaire/），TUI、Electron 冒烟（evidence/m1-tui/、m1-electron/）。
 - [x] (2026-10-01 09:33+08:00) M1 里程碑检查第 1 轮（claude-opus-5-5[1m]，范围 350965f50f..6d0823cc14）：报 4 个问题 + 1 个字面风险，记录 evidence/milestone-M1-r1.md。① `check:desktop-service-boundary` 因迁移删掉 server.ts 的 Goal contract import 而失败；② M01–M05 无运行记录；③ RG1 TUI“附件 · 失败后恢复”两次都走不通、未用故障注入构造；④ RG1b 规则用了“第 1 次”而非 S17 的“第 2 次起”；⑤ 无 Goal owner 时 controller 抛 501。
 - [x] (2026-10-01 09:40+08:00) 修 ①⑤：去掉 `server-goal-contract` 债务锚点并改脚本测试；无 Goal owner 时返回 503 GOAL_UNAVAILABLE（加 controller 单测）；a7899522d3。
-- [ ] M1 补证（进行中，subagent 在 gv2-verify-tools）：②M01–M05 在 a7899522d3 上运行留档；③④在 d770f05f30 与 a7899522d3 上按 S17 规则重跑 RG1b、用故障注入补跑 TUI 附件失败后恢复。完成后做第 2 轮检查（范围 6d0823cc14..a7899522d3）。
+- [x] (2026-10-01 10:05+08:00) M1 补证（subagent 在 gv2-verify-tools 实跑，构建均为对应提交的源码）：②M01–M05 在 a7899522d3 上全部 PASS（evidence/m1-mechanical/summary.md；M04 用 weaver/idl origin/main db03ec26e 生成后无 diff，M05 以 `refs/remotes/origin/preview_train` 7b91d950a5 为准）；④RG1b 按 S17“第 2 次起注入”规则在 d770f05f30 与 a7899522d3 上两个流程都符合、事件序列相同（evidence/rg1b-s17/summary.md）；③RG1 TUI“附件 · 失败后恢复”用故障注入 504 在两个提交上都跑通、结果一致（evidence/rg1-tui-attachment-recovery/summary.md）。6 次运行 contentSafety401、electronAuthLost 均为 0。
+- [ ] M1 里程碑检查第 2 轮（范围 350965f50f..a7899522d3，进行中）。
 - 构建与启动记录（2026-10-01 补记）：2026-09-30 22:42 的 `prepare`（agent-core 构建）因用户中断被 SIGTERM 终止、未 up；2026-10-01 09:20 重新 `prepare runtime` 成功；09:21:37 接口实例 up、doctor 全过；之后才开始 M2 场景。
 - [ ] M2 场景试跑（未提交代码，构建 = 工作区）：S09 等价流程（接口，defaultMainTurns=3、graceSteps=1）→ 3 次工作请求 + 1 次收尾请求同属一个 Turn，第 4 次请求不带 tools 且 provider 正常应答，d1–d3 存在、d4 不存在，`budget_limited(main_turn)`（evidence/m2-probe/）；S11（defaultMainTurns=1）→ 工作 1 + 收尾 1，验证在收尾之后派发，met，`complete(verifier_met)`（evidence/m2-probe-s11/）。正式场景待 M2 提交后在提交版本上重跑。
 - [ ] M2 请求计量与同轮收尾（实现完成，未提交，等 M1 第 2 轮检查记录后按第 6、12 项分提交）。2026-10-01 10:00 工作区状态：agent-core 逻辑请求生命周期；v2 账本（migration 43，`service/goal/accounting/` 下 request-ledger 写入、request-projection 读取、request-accounting 准入与收尾）；结算第 10 阶段判定次数上限；退役预算总结 Turn；get_goal、wire、事件投影；Desktop 横幅“N 次请求”与悬停构成、TUI `N requests`；Developer Tools“Goal 诊断”卡片（同意后生成，拒绝不生成，写入本实例 `diagnostics/goal/`，每 Goal 最多 5 条请求条目、全局 200 Goal / 500 请求、2 天窗口）。质量：v2 `lint`、`check:architecture`、`test:architecture`、`check:local-runtime-layout`、`check:desktop-service-boundary` 通过；v2 相关 54 个文件 1007 个测试、UI 4 个文件 64 个、TUI 2 个文件 58 个、agent-core 31 个、Electron IPC 22 个测试通过；v2、UI、TUI、agent-core、shared、Electron main 的 tsc 0 错误。
@@ -45,6 +46,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-09-30：v1 `persistence/db.ts` 的历史 migration 13–15 仍创建/扩展 `local_runtime_thread_goals`，`sqlite-table-roles.ts` 仍登记该表；它们是 v1 迁移历史与旧数据保留，不写行，不改。
 - 2026-10-01：测试更新时发现：token 改为按请求计入后，Turn 结算时如果活跃时间也为 0（本轮增量为空），`bumpThreadGoalBoundUsage` 提前返回、不判定 token 上限，超额的 Goal 仍为 active。已改为增量为空时仍判定预算，并加 store 单测。
 - 2026-10-01：`check:local-runtime-layout` 要求 service 分组 3–10 个生产文件。账本拆成写入（request-ledger）与读取投影（request-projection），与准入服务同放 `accounting/`；没有放进已满 10 个文件的 `persistence/`。
+- 2026-10-01：本地仓库有一个过期分支 `refs/heads/origin/preview_train`（2026-09-18），使 `origin/preview_train` 有歧义；凡取基线一律写 `refs/remotes/origin/preview_train`。`pnpm gen:thrift` 不给 `--idl-dir` 时会读旁边 `/Users/minimax/code/mm/weaver/idl` 的当前分支（停在别的 feature 分支），生成时必须显式给 IDL 目录。
+- 2026-10-01：RG1 TUI 补跑附带发现（两个提交相同，非本次引入）：粘贴附件后第一次回车不开始 Goal、需再回车；`/goal resume` 后重绘出首轮的错误行。
 - 2026-09-30：`~/.minimax/config.yaml` 当前指向 prod（agent.minimaxi.com）。prod 下接口实例的 LLM Context Inspector 不装配（`resolveBuildVariant` 在 prod 且非 internal 构建时为 unavailable），`enableInspector` 返回 500。第 2 项那次验证时配置指向 staging。
 
 ## 决策日志
