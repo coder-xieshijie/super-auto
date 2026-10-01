@@ -215,6 +215,25 @@ topics: [MR 7595 的完整 trace, deliver 会话复盘, 人工介入的原因, �
 
 执行：流程文档升到 v0.22，新增“交付中验收口径偏差”一行，“交付中停下的情况”第 1 种同步改写，修订记录与用户原话已补；dev-skills 未改，待用户确认清单后提 PR。
 
+## 用户：先修 V1、V2、V3，给出修复方案
+
+用户原话（引用了上一轮答复里 V1、V2、V3 三段）：
+
+> 先修这个, 给出修复方案
+
+过程：
+
+- 读 verify-archon 的 `runtime-server.mjs`、`electron-server.mjs`、`verify-archon.mjs`，`@mavis/oauth-core` 的 `auth-core.ts`、`token-provider.ts`，Electron 主进程的登录装配；读共享登录存储的元数据（只看过期时间、generation 等字段，没有输出 token）。
+- 读 deliver 的 `milestone-check.md`、`record-milestone-check.mjs`、`milestones.mjs` 的规则说明、`plan-format.md` 的“验证与验收”一节。
+
+答复要点（详见[修复方案](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md)）：
+
+- **V1 根因。** 共享登录的 access token 有效期 60 分钟（已刷新到第 262 代）；Electron 实例启动要求 token 剩 50 分钟，不够就刷新；Electron 实例只拿到 access token、自己不能刷新；接口实例 60 秒才重取一次且被拒时不立即重取；刷新后旧 token 被作废（从 M2 第 2 轮的 401 推断，待探针确认）。
+- **V1 修法 A（不需要人，不改产品）。** Electron 启动只要求够跑完一次（租约，默认 20 分钟）；刷新只在没有 Electron 在跑时做，接口实例的定时刷新在有 Electron 时推迟到剩 2 分钟；接口实例接上运行时已有的 `authContextInvalidator`，被拒时立即重取；刷新留痕，场景分析加 429 计数。修法 B（登录槽位、多个测试账号）按需再做。场景按 lane 分组，每组一个 runner 后台同时跑，默认 3 组；构建一次；清理用 `down --run <id>`。实施前先做约 30 分钟的探针。推算 7595 的 M6 两遍全量能省约 4 小时。
+- **V2。** 计划格式“验证与验收”表加“涉及路径”；新脚本 `select-scenarios.mjs` 按改动文件选场景，测试与文档不触发，没有场景认领的改动选全部，冒烟集和失败的场景总在里面；最终 head 全量不变。用 7595 的 `c926bcd2e4..69696e4f2c` 与 owner 16:17 手工选的场景对比来验证。
+- **V3。** 检查说明拆成代码与证据两部分；代码部分在里程碑提交后立即开始，与场景同时；记录脚本收两份报告合成一轮，`milestones.mjs` 不改。门禁要求第一轮记录早于其后的提交，所以代码部分找到的问题先在工作区改好，记录存好后再提交。拿 M2 套，三轮场景变两轮。
+- **待用户决定。** V1 放不放进 7595：(a) 先在 spec §18 加一条要求、重新冻结，由 owner 实现（建议，与“MR 交付的东西都写进 spec”一致）；(b) 不改 spec，由 owner 按 deliver 的“先补验证能力”补；(c) 7595 不用。修法 B 现在做还是等。V2、V3 推不推给 7595（按约定默认不推）。
+
 ## 待确认与待验证
 
 见研究档案第 9 节。
