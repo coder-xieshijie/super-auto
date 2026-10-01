@@ -182,3 +182,14 @@ TUI 实例：`tui-server.mjs` 里没有登录代码，TUI 自己读共享登录�
 | V1 | 不改 dev-skills | agent-archon 的 verify-archon | 落点见第 5 节第 1 项 |
 
 与在审的 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)（验收口径偏差）：它也改 `deliver/SKILL.md` 和 `plan-format.md`，段落不同。按“一次上一项”，建议等 #26 合入，再提 V3，观察一个需求后再提 V2。两项都不推给在途的 7595。
+
+## 8. 执行结果：V2、V3 并入 dev-skills#26（2026-10-01）
+
+用户：“把 P2 和 P3 都放到 26 这个 PR 里面，等 V1 的落点，等我所有的 PR 都合入本地更新之后，再去投递消息。暂时先不投递，我还需要对当前的 skill 再做一轮 check。”“P2 和 P3”按上下文理解为 V2 和 V3。
+
+- 提交 `ee4c96d` 推到 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26) 的分支，PR 标题与描述已更新并读回；CI（链接检查）通过，可合并；未合入。
+- 改动：`deliver/SKILL.md` 的“里程碑”“里程碑检查”两段与产物表一行；`references/milestone-check.md` 拆成代码、证据两部分，报告多一行 `part`，更早 head 上的证据要有 `select-scenarios.mjs` 的输出才算数；`references/plan-format.md` 的“验证与验收”改为 `场景 | 命令 | 涉及路径` 表；新增 `scripts/select-scenarios.mjs`；`scripts/report-reuse.mjs` 提出 `changedFiles()`；README 与 `docs/deliver-design.md` 同步。`milestones.mjs`、`record-milestone-check.mjs`、`check-delivery.mjs` 未改。
+- 比第 4 节的方案简单一步：记录脚本不改，两份报告拼成一个文件再存。
+- 验证：[deliver-select-cases.sh](deliver-select-cases.sh) 55 个断言全部通过（选择脚本 47 个、`reuseCheck()` 8 个，重构前后结果相同）；故意改坏三处（冻结文件按普通文件处理、目录模式按前缀匹配、没人认领的文件不触发全选）各有断言失败；原有四组 136 个断言全部通过；链接检查通过。
+- 7595 回放（[deliver-select-replay-7595.sh](deliver-select-replay-7595.sh)，只读 git）：`512fd9792f..69696e4f2c` 改了 19 个产品文件，按入口配的粗粒度涉及路径选出全部 32 个场景，包括 owner 手工漏掉的 S34；owner 当时挑了 11 个。修复改到运行时核心时，脚本不会少跑，作用是不漏选；省时间要靠 V1 的并行。
+- 没有送 Codex 审查；没有给 7595 投递任何消息；V1 未动。
