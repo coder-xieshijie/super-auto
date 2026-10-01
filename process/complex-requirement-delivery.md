@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.23
+status: 工作稿 v0.24
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -81,6 +81,8 @@ D 回流：把复盘里的仓库缺口补回 A
 | 交付中改验收文档 | 只有用户能改 spec、verify：owner 停下给选项，用户决定并用 core-spec 重新确认、重新交接。门禁从本需求最早的交接提交起算，之前的里程碑检查仍然计入；spec、verify 与第一次交接不同时，plan 冻结输入要有带用户原话的 `- 重新确认:` 行，改动列进 MR 描述；独立验证者由 `run-verifier.mjs`（必须给 `--base`）指向第一次交接，判断是否放宽了验收，门禁核对调用记录（2026-10-01 v0.21，[coder-xieshijie/dev-skills#25](https://github.com/coder-xieshijie/dev-skills/pull/25) 已合入，main `4c45165`） |
 | 交付中验收口径偏差 | spec 规定的产品行为清楚、实现符合 spec，只是 verify 某个检查点按字面判不了或必然判错时，owner 自己定改用的判定方法，不停下、不改 verify；在 plan.md 记一条偏差（字面为何不成立、证据、改用的方法、同类检查点），最终跨家族验证者逐条判断是否放宽了验收，判为放宽的交给用户；MR 描述列出全部偏差，用户合入前看、可以推翻。会改变产品行为的仍停下问用户（2026-10-01 v0.22 用户同意方向；改动清单见 [deviation-change-list.md](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)；[coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26) 已开，未合入） |
 | 里程碑检查的时机与重跑的选择 | 每轮里程碑检查分代码、证据两部分：代码部分在里程碑提交后就开始，与场景同时进行；证据部分在场景跑完后进行；两份报告合成一轮存下，这一轮报出的问题等记录存下后再提交。修复后重跑哪些场景由 `select-scenarios.mjs` 按 plan.md 里每个场景的涉及路径选出：只改测试、文档不触发，改了冻结文件或没人认领的文件全部重跑；最终 head 照常跑全部场景（2026-10-01 v0.23，用户要求并入 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，`ee4c96d`，未合入；方案见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md)） |
+| verify 的编号与门禁 | 门禁（`run-verifier.mjs`、`check-delivery.mjs`）和 `select-scenarios.mjs` 用同一个解析器，认带字母后缀的场景号（如 `S12b`）、M 开头的机械检查、RG 开头的回归项；`freeze.mjs` 冻结前用这个解析器读 verify，有认不出的编号就失败，由作者当场改。已冻结的 verify 不用改（2026-10-01 v0.24 用户选 (b)；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F1） |
+| 独立验证的时长上限 | 独立验证运行 60 分钟就停。到点不算“CLI 用不了”：脚本分析停止的原因，由 owner 判断后续，例如派生新的验证者接着验、分批验，或换别的办法（2026-10-01 v0.24 用户决定；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F2） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23） |
 
@@ -176,6 +178,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.21：MR 7595 交付中用户改了 verify 的 S04 并重新交接，门禁从新交接起算，之前的里程碑检查记录全部作废，按 deliver 的流程走必然失败（#21 把“早于新交接”的记录当作历史）。用户追问 owner 会不会为了好实现自己改验收文档：规则上不能，但它能自己走完一整套重新交接而通过所有机械检查。用户确认把两件事一起修：门禁从本需求最早的交接起算；交接后改过的 spec、verify 要有带用户原话的确认行，并由另一家模型的验证者对照第一次交接、判断是否放宽。两轮 Codex 审查共 9 条，均已修正。
 - 2026-10-01 v0.22：MR 7595 交付中三次停下问用户（S04、S05、S09）都是验收口径与观测工具对不上，产品行为本身清楚，6 次提问、约 52 分钟等待、两次中途冻结。对照三家：OpenAI 让执行者自行消歧并改活文档、留日志；Anthropic 在写明的假设下继续，但不让执行者改验收项；Lauren 给默认答案和推翻词，不许为交差放宽验收，放宽要验证者证明再会签。用户同意：口径偏差由 owner 自定并记录，不改 verify，跨家族验证者判断是否放宽，产品行为的决定仍停下问。
 - 2026-10-01 v0.23：MR 7595 的 M2 场景跑了三轮，第一轮里程碑检查在两轮场景之后才开始，报出的两个代码问题不依赖场景结果，多出第三轮（72 分钟）；M3 修复后 owner 凭判断挑场景重跑，漏了 S34，由检查指出。用户要求把这两项（并行分析的 V3、V2）并入 dev-skills#26：检查分代码、证据两部分，代码部分与场景同时进行；重跑由脚本按涉及路径选，认不出的改动全部重跑。门禁和记录脚本不改。这次没有按“一次上一项”分开提 PR，是用户的决定。验证用例与 7595 回放见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md) 第 8 节。V1（验证实例互不使登录失效、场景分组并行）在 agent-archon，落点待用户决定；dev-skills 的 PR 都合入、本机更新后，再给 7595 投递消息，用户先对现行 Skill 再做一轮检查。
+- 2026-10-01 v0.24：用户要求对现行 Skill 再做一轮检查（[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)）。检查发现门禁认不出 MR 7595 verify 里的 `S12b`、`S21b`、`S29b` 和 M01–M17，验证报告少了这 20 项也能过；独立验证默认 90 分钟到点后按“CLI 用不了”处理，换 CLI 一样会超时。用户选 F1 的 (b)：门禁认这几种编号，冻结前由脚本校验；F2 改为 60 分钟就停，到点后分析停止原因，由 owner 判断后续。决定表新增两行；dev-skills 尚未修改。
 
 ## 附：用户原话
 
@@ -306,3 +309,10 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 把 P2 和 P3 都放到 26 这个 PR 里面，等 V1 的落点，等我所有的 PR 都合入本地更新之后，再去投递消息。暂时先不投递，我还需要对当前的 skill 再做一轮 check。
 
 （2026-10-01；“P2 和 P3”按上下文理解为 V2 和 V3。）
+
+> F1 选 b
+> F2 独立验证 60 分钟就停, 然后不按 cli 用不了, 分析停止的原因, 并让主agent 判断后续, 派生新的还是其他方案
+>
+> P1的问题, 你的建议都是什么?
+
+（2026-10-01；“主agent”按上下文理解为 deliver 的 owner。）
