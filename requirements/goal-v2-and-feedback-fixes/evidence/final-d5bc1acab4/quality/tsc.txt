@@ -1,0 +1,9 @@
+packages/tui tsc=0 0
+packages/ui tsc=0 0
+packages/local-runtime-v2 tsc=0 0
+packages/local-runtime tsc=0 0
+packages/shared tsc=0 0
+packages/agent-core tsc=0 0
+packages/agent-modules/goal tsc=0 0
+packages/remote-control-bridge tsc=0 0
+electron typecheck rc=0

@@ -151,7 +151,13 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - M04：用 IDL feature 提交 204400c9a 跑 `gen:thrift`，工作区无差异；`check:desktop-service-boundary` 通过。
   - M05：`check:architecture`、`test:architecture`、`check:local-runtime-layout` 通过。
   - `check:prompt-asset-registry`、`check:tui-build-mode-contract` 通过。
-- [ ] 最终全量自验 @ d5bc1acab4：构建与冒烟（verify-runner）进行中，随后按 4 条线并行跑全部场景、RG1/RG1b/RG2/RG3、R103。M6 代码检查进行中。
+- [x] (2026-10-01 23:00+08:00) 最终 head d5bc1acab4 的构建与冒烟（verify-runner）：gv2-tests 用 `pnpm install --frozen-lockfile` 同步依赖，锁文件没有变化；`prepare` rc=0；M17 78/78；冒烟集 5 项通过；三个实例的 401、登录失效、429 都是 0（evidence/final-d5bc1acab4/{_build,M17,smoke}）。随后接口、TUI、Electron×3 共 5 条线并行跑全部场景（进行中）。
+- [x] (2026-10-01 23:20+08:00) 质量命令 @ d5bc1acab4（evidence/final-d5bc1acab4/quality、RG3）：
+  - 本 MR 改动的测试按包全部通过：v2 1357、local-runtime 283（不含 e2e）、ui 667（19 skipped）、tui 206、agent-core 150、electron 22、remote-control-bridge 38、cli integration 2、goal 2。
+  - RG3 定向测试：v2 计划、问卷、续跑、最终回复共 10+7 个文件，234 个通过；v1 问卷 12 个文件，79 个通过。
+  - tsc：tui、ui、v2、local-runtime、shared、agent-core、goal、remote-control-bridge 均为 0 错误；electron typecheck 通过。
+  - lint：发现 2 处 import/no-duplicates（v1 Goal 移走后留下的相邻重复 import）→ a335d87c9b；CI 的 `check:fast:lint` 报 v2 settlement 测试一个 describe 210 行（rebase 带入上游用例所致）→ be30e5b0c6。修后 `pnpm --filter @mavis/local-runtime-v2 lint` 0 error。这两个提交只改 type import 和测试，运行行为不变，场景证据继续以 d5bc1acab4 为准。
+- [x] (2026-10-01 23:15+08:00) M6 里程碑检查（代码，evidence/milestone-M6-code.md）：rebase 解冲突和 4 个新提交都没有改坏本分支的行为。查出 1 个问题：前台 Turn 被 user_stop 或 session_leave 停下后，队列处于暂停状态，此时恢复 Goal 可能停在“active、无 Goal Turn、无等���原因”（R52）。根源是更早的恢复实现没有处理暂停中的队列，上游的 session_leave 扩大了触发面。integrator 正在复现并修复，同时修“接管时比对 goalUpdatedAt”这一可选项。另一条可选：rebase 后迁移提交的 SHA ��了，RG1、RG2 的“迁移完成提交”证据用的是 rebase 前的 6d0823cc14，在证据里注明。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
