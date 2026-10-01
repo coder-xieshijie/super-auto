@@ -2,11 +2,13 @@
 
 ## 冻结输入
 
-- spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=2287ea872016cdbd8cb186697f863530c948fc59546a762fccb45fd9fbd0134a
-- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=8b46dcd7a097eac0f1213dd0ac6064a661667aee9c5c929f1bb0d6143819b03f
+- spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=225327b584186dd26158d6f3800c34c51530506463ebe1aef263278ba87bfef9
+- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=3c9e95f6561f06949220dc1039f31a5190bc69a2a7a0d7028df66dad01c9c435
 - 基线: preview_train @ 3962b648ff51aabf77484729bcb3ff6de0b5004a，加 !7556 的 7 个提交（至 660e4d4221）与交接前的 2 个文档提交
-- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 03b987445f22ad73747bf3d5760a1a3d3cd8ea98（shijie，2026-10-01T13:40:28+08:00）
-- 重新确认: verify sha256=8b46dcd7a097eac0f1213dd0ac6064a661667aee9c5c929f1bb0d6143819b03f 用户 2026-10-01 在本 session 确认问题“确认以这个版本冻结 verify.md 吗？sha256 8b46dcd7…（S05 步骤 3 比照 S04 计入被暂停取消的已发出请求；S09 的 hold 只看该 Goal 的模型请求）”中回答“确认，按这个版本冻结”；此前对两处改动的决定为“比照 S04 修订”“只算 Goal 请求”；上一版 89b494e7…（S04）同日回答“确认，按这个版本冻结”
+- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 5258bae92d5c935b7cc9081ca0f8db5ef3e447be（shijie，2026-10-01T17:35:37+08:00）
+- 重新确认: spec sha256=225327b584186dd26158d6f3800c34c51530506463ebe1aef263278ba87bfef9 用户 2026-10-01 在本 session 对“文案表外的新增 Desktop 文案怎么处理？”回答“把这些文案补进文案表 (Recommended)”，对“确认以这个版本冻结吗？spec sha256 225327b5…；verify sha256 3c9e95f6…”回答“确认，按这个版本冻结”
+- 重新确认: verify sha256=3c9e95f6561f06949220dc1039f31a5190bc69a2a7a0d7028df66dad01c9c435 用户 2026-10-01 在本 session 对“S40 前提里确认 subagent 仍在运行的写法要不要改？”回答“改成 agents=1/1 (Recommended)”，对“确认以这个版本冻结吗？…verify sha256 3c9e95f6…”回答“确认，按这个版本冻结”；此前各版：89b494e7…（S04，回答“确认，按这个版本冻结”）、8b46dcd7…（S05、S09，决定“比照 S04 修订”“只算 Goal 请求”，回答“确认，按这个版本冻结”）
+- 第三次交接: 03b987445f（2026-10-01T13:40:28+08:00，verify 8b46dcd7…）
 - 第二次交接: 9d998c8968（2026-10-01T12:24:43+08:00，verify 89b494e7…，S04 口径）
 - 原交接: feat/goal-v2-and-feedback-fixes @ 350965f50f2470c225454328306de4cc6caa6110（2026-09-30T19:34:27+08:00；verify 原 sha256 009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61）
 - owner: family=anthropic model=claude-opus-5-5
