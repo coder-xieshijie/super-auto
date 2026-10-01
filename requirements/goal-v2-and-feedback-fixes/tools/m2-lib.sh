@@ -76,8 +76,8 @@ m2_up() {
   case " $* " in *" --fault "*) ;; *) [ "$kind" = runtime ] || proxy=($M2_PROXY_FLAG) ;; esac
   case $kind in
     runtime) out=$(node "$V" up --config "$cfg" --evidence-dir "$OUT" "$@" 2>>"$OUT/steps.stderr.log") ;;
-    tui) out=$(node "$V" tui up --config "$cfg" --evidence-dir "$OUT" "${proxy[@]}" "$@" 2>>"$OUT/steps.stderr.log") ;;
-    electron) out=$(node "$V" electron up --config "$cfg" --evidence-dir "$OUT" "${proxy[@]}" "$@" 2>>"$OUT/steps.stderr.log") ;;
+    tui) out=$(node "$V" tui up --config "$cfg" --evidence-dir "$OUT" ${proxy[@]+"${proxy[@]}"} "$@" 2>>"$OUT/steps.stderr.log") ;;
+    electron) out=$(node "$V" electron up --config "$cfg" --evidence-dir "$OUT" ${proxy[@]+"${proxy[@]}"} "$@" 2>>"$OUT/steps.stderr.log") ;;
   esac
   printf '%s\n' "$out" >"$OUT/up.json"
   RID=$(printf '%s' "$out" | jget "d['runId'] if d.get('ok') else ''")

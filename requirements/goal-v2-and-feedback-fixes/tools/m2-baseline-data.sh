@@ -94,10 +94,10 @@ vr api GET $API/session/$S_BUDGET/queue --save s02-budget-queue >/dev/null
 S_Q1=$(m2_session "s02 q answered" s02-q1-session)
 m2_goal_create "$S_Q1" "$OBJ_FRUIT" s02-q1-create 100000 >/dev/null
 vr poll "$P$S_Q1" --until request.status=0 --show request.id,request.expires_at --interval 2 --timeout 180 --save s02-q1-pending >"$OUT/q1-pending.json"
-Q1=$(jget "d['final']['body']['request']['id']" <"$OUT/q1-pending.json")
+Q1=$(jget "d['final']['request']['id']" <"$OUT/q1-pending.json")
 python3 - "$OUT/q1-pending.json" >"$OUT/q1-reply.json" <<'EOF'
 import json,sys
-r=json.load(open(sys.argv[1]))['final']['body']['request']
+r=json.load(open(sys.argv[1]))['final']['request']
 step=r['steps'][0]
 opt=[o for o in step['options'] if 'banana' in json.dumps(o).lower()][0]
 print(json.dumps({"schema_version":2,"answers":[{"step_id":step['id'],"selected_option_ids":[opt['id']],"selected_other":False}]}))
@@ -119,25 +119,48 @@ m2_goal_create "$S_Q3" "$OBJ_FRUIT_EXPLICIT" s02-q3-create 100000 >/dev/null
 vr poll "$P$S_Q2" --until request.status=0 --show request.id,request.expires_at --interval 2 --timeout 180 --save s02-q2-pending >"$OUT/q2-pending.json"
 vr poll "$P$S_Q3" --until request.status=0 --show request.id,request.expires_at --interval 2 --timeout 180 --save s02-q3-pending >"$OUT/q3-pending.json"
 
-# active：最后建，第一次主执行请求进行中时保留数据停机
-S_ACTIVE=$(m2_session "s02 active" s02-active-session)
-m2_goal_create "$S_ACTIVE" "$OBJ_LONG" s02-active-create >/dev/null
-vr poll $API/session/$S_ACTIVE/goal --until goal.turns_used=0 --hold 25 --show "$SHOW" --interval 2 --timeout 60 --save s02-active-running >/dev/null
-
-for s in COMPLETE PAUSED BLOCKED USAGE BUDGET Q1 Q2 Q3 ACTIVE; do
-  eval "sid=\$S_$s"; echo "$s $sid" >>"$OUT/sessions.txt"
-done
-for s in COMPLETE PAUSED BLOCKED USAGE BUDGET Q1 Q2 Q3 ACTIVE; do
+for s in COMPLETE PAUSED BLOCKED USAGE BUDGET Q1 Q2 Q3; do
   eval "sid=\$S_$s"; low=$(echo "$s" | tr A-Z a-z)
   goal_of "$sid" "s02-$low-pre-goal" >/dev/null
   vr api GET $API/session/$sid/message --save "s02-$low-pre-history" >/dev/null
   vr api GET $API/session/$sid/queue --save "s02-$low-pre-queue" >/dev/null
-done
-vr fault log --save fault-final >/dev/null
-for s in COMPLETE PAUSED BLOCKED USAGE BUDGET Q1 Q2 Q3 ACTIVE; do
-  eval "sid=\$S_$s"; low=$(echo "$s" | tr A-Z a-z)
   vr snapshot --session "$sid" --save "s02-$low-pre-snap" >/dev/null
 done
+
+# active：最后建；第 2 个主执行请求发出后（Goal Turn 在途）直接 SIGKILL 服务进程树，模拟升级前带着在途工作退出。
+# 正常关闭会中止该轮并把基线 Goal 改成 paused(accounting_unavailable)（第一次尝试实测），不是 active。
+S_ACTIVE=$(m2_session "s02 active" s02-active-session)
+m2_goal_create "$S_ACTIVE" "$OBJ_LONG" s02-active-create >/dev/null
+deadline=$(( $(date +%s) + 120 ))
+while [ "$(date +%s)" -lt "$deadline" ]; do
+  n=$(vr fault log --session "$S_ACTIVE" --role main --event attempt | python3 -c 'import json,sys
+d=json.load(sys.stdin)
+def walk(o):
+    if isinstance(o,dict):
+        for k in ("entries","log","lines","events"):
+            if isinstance(o.get(k),list): return o[k]
+        for v in o.values():
+            r=walk(v)
+            if r is not None: return r
+    if isinstance(o,list): return o
+    return None
+print(max([e.get("n") or 0 for e in (walk(d) or [])] or [0]))')
+  [ "${n:-0}" -ge 2 ] && break
+  sleep 1
+done
+goal_of "$S_ACTIVE" s02-active-pre-goal >/dev/null
+vr api GET $API/session/$S_ACTIVE/message --save s02-active-pre-history >/dev/null
+for s in COMPLETE PAUSED BLOCKED USAGE BUDGET Q1 Q2 Q3 ACTIVE; do
+  eval "sid=\$S_$s"; echo "$s $sid" >>"$OUT/sessions.txt"
+done
+vr fault log --save fault-final >/dev/null
+HOME_VA=${VERIFY_ARCHON_HOME:-$(node -e "console.log(require('os').tmpdir())")/verify-archon}
+PID=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("pid") or "")' "$HOME_VA/$RID/state.json")
+m2_log "SIGKILL runtime-server pid=$PID and descendants (active goal in flight, request n=$n)"
+kill_tree() { local p=$1 c; for c in $(pgrep -P "$p"); do kill_tree "$c"; done; kill -KILL "$p" 2>/dev/null; }
+echo "{\"killedPid\":$PID,\"atMs\":$(now_ms),\"activeInFlightRequestN\":${n:-0}}" >"$OUT/active-kill.json"
+kill_tree "$PID"
+sleep 2
 m2_down --keep-data
 # 停机后的存储读数（升级前记录）
 node "$V" db --data "$RID" --query "SELECT goal_id, session_id, objective, status, status_reason, tokens_used, turns_used, time_used_seconds, token_budget, execution_wait_reason, usage_recovery_at_ms, kickoff_state, updated_at_ms FROM local_runtime_thread_goals ORDER BY created_at_ms" --save s02-legacy-goals >"$OUT/pre-upgrade-goals.json" 2>>"$OUT/steps.stderr.log"
@@ -145,9 +168,9 @@ node "$V" db --data "$RID" --query "SELECT request_id, session_id, status, creat
 node "$V" db --data "$RID" --query "SELECT id, session_id, item_id, status, client_request_id, claim_id, substr(data_json,1,400) AS data_head FROM local_runtime_queue_items ORDER BY id" --save s02-legacy-queue >"$OUT/pre-upgrade-queue.json" 2>>"$OUT/steps.stderr.log"
 # Q2 的到期时间：升级实例要在重新构建之后才能起来，原 5 分钟期限会先到；安排为停机时刻 + 3 小时（安排的前提，不是产品路径），
 # 原值与安排值都记下，升级后的检查点按安排值比较
-Q2=$(jget "d['final']['body']['request']['id']" <"$OUT/q2-pending.json")
+Q2=$(jget "d['final']['request']['id']" <"$OUT/q2-pending.json")
 NEWEXP=$(( $(now_ms) + 3*3600*1000 ))
-echo "{\"request_id\":\"$Q2\",\"original_expires_at\":$(jget "d['final']['body']['request'].get('expires_at')" <"$OUT/q2-pending.json"),\"arranged_expires_at\":$NEWEXP}" >"$OUT/q2-expiry-arranged.json"
+echo "{\"request_id\":\"$Q2\",\"original_expires_at\":$(jget "d['final']['request'].get('expires_at')" <"$OUT/q2-pending.json"),\"arranged_expires_at\":$NEWEXP}" >"$OUT/q2-expiry-arranged.json"
 node "$V" db --data "$RID" --sql "UPDATE questionnaire_requests SET request_json = json_set(request_json, '\$.expiresAt', $NEWEXP) WHERE request_id = '$Q2'" --save s02-arrange-q2-expiry >"$OUT/arrange-q2.json" 2>>"$OUT/steps.stderr.log"
 node "$V" db --data "$RID" --query "SELECT request_id, status, json_extract(request_json,'$.expiresAt') AS expires_at, json_extract(request_json,'$.goalId') AS goal_id FROM questionnaire_requests ORDER BY created_at" --save s02-legacy-questionnaires-arranged >"$OUT/pre-upgrade-questionnaires-arranged.json" 2>>"$OUT/steps.stderr.log"
 m2_log "s02 data runId=$RID"
