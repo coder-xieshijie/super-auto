@@ -32,7 +32,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [ ] M1 补证（进行中，subagent 在 gv2-verify-tools）：②M01–M05 在 a7899522d3 上运行留档；③④在 d770f05f30 与 a7899522d3 上按 S17 规则重跑 RG1b、用故障注入补跑 TUI 附件失败后恢复。完成后做第 2 轮检查（范围 6d0823cc14..a7899522d3）。
 - 构建与启动记录（2026-10-01 补记）：2026-09-30 22:42 的 `prepare`（agent-core 构建）因用户中断被 SIGTERM 终止、未 up；2026-10-01 09:20 重新 `prepare runtime` 成功；09:21:37 接口实例 up、doctor 全过；之后才开始 M2 场景。
 - [ ] M2 场景试跑（未提交代码，构建 = 工作区）：S09 等价流程（接口，defaultMainTurns=3、graceSteps=1）→ 3 次工作请求 + 1 次收尾请求同属一个 Turn，第 4 次请求不带 tools 且 provider 正常应答，d1–d3 存在、d4 不存在，`budget_limited(main_turn)`（evidence/m2-probe/）；S11（defaultMainTurns=1）→ 工作 1 + 收尾 1，验证在收尾之后派发，met，`complete(verifier_met)`（evidence/m2-probe-s11/）。正式场景待 M2 提交后在提交版本上重跑。
-- [ ] M2 请求计量与同轮收尾（已完成：agent-core 逻辑请求生命周期与 7 个单测；v2 账本表 migration 43、账本读写与投影、按请求准入与收尾、结算时判定次数上限、退役预算总结 Turn；未提交，等 M1 检查记录后提交。剩余：测试更新、IDL、Desktop/TUI 展示、get_goal、诊断、场景实跑）。
+- [ ] M2 请求计量与同轮收尾（实现完成，未提交，等 M1 第 2 轮检查记录后按第 6、12 项分提交）。2026-10-01 10:00 工作区状态：agent-core 逻辑请求生命周期；v2 账本（migration 43，`service/goal/accounting/` 下 request-ledger 写入、request-projection 读取、request-accounting 准入与收尾）；结算第 10 阶段判定次数上限；退役预算总结 Turn；get_goal、wire、事件投影；Desktop 横幅“N 次请求”与悬停构成、TUI `N requests`；Developer Tools“Goal 诊断”卡片（同意后生成，拒绝不生成，写入本实例 `diagnostics/goal/`，每 Goal 最多 5 条请求条目、全局 200 Goal / 500 请求、2 天窗口）。质量：v2 `lint`、`check:architecture`、`test:architecture`、`check:local-runtime-layout`、`check:desktop-service-boundary` 通过；v2 相关 54 个文件 1007 个测试、UI 4 个文件 64 个、TUI 2 个文件 58 个、agent-core 31 个、Electron IPC 22 个测试通过；v2、UI、TUI、agent-core、shared、Electron main 的 tsc 0 错误。
+- [x] (2026-10-01 10:00+08:00) IDL：weaver/idl 分支 `feature/goal-v2-and-feedback-fixes` 已推送（204400c9a5），开 [weaver/idl!13599](https://gitlab.xaminim.com/weaver/idl/-/merge_requests/13599)，不合入；agent-archon 生成代码来自该提交。
 - [ ] M3、M4 草稿：`wip/gv2-resume`（e4c2a76d91 恢复落地、c485e5185e 依赖、ccf58cd2df 额度恢复、2ff5c22f68 校验中断、78b1db3fb7 TUI）与 `wip/gv2-desktop`（ca882703e0 冲突、b2f9a7ae72 补充消息、c2cc83ea67 继续按钮、0563da4df2 verifier 子会话、3463dbd9fb 通知）由 subagent 在迁移提交上完成，作为可复用草稿保留；按 M3、M4 顺序在 M2 检查之后重新整合、提交和检查。
 
 ## 意外与发现
@@ -42,6 +43,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-09-30：G4 实测 Goal 横幅的请求数、token 目前没有悬停提示，S01、S06、S10 依赖第 6 项实现后核对。
 - 2026-09-30：v1 `host-helpers.ts`、`desktop-service-support.ts` 在基线上已有 `import/no-duplicates`，与本需求无关，不改。
 - 2026-09-30：v1 `persistence/db.ts` 的历史 migration 13–15 仍创建/扩展 `local_runtime_thread_goals`，`sqlite-table-roles.ts` 仍登记该表；它们是 v1 迁移历史与旧数据保留，不写行，不改。
+- 2026-10-01：测试更新时发现：token 改为按请求计入后，Turn 结算时如果活跃时间也为 0（本轮增量为空），`bumpThreadGoalBoundUsage` 提前返回、不判定 token 上限，超额的 Goal 仍为 active。已改为增量为空时仍判定预算，并加 store 单测。
+- 2026-10-01：`check:local-runtime-layout` 要求 service 分组 3–10 个生产文件。账本拆成写入（request-ledger）与读取投影（request-projection），与准入服务同放 `accounting/`；没有放进已满 10 个文件的 `persistence/`。
 - 2026-09-30：`~/.minimax/config.yaml` 当前指向 prod（agent.minimaxi.com）。prod 下接口实例的 LLM Context Inspector 不装配（`resolveBuildVariant` 在 prod 且非 internal 构建时为 unavailable），`enableInspector` 返回 500。第 2 项那次验证时配置指向 staging。
 
 ## 决策日志
@@ -50,7 +53,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-10-01：M0 不写场景，不需要检查记录；M1 的第一轮检查范围取交接提交到迁移提交（350965f50f..6d0823cc14），连续覆盖 !7181、工具、第 2 项与迁移。
 - 2026-10-01：并行 subagent 在 `wip/gv2-resume`、`wip/gv2-desktop` 上的提交早于 M1/M2 检查，不直接并入（按作者时间会判为晚，也不改提交时间）；作为草稿，在 M2 检查之后按 M3、M4 顺序重新提交到需求分支（用户 2026-10-01 决定）。
 - 2026-10-01：独立验证用 codex（`run-verifier.mjs --preflight --cli codex --effort high --owner-family anthropic` 通过：openai/gpt-6-astra，不带沙箱）。
-- 2026-10-01：IDL 在 weaver/idl 新分支 `feature/goal-v2-and-feedback-fixes`（204400c9a，未推送）给 GoalState 加 17–25 号可选字段：accounting_version、requests_used、work_requests、grace_requests、legacy_turns、reserved_requests、unknown_requests、usage_incomplete、usage_recovery_scheduled（最后一个给第 1 项横幅用）。用平铺字段而不是嵌套结构，与现有 GoalState 风格一致。已有同名实验分支 `feature/goal-v2-request-accounting` 不复用。
+- 2026-10-01：IDL 在 weaver/idl 新分支 `feature/goal-v2-and-feedback-fixes`（204400c9a5，已推送，weaver/idl!13599 待用户合入）给 GoalState 加 17–25 号可选字段：accounting_version、requests_used、work_requests、grace_requests、legacy_turns、reserved_requests、unknown_requests、usage_incomplete、usage_recovery_scheduled（最后一个给第 1 项横幅用）。用平铺字段而不是嵌套结构，与现有 GoalState 风格一致。已有同名实验分支 `feature/goal-v2-request-accounting` 不复用。
+- 2026-10-01：Goal 诊断入口放在 Developer Tools（与 Runtime 内存卡片同样只在开发者选项开启时出现，IPC 也按开发者选项拒绝）；同意提示拒绝即不读不写。诊断声明三个数量上限：200 个 Goal、500 条请求、每个 Goal 5 条请求条目（S32 要求用 S03 规模的 Goal 超过上限）；摘要按读到的全部请求统计。时间窗口 2 天，与日志上传一致。
 - 2026-10-01：收尾请求的说明追加到该次请求的 system prompt，tools 置空；不改受控 prompt 资产（`workflow/goal/budget-limit.md` 保留登记、运行时不再使用，移除路径需 Apollo 生命周期，未授权）。
 - 2026-10-01：最后 rebase 到 preview_train 时第 2 项提交被去重会让 M1 记录失效，这是 check-delivery 的已知缺陷（修复 PR 未合入 dev-skills main）；届时如实记录，不改历史或提交时间绕开。
 
