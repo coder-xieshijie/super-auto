@@ -3,9 +3,10 @@
 ## 冻结输入
 
 - spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=2287ea872016cdbd8cb186697f863530c948fc59546a762fccb45fd9fbd0134a
-- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=89b494e73d7d711ea6ea96dc86a6ce90afd27d9f5b6fcd7a9437fa25412e78cc
+- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=8b46dcd7a097eac0f1213dd0ac6064a661667aee9c5c929f1bb0d6143819b03f
 - 基线: preview_train @ 3962b648ff51aabf77484729bcb3ff6de0b5004a，加 !7556 的 7 个提交（至 660e4d4221）与交接前的 2 个文档提交
-- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 9d998c89685fc6d795e434804f82ac4e3e59dedb（shijie，2026-10-01T12:24:43+08:00）
+- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 03b987445f22ad73747bf3d5760a1a3d3cd8ea98（shijie，2026-10-01T13:40:28+08:00）
+- 第二次交接: 9d998c8968（2026-10-01T12:24:43+08:00，verify 89b494e7…，S04 口径）
 - 原交接: feat/goal-v2-and-feedback-fixes @ 350965f50f2470c225454328306de4cc6caa6110（2026-09-30T19:34:27+08:00；verify 原 sha256 009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61）
 - owner: family=anthropic model=claude-opus-5-5
 
@@ -40,7 +41,10 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [x] (12:06 前) 修复并推送（ced846b1a8..163f31f8ce）：a383cca918 收尾请求的工具意图在交给 agent 循环前去掉、不执行（agent-core 测试 32 个）；a879b27943 store 返回的所有 Goal 状态（create、patch、执行等待、恢复列表）都带计量投影（v2 相关 97 个文件 1456 个测试）；163f31f8ce 诊断只留 reasonPresent/missingCount/missingFingerprint/summaryPresent，不含模型原文，同意框层级高于 Developer Tools 面板与遮罩。lint、tsc 通过。
 - [x] (2026-10-01 12:42+08:00，汇总写入 evidence/m2-163f/README.md 的时间) M2 场景第二轮 @ 163f31f8ce（产品代码与 9d998c8968 相同；gv2-tests，构建/启动成功）：S01、S02、S04（按 verify 89b494e7 口径）、S05、S06、S07、S08、S09、S10（第 5 次满足前提）、S11、S32（鼠标点击同意框）、S37、S38、S41 全部检查点 PASS；S03 补充消息一项 UNVERIFIED，依赖 M4（输入框仍为目标模式），M4 落地后在其提交上重跑 S03；覆盖盲区 B05、B19、B20、B21 的检查点为 UNVERIFIED。S01 三次运行的收尾响应都是纯文本，收尾工具意图的丢弃路径未被实跑触发，由 a383cca918 的单测与 B05 覆盖。作废运行：同时启动两个 Electron 刷新了共享登录，使先起的接口/TUI 实例出现内容审核 401（S02/S04/S08/S11 各一次），已重跑。证据 evidence/m2-163f/。
 - [x] (2026-10-01 12:24+08:00) S04 与 R20 冲突由用户决定：由我按 core-spec 起草、用户确认后更新 verify（S04 以故障注入 provider 只记录模式启动，完成时请求数 = Inspector 条数 + 代理日志中已发出且被暂停取消的主执行请求；R20 覆盖加 S04；G1 表加 S04（只记录））。用户确认 verify sha256 89b494e7…，spec 不变；交接提交 9d998c8968 已推送，MR 描述哈希已更新并读回；read-handoff 与 check-delivery --frozen-only 通过，冻结输入已改为新三行。
-- [ ] M2 里程碑检查第 1 轮（范围 a7899522d3..9d998c8968），subagent 进行中。
+- [x] (2026-10-01 12:58+08:00) M2 里程碑检查第 1 轮（claude-opus-5-5[1m]，范围 a7899522d3..9d998c8968，evidence/milestone-M2-r1.md）：①发出后被取消且无用量的请求按 0 记、不标不完整；②升级前的预算总结项只在派发时退役，启动后仍算待处理（S02 第 3 步读到 pending_count 1）；③S03 补充消息受 M4 阻塞，应记受阻；④S05 第 3 步与 S04 同样的 Inspector 口径冲突；⑤S09 hold 期间有标题生成请求、恢复被拒打印的是警告。可选：请求屏障缺直接测试、预占不发事件（B21 取证）；暂停后同一 Turn 仍发出并计入请求。
+- [x] (2026-10-01 13:40+08:00) ④⑤口径由用户决定：S05 第 3 步比照 S04，S09 hold 只看该 Goal 的请求；我起草、用户确认 verify sha256 8b46dcd7…，交接提交 03b987445f，MR 描述哈希已更新读回，冻结输入已更新。
+- [x] 修复并推送（53731b46a7..c926bcd2e4）：53731b46a7 knip 导出清理；9bc696d1fa ①（abort 无用量标不完整，provider 错误状态仍按已知 0）；1a1b8b9fb8 ②（启动时按旧 clientRequestId 找到并取消，不唤醒队列）；cb6ae6e4c1 ⑤ TUI 恢复被拒打印错误；296513b5b0 绑定失效（暂停/改目标/删除）后不再发出请求，并补请求屏障的直接测试（graceSteps 0/3、最终回复与收尾指令、暂停/改目标/删除）；c926bcd2e4 预占后发布 Goal（事件可见 reservedRequests 1）。v2 相关 97 个文件 1458 个测试、lint、tsc、dead-code、架构、layout 通过。③ 待 M4 落地后在其提交上重跑 S03。
+- [ ] M2 场景第三轮 @ c926bcd2e4（gv2-tests），subagent 进行中；之后做 M2 检查第 2 轮。
 - [ ] CI 流水线 943968（head 9d998c8968）：2 个 job 失败。`check:contract:desktop-service-idl` 是已知情况（待 IDL 合入）；`check:unit:local-runtime-v2` 失败在 `check:dead-code`（knip 报 20 个未使用导出、26 个未使用导出类型，多数来自 M1 迁移带入 v2 的 Goal 代码）。此前登记的 M1/M2 质量命令漏了 `check:dead-code`，已补入质量命令；修复先在 gv2-verify-tools 做成补丁，待 M2 检查落盘后再提交，避免排在 M2 检查之前。补丁已备好（evidence/knip-fix-9d998c8968.patch：测试专用导出标 `@internal`、仅本文件使用的去掉 export、删 1 个无人使用的函数、goal index 去掉无人导入的 re-export；dead-code 0 项，tsc/lint/架构/layout 与 55 个文件 897 个测试通过）。`packages/tui` 的 check:dead-code 在本分支报 3 个未用文件，本分支未改动它们的引用，属原有问题，不修。
 - [ ] 门禁问题（如实记录，未写放行、未改提交时间）：按 deliver 规定把交接行改为新交接 9d998c8968 后，`milestones.mjs` 从新交接点起算 owner 提交，M0–M2 的提交与 milestone-M1-r1/r2 都落在范围外（“no longer matches the branch … does not count”），报 M1–M4 无检查记录；M1 的提交全部在新交接点之前，之后无法再为 M1 产生有效记录。已告知维护 deliver 的 session；不受影响的工作继续。
 - [x] (2026-10-01 10:55+08:00) 首个 MR 流水线 943781（合并结果 feae47ab4b）有 10 个 job 失败，逐个定位：①`check:fast:sensitive-keyword-diff`：M0 故障注入工具里的厂商词，384cef525d 改为转义常量与改写注释（门禁 3962b648ff..HEAD 通过，verify-archon 脚本测试 46 个通过）；②`check:unit:local-runtime` 两个测试在 preview_train 基线上本来就过时（`cuModeActive` 已改名、mavis skill 标题已改），本 MR 触及 local-runtime 才触发该 job，42c9857a02 按当前源码修正（34 个通过）；③typecheck、lint 与 v2/electron/cli/mcode-exec 单测都因合并结果编译失败：preview_train 新合入的 2ed882f7f8（TUI 0922 发布）在 `compat/v1/runtime.ts`、`compat/v1/session.ts` 调用 v1 `api.threadGoal.pauseActiveGoalForAbort`，并改了 v1 `thread-goal/turn-context.ts` 与 goal 包 `tool-impls.ts`/`types.ts`，最后 rebase 时需移植到 v2 Goal owner；④`check:contract:desktop-service-idl`：CI 用 IDL main 生成，与 feature IDL 生成物不同，待用户合入 weaver/idl!13599 后用 main 重新生成；⑤`check:unit:tui`：runner 上 pnpm store ENOENT，基础设施失败。已推送 619c419149..42c9857a02，两个修复只动工具与测试，不影响 M2 场景所测的产品代码。
@@ -60,6 +64,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-10-01：`check:local-runtime-layout` 要求 service 分组 3–10 个生产文件。账本拆成写入（request-ledger）与读取投影（request-projection），与准入服务同放 `accounting/`；没有放进已满 10 个文件的 `persistence/`。
 - 2026-10-01：截至 10:55，第 2 项 !7590 仍为 opened，未进 preview_train（7b91d950a5）。M6 rebase 时若仍未合入，按 spec 停下汇报。
 - 2026-10-01 11:50：进度条目的时间此前有 8 处是估计值（其中 2 处晚于当时的实际时间），已按提交、检查记录与 plan 提交的实际时间改正；之后只写可核对的时间。
+- 2026-10-01：v2 相关测试批量运行中有一次 `memory-note-lifecycle.integration.test.ts` 的 “persists the complete lifecycle with detailed logging=false” 失败，单独运行与随后两次批量运行（各 1458 个）都通过；该测试与本分支改动无关，首次失败日志未保留，后续批量运行继续观察。
+- 2026-10-01：发出后取消的请求在无用量时标为不完整，provider 返回错误状态（如 500、502）且无用量时仍按已知 0 计——错误状态下 provider 不计费，若一并标不完整，S05 这类重试会被误标“+”。
 - 2026-10-01：本地仓库有一个过期分支 `refs/heads/origin/preview_train`（2026-09-18），使 `origin/preview_train` 有歧义；凡取基线一律写 `refs/remotes/origin/preview_train`。`pnpm gen:thrift` 不给 `--idl-dir` 时会读旁边 `/Users/minimax/code/mm/weaver/idl` 的当前分支（停在别的 feature 分支），生成时必须显式给 IDL 目录。
 - 2026-10-01：RG1 TUI 补跑附带发现（两个提交相同，非本次引入）：粘贴附件后第一次回车不开始 Goal、需再回车；`/goal resume` 后重绘出首轮的错误行。
 - 2026-09-30：`~/.minimax/config.yaml` 当前指向 prod（agent.minimaxi.com）。prod 下接口实例的 LLM Context Inspector 不装配（`resolveBuildVariant` 在 prod 且非 internal 构建时为 unavailable），`enableInspector` 返回 500。第 2 项那次验证时配置指向 staging。
