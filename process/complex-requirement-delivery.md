@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.21
+status: 工作稿 v0.22
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -74,11 +74,12 @@ D 回流：把复盘里的仓库缺口补回 A
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
-| 交付中停下的情况 | 四种：spec 矛盾或缺少会改变判定的决定；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
+| 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
 | 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、每个里程碑的第一次检查早于之后的提交（晚了只能由用户放行）。rebase 后按增删的行认提交：被目标分支去重的提交跳过，检查后被改过的提交（作者时间和标题不变）要再查一轮，后几轮不核对时间。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`；v0.20 修正 rebase 缺陷，[coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 已合入，main `fbcf3b7`） |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 已合入） |
 | 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；验证时三个 CLI 默认都不带沙箱（codex 用 `-s danger-full-access` 并关审批，claude `bypassPermissions`，mcode `--permission full`），查漏仍用只读沙箱；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 已合入，main `4a00174`） |
 | 交付中改验收文档 | 只有用户能改 spec、verify：owner 停下给选项，用户决定并用 core-spec 重新确认、重新交接。门禁从本需求最早的交接提交起算，之前的里程碑检查仍然计入；spec、verify 与第一次交接不同时，plan 冻结输入要有带用户原话的 `- 重新确认:` 行，改动列进 MR 描述；独立验证者由 `run-verifier.mjs`（必须给 `--base`）指向第一次交接，判断是否放宽了验收，门禁核对调用记录（2026-10-01 v0.21，[coder-xieshijie/dev-skills#25](https://github.com/coder-xieshijie/dev-skills/pull/25) 已合入，main `4c45165`） |
+| 交付中验收口径偏差 | spec 规定的产品行为清楚、实现符合 spec，只是 verify 某个检查点按字面判不了或必然判错时，owner 自己定改用的判定方法，不停下、不改 verify；在 plan.md 记一条偏差（字面为何不成立、证据、改用的方法、同类检查点），最终跨家族验证者逐条判断是否放宽了验收，判为放宽的交给用户；MR 描述列出全部偏差，用户合入前看、可以推翻。会改变产品行为的仍停下问用户（2026-10-01 v0.22 用户同意方向；改动清单见 [deviation-change-list.md](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)，dev-skills 未改） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23） |
 
@@ -172,6 +173,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.19 补充：用户决定 E1（拦截坏字符）不进通用流程。坏字符来自本机所用的接口，不具通用性，改为本机钩子；dev-skills 与 `check-delivery` 不加相关检查。钩子能否就地补回丢字见[研究档案](../research/goal-final-delivery-trace-2026-09-30/fffd/README.md)。
 - 2026-10-01 v0.20：把新版 deliver 同步给进行中的 MR 7595 时发现，#21 的里程碑检查记录经不起 rebase 到更新后的目标分支：已检查的提交被去重，或改动附近的行被上游改了，整条记录作废，重做的检查又被判晚。用户确认按建议修：按增删的行认提交、跳过被去掉的提交、只对检查后被改过的提交要求再查，时间只核对每个里程碑的第一次检查。修正与 Codex 审查（7 条，6 条修正、1 条记为已知限制）见 [coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24)，已合入 main `fbcf3b7`，本机已快进。
 - 2026-10-01 v0.21：MR 7595 交付中用户改了 verify 的 S04 并重新交接，门禁从新交接起算，之前的里程碑检查记录全部作废，按 deliver 的流程走必然失败（#21 把“早于新交接”的记录当作历史）。用户追问 owner 会不会为了好实现自己改验收文档：规则上不能，但它能自己走完一整套重新交接而通过所有机械检查。用户确认把两件事一起修：门禁从本需求最早的交接起算；交接后改过的 spec、verify 要有带用户原话的确认行，并由另一家模型的验证者对照第一次交接、判断是否放宽。两轮 Codex 审查共 9 条，均已修正。
+- 2026-10-01 v0.22：MR 7595 交付中三次停下问用户（S04、S05、S09）都是验收口径与观测工具对不上，产品行为本身清楚，6 次提问、约 52 分钟等待、两次中途冻结。对照三家：OpenAI 让执行者自行消歧并改活文档、留日志；Anthropic 在写明的假设下继续，但不让执行者改验收项；Lauren 给默认答案和推翻词，不许为交差放宽验收，放宽要验证者证明再会签。用户同意：口径偏差由 owner 自定并记录，不改 verify，跨家族验证者判断是否放宽，产品行为的决定仍停下问。
 
 ## 附：用户原话
 
@@ -290,5 +292,11 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 会不会出现他为了简单实现而直接改 verify 和 spec 的情况？
 
 > 加进 #25 一起合入，然后通知 7595
+
+（2026-10-01。）
+
+> 我记得好像有一家是让模型自己去做决定，然后继续去执行?
+
+> 同意按这个改，列出具体要改的地方
 
 （2026-10-01。）

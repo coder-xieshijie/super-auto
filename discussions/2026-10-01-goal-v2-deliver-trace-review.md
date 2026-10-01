@@ -192,6 +192,29 @@ topics: [MR 7595 的完整 trace, deliver 会话复盘, 人工介入的原因, �
 - **若当时“自己定、继续做”。** S04 会按 owner 的推荐“换暂停时机”，与用户当时选的“改 verify”不同，需事后推翻、重跑 S04；S05、S09 与用户选择一致；省掉 6 次提问、约 52 分钟等待和两次中途重新冻结。
 - **建议（待用户决定）。** 产品行为的决定维持停下问用户，等待时先做不受影响的部分；验收口径由 owner 自己定、不停：不改冻结的 verify，在 plan 记“口径偏差”（检查点、字面为何不成立、证据、改用的判定方法、同类检查点），最终跨家族验证者逐条判断是否放宽（沿用 #25 对照第一次交接的机制），放宽即未通过、合入前由用户定，MR 描述列出全部偏差。
 
+## 用户同意“口径偏差由 owner 自定”；列出具体改动
+
+用户原话：
+
+> 同意按这个改，列出具体要改的地方
+
+决定：采用上一节的建议。验收口径偏差由 owner 自定、记录，不改冻结的 verify；最终跨家族验证者逐条判断是否放宽，放宽的交给用户；产品行为的决定仍停下问用户。
+
+过程：读了 dev-skills main `4c45165` 的 deliver SKILL.md、plan-format、verifier-brief、milestone-check，`check-delivery.mjs`、`run-verifier.mjs`（#25 指向第一次交接的做法）、`report-format.mjs`，以及 core-spec 第 175 行。
+
+答复要点（完整清单见 [deviation-change-list.md](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)）：
+
+- deliver/SKILL.md：停下第 1 种改为“缺少会改变产品行为的决定”；新增“口径偏差”一段（四句）；独立验证命令加 `--plan`；MR、汇报各加一条。
+- plan-format.md：新增“口径偏差”一节，条目编号 D1、D2……，写字面、不成立的原因与证据、改用的方法、推翻后重跑的场景。
+- verifier-brief.md：输入加口径偏差；第 2 步加判定规则（成立且未放宽按改用方法判定，不成立按字面判定，放宽了记 FAIL 并注明“口径偏差放宽”）；报告加“口径偏差”一节。
+- run-verifier.mjs：`--plan` 读出偏差原文交给验证者，调用记录写 `deviations`。
+- check-delivery.mjs 与 report-format.mjs：核对调用记录的偏差与 plan 一致、报告逐条有判断、没有判为放宽的，报错写明修法。
+- core-spec 第 175 行：只在需要改变产品行为的决定时 deliver 才回到 core-spec。
+- milestone-check.md 加半句为可选。
+- 测试按 #24、#25 的做法写一组用例脚本。
+
+执行：流程文档升到 v0.22，新增“交付中验收口径偏差”一行，“交付中停下的情况”第 1 种同步改写，修订记录与用户原话已补；dev-skills 未改，待用户确认清单后提 PR。
+
 ## 待确认与待验证
 
 见研究档案第 9 节。
