@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.28
+status: 工作稿 v0.29
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -74,7 +74,9 @@ D 回流：把复盘里的仓库缺口补回 A
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
-| 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
+| 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29）。**v0.29 起由下一行“交付中不停”取代** |
+| 交付中不停 | owner 全程做下去，不为决定停下问用户；做不了的部分标明原因，做完其余工作。只在不可逆操作前停：合入、强推共享分支、删除共享数据、对外发消息、改共享环境（取 Lauren“Always pause for irreversible writes”）。自己做的决定写成决定清单，放在 plan.md 和 MR 描述的最前面，用户合入前重点看（2026-10-01 v0.29 用户确认；dev-skills 尚未修改） |
+| 交付中的决定先问另一家模型 | 遇到需要决定的事，owner 拉起另一家模型（例如 Codex）判断并讨论，再定方案，写进决定清单。流程尽量轻：不用复杂脚本核对，只用 prompt 约束，prompt 也要很轻（2026-10-01 v0.29 用户提出；写法与哪些脚本保留待确认） |
 | 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、每个里程碑的第一次检查早于之后的提交（晚了只能由用户放行）。rebase 后按增删的行认提交：被目标分支去重的提交跳过，检查后被改过的提交（作者时间和标题不变）要再查一轮，后几轮不核对时间。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`；v0.20 修正 rebase 缺陷，[coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 已合入，main `fbcf3b7`） |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 已合入） |
 | 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；验证时三个 CLI 默认都不带沙箱（codex 用 `-s danger-full-access` 并关审批，claude `bypassPermissions`，mcode `--permission full`），查漏仍用只读沙箱；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 已合入，main `4a00174`） |
@@ -186,6 +188,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.26：用户要求这一轮的全部改动放进一个 PR，并重申写 prompt 的大前提：尽最大程度给模型能力，只定义想要的结果，其余交给模型。同时问 grill 相关 Skill 是作为依赖还是迁进 dev-skills，以及 deliver 阶段的实现、校验、code review 现在怎样做、约束之间有没有冲突。助手的分析见讨论记录，待用户确认。
 - 2026-10-01 v0.27：用户同意把 grill 迁成 dev-skills 里自成一体的 core-grill（理由：模板的提问边界与上游 grilling 的“每个分支都问到”相反，做成依赖会让模型读到两份相反的指令）。用户追问代码质量 review 在哪个阶段、没有测试是什么意思、F2 与 F7 的方案，助手按 explain-as-fool 解释，见讨论记录。
 - 2026-10-01 v0.28：用户同意代码质量意见与测试覆盖由最后的独立验证列出、不拦合入、owner 逐条处理并列进 MR，同意几段验证合起来过门禁；F2 改为 60 分钟一个检查周期，没做完就在同一个 CLI 会话里续接，失败由 owner 判断，说明不加更多限制。F7 暂缓，用户要求结合“MR 7595 deliver session 链路分析 (fork)”的讨论重新讨论人工介入与流程自动进行。
+- 2026-10-01 v0.29：用户确认交付中全程不停、决定清单放最前、合入前看，并按 Lauren 保留“不可逆操作前一定要停”；遇到决定时拉起另一家模型判断讨论后再定；流程要轻，不用复杂脚本核对，只用很轻的 prompt。决定表新增两行，“交付中停下的情况”被取代。哪些已确认的机制随之去掉（里程碑检查记录、重新交接确认、口径偏差核对、F1 的解析器等）待用户确认。用户问 spec 阶段是否还有换模型查漏：有，即 core-spec 第 7 步（v0.8 的 B4）。
 
 ## 附：用户原话
 
@@ -363,3 +366,11 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > F7, 需要你看下 MR 7595 deliver session 链路分析 (fork) 这个 session 的讨论, 我需要重新讨论一下关于人工介入的问题和流程自动进行的问题。
 
 （2026-10-01。）
+
+> 首先，将“前程不停决定清单”放在前面。我更倾向于采纳 Lauren 的说法，保留“不可逆操作前一定要停”的原则。
+>
+> 其次，我会增加一个跨模型的 check 和讨论机制。比如在遇到需要决策时，拉起 Codex 做一个判断并进行讨论，再得出具体的方案，这比在当前模型里面直接做决定会更好。但是，整个流程要尽量做轻一点：不需要有复杂的脚本去 check，只需要通过 prompt 做约束，并且 prompt 也要很轻。
+>
+> 第二个 spec 还会有换模型查漏的阶段吗？我怎么没印象了
+
+（2026-10-01；“前程不停决定清单”按上下文理解为“全程不停、决定清单放最前”。）
