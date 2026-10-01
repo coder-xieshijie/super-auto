@@ -370,3 +370,11 @@ core-grill 的两处取舍（术语冲突追问、ADR 是否先问）用户仍�
 已向会话“Deliver agent-archon MR 7595”（`local_ecce30d4…`）投递消息，平台回报 delivered，对方是否已读未确认。消息要点：等 M5 检查记录存下、rebase 后的移植提交落地，再按新版 deliver 做；把已有的口径偏差、S24、S26 和值得看的决策日志并进 plan.md 与 MR 最前面的决定清单；owner 行改为 `- owner: <模型 ID>`；rebase 推送后跑 `check-delivery.mjs --frozen`；独立验证用 60 分钟周期，在同一会话续接；完成前在 MR head 上跑完整检查；做到可合入就停，不合入。推送需求分支按 spec 的交付与授权处理，消息里没有扩大授权。
 
 7595 会话回复（2026-10-01）：确认从 M6 起按新版 deliver（含 `76f18e4`）做。切换时机：M5 检查记录存下、rebase 后的移植提交落地之后，开始最终全量自验和独立验证之前。届时把决定清单放到 plan.md 和 MR 描述最前面，owner 行改为模型 ID，切换时间和调整记进 plan.md 的进度。
+
+## 用户：合入 #28，更新本地 main
+
+用户原话（2026-10-01）：
+
+> 合入 PR，更新本地 main
+
+两项 CI 通过后 squash 合入 [coder-xieshijie/dev-skills#28](https://github.com/coder-xieshijie/dev-skills/pull/28)，合入提交 `c9b54eb`；本机 dev-skills 切回 main 并快进到 `c9b54eb`，工作区干净，`check-links.mjs` 通过。
