@@ -348,3 +348,13 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 > 安装 core-grill 的入口
 
 按全局约定安装：`~/.agents/skills/core-grill` → `dev-skills/skills/core-grill`，`~/.claude/skills/core-grill` → `~/.agents/skills/core-grill`。安装前两处都没有同名入口。通过 Claude 入口读回 SKILL.md、`agents/openai.yaml`（`allow_implicit_invocation: false`）和两份 references，链接可解析；两个客户端都设为只能手动调用。新开的 session 才会列出它，本会话没有验证客户端能否发现它。
+
+## 用户：更新 README，创建 PR
+
+用户原话（2026-10-01）：
+
+> 更新 readme, 创建 pr
+
+dev-skills 工作区干净、与远端 main 一致，没有用户自己的改动；按“#27 合入并装好 core-grill 后 README 跟不上的地方”理解，开了 [coder-xieshijie/dev-skills#28](https://github.com/coder-xieshijie/dev-skills/pull/28)（只改 README）：“开发流程”加一次完整用法（`/core-grill` → 同一 session `/core-spec` → 新 session `/deliver`）；core-spec 一节写明起点是 core-grill、查漏的原始约定可直接用决定汇总；“本地使用”给出安装命令，并写明开发流程要注册六个相邻的 Skill。`check-links.mjs` 通过；纯文档改动，按全局约定不等 CI。
+
+core-grill 的两处取舍（术语冲突追问、ADR 是否先问）用户仍未回应，README 未涉及。
