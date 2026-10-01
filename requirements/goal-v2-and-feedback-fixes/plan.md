@@ -19,6 +19,10 @@
   - 理由：停止或失败会把队列暂停，Goal 的 continuation 排在暂停之后，恢复后不会开始，Goal 停在 spec §6 不允许的“active、无 Goal Turn、无等待原因”。M6 代码检查发现了这个问题，完整 v2 host 集成测试复现了 user_stop、session_leave、final failure 三种情况，修复前全部失败，修复后全部通过。代价是停止或失败时还压在队列里的用户消息会按 FIFO 先于 Goal 执行。
   - 另一家模型：gpt-6-astra（q2）。它认为用户停止后显式恢复必须解除暂停；对最终失败的暂停，它认为只列为已知限制就是放宽验收，应当在显式恢复时一并解除。本实现按它的意见做。
   - 推翻后：改 `service/goal/lifecycle/lifecycle.ts` 的 `EXPLICIT_RESUME_PAUSES`；重跑 S16、S28、S30、S39、S26、S34、S40，以及补测的“停止后恢复”。
+- 决定：普通对话那一轮最终失败后，如果会话里的 Goal 仍为 active，且队列中有它当前 epoch 的 continuation，Goal 自动续跑：失败造成的队列暂停不再挡住它，FIFO 顺序不变，失败的那一轮不重放。user-stop 暂停、权限、问卷、依赖门禁都不受影响（实施中）。
+  - 理由：集成测试复现了这种情况。补充消息那一轮失败后，队列以 turn-final-failure 暂停，Goal 停在 active、没有 Goal Turn、没有等待原因的状态，Desktop 上也没有继续入口（§11）。这样会违背 §6 的意图。这项修改改变了这类场景原有的失败暂停策略。
+  - 另一家模型：gpt-6-astra（q3）选择限定范围的自动续跑。它认为维持现状就是放宽验收，新增等待原因或显示继续按钮则需要修改 spec。
+  - 推翻后：撤回该提交；只靠显式恢复解除（TUI `/goal resume`、`/retry`、再发一条消息）；重跑补测的“失败后续跑”。
 - 决定：额度到点自动恢复只结束 user-stop 队列暂停，不结束 turn-final-failure 暂停。
   - 理由：Goal 为 usage_limited 时，停止一个普通 Turn 不会暂停 Goal，按 §7 自动继续的承诺仍然有效；不解除暂停，Goal 就会停在 §6 禁止的状态。越过一次失败继续执行，交给用户决定。代价是停止时排在队列里的用户消息会在自动恢复时先执行。
   - 另一家模型：gpt-6-astra（q2）同意解除 user-stop 暂停，并要求在说明中写明这个 FIFO 副作用。
