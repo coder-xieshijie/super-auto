@@ -143,11 +143,11 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - plan.md 最前面加“决定清单”，并入 S24 的重新冻结、S26 修复与“基线已有”的判断、§3.5 的理解、在途校验作废的理解、B15、prompt 资产和诊断上限。其中 S26、§3.5、在途校验三条先问过 codex（gpt-6-astra，只读，evidence/decisions/q1*.md）。
   - 冻结输入改为新格式，owner 行为 `claude-opus-5-5`，旧记录移到“冻结输入历史”。
   - 不再使用 record-milestone-check、select-scenarios、run-verifier 以及 /tmp/deliver-74ae69d 快照。已有的记录和证据保留。
-- [x] (2026-10-01 23:10+08:00) M5 检查问题与 §3.5 的修复全部提交并推送，head 为 d5bc1acab4：
+- [x] (2026-10-01 22:37+08:00) M5 检查问题与 §3.5 的修复全部提交并推送，head 为 d5bc1acab4：
   - 8a2a85f47d：verify-archon 的 TUI 刷新写入刷新记录，TUI 启动和运行时按接口实例的规则补足余量；脚本测试 78/78。
   - f2e05681e9：启动恢复拆为 recoverFacts（在绑定 conversation 之前）和 takeOver（在问卷恢复之后、Plan 生命周期恢复之前），重启后还在队列里的 continuation 也会唤醒它的 Queue。不修时回归用例会让 `ready()` 卡死，修后通过。v2 测试 50 个文件、712 个通过，tsc、eslint、prettier 通过。
-  - d5bc1acab4：Goal 文档与��能地图对齐代码，涉及实现基线、缺用量的写法、token 用尽时收尾、启动顺序、“已实跑”表，以及两处照做会失败的步骤。
-- [x] (2026-10-01 23:25+08:00) 在 d5bc1acab4 上跑机械检查，全部 rc=0（evidence/final-d5bc1acab4/mech/）：
+  - d5bc1acab4：Goal 文档与功能地图对齐代码，涉及实现基线、缺用量的写法、token 用尽时收尾、启动顺序、“已实跑”表，以及两处照做会失败的步骤。
+- [x] (2026-10-01 22:40+08:00) 在 d5bc1acab4 上跑机械检查，全部 rc=0（evidence/final-d5bc1acab4/mech/）：
   - M04：用 IDL feature 提交 204400c9a 跑 `gen:thrift`，工作区无差异；`check:desktop-service-boundary` 通过。
   - M05：`check:architecture`、`test:architecture`、`check:local-runtime-layout` 通过。
   - `check:prompt-asset-registry`、`check:tui-build-mode-contract` 通过。
