@@ -27,7 +27,11 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - RG1b：两个提交、两个流程都符合预期且事件序列一致，evidence/rg1b/summary.md。
   - RG2：第 2 项 verify 的 S02（TUI）、S03（接口）在 6d0823cc14 通过，evidence/rg2-migration/summary.md。
   - 迁移代码上的入口实跑（@ 0eadb3c24c，与 6d0823cc14 产品代码相同）：接口冒烟与问卷手动/超时自动（evidence/m1-api-probe/、m1b-api-questionnaire/），TUI、Electron 冒烟（evidence/m1-tui/、m1-electron/）。
-- [ ] M1 里程碑检查（范围 350965f50f..6d0823cc14，覆盖 !7181、工具、第 2 项、迁移）：进行中。
+- [x] (2026-10-01 09:33+08:00) M1 里程碑检查第 1 轮（claude-opus-5-5[1m]，范围 350965f50f..6d0823cc14）：报 4 个问题 + 1 个字面风险，记录 evidence/milestone-M1-r1.md。① `check:desktop-service-boundary` 因迁移删掉 server.ts 的 Goal contract import 而失败；② M01–M05 无运行记录；③ RG1 TUI“附件 · 失败后恢复”两次都走不通、未用故障注入构造；④ RG1b 规则用了“第 1 次”而非 S17 的“第 2 次起”；⑤ 无 Goal owner 时 controller 抛 501。
+- [x] (2026-10-01 09:40+08:00) 修 ①⑤：去掉 `server-goal-contract` 债务锚点并改脚本测试；无 Goal owner 时返回 503 GOAL_UNAVAILABLE（加 controller 单测）；a7899522d3。
+- [ ] M1 补证（进行中，subagent 在 gv2-verify-tools）：②M01–M05 在 a7899522d3 上运行留档；③④在 d770f05f30 与 a7899522d3 上按 S17 规则重跑 RG1b、用故障注入补跑 TUI 附件失败后恢复。完成后做第 2 轮检查（范围 6d0823cc14..a7899522d3）。
+- 构建与启动记录（2026-10-01 补记）：2026-09-30 22:42 的 `prepare`（agent-core 构建）因用户中断被 SIGTERM 终止、未 up；2026-10-01 09:20 重新 `prepare runtime` 成功；09:21:37 接口实例 up、doctor 全过；之后才开始 M2 场景。
+- [ ] M2 场景试跑（未提交代码，构建 = 工作区）：S09 等价流程（接口，defaultMainTurns=3、graceSteps=1）→ 3 次工作请求 + 1 次收尾请求同属一个 Turn，第 4 次请求不带 tools 且 provider 正常应答，d1–d3 存在、d4 不存在，`budget_limited(main_turn)`（evidence/m2-probe/）；S11（defaultMainTurns=1）→ 工作 1 + 收尾 1，验证在收尾之后派发，met，`complete(verifier_met)`（evidence/m2-probe-s11/）。正式场景待 M2 提交后在提交版本上重跑。
 - [ ] M2 请求计量与同轮收尾（已完成：agent-core 逻辑请求生命周期与 7 个单测；v2 账本表 migration 43、账本读写与投影、按请求准入与收尾、结算时判定次数上限、退役预算总结 Turn；未提交，等 M1 检查记录后提交。剩余：测试更新、IDL、Desktop/TUI 展示、get_goal、诊断、场景实跑）。
 - [ ] M3、M4 草稿：`wip/gv2-resume`（e4c2a76d91 恢复落地、c485e5185e 依赖、ccf58cd2df 额度恢复、2ff5c22f68 校验中断、78b1db3fb7 TUI）与 `wip/gv2-desktop`（ca882703e0 冲突、b2f9a7ae72 补充消息、c2cc83ea67 继续按钮、0563da4df2 verifier 子会话、3463dbd9fb 通知）由 subagent 在迁移提交上完成，作为可复用草稿保留；按 M3、M4 顺序在 M2 检查之后重新整合、提交和检查。
 
@@ -45,6 +49,9 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-10-01：deliver 改用 dev-skills main `9af8ba1`（#21 里程碑检查落盘并由 check-delivery 核对顺序，#22 run-verifier 预检、限时、不带沙箱，#23 只核对子代理模型 ID）。plan、证据和检查按新版执行；没有写任何 waiver。
 - 2026-10-01：M0 不写场景，不需要检查记录；M1 的第一轮检查范围取交接提交到迁移提交（350965f50f..6d0823cc14），连续覆盖 !7181、工具、第 2 项与迁移。
 - 2026-10-01：并行 subagent 在 `wip/gv2-resume`、`wip/gv2-desktop` 上的提交早于 M1/M2 检查，不直接并入（按作者时间会判为晚，也不改提交时间）；作为草稿，在 M2 检查之后按 M3、M4 顺序重新提交到需求分支（用户 2026-10-01 决定）。
+- 2026-10-01：独立验证用 codex（`run-verifier.mjs --preflight --cli codex --effort high --owner-family anthropic` 通过：openai/gpt-6-astra，不带沙箱）。
+- 2026-10-01：IDL 在 weaver/idl 新分支 `feature/goal-v2-and-feedback-fixes`（204400c9a，未推送）给 GoalState 加 17–25 号可选字段：accounting_version、requests_used、work_requests、grace_requests、legacy_turns、reserved_requests、unknown_requests、usage_incomplete、usage_recovery_scheduled（最后一个给第 1 项横幅用）。用平铺字段而不是嵌套结构，与现有 GoalState 风格一致。已有同名实验分支 `feature/goal-v2-request-accounting` 不复用。
+- 2026-10-01：收尾请求的说明追加到该次请求的 system prompt，tools 置空；不改受控 prompt 资产（`workflow/goal/budget-limit.md` 保留登记、运行时不再使用，移除路径需 Apollo 生命周期，未授权）。
 - 2026-10-01：最后 rebase 到 preview_train 时第 2 项提交被去重会让 M1 记录失效，这是 check-delivery 的已知缺陷（修复 PR 未合入 dev-skills main）；届时如实记录，不改历史或提交时间绕开。
 
 - 2026-09-30：v2 新建 `local_runtime_v2_goals`，migration 42 从 `local_runtime_thread_goals` 读取复制，旧表保留、不再写入。原因：verify M02 要求“没有代码写 v1 表（迁移读取旧数据除外），v2 Goal 表由 Drizzle schema 定义”；保留旧表满足“迁移失败不丢原数据”。两次实验直接接管旧表的做法不采用。
