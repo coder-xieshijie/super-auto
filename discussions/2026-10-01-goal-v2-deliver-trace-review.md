@@ -248,6 +248,23 @@ topics: [MR 7595 的完整 trace, deliver 会话复盘, 人工介入的原因, �
 - Codex（gpt-6-astra，high）只读审查第一版，报 6 条。4 条 P1：只按编号核对、验证后改写正文可过关；认不出的写法被静默当成没有偏差；代码块示例与重复节；报告示例行与同一编号的重复判断覆盖“放宽”。2 条 P2：空的“改用”与理由；原文放命令行会超长（E2BIG）。都已修正：按编号和 sha256 核对；认不出的写法报错；代码块不算、重复节报错；只读报告的“口径偏差”一节，重复判断报错且“放宽”不被覆盖；四项标签与理由非空；原文改为写进报告旁的文件。修正后用例 58 个全部通过（改前 41 个不通过），原有七组全部通过。
 - 推送并开 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，已绑定到本会话；未合入。流程文档“交付中验收口径偏差”一行的实现状态改为 PR 已开（`37711e9`）。
 
+## 追问：V2、V3 要不要提 PR、改 dev-skills
+
+用户原话：
+
+> v2 和 v3 需要去提交 PR 吗？需要修改 dev-skills 吗？
+
+核对：dev-skills 当前开着的 PR 只有 #26（验收口径偏差，未合入），改了 `deliver/SKILL.md`、`plan-format.md`、`verifier-brief.md`、`check-delivery.mjs`、`run-verifier.mjs` 等，没有改 `milestone-check.md`。
+
+答复要点：
+
+- 都要改 dev-skills、提 PR，因为两项都是 deliver 的规则或脚本。
+- V3：只改文字，`SKILL.md`“里程碑检查”一段和 `milestone-check.md`；记录脚本也不必改，两份报告拼成一个文件再记录（修复方案已据此更新）；门禁脚本不改。
+- V2：新增 `select-scenarios.mjs`、`plan-format.md` 加“涉及路径”列、`SKILL.md` 一句。“受影响的场景重跑”已是现行规则，V2 只是让挑选可复核，代价是每个需求多填一列，排在 V3 之后。
+- 顺序：等 #26 合入 → V3 的 PR → 观察一个需求 → V2 的 PR。两项都不推给 7595。V1 不在 dev-skills，在 agent-archon 的 verify-archon，落点仍待用户决定。
+
+决定：待用户确认顺序。
+
 ## 待确认与待验证
 
 见研究档案第 9 节。

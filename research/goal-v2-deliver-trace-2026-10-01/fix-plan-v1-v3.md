@@ -129,7 +129,7 @@ TUI 实例：`tui-server.mjs` 里没有登录代码，TUI 自己读共享登录�
   - 代码部分：输入 spec、verify 的场景 ID、范围起止 commit，不要证据。对照 spec 读 diff。
   - 证据部分：输入场景的证据和同一范围。逐个检查点核对证据。
   - 报告格式不变：第一行模型 ID，之后是问题。
-- **记录脚本**（`scripts/record-milestone-check.mjs`）：`--report` 可以给两次（代码、证据各一份），按顺序合成一份记录，各自保留第一行的模型 ID。`milestones.mjs` 不改：一轮仍是一条记录。
+- **记录脚本不改**（2026-10-01 追加）：两份报告按“代码、证据”顺序拼成一个文件再交给 `record-milestone-check.mjs`，两段各自保留第一行的模型 ID。`milestones.mjs` 也不改：一轮仍是一条记录。原方案让脚本接受两次 `--report`，不必要。
 - **SKILL“里程碑检查”一段改为下面的顺序。**
 
 ### 4.2 新的顺序
@@ -137,7 +137,7 @@ TUI 实例：`tui-server.mjs` 里没有登录代码，TUI 自己读共享登录�
 1. 里程碑提交，head 为 X。立即在后台启动代码部分的子代理，范围是这个里程碑的起点到 X；同时开始跑场景（V1 的各组）。
 2. 代码部分先回来时，owner 在工作区或草稿分支准备修复，**先不提交**。门禁要求第一轮记录早于它之后的第一个提交；不改这条规则，就要求修复等记录存好后再提交。
 3. 场景跑完后，启动证据部分的子代理，范围同样到 X。
-4. 两部分都回来后，用记录脚本存成第一轮：`--range <起点>..X --report code.md --report evidence.md`。然后提交两边的修复，按 V2 重跑受影响的场景，第二轮同样分两部分，范围是 X 到新的 head。
+4. 两部分都回来后，把两份报告拼成一个文件，用记录脚本存成第一轮：`--range <起点>..X --report <拼好的文件>`。然后提交两边的修复，按 V2 重跑受影响的场景，第二轮同样分两部分，范围是 X 到新的 head。
 
 ### 4.3 拿 M2 套一下
 
@@ -147,7 +147,6 @@ TUI 实例：`tui-server.mjs` 里没有登录代码，TUI 自己读共享登录�
 
 ### 4.4 判定修好
 
-- 记录脚本单测：给两份报告时合成一条记录，两个模型 ID 都在；只给一份时与现在相同。
 - 用 7595 现有的 M1、M2 记录回放 `check-delivery.mjs --milestones-only`，结论不变。
 
 ### 4.5 依据
@@ -171,3 +170,15 @@ TUI 实例：`tui-server.mjs` 里没有登录代码，TUI 自己读共享登录�
 1. 探针（2.5 节），约 30 分钟。
 2. V1 修法 A 与场景分组：按第 5 节第 1 项的决定落到 7595 或另开 MR。
 3. dev-skills 一个 PR 做 V3（改动小、省一轮场景），合入后再一个 PR 做 V2（要给计划格式加列）。按“一次上一项”的约定分开。
+
+## 7. 要不要提 PR、改 dev-skills（2026-10-01 追加）
+
+用户问：“v2 和 v3 需要去提交 PR 吗？需要修改 dev-skills 吗？”
+
+| 项 | 要不要改 dev-skills | 改哪些文件 | 说明 |
+|---|---|---|---|
+| V3 | 要，一个只改文字的 PR | `skills/deliver/SKILL.md`“里程碑检查”一段；`skills/deliver/references/milestone-check.md` 拆成代码、证据两节 | 现行文字规定“场景跑通后开 subagent 检查”，要成为默认做法必须改；记录脚本、门禁脚本都不改 |
+| V2 | 要，但属于把手工做法变成脚本，可以晚一步 | 新增 `skills/deliver/scripts/select-scenarios.mjs`；`references/plan-format.md`“验证与验收”表加“涉及路径”列；`SKILL.md` 加一句 | “受影响的场景在改动后重跑”已是现行规则，owner 已在手工选；V2 让选择可复核，代价是每个需求多填一列 |
+| V1 | 不改 dev-skills | agent-archon 的 verify-archon | 落点见第 5 节第 1 项 |
+
+与在审的 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)（验收口径偏差）：它也改 `deliver/SKILL.md` 和 `plan-format.md`，段落不同。按“一次上一项”，建议等 #26 合入，再提 V3，观察一个需求后再提 V2。两项都不推给在途的 7595。
