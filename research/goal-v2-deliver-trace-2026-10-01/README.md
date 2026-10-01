@@ -322,7 +322,7 @@ grill 加 core-spec 共 3 小时 53 分钟，比上一个需求（1 小时 41 �
 
 | # | 做法 | OpenAI | Anthropic | Lauren | 限制 | 形式 | 优先级 |
 |---|---|---|---|---|---|---|---|
-| O1 | 不用中断给在途会话投递任何消息，只排队。在途交付按 plan 冻结输入里记下的流程版本执行；之后的改动对下一个需求生效，只有修复会挡住本次交付的缺陷（如 #24、#25）才由 owner 采用。采用的方式是拉取：owner 跑 `record-milestone-check.mjs`、`check-delivery.mjs` 时，脚本比对 plan 记录的 dev-skills 版本与已安装版本，列出其间的提交，owner 决定是否采用并记进决策日志 | 部分支持，部分相反：在途会话绑定快照（A05 L1096），追加消息用 Queue、不中断（PR L135）；但新配置自动作用于之后的会话，不按“是否阻塞”过滤（A05 L569） | 部分支持：“prevent our well-meaning code changes from breaking existing agents”（MARS L78）；中断是人纠偏的正常手段（CCBP L389）；Fable 5 能中途自己改 skill（F5 L174） | 部分支持：“Completions are queue events, not interrupts.”（orchestrate:9）、“Only an explicit stop ends the loop”（babysit:20）；相反：每个 tick 从主干重读最新 playbook（autopilot-full:10），前提是改动先过 A/B（pr419） | K11、K12、K16 | 本仓库约定 + 机制 | P0 |
+| O1 | 不用中断给在途会话投递任何消息，只排队。在途交付按 plan 冻结输入里记下的流程版本执行；之后的改动对下一个需求生效，只有修复会挡住本次交付的缺陷（如 #24、#25）才由 owner 采用。采用的方式是拉取：owner 跑 `record-milestone-check.mjs`、`check-delivery.mjs` 时，脚本比对 plan 记录的 dev-skills 版本与已安装版本，列出其间的提交，owner 决定是否采用并记进决策日志 | 部分支持，部分相反：在途会话绑定快照（A05 L1096），追加消息用 Queue、不中断（PR L135）；但新配置自动作用于之后的会话，不按“是否阻塞”过滤（A05 L569） | 部分支持：“prevent our well-meaning code changes from breaking existing agents”（MARS L78）；中断是人纠偏的正常手段（CCBP L389）；Fable 5 能中途自己改 skill（F5 L174） | 部分支持：“Completions are queue events, not interrupts.”（orchestrate:9）、“Only an explicit stop ends the loop”（babysit:20）；相反：每个 tick 从主干重读最新 playbook（autopilot-full:10），前提是改动先过 A/B（pr419） | K11、K12、K16 | 本仓库约定（用户 10/1 判断交付中改 Skill 只出现在修 Skill 的这段时期，版本比对脚本不做；见 8.7） | P0（只含“不中断”） |
 | O2 | 不加 prompt。deliver 已有“常规进展不停下来等确认”和四种停下；这次的停是工具结果要求的，由 O1 消除 | 支持：“MUST NOT leave a run stalled indefinitely”（A05 L1073） | 支持：先做不依赖答复的部分，写明假设（F51 L838） | 支持，且用脚本强制每个待决问题带默认答案（`orch gate park --default`，orch.ts:439） | K12 | 不写 | — |
 | O10 | 不加 prompt。长等待的预计时长可由 owner 取同类任务上次的耗时写进 plan 的进度；用户可在桌面应用的任务面板看子代理是否在跑 | 部分支持：状态放在运行时的状态页，用户来问时给（A05 L1491、LRW L82） | 状态支持，预计时间相反：模型没有时间感（A07 L77），应由框架或脚本给（O55 L97） | 部分支持，聊天里只报新变化（multi-phase-plan:43）；预计时长写进文件（autopilot-full:6） | — | 不写 | — |
 | O11 | 给用户的问题先讲场景和各选项让用户看到什么不同，再给编号和标识符。deliver“停下”一节和 grill 交接模板各加一句 | 支持：“Use plain language over jargon”（G6 L98），要点先说（G6 L92） | 支持：“The vocabulary you built up while working is yours, not theirs”（F5 L136）；每个标识符配一句平常话（F5 L138）。Opus 5.5 默认较通俗（O55 L33），这次仍有两次要解释 | 支持：先讲对谁有什么影响，再讲实现（poteto-mode SKILL:105）；不删真实标识符（technical-writing:17）；另有用户手动的 `/bro` | — | 边界 | P1 |
@@ -373,20 +373,31 @@ grill 加 core-spec 共 3 小时 53 分钟，比上一个需求（1 小时 41 �
 | core-spec 查漏说明 | 一项：观测源的记录语义（O4b） | 无 | 无 |
 | grill 交接模板 | 一句时序（O12）、一句通俗（O11）、一个输入项“已有资料与相关会话”（O13） | 无 | 无 |
 
-其余都落在脚本（O1 的版本比对、O3 的重新冻结、O8、O14、O16、N1）、verify-archon 与项目命令（O5、O6）和本仓库约定（O1 不中断、O15）上。
+其余都落在脚本（O3 的重新冻结、O8、O14、O16、N1）、verify-archon 与项目命令（O5、O6）和本仓库约定（O1 不中断、O15）上。
 
 ### 8.6 建议的顺序
 
-1. **现在，对在途的 MR 7595：** O1 的约定立即生效，不再向它推送不阻塞的流程改动，任何消息都不中断（#25 的通知已按排队方式发出）。O5 的清理问题会在 M3、M4、M6 的每一轮场景里重复，可以用一条不中断的消息让 owner 在清理命令里用字面路径或 `${VAR:?}`。
+1. **现在，对在途的 MR 7595：** O1 的约定立即生效：任何消息都不中断；修 Skill 期间只把会卡住它的修复推给它（#25 的通知已按排队方式发出）。O5 的清理问题会在 M3、M4、M6 的每一轮场景里重复，可以用一条不中断的消息让 owner 在清理命令里用字面路径或 `${VAR:?}`。
 2. **下一批，纯机制：** O3a 的重新冻结脚本、O5 的清理命令与独立登录态、O6 的按改动选检查。
 3. **再下一批，prompt 小改合成一个 PR：** O11、O3d、O4a、O4b、O12 和模板输入项。
 4. **之后：** O7、O8、O14、O16、N1、N3；O15 待用户定规则。
+
+### 8.7 用户对 O1 的判断（2026-10-01）
+
+用户：“这个 skill 在执行过程中发生变化的场景应该是比较少的。因为我们目前在修 skill，所以才遇到了这种场景，后面 skill 应该处于比较稳定的状态。”
+
+据此收窄 O1（待用户确认）：
+
+- 保留“投递消息不中断”：与 Skill 是否变化无关，中断会被在途会话读成“用户拒绝、停下等指示”（K12）。往在途会话发消息只排队；确实要它马上停，由用户本人在该会话里说明。
+- 修 Skill 的这段时期，只把会卡住在途交付的修复推给它，其余改动下一个需求再用。只是约定，不写脚本。
+- 不做：plan 记录 Skill 版本的脚本、按记录版本运行门禁、里程碑边界比对版本。选项 A、B 都不再需要。
+- 复查条件：之后的需求在交付途中仍碰到 Skill 变化，再回头考虑这些机制（按上一轮“调整规则看多次”的约定）。
 
 ## 9. 待确认与待验证
 
 待用户决定：
 
-1. **O1：** 在途交付绑定开工时的流程版本，只采用修复阻塞缺陷的改动，由 owner 在里程碑边界拉取；还是像 Lauren 那样随时读最新版（前提是改动先经过对照验证）。不论哪种，投递消息一律不中断。
+1. **O1：** 已按用户 10/1 的判断收窄为约定（见 8.7），待用户确认。
 2. **对 MR 7595 现在做什么：** 是否用一条不中断的消息让 owner 在清理命令里改用字面路径或 `${VAR:?}`（O5c）；verify-archon 的清理命令和独立登录态，是放进本 MR（属于 spec §18 验证能力的扩展）还是另做。
 3. **O3：** 交付中两次修改 verify（S04；S05、S09）没有经过另一家模型查漏，要不要补一次只查改动部分。
 4. **O15：** 证据入库的规则，以及与 AGENTS.md“原始资料保存在本仓库”怎样对齐；与仓库瘦身的讨论一并决定。
