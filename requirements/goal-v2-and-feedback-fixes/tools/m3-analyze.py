@@ -395,7 +395,17 @@ def s15(d):
     g = goal(d, 's15-final')
     gid = g.get('goal_id')
     # 只认 http.server 任务（模型自查时另起的 curl 等短任务描述里也会带 8766，m4 S15 run2 实测）
-    srv = [t for t in bg(d, 's15-bg-tasks-at-terminal') if t['kind'] == 'bash' and '8766' in t['description'] and 'http.server' in t['description']]
+    # 2026-10-01 final 轮：任务描述由模型自拟（f1 实测为 “Start python http server on port 8766”，不含 http.server），
+    # 另按 Inspector 中 command 含 http.server 8766、run_in_background 的 bash 调用的 description 认定
+    from m2_evidence import inspector_calls as _ic
+    srv_desc = set()
+    for c in _ic(latest(d, '[0-9][0-9][0-9]-s15-inspector')):
+        for b in c['response']:
+            inp = b.get('input') or {}
+            if b['type'] == 'tool_use' and isinstance(inp, dict) and 'http.server 8766' in str(inp.get('command')) and inp.get('run_in_background'):
+                srv_desc.add(inp.get('description'))
+    srv = [t for t in bg(d, 's15-bg-tasks-at-terminal') if t['kind'] == 'bash' and '8766' in t['description']
+           and ('http.server' in t['description'] or t['description'] in srv_desc)]
     port = (jl(d, 's15-port-at-terminal.json') or {}).get('httpCode')
     precondition(bool(srv), {'goalStartedServerTask': srv})
     served = workspace_file(d, 's15', 'served.txt')

@@ -67,12 +67,14 @@ check('runtime 事件：goal.verification_dispatched 晚于最终回复', order.
 body = res('s01-body-text', 'text') or ''
 ratio = difflib.SequenceMatcher(None, norm(body), norm(final)).ratio()
 # 渲染后文件路径显示为文件名、代码块去掉围栏，逐字相等不可行：看渲染正文的词是否都来自最终回复，且开头一致
-bt, ft = re.findall(r'\w+', norm(body).lower()), set(re.findall(r'\w+', norm(final).lower()))
+# 界面把正文里的绝对文件路径显示为文件名（文件标签），比较前把最终回复里的绝对路径换成文件名
+final_disp = re.sub(r'(?:/[^\s`/<>"]+)+/([^\s`/<>"]+)', r'\1', final)
+bt, ft = re.findall(r'\w+', norm(body).lower()), set(re.findall(r'\w+', norm(final_disp).lower()))
 contain = (sum(1 for t in bt if t in ft) / len(bt)) if bt else 0.0
-head_same = bool(bt) and norm(body)[:60] == norm(final)[:60]
+head_same = bool(bt) and norm(body)[:60] == norm(final_disp)[:60]
 check('assistant-segment-active 的文字与最终回复一致（去掉 Markdown 记号与交付标记后：渲染正文的词都来自最终回复、开头 60 字相同）',
       contain >= 0.97 and head_same,
-      {'wordContainment': round(contain, 3), 'headSame': head_same, 'similarity': round(ratio, 3), 'bodyHead': body[:300], 'finalReplyHead': final[:300]})
+      {'wordContainment': round(contain, 3), 'headSame': head_same, 'similarity': round(ratio, 3), 'bodyHead': body[:300], 'finalReplyHead': final[:300], 'finalReplyAsDisplayedHead': final_disp[:300]})
 outside = re.sub(r'```[\s\S]*?```', '', final)
 outside = re.sub(r'`[^`\n]*`', '', outside)
 marker = re.search(r'<deliver-assets>[\s\S]*?<media[^>]*src="([^"]*hello\.html)"[\s\S]*?</deliver-assets>', outside)

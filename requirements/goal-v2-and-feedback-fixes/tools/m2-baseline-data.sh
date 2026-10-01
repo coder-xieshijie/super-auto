@@ -3,6 +3,7 @@
 # 用法（agent-archon worktree 根目录，HEAD 为基线提交、已 prepare runtime）：
 #   bash <tools>/m2-baseline-data.sh s01   # defaultMainTurns=10 的配置；Goal 跑几轮后暂停，停机后把 legacy 表 turns_used 写成 6
 #   bash <tools>/m2-baseline-data.sh s02   # 六个状态的 Goal + 三个 Goal 问卷会话，记录升级前读数
+# 环境变量 M2_BASELINE_UP_EXTRA：追加给 up 的参数（如基线检出来回切换后构建内容未变、只是源码 mtime 更新时的 --allow-stale，须在报告中写明）。
 # 输出：<M2_ROOT>/S01|S02/baseline-data/，其中 runId 是保留的数据目录所属实例，pre-upgrade.json 是升级前记录。
 set -u
 source "$(dirname "${BASH_SOURCE[0]}")/m2-lib.sh"
@@ -23,7 +24,7 @@ goal_of() { vr api GET $API/session/$1/goal --save "$2"; }
 
 if [ "$MODE" = s01 ]; then
   m2_begin S01 baseline-data
-  M2_UP_CONFIG=$(m2_config turns10 10 1) m2_up runtime || exit 1
+  M2_UP_CONFIG=$(m2_config turns10 10 1) m2_up runtime ${M2_BASELINE_UP_EXTRA:-} || exit 1
   S=$(m2_session "s01 legacy" s01-session); echo "$S" >"$OUT/session"
   m2_goal_create "$S" "$OBJ_COUNT20" s01-create >/dev/null
   # 跑到 turns_used>=4 后暂停（停机后把 turns_used 安排为 6）
@@ -41,7 +42,7 @@ fi
 
 # ---------------- S02 ----------------
 m2_begin S02 baseline-data
-m2_up runtime --fault || exit 1
+m2_up runtime --fault ${M2_BASELINE_UP_EXTRA:-} || exit 1
 m2_smoke_api
 vr fault log --role main --event attempt --tail 5 --save fault-smoke >/dev/null
 

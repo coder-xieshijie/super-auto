@@ -15,6 +15,14 @@
   - 理由：spec §6“只开始一次”、§10“确认替换即恢复”。基线 350965f50f 的 v1 continuation 已有同样逻辑，不是本 MR 引入的。S26 run1（修复前）有 2 个 turn_bound、留有错误；run2（修复后）只有 1 个、没有错误。
   - 另一家模型：gpt-6-astra（codex，evidence/decisions/q1-codex.md）选择在本 MR 修，认为不修而以基线问题放行会放宽验收。它也指出，这次修复没有消除“检查通过后 Turn 恰好结束”的竞态，也没有处理旧 errorMessage 的通用清理。两者都属于 turn-system 和会话系统的共用逻辑，记在“意外与发现”，本 MR 未修。
   - 推翻后：回退 24083bcc3c；重跑 S26、S22、S24。
+- 决定：用户显式恢复 Goal 时，结束该会话因用户停止（user_stop、session_leave）或普通对话最终失败（turn-final-failure）造成的队列暂停，再交出 Goal 的 continuation；失败的那一轮不重放。显式恢复包括 PATCH active、继续按钮、`/goal resume`、`/retry`、blocked 的继续、编辑后保存、提高预算重开（e71be11629、bfc648cf9a）。
+  - 理由：停止或失败会把队列暂停，Goal 的 continuation 排在暂停之后，恢复后不会开始，Goal 停在 spec §6 不允许的“active、无 Goal Turn、无等待原因”。M6 代码检查发现了这个问题，完整 v2 host 集成测试复现了 user_stop、session_leave、final failure 三种情况，修复前全部失败，修复后全部通过。代价是停止或失败时还压在队列里的用户消息会按 FIFO 先于 Goal 执行。
+  - 另一家模型：gpt-6-astra（q2）。它认为用户停止后显式恢复必须解除暂停；对最终失败的暂停，它认为只列为已知限制就是放宽验收，应当在显式恢复时一并解除。本实现按它的意见做。
+  - 推翻后：改 `service/goal/lifecycle/lifecycle.ts` 的 `EXPLICIT_RESUME_PAUSES`；重跑 S16、S28、S30、S39、S26、S34、S40，以及补测的“停止后恢复”。
+- 决定：额度到点自动恢复只结束 user-stop 队列暂停，不结束 turn-final-failure 暂停。
+  - 理由：Goal 为 usage_limited 时，停止一个普通 Turn 不会暂停 Goal，按 §7 自动继续的承诺仍然有效；不解除暂停，Goal 就会停在 §6 禁止的状态。越过一次失败继续执行，交给用户决定。代价是停止时排在队列里的用户消息会在自动恢复时先执行。
+  - 另一家模型：gpt-6-astra（q2）同意解除 user-stop 暂停，并要求在说明中写明这个 FIFO 副作用。
+  - 推翻后：改 `AUTOMATIC_RESUME_PAUSES`；重跑 S17、S18、S21、S19。
 - 决定：spec §3.5 的启动顺序按字面实现：先恢复 Goal 的事实（中断请求、过期校验等待、旧总结项），然后绑定 conversation，再恢复问卷，接着由 Goal 接管（额度恢复、kickoff、续跑），最后恢复 Plan 生命周期。此前把它理解为“三项都在唤醒队列之前完成即可”，这个理解作废。
   - 理由：只读分析发现，启动时没有统一的唤醒点，Goal 恢复中的每次 `ingress.submit` 都会当场派发队列。这样会出现三个问题：本 Goal 有已作答、未注入的问卷时可能卡死启动（Goal 门禁要等 v1 conversation 就绪，而 conversation 的绑定排在 Goal 恢复之后）；过期的普通问卷会让 Goal 一直挂着；已保存的答案晚于 Goal Turn 注入。修法是把 Goal 恢复拆为“事实”和“接管”两段，接管放到问卷恢复之后（实施中）。
   - 另一家模型：gpt-6-astra 当时同意原理解，同时提醒必须确认恢复期间没有提交路径提前开始工作。这一提醒正是本次发现的问题。改为按字面实现后，没有再问。
@@ -164,6 +172,17 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - S09：4 次运行都不满足前提，因为模型第 1 次请求用的是 glob 或 bash。按 verify 的执行状态，本场景标为受阻，改由 B05 判断，即 runtime 集成测试（脚本 provider）。不计入判定的读数与预期一致：4 次请求同属一轮，第 4 次不带工具，d3.txt 已落盘、d4.txt 不存在，横幅为 4 requests，恢复被拒。
   - 18 个 TUI 实例的 401、登录失效、429、运行期间刷新都是 0。
   - 文档 continuation.md 中 TUI 等待依赖一步的状态栏写法已改为 `agents=1/1`（6e683be61d）。
+- [x] (2026-10-01 23:40+08:00) 接口线与 Electron 第 1 线 @ d5bc1acab4：
+  - 接口线：S02、S05、S08、S11、S37、S21b、S34、S41、RG1b、RG2 S03 全部 PASS；RG1 接口 21 条最终状态与基线相同，差异都已解释。S02 的基线旧数据在 gv2-verify-tools 检出 d770f05f30 后重新生成，S01 的旧数据也一并生成，供第二轮使用（runId 20261001-233215-00aeb4）。S35、S36 只读核对后仍为 B15，没有写入。
+  - Electron 第 1 线：S03、S06、S07、S32、S10、S38、S12、S12b、S14、S15 全部 PASS。S01 因旧数据已删而受阻，留到第二轮。S15/f1 发现模型用 curl 写了 workspace 之外的 `/tmp/served_check.txt`，已删除并记录 incident.json，这次运行作废，f2 干净。
+  - 两条线所有实例的 401、登录失效、429 都是 0；Electron 运行期间的刷新为 0。
+- [x] (2026-10-01 23:50+08:00) M6 检查问题的修复（产品代码），已推送，head bfc648cf9a：
+  - b08929b690：接管时只把同一 epoch 的 continuation 视为“已有”。
+  - e71be11629：显式恢复和额度自动恢复结束用户停止留下的队列暂停。
+  - bfc648cf9a：显式恢复也结束最终失败留下的暂停（采纳 codex q2 的意见）。
+  - 完整 v2 host 集成测试覆盖 user_stop、session_leave、final failure 三种情况，���复前失败、修复后通过。v2 测试 53 个文件 813 个通过，tsc、lint、depcruise、prettier 通过。
+  - 另有 3b9fb0a0cc：verify-archon `list` 不再把 pid 被复用的已停实例显示为存活。
+  - 这些修复改了恢复和启动路径，第二轮要在新 head 上重跑恢复相关场景和 S01。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。

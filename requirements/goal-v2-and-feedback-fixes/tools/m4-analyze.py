@@ -440,8 +440,27 @@ def s24(d):
     page = workspace_file(d, 's24', 'page.html') or ''
     bold = bool(re.search(r'<(b|strong)[\s>]|font-weight\s*:\s*(bold|[6-9]00)', page, re.I))
     blue = bool(re.search(r'color\s*:\s*(blue|#00f\b|#0000ff|rgb\(\s*0\s*,\s*0\s*,\s*255)', page, re.I) or re.search(r'\bblue\b', page, re.I))
+    # 2026-10-01 最终自验：模型常写具体色值（如 #0b57d0、#007bff），按色相判断：蓝色通道最大、色相 190°–250°、饱和度 ≥ 0.4
+    blue_values = []
+    for m in re.finditer(r'(?<![-\w])color\s*:\s*(#[0-9a-f]{6}\b|#[0-9a-f]{3}\b|rgba?\([^)]*\)|[a-z]+)', page, re.I):
+        v = m.group(1).lower()
+        rgb = None
+        if v.startswith('#'):
+            h = v[1:] if len(v) == 7 else ''.join(ch * 2 for ch in v[1:])
+            rgb = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+        elif v.startswith('rgb'):
+            nums = re.findall(r'[\d.]+', v)[:3]
+            rgb = tuple(float(x) for x in nums) if len(nums) == 3 else None
+        elif v in ('navy', 'royalblue', 'dodgerblue', 'steelblue', 'mediumblue', 'darkblue', 'cornflowerblue', 'deepskyblue'):
+            blue_values.append(v)
+        if rgb:
+            import colorsys
+            hh, ll, ss = colorsys.rgb_to_hls(*(c / 255 for c in rgb))
+            if max(rgb) == rgb[2] and 190 <= hh * 360 <= 250 and ss >= 0.4:
+                blue_values.append(v)
+    blue = blue or bool(blue_values)
     check('最终 page.html 的标题加粗且为蓝色（独立判断）', bold and blue and gf.get('status') == 'complete',
-          {'page.html': page[:600], 'bold': bold, 'blue': blue, 'status_reason': gf.get('status_reason')})
+          {'page.html': page[:600], 'bold': bold, 'blue': blue, 'blueColorValues': blue_values, 'status_reason': gf.get('status_reason')})
 
 
 def s25(d):

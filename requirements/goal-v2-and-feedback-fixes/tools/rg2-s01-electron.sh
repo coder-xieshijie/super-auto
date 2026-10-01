@@ -75,6 +75,8 @@ expanded_and_panel s01-reload
 vr api GET $API/session/$S/goal --on electron --save s01-goal-final >/dev/null
 E screenshot --save final-ui >/dev/null
 m2_down
+# electron config 的输出带整份 config（密钥已遮盖），证据里只留 Goal 相关字段
+python3 "$M3_TOOLS/rg2-sanitize-config.py" "$OUT" >/dev/null
 # 完成那一轮的结构（历史、Inspector、事件顺序）
 SNAP=$(ls "$OUT"/[0-9][0-9][0-9]-s01.json 2>/dev/null | tail -1)
 [ -n "$SNAP" ] && node "$M3_TOOLS/rg2-turn-facts.mjs" "${SNAP%.json}" >"$OUT/s01-turn-facts.json" 2>"$OUT/s01-turn-facts.stderr"
