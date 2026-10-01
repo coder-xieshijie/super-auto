@@ -1,0 +1,11 @@
+# 本地数据，只保留 md；清单见 data-index/README.md
+research/workflow-30d/raw/**
+!research/workflow-30d/raw/**/
+!research/workflow-30d/raw/**/*.md
+research/workflow-30d/intermediate/**
+!research/workflow-30d/intermediate/**/
+!research/workflow-30d/intermediate/**/*.md
+requirements/*/evidence/**
+!requirements/*/evidence/**/
+!requirements/*/evidence/**/*.md
+research/lauren/bookmark-videos/raw/*.mp4
