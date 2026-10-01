@@ -1,6 +1,50 @@
 # plan：Goal v2 迁移、请求计量与反馈修复
 
+## 决定清单（持续更新）
+
+- 决定：交付中 spec/verify 有 5 次修订（与代码事实或可执行性不符之处），没有由 owner 自行改用判定方法，而是交用户修订并重新冻结。最后一次交接为 9a596da696（rebase 后为 44392697dd），spec sha256 c6a945d5…，verify sha256 944fbc45…。
+  - 理由：这些都是 verify 的检查方法或 spec 的事实写法和实际不符。按当时的 deliver 规则，交用户确认后修订。各次用户原话见“冻结输入历史”的“重新确认”行。修订内容：
+    1. S04：请求数计入被暂停取消、但已发出的请求。
+    2. S05、S09：比照 S04 修订；hold 期间只计 Goal 自己的请求。
+    3. spec §1 文案表补入本需求新增的 Desktop 文案；S40 的前提改为看 agents=1/1。
+    4. 新增 spec §18.4（验证实例并行）、R103、M17。
+    5. S24：默认设置下“立即发送”是 ⌘⏎，不是 ⇧⌘⏎（产品不改）。
+  - 另一家模型：未问，均为用户逐条确认的决定。
+  - 推翻后：以第一次交接 350965f50f 为基准比较 spec、verify，恢复被推翻的条目；重跑对应场景（S04、S05、S09、S24、S40，以及 R103、M17）。
+- 决定：S26 暴露的基线问题在本 MR 修复（24083bcc3c）。暂停中替换目标并确认后，会话里没有运行中的 Turn，目标更新却仍走插话入口。结果是先激活一个 Turn、随即撤回，并留下错误消息 “Thread Goal objective steering target changed before delivery.”，然后再启动第二个 Turn。修复后只在有运行中、或已准入未结束的 Goal Turn 时插话，否则直接开始 Goal Turn。
+  - 理由：spec §6“只开始一次”、§10“确认替换即恢复”。基线 350965f50f 的 v1 continuation 已有同样逻辑，不是本 MR 引入的。S26 run1（修复前）有 2 个 turn_bound、留有错误；run2（修复后）只有 1 个、没有错误。
+  - 另一家模型：gpt-6-astra（codex，evidence/decisions/q1-codex.md）选择在本 MR 修，认为不修而以基线问题放行会放宽验收。它也指出，这次修复没有消除“检查通过后 Turn 恰好结束”的竞态，也没有处理旧 errorMessage 的通用清理。两者都属于 turn-system 和会话系统的共用逻辑，记在“意外与发现”，本 MR 未修。
+  - 推翻后：回退 24083bcc3c；重跑 S26、S22、S24。
+- 决定：spec §3.5“处理旧总结项、问卷恢复和活跃 Goal 接管之后，再唤醒队列”，理解为这三项都在唤醒队列之前完成，三项之间不规定先后。实际顺序是：绑定 conversation 时先做 Goal 恢复（取消旧总结项、接管活跃 Goal），然后问卷恢复，最后由 Plan 生命周期恢复派发队列。
+  - 理由：按字面把 Goal 恢复挪到问卷恢复之后，会破坏“Goal 恢复完成前不暴露 conversation provider”的既有约束（services.test 的 assertGoalRecoveryPrecedesConversationBinding）；而且问卷恢复依赖已绑定的 conversation。
+  - 另一家模型：gpt-6-astra 同意，认为不构成放宽。它提醒：Goal 恢复内部也会调用 `ingress.submit`，必须确认恢复期间没有别的提交或唤醒路径提前开始工作。S21（重启后恢复）与 RG1 的重启子功能覆盖这一点。
+  - 推翻后：改 `services.ts` 的启动顺序和相应的不变量测试；重跑 S02、S21、S41、RG1。
+- 决定：校验进行中发送补充消息时，“在途的校验作废”理解为这次校验的结果不被接受（disposition 为 stale），不立即取消在途校验。
+  - 理由：spec §10 注明“沿用运行时现状”；verify S27 的检查点是“verdict 没有被接受”。实测 S27 中，在途校验跑满约 108 秒后判为 stale，补充消息后 106 秒才出现新的 Goal Turn。体验代价是多花这一次校验的 token 和等待时间。
+  - 另一家模型：gpt-6-astra 同意，认为立即取消属于新增要求，需要另定取消语义和迟到结果的处理。
+  - 推翻后：在补充消息到达时取消在途 verifier，并立即开始 Goal Turn；重跑 S27，以及校验相关的 S31、S11。
+- 决定（做不了）：S35、S36 与 limits.md 中依赖修改额度的子功能记为 UNVERIFIED（覆盖盲区 B15）。
+  - 理由：Payment 测试台查不到 staging 登录账号（`GetGroupOwnerUserInfo … group not found`，evidence/m0/quota/、m4/S35/q1），授权只允许改这个账号，所以没有执行任何额度修改。
+  - 另一家模型：未问，属于 verify 已列出的覆盖盲区。
+  - 推翻后：测试台覆盖该账号后，按 verify 执行 S35、S36。
+- 决定：收尾请求的说明追加到该次请求的 system prompt，tools 置空；不改受控 prompt 资产。`workflow/goal/budget-limit.md` 保留登记，运行时不再使用。
+  - 理由：移除受控 prompt 路径要走 Apollo 生命周期，而发布 Apollo 未获授权。
+  - 另一家模型：未问，只影响实现。
+  - 推翻后：按 prompt-release-prep 的生命周期移除该资产并发布 Apollo（需用户授权）。
+- 决定：Goal 诊断的数量上限定为 200 个 Goal、500 条请求、每个 Goal 5 条请求条目，时间窗口 2 天。
+  - 理由：spec §3.6 只要求“有数量与时间上限”，没定具体数值。时间窗口与日志上传一致；S32 要求用 S03 规模的 Goal 超过上限。
+  - 另一家模型：未问，只影响诊断内容的规模，不影响验收判定。
+  - 推翻后：改 `service/goal/observability/diagnostic-source.ts` 的常量；重跑 S32。
+
 ## 冻结输入
+
+- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 44392697dd（rebase 后的交接提交，原 9a596da696）
+- spec: .harness/docs/specs/goal-v2-and-feedback-fixes/spec.md
+- verify: .harness/docs/specs/goal-v2-and-feedback-fixes/verify.md
+- 基线: preview_train @ 15d38fc75ca8e136972022811f4c77abb11b6fdd
+- owner: claude-opus-5-5
+
+### 冻结输入历史（M6 切换到新版 deliver 之前的记录，保留备查）
 
 - spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=c6a945d5ac961f85ae0701ab9e92ac6432f2225c5070c13881dc70d7702a60c8
 - verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=944fbc45c45fca70c7c74ee72699e113f2967445d9dae4a4ec094ebeb6db71df
@@ -13,7 +57,7 @@
 - 第三次交接: 03b987445f（2026-10-01T13:40:28+08:00，verify 8b46dcd7…）
 - 第二次交接: 9d998c8968（2026-10-01T12:24:43+08:00，verify 89b494e7…，S04 口径）
 - 原交接: feat/goal-v2-and-feedback-fixes @ 350965f50f2470c225454328306de4cc6caa6110（2026-09-30T19:34:27+08:00；verify 原 sha256 009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61）
-- owner: family=anthropic model=claude-opus-5-5
+- （旧版记法）owner family=anthropic model=claude-opus-5-5
 
 spec、verify 的路径是 owner worktree（`wizardly-nobel-612509`）里的文件。换 worktree 接续时，把两行路径改成新 worktree 里的同一文件，sha256 不变。plan 与证据按 spec“交付与授权”放在本仓库，不提交进 agent-archon；check-delivery 必须显式传 `--head`（plan 不在 agent-archon 仓库里）。
 
@@ -88,6 +132,17 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - 上游改了锁文件。owner worktree 跑 `pnpm install --frozen-lockfile` 同步依赖（只更新本 worktree 的 node_modules，不改锁文件）。之后 tsc 通过：tui、ui、local-runtime-v2、local-runtime、shared、agent-core、goal、remote-control-bridge，以及 electron 的 `pnpm run typecheck`。
   - 测试：v2 Goal 49 个文件 624 个，冲突与移植相关 15 个文件 501 个，goal、agent-core、tui、ui、local-runtime 的相关测试均通过。
   - 移植提交等 M5 检查记录存下后再提交。
+- [x] (2026-10-01 22:03+08:00) M5 里程碑检查第 1 轮（代码、证据两部分，claude-opus-5-5[1m]，范围 f938e48db1..19a2b940d2），报告原样保存在 evidence/milestone-M5-r1.md。旧版 record-milestone-check 因 rebase 后提交不在 HEAD 上而拒绝记录，按新版规则不再需要该记录。
+  - 证据部分：S22、S24、S26 的重跑，以及 R103、M17 的证据都不在终点提交上，统一在最终 head 上重跑。
+  - 代码部分：
+    - V1 的 TUI 刷新不受并行规则约束，也不写刷新记录（spec §18.4），正在修；
+    - Goal 长期文档有 6 类与代码不符，正在修，包括实现基线、“报错按零计”的写法、token 用尽时的收尾、功能地图“已实跑”表、两处照做会失败的步骤；
+    - 启动时问卷恢复排在 Goal 接管之后（§3.5），正在只读核实。
+- [x] (2026-10-01 22:05+08:00) 3931924911 移植 `pauseActiveGoalForAbort` 到 v2（rebase 后的新提交）。以 `--force-with-lease`（期望远端为 19a2b940d2）推送 rebase 后的需求分支；新版 `check-delivery.mjs --frozen` 认出交接 44392697dd，通过。
+- [x] (2026-10-01 22:10+08:00) 切换到新版 deliver（dev-skills main 76f18e4，#27；由“开发流程 skill 一致性审查”会话转达用户同意）。调整如下：
+  - plan.md 最前面加“决定清单”，并入 S24 的重新冻结、S26 修复与“基线已有”的判断、§3.5 的理解、在途校验作废的理解、B15、prompt 资产和诊断上限。其中 S26、§3.5、在途校验三条先问过 codex（gpt-6-astra，只读，evidence/decisions/q1*.md）。
+  - 冻结输入改为新格式，owner 行为 `claude-opus-5-5`，旧记录移到“冻结输入历史”。
+  - 不再使用 record-milestone-check、select-scenarios、run-verifier 以及 /tmp/deliver-74ae69d 快照。已有的记录和证据保留。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
