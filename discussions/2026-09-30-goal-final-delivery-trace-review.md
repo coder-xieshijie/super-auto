@@ -659,3 +659,22 @@ deliver 会话方案要改的地方：
 - 门禁结果与我这边一致。
 
 没有回复对方。
+
+## 追问：7595 弹出的“Suggested task”是什么，为什么不在原会话里修
+
+用户原话：
+
+> Deliver 这个的截图是什么意思？为什么需要新起 session，而不在当前 session 里面去修复？
+
+查到的事实：
+
+- 这是 7595 会话在 2026-10-01 14:16 调用桌面应用的 `spawn_task` 生成的任务建议卡片。点“Start with worktree”才会新开一个会话、新建 worktree 去做；点 × 就丢弃。
+- 起因：UI 单测 `ChatPanel.test.tsx` 里的“opens empty Cloud changes from the collaboration entry before a Result exists”，在交接基线 `350965f50f` 上跑 3 次失败 2 次。这个提交是 preview_train 加文档，没有 ChatPanel 的改动，说明测试本身不稳定，与本需求无关。7595 已把它记进 plan。
+
+为什么不在原会话里修：
+
+- deliver 规定，与本次改动无关的基线失败记进 plan 的“意外与发现”，继续做不受影响的部分；CI 失败时只修本次改动引入的、或阻塞既定交付的问题。
+- 7595 的 MR 范围由冻结的 spec 规定，混进无关修复会扩大范围，也会让独立验证和审查多看一块。
+- 这个修复应该单独开 MR 进 preview_train（任务说明里写了 `fix/<slug>` 分支），合入后对所有分支都有效。
+
+例外：如果这个测试在 7595 的 CI 上失败、挡住了合入，就属于“阻塞既定交付”，deliver 允许在本 MR 里处理。
