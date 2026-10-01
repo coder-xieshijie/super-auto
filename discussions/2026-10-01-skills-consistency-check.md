@@ -358,3 +358,13 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 dev-skills 工作区干净、与远端 main 一致，没有用户自己的改动；按“#27 合入并装好 core-grill 后 README 跟不上的地方”理解，开了 [coder-xieshijie/dev-skills#28](https://github.com/coder-xieshijie/dev-skills/pull/28)（只改 README）：“开发流程”加一次完整用法（`/core-grill` → 同一 session `/core-spec` → 新 session `/deliver`）；core-spec 一节写明起点是 core-grill、查漏的原始约定可直接用决定汇总；“本地使用”给出安装命令，并写明开发流程要注册六个相邻的 Skill。`check-links.mjs` 通过；纯文档改动，按全局约定不等 CI。
 
 core-grill 的两处取舍（术语冲突追问、ADR 是否先问）用户仍未回应，README 未涉及。
+
+## 用户：7595 到哪了；切换到新版
+
+用户问 7595 是否快结束。助手查看（21:39）：M0–M5 已落到需求分支；M5 的里程碑检查进行中；M6 已在本地 rebase 到 `preview_train`（领先 63 个提交，远端仍是 rebase 前的 `19a2b940d2`），正在把 `pauseActiveGoalForAbort` 移植到 v2。剩下最终全量自验、跨家族独立验证、CI 与评审，粗估还要几个小时（未实测）。建议在独立验证开始前切换：旧版 90 分钟到点会按“CLI 用不了”处理，44 个场景很可能超时，交付会停下等人。
+
+用户原话（2026-10-01）：
+
+> 好，现在发过去
+
+已向会话“Deliver agent-archon MR 7595”（`local_ecce30d4…`）投递消息，平台回报 delivered，对方是否已读未确认。消息要点：等 M5 检查记录存下、rebase 后的移植提交落地，再按新版 deliver 做；把已有的口径偏差、S24、S26 和值得看的决策日志并进 plan.md 与 MR 最前面的决定清单；owner 行改为 `- owner: <模型 ID>`；rebase 推送后跑 `check-delivery.mjs --frozen`；独立验证用 60 分钟周期，在同一会话续接；完成前在 MR head 上跑完整检查；做到可合入就停，不合入。推送需求分支按 spec 的交付与授权处理，消息里没有扩大授权。
