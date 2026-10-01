@@ -143,6 +143,15 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - plan.md 最前面加“决定清单”，并入 S24 的重新冻结、S26 修复与“基线已有”的判断、§3.5 的理解、在途校验作废的理解、B15、prompt 资产和诊断上限。其中 S26、§3.5、在途校验三条先问过 codex（gpt-6-astra，只读，evidence/decisions/q1*.md）。
   - 冻结输入改为新格式，owner 行为 `claude-opus-5-5`，旧记录移到“冻结输入历史”。
   - 不再使用 record-milestone-check、select-scenarios、run-verifier 以及 /tmp/deliver-74ae69d 快照。已有的记录和证据保留。
+- [x] (2026-10-01 23:10+08:00) M5 检查问题与 §3.5 的修复全部提交并推送，head 为 d5bc1acab4：
+  - 8a2a85f47d：verify-archon 的 TUI 刷新写入刷新记录，TUI 启动和运行时按接口实例的规则补足余量；脚本测试 78/78。
+  - f2e05681e9：启动恢复拆为 recoverFacts（在绑定 conversation 之前）和 takeOver（在问卷恢复之后、Plan 生命周期恢复之前），重启后还在队列里的 continuation 也会唤醒它的 Queue。不修时回归用例会让 `ready()` 卡死，修后通过。v2 测试 50 个文件、712 个通过，tsc、eslint、prettier 通过。
+  - d5bc1acab4：Goal 文档与��能地图对齐代码，涉及实现基线、缺用量的写法、token 用尽时收尾、启动顺序、“已实跑”表，以及两处照做会失败的步骤。
+- [x] (2026-10-01 23:25+08:00) 在 d5bc1acab4 上跑机械检查，全部 rc=0（evidence/final-d5bc1acab4/mech/）：
+  - M04：用 IDL feature 提交 204400c9a 跑 `gen:thrift`，工作区无差异；`check:desktop-service-boundary` 通过。
+  - M05：`check:architecture`、`test:architecture`、`check:local-runtime-layout` 通过。
+  - `check:prompt-asset-registry`、`check:tui-build-mode-contract` 通过。
+- [ ] 最终全量自验 @ d5bc1acab4：构建与冒烟（verify-runner）进行中，随后按 4 条线并行跑全部场景、RG1/RG1b/RG2/RG3、R103。M6 代码检查进行中。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
