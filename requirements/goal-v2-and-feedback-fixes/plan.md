@@ -15,7 +15,7 @@
   - 理由：spec §6“只开始一次”、§10“确认替换即恢复”。基线 350965f50f 的 v1 continuation 已有同样逻辑，不是本 MR 引入的。S26 run1（修复前）有 2 个 turn_bound、留有错误；run2（修复后）只有 1 个、没有错误。
   - 另一家模型：gpt-6-astra（codex，evidence/decisions/q1-codex.md）选择在本 MR 修，认为不修而以基线问题放行会放宽验收。它也指出，这次修复没有消除“检查通过后 Turn 恰好结束”的竞态，也没有处理旧 errorMessage 的通用清理。两者都属于 turn-system 和会话系统的共用逻辑，记在“意外与发现”，本 MR 未修。
   - 推翻后：回退 24083bcc3c；重跑 S26、S22、S24。
-- 决定：Goal 不在 active（paused、blocked、usage_limited、budget_limited）时，普通对话的那一轮附加一段 Goal 状态提醒：目标当前不在执行状态，本轮只处理用户这条消息，历史里的 Goal 指令不构成继续执行的授权，用户在本轮明确提出的普通任务照常处理。提醒文本写在代码常量里，不改受控 prompt 资产（实施中）。
+- 决定：Goal 不在 active（paused、blocked、usage_limited、budget_limited）时，普通对话的那一轮附加一段 Goal 状态提醒：目标当前不在执行状态，本轮只处理用户这条消息，历史里的 Goal 指令不构成继续执行的授权，用户在本轮明确提出的普通任务照常处理。提醒文本写在代码常量里，不改受控 prompt 资产（eb1b2af271）。
   - 理由：S25 在最终 head 上两次失败。暂停后发的补充消息没有得到回答，模型在普通对话里接着做已暂停 Goal 的任务（跑 sleep、写文件、调 update_goal 被拒）。原因是这一轮的历史里带着被打断的 Goal Turn 的内部指令，请求里没有任何地方告诉模型 Goal 已暂停。spec §10 要求这时“按普通对话执行”。
   - 另一家模型：gpt-6-astra（q4）选这个做法，另建议在历史投影中去掉失效的内部 Goal 指令作为补强。它认为“重跑到成功”或“本次不计”都会放宽验收。提示词修正不能保证模型一定照做，需要用真实模型重跑 S25 确认。
   - 推翻后：撤回该提交；重跑 S25、S10、S17、S39。
@@ -202,6 +202,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - S29 的 f1、f2 是工具时序问题，已作废；f3 有效。
   - 16 个实例的 401、登录失效、429 都是 0。
 - [x] (2026-10-02 00:35+08:00) 669f179230：普通 Turn 最终失败后，active 的 Goal 自动续跑（决定 F）。完整 v2 host 测试覆盖自动续跑、FIFO、paused 反例，前两项在修复前失败；v2 测试 56 个文件 845 个通过，tsc、lint、depcruise、prettier 都通过；已推送。S25 的暂停提醒正在实施（integrator）。
+- [x] (2026-10-02 00:50+08:00) eb1b2af271：Goal 不在 active 时，普通 Turn 带 Goal 状态提醒，以 AgentRuntime extension 的 system reminder 注入。真实 LocalAgentHost 与执行器上的集成测试 16 例全部通过，去掉接入时 5 例失败；分别删去 verifier、Goal Turn、功能开关三个判断，各有用例失败。v2 测试 62 个文件 891 个通过，tsc、lint、depcruise、prompt-asset-registry、prettier 都通过。补强（从历史投影里去掉失效的 Goal 指令）没有做，原因：要改 turn-system 历史层，状态变化会让 prompt 缓存失效，而且 objective 与指令在同一段里，拆不干净。已推送。
+- [ ] 第二轮自验 @ eb1b2af271（证据根 evidence/final-eb1b2af271/）：构建与冒烟进行中；同时在更新 Goal 文档（新行为）。之后分线重跑恢复、暂停、失败续跑相关场景和 S01，补测“停止后恢复”“失败后续跑”，最后跑 R103。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
