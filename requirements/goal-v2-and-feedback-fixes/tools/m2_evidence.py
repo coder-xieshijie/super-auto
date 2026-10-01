@@ -21,6 +21,9 @@ def load_json(path):
 def goal_of_saved(path):
     """`api GET .../goal --save` 的文件 → goal 对象（空 Goal 为 {}）。"""
     d = load_json(path)
+    if 'final' in d and 'poll' in d:
+        # `api poll --save`: the last polled body sits under `final`.
+        return (d.get('final') or {}).get('goal') or {}
     body = d.get('response', {}).get('body') if 'response' in d else d.get('body', d)
     return (body or {}).get('goal') or {}
 

@@ -291,7 +291,7 @@ def s22(d):
     g5 = goal(d, 's22-goal-step5')
     check('步骤5：提示为冲突文案；横幅目标为 three；输入框仍是 two；接口 objective 为 three，status 仍为 active',
           COPY['conflict_edit'] in t5 and obj5 == O3 and ta5 == O2 and g5.get('objective') == O3 and g5.get('status') == 'active',
-          {'toasts': t5, 'bannerObjective': obj5, 'textarea': ta5, 'apiObjective': g5.get('objective'), 'apiStatus': g5.get('status_reason')})
+          {'toasts': t5, 'bannerObjective': obj5, 'textarea': ta5, 'apiObjective': g5.get('objective'), 'apiStatus': g5.get('status'), 'apiStatusReason': g5.get('status_reason')})
     copy_note('conflict_edit', next((t for t in t5 if '后台更新' in t), None))
     pages = {n: aria_text(d, n) for n in ('s22-page-aria-step5', 's22-page-aria-step7')}
     bad = {n: [b for b in BAD_TEXT if b in txt] for n, txt in pages.items()}
@@ -308,7 +308,7 @@ def s22(d):
           {'samples': [(s['at'], (s.get('objective') or '')[-12:], s.get('updated_at')) for s in samples],
            'objectivePatchesBetween': [r.get('body') for r in auto_retry]})
     g6 = goal(d, 's22-goal-step6')
-    check('步骤6：objective 为 two 的文本', g6.get('objective') == O2, {'objective': g6.get('objective'), 'status': g6.get('status_reason')})
+    check('步骤6：objective 为 two 的文本', g6.get('objective') == O2, {'objective': g6.get('objective'), 'status': g6.get('status'), 'statusReason': g6.get('status_reason')})
     t7 = toasts(d, 's22-toasts-step7')
     ta7 = (text_saved(d, 's22-textarea-step7') or '').strip()
     g7 = goal(d, 's22-goal-step7')

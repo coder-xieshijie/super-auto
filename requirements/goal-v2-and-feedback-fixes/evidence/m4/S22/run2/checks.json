@@ -53,7 +53,8 @@
         "bannerObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
         "textarea": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
         "apiObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
-        "apiStatus": null
+        "apiStatus": "active",
+        "apiStatusReason": null
       }
     },
     {
@@ -115,7 +116,8 @@
       "result": "PASS",
       "detail": {
         "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
-        "status": null
+        "status": "active",
+        "statusReason": null
       }
     },
     {

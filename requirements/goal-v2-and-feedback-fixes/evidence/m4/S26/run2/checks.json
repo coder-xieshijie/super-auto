@@ -54,7 +54,7 @@
         "turnBoundAfterConfirmMs": [
           114
         ],
-        "pausedBefore": null
+        "pausedBefore": "paused"
       }
     },
     {
