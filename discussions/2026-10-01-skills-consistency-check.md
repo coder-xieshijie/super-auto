@@ -87,3 +87,35 @@ dev-skills 尚未修改。
 | F7 | 重新交接的提交信息多记一行用户确认原话的 trailer，`read-handoff.mjs` 据此输出 `- 重新确认:` 行，`check-delivery.mjs` 核对两者一致。7595 的重新确认是在 owner 自己的 session 里做的，原话就在上下文里，没有碰到这个缺口；缺口只在重新确认发生在别的 session 时出现，收益中等 | core-spec 第 9 步、`freeze.mjs`、deliver `read-handoff.mjs`、`check-delivery.mjs` |
 
 P2 里的 F8（完成条件与“最终 head 全量”说法不一）、F9（复验输入没有通道）可以随 F3、F2 一起改。
+
+## 后续：产出只看 dev-skills，本仓库只做记录
+
+用户原话（2026-10-01）：
+
+> 为什么要在本仓库里面去修改呢？这个grill模板放在本仓库，它不会沉淀成对应的 skill 吗？
+>
+> 我的理想预期是，当我整个流程优化完了之后，产出的所有内容应该只看 dev skill 就可以了。当前的仓库只是一些过程和优化的记录。
+
+**原因：** grill 交接模板是 2026-09-30 复盘的 A1、A2 两条，当时的约束是“不改上游的 grill-with-docs”（[复盘第 6 节](../research/goal-final-delivery-trace-2026-09-30/README.md)），于是把四个输入项和一句提问边界写成本仓库的模板，没有为它建 Skill。约束本身只要求不改上游，没有要求放在本仓库。上一轮把 F5、F6 建议成“本仓库直接改”，沿用了这个做法，与用户的预期不符。
+
+**决定：** 用户的预期写入[流程文档](../process/complex-requirement-delivery.md) v0.25 决定表“内容放在哪里”。
+
+**助手盘点本仓库里属于产出的内容（未确认）：**
+
+| 本仓库里的内容 | 性质 | 去处 |
+|---|---|---|
+| `process/grill-handoff-template.md` | 每个需求都用的输入和提问边界 | dev-skills 新建一个薄 Skill：收四个输入（目标、完成条件、授权、范围），访谈按路径引用上游的 grilling 和 domain-modeling、不复述，写提问边界，结束时把默认决定和用户答过的决定写进一份汇总请用户确认一次（含 F5），然后交给 core-spec |
+| 流程文档第一节“当前流程”和决定表里仍有效的部分 | 流程说明 | dev-skills README 新增“开发流程”一节：A–D 各阶段用哪个 Skill、人做什么；规则本身已在各 Skill 里，理由在 `docs/*-design.md` |
+| 流程文档的修订记录、用户原话、旧流程 | 记录 | 留在本仓库 |
+| deliver 脚本的五套用例（191 条） | 脚本的回归测试 | dev-skills，CI 里跑（F14） |
+| `deliver-select-replay-7595.sh`、`extract_trace.py`、`instance_runs.py` | 针对某次需求的一次性回放和复盘分析 | 留在本仓库；复盘以后要成为固定环节时再做成 Skill |
+| 补字钩子 | 本机接口问题，用户 2026-09-30 决定不进 dev-skills | 留在本机 |
+| verify-archon、功能地图 | 属于 agent-archon | 留在 agent-archon |
+| `requirements/<需求>/` 下的 plan、证据、工具 | 某个需求的交付记录 | 留在本仓库 |
+| 本仓库 AGENTS.md“以流程文档为当前版本” | 本仓库约定 | 改为当前流程以 dev-skills 为准，流程文档记录演进 |
+
+grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种起点。不建议：core-spec 定位是讨论结束后的收敛，已是最长的 Skill，grill 又是多轮问答。
+
+上游依赖仍在：grilling、domain-modeling 来自 mattpocock-skills，在 dev-skills README 里写明依赖，不复制进来。
+
+**改后的 PR 安排（未确认）：** PR 1：F1(b)、F2、F9；PR 2：F3、F4、F8（F7 待定）；PR 3：grill 薄 Skill 与 README 的“开发流程”一节；PR 4：用例迁入与 CI。本仓库：流程文档改为演进记录，F6 的整理随之简化；AGENTS.md 改指向；模板文件改为指向新 Skill。

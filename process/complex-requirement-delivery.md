@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.24
+status: 工作稿 v0.25
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -83,6 +83,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 里程碑检查的时机与重跑的选择 | 每轮里程碑检查分代码、证据两部分：代码部分在里程碑提交后就开始，与场景同时进行；证据部分在场景跑完后进行；两份报告合成一轮存下，这一轮报出的问题等记录存下后再提交。修复后重跑哪些场景由 `select-scenarios.mjs` 按 plan.md 里每个场景的涉及路径选出：只改测试、文档不触发，改了冻结文件或没人认领的文件全部重跑；最终 head 照常跑全部场景（2026-10-01 v0.23，用户要求并入 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，`ee4c96d`，未合入；方案见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md)） |
 | verify 的编号与门禁 | 门禁（`run-verifier.mjs`、`check-delivery.mjs`）和 `select-scenarios.mjs` 用同一个解析器，认带字母后缀的场景号（如 `S12b`）、M 开头的机械检查、RG 开头的回归项；`freeze.mjs` 冻结前用这个解析器读 verify，有认不出的编号就失败，由作者当场改。已冻结的 verify 不用改（2026-10-01 v0.24 用户选 (b)；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F1） |
 | 独立验证的时长上限 | 独立验证运行 60 分钟就停。到点不算“CLI 用不了”：脚本分析停止的原因，由 owner 判断后续，例如派生新的验证者接着验、分批验，或换别的办法（2026-10-01 v0.24 用户决定；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F2） |
+| 内容放在哪里 | 流程优化完成后，产出的所有内容只看 dev-skills 就够：Skill、模板、流程说明、脚本与用例都放 dev-skills；本仓库只记录过程和优化（2026-10-01 v0.25 用户提出；迁移方案待确认，见[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23） |
 
@@ -179,6 +180,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.22：MR 7595 交付中三次停下问用户（S04、S05、S09）都是验收口径与观测工具对不上，产品行为本身清楚，6 次提问、约 52 分钟等待、两次中途冻结。对照三家：OpenAI 让执行者自行消歧并改活文档、留日志；Anthropic 在写明的假设下继续，但不让执行者改验收项；Lauren 给默认答案和推翻词，不许为交差放宽验收，放宽要验证者证明再会签。用户同意：口径偏差由 owner 自定并记录，不改 verify，跨家族验证者判断是否放宽，产品行为的决定仍停下问。
 - 2026-10-01 v0.23：MR 7595 的 M2 场景跑了三轮，第一轮里程碑检查在两轮场景之后才开始，报出的两个代码问题不依赖场景结果，多出第三轮（72 分钟）；M3 修复后 owner 凭判断挑场景重跑，漏了 S34，由检查指出。用户要求把这两项（并行分析的 V3、V2）并入 dev-skills#26：检查分代码、证据两部分，代码部分与场景同时进行；重跑由脚本按涉及路径选，认不出的改动全部重跑。门禁和记录脚本不改。这次没有按“一次上一项”分开提 PR，是用户的决定。验证用例与 7595 回放见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md) 第 8 节。V1（验证实例互不使登录失效、场景分组并行）在 agent-archon，落点待用户决定；dev-skills 的 PR 都合入、本机更新后，再给 7595 投递消息，用户先对现行 Skill 再做一轮检查。
 - 2026-10-01 v0.24：用户要求对现行 Skill 再做一轮检查（[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)）。检查发现门禁认不出 MR 7595 verify 里的 `S12b`、`S21b`、`S29b` 和 M01–M17，验证报告少了这 20 项也能过；独立验证默认 90 分钟到点后按“CLI 用不了”处理，换 CLI 一样会超时。用户选 F1 的 (b)：门禁认这几种编号，冻结前由脚本校验；F2 改为 60 分钟就停，到点后分析停止原因，由 owner 判断后续。决定表新增两行；dev-skills 尚未修改。
+- 2026-10-01 v0.25：用户问 grill 交接模板为什么放在本仓库、不沉淀成 Skill，并提出产出只看 dev-skills、本仓库只做记录。模板放在这里，源于 v0.18 “不改上游 grill-with-docs”的约束，当时没有为它建 Skill。决定表新增“内容放在哪里”；助手据此盘点本仓库里属于产出的内容并给出迁移方案，待用户确认。
 
 ## 附：用户原话
 
@@ -316,3 +318,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > P1的问题, 你的建议都是什么?
 
 （2026-10-01；“主agent”按上下文理解为 deliver 的 owner。）
+
+> 为什么要在本仓库里面去修改呢？这个grill模板放在本仓库，它不会沉淀成对应的 skill 吗？
+>
+> 我的理想预期是，当我整个流程优化完了之后，产出的所有内容应该只看 dev skill 就可以了。当前的仓库只是一些过程和优化的记录。
+
+（2026-10-01。）
