@@ -2,12 +2,13 @@
 
 ## 冻结输入
 
-- spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=225327b584186dd26158d6f3800c34c51530506463ebe1aef263278ba87bfef9
-- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=3c9e95f6561f06949220dc1039f31a5190bc69a2a7a0d7028df66dad01c9c435
+- spec: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md` sha256=7d016c5898a58e6a3f6f7efe6b0af4bb53a5f71e1b15706681e70d48ee9f1f85
+- verify: `/Users/minimax/.claude/worktree/agent-archon/wizardly-nobel-612509/.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md` sha256=33cd80c92b2ca1463df7563f251061284f5604fc791a17af6e7811efb461daca
 - 基线: preview_train @ 3962b648ff51aabf77484729bcb3ff6de0b5004a，加 !7556 的 7 个提交（至 660e4d4221）与交接前的 2 个文档提交
-- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 5258bae92d5c935b7cc9081ca0f8db5ef3e447be（shijie，2026-10-01T17:35:37+08:00）
-- 重新确认: spec sha256=225327b584186dd26158d6f3800c34c51530506463ebe1aef263278ba87bfef9 用户 2026-10-01 在本 session 对“文案表外的新增 Desktop 文案怎么处理？”回答“把这些文案补进文案表 (Recommended)”，对“确认以这个版本冻结吗？spec sha256 225327b5…；verify sha256 3c9e95f6…”回答“确认，按这个版本冻结”
-- 重新确认: verify sha256=3c9e95f6561f06949220dc1039f31a5190bc69a2a7a0d7028df66dad01c9c435 用户 2026-10-01 在本 session 对“S40 前提里确认 subagent 仍在运行的写法要不要改？”回答“改成 agents=1/1 (Recommended)”，对“确认以这个版本冻结吗？…verify sha256 3c9e95f6…”回答“确认，按这个版本冻结”；此前各版：89b494e7…（S04，回答“确认，按这个版本冻结”）、8b46dcd7…（S05、S09，决定“比照 S04 修订”“只算 Goal 请求”，回答“确认，按这个版本冻结”）
+- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 27492b0a2d083d9db9868918c614dd1275cac666（shijie，2026-10-01T18:02:57+08:00）
+- 重新确认: spec sha256=7d016c5898a58e6a3f6f7efe6b0af4bb53a5f71e1b15706681e70d48ee9f1f85 用户 2026-10-01 在本 session 对“上面 spec §18.4 与 verify R103、M17 的文字是否确认，按这个版本冻结（spec sha256 7d016c58…，verify sha256 33cd80c9…）？”回答“确认，按这个版本冻结”；上一版 225327b5…（§1 文案表补入新增文案）同日回答“把这些文案补进文案表 (Recommended)”“确认，按这个版本冻结”
+- 重新确认: verify sha256=33cd80c92b2ca1463df7563f251061284f5604fc791a17af6e7811efb461daca 用户 2026-10-01 在本 session 对“上面 spec §18.4 与 verify R103、M17 的文字是否确认，按这个版本冻结（…verify sha256 33cd80c9…）？”回答“确认，按这个版本冻结”；此前各版：89b494e7…（S04）、8b46dcd7…（S05、S09，决定“比照 S04 修订”“只算 Goal 请求”）、3c9e95f6…（S40，决定“改成 agents=1/1 (Recommended)”）均回答“确认，按这个版本冻结”
+- 第四次交接: 5258bae92d（2026-10-01T17:35:37+08:00，spec 225327b5…、verify 3c9e95f6…）
 - 第三次交接: 03b987445f（2026-10-01T13:40:28+08:00，verify 8b46dcd7…）
 - 第二次交接: 9d998c8968（2026-10-01T12:24:43+08:00，verify 89b494e7…，S04 口径）
 - 原交接: feat/goal-v2-and-feedback-fixes @ 350965f50f2470c225454328306de4cc6caa6110（2026-09-30T19:34:27+08:00；verify 原 sha256 009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61）
@@ -101,6 +102,8 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-10-01：IDL 在 weaver/idl 新分支 `feature/goal-v2-and-feedback-fixes`（204400c9a5，已推送，weaver/idl!13599 待用户合入）给 GoalState 加 17–25 号可选字段：accounting_version、requests_used、work_requests、grace_requests、legacy_turns、reserved_requests、unknown_requests、usage_incomplete、usage_recovery_scheduled（最后一个给第 1 项横幅用）。用平铺字段而不是嵌套结构，与现有 GoalState 风格一致。已有同名实验分支 `feature/goal-v2-request-accounting` 不复用。
 - 2026-10-01：Goal 诊断入口放在 Developer Tools（与 Runtime 内存卡片同样只在开发者选项开启时出现，IPC 也按开发者选项拒绝）；同意提示拒绝即不读不写。诊断声明三个数量上限：200 个 Goal、500 条请求、每个 Goal 5 条请求条目（S32 要求用 S03 规模的 Goal 超过上限）；摘要按读到的全部请求统计。时间窗口 2 天，与日志上传一致。
 - 2026-10-01：收尾请求的说明追加到该次请求的 system prompt，tools 置空；不改受控 prompt 资产（`workflow/goal/budget-limit.md` 保留登记、运行时不再使用，移除路径需 Apollo 生命周期，未授权）。
+- 2026-10-01：deliver 更新到 dev-skills main `74ae69d`（#26：verify 字面判不了而 spec 行为清楚的检查点由 owner 记入“口径偏差”、不再停下，`run-verifier.mjs` 加 `--plan`、check-delivery 新增第 6 项；里程碑检查分代码、证据两部分，代码部分与场景并行，本轮问题等记录存下再提交；修复后的重跑由 `select-scenarios.mjs` 选，需要“验证与验收”为 `| 场景 | 命令 | 涉及路径 |` 表）。S04、S05、S09 已由用户重新冻结处理，不补记偏差。
+- 2026-10-01：V1 验证实例并行按用户决定进 spec §18.4（交接 27492b0a2d，用户确认文字）；实现采用修法 A（只改 verify-archon：Electron 按租约启动、无 Electron 运行时才刷新、接口实例被拒后立即重读、刷新留痕与 429 计数），实现前先做探针；作为 §18 验证能力在 M5 提交（M4 第一次检查记录之后），赶在 M6 全量自验与独立验证之前完成。
 - 2026-10-01：deliver 更新到 dev-skills main `4c45165`（#25：重新交接后检查记录仍计入；交付中改 spec/verify 要在冻结输入记“重新确认”行并保留用户原话；`run-verifier.mjs` 新增必填 `--base`，验证者对照第一次交接写“验收文档改动”；MR 描述加同名一节）。已在冻结输入补 verify 的重新确认行，`--frozen-only` 通过。
 - 2026-10-01 10:58：deliver 更新到 dev-skills main `fbcf3b7`（#24，里程碑记录经得起 rebase；只核对每个里程碑第一次仍有效的检查早于其后的提交，后几轮不计时；rebase 中被改动的已检查提交需后续一轮重新检查并落盘）。此前记的“rebase 去重使 M1 记录失效”的缺陷已修，该条作废。据此：M2 第一次检查范围取 a7899522d3..（M2 场景修复后的 head），含 d465f843d8、384cef525d、42c9857a02；`wip/gv2-m3` 草稿在 M2 检查落盘后以 `cherry-pick -n` + `commit --reset-author` 生成新提交，不沿用草稿作者时间。
 
@@ -132,7 +135,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - **M2 请求计量与预算收尾（第 6、12 项）+ IDL**（S01–S11、S37、S38、S41、S32、S02）：逻辑请求账本（预占/发送/回执/未知）、历史占用延续、`accountingVersion=2` 投影、收尾复用 graceSteps、取消预算总结 Turn、诊断增强；weaver/idl feature 分支加字段并 gen:thrift；Desktop/TUI 用量展示。
 - **M3 恢复落地、额度恢复、依赖、TUI 恢复（第 1、3、10 项）**（S12–S21b、S30、S34–S36、S40）。
 - **M4 Desktop 交互（第 4、5、7、8、9 项）**（S22–S29b、S31、S33、S39）。
-- **M5 文档、功能地图、ADR**（M12、R102）。
+- **M5 文档、功能地图、ADR、验证实例并行**（M12、M17、R102、R103）。
 - **M6 最后 rebase（含第 2 项）、全量复验、独立验证、MR 收尾**。
 
 ## 验证与验收
