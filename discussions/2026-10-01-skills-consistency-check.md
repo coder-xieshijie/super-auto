@@ -235,3 +235,28 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 - 不是 owner 提问造成的中断：Stop 钩子（N1，v0.18 同意试行，未做）解决“回合以文字结束后没人接着做”，这是 7576 空转 81 分钟、7595 停工 10.6 小时的原因；测试窗口抢焦点、删除审批属于 agent-archon 的 verify-archon。
 
 待用户确认：A 类清单与“其余全部 owner 定”；产品决定的答复走轻量记录还是重新冻结；事实更正并入口径偏差一节；Stop 钩子是否进这个 PR；core-spec 查漏是否加“spec 写到的现有事实对代码核对”。
+
+## 追问：不设停下的情况，全程做完、决定列在最前面，合入前看
+
+用户原话（2026-10-01）：
+
+> 如果我不设置 A 类，就是需要它在流程中完全进行下去，最后把对应的清单列出来。在中间过程中，自己做决定并写下来，放在最前面。在我合入之前，会重点 check, 这种流程可以吗? 三家理论有怎么做的吗?
+> 这样做的话, 流程会不会更轻量? 感觉现在有很多校验脚本，导致流程会比较重。
+
+**助手答复要点（未确认）：**
+
+1. 可行。A 类里有三种在这个流程里自然不再是“中途停下”：授权以外的不可逆操作（合入等）owner 本来就不做，留到最后由用户做；拿不到的权限、环境和卡住，owner 做完其余部分，把受影响的场景标为未验证，列在最后。真正改变的只有产品决定：owner 选一个默认做法继续，记下理由和推翻后要改什么、重跑哪些场景。
+2. 三家（本地原文已核对）：
+   - Lauren 最接近：`principle-never-block-on-the-human`“Make reasonable decisions, proceed, and let the human course-correct after the fact”；全权授权下“apply a default for a call that only the operator can make. Report the default with a full explanation and the one word that reverses it”（poteto-mode SKILL:20）；待人决定的事进 `gates.md`，必须带默认答案（`orch gate park --default`），不阻塞。保留的例外：“Always pause for irreversible writes”（SKILL:83）。
+   - OpenAI：ExecPlan“do not prompt the user for "next steps"; simply proceed to the next milestone”，决定记在 Decision Log（PL L34、L86）；Harness engineering“corrections are cheap, and waiting is expensive”（HE L114），但也写“Escalate to a human only when judgment is required”（HE L152）；GPT-6 Astra 交互时“waits for your input on consequential decisions”。
+   - Anthropic：Fable 5 只在“a destructive or irreversible action, a real scope change, or input that only they can provide”时停（F5 L64）；Fable 5.1 在不同理解会导致实质不同的工作时确认（F51 L836），偏保守。
+   - 共同点：可逆的工作不等人，决定记下来事后看；都保留“不可逆操作前停”。在本流程里不可逆操作不在授权内，等于流程的终点，不需要中途停。都不做的：为了交差放宽验收（Lauren“never relax the predicate”）。
+3. 会更轻。deliver 的 11 个脚本（2,399 行）分三类（粗分）：
+   - 查结果的（spec、verify 没被改；最终 head 由另一家模型验证、报告完整、PASS）：约 1,170 行，加 core-spec 的 `freeze.mjs` 112 行。保留。
+   - 提效工具（`select-scenarios.mjs`、`report-reuse.mjs`）：约 330 行。owner 想用就用，不当门禁。
+   - 管过程的（里程碑检查的顺序与记录、rebase 与重新交接后的记录、重新确认原话、口径偏差逐条按编号和哈希核对）：约 900 行，加现有 191 条用例里的 136 条。可以去掉，改为：里程碑检查保留为一句做法，不再核对时间顺序；口径偏差、事实更正、产品默认决定合成 plan.md 开头的一份“决定清单”，原文交给最后的验证者判断，不按编号、哈希核对。
+   - 原则：查结果，不查过程。Anthropic 在 Opus 4.6 上去掉了分段，把 evaluator 改为最后一次（HD“Removing the sprint construct”）；Lauren 的验证账本按 PR 和 head SHA 记结论；OpenAI 主张最少的阻塞门禁。三家原文里没有见到“里程碑检查必须早于下一个提交”这类核对 agent 行动顺序的门禁。
+4. 代价：错的默认决定要到合入前才被发现，返工可能比当时问一句更贵；合入前的检查成为唯一的人工关口，清单要按影响排序、写清推翻代价；里程碑检查晚做不会再被拦下（7576 的情况），只多花重跑时间，最终结果仍由最后的验证兜底。
+5. 可选的一处例外：发现凭据可能泄露时立即通知用户（不停工），因为等到最后才轮换有安全风险。
+
+待用户确认：采用“全程不停、决定清单放最前、合入前看”；去掉管过程的脚本；凭据泄露的通知例外；core-spec 查漏是否加“现有事实对代码核对”（减少决定清单的条数）。
