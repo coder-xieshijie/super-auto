@@ -80,6 +80,14 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [ ] M5 里程碑检查第 1 轮（代码、证据两部分，范围 f938e48db1..19a2b940d2）：进行中。
 - [ ] (2026-10-01 21:05+08:00) M6：发现 !7590 已于 2026-10-01 11:19 合入 preview_train，preview_train 比需求分支多 58 个提交。rebase 在 owner worktree 进行中（integrator，Opus 5.5 high），`pauseActiveGoalForAbort` 移植到 v2 作为 rebase 后的新提交，待 M5 检查记录存下后再提交。注意：本地存在 `refs/heads/origin/preview_train`，与远端分支同名易混，一律使用 `refs/remotes/origin/preview_train`。
 - 规则版本：dev-skills 工作区正在改 deliver（未提交，删了多个脚本）；本需求继续按已提交的 74ae69d 执行，快照在 /tmp/deliver-74ae69d。
+- [x] (2026-10-01 21:55+08:00，subagent 汇报时间) M6 rebase 完成，本地未推送：新 HEAD 870cc26f36，相对 refs/remotes/origin/preview_train 有 63 个提交（原 64 个）。
+  - 第 2 项 runtime 移植提交 528324e6e7 自动变空并被丢弃：与上游 !7590 的 0d7eca8165 有 19 个文件逐字节相同，`goal/src/index.ts` 只差本分支已有的导出。
+  - 冲突只在文档：CONTEXT.md 两边都保留；Goal 长期文档 4 个文件以本分支为底，并入第 2 项内容。
+  - 上游 2ed882f7f8 对 v1 turn-context 的改动（未绑定 Turn 的提案返回 `not_a_goal_turn`）经改名识别，进入 v2 的 turn-context 和 settlement 测试。
+  - `pauseActiveGoalForAbort` 移植为工作区改动（未提交）：compat 的 user-stop cascade 改由调用方传入 v2 `GoalService.pauseActiveGoalForAbort`，不保留 v1 fallback，services.test 增加断言。
+  - 上游改了锁文件。owner worktree 跑 `pnpm install --frozen-lockfile` 同步依赖（只更新本 worktree 的 node_modules，不改锁文件）。之后 tsc 通过：tui、ui、local-runtime-v2、local-runtime、shared、agent-core、goal、remote-control-bridge，以及 electron 的 `pnpm run typecheck`。
+  - 测试：v2 Goal 49 个文件 624 个，冲突与移植相关 15 个文件 501 个，goal、agent-core、tui、ui、local-runtime 的相关测试均通过。
+  - 移植提交等 M5 检查记录存下后再提交。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
