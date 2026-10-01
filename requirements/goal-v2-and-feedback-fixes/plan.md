@@ -15,6 +15,10 @@
   - 理由：spec §6“只开始一次”、§10“确认替换即恢复”。基线 350965f50f 的 v1 continuation 已有同样逻辑，不是本 MR 引入的。S26 run1（修复前）有 2 个 turn_bound、留有错误；run2（修复后）只有 1 个、没有错误。
   - 另一家模型：gpt-6-astra（codex，evidence/decisions/q1-codex.md）选择在本 MR 修，认为不修而以基线问题放行会放宽验收。它也指出，这次修复没有消除“检查通过后 Turn 恰好结束”的竞态，也没有处理旧 errorMessage 的通用清理。两者都属于 turn-system 和会话系统的共用逻辑，记在“意外与发现”，本 MR 未修。
   - 推翻后：回退 24083bcc3c；重跑 S26、S22、S24。
+- 决定：Goal 不在 active（paused、blocked、usage_limited、budget_limited）时，普通对话的那一轮附加一段 Goal 状态提醒：目标当前不在执行状态，本轮只处理用户这条消息，历史里的 Goal 指令不构成继续执行的授权，用户在本轮明确提出的普通任务照常处理。提醒文本写在代码常量里，不改受控 prompt 资产（实施中）。
+  - 理由：S25 在最终 head 上两次失败。暂停后发的补充消息没有得到回答，模型在普通对话里接着做已暂停 Goal 的任务（跑 sleep、写文件、调 update_goal 被拒）。原因是这一轮的历史里带着被打断的 Goal Turn 的内部指令，请求里没有任何地方告诉模型 Goal 已暂停。spec §10 要求这时“按普通对话执行”。
+  - 另一家模型：gpt-6-astra（q4）选这个做法，另建议在历史投影中去掉失效的内部 Goal 指令作为补强。它认为“重跑到成功”或“本次不计”都会放宽验收。提示词修正不能保证模型一定照做，需要用真实模型重跑 S25 确认。
+  - 推翻后：撤回该提交；重跑 S25、S10、S17、S39。
 - 决定：用户显式恢复 Goal 时，结束该会话因用户停止（user_stop、session_leave）或普通对话最终失败（turn-final-failure）造成的队列暂停，再交出 Goal 的 continuation；失败的那一轮不重放。显式恢复包括 PATCH active、继续按钮、`/goal resume`、`/retry`、blocked 的继续、编辑后保存、提高预算重开（e71be11629、bfc648cf9a）。
   - 理由：停止或失败会把队列暂停，Goal 的 continuation 排在暂停之后，恢复后不会开始，Goal 停在 spec §6 不允许的“active、无 Goal Turn、无等待原因”。M6 代码检查发现了这个问题，完整 v2 host 集成测试复现了 user_stop、session_leave、final failure 三种情况，修复前全部失败，修复后全部通过。代价是停止或失败时还压在队列里的用户消息会按 FIFO 先于 Goal 执行。
   - 另一家模型：gpt-6-astra（q2）。它认为用户停止后显式恢复必须解除暂停；对最终失败的暂停，它认为只列为已知限制就是放宽验收，应当在显式恢复时一并解除。本实现按它的意见做。
