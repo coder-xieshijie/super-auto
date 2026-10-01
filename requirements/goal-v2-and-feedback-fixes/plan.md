@@ -20,8 +20,16 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [x] (2026-09-30 19:59+08:00) 基线冒烟 @ 350965f50f（staging 验证配置）：接口 PONG + lifecycle 跑到 complete(verifier_met)、count.txt 1–4（evidence/baseline-api/）；TUI Active→Paused、PONG succeeded（baseline-tui/）；Electron 跑到完成、横幅“已完成”、goal-completion-marker（baseline-electron/）。
 - [x] (2026-09-30 20:02+08:00) 并入 !7181：`git cherry-pick -m 2 1201a37aa5`（净改动，无冲突）；95181bc02f。
 - [x] (2026-09-30 20:10+08:00) 第 2 项 runtime：!7590 四个 runtime 提交按路径取净改动（不含 Desktop、文档）；goal 包 81、v2 16、v1 61 个相关测试通过；d0eb97cdc6。
-- [x] (2026-09-30 22:30+08:00) M0 验证能力：`wip/gv2-verify-tools` 5 个提交（771e1f1e75、42dc9215de 带自 verify-archon 分支；1852e6e3fe G6；4e863e71af G1/G2/G3 接口；d770f05f30 G3 Electron/G4/G5/G7/G8），verify-archon 脚本测试 46 个通过；各能力在真实实例实跑，证据在 `/tmp/gv2-evidence/`（待并入本目录 evidence/m0/）。G6 在 staging 登录账号上查询返回“group not found”，S35、S36 按 B15 处理。
-- [ ] M1 迁移：Goal owner 已移入 v2（294ea74496 WIP），v2 lint/tsc/depcruise/layout 通过（bd75e6bdd1 WIP）；Goal 问卷策略移入 v2 `service/goal/questionnaire/`（0eadb3c24c WIP，v1 问卷只留通用能力与写入前置条件）。实跑 @ 0eadb3c24c：接口冒烟与 lifecycle（evidence/m1-api-probe/）；接口问卷手动回答 → complete(verifier_met)、turns 2、fruit.txt=Banana，超时自动回答 → complete(verifier_met)、fruit.txt=Apple、历史含 automatic_timeout 与 explicitUserConfirmation=false（evidence/m1b-api-questionnaire/）；TUI 冒烟（Active→Paused→clear、PONG succeeded，evidence/m1-tui/）；Electron 冒烟（跑到 complete(verifier_met)、横幅“已完成”，evidence/m1-electron/）。TUI、Electron 用 `--allow-stale` 启动：比构建新的只有测试 subagent 新建的 `auto-reply-timer.test.ts`。进行中：测试迁移（subagent：`gv2-tests` worktree 6 个；问卷测试 1 个在 owner worktree）；RG1 基线（subagent）；RG1 迁移版、RG1b、RG2。
+- [x] (2026-09-30 21:18+08:00；subagent 报告于 21:58 前后) M0 验证能力：`wip/gv2-verify-tools` 5 个提交（771e1f1e75、42dc9215de 带自 verify-archon 分支；1852e6e3fe G6；4e863e71af G1/G2/G3 接口；d770f05f30 G3 Electron/G4/G5/G7/G8），verify-archon 脚本测试 46 个通过；各能力在真实实例实跑，证据在 `/tmp/gv2-evidence/`（已并入本目录 evidence/m0/）。G6 在 staging 登录账号上查询返回“group not found”，S35、S36 按 B15 处理。
+- [x] (2026-09-30 22:20+08:00) M1 迁移：WIP 与测试迁移提交压成一个迁移提交 6d0823cc14（Goal owner 移入 v2、Goal 问卷策略移入 `service/goal/questionnaire/`、测试迁到 v2、迁移后的四处修复）；需求分支变基到验证工具之上，历史为 !7181（95181bc02f）→ 工具 5 个提交 → 第 2 项（528324e6e7）→ 迁移（6d0823cc14）。改动过的 v2 测试 67 个文件 941 个、v1 18 个文件 283 个通过；v2 tsc、eslint、depcruise、`check:local-runtime-layout`、架构测试 120 个通过。
+- [x] (2026-09-30 23:22+08:00) M1 场景（迁移前验证基线 = d770f05f30）：
+  - RG1：基线 55 条（53 一致、1 不一致、1 走不通，evidence/rg1-baseline/summary.md）；迁移 @ 6d0823cc14 的 55 条最终状态与 status_reason 全部与基线相同，47 条四项全同，8 条差异 = 3 条第 2 项预期差异 + 5 条模型随机（已重跑确认），evidence/rg1-migration/{summary,compare}.md。
+  - RG1b：两个提交、两个流程都符合预期且事件序列一致，evidence/rg1b/summary.md。
+  - RG2：第 2 项 verify 的 S02（TUI）、S03（接口）在 6d0823cc14 通过，evidence/rg2-migration/summary.md。
+  - 迁移代码上的入口实跑（@ 0eadb3c24c，与 6d0823cc14 产品代码相同）：接口冒烟与问卷手动/超时自动（evidence/m1-api-probe/、m1b-api-questionnaire/），TUI、Electron 冒烟（evidence/m1-tui/、m1-electron/）。
+- [ ] M1 里程碑检查（范围 350965f50f..6d0823cc14，覆盖 !7181、工具、第 2 项、迁移）：进行中。
+- [ ] M2 请求计量与同轮收尾（已完成：agent-core 逻辑请求生命周期与 7 个单测；v2 账本表 migration 43、账本读写与投影、按请求准入与收尾、结算时判定次数上限、退役预算总结 Turn；未提交，等 M1 检查记录后提交。剩余：测试更新、IDL、Desktop/TUI 展示、get_goal、诊断、场景实跑）。
+- [ ] M3、M4 草稿：`wip/gv2-resume`（e4c2a76d91 恢复落地、c485e5185e 依赖、ccf58cd2df 额度恢复、2ff5c22f68 校验中断、78b1db3fb7 TUI）与 `wip/gv2-desktop`（ca882703e0 冲突、b2f9a7ae72 补充消息、c2cc83ea67 继续按钮、0563da4df2 verifier 子会话、3463dbd9fb 通知）由 subagent 在迁移提交上完成，作为可复用草稿保留；按 M3、M4 顺序在 M2 检查之后重新整合、提交和检查。
 
 ## 意外与发现
 
@@ -33,6 +41,11 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-09-30：`~/.minimax/config.yaml` 当前指向 prod（agent.minimaxi.com）。prod 下接口实例的 LLM Context Inspector 不装配（`resolveBuildVariant` 在 prod 且非 internal 构建时为 unavailable），`enableInspector` 返回 500。第 2 项那次验证时配置指向 staging。
 
 ## 决策日志
+
+- 2026-10-01：deliver 改用 dev-skills main `9af8ba1`（#21 里程碑检查落盘并由 check-delivery 核对顺序，#22 run-verifier 预检、限时、不带沙箱，#23 只核对子代理模型 ID）。plan、证据和检查按新版执行；没有写任何 waiver。
+- 2026-10-01：M0 不写场景，不需要检查记录；M1 的第一轮检查范围取交接提交到迁移提交（350965f50f..6d0823cc14），连续覆盖 !7181、工具、第 2 项与迁移。
+- 2026-10-01：并行 subagent 在 `wip/gv2-resume`、`wip/gv2-desktop` 上的提交早于 M1/M2 检查，不直接并入（按作者时间会判为晚，也不改提交时间）；作为草稿，在 M2 检查之后按 M3、M4 顺序重新提交到需求分支（用户 2026-10-01 决定）。
+- 2026-10-01：最后 rebase 到 preview_train 时第 2 项提交被去重会让 M1 记录失效，这是 check-delivery 的已知缺陷（修复 PR 未合入 dev-skills main）；届时如实记录，不改历史或提交时间绕开。
 
 - 2026-09-30：v2 新建 `local_runtime_v2_goals`，migration 42 从 `local_runtime_thread_goals` 读取复制，旧表保留、不再写入。原因：verify M02 要求“没有代码写 v1 表（迁移读取旧数据除外），v2 Goal 表由 Drizzle schema 定义”；保留旧表满足“迁移失败不丢原数据”。两次实验直接接管旧表的做法不采用。
 - 2026-09-30：迁移按原逻辑搬移 v1 Goal owner（保持门面 API），不按实验重写业务规则；store 由 deps 注入（composition 用 Drizzle 实现，测试用替身）。原因：spec §3.2 迁移不改变行为，RG1 迁移前后一致；两次实验重写后都未完成集成。
