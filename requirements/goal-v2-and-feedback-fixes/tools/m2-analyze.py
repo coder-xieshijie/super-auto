@@ -89,8 +89,24 @@ def s02(d):
     evb = runtime_events(latest(d, '*-s02-budget-runtime-events.jsonl'))
     newb = [e for e in evb if e['type'] == 'goal.turn_bound' and e['ts'] >= start - 5000]
     q_after = load_json(latest(d, '*-s02-budget-queue-after-hold.json'))['response']['body']
-    check('budget_limited：旧总结项退役、hold 无新 Turn 与回复', len(h1) == len(h2) and not newb and not q_after.get('items') and len(cancelled) >= 1,
-          {'messagesBefore/After': [len(h1), len(h2)], 'newTurnBound': len(newb), 'queueItemCancelledEvents': len(cancelled), 'queueAfterHold': q_after})
+    # 1a1b8b9fb8 起：启动时即取消升级前的预算总结项，步骤 3 一开始读队列就不应再有待执行项（pending_count 0）
+    q_first_raw = load_json(latest(d, '[0-9][0-9][0-9]-s02-budget-queue-after.json'))
+    q_first = q_first_raw['response']['body']
+    q_first_at = [json.loads(line)['at'] for line in open(os.path.join(d, 'steps.jsonl')) if 's02-budget-queue-after' in json.loads(line)['args']]
+    up_at = min(json.loads(line)['at'] for line in open(os.path.join(d, 'steps.jsonl')))
+    cancel_ts = [c.get('receivedAt') or c.get('timestamp') for c in cancelled]
+    # 升级前安排的总结项（m2-s02-arrange-budget-item.py 写入，queued）在升级后的队列表里已不存在。
+    # 启动时就被取消，早于事件流订阅，所以 events.jsonl 里不一定有它的 cancelled 事件（只作参考）
+    arranged = load_json(os.path.join(base, 'arrange-budget-summary-item.json'))['queueAfter']
+    arranged_ids = {r['item_id'] for r in arranged if r.get('status') == 'queued'}
+    post_ids = {r['item_id'] for r in load_json(f'{d}/post-upgrade-queue.json')['rows']}
+    check('budget_limited：队列中没有可执行的预算总结项（启动后第一次读队列即为空）、hold 无新 Turn 与回复',
+          len(h1) == len(h2) and not newb and not q_after.get('items') and not q_first.get('items') and (q_first.get('pending_count') or 0) == 0
+          and q_after.get('pending_count', 0) == 0 and arranged_ids and not (arranged_ids & post_ids),
+          {'messagesBefore/After': [len(h1), len(h2)], 'newTurnBound': len(newb), 'queueItemCancelledEvents(参考)': len(cancelled),
+           'arrangedPreUpgradeItem': sorted(arranged_ids), 'arrangedItemStillInQueueTable': sorted(arranged_ids & post_ids),
+           'queueFirstReadAfterStartup': q_first, 'queueFirstReadAtMs': q_first_at[:1], 'firstStepAtMs(after up)': up_at,
+           'cancelledEventTs': cancel_ts, 'queueAfterHold': q_after})
 
 
 def s04(d):
@@ -123,6 +139,13 @@ def s04(d):
            'pauseAbortedInFlightRequest': bool(closed)})
     check('完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致', mc is not None and 'turns' not in mc.group(0) and n == len(settled),
           {'line': mc.group(0) if mc else None, 'runtimeRequestSettled': len(settled)})
+    # 观察（非检查点）：9bc696d1fa 起，被暂停取消、没有用量的请求标为 usageIncomplete，token 显示带“+”
+    tok = lambda txt: sorted(set(re.findall(r'[\d.]+K?\+? tokens', txt)))
+    aborted = [e['payload'] for e in settled if e['payload'].get('outcome') == 'abort']
+    checks.append({'id': '观察：被取消请求无用量时 token 显示“+”（非检查点）', 'result': 'INFO',
+                   'detail': {'summaryTokens': tok(summ), 'finalTokens': tok(final), 'pausedScreenTokens': tok(open(latest(d, '*-s04-paused-screen.txt')).read()),
+                              'abortedSettled': [{k: p.get(k) for k in ('outcome', 'kind', 'attempts', 'requestId')} for p in aborted],
+                              'usageIncompleteMarkerInSummary': 'usage incomplete' in summ}})
 
 
 def s05(d):
@@ -140,10 +163,20 @@ def s05(d):
     fl2 = fault_lines(os.path.join(d, 'fault-proxy.jsonl'), s2)
     sent = {e['n'] for e in fl2 if e.get('event') == 'attempt' and e.get('role') == 'main'}
     closed = [e['n'] for e in fl2 if e.get('event') == 'attempt-end' and e.get('outcome') == 'client-closed']
-    insp = inspector_calls(latest(d, '*-s05-cancel-inspector'))
-    check('步骤3 paused(user_requested)、被取消的请求计入', c.get('status_reason') == 'paused(user_requested)' and c.get('requests_used') == len(sent),
-          {'requests_used': c.get('requests_used'), 'mainRequestsSent(fault log)': len(sent), 'clientClosed': closed,
-           'inspectorCaptured': len(insp), 'note': 'Inspector 不保存被取消的请求；以 fault-proxy attempt 日志为准'})
+    closed_main = sorted({e['n'] for e in fl2 if e.get('event') == 'attempt-end' and e.get('role') == 'main' and e.get('outcome') == 'client-closed'})
+    ev2 = runtime_events(latest(d, '[0-9][0-9][0-9]-s05-cancel-runtime-events.jsonl'))
+    insp_all = inspector_calls(latest(d, '[0-9][0-9][0-9]-s05-cancel-inspector'))
+    insp = goal_main_calls(insp_all, ev2)
+    # verify 8b46dcd7（03b987445f）口径：请求数 = Inspector 条数 + 替身日志中已发出、被暂停取消（client-closed）的主执行请求数
+    check('步骤3 paused(user_requested)、被取消的请求计入；请求数 = Inspector 条数 + 替身日志 client-closed 主执行请求数（verify 8b46dcd7）',
+          c.get('status_reason') == 'paused(user_requested)' and bool(closed_main) and c.get('requests_used') == len(insp) + len(closed_main),
+          {'requests_used': c.get('requests_used'), 'inspectorGoalMain': len(insp), 'inspectorAllCalls': len(insp_all),
+           'faultProxyClientClosedMainN': closed_main, 'inspectorPlusClientClosed': len(insp) + len(closed_main),
+           'mainRequestsSent(fault log)': len(sent), 'mainSentN': sorted(sent), 'clientClosedAll': closed})
+    settled2 = [e['payload'] for e in ev2 if e['type'] == 'goal.request_settled']
+    checks.append({'id': '观察：被取消请求无用量时 usageIncomplete（非检查点）', 'result': 'INFO',
+                   'detail': {'usage_incomplete': c.get('usage_incomplete'), 'tokens_used': c.get('tokens_used'),
+                              'settled': [{k: p.get(k) for k in ('outcome', 'kind', 'attempts')} for p in settled2]}})
 
 
 def s08(d):
@@ -190,13 +223,28 @@ def s09(d):
     check('横幅 Budget limited、4 requests', '◎ Goal · Budget limited' in scr and '4 requests' in scr,
           {'banner': [line.strip() for line in scr.splitlines() if 'Budget limited' in line or 'requests' in line][-2:]})
     ev2 = runtime_events(latest(d, '[0-9][0-9][0-9]-s09-after-hold-runtime-events.jsonl'))
-    gm2 = goal_main_calls(inspector_calls(latest(d, '[0-9][0-9][0-9]-s09-after-hold-inspector')), ev2)
-    check('上限后无新 turn_bound，hold 期间无新请求', len([e for e in ev2 if e['type'] == 'goal.turn_bound']) == 1 and len(gm2) == 4,
-          {'turnBound': len([e for e in ev2 if e['type'] == 'goal.turn_bound']), 'mainAfterHold': len(gm2)})
+    all2 = inspector_calls(latest(d, '[0-9][0-9][0-9]-s09-after-hold-inspector'))
+    gm2 = goal_main_calls(all2, ev2)
+    steps = [json.loads(line) for line in open(os.path.join(d, 'steps.jsonl'))]
+    snap_end = [s['at'] for s in steps if 's09' in s['args'] and 'snapshot' in s['args']]
+    hold_end = [s['at'] for s in steps if 's09-hold' in s['args']]
+    h0, h1 = (snap_end[0] if snap_end else 0), (hold_end[0] if hold_end else 0)
+    in_hold = [c for c in all2 if h0 <= (c['startedAtMs'] or 0) <= h1]
+    goal_in_hold = [c for c in gm2 if h0 <= (c['startedAtMs'] or 0) <= h1]
+    # verify 8b46dcd7（03b987445f）口径：hold 期间没有该 Goal 的新模型请求（会话标题等辅助请求不计）
+    check('上限后无新 turn_bound；hold 期间没有该 Goal 的新模型请求（会话标题等辅助请求不计，verify 8b46dcd7）',
+          len([e for e in ev2 if e['type'] == 'goal.turn_bound']) == 1 and len(gm2) == 4 and not goal_in_hold and bool(h0 and h1),
+          {'turnBound': len([e for e in ev2 if e['type'] == 'goal.turn_bound']), 'goalMainAfterHold': len(gm2),
+           'holdWindowMs': [h0, h1], 'goalMainInHold': len(goal_in_hold),
+           'auxiliaryInHold': [{'turnId': c['turnId'], 'isTitle': c['isTitle'], 'tools': c['tools'][:3]} for c in in_hold if c not in goal_in_hold]})
     rs = open(latest(d, '*-s09-resume-screen.txt')).read()
     ev3 = runtime_events(latest(d, '[0-9][0-9][0-9]-s09-after-resume-runtime-events.jsonl'))
-    check('/goal resume 打印错误、无 Goal resumed.、无新 turn_bound', 'Goal resumed.' not in rs and 'Warning' in rs and len([e for e in ev3 if e['type'] == 'goal.turn_bound']) == 1,
-          {'warning': [line.strip() for line in rs.splitlines() if 'Warning' in line]})
+    msg = [line.strip() for line in rs.splitlines() if 'exhausted its execution budget' in line]
+    # cb6ae6e4c1 起：拒绝的恢复以 error 单元打印（标签 Error），不是 Warning
+    check('/goal resume 打印错误（Error）、无 Goal resumed.、无新 turn_bound',
+          'Goal resumed.' not in rs and bool(msg) and all('Error' in m and 'Warning' not in m for m in msg)
+          and len([e for e in ev3 if e['type'] == 'goal.turn_bound']) == 1,
+          {'resumeMessage': msg, 'turnBoundAfterResume': len([e for e in ev3 if e['type'] == 'goal.turn_bound'])})
 
 
 def s11(d):
@@ -261,19 +309,26 @@ def s03(d):
     check('get_goal 结果的请求数 = 截至该次请求的 Goal 主执行请求条数', bool(pairs) and all(a == b for a, b in pairs),
           {'(inspectorUpTo, get_goal.requestsUsed)': pairs})
     goal = g(d, 's03-final-goal')
-    check('终态：请求数 = Inspector Goal 主执行请求条数', goal['requests_used'] == len(gm) and goal['status_reason'] == 'complete(verifier_met)',
+    # verify 只要求终态请求数等于 Inspector 条数；终态是哪一种（complete 或模型自报 blocked）只作记录
+    check('终态：请求数 = Inspector Goal 主执行请求条数', goal['requests_used'] == len(gm) and goal.get('status') in ('complete', 'blocked', 'paused', 'budget_limited', 'usage_limited'),
           {'requests_used': goal['requests_used'], 'inspector': len(gm), 'status': goal['status_reason']})
     hist = load_json(latest(d, '[0-9][0-9][0-9]-s03.json'))['http']['messages']['body']['messages']
     sup = [m for m in hist if 'What is 2 + 2' in str(m.get('msg_content'))]
     check('补充消息那一轮不计入、回复为 4', False, {'supplementaryInHistory': len(sup),
           'blocked': '被测提交上 active Goal 的输入框处于“目标”模式，普通发送弹出“替换当前目标吗？”确认框，消息没有发出（截图 s03-supplement-sent）；输入意图改动属 M4（R75/R76），本提交未实现'},
           'UNVERIFIED')
-    v = load_json(latest(d, '*-s03-verifying.json'))['trajectory'][-1]['goal.tokens_used']
+    vt = load_json(latest(d, '*-s03-verifying.json'))['trajectory'][-1]
+    v, v_at = vt['goal.tokens_used'], vt['at']
     ver = []
     for ch in (text_of(d, 's03-verifier-children') or '').split():
         ver += inspector_calls(latest(d, f'*-s03-verifier-{ch}-inspector'))
-    check('verifier 请求不计入请求数；tokens 增量 = verifier 输入+输出之和', goal['tokens_used'] - v == usage_sum(ver) and goal['requests_used'] == len(gm),
-          {'tokensAtVerification': v, 'final': goal['tokens_used'], 'delta': goal['tokens_used'] - v, 'verifierInOut': usage_sum(ver)})
+    # 验证不止一次时（not_met 后 Goal 继续工作），第一次验证之后还有主执行请求；增量 = 全部 verifier 用量 + 这些主执行请求的用量
+    main_after = [c for c in gm if (c['startedAtMs'] or 0) >= v_at]
+    check('verifier 请求不计入请求数；tokens 增量 = verifier 输入+输出之和（多次验证时加上其间主执行请求的用量）',
+          goal['tokens_used'] - v == usage_sum(ver) + usage_sum(main_after) and goal['requests_used'] == len(gm),
+          {'tokensAtVerification': v, 'final': goal['tokens_used'], 'delta': goal['tokens_used'] - v, 'verifierInOut': usage_sum(ver),
+           'verifierChildren': len((text_of(d, 's03-verifier-children') or '').split()), 'mainRequestsAfterFirstVerification': len(main_after),
+           'mainAfterInOut': usage_sum(main_after), 'finalStatus': goal.get('status_reason')})
     check('accountingVersion 为 2', goal.get('accounting_version') == 2, {'accounting_version': goal.get('accounting_version')})
 
 
@@ -451,6 +506,19 @@ def s41(d_api, d_tui, d_e):
     k = idx + 1
     want = {'accountingVersion': 2, 'requestsUsed': 3 + k + 1 + 1, 'workRequests': 3 + k, 'graceRequests': 1, 'legacyTurns': 6, 'reservedRequests': 0, 'unknownRequests': 1, 'usageIncomplete': True}
     check('get_goal（步骤5）', all(res.get(x) == v for x, v in want.items()), {'k': k, 'got': {x: res.get(x) for x in want}, 'want': want})
+    # 观察（非检查点）：c926bcd2e4 起请求预占会发布，请求在途时 thread_goal.updated 可见 reservedRequests 1
+    sid = text_of(d_api, 'session')
+    seq = []
+    for line in open(os.path.join(d_api, 'events.jsonl')):
+        e = json.loads(line)
+        if e.get('type') == 'thread_goal.updated':
+            gl = json.loads(e.get('payload_json') or '{}').get('goal') or {}
+            if gl.get('sessionId') == sid:
+                seq.append((e.get('receivedAt'), gl.get('status'), gl.get('requestsUsed'), gl.get('workRequests'), gl.get('reservedRequests')))
+    checks.append({'id': '观察：步骤5 事件中的进行中预占（非检查点）', 'result': 'INFO',
+                   'detail': {'threadGoalUpdated(receivedAt,status,requestsUsed,work,reserved)': seq,
+                              'maxReserved': max([x[4] or 0 for x in seq] or [0]),
+                              'eventsWithReserved1': sum(1 for x in seq if (x[4] or 0) >= 1)}})
     checks.append({'id': 'CLI', 'result': 'N/A', 'detail': 'packages/tui/src/cli 没有输出 Goal 用量的命令'})
 
 

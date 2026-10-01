@@ -53,7 +53,7 @@ S09)
   vr tui snapshot --save s09-after-hold >/dev/null
   # 5
   vr tui type "/goal resume" >/dev/null
-  vr tui wait --text "Goal resumed|rror|budget|Budget" --timeout 20 --save s09-resume >/dev/null
+  vr tui wait --text "exhausted its execution budget|Goal resumed" --timeout 20 --save s09-resume >/dev/null
   vr tui screen --all --save s09-resume-screen >/dev/null
   vr tui wait --status "state=ready|done|fail|cancel|error" --hold 5 --timeout 60 --save s09-resume-idle >/dev/null
   vr tui snapshot --save s09-after-resume >/dev/null

@@ -103,6 +103,9 @@ EOF
   # 4 默认排队发送补充消息
   send_msg "What is 2 + 2? Reply with only the number."
   E screenshot --save s03-supplement-sent >/dev/null
+  # M4 之前目标模式的输入框会弹“替换当前目标？”。Goal 以 complete 结束时它会随之消失；以 blocked 等结束时会一直挡住后续点击
+  # （c926 run1 实测），这里先取消它，不替换目标
+  E click --selector 'role=dialog >> role=button[name="取消"]' --timeout 5 --save s03-supplement-dismiss-replace >/dev/null
   # 5
   poll_e "$S3" --until goal.execution.wait_reason=verification --show "$SHOW" --interval 1 --timeout 600 --save s03-verifying >/dev/null
   poll_e "$S3" --until "$TERMINAL" --show "$SHOW" --interval 3 --timeout 600 --save s03-run >/dev/null
