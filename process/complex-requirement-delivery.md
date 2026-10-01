@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 演进记录 v0.31
+status: 演进记录 v0.32
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -39,7 +39,8 @@ timezone: Asia/Shanghai
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
 | 验证入口 | 用户可见的行为必须在用户实际使用的入口上验证（Agent-Archon 为 MCode TUI 和 Electron 桌面端）；只调接口的验证只能补充核对状态，不能代替（2026-09-30） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
-| 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
+| 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） 里程碑检查继承 owner 仍有效；**v0.32 起补充**，见下一行“子代理按角色分模型” |
+| 子代理按角色分模型 | 写代码、集成、里程碑检查的子代理与 owner 同级（继承模型和推理强度）；跑场景、收证据、读日志可���交给较小模型的类型（本机 `verify-runner`，Sonnet 5.5、effort `high`）。Skill 只写角色和类型名，不写模型 ID，具体模型由各台机器的 agent 定义决定（取 pstack #167）；本机 `general-purpose`、`claude` 改回继承，删去 `CLAUDE_CODE_SUBAGENT_MODEL`；Codex 用默认设置（2026-10-01 v0.32 用户确认；[coder-xieshijie/dev-skills#29](https://github.com/coder-xieshijie/dev-skills/pull/29)，未合入） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29）。**v0.30 起取消**，见“脚本只查结果” |
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29）。**v0.29 起由下一行“交付中不停”取代** |
 | 交付中不停 | owner 全程做下去，不为决定停下问用户；做不了的部分标明原因，做完其余工作。只在不可逆操作前停：合入、强推共享分支、删除共享数据、对外发消息、改共享环境（取 Lauren“Always pause for irreversible writes”）。自己做的决定写成决定清单，放在 plan.md 和 MR 描述的最前面，用户合入前重点看（2026-10-01 v0.29 用户确认；dev-skills#27 实施） |
@@ -104,6 +105,7 @@ timezone: Asia/Shanghai
 - 2026-10-01 v0.29：用户确认交付中全程不停、决定清单放最前、合入前看，并按 Lauren 保留“不可逆操作前一定要停”；遇到决定时拉起另一家模型判断讨论后再定；流程要轻，不用复杂脚本核对，只用很轻的 prompt。决定表新增两行，“交付中停下的情况”被取代。哪些已确认的机制随之去掉（里程碑检查记录、重新交接确认、口径偏差核对、F1 的解析器等）待用户确认。用户问 spec 阶段是否还有换模型查漏：有，即 core-spec 第 7 步（v0.8 的 B4）。
 - 2026-10-01 v0.30：用户同意只留一个查结果的小检查，取消已确认的管过程机制（v0.13、v0.17–v0.24 中相关各行，F7），查漏加“现有事实对代码核对”；凭据泄露通知不加，Stop 钩子不放进本次 PR。助手汇总本轮全部改动，写成[改动方案](../research/skills-consistency-2026-10-01/change-plan.md)，待用户确认后实施。
 - 2026-10-01 v0.31：用户要求按改动方案开 PR（“创建 pr”）。实施为 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)：新建 core-grill，deliver 重写（正文 7,945 → 2,986 字，脚本 11 个 → 1 个 236 行，用例 20 条进 CI），core-spec、agent-prompt-rules、README 与设计记录随之更新。本文改为演进记录：当前流程以 dev-skills 为准；旧流程图与第二至四节移到“旧流程（对照）”；决定表前六行标注已被 v0.7 取代；需求文档目录统一写 `specs/`。grill 交接模板改为指向 core-grill。Codex 审查第一版报出 2 条 P1、4 条 P2，已在 PR 内修正。同日用户要求合入：squash 合入，main `76f18e4`，本机已快进。
+- 2026-10-01 v0.32：7595 主会话和 62 个子代理全部跑在 Opus 5.5，用户问是否让验证类子代理用 Sonnet、各阶段怎样分配模型、写在哪里（[讨论记录](../discussions/2026-10-01-model-allocation.md)）。用户确认：只让跑场景等执行型子代理降到 Sonnet，写代码与检查与 owner 同级；Skill 只写角色，模型由本机 agent 定义决定；本机通用类型改回继承、Sonnet 类型 effort 调到 high；Codex 用默认设置。
 
 ## 旧流程（对照）
 
@@ -395,5 +397,13 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 （2026-10-01。）
 
 > 把当前的 PR 合入，然后更新本地的 main 到最新版本。
+
+（2026-10-01。）
+
+> 1 2 同意，3 改回继承，effort 调到 high
+
+> codex 就用默认设置
+> Skill 里只写角色和类型名，不写模型 ID。具体模型由各台机器的 ~/.claude/agents/ 决定，这是 Lauren #167 的做法。采纳这个
+> 其他同意
 
 （2026-10-01。）

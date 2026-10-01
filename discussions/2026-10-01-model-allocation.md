@@ -86,3 +86,27 @@ scope: 开发流程各阶段的模型分配：子代理是否降到 Sonnet、各
 - Sonnet 5.5 价格来自第三方汇总，未在 Anthropic 价格页核对。
 - 降级后跑场景、做检查的效果没有对照数据；可在下一个需求里让 Sonnet 和 Opus 各跑同一批场景和检查，对比漏报。
 - `CLAUDE_CODE_SUBAGENT_MODEL` 和 `~/.claude/agents/` 在桌面端新会话里是否生效，未实测。
+
+## 用户决定与执行
+
+用户原话（2026-10-01）：
+
+> 1 2 同意，3 改回继承，effort 调到 high
+>
+> 你会怎么改? 先说你的方案
+
+助手给出方案（本机配置、dev-skills 一个 PR、本仓库记录、验证方式，另问 Codex 是否加 `verify-runner`）。用户原话：
+
+> codex 就用默认设置
+> Skill 里只写角色和类型名，不写模型 ID。具体模型由各台机器的 ~/.claude/agents/ 决定，这是 Lauren #167 的做法。采纳这个
+> 其他同意
+
+**决定（流程文档 v0.32）：** 只让跑场景、收证据这类执行型子代理用较小模型；写代码、集成、里程碑检查与 owner 同级；Skill 只写角色和类型名，模型由各台机器的 agent 定义决定；本机通用类型改回继承，Sonnet 类型 effort 用 `high`；Codex 用默认设置（子代理继承）。
+
+**执行：**
+
+- 本机（备份在 `~/.claude/backup-2026-10-01/`）：`general-purpose`、`claude` 删去 `model`、`effort`，改回继承；`Explore`、`Plan` effort `xhigh` → `high`；`verify-runner`（Sonnet 5.5，`high`）、`integrator`（Opus 5.5，`high`）不变；`settings.json` 删去 `CLAUDE_CODE_SUBAGENT_MODEL`（它对所有没写 `model` 的子代理生效，不删就继承不了）。网关别名 `opus → claude-opus-5` 未改。
+- dev-skills：[coder-xieshijie/dev-skills#29](https://github.com/coder-xieshijie/dev-skills/pull/29)（未合入）。deliver“里程碑”加一段按角色选类型：写代码、集成、里程碑检查用继承型（Claude Code `general-purpose`、Codex 默认 agent，不传模型参数）；跑场景、收证据可交给 `verify-runner`，本机没有时用继承型。README、设计记录同步。
+- 验证：`check-links.mjs` 通过；新开 Codex 会话只读新版 SKILL.md，回答派里程碑检查用 `general-purpose` 不传模型、跑场景派 `verify-runner`、没有时回退继承型，与决定一致。
+
+**待验证：** `claude -p` 仍未登录，本机新配置在新会话里是否生效（`general-purpose` 是否跑在主模型、`verify-runner` 是否跑在 Sonnet）未实测，需在新开的 Claude Code 会话里确认。7595 正在运行，未改动、未投递消息。
