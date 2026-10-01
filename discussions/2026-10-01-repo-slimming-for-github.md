@@ -110,3 +110,13 @@ evidence 591 MB 的构成（按 data-index 首版清单）：
 提交：改写后 159 个提交（含其他会话之后提交的 `958e229`），commit-map 中被裁掉的为 0，涉及 discussions 与 process 的 121 个提交都在。拿备份旧 HEAD `5cae28e` 与对应新提交 `9f1133137f` 逐文件比对：仅少 16,664 个数据文件，其中没有 `.md`，其余文件内容一致。
 
 执行：`.gitignore` 把 evidence 中的 txt、html、diff、patch、sh、ts、mjs、`checks.json`、`*run.json` 重新纳入，新增 1,640 个文件约 5.6 MB；只追加提交、不再改写历史，这些文件不出现在旧提交里。暂存内容扫描凭据无命中。`data-index/files.tsv` 改为只列不进 Git 的 15,097 个文件（约 2.34 GB）。deliver 会话未提交的 `tools/m*` 文件未纳入。
+
+## 追问四：deliver 提交证据是否还会报错；推送
+
+> 现在还会报错吗?
+
+助手答复（实测 `git add -n`）：deliver 按目录 add 证据，被忽略的文件自动跳过，退出码 0；目录内全是被忽略文件也不报错。只有点名被忽略的文件（如单独 add 某个 `.log`、shell `*` 展开出 png）会报错、退出码 1，其余文件照常加入，但 `&& git commit` 不会执行。改写后的提交号对 deliver 影响很小，其他会话已在新历史上正常提交。建议暂不打断 deliver。
+
+> 推送到 GitHub
+
+已推送：`285b88c..fa4de8d`，含其他会话的 6 个文档提交与 `1bd63e9`；推送前对这些提交做了凭据扫描，无命中。本记录随后单独提交并推送。
