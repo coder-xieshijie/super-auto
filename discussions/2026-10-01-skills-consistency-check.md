@@ -330,3 +330,13 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 **待用户决定（合入后各自需要同意）：** 合入 PR 并快进本机 dev-skills；安装 core-grill 的两个入口；7595 当前里程碑结束后投递消息，让它按新版继续。
 
 **待验证：** 新流程在真实需求上的效果（owner 是否不停、决定清单是否够用户判断、60 分钟续接是否顺利），下一个需求观察。
+
+## 用户：core-grill 是否独立；合入 PR
+
+用户先问 core-grill 是否完全独立、与 grill-with-docs 相比加了还是减了内容。助手答复要点：执行上不依赖任何 Skill，两份格式说明在自己目录里，只在结束时交给 core-spec；保留了按轮次问、推荐答案、事实自己查、术语当场写进 `CONTEXT.md`、ADR 三条标准；改了提问范围（只问会改变用户可见结果的决定，其余记默认决定）、结束方式（决定汇总请用户确认一次）、ADR 由“提议”改为“满足三条就写”；删了固定提问格式和三种访谈技巧（术语冲突追问、收敛含糊用词、编边界场景）；新增四项输入与授权约定。其中删掉的“术语冲突追问”和 ADR 改为直接写，是助手自己的取舍，提请用户决定是否改回，用户未回应。
+
+用户原话（2026-10-01）：
+
+> 把当前的 PR 合入，然后更新本地的 main 到最新版本。
+
+两项 CI（links、deliver-check）通过后，按仓库惯例 squash 合入 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)，合入提交 `76f18e4`；本机 dev-skills 切回 main 并快进到 `76f18e4`，工作区干净。在 main 上跑自检：`check-links.mjs` 通过，`check-delivery.test.mjs` 20 条通过。`~/.agents/skills/deliver` 等已有入口指向仓库目录，随 main 生效；core-grill 的两个入口尚未安装。

@@ -103,7 +103,7 @@ timezone: Asia/Shanghai
 - 2026-10-01 v0.28：用户同意代码质量意见与测试覆盖由最后的独立验证列出、不拦合入、owner 逐条处理并列进 MR，同意几段验证合起来过门禁；F2 改为 60 分钟一个检查周期，没做完就在同一个 CLI 会话里续接，失败由 owner 判断，说明不加更多限制。F7 暂缓，用户要求结合“MR 7595 deliver session 链路分析 (fork)”的讨论重新讨论人工介入与流程自动进行。
 - 2026-10-01 v0.29：用户确认交付中全程不停、决定清单放最前、合入前看，并按 Lauren 保留“不可逆操作前一定要停”；遇到决定时拉起另一家模型判断讨论后再定；流程要轻，不用复杂脚本核对，只用很轻的 prompt。决定表新增两行，“交付中停下的情况”被取代。哪些已确认的机制随之去掉（里程碑检查记录、重新交接确认、口径偏差核对、F1 的解析器等）待用户确认。用户问 spec 阶段是否还有换模型查漏：有，即 core-spec 第 7 步（v0.8 的 B4）。
 - 2026-10-01 v0.30：用户同意只留一个查结果的小检查，取消已确认的管过程机制（v0.13、v0.17–v0.24 中相关各行，F7），查漏加“现有事实对代码核对”；凭据泄露通知不加，Stop 钩子不放进本次 PR。助手汇总本轮全部改动，写成[改动方案](../research/skills-consistency-2026-10-01/change-plan.md)，待用户确认后实施。
-- 2026-10-01 v0.31：用户要求按改动方案开 PR（“创建 pr”）。实施为 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)（未合入）：新建 core-grill，deliver 重写（正文 7,945 → 2,986 字，脚本 11 个 → 1 个 236 行，用例 20 条进 CI），core-spec、agent-prompt-rules、README 与设计记录随之更新。本文改为演进记录：当前流程以 dev-skills 为准；旧流程图与第二至四节移到“旧流程（对照）”；决定表前六行标注已被 v0.7 取代；需求文档目录统一写 `specs/`。grill 交接模板改为指向 core-grill。Codex 审查第一版报出 2 条 P1、4 条 P2，已在 PR 内修正。
+- 2026-10-01 v0.31：用户要求按改动方案开 PR（“创建 pr”）。实施为 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)：新建 core-grill，deliver 重写（正文 7,945 → 2,986 字，脚本 11 个 → 1 个 236 行，用例 20 条进 CI），core-spec、agent-prompt-rules、README 与设计记录随之更新。本文改为演进记录：当前流程以 dev-skills 为准；旧流程图与第二至四节移到“旧流程（对照）”；决定表前六行标注已被 v0.7 取代；需求文档目录统一写 `specs/`。grill 交接模板改为指向 core-grill。Codex 审查第一版报出 2 条 P1、4 条 P2，已在 PR 内修正。同日用户要求合入：squash 合入，main `76f18e4`，本机已快进。
 
 ## 旧流程（对照）
 
@@ -391,5 +391,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 （2026-10-01。）
 
 > 创建 pr
+
+（2026-10-01。）
+
+> 把当前的 PR 合入，然后更新本地的 main 到最新版本。
 
 （2026-10-01。）
