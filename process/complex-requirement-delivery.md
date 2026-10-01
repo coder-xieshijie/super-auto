@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.26
+status: 工作稿 v0.27
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -84,6 +84,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | verify 的编号与门禁 | 门禁（`run-verifier.mjs`、`check-delivery.mjs`）和 `select-scenarios.mjs` 用同一个解析器，认带字母后缀的场景号（如 `S12b`）、M 开头的机械检查、RG 开头的回归项；`freeze.mjs` 冻结前用这个解析器读 verify，有认不出的编号就失败，由作者当场改。已冻结的 verify 不用改（2026-10-01 v0.24 用户选 (b)；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F1） |
 | 独立验证的时长上限 | 独立验证运行 60 分钟就停。到点不算“CLI 用不了”：脚本分析停止的原因，由 owner 判断后续，例如派生新的验证者接着验、分批验，或换别的办法（2026-10-01 v0.24 用户决定；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F2） |
 | 内容放在哪里 | 流程优化完成后，产出的所有内容只看 dev-skills 就够：Skill、模板、流程说明、脚本与用例都放 dev-skills；本仓库只记录过程和优化（2026-10-01 v0.25 用户提出；迁移方案待确认，见[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)） |
+| grill 的 Skill | 在 dev-skills 建自成一体的 core-grill，不依赖上游：收四个输入（目标、完成条件、授权、范围），逐轮提问、事实自己查，只问会改变用户可见结果的决定，默认决定与用户答过的决定写进一份汇总由用户确认一次，术语写进 CONTEXT.md，ADR 只在三个条件都满足时写；只保留上游 grilling、domain-modeling（mattpocock-skills `74ca5fe`，MIT）里用到的部分，记下来源。上游 Skill 继续保留，用于流程以外的讨论（2026-10-01 v0.27 用户同意；dev-skills 尚未修改） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23）；2026-10-01 v0.26：这一轮检查的全部改动按用户要求合成一个 PR |
 
@@ -182,6 +183,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.24：用户要求对现行 Skill 再做一轮检查（[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)）。检查发现门禁认不出 MR 7595 verify 里的 `S12b`、`S21b`、`S29b` 和 M01–M17，验证报告少了这 20 项也能过；独立验证默认 90 分钟到点后按“CLI 用不了”处理，换 CLI 一样会超时。用户选 F1 的 (b)：门禁认这几种编号，冻结前由脚本校验；F2 改为 60 分钟就停，到点后分析停止原因，由 owner 判断后续。决定表新增两行；dev-skills 尚未修改。
 - 2026-10-01 v0.25：用户问 grill 交接模板为什么放在本仓库、不沉淀成 Skill，并提出产出只看 dev-skills、本仓库只做记录。模板放在这里，源于 v0.18 “不改上游 grill-with-docs”的约束，当时没有为它建 Skill。决定表新增“内容放在哪里”；助手据此盘点本仓库里属于产出的内容并给出迁移方案，待用户确认。
 - 2026-10-01 v0.26：用户要求这一轮的全部改动放进一个 PR，并重申写 prompt 的大前提：尽最大程度给模型能力，只定义想要的结果，其余交给模型。同时问 grill 相关 Skill 是作为依赖还是迁进 dev-skills，以及 deliver 阶段的实现、校验、code review 现在怎样做、约束之间有没有冲突。助手的分析见讨论记录，待用户确认。
+- 2026-10-01 v0.27：用户同意把 grill 迁成 dev-skills 里自成一体的 core-grill（理由：模板的提问边界与上游 grilling 的“每个分支都问到”相反，做成依赖会让模型读到两份相反的指令）。用户追问代码质量 review 在哪个阶段、没有测试是什么意思、F2 与 F7 的方案，助手按 explain-as-fool 解释，见讨论记录。
 
 ## 附：用户原话
 
@@ -335,5 +337,14 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 3. 现在的中间过程是怎么去做实现和约束的？尤其是在 delivery 这个阶段：
 > 1. 在实现它的流程里面，是包含实现校验和 code review 吗？这个流程现在是什么样子的？
 > 2. 目前的约束会有冲突的地方吗？
+
+（2026-10-01。）
+
+> 1. 同意
+> 2. 代码质量 review 是指在哪个环境的 review, 是阶段 review 还是整体 review?
+> 3. 新代码没有测试是什么含义? 不是有 verify 吗? 
+> 4. F2和 F7 的方案和要解决的问题是什么?
+>
+> /explain-as-fool
 
 （2026-10-01。）
