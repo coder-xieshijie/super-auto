@@ -75,6 +75,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 
 ## 意外与发现
 
+- 2026-10-01：M4 的 S03 run1（runId 20261001-183747-4647e5）出了输入污染。真实键盘输入进入了屏幕上的测试 Electron 窗口，和 /goal 一起发了出去。测试模型（bypassPermissions）照着它读了本机 ~/.claude，并把 settings.json 的 env 发给了 provider。核对键名后确认：env 只有 base URL、模型名、一个非鉴权请求头和几个开关，没有凭据，不需要轮换。模型没有写 workspace 以外的地方。处理：中止该次运行，标为 invalid；删除含原文的会话历史、日志和 /tmp 下载；记录写在 evidence/m4/S03/run1/incident.json，不含原文。工具改为发送前核对输入框内容，不一致就中止，并标为 input-contaminated。缺口：在用户正在使用的机器上跑 Electron 场景，测试窗口会抢焦点。
 - 2026-09-30：Payment 测试台（国内测试环境）查不到 staging 登录账号（MCode UID 535878760497266695，`GetGroupOwnerUserInfo … group not found`），没有执行任何设置；S35、S36 与 limits.md 中用额度命令构造的子功能按 B15 记为覆盖盲区（evidence/m0/quota/）。
 - 2026-09-30：G1 实跑发现：HTTP 429 的 JSON 正文带 MiniMax `status_code`（如 2045、1002）时，`classifyLLMErrorToCode` 让内层码盖过 429，最终归为 50113，Goal 变为 `paused(infra_retryable)` 而不是 `usage_limited(rate_limit)`。与本需求的判定关系待 M3 核对。
 - 2026-09-30：G4 实测 Goal 横幅的请求数、token 目前没有悬停提示，S01、S06、S10 依赖第 6 项实现后核对。
