@@ -192,6 +192,11 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - S24 第一次被判 FAIL，原因是判定脚本只认 `blue` 和 `#0000ff`，而模型写的是蓝色十六进制色值。改为按色相判断后，对已有证据重新判定，f1、f2 都是 PASS。
   - RG2 S01 的 14 个检查点全部 PASS。预览内容按第 2 项 verify 的 B6 改看快照，新增脚本 `rg2-s01-electron.sh` 和 `rg2-s01-analyze.py`。
   - 12 个实例的 401、登录失效、429、运行期间刷新次数都是 0。
+- [x] (2026-10-02 00:20+08:00，Electron 第 3 线汇报) Electron 第 3 线 @ d5bc1acab4：
+  - 通过：S26、S27、S28、S29、S29b、S31、S33、S39，RG1 Electron 16 条与基线一致，差异都有解释。S26 确认替换后只出现 1 个 turn_bound，有对应的 setup，status.message 为空。
+  - **S25 两次 FAIL**：暂停后发的补充消息没有得到回复 7。模型在不绑定 Goal 的普通轮里接着做暂停中 Goal 的任务（跑 sleep、写 p.txt、调 update_goal，被拒），原因是历史里带着首个 Goal Turn 未完成的内部 Goal 指令。f1 因这一轮还在运行，继续按钮为 0；f2 的字面检查点都成立。处理方法已问 codex（q4），并列入决定清单。
+  - S29 的 f1、f2 是工具时序问题，已作废；f3 有效。
+  - 16 个实例的 401、登录失效、429 都是 0。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
