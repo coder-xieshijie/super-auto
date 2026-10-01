@@ -608,3 +608,37 @@ deliver 会话方案要改的地方：
   - 门禁比较第一次交接与最终 head 的 spec、verify。有改动时，要求 plan 冻结输入里每次重新确认都有一行用户原话和日期，并在报告和 MR 描述里列出改动，让人在合入前看到。
   - 独立验证者拿到第一次交接时的 verify，若最终版放宽了检查点，就在报告里列出。验证者是另一家模型，与 owner 无关。
 - 待用户决定。
+
+## 把验收文档改动的两道检查加进 #25，合入并通知 MR 7595
+
+用户原话：
+
+> 加进 #25 一起合入，然后通知 7595
+
+做法（[coder-xieshijie/dev-skills#25](https://github.com/coder-xieshijie/dev-skills/pull/25)）：
+
+- `check-delivery.mjs`：`--frozen-only` 和完整检查都会核对。spec、verify 与本需求第一次交接时不同，就要求冻结输入里有 `- 重新确认: <spec|verify> sha256=<现值> <用户原话与日期>`，并列出 `git diff` 命令供 MR 描述使用。
+- `run-verifier.mjs`：新增必填的 `--base`；交接后改过时，在调用里写明第一次交接，让验证者在报告“验收文档改动”一节判断是否放宽了验收。完整检查核对这一节，以及调用记录的 `first_handoff`。
+- 交接提交的读法抽到 `handoffs.mjs`，按 spec、verify 路径相连串起本需求的各次交接。
+- deliver 正文、计划格式、验证说明各加一句。
+- 第二轮 Codex 审查报出 5 条（1 条 P1：删掉交接行、或基线分支没拉取时，检查静默跳过），都已修正：
+  - 找不到基线分支时报错；
+  - 有没有交接行都检查；
+  - 只取与现在路径相连的交接；
+  - 验证调用必须给 `--base`，门禁核对调用记录。
+- 验证：新增 29 个断言（[deliver-refreeze-cases.sh](../research/goal-final-delivery-trace-2026-09-30/deliver-refreeze-cases.sh)），其余各组都通过。
+- 合入：CI 通过后 squash 合入 main `4c45165`，内容与 PR head 逐字相同，说明里没有坏字符。本机 main 已快进，七组用例在主检出上全部通过。
+
+在 MR 7595 上用新版门禁核对：
+
+- 从第一次交接 `350965f50f` 起算，M1、M2 的 4 条记录计入，只剩 M3、M4 未检查。
+- verify 现在是 `8b46dcd7…`，在 `9d998c8968` 之后又改过一次。`--frozen-only` 报缺少确认行。
+
+通知（[消息全文](../research/goal-final-delivery-trace-2026-09-30/deliver-7595-sync-message-5.md)）：
+
+- 内容：
+  - 修复已合入、它的记录重新计入；
+  - 要补带用户原话的确认行，原话找不到就问用户，不要自己编；
+  - 验证调用加 `--base`；
+  - MR 描述加“验收文档改动”。
+- 对方正在一轮中，消息排队，没有中断它。

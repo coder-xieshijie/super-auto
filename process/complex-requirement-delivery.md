@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.20
+status: 工作稿 v0.21
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -78,6 +78,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、每个里程碑的第一次检查早于之后的提交（晚了只能由用户放行）。rebase 后按增删的行认提交：被目标分支去重的提交跳过，检查后被改过的提交（作者时间和标题不变）要再查一轮，后几轮不核对时间。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`；v0.20 修正 rebase 缺陷，[coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 已合入，main `fbcf3b7`） |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 已合入） |
 | 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；验证时三个 CLI 默认都不带沙箱（codex 用 `-s danger-full-access` 并关审批，claude `bypassPermissions`，mcode `--permission full`），查漏仍用只读沙箱；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 已合入，main `4a00174`） |
+| 交付中改验收文档 | 只有用户能改 spec、verify：owner 停下给选项，用户决定并用 core-spec 重新确认、重新交接。门禁从本需求最早的交接提交起算，之前的里程碑检查仍然计入；spec、verify 与第一次交接不同时，plan 冻结输入要有带用户原话的 `- 重新确认:` 行，改动列进 MR 描述；独立验证者由 `run-verifier.mjs`（必须给 `--base`）指向第一次交接，判断是否放宽了验收，门禁核对调用记录（2026-10-01 v0.21，[coder-xieshijie/dev-skills#25](https://github.com/coder-xieshijie/dev-skills/pull/25) 已合入，main `4c45165`） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23） |
 
@@ -170,6 +171,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.19 补充：用户要求按顺序合入并快进本机 main。dev-skills#21、#22、#23 依次 squash 合入 main（`90c12c9`、`4a00174`、`9af8ba1`），每个合入的内容与对应 PR 的 head 逐字相同，main 上三次推送的 CI 都通过；本机 dev-skills 主检出已快进到 `9af8ba1`，已安装的 deliver、core-spec 直接生效。
 - 2026-09-30 v0.19 补充：用户决定 E1（拦截坏字符）不进通用流程。坏字符来自本机所用的接口，不具通用性，改为本机钩子；dev-skills 与 `check-delivery` 不加相关检查。钩子能否就地补回丢字见[研究档案](../research/goal-final-delivery-trace-2026-09-30/fffd/README.md)。
 - 2026-10-01 v0.20：把新版 deliver 同步给进行中的 MR 7595 时发现，#21 的里程碑检查记录经不起 rebase 到更新后的目标分支：已检查的提交被去重，或改动附近的行被上游改了，整条记录作废，重做的检查又被判晚。用户确认按建议修：按增删的行认提交、跳过被去掉的提交、只对检查后被改过的提交要求再查，时间只核对每个里程碑的第一次检查。修正与 Codex 审查（7 条，6 条修正、1 条记为已知限制）见 [coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24)，已合入 main `fbcf3b7`，本机已快进。
+- 2026-10-01 v0.21：MR 7595 交付中用户改了 verify 的 S04 并重新交接，门禁从新交接起算，之前的里程碑检查记录全部作废，按 deliver 的流程走必然失败（#21 把“早于新交接”的记录当作历史）。用户追问 owner 会不会为了好实现自己改验收文档：规则上不能，但它能自己走完一整套重新交接而通过所有机械检查。用户确认把两件事一起修：门禁从本需求最早的交接起算；交接后改过的 spec、verify 要有带用户原话的确认行，并由另一家模型的验证者对照第一次交接、判断是否放宽。两轮 Codex 审查共 9 条，均已修正。
 
 ## 附：用户原话
 
@@ -281,5 +283,12 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 （2026-09-30。）
 
 > 按你的建议提修复 PR, 然后合入，同时把本地更新到最新的，最后再向运行中的 session 去投递最新的变更，保证进行中的任务能够符合最新的变更。
+
+（2026-10-01。）
+
+> 那 deliver 的 onwer 会在什么情况下改 verify 和 spec
+> 会不会出现他为了简单实现而直接改 verify 和 spec 的情况？
+
+> 加进 #25 一起合入，然后通知 7595
 
 （2026-10-01。）
