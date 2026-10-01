@@ -1,0 +1,19 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-223741-7279e0",
+      "instanceEvidenceDir": "_runs/tui-limits",
+      "files": [
+        "001-rg1mig-limits.token-budget--limited.json",
+        "001-rg1mig-limits.token-budget--limited.txt",
+        "002-rg1mig-limits.token-budget--idle.json",
+        "002-rg1mig-limits.token-budget--idle.txt",
+        "003-rg1mig-limits.token-budget--snap-inspector",
+        "003-rg1mig-limits.token-budget--snap-runtime-events.jsonl",
+        "003-rg1mig-limits.token-budget--snap-workspace.json",
+        "003-rg1mig-limits.token-budget--snap.json",
+        "003-rg1mig-limits.token-budget--snap.txt"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+# Product-change parity: dev fix/goal-final-result-delivery vs fix/goal-final-result-delivery-preview-train (2026-09-30, final heads)
+dev range: ffb4d4a94bd32f8e5ef4c6899e45f50a6207d161..c071a9c86eac4ad1b71447902605cbccdd40a01e
+preview_train range: f344353963bd23e2f15724d87310bc298461953a..7337b129add0a4fd7eb064fee5329974f5fb48d8
+preview_train branch commits:
+7337b129ad fix(ui): keep one card per file inside a completed Goal's final reply
+09fa3b53eb refactor(goal): find the accepting Turn by its agent run context
+d6f5b3feab fix(goal): refuse tools after completion ahead of the other tool policies
+61b4949300 docs(goal): record the final reply after completion and Desktop card lifting
+c9a1fe351c fix(ui): show the Goal final reply with its delivery cards in the result
+843a053b57 fix(goal): keep the final reply from presenting self-checks as verification
+de6f59787a fix(goal): write the final reply in the Turn that proposes completion
+b4f185ec63 docs(goal): add Goal wrap-up and delivery terms to CONTEXT.md
+product files (38) = files changed on the preview_train branch:
+  .harness/docs/goal/changes/2026-09-30-goal-final-result-delivery.md
+  .harness/docs/goal/changes/README.md
+  .harness/docs/goal/implementation.md
+  .harness/docs/goal/spec.md
+  .harness/docs/goal/verification.md
+  CONTEXT.md
+  packages/agent-modules/goal/src/continuation.ts
+  packages/agent-modules/goal/src/final-reply.ts
+  packages/agent-modules/goal/src/index.ts
+  packages/agent-modules/goal/src/tool-defs.ts
+  packages/agent-modules/goal/src/tool-impls.ts
+  packages/agent-modules/goal/test/unit/thread-goal/continuation.test.ts
+  packages/agent-modules/goal/test/unit/thread-goal/final-reply.test.ts
+  packages/agent-modules/goal/test/unit/thread-goal/tool-defs.test.ts
+  packages/agent-modules/goal/test/unit/thread-goal/tool-impls.test.ts
+  packages/local-runtime-v2/assets/agents/workflow/goal/continuation.md
+  packages/local-runtime-v2/assets/agents/workflow/goal/recovery-terminal-audit.md
+  packages/local-runtime-v2/assets/agents/workflow/goal/terminal-audit.md
+  packages/local-runtime-v2/src/application/agent/goal-final-reply.test.ts
+  packages/local-runtime-v2/src/application/agent/goal-final-reply.ts
+  packages/local-runtime-v2/src/application/session/turn-system-composition.ts
+  packages/local-runtime-v2/src/service/turn-system/execution/turn-continuation.service.test.ts
+  packages/local-runtime/test/e2e/thread-goal-tool-guards.e2e.test.ts
+  packages/local-runtime/test/unit/thread-goal/host-integration-final-reply.test.ts
+  packages/local-runtime/test/unit/thread-goal/host-integration-objective-continuation.test.ts
+  packages/local-runtime/test/unit/thread-goal/host-integration-settlement.test.ts
+  packages/ui/src/components/MessageContainer/MessageHistory/useMessageHistoryRows.tsx
+  packages/ui/src/components/MessageContainer/MessageItem/MessageItemTypes.ts
+  packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantMessage.tsx
+  packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx
+  packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts
+  packages/ui/src/components/MessageContainer/MessageItem/models/goalDeliveryCards.ts
+  packages/ui/src/components/MessageContainer/MessageItem/useMessageItemModel.ts
+  packages/ui/src/components/message/message-shared.tsx
+  packages/ui/src/components/message/resultDeliveryCards.ts
+  packages/ui/test/unit/components/MessageContainer-AssistantFlow.test.tsx
+  packages/ui/test/unit/components/MessageContainer-GoalFinalReply.test.tsx
+  packages/ui/test/unit/components/assistantSegments.test.ts
+patch-id (stable) dev: 3dbb55ed5601845f15ed9509ec02310f3ac27e4c
+patch-id (stable) preview_train: 3dbb55ed5601845f15ed9509ec02310f3ac27e4c
+dev files changed outside the product set (dev-only commits):
+  .agents/skills/verify-archon/SKILL.md
+  .agents/skills/verify-archon/features/README.md
+  .agents/skills/verify-archon/references/electron.md
+  .agents/skills/verify-archon/references/tui.md
+  .agents/skills/verify-archon/scripts/electron-server.mjs
+  .agents/skills/verify-archon/scripts/verify-archon.mjs
+  .harness/docs/goal/feature-map/completion.md
+  .harness/docs/goal/feature-map/lifecycle.md
+  .harness/docs/specs/goal-final-result-delivery/spec.md
+  .harness/docs/specs/goal-final-result-delivery/verify.md

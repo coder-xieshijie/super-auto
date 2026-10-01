@@ -1,0 +1,23 @@
+- paragraph:
+  - text: Created
+  - code: hello.html
+  - text: in the workspace — a small, centered web page whose main heading reads
+  - strong: Hello Goal
+  - text: .
+- paragraph:
+  - strong: "File:"
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-164730-1eee4f/data/sessions/mvs_40a321130b294d8ca66cb7787b7ace81/workspace/hello.html": hello.html
+- paragraph:
+  - strong: "Check I ran:"
+  - text: read the file back after writing and confirmed
+  - code: <h1>Hello Goal</h1>
+  - text: is present as the main heading inside a
+  - code: <main>
+  - text: element.
+- paragraph: Open it in any browser to view.
+- button "hello.html — small page with the main heading 'Hello Goal'": hello.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img

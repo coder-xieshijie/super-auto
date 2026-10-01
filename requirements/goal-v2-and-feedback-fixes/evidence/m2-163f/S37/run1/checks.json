@@ -1,0 +1,33 @@
+{
+  "scenario": "S37",
+  "attempt": "run1",
+  "evidenceDir": "S37/run1",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121358-b68691",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121358-b68691/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "tokens_used > 3000 且等于 Inspector 输入+输出之和",
+      "result": "PASS",
+      "detail": {
+        "tokens_used": 20473,
+        "inspectorInOut": 20473,
+        "calls": 2,
+        "status": "budget_limited(token)"
+      }
+    },
+    {
+      "id": "usageIncomplete 为 false",
+      "result": "PASS",
+      "detail": {
+        "usage_incomplete": false
+      }
+    }
+  ]
+}

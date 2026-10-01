@@ -1,0 +1,40 @@
+{
+  "runId": "20260930-171306-ae1651",
+  "capturedAt": 1790759637851,
+  "git": {
+    "head": "bc36234a6065313f60ff98734b0cc0b099fb22a2",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_5f275f052fb64146a8a5d4eb42cc9c1a/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790759633785,
+      "goal.status": "active"
+    },
+    {
+      "at": 1790759637794,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(retracted)"
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_exhxz4r7t9munw1slo",
+      "session_id": "mvs_5f275f052fb64146a8a5d4eb42cc9c1a",
+      "objective": "Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.",
+      "status": "paused",
+      "created_at": 1790759633676,
+      "updated_at": 1790759633923,
+      "tokens_used": 0,
+      "time_used_seconds": 1,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "paused(retracted)",
+      "objective_resources": []
+    }
+  }
+}

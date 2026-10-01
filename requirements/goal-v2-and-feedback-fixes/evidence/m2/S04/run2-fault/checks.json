@@ -1,0 +1,52 @@
+{
+  "scenario": "S04",
+  "attempt": "run2-fault",
+  "evidenceDir": "S04/run2-fault",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-110403-4c759e",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-110403-4c759e/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "摘要列出请求数与构成，无 turns 用量",
+      "result": "PASS",
+      "detail": {
+        "summaryLine": "Requests: 3 (work 3)"
+      }
+    },
+    {
+      "id": "暂停前/摘要/完成 请求数单调不减",
+      "result": "PASS",
+      "detail": {
+        "beforePause": 2,
+        "summary": 3,
+        "complete": 7
+      }
+    },
+    {
+      "id": "完成时请求数 = Inspector Goal 主执行请求条数",
+      "result": "FAIL",
+      "detail": {
+        "complete": 7,
+        "inspectorGoalMain": 6,
+        "ledgerSettled": 7,
+        "faultProxyMainRequestsSent": 7,
+        "abortedRequests": 1,
+        "note": "Inspector 不保存被暂停中止的那次请求；fault-proxy 的 attempt 日志显示它已发出"
+      }
+    },
+    {
+      "id": "完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致",
+      "result": "PASS",
+      "detail": {
+        "line": "✓ Goal complete · 19s · 18K tokens · 7 requests",
+        "runtimeRequestSettled": 7
+      }
+    }
+  ]
+}

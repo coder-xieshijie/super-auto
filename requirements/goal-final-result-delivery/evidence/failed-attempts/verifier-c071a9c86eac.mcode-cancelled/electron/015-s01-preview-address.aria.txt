@@ -1,0 +1,1 @@
+- textbox "输入网址或 HTML 文件绝对路径": file:///tmp/gfd-verifier-home/20260930-182115-5d4dd0/data/sessions/mvs_17759da4fda041e598f85dac4518af50/workspace/hello.html

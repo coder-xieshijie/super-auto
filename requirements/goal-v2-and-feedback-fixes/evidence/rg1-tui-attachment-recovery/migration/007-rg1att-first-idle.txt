@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+  ┌ Image  red-square.png
+  └ image/png
+   
+                                                                                                                                                                                                      
+   › Look at the attached image and write the color of the square (one lowercase word) into color.txt.                                                                                                
+                                                                                                                                                                                                      
+   
+    × Error  The response failed.                                                                                                                                                                     
+    Reason: [Error] 504 {"status_msg":"请求处理超时"}                                                                                                                                                 
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+   
+    × Error  The model provider is temporarily unavailable.                                                                                                                                           
+    Code: 50113                                                                                                                                                                                       
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+
+    ◎ Goal · Paused · 2s active · Attachment
+  0 tokens · 1 turns
+  Look at the attached image and write the color of the square (one lowercase word) into color.txt. · /goal resume · /goal edit · /goal clear
+    Goal started.
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=fail session=mvs_e98663d0787d47b3a62ef48a66358ba3 turn=turn_c82d7c9b-837d-4dae-8bd1-05affed4df05 request=none agents=0/0 background=0
+
+
+
+
+
+

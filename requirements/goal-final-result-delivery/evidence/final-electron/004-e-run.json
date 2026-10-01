@@ -1,0 +1,56 @@
+{
+  "runId": "20260930-171317-53c821",
+  "capturedAt": 1790759653648,
+  "git": {
+    "head": "bc36234a6065313f60ff98734b0cc0b099fb22a2",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_41e36b527e01462c9f34d2ec99b32fce/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790759629523,
+      "goal.status": "active",
+      "goal.turns_used": 0
+    },
+    {
+      "at": 1790759647566,
+      "goal.status": "active",
+      "goal.execution.wait_reason": "verification",
+      "goal.turns_used": 1
+    },
+    {
+      "at": 1790759653580,
+      "goal.status": "complete",
+      "goal.status_reason": "complete(verifier_met)",
+      "goal.turns_used": 1
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_ladtubj9d6munw1p3k",
+      "session_id": "mvs_41e36b527e01462c9f34d2ec99b32fce",
+      "objective": "Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.",
+      "status": "complete",
+      "created_at": 1790759629136,
+      "updated_at": 1790759651696,
+      "tokens_used": 40156,
+      "time_used_seconds": 16,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "complete(verifier_met)",
+      "last_verification": {
+        "backend": "subagent",
+        "verdict": "met",
+        "reason": "I'll verify the claim by inspecting the actual file in the workspace.\n## Checks Performed\n\n- Read `/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-171317-53c821/data/sessions/mvs_41e36b527e01462c9f34d2ec99b32fce/workspace/hello.html`\n- Listed the workspace directory to confirm file presence and size\n\n## Evidence\n\n- File `hello.html` exists in the workspace, 587 bytes, modified Sep 30 17:13 (`workspace/hello.html`)\n- Document is a valid HTML5 page (27 lines) with proper `<!DOCTYPE html>`, `<html lang=\"en\">`, `<head>`, and `<body>` structure\n- Main heading on line 25 reads exactly `<h1>Hello Goal</h1>` — text content matches the required \"Hello Goal\"\n- `<title>` also reads \"Hello Goal\" (consistent)\n\n## Findings\n\nNo defects. The objective's three requirements — file named `hello.html` in the workspace, a small web page, and main heading reading \"Hello Goal\" — are all satisfied.",
+        "missing": [],
+        "not_met_streak": 0,
+        "at": 1790759651695
+      },
+      "objective_resources": []
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "cli": "codex",
+  "provider": "openai",
+  "family": "openai",
+  "model": "gpt-6-astra",
+  "session_id": "01a0f1b1-d539-7111-8aea-a42194b1fe0c",
+  "head": "6fb965b993e1602489b0137995923aa320472137",
+  "checkout": "/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery-verify",
+  "brief": "/Users/minimax/code/github/xieshijie/dev-skills/skills/deliver/references/verifier-brief.md",
+  "inputs": "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/evidence/verification-6fb965b993e1.inputs.md",
+  "inputs_sha256": "d0ded5751aada0740e8e95636c6045cb14fd1eb5409e6cb1bd8dadecc559b14b",
+  "verify": "/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery-verify/.harness/docs/specs/goal-final-result-delivery/verify.md",
+  "report": "verification-6fb965b993e1.md",
+  "report_sha256": "f306aca05599bc16eaee507bebebecfb9f13c0c4d1d5c46405e915e98563e287",
+  "started_at": "2026-09-30T09:42:38.598Z",
+  "ended_at": "2026-09-30T09:49:25.664Z",
+  "exit_code": 0,
+  "checkout_untouched": true,
+  "problems": [],
+  "valid": true
+}

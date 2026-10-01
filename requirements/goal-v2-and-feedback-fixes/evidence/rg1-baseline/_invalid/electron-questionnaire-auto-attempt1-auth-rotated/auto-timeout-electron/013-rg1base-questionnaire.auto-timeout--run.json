@@ -1,0 +1,42 @@
+{
+  "runId": "20260930-214624-81c73e",
+  "capturedAt": 1790776401564,
+  "git": {
+    "head": "d770f05f30684417fbede1791371a7a392a90840",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_f809398941ef41fcb48d2d3f4ac1912a/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790776101147,
+      "goal.status": "active",
+      "goal.turns_used": 1
+    },
+    {
+      "at": 1790776401514,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(infra_retryable)",
+      "goal.turns_used": 2
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_up8szsrro3muo5ujus",
+      "session_id": "mvs_f809398941ef41fcb48d2d3f4ac1912a",
+      "objective": "First call the ask_user tool exactly once with one single-choice question \"Which fruit?\" and two options: \"Apple\" (recommended, listed first) and \"Banana\". Do not set requiresExplicitResponse. After you get the answer, write the chosen fruit name to fruit.txt (only the name).",
+      "status": "paused",
+      "created_at": 1790776091908,
+      "updated_at": 1790776400475,
+      "tokens_used": 29605,
+      "time_used_seconds": 10,
+      "has_kickoff_attachments": false,
+      "turns_used": 2,
+      "status_reason": "paused(infra_retryable)",
+      "objective_resources": []
+    }
+  }
+}

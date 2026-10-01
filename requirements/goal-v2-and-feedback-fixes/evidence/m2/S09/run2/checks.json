@@ -1,0 +1,94 @@
+{
+  "scenario": "S09",
+  "attempt": "run2",
+  "evidenceDir": "S09/run2",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-110406-c1742c",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-110406-c1742c/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "前提：前 3 次各一个写文件工具调用",
+      "result": "UNVERIFIED",
+      "detail": {
+        "first3Tools": [
+          [
+            "bash"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "4 次主执行请求同属一个 Turn；前 3 带工具，第 4 次 tools 为空、纯文本",
+      "result": "PASS",
+      "detail": {
+        "toolCounts": [
+          20,
+          20,
+          20,
+          0
+        ],
+        "responseTools": [
+          [
+            "bash"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ],
+          []
+        ]
+      }
+    },
+    {
+      "id": "第 3 次请求的写文件已执行：d3 在、d4 不在",
+      "result": "UNVERIFIED",
+      "detail": {
+        "workspace": [
+          "d1.txt",
+          "d2.txt"
+        ]
+      }
+    },
+    {
+      "id": "横幅 Budget limited、4 requests",
+      "result": "PASS",
+      "detail": {
+        "banner": [
+          "◎ Goal · Budget limited · 12s active",
+          "25K tokens · 4 requests"
+        ]
+      }
+    },
+    {
+      "id": "上限后无新 turn_bound，hold 期间无新请求",
+      "result": "PASS",
+      "detail": {
+        "turnBound": 1,
+        "mainAfterHold": 4
+      }
+    },
+    {
+      "id": "/goal resume 打印错误、无 Goal resumed.、无新 turn_bound",
+      "result": "PASS",
+      "detail": {
+        "warning": [
+          "! Warning  This Goal exhausted its execution budget. Clear it, then start a new Goal."
+        ]
+      }
+    }
+  ]
+}

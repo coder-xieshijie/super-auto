@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met     
+     only when sub.txt contains sub-done.                                                                                                                                                             
+                                                                                                                                                                                                      
+   
+  ● I'll start the background subagent now and end the turn immediately.                                                                                                                              
+   
+  └ • Delegated (worker · Write sub.txt after delay)
+   
+    └ Completed in 6s · ⚡ 161 tok/s
+   
+  ● Background subagent started — task id bg_2bff3290-074d-493b-bbc1-eb6688cd6e04. It will sleep 40 seconds, then write sub.txt containing sub-done in the workspace. This turn ends now; I'll be     
+    resumed when the task completes.                                                                                                                                                                  
+
+    ◎ Goal · Waiting for background tasks · 9s active
+  16K tokens · 2 requests
+  Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 agent active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /plugins manages installed capabilities
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=done session=mvs_3ffe7dff070c48e5bdbf82f503d6dabe turn=turn_dd496a37-fcef-4216-b507-6cdc1295fcb9 request=none agents=1/1 background=0
+
+
+
+
+
+

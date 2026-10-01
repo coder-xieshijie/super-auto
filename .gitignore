@@ -8,4 +8,13 @@ research/workflow-30d/intermediate/**
 requirements/*/evidence/**
 !requirements/*/evidence/**/
 !requirements/*/evidence/**/*.md
+!requirements/*/evidence/**/*.txt
+!requirements/*/evidence/**/*.html
+!requirements/*/evidence/**/*.diff
+!requirements/*/evidence/**/*.patch
+!requirements/*/evidence/**/*.sh
+!requirements/*/evidence/**/*.ts
+!requirements/*/evidence/**/*.mjs
+!requirements/*/evidence/**/checks.json
+!requirements/*/evidence/**/*run.json
 research/lauren/bookmark-videos/raw/*.mp4

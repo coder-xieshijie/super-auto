@@ -1,0 +1,92 @@
+{
+  "scenario": "S41",
+  "attempt": "run1",
+  "evidenceDir": "S41/api-run1",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-110941-273b83",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-110941-273b83/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "接口（步骤1）",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2,
+        "requests_used": 5,
+        "work_requests": 3,
+        "grace_requests": 1,
+        "legacy_turns": 6,
+        "reserved_requests": 0,
+        "unknown_requests": 1,
+        "usage_incomplete": true
+      }
+    },
+    {
+      "id": "事件（步骤2，PATCH objective 后的 thread_goal.updated）",
+      "result": "FAIL",
+      "detail": {
+        "accountingVersion": null,
+        "requestsUsed": null,
+        "workRequests": null,
+        "graceRequests": null,
+        "legacyTurns": null,
+        "reservedRequests": null,
+        "unknownRequests": null,
+        "usageIncomplete": null
+      }
+    },
+    {
+      "id": "Electron（步骤3）",
+      "result": "PASS",
+      "detail": {
+        "policy": "3300+ tokens\n5 次请求",
+        "tokens": "3300+ tokens",
+        "hover": "本目标请求 5（工作 3、收尾 1）· 升级前 6 轮 · 1 次发送状态未确认"
+      }
+    },
+    {
+      "id": "TUI（步骤4）",
+      "result": "PASS",
+      "detail": {
+        "summary": "Requests: 5 (work 3, wrap-up 1, unconfirmed 1) · 6 turns before upgrade · usage incomplete"
+      }
+    },
+    {
+      "id": "get_goal（步骤5）",
+      "result": "PASS",
+      "detail": {
+        "k": 1,
+        "got": {
+          "accountingVersion": 2,
+          "requestsUsed": 6,
+          "workRequests": 4,
+          "graceRequests": 1,
+          "legacyTurns": 6,
+          "reservedRequests": 0,
+          "unknownRequests": 1,
+          "usageIncomplete": true
+        },
+        "want": {
+          "accountingVersion": 2,
+          "requestsUsed": 6,
+          "workRequests": 4,
+          "graceRequests": 1,
+          "legacyTurns": 6,
+          "reservedRequests": 0,
+          "unknownRequests": 1,
+          "usageIncomplete": true
+        }
+      }
+    },
+    {
+      "id": "CLI",
+      "result": "N/A",
+      "detail": "packages/tui/src/cli 没有输出 Goal 用量的命令"
+    }
+  ]
+}

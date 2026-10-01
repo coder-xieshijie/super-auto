@@ -1,0 +1,50 @@
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command sleep 40 && echo bg-done > bg.txt as a background task (bash tool with run_in_background: true) and end your turn right away without waiting or polling. After that      
+     background task has finished, read bg.txt and confirm it contains bg-done. The goal is met only when bg.txt contains bg-done.                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll start the background task as specified, then end this turn right away.                                                                                                                       
+   
+  ● Background task started (task id bg_e92ab343-f957-4d4c-814f-aa6708b12ac8). It will sleep 40 seconds and then write bg-done to bg.txt in the workspace. I'm ending this turn now without waiting or
+    polling — the conversation will resume automatically when the task finishes, and I'll read bg.txt then.                                                                                           
+   
+  └ • Thought for 0.2s
+   
+  ● The background task finished — let me read its output and verify bg.txt.                                                                                                                          
+   
+  ├ ✓ Read task result · bg_e92…
+  ├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-223619-d4a885/workspace/bg.txt)
+  └ • Thought for 0.8s
+   
+  ● Verified: the task succeeded and bg.txt contains bg-done. Marking the goal complete.                                                                                                              
+   
+  └ • Update Goal
+   
+  ● The background task ran to completion and the output file checks out.                                                                                                                             
+                                                                                                                                                                                                      
+    What I did:                                                                                                                                                                                       
+    1. Launched sleep 40 && echo bg-done > bg.txt with the bash tool using run_in_background: true (task id bg_e92ab343-f957-4d4c-814f-aa6708b12ac8), then ended that turn immediately with no waiting
+       or polling.                                                                                                                                                                                    
+    2. When the task finished, I read its output — the runtime reported status succeeded (no stdout, as expected for this command).                                                                   
+    3. I read the produced file at bg.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-223619-d4a885/workspace/bg.txt); its single line is exactly bg-done.       
+                                                                                                                                                                                                      
+    The checks I ran myself: the task status query returned succeeded, and a direct file read returned the expected content. The file sits in the workspace root alongside nothing else, so nothing   
+    else is needed to use it.                                                                                                                                                                         
+    
+    Created  bg.txt ↗
+   
+    └ Completed in 6s · ⚡ 209 tok/s
+   
+    ✓ Goal complete · 12s · 18K tokens · 2 turns                                                                                                                                                      
+
+    Message · Enter send · Ctrl+J newline                                                                                                      Tip: /feedback previews redacted feedback before upload
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=d state=done session=mvs_ffe1598c04054b05b7106dc7ebf4e9c5 turn=turn_499e46b1-06ba-40f8-8e0a-9ea2d68f8b3b request=none agents=0/1 background=0

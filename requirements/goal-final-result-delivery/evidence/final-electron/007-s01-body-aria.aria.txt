@@ -1,0 +1,31 @@
+- paragraph:
+  - text: Created
+  - code: hello.html
+  - text: in the workspace. It's a minimal HTML5 page whose main
+  - code: <h1>
+  - text: heading reads
+  - strong: Hello Goal
+  - text: ", with light styling to center it on the page."
+- paragraph:
+  - strong: "File:"
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-171317-53c821/data/sessions/mvs_41e36b527e01462c9f34d2ec99b32fce/workspace/hello.html": hello.html
+- paragraph:
+  - strong: "Checks I ran:"
+- list:
+  - listitem:
+    - text: Wrote 587 bytes to
+    - code: hello.html
+    - text: in the workspace directory.
+  - listitem:
+    - text: Re-read the file to confirm the
+    - code: <h1>
+    - text: tag contains exactly
+    - code: Hello Goal
+    - text: and the document is well-formed HTML5.
+- paragraph: Open it directly in a browser (double-click the file) or serve it with any static server.
+- button "hello.html — main heading reads Hello Goal": hello.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img

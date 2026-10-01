@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-223741-7279e0",
+      "instanceEvidenceDir": "_runs/tui-limits",
+      "files": [
+        "006-rg1mig-limits.clear--cleared.json",
+        "006-rg1mig-limits.clear--cleared.txt",
+        "007-rg1mig-limits.clear--snap-inspector",
+        "007-rg1mig-limits.clear--snap-runtime-events.jsonl",
+        "007-rg1mig-limits.clear--snap-workspace.json",
+        "007-rg1mig-limits.clear--snap.json",
+        "007-rg1mig-limits.clear--snap.txt"
+      ]
+    }
+  ]
+}

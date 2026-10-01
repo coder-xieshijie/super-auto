@@ -1,0 +1,148 @@
+{
+  "scenario": "S18",
+  "attempt": "run2",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-153650-a53805",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153650-a53805/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "banner": "◎ Goal · Usage limited · 4s active | 16K tokens · 2 requests · Goal will continue automatically after the quota resets.",
+      "resetAtMs": 1790840405000
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：横幅所在行出现 Goal will continue automatically after the quota resets.，没有时刻",
+      "result": "PASS",
+      "detail": {
+        "bannerBlock": "◎ Goal · Usage limited · 4s active | 16K tokens · 2 requests · Goal will continue automatically after the quota resets.",
+        "note": "提示在横幅第二行（用量行）"
+      }
+    },
+    {
+      "id": "步骤2：只有一个新的 goal.turn_bound；屏幕先 Goal resumed. 再额度错误；回到额度受限，横幅仍为自动继续提示",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [
+          "× Error  Usage limit reached."
+        ],
+        "newErrorIdx": [
+          33
+        ],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": "◎ Goal · Usage limited · 5s active",
+        "tail": [
+          "│ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │",
+          "│ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │",
+          "│ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │",
+          "╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
+          "› Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.",
+          "● I'll check the current state of the workspace first, then create the files one at a time.",
+          "└ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153650-a53805/workspace · 3 output lines",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Code: 42212",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "◎ Goal · Usage limited · 5s active",
+          "16K tokens · 3 requests · Goal will continue automatically after the quota resets."
+        ],
+        "bannerBlock": "◎ Goal · Usage limited · 5s active | 16K tokens · 3 requests · Goal will continue automatically after the quota resets.",
+        "turnBound": [
+          1165
+        ],
+        "mainAttempts": [
+          [
+            3,
+            "injected",
+            429
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤2b：与步骤2 相同；没有不绑定 Goal 的续跑",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [],
+        "newErrorIdx": [],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": "◎ Goal · Usage limited · 5s active",
+        "tail": [
+          "│ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │",
+          "│ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │",
+          "│ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │",
+          "╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
+          "› Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.",
+          "● I'll check the current state of the workspace first, then create the files one at a time.",
+          "└ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153650-a53805/workspace · 3 output lines",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Code: 42212",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "◎ Goal · Usage limited · 5s active",
+          "16K tokens · 3 requests · Goal will continue automatically after the quota resets."
+        ],
+        "bannerBlock": "◎ Goal · Usage limited · 5s active | 16K tokens · 3 requests · Goal will continue automatically after the quota resets.",
+        "turnBound": [],
+        "mainAttempts": [],
+        "retryTurnBound": false,
+        "retryUnavailableNotice": [
+          "There is no failed response to retry in this Session."
+        ]
+      }
+    },
+    {
+      "id": "步骤3：出现 ✓ Goal complete；重置时间之后只有一个新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "complete": "✓ Goal complete · 17s · 18K tokens · 9 requests",
+        "turnBoundAfterResetMs": [
+          29
+        ]
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 0,
+    "transitions": [
+      [
+        1790840224804,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790840227927,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790840455881,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ]
+  }
+}

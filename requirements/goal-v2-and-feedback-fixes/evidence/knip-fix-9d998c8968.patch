@@ -1,0 +1,435 @@
+diff --git a/packages/local-runtime-v2/src/application/session/goal-application.ts b/packages/local-runtime-v2/src/application/session/goal-application.ts
+index e8d6b75dc7..471f88ca10 100644
+--- a/packages/local-runtime-v2/src/application/session/goal-application.ts
++++ b/packages/local-runtime-v2/src/application/session/goal-application.ts
+@@ -23,7 +23,7 @@ import {
+ } from './goal-contract.js';
+ 
+ /** Goal HTTP errors keep the DesktopService error body clients already parse. */
+-export class GoalHttpError extends Error {
++class GoalHttpError extends Error {
+   constructor(
+     readonly status: number,
+     message: string,
+@@ -41,7 +41,7 @@ export class GoalHttpError extends Error {
+   }
+ }
+ 
+-export interface GoalHttpApplicationDeps {
++interface GoalHttpApplicationDeps {
+   readonly goals: GoalService;
+   /** Legacy opencode sessions stay read-only in clean local-runtime mode. */
+   readonly isReadOnlyLegacySession: (sessionId: string) => Promise<boolean>;
+@@ -80,6 +80,7 @@ function goalContractPolicyFromConfig(): ThreadGoalContractPolicy {
+   return objectiveMaxChars === undefined ? {} : { objectiveMaxChars };
+ }
+ 
++/** @internal HTTP Goal application seam exported only for focused integration tests. */
+ export function createGoalHttpApplication(deps: GoalHttpApplicationDeps): GoalHttpApplication {
+   const { goals } = deps;
+   const requireGoals = (): GoalService => {
+diff --git a/packages/local-runtime-v2/src/application/session/goal-contract.test.ts b/packages/local-runtime-v2/src/application/session/goal-contract.test.ts
+index 703feba2cb..9c848ccd54 100644
+--- a/packages/local-runtime-v2/src/application/session/goal-contract.test.ts
++++ b/packages/local-runtime-v2/src/application/session/goal-contract.test.ts
+@@ -13,7 +13,7 @@ import {
+   patchGoalReqToPatchInput,
+   toThreadGoalContractError,
+ } from './goal-contract.js';
+-import { ThreadGoalVerifierSessionError } from '../../service/goal/index.js';
++import { ThreadGoalVerifierSessionError } from '../../service/goal/lifecycle/gate.js';
+ 
+ /**
+  * Pure mapping coverage for the IDL goal contract glue — no HTTP, no store.
+diff --git a/packages/local-runtime-v2/src/application/session/goal-contract.ts b/packages/local-runtime-v2/src/application/session/goal-contract.ts
+index 4813501a5a..f7199e0683 100644
+--- a/packages/local-runtime-v2/src/application/session/goal-contract.ts
++++ b/packages/local-runtime-v2/src/application/session/goal-contract.ts
+@@ -299,7 +299,7 @@ function tokenBudgetPatch(req: PatchGoalReq): ThreadGoalPatchInput {
+ }
+ 
+ /** Validate a goal status string, throwing a contract error on failure. */
+-export function assertGoalStatus(status: string): asserts status is ThreadGoalStatus {
++function assertGoalStatus(status: string): asserts status is ThreadGoalStatus {
+   if (!VALID_STATUSES.has(status as ThreadGoalStatus)) {
+     throw new ThreadGoalContractError(400, `Invalid status: "${status}"`, 'VALIDATION_ERROR');
+   }
+diff --git a/packages/local-runtime-v2/src/infra/db/goal-diagnostic-rows.ts b/packages/local-runtime-v2/src/infra/db/goal-diagnostic-rows.ts
+index 7131690758..fe7032fd5c 100644
+--- a/packages/local-runtime-v2/src/infra/db/goal-diagnostic-rows.ts
++++ b/packages/local-runtime-v2/src/infra/db/goal-diagnostic-rows.ts
+@@ -14,7 +14,7 @@ import {
+ const GOAL_TABLE = 'local_runtime_v2_goals';
+ const REQUEST_TABLE = 'local_runtime_v2_goal_requests';
+ 
+-export interface GoalDiagnosticRows {
++interface GoalDiagnosticRows {
+   /** Goals with activity in the window: the row itself, or one of its requests. */
+   readonly goals: GoalRow[];
+   /** Ledger rows whose request or receipt activity falls in the window, newest first. */
+diff --git a/packages/local-runtime-v2/src/service/goal/accounting/request-accounting.ts b/packages/local-runtime-v2/src/service/goal/accounting/request-accounting.ts
+index 7b18060074..5c4369553e 100644
+--- a/packages/local-runtime-v2/src/service/goal/accounting/request-accounting.ts
++++ b/packages/local-runtime-v2/src/service/goal/accounting/request-accounting.ts
+@@ -23,7 +23,7 @@ import type {
+ } from './request-ledger.js';
+ 
+ /** The ledger operations of the Goal store this service drives. */
+-export interface GoalRequestLedgerStore {
++interface GoalRequestLedgerStore {
+   getById(goalId: string): Promise<ThreadGoalState | undefined>;
+   reserveRequest(input: GoalRequestReservation): Promise<'reserved' | 'duplicate'>;
+   markRequestDispatching(input: {
+diff --git a/packages/local-runtime-v2/src/service/goal/continuation/kickoff.ts b/packages/local-runtime-v2/src/service/goal/continuation/kickoff.ts
+index b8ca8d033b..761ae1c827 100644
+--- a/packages/local-runtime-v2/src/service/goal/continuation/kickoff.ts
++++ b/packages/local-runtime-v2/src/service/goal/continuation/kickoff.ts
+@@ -2,10 +2,10 @@ import { digestThreadGoalObjective, type ThreadGoalState } from '@mavis/goal';
+ 
+ import type { GoalMessageAttachment, GoalMessageInput } from '../contracts.js';
+ 
+-export const THREAD_GOAL_KICKOFF_PREFIX = 'thread-goal-kickoff:';
+-export const THREAD_GOAL_KICKOFF_ORIGIN_TYPE = 'thread-goal-kickoff';
+-export const THREAD_GOAL_CONTINUATION_PREFIX = 'thread-goal-followup:';
+-export const THREAD_GOAL_CONTINUATION_ORIGIN_TYPE = 'thread-goal-continuation';
++const THREAD_GOAL_KICKOFF_PREFIX = 'thread-goal-kickoff:';
++const THREAD_GOAL_KICKOFF_ORIGIN_TYPE = 'thread-goal-kickoff';
++const THREAD_GOAL_CONTINUATION_PREFIX = 'thread-goal-followup:';
++const THREAD_GOAL_CONTINUATION_ORIGIN_TYPE = 'thread-goal-continuation';
+ 
+ export interface ThreadGoalKickoffOrigin {
+   type: typeof THREAD_GOAL_KICKOFF_ORIGIN_TYPE;
+@@ -128,17 +128,6 @@ export function readThreadGoalKickoffOrigin(value: unknown): ThreadGoalKickoffOr
+   };
+ }
+ 
+-/**
+- * Queue/UI compatibility for kickoff items persisted before admission metadata
+- * was added. This intentionally does not make the strict reader above accept
+- * an incomplete identity: old items remain fenced as Goal work, then fail
+- * closed when the dispatcher asks for a trusted admission origin.
+- */
+-export function readThreadGoalKickoffDisplayContent(value: unknown): string | undefined {
+-  const record = readOriginRecord(value, THREAD_GOAL_KICKOFF_ORIGIN_TYPE);
+-  return typeof record?.displayContent === 'string' ? record.displayContent : undefined;
+-}
+-
+ export function readThreadGoalContinuationOrigin(
+   value: unknown,
+ ): ThreadGoalContinuationOrigin | undefined {
+diff --git a/packages/local-runtime-v2/src/service/goal/continuation/usage-recovery-scheduler.ts b/packages/local-runtime-v2/src/service/goal/continuation/usage-recovery-scheduler.ts
+index 7bd143f98d..71cde18c22 100644
+--- a/packages/local-runtime-v2/src/service/goal/continuation/usage-recovery-scheduler.ts
++++ b/packages/local-runtime-v2/src/service/goal/continuation/usage-recovery-scheduler.ts
+@@ -35,6 +35,7 @@ import type { ThreadGoalUsageRecoveryOutcome } from '../persistence/store-usage-
+  */
+ const MAX_TIMER_SLICE_MS = 5 * 60 * 1_000;
+ 
++/** @internal Store port exported only so focused tests can build a fake. */
+ export interface ThreadGoalUsageRecoveryStore {
+   listGoalsAwaitingUsageRecovery(): Promise<ThreadGoalState[]>;
+   resumeAfterUsageRecoveryAtEpoch(input: {
+diff --git a/packages/local-runtime-v2/src/service/goal/execution/turn-lifecycle.ts b/packages/local-runtime-v2/src/service/goal/execution/turn-lifecycle.ts
+index d40db50b32..c5a0455af6 100644
+--- a/packages/local-runtime-v2/src/service/goal/execution/turn-lifecycle.ts
++++ b/packages/local-runtime-v2/src/service/goal/execution/turn-lifecycle.ts
+@@ -27,7 +27,7 @@ interface ObservedTurn {
+   workerModelKey?: string;
+ }
+ 
+-export interface GoalTurnSettlementPort {
++interface GoalTurnSettlementPort {
+   settle(input: {
+     readonly sessionId: string;
+     readonly turnId: string;
+diff --git a/packages/local-runtime-v2/src/service/goal/execution/usage-recovery-hint.ts b/packages/local-runtime-v2/src/service/goal/execution/usage-recovery-hint.ts
+index 365ec991c5..d03c120abe 100644
+--- a/packages/local-runtime-v2/src/service/goal/execution/usage-recovery-hint.ts
++++ b/packages/local-runtime-v2/src/service/goal/execution/usage-recovery-hint.ts
+@@ -144,7 +144,7 @@ export class ThreadGoalUsageRecoveryHints {
+ /**
+  * Read a trustworthy recovery instant out of a raw provider failure.
+  *
+- * Exported for focused testing of the provider shapes this understands.
++ * @internal Exported for focused testing of the provider shapes this understands.
+  * Returns `undefined` whenever the provider did not clearly say when the quota
+  * returns — that answer means "no automatic recovery", not "try something".
+  */
+diff --git a/packages/local-runtime-v2/src/service/goal/index.ts b/packages/local-runtime-v2/src/service/goal/index.ts
+index e0c2786df8..a89349cb52 100644
+--- a/packages/local-runtime-v2/src/service/goal/index.ts
++++ b/packages/local-runtime-v2/src/service/goal/index.ts
+@@ -1,33 +1,11 @@
+-export type { GoalMessageAttachment, GoalMessageInput, GoalObjectiveAssets } from './contracts.js';
+-export {
+-  initializeGoalService,
+-  type GoalCapability,
+-  type GoalHostCapabilities,
+-  type InitializeGoalServiceInput,
+-  type RuntimeGoalHost,
+-} from './initialize.js';
++export { initializeGoalService, type GoalCapability, type RuntimeGoalHost } from './initialize.js';
+ export {
+   GoalService,
+-  type ThreadGoalSettlementDecision,
+   type ThreadGoalTurnAdmissionInput,
+   type ThreadGoalTurnAdmissionPreparation,
+ } from './goal.service.js';
+-export type { GoalTurnLifecycle } from './execution/turn-lifecycle.js';
+ export type { ThreadGoalQueueItemIdentity } from './continuation/kickoff.js';
+-export {
+-  GOAL_VERIFIER_SESSION_FORBIDDEN,
+-  isThreadGoalEnabled,
+-  ThreadGoalAutomationOwnerConflictError,
+-  ThreadGoalVerifierSessionError,
+-} from './lifecycle/gate.js';
++export { GOAL_VERIFIER_SESSION_FORBIDDEN } from './lifecycle/gate.js';
+ export { isGoalVerifierChildSession } from './verification/verifier-session.js';
+-export type {
+-  GoalVerifierRunOutcome,
+-  GoalVerifierRunRegistry,
+-  GoalVerifierTaskRunner,
+-} from './verification/verifier-execution.js';
+-export {
+-  ThreadGoalDecisionDiagnosticSource,
+-  type GoalDiagnosticRowReader,
+-} from './observability/diagnostic-source.js';
++export { ThreadGoalDecisionDiagnosticSource } from './observability/diagnostic-source.js';
+ export { globalRequestAccounting } from './observability/wiring.js';
+diff --git a/packages/local-runtime-v2/src/service/goal/initialize.ts b/packages/local-runtime-v2/src/service/goal/initialize.ts
+index a56e7fd374..a198e1c374 100644
+--- a/packages/local-runtime-v2/src/service/goal/initialize.ts
++++ b/packages/local-runtime-v2/src/service/goal/initialize.ts
+@@ -53,7 +53,11 @@ export interface RuntimeGoalHost extends Omit<
+   bindQuestionnaireWorkOwner(owner: GoalQuestionnaireWorkOwner): void;
+ }
+ 
+-/** Shared capabilities the Goal owner borrows; every one is injected by composition. */
++/**
++ * Shared capabilities the Goal owner borrows; every one is injected by composition.
++ *
++ * @internal Exported only so focused tests can build host fakes.
++ */
+ export interface GoalHostCapabilities {
+   /** The shared questionnaire capability; Goal questionnaire policy lives in this owner. */
+   readonly questionnaires: () => GoalQuestionnaireOperations;
+diff --git a/packages/local-runtime-v2/src/service/goal/lifecycle/gate.ts b/packages/local-runtime-v2/src/service/goal/lifecycle/gate.ts
+index 475e99ab15..7cc3d7ed12 100644
+--- a/packages/local-runtime-v2/src/service/goal/lifecycle/gate.ts
++++ b/packages/local-runtime-v2/src/service/goal/lifecycle/gate.ts
+@@ -76,7 +76,7 @@ export type ThreadGoalFinalRecheckResult =
+       readonly goal: ThreadGoalState;
+     };
+ 
+-export const GOAL_AUTOMATION_OWNER_CONFLICT = 'GOAL_AUTOMATION_OWNER_CONFLICT';
++const GOAL_AUTOMATION_OWNER_CONFLICT = 'GOAL_AUTOMATION_OWNER_CONFLICT';
+ 
+ export class ThreadGoalAutomationOwnerConflictError extends Error {
+   override readonly name = 'ThreadGoalAutomationOwnerConflictError';
+diff --git a/packages/local-runtime-v2/src/service/goal/observability/diagnostic-source.ts b/packages/local-runtime-v2/src/service/goal/observability/diagnostic-source.ts
+index 0d17773a70..a3aaece0ce 100644
+--- a/packages/local-runtime-v2/src/service/goal/observability/diagnostic-source.ts
++++ b/packages/local-runtime-v2/src/service/goal/observability/diagnostic-source.ts
+@@ -11,7 +11,7 @@ import type { GoalRequestRow, GoalRow } from '../../../infra/db/schema/goal.js';
+ import { rowToThreadGoalState } from '../persistence/store-row.js';
+ 
+ /** Reads recent Goal and request-ledger evidence by activity time, newest first. */
+-export type GoalDiagnosticRowReader = (input: {
++type GoalDiagnosticRowReader = (input: {
+   readonly sinceMs: number;
+   readonly limit: number;
+   readonly requestLimit: number;
+diff --git a/packages/local-runtime-v2/src/service/goal/observability/eval-observability.ts b/packages/local-runtime-v2/src/service/goal/observability/eval-observability.ts
+index 0f4f777aac..f7af464a2e 100644
+--- a/packages/local-runtime-v2/src/service/goal/observability/eval-observability.ts
++++ b/packages/local-runtime-v2/src/service/goal/observability/eval-observability.ts
+@@ -3,7 +3,7 @@ import type { ThreadGoalRuntimeEvent, ThreadGoalRuntimeEventSink } from './event
+ const GOAL_RUNTIME_EVENT_SCHEMA = 'mavis.goal_runtime_event.v1';
+ 
+ /** Delivery outcome reported by the optional Session Clio runtime-event projection. */
+-export type LocalEvalRuntimeEventDelivery =
++type LocalEvalRuntimeEventDelivery =
+   | 'queued'
+   | 'buffered'
+   | 'skipped_disabled'
+@@ -20,7 +20,11 @@ export interface LocalEvalReporterFactoryLike {
+   ): LocalEvalRuntimeEventDelivery;
+ }
+ 
+-/** Projects Goal decisions into the existing Session Clio lifecycle stream. */
++/**
++ * Projects Goal decisions into the existing Session Clio lifecycle stream.
++ *
++ * @internal Exported only for focused tests.
++ */
+ export function createThreadGoalEvalEventSink(
+   reporterFactory: LocalEvalReporterFactoryLike,
+ ): ThreadGoalRuntimeEventSink {
+diff --git a/packages/local-runtime-v2/src/service/goal/observability/events.ts b/packages/local-runtime-v2/src/service/goal/observability/events.ts
+index 68638fb65d..e29ebae852 100644
+--- a/packages/local-runtime-v2/src/service/goal/observability/events.ts
++++ b/packages/local-runtime-v2/src/service/goal/observability/events.ts
+@@ -53,7 +53,7 @@ export type ThreadGoalChangedEvent =
+       kickoffCancelled?: boolean;
+     };
+ 
+-export interface ThreadGoalRuntimeEventPayloadMap {
++interface ThreadGoalRuntimeEventPayloadMap {
+   'goal.created': {
+     goalId: string;
+     sessionId: string;
+@@ -213,6 +213,7 @@ export interface ThreadGoalRuntimeEventPayloadMap {
+   };
+ }
+ 
++/** @internal Exported only so focused tests can enumerate the event types. */
+ export type ThreadGoalRuntimeEventType = keyof ThreadGoalRuntimeEventPayloadMap;
+ 
+ export type ThreadGoalRuntimeEvent<
+diff --git a/packages/local-runtime-v2/src/service/goal/prompts/reminder-policy.ts b/packages/local-runtime-v2/src/service/goal/prompts/reminder-policy.ts
+index 7fb08c7be6..89f9075c25 100644
+--- a/packages/local-runtime-v2/src/service/goal/prompts/reminder-policy.ts
++++ b/packages/local-runtime-v2/src/service/goal/prompts/reminder-policy.ts
+@@ -1,5 +1,6 @@
+ import type { ThreadGoalState } from '@mavis/goal';
+ 
++/** @internal Exported only so focused tests can pin the audit cadence. */
+ export const GOAL_TERMINAL_AUDIT_INTERVAL = 5;
+ 
+ export type GoalReminderReason = 'recovery' | 'terminal-audit';
+diff --git a/packages/local-runtime-v2/src/service/goal/questionnaire/goal-questionnaire-policy.ts b/packages/local-runtime-v2/src/service/goal/questionnaire/goal-questionnaire-policy.ts
+index 0baa36cafe..cb61591262 100644
+--- a/packages/local-runtime-v2/src/service/goal/questionnaire/goal-questionnaire-policy.ts
++++ b/packages/local-runtime-v2/src/service/goal/questionnaire/goal-questionnaire-policy.ts
+@@ -8,7 +8,11 @@ import type {
+ import { GoalQuestionnaireAutoReplyTimer } from './auto-reply-timer.js';
+ import { autoReplyGoalQuestionnaire } from './goal-questionnaire-auto-reply.js';
+ 
+-/** A Goal questionnaire answers itself with its recommended options after this long. */
++/**
++ * A Goal questionnaire answers itself with its recommended options after this long.
++ *
++ * @internal Exported only for focused tests.
++ */
+ export const GOAL_QUESTIONNAIRE_AUTO_REPLY_MS = 5 * 60 * 1000;
+ 
+ export interface GoalQuestionnairePolicyDeps {
+diff --git a/packages/local-runtime-v2/src/service/goal/settlement/settlement-deps.ts b/packages/local-runtime-v2/src/service/goal/settlement/settlement-deps.ts
+index 2366f6c8d8..dfdfd59384 100644
+--- a/packages/local-runtime-v2/src/service/goal/settlement/settlement-deps.ts
++++ b/packages/local-runtime-v2/src/service/goal/settlement/settlement-deps.ts
+@@ -20,11 +20,11 @@ import type { ThreadGoalExecutionWaitOperations } from '../persistence/store-exe
+ import type { GoalTimeAccounting } from './time-accounting.js';
+ import type { GoalTurnContextRegistry } from '../admission/turn-context.js';
+ 
+-export type GoalSettlementStore = ThreadGoalStore &
++type GoalSettlementStore = ThreadGoalStore &
+   ThreadGoalBoundStoreOperations &
+   ThreadGoalExecutionWaitOperations;
+ 
+-export interface GoalSettlementRuntime {
++interface GoalSettlementRuntime {
+   readonly isEnabled: () => boolean;
+   readonly nowMs: () => number;
+   readonly configGetter: () => ThreadGoalGateConfig;
+diff --git a/packages/local-runtime-v2/src/service/goal/settlement/settlement-transitions.ts b/packages/local-runtime-v2/src/service/goal/settlement/settlement-transitions.ts
+index 8a7b72dda4..f8cac57ce5 100644
+--- a/packages/local-runtime-v2/src/service/goal/settlement/settlement-transitions.ts
++++ b/packages/local-runtime-v2/src/service/goal/settlement/settlement-transitions.ts
+@@ -5,7 +5,7 @@ import type {
+   ThreadGoalStatusReason,
+ } from '@mavis/goal';
+ 
+-export type ThreadGoalSettlementStage = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
++type ThreadGoalSettlementStage = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+ 
+ export interface ThreadGoalSettlementDecision {
+   readonly stage: ThreadGoalSettlementStage;
+diff --git a/packages/local-runtime-v2/src/service/goal/settlement/worker-proposal.ts b/packages/local-runtime-v2/src/service/goal/settlement/worker-proposal.ts
+index 0db7fc73f7..0943d0bd1d 100644
+--- a/packages/local-runtime-v2/src/service/goal/settlement/worker-proposal.ts
++++ b/packages/local-runtime-v2/src/service/goal/settlement/worker-proposal.ts
+@@ -21,7 +21,7 @@ export function threadGoalWorkerProposalInput(
+   };
+ }
+ 
+-export function threadGoalWorkerProposalObservation(signal: GoalTurnSignal): {
++function threadGoalWorkerProposalObservation(signal: GoalTurnSignal): {
+   readonly proposal: 'complete' | 'blocked';
+   readonly summaryPresent: boolean;
+   readonly summaryDigest?: string;
+diff --git a/packages/local-runtime-v2/src/service/goal/verification/verification-dispatch.ts b/packages/local-runtime-v2/src/service/goal/verification/verification-dispatch.ts
+index 4755bc7c00..cf1d1d7f5f 100644
+--- a/packages/local-runtime-v2/src/service/goal/verification/verification-dispatch.ts
++++ b/packages/local-runtime-v2/src/service/goal/verification/verification-dispatch.ts
+@@ -424,7 +424,7 @@ function unavailableDispatchError(): VerificationDispatchError {
+ }
+ 
+ /** Host lifecycle cancellation: the user stopped, retracted, or deleted the Goal. */
+-export class VerificationAbortedError extends Error {
++class VerificationAbortedError extends Error {
+   override readonly name = 'VerificationAbortedError';
+ 
+   constructor(reason: string) {
+diff --git a/packages/local-runtime-v2/src/service/goal/verification/verification-failure-reason.ts b/packages/local-runtime-v2/src/service/goal/verification/verification-failure-reason.ts
+index f5758e5bc5..2efe72cc80 100644
+--- a/packages/local-runtime-v2/src/service/goal/verification/verification-failure-reason.ts
++++ b/packages/local-runtime-v2/src/service/goal/verification/verification-failure-reason.ts
+@@ -42,7 +42,7 @@ const FAILURE_REASONS: Readonly<Record<VerificationDispatchFailureCode, ThreadGo
+   aborted: 'paused(verifier_aborted)',
+ };
+ 
+-export function threadGoalVerificationFailureReason(
++function threadGoalVerificationFailureReason(
+   code: VerificationDispatchFailureCode,
+ ): ThreadGoalStatusReason {
+   return FAILURE_REASONS[code];
+diff --git a/packages/local-runtime-v2/src/service/goal/verification/verifier-execution.ts b/packages/local-runtime-v2/src/service/goal/verification/verifier-execution.ts
+index 3ff6e44f0b..f4d06bd787 100644
+--- a/packages/local-runtime-v2/src/service/goal/verification/verifier-execution.ts
++++ b/packages/local-runtime-v2/src/service/goal/verification/verifier-execution.ts
+@@ -13,12 +13,16 @@ import {
+ import { stripModelVerdictCandidates, type LocalTaskRunResult } from '@mavis/agent-tools/desktop';
+ 
+ /** The subset of dispatch failures a live child run can latch on itself. */
+-export type GoalVerifierRunIssueCode = Extract<
++type GoalVerifierRunIssueCode = Extract<
+   VerificationDispatchFailureCode,
+   'route_unavailable' | 'capability_violation' | 'child_budget_exhausted'
+ >;
+ 
+-/** Execution facts a settled child run reports back. Observation only. */
++/**
++ * Execution facts a settled child run reports back. Observation only.
++ *
++ * @internal Exported only for focused tests.
++ */
+ export interface GoalVerifierRunOutcome {
+   readonly childTurns: number;
+   readonly tokens: number;
+diff --git a/packages/local-runtime-v2/src/service/turn-system/agent-host/execution/turn-execution-policy.ts b/packages/local-runtime-v2/src/service/turn-system/agent-host/execution/turn-execution-policy.ts
+index fa0f02ac5c..9e8c5afebe 100644
+--- a/packages/local-runtime-v2/src/service/turn-system/agent-host/execution/turn-execution-policy.ts
++++ b/packages/local-runtime-v2/src/service/turn-system/agent-host/execution/turn-execution-policy.ts
+@@ -69,7 +69,7 @@ export async function requestControlledRunOptions<
+   };
+ }
+ 
+-export async function resolveLlmRetryOptions<
++async function resolveLlmRetryOptions<
+   TAgent extends AgentExecutionSnapshot,
+   TContext extends ToolExecutionContext,
+ >(
+diff --git a/packages/local-runtime-v2/test/helpers/goal-database.ts b/packages/local-runtime-v2/test/helpers/goal-database.ts
+index a38b345a3c..9798f2265b 100644
+--- a/packages/local-runtime-v2/test/helpers/goal-database.ts
++++ b/packages/local-runtime-v2/test/helpers/goal-database.ts
+@@ -12,7 +12,7 @@ import {
+ import { DatabaseClient, type AppDb } from '../../src/infra/db/client.js';
+ import { runMigrations } from '../../src/infra/db/migrate.js';
+ import { ALL_MIGRATIONS } from '../../src/infra/db/migrations.js';
+-import type { GoalMessageAttachment, GoalObjectiveAssets } from '../../src/service/goal/index.js';
++import type { GoalMessageAttachment, GoalObjectiveAssets } from '../../src/service/goal/contracts.js';
+ import { DrizzleGoalStore } from '../../src/service/goal/persistence/store.js';
+ 
+ /**

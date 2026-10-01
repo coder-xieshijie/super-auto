@@ -1,0 +1,54 @@
+{
+  "scenario": "S38",
+  "attempt": "run1",
+  "evidenceDir": "S38/run1",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121742-586038",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121742-586038/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "步骤3：未知占用 1，本目标请求数含它",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 7,
+        "work_requests": 6,
+        "unknown_requests": 1,
+        "reserved_requests": 1
+      }
+    },
+    {
+      "id": "悬停说明含“1 次发送状态未确认”",
+      "result": "PASS",
+      "detail": {
+        "hover": [
+          "requests-hover-final.json",
+          "本目标请求 8（工作 7）· 1 次发送状态未确认"
+        ]
+      }
+    },
+    {
+      "id": "挂起请求之后没有同一请求标识的重发",
+      "result": "PASS",
+      "detail": {
+        "hungKey": "b799df56bb37f3ff",
+        "attemptsWithKey": 1
+      }
+    },
+    {
+      "id": "继续执行到终态，终态时未知占用仍为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "requests_used": 8,
+        "work_requests": 7,
+        "unknown_requests": 1
+      }
+    }
+  ]
+}

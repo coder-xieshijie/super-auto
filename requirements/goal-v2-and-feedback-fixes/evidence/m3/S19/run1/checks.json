@@ -1,0 +1,47 @@
+{
+  "scenario": "S19",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-153519-5232b6",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153519-5232b6/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "oldStatus": "usage_limited(provider_quota)",
+      "resetAtMs": 1790840320000
+    }
+  },
+  "checks": [
+    {
+      "id": "新 Goal 为 complete，hold 期间状态不变",
+      "result": "PASS",
+      "detail": {
+        "newGoal": "tg_pur6govdg1mup7zd4q",
+        "status_reason": "complete(verifier_met)",
+        "holdSamples": 1,
+        "holdEndAfterResetMs": 92361,
+        "pollOk": true
+      }
+    },
+    {
+      "id": "重置时间之后没有属于旧 goal_id 的 goal.turn_bound，也没有新的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "oldAfterReset": 0,
+        "anyAfterReset": []
+      }
+    }
+  ],
+  "info": {}
+}

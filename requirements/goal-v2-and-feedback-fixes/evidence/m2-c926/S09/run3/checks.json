@@ -1,0 +1,103 @@
+{
+  "scenario": "S09",
+  "attempt": "run3",
+  "evidenceDir": "S09/run3",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-142758-e2b4fa",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-142758-e2b4fa/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "前提：前 3 次各一个写文件工具调用",
+      "result": "UNVERIFIED",
+      "detail": {
+        "first3Tools": [
+          [
+            "glob"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "4 次主执行请求同属一个 Turn；前 3 带工具，第 4 次 tools 为空、纯文本",
+      "result": "FAIL",
+      "detail": {
+        "toolCounts": [
+          20,
+          20,
+          20,
+          0
+        ],
+        "responseTools": [
+          [
+            "glob"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "第 3 次请求的写文件已执行：d3 在、d4 不在",
+      "result": "UNVERIFIED",
+      "detail": {
+        "workspace": [
+          "d1.txt",
+          "d2.txt"
+        ]
+      }
+    },
+    {
+      "id": "横幅 Budget limited、4 requests",
+      "result": "PASS",
+      "detail": {
+        "banner": [
+          "◎ Goal · Budget limited · 14s active",
+          "25K tokens · 4 requests"
+        ]
+      }
+    },
+    {
+      "id": "上限后无新 turn_bound；hold 期间没有该 Goal 的新模型请求（会话标题等辅助请求不计，verify 8b46dcd7）",
+      "result": "PASS",
+      "detail": {
+        "turnBound": 1,
+        "goalMainAfterHold": 4,
+        "holdWindowMs": [
+          1790836097048,
+          1790836157400
+        ],
+        "goalMainInHold": 0,
+        "auxiliaryInHold": []
+      }
+    },
+    {
+      "id": "/goal resume 打印错误（Error）、无 Goal resumed.、无新 turn_bound",
+      "result": "PASS",
+      "detail": {
+        "resumeMessage": [
+          "× Error  This Goal exhausted its execution budget. Clear it, then start a new Goal."
+        ],
+        "turnBoundAfterResume": 1
+      }
+    }
+  ]
+}

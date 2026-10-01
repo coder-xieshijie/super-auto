@@ -1,0 +1,77 @@
+{
+  "scenario": "S40",
+  "attempt": "run2",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-153436-d9789a",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153436-d9789a/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "subagentAtPause": [
+        {
+          "taskId": "bg_2bff3290-074d-493b-bbc1-eb6688cd6e04",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790840090601,
+          "updatedAtMs": 1790840090697,
+          "endedAtMs": null,
+          "parentTurnId": "turn_dd496a37-fcef-4216-b507-6cdc1295fcb9",
+          "description": "Write sub.txt after delay"
+        }
+      ],
+      "statusBackground": "0",
+      "statusAgents": "1/1",
+      "note": "状态栏把 subagent 计在 agents=活跃/总数，background 只计 shell；以 agents 与任务表确认 subagent 仍在运行"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：打印 Waiting for background tasks，没有 Goal resumed.；横幅 ◎ Goal · Waiting for background tasks；任务结束前没有新 turn_bound",
+      "result": "FAIL",
+      "detail": {
+        "printedWaitLine": false,
+        "printedGoalResumed": false,
+        "tail": [
+          "only when sub.txt contains sub-done.",
+          "● I'll start the background subagent now and end the turn immediately.",
+          "└ • Delegated (worker · Write sub.txt after delay)",
+          "└ Completed in 6s · ⚡ 161 tok/s",
+          "● Background subagent started — task id bg_2bff3290-074d-493b-bbc1-eb6688cd6e04. It will sleep 40 seconds, then write sub.txt containing sub-done in the workspace. This turn ends now; I'll be",
+          "resumed when the task completes.",
+          "◎ Goal · Waiting for background tasks · 9s active",
+          "16K tokens · 2 requests",
+          "Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…",
+          "/goal pause · /goal edit · /goal clear"
+        ],
+        "banner": "◎ Goal · Waiting for background tasks · 9s active",
+        "subagentEndedAfterResumeMs": 42855,
+        "turnBoundBeforeEnd": 0
+      }
+    },
+    {
+      "id": "subagent 结束后只出现一个新的 goal.turn_bound；✓ Goal complete；sub.txt 为 sub-done",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterEndMs": [
+          13
+        ],
+        "complete": "✓ Goal complete · 16s · 18K tokens · 6 requests",
+        "sub.txt": "sub-done\n"
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 0
+  }
+}

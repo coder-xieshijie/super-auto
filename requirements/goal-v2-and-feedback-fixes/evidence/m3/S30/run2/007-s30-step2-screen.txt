@@ -1,0 +1,50 @@
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command sleep 600 as a background task (bash tool with run_in_background: true) and end your turn right away.                                                                    
+                                                                                                                                                                                                      
+   
+  ● Started sleep 600 as a background task.                                                                                                                                                           
+                                                                                                                                                                                                      
+    - Task ID: bg_fab4440b-abe1-4ea3-875c-c7c81549a58d                                                                                                                                                
+    - It'll finish in about 10 minutes, and the conversation will resume automatically then.                                                                                                          
+    - To check on it or cancel it, use task_query/task_output or task_stop with that ID.                                                                                                              
+   
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+    └ Completed in 4s · ⚡ 181 tok/s
+   
+    × Error  The response failed.                                                                                                                                                                     
+    Reason: [Error] 502 {"type":"error","error":{"type":"api_error","message":"Bad gateway"}}                                                                                                         
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+   
+    × Error  The model provider is temporarily unavailable.                                                                                                                                           
+    Code: 50113                                                                                                                                                                                       
+    Run /retry to resend your last message. Your prompt is preserved.                                                                                                                                 
+
+    ◎ Goal · Paused · 1s active
+  0 tokens · 1 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+  ◐ Tasks · 1 background active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                       Tip: /context shows the current Session context budget
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=fail session=mvs_cc303c009bef4565b2fa0ccc2e407cb9 turn=turn_8228f403-4b4c-48f1-b8dc-3eb9a79271f4 request=none agents=0/0 background=1

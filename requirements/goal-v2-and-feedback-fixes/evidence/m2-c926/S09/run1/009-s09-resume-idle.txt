@@ -1,0 +1,50 @@
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  ● I'll start by checking the current state of the workspace.                                                                                                                                        
+   
+  ├ • Listed (d*.txt)
+  └ • Thought for 1.2s
+   
+  ● Empty workspace — creating the five files one per response, starting with d1.txt.                                                                                                                 
+   
+  ├ • Wrote (d1.txt)
+  └ • Thought for 0.5s
+   
+  ● d1.txt is in place. Next: d2.txt.                                                                                                                                                                 
+   
+  ├ • Wrote (d2.txt)
+  └ • Thought for 1.2s
+   
+    └ Completed in 11s · ⚡ 139 tok/s
+   
+  ● Created, one at a time:                                                                                                                                                                           
+                                                                                                                                                                                                      
+    - d1.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-140802-5ab668/workspace/d1.txt) containing 1                                                            
+    - d2.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-140802-5ab668/workspace/d2.txt) containing 2                                                            
+                                                                                                                                                                                                      
+    Incomplete: d3.txt, d4.txt, and d5.txt. Execution stopped because the Goal reached its request budget. Current file state could not be re-verified during this response. You can raise or clear   
+    the budget, or create a new goal, to continue.                                                                                                                                                    
+   
+    × Error  This Goal exhausted its execution budget. Clear it, then start a new Goal.                                                                                                               
+
+    ◎ Goal · Budget limited · 12s active
+  25K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                    Tip: /goal keeps multi-step work focused on a finish line
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=done session=mvs_9300ef9874e64032abcefa17705bde77 turn=turn_1e04ecef-712c-4298-bfb2-f8ba2ad66549 request=none agents=0/0 background=0

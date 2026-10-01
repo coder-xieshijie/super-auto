@@ -1,0 +1,1 @@
+tui sessions: /sessions, Ctrl+A (all sessions, typed as \x01), Enter; /goal summary via /goal --no-submit, escape, enter

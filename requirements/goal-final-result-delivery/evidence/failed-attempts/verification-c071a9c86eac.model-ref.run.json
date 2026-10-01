@@ -1,0 +1,23 @@
+{
+  "cli": "mcode",
+  "provider": "mafia",
+  "family": "openai",
+  "model": "gpt-6-astra",
+  "session_id": "mvs_89c3a73e323a4d0bab549f2d176c42a8",
+  "head": "c071a9c86eac4ad1b71447902605cbccdd40a01e",
+  "checkout": "/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery-verify",
+  "brief": "/Users/minimax/code/github/xieshijie/dev-skills/skills/deliver/references/verifier-brief.md",
+  "inputs": "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-final-result-delivery/evidence/verification-c071a9c86eac.inputs.md",
+  "inputs_sha256": "7b5ea11ca0976c0aab120ce7f32012765dbddffa652d344cb36a0d7cb2cb0ea9",
+  "verify": "/Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery-verify/.harness/docs/specs/goal-final-result-delivery/verify.md",
+  "report": "verification-c071a9c86eac.md",
+  "report_sha256": null,
+  "started_at": "2026-09-30T09:58:42.114Z",
+  "ended_at": "2026-09-30T09:58:48.664Z",
+  "exit_code": 4,
+  "checkout_untouched": true,
+  "problems": [
+    "mcode call failed (exit 4)"
+  ],
+  "valid": false
+}

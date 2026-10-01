@@ -1,0 +1,50 @@
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command sleep 40 && echo bg-done > bg.txt as a background task (bash tool with run_in_background: true) and end your turn right away without waiting or polling. After that      
+     background task has finished, read bg.txt and confirm it contains bg-done. The goal is met only when bg.txt contains bg-done.                                                                    
+                                                                                                                                                                                                      
+   
+  └ • Thought for 0.9s
+   
+  ● Checking whether the background task already completed and left bg.txt behind.                                                                                                                    
+   
+  ├ • Ran  pwd; ls -la; echo "---bg.txt---"; cat bg.txt 2>/dev/null || echo "(no bg.txt yet)" · 6 output lines
+  └ • Thought for 4.8s
+   
+  ● No bg.txt yet, so nothing has completed yet. Checking for any existing background tasks, then starting the run.                                                                                   
+   
+  ├ ✓ Checked background tasks · 1 done
+  └ • Thought for 2.4s
+   
+  ● No prior background task exists. Starting the sleep 40 && echo bg-done > bg.txt run in the background now, and ending this turn without waiting or polling.                                       
+   
+  ● Background task started: bg_8a04f3fa-1986-4726-a519-e1d6a9f0c786 running sleep 40 && echo bg-done > bg.txt in                                                                                     
+    /var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-214150-d60922/workspace.                                                                                                  
+                                                                                                                                                                                                      
+    I verified beforehand that the workspace was empty and no earlier background run existed, so this is the first execution of the command. Per the objective, I'm ending this turn without waiting  
+    or polling — the conversation will resume automatically when the task finishes, and in that turn I'll read bg.txt and confirm it contains bg-done. The goal stays active until that confirmation  
+    is backed by the file's actual contents.                                                                                                                                                          
+   
+    └ Completed in 21s · ⚡ 97 tok/s
+
+    ◎ Goal · Waiting for background tasks · 22s active
+  17K tokens · 1 turns
+  Start the shell command `sleep 40 && echo bg-done > bg.txt` as a background task (bash tool with run_in_background: true) and end your turn right away without waiting or polling. After that backg…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 background active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                    Tip: /goal keeps multi-step work focused on a finish line
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=4 state=done session=mvs_01f77b46b1e643c28b6ad81e6c67f0a5 turn=turn_dab95799-b8f7-4b16-b62f-ac42920dee82 request=none agents=0/0 background=1

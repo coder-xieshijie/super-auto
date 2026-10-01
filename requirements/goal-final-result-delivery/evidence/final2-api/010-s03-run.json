@@ -1,0 +1,48 @@
+{
+  "runId": "20260930-173330-6d9d12",
+  "capturedAt": 1790760873722,
+  "git": {
+    "head": "6fb965b993e1602489b0137995923aa320472137",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_fd9f8b2b553b496ca0f8e02e243b47d6/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790760845604,
+      "goal.status": "active"
+    },
+    {
+      "at": 1790760873661,
+      "goal.status": "complete",
+      "goal.status_reason": "complete(verifier_met)"
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_rtww5r16ccmunwrrno",
+      "session_id": "mvs_fd9f8b2b553b496ca0f8e02e243b47d6",
+      "objective": "Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.",
+      "status": "complete",
+      "created_at": 1790760845508,
+      "updated_at": 1790760871441,
+      "tokens_used": 29952,
+      "time_used_seconds": 15,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "complete(verifier_met)",
+      "last_verification": {
+        "backend": "subagent",
+        "verdict": "met",
+        "reason": "I'll verify the claimed file deliverable directly on disk.\nFile confirmed on disk. Now checking for any competing headings or hidden duplicates.\n## Checks performed (all read-only)\n\n| Check | Result |\n|---|---|\n| `ls -la` on workspace root | `hello.html` present, 703 bytes, sole file in the directory |\n| Full file read | Valid HTML5 document: `<!DOCTYPE html>`, `lang=\"en\"`, `<meta charset=\"utf-8\">`, `<title>Hello Goal</title>` (line 6), inline `<style>` (lines 7–29), `<body><main>` wrapper |\n| Heading content | `<h1>Hello Goal</h1>` at line 33 — extracted visible text is exactly `Hello Goal` |\n| Heading uniqueness | `grep -c \"<h1\"` = 1; regex scan for `<h[1-6][ >]` across the whole workspace returns exactly one hit, line 33 — no competing `h2`–`h6` that could outrank the main heading |\n| Size / self-containment | 37 lines, 703 bytes, ASCII, no external scripts, stylesheets, images, or network references |\n| Encoding | `file` reports \"HTML document text, ASCII text\" — no BOM or mojibake risk for the heading text |\n\n## Evidence and observed results\n\nThe claimed artifact exists at\n`/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-173330-6d9d12/data/sessions/mvs_fd9f8b2b553b496ca0f8e02e243b47d6/workspace/hello.html`,\nand its single main heading at `hello.html:33` reads `Hello Goal` inside `<main>`. The worker's reported size (703 bytes), line number (33), and matching `<title>` (line 6, the worker said line 7 in its closing summary — a one-line off-by-one in the prose only, not in the file) are corroborated by direct inspection. Every element of the objective is independently confirmed rather than taken from the brief.\n\n## Findings\n\nNone. No confirmed failures, and no unresolved uncertainty — the objective is fully decidable from the artifact on disk.\n\nMinor note (non-blocking, not a defect): the worker's final chat message cites the `<title>` at \"line 7\" while the file has it at line 6. The deliverable itself is correct; only the prose reference is imprecise.",
+        "missing": [],
+        "not_met_streak": 0,
+        "at": 1790760871440
+      },
+      "objective_resources": []
+    }
+  }
+}

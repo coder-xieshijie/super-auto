@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-215340-29b4a8",
+      "instanceEvidenceDir": "_runs/runtime-api-lifecycle",
+      "files": [
+        "022-rg1base-completion.replace--create.json",
+        "023-rg1base-completion.replace--snap-inspector",
+        "023-rg1base-completion.replace--snap-runtime-events.jsonl",
+        "023-rg1base-completion.replace--snap-workspace",
+        "023-rg1base-completion.replace--snap-workspace.json",
+        "023-rg1base-completion.replace--snap.json"
+      ]
+    }
+  ]
+}

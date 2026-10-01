@@ -1,0 +1,50 @@
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met     
+     only when sub.txt contains sub-done.                                                                                                                                                             
+                                                                                                                                                                                                      
+   
+  └ • Thought for 1.9s
+   
+  ● Checking the current state before kicking off the background task.                                                                                                                                
+   
+  ├ • Ran  ls -la; echo "---"; cat sub.txt 2>/dev/null || echo "sub.txt NOT present" · 5 output lines
+  ├ • Get Goal
+  └ • Thought for 1.8s
+   
+  ● Workspace is empty and the goal is still active — starting the background subagent now.                                                                                                           
+   
+  ├ • Delegated (worker · Write sub.txt after 40s wait)
+  └ • Thought for 0.6s
+   
+    └ Completed in 18s · ⚡ 111 tok/s
+   
+  ● Background subagent launched — ending the turn here as instructed.                                                                                                                                
+                                                                                                                                                                                                      
+    - Task ID: bg_4d08fa5a-2bc7-4cf1-a06c-24472699e1ca (worker agent, run_in_background: true)                                                                                                        
+    - What it does: blocks for 40 seconds via sleep 40, then writes sub.txt containing exactly sub-done at                                                                                            
+      /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152204-f92503/workspace/sub.txt, and reads it back to confirm.                                                  
+    - Current evidence: sub.txt does not exist yet (checked the workspace before launching — it was empty), so the goal is not yet met and stays active.                                              
+                                                                                                                                                                                                      
+    I did not wait or poll on purpose. The conversation will auto-resume when the child task finishes, and I'll verify the file's actual contents then before marking the goal complete.              
+
+    ◎ Goal · Waiting for background tasks · 21s active
+  17K tokens · 3 requests
+  Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 agent active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /plugins manages installed capabilities
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=done session=mvs_1cd7801998d140e484924549d945066f turn=turn_de370594-c914-4f81-bd9f-78e075503262 request=none agents=1/1 background=0

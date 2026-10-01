@@ -1,0 +1,19 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-230602-b8d79e",
+      "instanceEvidenceDir": "_runs/runtime-questionnaire-auto",
+      "files": [
+        "001-rg1mig-questionnaire.auto-timeout--session.json",
+        "002-rg1mig-questionnaire.auto-timeout--create.json",
+        "003-rg1mig-questionnaire.auto-timeout--pending.json",
+        "004-rg1mig-questionnaire.auto-timeout--run.json",
+        "005-rg1mig-questionnaire.auto-timeout--snap-inspector",
+        "005-rg1mig-questionnaire.auto-timeout--snap-runtime-events.jsonl",
+        "005-rg1mig-questionnaire.auto-timeout--snap-workspace",
+        "005-rg1mig-questionnaire.auto-timeout--snap-workspace.json",
+        "005-rg1mig-questionnaire.auto-timeout--snap.json"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "scenario": "S11",
+  "attempt": "run1-invalid-auth401",
+  "evidenceDir": "S11/run1-invalid-auth401",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121355-854af4",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121355-854af4/server.log",
+    "contentSafetyLines": 6,
+    "contentSafety401": 5,
+    "first401": "[12:14:13.502] WARN: [structured-logger.js:17] [content-safety] review failed {\"reviewId\":\"5f6f242a-b843-4848-9219-02359c3a465a\",\"endpointHost\":\"matrix-pre.xaminim.com\",\"apiVersion\":\"v2\",\"scene\":13,\"durationMs\":79,\"failureKind\":\"auth\",\"statusCode\":401}",
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "2 次主执行请求同属一个 Turn：第1次带工具调 update_goal(complete)，第2次无工具纯文本",
+      "result": "PASS",
+      "detail": {
+        "calls": [
+          [
+            25,
+            [
+              "update_goal"
+            ]
+          ],
+          [
+            0,
+            []
+          ]
+        ]
+      }
+    },
+    {
+      "id": "接口：工作 1、收尾 1",
+      "result": "PASS",
+      "detail": {
+        "work_requests": 1,
+        "grace_requests": 1,
+        "requests_used": 2
+      }
+    },
+    {
+      "id": "verification_dispatched 晚于第2次响应；verdict met；complete(verifier_met)",
+      "result": "FAIL",
+      "detail": {
+        "dispatchedAt": 1790828044594,
+        "secondResponseEnd": 1790828043198,
+        "final": "paused(verifier_protocol)"
+      }
+    }
+  ]
+}

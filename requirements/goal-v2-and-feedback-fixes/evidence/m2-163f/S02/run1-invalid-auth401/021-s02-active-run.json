@@ -1,0 +1,52 @@
+{
+  "runId": "20261001-121346-dc03c5",
+  "capturedAt": 1790828092139,
+  "git": {
+    "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_a95820a2673245279ff117dbe9e35292/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790828092100,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(no_progress)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 9,
+      "goal.work_requests": 9,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 22445,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_qiqk6goujxmup0nk1f",
+      "session_id": "mvs_a95820a2673245279ff117dbe9e35292",
+      "objective": "Create files g1.txt to g8.txt one at a time, each containing its own number. After writing each file, run the shell command sleep 10 in the foreground.",
+      "status": "paused",
+      "created_at": 1790827833651,
+      "updated_at": 1790828082606,
+      "tokens_used": 22445,
+      "time_used_seconds": 55,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "paused(no_progress)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 9,
+      "work_requests": 9,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

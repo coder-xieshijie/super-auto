@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-215819-192c31",
+      "instanceEvidenceDir": "_runs/runtime-limits",
+      "files": [
+        "001-rg1base-limits.token-budget--session.json",
+        "002-rg1base-limits.token-budget--create.json",
+        "003-rg1base-limits.token-budget--run.json",
+        "004-rg1base-limits.token-budget--snap-inspector",
+        "004-rg1base-limits.token-budget--snap-runtime-events.jsonl",
+        "004-rg1base-limits.token-budget--snap-workspace.json",
+        "004-rg1base-limits.token-budget--snap.json"
+      ]
+    }
+  ]
+}

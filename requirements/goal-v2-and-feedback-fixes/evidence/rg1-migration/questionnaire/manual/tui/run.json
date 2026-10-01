@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-223916-19440c",
+      "instanceEvidenceDir": "_runs/tui-questionnaire-manual",
+      "files": [
+        "001-rg1mig-questionnaire.manual--ask.json",
+        "001-rg1mig-questionnaire.manual--ask.txt",
+        "002-rg1mig-questionnaire.manual--terminal.json",
+        "002-rg1mig-questionnaire.manual--terminal.txt",
+        "003-rg1mig-questionnaire.manual--idle.json",
+        "003-rg1mig-questionnaire.manual--idle.txt",
+        "004-rg1mig-questionnaire.manual--snap-inspector",
+        "004-rg1mig-questionnaire.manual--snap-runtime-events.jsonl",
+        "004-rg1mig-questionnaire.manual--snap-workspace",
+        "004-rg1mig-questionnaire.manual--snap-workspace.json",
+        "004-rg1mig-questionnaire.manual--snap.json",
+        "004-rg1mig-questionnaire.manual--snap.txt"
+      ]
+    }
+  ]
+}

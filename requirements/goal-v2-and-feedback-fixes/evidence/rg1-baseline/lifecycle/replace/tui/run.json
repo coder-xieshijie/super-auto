@@ -1,0 +1,18 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214053-2f5741",
+      "instanceEvidenceDir": "_runs/tui-lifecycle",
+      "files": [
+        "020-rg1base-lifecycle.replace--active.json",
+        "020-rg1base-lifecycle.replace--active.txt",
+        "021-rg1base-lifecycle.replace--snap-inspector",
+        "021-rg1base-lifecycle.replace--snap-runtime-events.jsonl",
+        "021-rg1base-lifecycle.replace--snap-workspace",
+        "021-rg1base-lifecycle.replace--snap-workspace.json",
+        "021-rg1base-lifecycle.replace--snap.json",
+        "021-rg1base-lifecycle.replace--snap.txt"
+      ]
+    }
+  ]
+}

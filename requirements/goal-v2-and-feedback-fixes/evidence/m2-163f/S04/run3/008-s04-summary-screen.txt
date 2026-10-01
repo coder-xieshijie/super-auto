@@ -1,0 +1,50 @@
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+  └ • Thought for 0.4s
+   
+  ● I'll check the workspace for any existing count.txt, then write it.                                                                                                                               
+   
+  ├ • Listed (**/count.txt)
+  ├ • Ran  pwd && ls -la · 4 output lines
+  └ • Thought for 0.3s
+   
+  ● Empty workspace — writing the file now.                                                                                                                                                           
+   
+  └ • Wrote (/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121731-cb0cef/workspace/count.txt)
+   
+    └ Interrupted after 5s · ⚡ 182 tok/s
+   
+    Goal · Paused                                                                                                                                                                                     
+    Objective: Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                               
+    Time used: 6s                                                                                                                                                                                     
+    16K tokens · 3 requests                                                                                                                                                                           
+    Requests: 3 (work 3)                                                                                                                                                                              
+    /goal resume · /goal edit · /goal clear                                                                                                                                                           
+
+    ◎ Goal · Paused · 6s active
+  16K tokens · 3 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                       Tip: /context shows the current Session context budget
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=cancel session=mvs_b20a3d0e985c4bdfbf3fcbbebbdc4e53 turn=turn_459605a8-38be-412e-9ffc-b218edea556e request=none agents=0/0 background=0

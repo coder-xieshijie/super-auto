@@ -1,0 +1,17 @@
+# fix/goal-final-result-delivery-preview-train @ 7337b129add0a4fd7eb064fee5329974f5fb48d8, 2026-09-30 20:40:10 +0800: UI focused tests + @mavis/ui typecheck (7337b129ad only changes packages/ui)
+== ui tests
+   ✓ MessageContainer assistant activity rendering > does not carry a pre-content thinking expansion into a later active activity group 365ms
+   ✓ MessageContainer assistant activity rendering > keeps the streamed body mounted and places steer after the running tool 352ms
+
+ Test Files  9 passed (9)
+      Tests  501 passed (501)
+   Start at  20:40:11
+   Duration  10.38s (transform 5.05s, setup 2.80s, collect 24.39s, tests 8.72s, environment 5.02s, prepare 519ms)
+
+ui tests: 9 files, 501 passed (zsh 下 PIPESTATUS 为空，退出码以 vitest 汇总为准)
+== ui typecheck
+
+> @mavis/ui@0.2.1 typecheck /Users/minimax/code/mm/worktrees/agent-archon/goal-final-delivery-preview-train/packages/ui
+> tsc --noEmit
+
+ui typecheck exit=0（单独重跑取得）

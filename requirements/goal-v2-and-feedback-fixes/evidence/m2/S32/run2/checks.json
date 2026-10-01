@@ -1,0 +1,131 @@
+{
+  "scenario": "S32",
+  "attempt": "run2",
+  "evidenceDir": "S07/run2",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-114047-7e5641",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-114047-7e5641/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "入口：同意提示的“拒绝”“同意并生成”可用鼠标点击",
+      "result": "FAIL",
+      "detail": {
+        "mouseClicks": [
+          [
+            "s32-decline-mouse",
+            1,
+            "developer-tools-backdrop intercepts pointer events"
+          ],
+          [
+            "s32-accept-mouse",
+            1,
+            "developer-tools-backdrop intercepts pointer events"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤1 拒绝不生成内容（键盘操作）",
+      "result": "PASS",
+      "detail": {
+        "filesAfterDecline": "files after decline:        0"
+      }
+    },
+    {
+      "id": "内容含请求与回执按已知/未知/已应用分类摘要与丢弃原因",
+      "result": "PASS",
+      "detail": {
+        "requestSummary": {
+          "total": 27,
+          "requests": {
+            "known": 27,
+            "unknown": 0,
+            "inFlight": 0,
+            "voided": 0
+          },
+          "receipts": {
+            "applied": 26,
+            "discarded": 1,
+            "usageIncomplete": 1
+          },
+          "discardReasons": {
+            "goal_deleted": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "声明数量与时间上限；条目数不超限；均在窗口内；有超过每 Goal 上限的 Goal",
+      "result": "PASS",
+      "detail": {
+        "limits": {
+          "maxGoals": 200,
+          "maxRequests": 500,
+          "maxRequestsPerGoal": 5
+        },
+        "windowDays": 2.0,
+        "goals": 3,
+        "items": 14,
+        "maxItemsPerGoal": 5,
+        "goalsOverPerGoalCap": [
+          [
+            "tg_tdln015mpomuozq19z",
+            6
+          ],
+          [
+            "tg_op54fzzed2muozmzpi",
+            17
+          ]
+        ],
+        "truncated": {
+          "goals": false,
+          "requests": false,
+          "requestsPerGoal": true
+        }
+      }
+    },
+    {
+      "id": "不含 objective、prompt、transcript 原文或原始回执",
+      "result": "FAIL",
+      "detail": {
+        "objectiveLeaks": [
+          "Reply with the single word DONE."
+        ],
+        "transcriptMarkers": [
+          "messages.jsonl"
+        ],
+        "freeTextFields(goalId, lastVerification.reason 长度, 有 lastWorkerProposal.summary)": [
+          [
+            "tg_tdln015mpomuozq19z",
+            1586,
+            true
+          ],
+          [
+            "tg_op54fzzed2muozmzpi",
+            3685,
+            true
+          ],
+          [
+            "tg_ul5p401g9mmuozlmyk",
+            3259,
+            true
+          ]
+        ]
+      }
+    },
+    {
+      "id": "诊断前后各 Goal 的 updated_at 与状态相同",
+      "result": "PASS",
+      "detail": {
+        "goals": 3,
+        "allSame": true
+      }
+    }
+  ]
+}

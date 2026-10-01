@@ -1,0 +1,68 @@
+{
+  "scenario": "S20",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-154014-ff4858",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-154014-ff4858/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：提示“服务商额度恢复后可继续”；hold 期间没有新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "guide": "服务商额度恢复后可继续",
+        "holdSeconds": 180.325,
+        "turnBoundInHold": 0,
+        "usage_recovery_scheduled": null
+      }
+    },
+    {
+      "id": "步骤3：恢复后一个新的 goal.turn_bound，随后回到 usage_limited(provider_quota)；会话里出现失败提示；横幅“服务商受限”",
+      "result": "UNVERIFIED",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          76
+        ],
+        "statusAfter": "usage_limited(provider_quota)",
+        "bannerStatus": "服务商受限",
+        "mainAttemptsAfterClick": [
+          [
+            3,
+            "injected",
+            429
+          ]
+        ],
+        "failureInAria": [],
+        "failureMessagesInHistory": [],
+        "note": "失败提示（输入框上方额度提醒）只停留约 3–4 秒，本次取证在回到 usage_limited 之后约 2 秒才读页面，已错过；失败提示一项未判定，其余条件见 detail。连拍取证见后续运行"
+      }
+    },
+    {
+      "id": "不得出现：提示“额度恢复后自动继续”",
+      "result": "PASS",
+      "detail": {
+        "guides": [
+          "服务商额度恢复后可继续",
+          "服务商额度恢复后可继续"
+        ]
+      }
+    }
+  ],
+  "info": {}
+}

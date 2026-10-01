@@ -1,0 +1,63 @@
+{
+  "scenario": "S05",
+  "attempt": "run1",
+  "evidenceDir": "S05/run1",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121349-6753bf",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121349-6753bf/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "替身：规则 A 两次 attempt，规则 B 已发出",
+      "result": "PASS",
+      "detail": {
+        "ruleA": [
+          [
+            1,
+            "injected",
+            500
+          ],
+          [
+            2,
+            "completed",
+            200
+          ]
+        ],
+        "ruleB": [
+          [
+            "injected",
+            502
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤2 paused(infra_retryable)、请求数 4",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(infra_retryable)",
+        "requests_used": 4,
+        "work_requests": 4,
+        "tokens_used": 20182
+      }
+    },
+    {
+      "id": "步骤3 paused(user_requested)、被取消的请求计入",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 2,
+        "mainRequestsSent(fault log)": 2,
+        "clientClosed": [
+          2
+        ],
+        "inspectorCaptured": 1,
+        "note": "Inspector 不保存被取消的请求；以 fault-proxy attempt 日志为准"
+      }
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.                                                                              
+                                                                                                                                                                                                      
+   
+  ● I'll check whether hello.html already exists in the workspace before creating it.                                                                                                                 
+   
+  ├ • Listed (*.html in /private/tmp/gfd-verifier-home/20260930-174538-b90971/workspace)
+  └ • Thought for 0.3s
+   
+  ● Nothing there yet — creating the page now.                                                                                                                                                        
+   
+  └ • Wrote (/private/tmp/gfd-verifier-home/20260930-174538-b90971/workspace/hello.html)
+   
+  ● Verifying the file on disk and its heading content.                                                                                                                                               
+   
+  ├ • Ran  cd /private/tmp/gfd-verifier-home/20260930-174538-b90971/workspace && ls -l hello.html && echo "---" && grep -n "<h1>" hello.html · 3 output lines
+  ├ • Thought for 5.3s
+  └ • Update Goal
+   
+    └ Completed in 19s · ⚡ 123 tok/s
+   
+  ● hello.html now exists in the workspace at /private/tmp/gfd-verifier-home/20260930-174538-b90971/workspace/hello.html — a self-contained 660-byte page (no build step, no external assets) that    
+    centers its content on a light background and renders a single <h1> reading Hello Goal.                                                                                                           
+                                                                                                                                                                                                      
+    Checks I ran myself: listed the file to confirm it landed on disk at the expected path and size, and grepped the source to confirm the heading element on line 30 is <h1>Hello Goal</h1>. Open it 
+    directly in a browser (double-click or open hello.htmlin the workspace) to see the rendered page.                                                                                                 
+    
+    Created  hello.html ↗
+   
+    ✓ Goal complete · 20s · 18K tokens · 1 turns                                                                                                                                                      
+
+    Message · Enter send · Ctrl+J newline                                                                                                    Tip: /goal keeps multi-step work focused on a finish line
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=8 state=done session=mvs_2eff571cd4aa49f4b913834b5d3c29b9 turn=turn_4532ba3b-9055-47d2-a6db-341c2d00be2c request=none agents=0/1 background=0

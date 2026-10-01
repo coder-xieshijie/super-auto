@@ -1,0 +1,29 @@
+# fix/goal-final-result-delivery-preview-train @ 09fa3b53eb415a73b8c8e756187337f38fbcfd52, 2026-09-30, tools/gfd-unit-final.sh + tsc (goal, local-runtime-v2, local-runtime, ui): no errors
+goal build 0
+== goal
+ Test Files  5 passed (5)
+      Tests  86 passed (86)
+== v2
+ Test Files  5 passed (5)
+      Tests  196 passed (196)
+== local-runtime
+ Test Files  3 passed (3)
+      Tests  61 passed (61)
+== ui
+ Test Files  9 passed (9)
+      Tests  500 passed (500)
+== agent-extension
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+== tui
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+== shared
+ Test Files  1 passed (1)
+      Tests  29 passed (29)
+goal tsc 0
+v2 tsc
+lr tsc
+ui tsc
+
+[exited with code 0]

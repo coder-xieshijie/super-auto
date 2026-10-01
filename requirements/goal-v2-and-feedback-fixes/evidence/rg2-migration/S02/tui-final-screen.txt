@@ -1,0 +1,50 @@
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.                                                                              
+                                                                                                                                                                                                      
+   
+  ● I'll check the workspace state first to see whether hello.html already exists.                                                                                                                    
+   
+  ├ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-223513-f2b536/workspace · 3 output lines
+  └ • Thought for 0.3s
+   
+  ● Workspace is empty — creating the page now.                                                                                                                                                       
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-223513-f2b536/workspace/hello.html)
+   
+  ● Let me verify the file content on disk.                                                                                                                                                           
+   
+  ├ • Searched (<h1>Hello Goal</h1> in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-223513-f2b536/workspace/hello.html)
+  └ • Thought for 1.0s
+   
+  ● Both requirements verified on disk. Marking the goal complete.                                                                                                                                    
+   
+  └ • Update Goal
+   
+    └ Completed in 15s · ⚡ 139 tok/s
+   
+  ● Created hello.html in the workspace root — a self-contained 603-byte page with no external dependencies. Its single main heading is <h1>Hello Goal</h1> (line 25), centered on a light background 
+    with a matching <title>Hello Goal</title>. I confirmed the heading markup on disk with a literal grep against the file, which returned exactly one match; I did not open it in a browser.         
+                                                                                                                                                                                                      
+    To view it, open the file directly in a browser, or run open hello.htmlfrom the workspace directory.                                                                                              
+    
+    Created  hello.html ↗
+   
+    ✓ Goal complete · 16s · 17K tokens · 1 turns                                                                                                                                                      
+
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /fork branches the current conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›   sk Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=8 state=done session=mvs_440f59a1c5fd4a0e9f175cd51686287b turn=turn_db201ec0-d879-42ba-863e-d52ee13bf275 request=none agents=0/1 background=0
+
+Continue this session with:
+  mcode --session mvs_440f59a1c5fd4a0e9f175cd51686287b
+
+Intelligence with everyone, bye~
+

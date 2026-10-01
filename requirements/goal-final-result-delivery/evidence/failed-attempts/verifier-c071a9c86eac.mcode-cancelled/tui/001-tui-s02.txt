@@ -1,0 +1,50 @@
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal.                                                                              
+                                                                                                                                                                                                      
+   
+  ● I'll check the workspace first to see whether hello.html already exists.                                                                                                                          
+   
+  ├ • Ran  ls -la /private/tmp/gfd-verifier-home/20260930-181450-9c8764/workspace · 3 output lines
+  └ • Thought for 0.2s
+   
+  ● Empty workspace — creating the page now.                                                                                                                                                          
+   
+  ├ • Wrote (/private/tmp/gfd-verifier-home/20260930-181450-9c8764/workspace/hello.html)
+  ├ • Thought for 0.6s
+  ├ • Ran  cd /private/tmp/gfd-verifier-home/20260930-181450-9c8764/workspace && ls -la hello.html && grep -c "Hello Goal" hello.html && grep -o "<h1>.*</h1>" hello.html · 3 output lines
+  └ • Thought for 0.8s
+   
+  ● File created and verified — marking the goal complete.                                                                                                                                            
+   
+  └ • Update Goal
+   
+    └ Completed in 11s · ⚡ 160 tok/s
+   
+  ● Created hello.html in the workspace — a standalone page (596 bytes) with a centered <h1>Hello Goal</h1>, matching page title, and a light minimal stylesheet. Checks I ran: confirmed the file    
+    exists on disk and grepped the source to confirm the heading element renders exactly the text Hello Goal. Open it directly in a browser, no build or server needed.                               
+                                                                                                                                                                                                      
+    File: /private/tmp/gfd-verifier-home/20260930-181450-9c8764/workspace/hello.html                                                                                                                  
+    
+    Created  hello.html ↗
+   
+    ✓ Goal complete · 12s · 17K tokens · 1 turns                                                                                                                                                      
+
+    Message · Enter send · Ctrl+J newline                                                                                                        Tip: /steer guides a response without interrupting it
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=8 state=done session=mvs_7a6233b18d2d4e11ad33536d745c3389 turn=turn_f6ee2bd9-179d-4703-827e-0bc6319f279e request=none agents=0/1 background=0

@@ -1,0 +1,20 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-230559-beaa5b",
+      "instanceEvidenceDir": "_runs/runtime-questionnaire-manual",
+      "files": [
+        "001-rg1mig-questionnaire.manual--session.json",
+        "002-rg1mig-questionnaire.manual--create.json",
+        "003-rg1mig-questionnaire.manual--pending.json",
+        "004-rg1mig-questionnaire.manual--reply.json",
+        "005-rg1mig-questionnaire.manual--run.json",
+        "006-rg1mig-questionnaire.manual--snap-inspector",
+        "006-rg1mig-questionnaire.manual--snap-runtime-events.jsonl",
+        "006-rg1mig-questionnaire.manual--snap-workspace",
+        "006-rg1mig-questionnaire.manual--snap-workspace.json",
+        "006-rg1mig-questionnaire.manual--snap.json"
+      ]
+    }
+  ]
+}

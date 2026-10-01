@@ -1,0 +1,18 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-230556-cad44d",
+      "instanceEvidenceDir": "_runs/runtime-attachments",
+      "files": [
+        "001-rg1mig-attachments.kickoff--session.json",
+        "002-rg1mig-attachments.kickoff--create.json",
+        "003-rg1mig-attachments.kickoff--run.json",
+        "004-rg1mig-attachments.kickoff--snap-inspector",
+        "004-rg1mig-attachments.kickoff--snap-runtime-events.jsonl",
+        "004-rg1mig-attachments.kickoff--snap-workspace",
+        "004-rg1mig-attachments.kickoff--snap-workspace.json",
+        "004-rg1mig-attachments.kickoff--snap.json"
+      ]
+    }
+  ]
+}

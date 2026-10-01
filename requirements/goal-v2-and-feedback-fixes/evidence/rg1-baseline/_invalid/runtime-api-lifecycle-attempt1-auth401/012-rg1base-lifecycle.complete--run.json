@@ -1,0 +1,53 @@
+{
+  "runId": "20260930-214051-c0e7de",
+  "capturedAt": 1790775696940,
+  "git": {
+    "head": "d770f05f30684417fbede1791371a7a392a90840",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_e1d5c1b81be447218a65dbd2dbac646e/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790775664867,
+      "goal.status": "active",
+      "goal.turns_used": 1
+    },
+    {
+      "at": 1790775676878,
+      "goal.status": "active",
+      "goal.turns_used": 2
+    },
+    {
+      "at": 1790775684887,
+      "goal.status": "active",
+      "goal.turns_used": 3
+    },
+    {
+      "at": 1790775696899,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(no_progress)",
+      "goal.turns_used": 4
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_xwsj2ry9o7muo5l710",
+      "session_id": "mvs_e1d5c1b81be447218a65dbd2dbac646e",
+      "objective": "Write the numbers 1 to 4 into count.txt, one number per line, then stop.",
+      "status": "paused",
+      "created_at": 1790775655380,
+      "updated_at": 1790775693115,
+      "tokens_used": 0,
+      "time_used_seconds": 31,
+      "token_budget": 80000,
+      "has_kickoff_attachments": false,
+      "turns_used": 4,
+      "status_reason": "paused(no_progress)",
+      "objective_resources": []
+    }
+  }
+}

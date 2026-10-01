@@ -1,0 +1,23 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-225451-6d6ed4",
+      "instanceEvidenceDir": "_runs/runtime-limits",
+      "files": [
+        "011-rg1mig-limits.timer--create.json",
+        "012-rg1mig-limits.timer--wait12.json",
+        "013-rg1mig-limits.timer--get1.json",
+        "014-rg1mig-limits.timer--wait4.json",
+        "015-rg1mig-limits.timer--get2.json",
+        "016-rg1mig-limits.timer--pause.json",
+        "017-rg1mig-limits.timer--paused-hold.json",
+        "018-rg1mig-limits.timer--get3.json",
+        "019-rg1mig-limits.timer--delete.json",
+        "020-rg1mig-limits.timer--snap-inspector",
+        "020-rg1mig-limits.timer--snap-runtime-events.jsonl",
+        "020-rg1mig-limits.timer--snap-workspace.json",
+        "020-rg1mig-limits.timer--snap.json"
+      ]
+    }
+  ]
+}

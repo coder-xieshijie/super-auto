@@ -1,0 +1,60 @@
+{
+  "runId": "20261001-140040-430482",
+  "capturedAt": 1790834474137,
+  "git": {
+    "head": "d770f05f30684417fbede1791371a7a392a90840",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_34b5d539c0964f4a828e9905e82c1ab1/goal",
+    "until": "goal.turns_used=4|5|6|7|8",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790834444015,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.tokens_used": 0
+    },
+    {
+      "at": 1790834462072,
+      "goal.status": "active",
+      "goal.turns_used": 1,
+      "goal.tokens_used": 20517
+    },
+    {
+      "at": 1790834468083,
+      "goal.status": "active",
+      "goal.turns_used": 2,
+      "goal.tokens_used": 21313
+    },
+    {
+      "at": 1790834470087,
+      "goal.status": "active",
+      "goal.turns_used": 3,
+      "goal.tokens_used": 21891
+    },
+    {
+      "at": 1790834474094,
+      "goal.status": "active",
+      "goal.turns_used": 4,
+      "goal.tokens_used": 22471
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_bwxaqdcgz9mup4l8io",
+      "session_id": "mvs_34b5d539c0964f4a828e9905e82c1ab1",
+      "objective": "Write the numbers 1 to 20 into count.txt, one number per line, writing one number per turn and ending your turn after each number.",
+      "status": "active",
+      "created_at": 1790834443872,
+      "updated_at": 1790834472181,
+      "tokens_used": 22471,
+      "time_used_seconds": 32,
+      "has_kickoff_attachments": false,
+      "turns_used": 4,
+      "objective_resources": []
+    }
+  }
+}

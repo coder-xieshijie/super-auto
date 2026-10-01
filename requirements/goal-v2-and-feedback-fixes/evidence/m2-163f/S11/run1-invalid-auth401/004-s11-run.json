@@ -1,0 +1,101 @@
+{
+  "runId": "20261001-121355-854af4",
+  "capturedAt": 1790828064370,
+  "git": {
+    "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_87e86febd8f748c6affdb8d759db54ec/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790828038264,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 0,
+      "goal.work_requests": 0,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 0,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828042271,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 1,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20039,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828044273,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 1,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 27580,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828046277,
+      "goal.status": "active",
+      "goal.execution.wait_reason": "verification",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 1,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 27580,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828064332,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(verifier_protocol)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 1,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 34217,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_ark4zynm04mup0rxsz",
+      "session_id": "mvs_87e86febd8f748c6affdb8d759db54ec",
+      "objective": "This goal has no work to do. Call update_goal to mark it complete right away, then tell me in one sentence that it is done.",
+      "status": "paused",
+      "created_at": 1790828038115,
+      "updated_at": 1790828063460,
+      "tokens_used": 34217,
+      "time_used_seconds": 7,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "paused(verifier_protocol)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 2,
+      "work_requests": 1,
+      "grace_requests": 1,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

@@ -1,0 +1,50 @@
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /goal to keep long-running work focused on a finish line.                                                                                                                                  │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use /history to review and branch from earlier prompts.                                                                                                                                        │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+  ● I'll write the file now.                                                                                                                                                                          
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121531-190394/workspace/count.txt)
+  ├ • Thought for 0.3s
+  └ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121531-190394/workspace/count.txt)
+   
+    Goal · Paused                                                                                                                                                                                     
+    Objective: Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                               
+    Time used: 5s                                                                                                                                                                                     
+    16K tokens · 3 requests                                                                                                                                                                           
+    Requests: 3 (work 3)                                                                                                                                                                              
+    /goal resume · /goal edit · /goal clear                                                                                                                                                           
+   
+  └ • Thought for 0.5s
+   
+  ● The file is written and verified — three lines, 1 through 3.                                                                                                                                      
+   
+  └ • Update Goal
+   
+  ● Done. count.txtwas created in the workspace with the numbers 1, 2, and 3, one per line — 6 bytes total. I wrote the file and then read it back to confirm it contains exactly those three lines,  
+    and that's the only check I ran.                                                                                                                                                                  
+    
+    Created  count.txt ↗
+   
+    └ Completed in 3s · ⚡ 212 tok/s
+   
+    ✓ Goal complete · 9s · 17K tokens · 5 requests                                                                                                                                                    
+
+    Goal resumed.
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=d state=done session=mvs_7be04d769f814989bf929adab1d684aa turn=turn_9ccc66d1-6811-4bbe-8d41-eb7aa0e872be request=none agents=0/1 background=0

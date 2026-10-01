@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214150-d60922",
+      "instanceEvidenceDir": "_runs/tui-continuation-bg",
+      "files": [
+        "001-rg1base-continuation.background--waiting.json",
+        "001-rg1base-continuation.background--waiting.txt",
+        "002-rg1base-continuation.background--complete.json",
+        "002-rg1base-continuation.background--complete.txt",
+        "003-rg1base-continuation.background--idle.json",
+        "003-rg1base-continuation.background--idle.txt",
+        "004-rg1base-continuation.background--snap-inspector",
+        "004-rg1base-continuation.background--snap-runtime-events.jsonl",
+        "004-rg1base-continuation.background--snap-workspace",
+        "004-rg1base-continuation.background--snap-workspace.json",
+        "004-rg1base-continuation.background--snap.json",
+        "004-rg1base-continuation.background--snap.txt"
+      ]
+    }
+  ]
+}

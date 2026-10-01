@@ -1,0 +1,22 @@
+- complementary:
+  - button "进度":
+    - text: 进度
+    - img
+  - text: 跟踪较长任务的进度
+  - button "Subagents":
+    - text: Subagents
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "交付物":
+    - text: 交付物
+    - img
+  - button "workspace"
+  - button:
+    - img
+  - button:
+    - img
+  - button "hello.html — small page with the main heading 'Hello Goal'":
+    - img
+    - text: hello.html — small page with the main heading 'Hello Goal'

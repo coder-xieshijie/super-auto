@@ -1,0 +1,65 @@
+{
+  "scenario": "S04",
+  "attempt": "run3",
+  "evidenceDir": "S04/run3",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121731-cb0cef",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121731-cb0cef/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "摘要列出请求数与构成，无 turns 用量",
+      "result": "PASS",
+      "detail": {
+        "summaryLine": "Requests: 3 (work 3)"
+      }
+    },
+    {
+      "id": "暂停前/摘要/完成 请求数单调不减；完成时请求数 = Inspector 条数 + 代理日志 client-closed 主执行请求数（verify 9d998c8968）",
+      "result": "PASS",
+      "detail": {
+        "beforePause": 2,
+        "summary": 3,
+        "complete": 6,
+        "inspectorGoalMain": 5,
+        "faultProxyClientClosedMainN": [
+          3
+        ],
+        "inspectorPlusClientClosed": 6,
+        "faultProxyMainRequestsSent": 6,
+        "faultProxyMainSentN": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "faultProxyInjections": 0,
+        "ledgerSettled": 6,
+        "settledOutcomes": [
+          "success",
+          "success",
+          "abort",
+          "success",
+          "success",
+          "success"
+        ],
+        "pauseAbortedInFlightRequest": true
+      }
+    },
+    {
+      "id": "完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致",
+      "result": "PASS",
+      "detail": {
+        "line": "✓ Goal complete · 13s · 17K tokens · 6 requests",
+        "runtimeRequestSettled": 6
+      }
+    }
+  ]
+}

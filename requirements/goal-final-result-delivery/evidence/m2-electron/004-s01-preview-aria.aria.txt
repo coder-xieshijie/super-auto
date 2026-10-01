@@ -1,0 +1,176 @@
+- alert
+- button "新建任务":
+  - img
+  - text: 新建任务 ⌘N
+- button "新建云端任务":
+  - img
+- button "插件·技能":
+  - img
+  - text: 插件·技能
+- button "定时":
+  - img
+  - text: 定时
+- button "网站":
+  - img
+  - text: 网站
+- button "远程":
+  - img
+  - text: 远程
+- radio "本地" [checked]
+- img
+- text: 本地
+- radio "云端"
+- img
+- text: 云端
+- button "项目" [expanded]:
+  - text: 项目
+  - img
+- button "筛选与分组":
+  - img
+- button "新建项目":
+  - img
+- button "未选项目" [disabled]:
+  - button "未选项目" [disabled]:
+    - img
+    - text: 未选项目
+    - button "新建任务":
+      - img
+- complementary "你的 Agents 现已移至插件":
+  - paragraph: 你的 Agents 现已移至插件
+  - button "关闭 Agents 引导":
+    - img
+  - button "立即查看"
+- status
+- text: MiniMax480534 Max
+- button "站内信，1 条未读消息":
+  - img
+- separator "Resize sidebar"
+- text: Create hello.html with Hello Goal
+- button:
+  - img
+- button "打开终端":
+  - img
+- button "工作区面板":
+  - img
+- button "侧边面板" [pressed]:
+  - img
+- img
+- text: Goal Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal. 16:48
+- button "回退":
+  - img
+- button "编辑":
+  - img
+- button "复制":
+  - img
+- button "共执行 13 秒":
+  - text: 共执行 13 秒
+  - img
+- text: "输出速度: 182 token/s"
+- paragraph:
+  - text: Created
+  - code: hello.html
+  - text: in the workspace — a small, centered web page whose main heading reads
+  - strong: Hello Goal
+  - text: .
+- paragraph:
+  - strong: "File:"
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-164730-1eee4f/data/sessions/mvs_40a321130b294d8ca66cb7787b7ace81/workspace/hello.html": hello.html
+- paragraph:
+  - strong: "Check I ran:"
+  - text: read the file back after writing and confirmed
+  - code: <h1>Hello Goal</h1>
+  - text: is present as the main heading inside a
+  - code: <main>
+  - text: element.
+- paragraph: Open it in any browser to view.
+- button "hello.html — small page with the main heading 'Hello Goal'": hello.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 16:48
+- img
+- text: 目标已完成 用时 14s
+- status:
+  - img
+  - text: 已完成
+  - button "Create a file named hello.html in the workspace. It should be a small web page whose main heading reads Hello Goal."
+  - text: 4万 tokens 1 轮 14s
+  - button "关闭完成标记":
+    - img
+- paragraph: 问任何问题
+- group:
+  - button "添加附件或技能":
+    - img
+  - button "始终授权":
+    - img
+  - button "上下文已使用 6%"
+  - button "选择模型 · M3"
+  - button:
+    - img
+  - button "发送消息" [disabled]:
+    - img
+- paragraph: 内容由AI生成，重要信息请务必核查
+- complementary:
+  - tablist:
+    - tab "Hello Goal" [selected]:
+      - img
+      - text: Hello Goal
+    - button "关闭标签页":
+      - img
+  - button "添加标签页":
+    - img
+  - button "最大化":
+    - img
+  - tooltip "新建 Mini App":
+    - status "新建 Mini App":
+      - text: 新建 Mini App New
+      - button "关闭 Mini App 提示":
+        - img
+      - paragraph: 点击“+”，选择 Mini App。
+  - button "后退":
+    - img
+  - button "前进" [disabled]:
+    - img
+  - button "刷新":
+    - img
+  - textbox "输入网址或 HTML 文件绝对路径": Hello Goal
+  - button "在外部浏览器打开":
+    - img
+  - button "截图":
+    - img
+  - button "注释":
+    - img
+  - button "更多":
+    - img
+  - button "发布"
+  - status:
+    - img
+    - text: 从 Chrome 导入登录状态 检测到已安装 Chrome，可选择账号并将 Cookie 复制到 Browser。
+    - button "导入"
+    - button "关闭 Chrome 导入提示":
+      - img
+- complementary "开发者面板":
+  - heading "拖动或使用方向键移动开发者面板" [level=2]:
+    - button "拖动或使用方向键移动开发者面板": 开发者面板
+  - button "展开开发者面板":
+    - img
+- complementary
+- button "收起侧边栏":
+  - img
+- button "搜索":
+  - img
+- tooltip "云端任务 New 关闭 显示同步到 Web 和 App 的任务":
+  - text: 云端任务 New
+  - button "关闭":
+    - img
+  - paragraph: 显示同步到 Web 和 App 的任务

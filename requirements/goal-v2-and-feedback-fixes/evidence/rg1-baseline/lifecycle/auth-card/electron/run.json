@@ -1,0 +1,19 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214056-44285f",
+      "instanceEvidenceDir": "_runs/electron-lifecycle",
+      "files": [
+        "001-rg1base-lifecycle.auth-card--mode.json",
+        "005-rg1base-lifecycle.auth-card--card-1.json",
+        "015-rg1base-lifecycle.auth-card--snap-inspector",
+        "015-rg1base-lifecycle.auth-card--snap-runtime-events.jsonl",
+        "015-rg1base-lifecycle.auth-card--snap-workspace",
+        "015-rg1base-lifecycle.auth-card--snap-workspace.json",
+        "015-rg1base-lifecycle.auth-card--snap.json",
+        "screenshot-1790775672634-rg1base-lifecycle.auth-card--mode.png",
+        "screenshot-1790775690615-rg1base-lifecycle.auth-card--card-1.png"
+      ]
+    }
+  ]
+}

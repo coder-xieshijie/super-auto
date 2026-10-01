@@ -1,0 +1,89 @@
+{
+  "runId": "20261001-121358-b68691",
+  "capturedAt": 1790828053054,
+  "git": {
+    "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_085145c63e404a69af4b54700d310aee/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790828041002,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 0,
+      "goal.work_requests": 0,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 0,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828047011,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 1,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20099,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828050014,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20473,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828053017,
+      "goal.status": "budget_limited",
+      "goal.status_reason": "budget_limited(token)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20473,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_1xsllm7wy4mup0rzxi",
+      "session_id": "mvs_085145c63e404a69af4b54700d310aee",
+      "objective": "Write a file notes.md with ten numbered one-line facts about the Rust programming language, then verify the file has exactly ten lines.",
+      "status": "budget_limited",
+      "created_at": 1790828040869,
+      "updated_at": 1790828050048,
+      "tokens_used": 20473,
+      "time_used_seconds": 10,
+      "token_budget": 3000,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "budget_limited(token)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 2,
+      "work_requests": 2,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "scenario": "S12",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-153010-d0c492",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153010-d0c492/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step1RunningServerTask": [
+        {
+          "taskId": "bg_0dd4b87c-061d-47c0-beaa-d31f3cf4b356",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790839831968,
+          "updatedAtMs": 1790839831970,
+          "endedAtMs": null,
+          "parentTurnId": "c7a84c78-5e6f-43f1-9de8-beefc3f23fee",
+          "description": "python3 -m http.server 8765"
+        }
+      ],
+      "port8765": "200"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：第一个 Goal complete(verifier_met)，count.txt 为 1 到 3",
+      "result": "PASS",
+      "detail": {
+        "goal1": "tg_pyjiv0dh7dmup7ssyj",
+        "status_reason": "complete(verifier_met)",
+        "count.txt": "1\n2\n3\n",
+        "requests_used": 4
+      }
+    },
+    {
+      "id": "步骤3：横幅从未出现“等待后台任务完成”，没有 deferred(required_background)",
+      "result": "PASS",
+      "detail": {
+        "bannerSamples": 8,
+        "distinctTexts": [
+          "正在验证目标结果",
+          "进行中"
+        ],
+        "deferredRequiredBackground": 0
+      }
+    },
+    {
+      "id": "步骤5：历史中两条 Goal 相关消息仍在；http.server 后台任务仍为 running",
+      "result": "PASS",
+      "detail": {
+        "goalMessagesInHistory": [
+          true,
+          true
+        ],
+        "serverTask": [
+          {
+            "taskId": "bg_0dd4b87c-061d-47c0-beaa-d31f3cf4b356",
+            "kind": "bash",
+            "status": "running",
+            "createdAtMs": 1790839831968,
+            "updatedAtMs": 1790839834514,
+            "endedAtMs": null,
+            "parentTurnId": "c7a84c78-5e6f-43f1-9de8-beefc3f23fee",
+            "description": "python3 -m http.server 8765"
+          }
+        ],
+        "port8765": "200",
+        "goal2": {
+          "goal_id": "tg_6sf5rib130mup7tcmy",
+          "status": "paused",
+          "status_reason": "paused(user_requested)"
+        },
+        "userMessages": [
+          "Start the shell command python3 -m http.server 8765 as a background task (bash tool with run_in_background: true) and en",
+          "Write the numbers 1 to 3 into count.txt, one number per line, then stop.",
+          "Write hello into later.txt, then stop."
+        ]
+      }
+    },
+    {
+      "id": "不得出现：Goal 停在“进行中”没有新的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "goal1TurnBound": 1
+      }
+    }
+  ],
+  "info": {}
+}

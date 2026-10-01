@@ -1,0 +1,40 @@
+{
+  "runId": "20260930-203510-96eccc",
+  "capturedAt": 1790772054122,
+  "git": {
+    "head": "42dc9215de7cafba3e12ba8bc892d6776c91b304",
+    "dirty": true
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_818cf397a8b04696bb04664e767071be/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790772038049,
+      "goal.status": "active"
+    },
+    {
+      "at": 1790772054067,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(verifier_runtime)"
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_j2uavgmg06muo3fntt",
+      "session_id": "mvs_818cf397a8b04696bb04664e767071be",
+      "objective": "Write the numbers 1 to 3 into count.txt, one number per line, then stop.",
+      "status": "paused",
+      "created_at": 1790772037985,
+      "updated_at": 1790772051584,
+      "tokens_used": 20949,
+      "time_used_seconds": 14,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "paused(verifier_runtime)",
+      "objective_resources": []
+    }
+  }
+}

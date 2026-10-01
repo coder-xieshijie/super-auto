@@ -1,0 +1,69 @@
+{
+  "scenario": "S16",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-152451-6e4554",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152451-6e4554/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "runningBashTasks": [
+        {
+          "taskId": "bg_0a8157cf-6543-43aa-b14c-c54ddf72f3c8",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790839528811,
+          "updatedAtMs": 1790839554875,
+          "endedAtMs": null,
+          "parentTurnId": "9e3664b7-d0d5-462d-bb62-6e5adb963d65",
+          "description": "cd /var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-15..."
+        }
+      ],
+      "port8767": "200",
+      "statusBeforeResume": "paused(user_requested)",
+      "sentViaApi": false
+    }
+  },
+  "checks": [
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound，且只有一个",
+      "result": "PASS",
+      "detail": {
+        "clickAt": 1790839566056,
+        "turnBoundAfterClick": [
+          70
+        ],
+        "within10s": 1,
+        "secondClick": "{\n  \"ok\": true\n}"
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，step.txt 为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "step.txt": "1"
+      }
+    },
+    {
+      "id": "不得出现：恢复后 active、无新 turn_bound、wait_reason 为空持续 30 秒以上",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAfterClickMs": 70,
+        "activeNoWaitSamples": 3
+      }
+    }
+  ],
+  "info": {}
+}

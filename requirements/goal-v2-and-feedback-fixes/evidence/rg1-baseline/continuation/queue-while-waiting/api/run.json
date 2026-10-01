@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-215621-5b93af",
+      "instanceEvidenceDir": "_runs/runtime-continuation-queue",
+      "files": [
+        "001-rg1base-continuation.queue-while-waiting--session.json",
+        "002-rg1base-continuation.queue-while-waiting--create.json",
+        "003-rg1base-continuation.queue-while-waiting--waiting.json",
+        "004-rg1base-continuation.queue-while-waiting--queue.json",
+        "005-rg1base-continuation.queue-while-waiting--history.json",
+        "006-rg1base-continuation.queue-while-waiting--goal-still-waiting.json",
+        "007-rg1base-continuation.queue-while-waiting--run.json",
+        "008-rg1base-continuation.queue-while-waiting--snap-inspector",
+        "008-rg1base-continuation.queue-while-waiting--snap-runtime-events.jsonl",
+        "008-rg1base-continuation.queue-while-waiting--snap-workspace",
+        "008-rg1base-continuation.queue-while-waiting--snap-workspace.json",
+        "008-rg1base-continuation.queue-while-waiting--snap.json"
+      ]
+    }
+  ]
+}

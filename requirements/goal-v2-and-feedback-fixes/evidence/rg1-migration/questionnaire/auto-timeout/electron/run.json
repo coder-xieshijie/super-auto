@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-224256-d8dd3d",
+      "instanceEvidenceDir": "_runs/electron-questionnaire-auto",
+      "files": [
+        "001-rg1mig-questionnaire.auto-timeout--mode.json",
+        "002-rg1mig-questionnaire.auto-timeout--banner.json",
+        "003-rg1mig-questionnaire.auto-timeout--card.json",
+        "004-rg1mig-questionnaire.auto-timeout--pending.json",
+        "005-rg1mig-questionnaire.auto-timeout--run.json",
+        "006-rg1mig-questionnaire.auto-timeout--card-after.json",
+        "007-rg1mig-questionnaire.auto-timeout--snap-inspector",
+        "007-rg1mig-questionnaire.auto-timeout--snap-runtime-events.jsonl",
+        "007-rg1mig-questionnaire.auto-timeout--snap-workspace",
+        "007-rg1mig-questionnaire.auto-timeout--snap-workspace.json",
+        "007-rg1mig-questionnaire.auto-timeout--snap.json",
+        "screenshot-1790779391362-rg1mig-questionnaire.auto-timeout--mode.png",
+        "screenshot-1790779396256-rg1mig-questionnaire.auto-timeout--banner.png",
+        "screenshot-1790779399439-rg1mig-questionnaire.auto-timeout--card.png",
+        "screenshot-1790779790378-rg1mig-questionnaire.auto-timeout--card-after.png"
+      ]
+    }
+  ]
+}

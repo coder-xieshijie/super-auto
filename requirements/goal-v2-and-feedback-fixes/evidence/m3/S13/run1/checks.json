@@ -1,0 +1,57 @@
+{
+  "scenario": "S13",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-152114-131895",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152114-131895/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step1ServerTask": [
+        {
+          "taskId": "bg_e471fe34-100c-4cc4-82eb-bffa03e188ca",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790839287983,
+          "updatedAtMs": 1790839287985,
+          "endedAtMs": null,
+          "parentTurnId": "turn_mup7gzvc_h85pom",
+          "description": "python3 -m http.server 8765"
+        }
+      ],
+      "step1StatusBackground": "1"
+    }
+  },
+  "checks": [
+    {
+      "id": "出现 ✓ Goal complete；count.txt 为 1 到 3",
+      "result": "PASS",
+      "detail": {
+        "completeLine": "✓ Goal complete · 12s · 3.0K tokens · 5 requests",
+        "count.txt": "1\n2\n3\n"
+      }
+    },
+    {
+      "id": "屏幕与轨迹中没有 Waiting for background tasks；状态栏 background=1",
+      "result": "PASS",
+      "detail": {
+        "rawHasWaiting": false,
+        "trajHasWaiting": false,
+        "finalStatusBackground": "1",
+        "deferredRequiredBackground": 0
+      }
+    }
+  ],
+  "info": {}
+}

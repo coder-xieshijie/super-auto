@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── × Error ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /context to check the current Session context budget.                                                                                                                                      │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Reduced repeated history processing and token estimation in long conversations.                                                                                                                │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Kept the input method candidate window anchored to the composer during redraws and prevented stale history rows after content changes.                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.                                                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll check the current state of the workspace before creating anything.                                                                                                                           
+   
+  ├ • Listed (e*.txt)
+  └ • Ran  ls -la /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152601-66c920/workspace · 3 output lines
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+   
+    × Error  Usage limit reached.                                                                                                                                                                     
+    Code: 42212                                                                                                                                                                                       
+    Check /usage or switch provider, then resend the message. Your prompt is preserved.                                                                                                               
+
+    ◎ Goal · Usage limited · 4s active
+  16K tokens · 3 requests · Goal will continue automatically after the quota resets.
+  Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                    Tip: /goal keeps multi-step work focused on a finish line
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=7 state=error session=mvs_937da681af5a47e585603b4857a12036 turn=none request=none agents=0/0 background=1
+
+
+

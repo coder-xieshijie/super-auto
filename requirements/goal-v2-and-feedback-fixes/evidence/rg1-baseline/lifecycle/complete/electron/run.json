@@ -1,0 +1,24 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214056-44285f",
+      "instanceEvidenceDir": "_runs/electron-lifecycle",
+      "files": [
+        "009-rg1base-lifecycle.complete--run.json",
+        "010-rg1base-lifecycle.complete--marker.json",
+        "011-rg1base-lifecycle.complete--marker-text.json",
+        "012-rg1base-lifecycle.complete--banner-status.json",
+        "013-rg1base-lifecycle.complete--aria.aria.txt",
+        "013-rg1base-lifecycle.complete--aria.json",
+        "014-rg1base-lifecycle.complete--snap-inspector",
+        "014-rg1base-lifecycle.complete--snap-runtime-events.jsonl",
+        "014-rg1base-lifecycle.complete--snap-workspace",
+        "014-rg1base-lifecycle.complete--snap-workspace.json",
+        "014-rg1base-lifecycle.complete--snap.json",
+        "screenshot-1790775731593-rg1base-lifecycle.complete--marker.png",
+        "screenshot-1790775731818-rg1base-lifecycle.complete--marker-text.png",
+        "screenshot-1790775732010-rg1base-lifecycle.complete--banner-status.png"
+      ]
+    }
+  ]
+}

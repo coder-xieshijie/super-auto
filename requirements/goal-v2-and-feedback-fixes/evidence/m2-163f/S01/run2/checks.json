@@ -1,0 +1,145 @@
+{
+  "scenario": "S01",
+  "attempt": "run2",
+  "evidenceDir": "S01/run2",
+  "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+  "runId": "20261001-121750-badeab",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121750-badeab/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "步骤1：横幅“0 次请求”；悬停“升级前 6 轮”，不含“本目标请求”",
+      "result": "PASS",
+      "detail": {
+        "policy": "2.3万 tokens\n0 次请求",
+        "hover": "升级前 6 轮"
+      }
+    },
+    {
+      "id": "步骤2：accountingVersion 2；历史占用 6；本目标请求 0；turns_used 6",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2,
+        "legacy_turns": 6,
+        "requests_used": 0,
+        "turns_used": 6
+      }
+    },
+    {
+      "id": "步骤4：工作请求 4（6+4=10），budget_limited；Inspector 恢复后 4 次工作 + 至多 1 次不带工具的收尾",
+      "result": "PASS",
+      "detail": {
+        "goal": {
+          "status_reason": "budget_limited(main_turn)",
+          "work_requests": 4,
+          "grace_requests": 1,
+          "requests_used": 5
+        },
+        "settledKinds": [
+          "work",
+          "work",
+          "work",
+          "work",
+          "grace"
+        ],
+        "requestToolCounts": [
+          28,
+          28,
+          28,
+          28,
+          0
+        ],
+        "responseTools": [
+          [
+            "read"
+          ],
+          [
+            "edit"
+          ],
+          [],
+          [
+            "edit"
+          ],
+          []
+        ]
+      }
+    },
+    {
+      "id": "恢复后只有一次新的 goal.turn_bound 属于恢复（之后续跑各一次）",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResume": [
+          [
+            1790828322164,
+            "turn_627e1f98-ca33-4fd2-8c4f-70682ad5226e"
+          ],
+          [
+            1790828328073,
+            "turn_d52c611e-a306-44a1-988b-7df56846c244"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4后横幅“N 次请求”= 接口本目标请求数；悬停含“升级前 6 轮”",
+      "result": "PASS",
+      "detail": {
+        "policy": "6.7万 tokens\n5 次请求",
+        "hover": "本目标请求 5（工作 4、收尾 1）· 升级前 6 轮"
+      }
+    },
+    {
+      "id": "收尾请求响应中的工具意图不执行（spec §5.2）",
+      "result": "PASS",
+      "detail": {
+        "graceRequestStartedAt": 1790828329823,
+        "graceResponseToolIntents(Inspector 原始响应)": [],
+        "graceResponseText": [
+          "Appended `6` — count.txt now holds lines 1–6, one new number this turn.\n\nProgress: 6 of 20 written. Next turn appends `7`.\n\n<deliver-assets>\n<media type=\"file\" src=\"/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-121750-badeab/data/sessions/mvs_dfc0c9d2a3634c97832b4b2c0bfbad9"
+        ],
+        "toolCallsInHistoryAfterGraceStart": [],
+        "graceStepMessages": [
+          {
+            "ts": 1790828332123,
+            "finish_reason": "stop",
+            "text": "Appended `6` — count.txt now holds lines 1–6, one new number this turn.\n\nProgress: 6 of 20 written. Next turn appends `7`.\n\n<deliver-assets>\n<media type=\"file\" src=\"/var/folders/pm/2zy2y3rd3tdd5j7yzlg",
+            "tool_calls": 0
+          }
+        ],
+        "toolCallsAfterResume(ts, names)": [
+          [
+            1790828324408,
+            [
+              "read"
+            ]
+          ],
+          [
+            1790828326050,
+            [
+              "edit"
+            ]
+          ],
+          [
+            1790828329643,
+            [
+              "edit"
+            ]
+          ]
+        ],
+        "count.txt": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    }
+  ]
+}

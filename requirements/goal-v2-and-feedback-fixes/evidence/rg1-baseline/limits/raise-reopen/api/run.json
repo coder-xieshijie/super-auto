@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-215819-192c31",
+      "instanceEvidenceDir": "_runs/runtime-limits",
+      "files": [
+        "007-rg1base-limits.raise-reopen--raise.json",
+        "008-rg1base-limits.raise-reopen--reopen.json",
+        "009-rg1base-limits.raise-reopen--delete.json",
+        "010-rg1base-limits.raise-reopen--snap-inspector",
+        "010-rg1base-limits.raise-reopen--snap-runtime-events.jsonl",
+        "010-rg1base-limits.raise-reopen--snap-workspace.json",
+        "010-rg1base-limits.raise-reopen--snap.json"
+      ]
+    }
+  ]
+}

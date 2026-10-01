@@ -1,0 +1,19 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214056-44285f",
+      "instanceEvidenceDir": "_runs/electron-lifecycle",
+      "files": [
+        "018-rg1base-completion.final-reply--lifted-cards.json",
+        "019-rg1base-completion.final-reply--aria.aria.txt",
+        "019-rg1base-completion.final-reply--aria.json",
+        "020-rg1base-completion.final-reply--snap-inspector",
+        "020-rg1base-completion.final-reply--snap-runtime-events.jsonl",
+        "020-rg1base-completion.final-reply--snap-workspace",
+        "020-rg1base-completion.final-reply--snap-workspace.json",
+        "020-rg1base-completion.final-reply--snap.json",
+        "screenshot-1790775734263-rg1base-completion.final-reply--lifted-cards.png"
+      ]
+    }
+  ]
+}

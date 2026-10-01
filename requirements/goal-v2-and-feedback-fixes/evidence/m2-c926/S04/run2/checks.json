@@ -1,0 +1,90 @@
+{
+  "scenario": "S04",
+  "attempt": "run2",
+  "evidenceDir": "S04/run2",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-142752-1565ba",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-142752-1565ba/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "摘要列出请求数与构成，无 turns 用量",
+      "result": "PASS",
+      "detail": {
+        "summaryLine": "Requests: 3 (work 3)"
+      }
+    },
+    {
+      "id": "暂停前/摘要/完成 请求数单调不减；完成时请求数 = Inspector 条数 + 代理日志 client-closed 主执行请求数（verify 9d998c8968）",
+      "result": "PASS",
+      "detail": {
+        "beforePause": 2,
+        "summary": 3,
+        "complete": 6,
+        "inspectorGoalMain": 5,
+        "faultProxyClientClosedMainN": [
+          3
+        ],
+        "inspectorPlusClientClosed": 6,
+        "faultProxyMainRequestsSent": 6,
+        "faultProxyMainSentN": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "faultProxyInjections": 0,
+        "ledgerSettled": 6,
+        "settledOutcomes": [
+          "success",
+          "success",
+          "abort",
+          "success",
+          "success",
+          "success"
+        ],
+        "pauseAbortedInFlightRequest": true
+      }
+    },
+    {
+      "id": "完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致",
+      "result": "PASS",
+      "detail": {
+        "line": "✓ Goal complete · 13s · 18K+ tokens · 6 requests",
+        "runtimeRequestSettled": 6
+      }
+    },
+    {
+      "id": "观察：被取消请求无用量时 token 显示“+”（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "summaryTokens": [
+          "16K+ tokens"
+        ],
+        "finalTokens": [
+          "16K+ tokens",
+          "18K+ tokens"
+        ],
+        "pausedScreenTokens": [
+          "16K+ tokens"
+        ],
+        "abortedSettled": [
+          {
+            "outcome": "abort",
+            "kind": "work",
+            "attempts": 1,
+            "requestId": "1cae7d4a-739c-4f5a-ab91-4ae5d453b9ce"
+          }
+        ],
+        "usageIncompleteMarkerInSummary": true
+      }
+    }
+  ]
+}

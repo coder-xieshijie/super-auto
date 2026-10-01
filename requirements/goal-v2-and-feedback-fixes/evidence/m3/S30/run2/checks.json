@@ -1,0 +1,148 @@
+{
+  "scenario": "S30",
+  "attempt": "run2",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-153342-36aac1",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "sleepTask": [
+        {
+          "taskId": "bg_fab4440b-abe1-4ea3-875c-c7c81549a58d",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790840035180,
+          "updatedAtMs": 1790840035184,
+          "endedAtMs": null,
+          "parentTurnId": "turn_mup7x0vf_75xpz7",
+          "description": "sleep 600"
+        }
+      ],
+      "statusBackground": "1"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：Goal 为 paused(infra_retryable)；没有定时恢复",
+      "result": "PASS",
+      "detail": {
+        "transitions": [
+          [
+            1790840038249,
+            "active",
+            "paused",
+            "paused(infra_retryable)"
+          ]
+        ],
+        "banner": "◎ Goal · Paused · 1s active"
+      }
+    },
+    {
+      "id": "步骤3：只产生一个新的 goal.turn_bound；先 Goal resumed. 再错误；回到 paused，没有自动重试",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [
+          "× Error  The model provider is temporarily unavailable."
+        ],
+        "newErrorIdx": [
+          36
+        ],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": "◎ Goal · Paused · 2s active",
+        "tail": [
+          "- It'll finish in about 10 minutes, and the conversation will resume automatically then.",
+          "- To check on it or cancel it, use task_query/task_output or task_stop with that ID.",
+          "› Write the numbers 1 to 3 into count.txt, one number per line, then stop.",
+          "└ Completed in 4s · ⚡ 181 tok/s",
+          "× Error  The response failed.",
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "× Error  The response failed.",
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "× Error  The model provider is temporarily unavailable.",
+          "Code: 50113",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "◎ Goal · Paused · 2s active",
+          "0 tokens · 2 requests",
+          "Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear"
+        ],
+        "turnBound": [
+          1190
+        ],
+        "transitions": [
+          [
+            1790840040476,
+            "active",
+            "paused",
+            "paused(infra_retryable)"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4：打印 Goal resumed. 随后该 Goal Turn 的输出；✓ Goal complete；count.txt 为 1 到 3",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [],
+        "newErrorIdx": [],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": null,
+        "tail": [
+          "├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/workspace/count.txt)",
+          "└ • Thought for 0.5s",
+          "× Error  The response failed.",
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "└ Completed in 7s",
+          "├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/workspace/count.txt)",
+          "├ • Thought for 0.7s",
+          "└ • Update Goal",
+          "● Done — count.txt now holds the numbers 1 through 3, one per line.",
+          "- File: /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/workspace/count.txt (6 bytes)",
+          "- Check I ran: I read the file back after writing it, and the three lines read 1, 2, 3.",
+          "Unrelated to this task, thesleep 600 background job (bg_fab4440b-abe1-4ea3-875c-c7c81549a58d) is still running from earlier and will end on its own in about 10 minutes; say the word if you'd",
+          "like it cancelled.",
+          "Created  count.txt ↗",
+          "✓ Goal complete · 10s · 3.4K tokens · 6 requests"
+        ],
+        "outputLines": [
+          "├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/workspace/count.txt)",
+          "├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153342-36aac1/workspace/count.txt)",
+          "└ • Update Goal",
+          "● Done — count.txt now holds the numbers 1 through 3, one per line."
+        ],
+        "complete": "✓ Goal complete · 10s · 3.4K tokens · 6 requests",
+        "countTxt": "1\n2\n3\n"
+      }
+    },
+    {
+      "id": "不得出现：步骤4 没有新的 turn_bound 却打印 Goal resumed.；/retry 起了不绑定 Goal 的续跑",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterRetry": 1,
+        "statusBarTurn": "turn_697bd273-a589-400d-8b70-2de32c0c9281",
+        "boundTurns": [
+          "turn_697bd273-a589-400d-8b70-2de32c0c9281"
+        ]
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 0
+  }
+}

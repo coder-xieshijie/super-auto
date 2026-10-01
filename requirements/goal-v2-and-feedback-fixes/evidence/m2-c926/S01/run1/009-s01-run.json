@@ -1,0 +1,100 @@
+{
+  "runId": "20261001-143459-7cbbec",
+  "capturedAt": 1790836576441,
+  "git": {
+    "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_34b5d539c0964f4a828e9905e82c1ab1/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790836549296,
+      "goal.status": "active",
+      "goal.turns_used": 6,
+      "goal.requests_used": 0,
+      "goal.work_requests": 0,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 6,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 22819,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790836558329,
+      "goal.status": "active",
+      "goal.turns_used": 6,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 6,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 53804,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790836561334,
+      "goal.status": "active",
+      "goal.turns_used": 6,
+      "goal.requests_used": 3,
+      "goal.work_requests": 3,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 6,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 54028,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790836564346,
+      "goal.status": "active",
+      "goal.turns_used": 6,
+      "goal.requests_used": 4,
+      "goal.work_requests": 4,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 6,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 54830,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790836576385,
+      "goal.status": "budget_limited",
+      "goal.status_reason": "budget_limited(main_turn)",
+      "goal.turns_used": 6,
+      "goal.requests_used": 5,
+      "goal.work_requests": 4,
+      "goal.grace_requests": 1,
+      "goal.legacy_turns": 6,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 69393,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_bwxaqdcgz9mup4l8io",
+      "session_id": "mvs_34b5d539c0964f4a828e9905e82c1ab1",
+      "objective": "Write the numbers 1 to 20 into count.txt, one number per line, writing one number per turn and ending your turn after each number.",
+      "status": "budget_limited",
+      "created_at": 1790834443872,
+      "updated_at": 1790836574302,
+      "tokens_used": 69393,
+      "time_used_seconds": 58,
+      "has_kickoff_attachments": false,
+      "turns_used": 6,
+      "status_reason": "budget_limited(main_turn)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 5,
+      "work_requests": 4,
+      "grace_requests": 1,
+      "legacy_turns": 6,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

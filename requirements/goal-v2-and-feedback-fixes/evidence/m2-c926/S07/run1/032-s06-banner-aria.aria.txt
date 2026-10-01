@@ -1,0 +1,11 @@
+- status:
+  - img
+  - text: 受阻
+  - button "Create five files a1.txt to a5.txt one at a time, each containing its own number. After writing each file, run the shell command sleep 5 in the foreground. Do all five in this single turn. Then call get_goal once, then verify all five files exist."
+  - text: 9.3万 tokens 20 次请求 1min42s
+  - button "编辑":
+    - img
+  - button "继续目标":
+    - img
+  - button "清除目标":
+    - img

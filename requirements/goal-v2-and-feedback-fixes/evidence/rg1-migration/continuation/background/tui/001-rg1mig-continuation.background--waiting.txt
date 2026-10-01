@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start the shell command sleep 40 && echo bg-done > bg.txt as a background task (bash tool with run_in_background: true) and end your turn right away without waiting or polling. After that      
+     background task has finished, read bg.txt and confirm it contains bg-done. The goal is met only when bg.txt contains bg-done.                                                                    
+                                                                                                                                                                                                      
+   
+  ● I'll start the background task as specified, then end this turn right away.                                                                                                                       
+   
+  ● Background task started (task id bg_e92ab343-f957-4d4c-814f-aa6708b12ac8). It will sleep 40 seconds and then write bg-done to bg.txt in the workspace. I'm ending this turn now without waiting or
+    polling — the conversation will resume automatically when the task finishes, and I'll read bg.txt then.                                                                                           
+   
+    └ Completed in 4s · ⚡ 166 tok/s
+
+    ◎ Goal · Waiting for background tasks · 5s active
+  16K tokens · 1 turns
+  Start the shell command `sleep 40 && echo bg-done > bg.txt` as a background task (bash tool with run_in_background: true) and end your turn right away without waiting or polling. After that backg…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 background active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                                        Tip: /rewind restores an earlier turn
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=4 state=done session=mvs_ffe1598c04054b05b7106dc7ebf4e9c5 turn=turn_8585c19e-bb4e-4dea-973d-46d14859148f request=none agents=0/0 background=1
+
+
+
+
+
+
+
+

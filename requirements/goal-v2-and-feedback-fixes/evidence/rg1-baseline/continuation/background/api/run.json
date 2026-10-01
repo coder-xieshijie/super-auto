@@ -1,0 +1,19 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-215426-3fe327",
+      "instanceEvidenceDir": "_runs/runtime-continuation-bg",
+      "files": [
+        "001-rg1base-continuation.background--session.json",
+        "002-rg1base-continuation.background--create.json",
+        "003-rg1base-continuation.background--waiting.json",
+        "004-rg1base-continuation.background--run.json",
+        "005-rg1base-continuation.background--snap-inspector",
+        "005-rg1base-continuation.background--snap-runtime-events.jsonl",
+        "005-rg1base-continuation.background--snap-workspace",
+        "005-rg1base-continuation.background--snap-workspace.json",
+        "005-rg1base-continuation.background--snap.json"
+      ]
+    }
+  ]
+}

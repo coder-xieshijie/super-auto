@@ -1,0 +1,50 @@
+  │ › Use /history to review and branch from earlier prompts.                                                                                                                                        │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  └ • Thought for 1.2s
+   
+  ● I'll check what's already in the workspace before creating the next file.                                                                                                                         
+   
+  ├ • Listed (d*.txt in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-142758-e2b4fa/workspace)
+  └ • Thought for 0.2s
+   
+  ● Nothing there yet — starting with d1.txt.                                                                                                                                                         
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-142758-e2b4fa/workspace/d1.txt)
+   
+  ● d1.txt is down. Next one.                                                                                                                                                                         
+   
+  └ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-142758-e2b4fa/workspace/d2.txt)
+   
+    └ Completed in 13s · ⚡ 175 tok/s
+   
+  ● d2.txt done. Creating d3.txt next.                                                                                                                                                                
+   
+    × Error  This Goal exhausted its execution budget. Clear it, then start a new Goal.                                                                                                               
+
+    ◎ Goal · Budget limited · 14s active
+  25K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                                          Tip: /skills lists available Skills
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›   sk Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=done session=mvs_5246a71288f94cfaacfe0044cc83618d turn=turn_29f02605-14dc-4186-8306-e4bd66438b77 request=none agents=0/0 background=0
+
+Continue this session with:
+  mcode --session mvs_5246a71288f94cfaacfe0044cc83618d
+
+Intelligence with everyone, bye~
+

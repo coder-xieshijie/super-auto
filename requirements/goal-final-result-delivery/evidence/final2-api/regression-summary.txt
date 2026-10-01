@@ -1,0 +1,16 @@
+{"ok":true,"status":200}
+{"ok":true,"final":{"status":"complete","turns_used":1}}
+{"items":0}
+lifecycle session mvs_8fe13e2215c247cbb745334a231b60d9
+{"status":"active","token_budget":80000}
+{"status":"paused","status_reason":"paused(user_requested)"}
+{"status":"paused","status_reason":"paused(user_requested)","objective":"Write the numbers 1 to 4 into count.txt, one number per line, then stop."}
+{"ok":true}
+{"status":"active"}
+{"status":"complete","status_reason":"complete(verifier_met)","backend":"subagent"}
+{"ok":true}
+{"ok":true,"status":200}
+{"body":{}}
+{"goal_id":"tg_b5qv7kc0somunwtrsi","status":"active","turns_used":0}
+{"ok":true,"status":200}
+LIFECYCLE=mvs_8fe13e2215c247cbb745334a231b60d9

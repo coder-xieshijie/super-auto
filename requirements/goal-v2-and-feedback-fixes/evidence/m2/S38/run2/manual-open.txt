@@ -1,0 +1,1 @@
+after force restart the sidebar project list stayed busy/disabled; session opened via 搜索 dialog: click 搜索, fill "Create f1", click the result

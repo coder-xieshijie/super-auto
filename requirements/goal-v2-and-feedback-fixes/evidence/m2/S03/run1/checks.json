@@ -1,0 +1,82 @@
+{
+  "scenario": "S03",
+  "attempt": "run1",
+  "evidenceDir": "S07/run1",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-111347-a1f5df",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-111347-a1f5df/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "步骤2：首个 Goal Turn 结算前请求数 >= 3、token > 0",
+      "result": "PASS",
+      "detail": {
+        "at": 1790824517931,
+        "requests": 3,
+        "tokens": 28299,
+        "firstTurnSettled": 1790824563974
+      }
+    },
+    {
+      "id": "步骤3：横幅请求数与接口一致；重载后一致且不小于重载前",
+      "result": "PASS",
+      "detail": {
+        "bannerBefore": "2.8万 tokens\n3 次请求",
+        "apiBefore": 3,
+        "bannerAfter": "2.8万 tokens\n3 次请求",
+        "apiAfter": 3
+      }
+    },
+    {
+      "id": "get_goal 结果的请求数 = 截至该次请求的 Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "(inspectorUpTo, get_goal.requestsUsed)": [
+          [
+            12,
+            12
+          ]
+        ]
+      }
+    },
+    {
+      "id": "终态：请求数 = Inspector Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 15,
+        "inspector": 15,
+        "status": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "补充消息那一轮不计入、回复为 4",
+      "result": "UNVERIFIED",
+      "detail": {
+        "supplementaryInHistory": 0,
+        "blocked": "619c419149 上 active Goal 的输入框处于“目标”模式，普通发送弹出“替换当前目标吗？”确认框，消息没有发出（截图 s03-supplement-sent）；输入意图改动属 M4（R75/R76），本提交未实现"
+      }
+    },
+    {
+      "id": "verifier 请求不计入请求数；tokens 增量 = verifier 输入+输出之和",
+      "result": "PASS",
+      "detail": {
+        "tokensAtVerification": 31727,
+        "final": 61559,
+        "delta": 29832,
+        "verifierInOut": 29832
+      }
+    },
+    {
+      "id": "accountingVersion 为 2",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "scenario": "S30",
+  "attempt": "run1",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-152507-ec0093",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "sleepTask": [
+        {
+          "taskId": "bg_75dfeef9-8033-4a13-add3-d89e053e0b7d",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790839519579,
+          "updatedAtMs": 1790839519581,
+          "endedAtMs": null,
+          "parentTurnId": "turn_mup7lz7z_3k5a9l",
+          "description": "sleep 600"
+        }
+      ],
+      "statusBackground": "1"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：Goal 为 paused(infra_retryable)；没有定时恢复",
+      "result": "PASS",
+      "detail": {
+        "transitions": [
+          [
+            1790839523628,
+            "active",
+            "paused",
+            "paused(infra_retryable)"
+          ]
+        ],
+        "banner": "◎ Goal · Paused · 1s active"
+      }
+    },
+    {
+      "id": "步骤3：只产生一个新的 goal.turn_bound；先 Goal resumed. 再错误；回到 paused，没有自动重试",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [
+          "× Error  The model provider is temporarily unavailable."
+        ],
+        "newErrorIdx": [
+          36
+        ],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": "◎ Goal · Paused · 2s active",
+        "tail": [
+          "● The sleep 600 is now running as background task bg_75dfeef9-8033-4a13-add3-d89e053e0b7d — it will finish in about 10 minutes, and the conversation will resume automatically when it does. No",
+          "other action taken this turn.",
+          "› Write the numbers 1 to 3 into count.txt, one number per line, then stop.",
+          "└ Completed in 3s · ⚡ 145 tok/s",
+          "× Error  The response failed.",
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "× Error  The response failed.",
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "× Error  The model provider is temporarily unavailable.",
+          "Code: 50113",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "◎ Goal · Paused · 2s active",
+          "0 tokens · 2 requests",
+          "Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear"
+        ],
+        "turnBound": [
+          1169
+        ],
+        "transitions": [
+          [
+            1790839526158,
+            "active",
+            "paused",
+            "paused(infra_retryable)"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4：打印 Goal resumed. 随后该 Goal Turn 的输出；✓ Goal complete；count.txt 为 1 到 3",
+      "result": "FAIL",
+      "detail": {
+        "newErrorLines": [],
+        "newErrorIdx": [],
+        "newResumedIdx": [],
+        "resumedBeforeError": false,
+        "banner": null,
+        "tail": [
+          "Reason: [Error] 502 {\"type\":\"error\",\"error\":{\"type\":\"api_error\",\"message\":\"Bad gateway\"}}",
+          "Run /retry to resend your last message. Your prompt is preserved.",
+          "└ Completed in 10s",
+          "● count.txt doesn't exist yet — creating it now.",
+          "└ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/workspace/count.txt)",
+          "● Now verifying the written content is exactly three lines.",
+          "├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/workspace/count.txt)",
+          "└ • Thought for 0.6s",
+          "● Content confirmed. Marking the goal complete.",
+          "└ • Update Goal",
+          "● Done. I created count.txt in the workspace with the numbers 1, 2, and 3, one per line.",
+          "The file is at /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/workspace/count.txt (6 bytes). I read it back and it shows exactly three lines — 1,",
+          "2, 3 — so the write landed as intended.",
+          "A side note: the sleep 600background task from the previous turn is still running; I left it alone since it wasn't part of this goal.",
+          "Created  count.txt ↗",
+          "✓ Goal complete · 13s · 3.4K tokens · 7 requests"
+        ],
+        "outputLines": [
+          "● count.txt doesn't exist yet — creating it now.",
+          "└ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/workspace/count.txt)",
+          "● Now verifying the written content is exactly three lines.",
+          "├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-152507-ec0093/workspace/count.txt)",
+          "● Content confirmed. Marking the goal complete.",
+          "└ • Update Goal",
+          "● Done. I created count.txt in the workspace with the numbers 1, 2, and 3, one per line."
+        ],
+        "complete": "✓ Goal complete · 13s · 3.4K tokens · 7 requests",
+        "countTxt": "1\n2\n3\n"
+      }
+    },
+    {
+      "id": "不得出现：步骤4 没有新的 turn_bound 却打印 Goal resumed.；/retry 起了不绑定 Goal 的续跑",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterRetry": 1,
+        "statusBarTurn": "turn_73795edd-7ff8-4872-ba7c-8ddfee802efe",
+        "boundTurns": [
+          "turn_73795edd-7ff8-4872-ba7c-8ddfee802efe"
+        ]
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 0
+  }
+}

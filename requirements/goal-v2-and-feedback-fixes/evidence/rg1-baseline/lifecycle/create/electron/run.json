@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214056-44285f",
+      "instanceEvidenceDir": "_runs/electron-lifecycle",
+      "files": [
+        "002-rg1base-lifecycle.create--banner.json",
+        "003-rg1base-lifecycle.create--status.json",
+        "004-rg1base-lifecycle.create--snap-runtime-events.jsonl",
+        "004-rg1base-lifecycle.create--snap-workspace.json",
+        "004-rg1base-lifecycle.create--snap.json",
+        "screenshot-1790775674468-rg1base-lifecycle.create--banner.png",
+        "screenshot-1790775674832-rg1base-lifecycle.create--status.png"
+      ]
+    }
+  ]
+}

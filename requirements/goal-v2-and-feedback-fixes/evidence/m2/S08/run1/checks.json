@@ -1,0 +1,48 @@
+{
+  "scenario": "S08",
+  "attempt": "run1",
+  "evidenceDir": "S08/run1",
+  "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+  "runId": "20261001-105616-629edb",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-105616-629edb/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "请求数增长 2 以上时 updated_at 不变",
+      "result": "PASS",
+      "detail": {
+        "v0": {
+          "goal_id": "tg_ppoy63kwqamuoy0347",
+          "v0": 1790823379399,
+          "requests_used_v0": 0
+        },
+        "grown": {
+          "at": 1790823383786,
+          "goal.status": "active",
+          "goal.turns_used": 0,
+          "goal.requests_used": 2,
+          "goal.work_requests": 2,
+          "goal.grace_requests": 0,
+          "goal.legacy_turns": 0,
+          "goal.unknown_requests": 0,
+          "goal.tokens_used": 20288,
+          "goal.usage_incomplete": false,
+          "goal.updated_at": 1790823379399
+        }
+      }
+    },
+    {
+      "id": "PATCH 带 v0 返回 200，objective 已更新（无 409 GOAL_CHANGED）",
+      "result": "PASS",
+      "detail": {
+        "status": 200,
+        "objective": "Create files c1.txt to c5.txt one at a time in this single turn, each containing its own number."
+      }
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "runId": "20261001-092133-a446de",
+  "capturedAt": 1790817722403,
+  "git": {
+    "head": "6d0823cc147a94578df6112ea380c82fd7bda6f4",
+    "dirty": true
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_97139113ad9f4aafb9628eec98de7614/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790817706300,
+      "goal.status": "active",
+      "goal.tokens_used": 0
+    },
+    {
+      "at": 1790817714318,
+      "goal.status": "active",
+      "goal.tokens_used": 20325
+    },
+    {
+      "at": 1790817718328,
+      "goal.status": "active",
+      "goal.tokens_used": 20528
+    },
+    {
+      "at": 1790817722338,
+      "goal.status": "budget_limited",
+      "goal.status_reason": "budget_limited(main_turn)",
+      "goal.tokens_used": 30271
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_f3n34e8gc7muoumhmo",
+      "session_id": "mvs_97139113ad9f4aafb9628eec98de7614",
+      "objective": "Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.",
+      "status": "budget_limited",
+      "created_at": 1790817706176,
+      "updated_at": 1790817722004,
+      "tokens_used": 30271,
+      "time_used_seconds": 16,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "budget_limited(main_turn)",
+      "objective_resources": []
+    }
+  }
+}

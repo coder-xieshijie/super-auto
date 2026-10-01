@@ -1,0 +1,75 @@
+{
+  "scenario": "S14",
+  "attempt": "run2",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-155715-8ba9ba",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-155715-8ba9ba/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "waitReasonReached": true,
+      "subagentTasks": [
+        {
+          "taskId": "bg_80745117-67b7-4589-82e1-ecfda13a4c15",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790841468541,
+          "updatedAtMs": 1790841468640,
+          "endedAtMs": null,
+          "parentTurnId": "turn_a9ece22c-e9a6-4e71-9d6d-98718d62b128",
+          "description": "Write sub.txt after 40s"
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：横幅为“等待后台任务完成”；continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "banner": "等待后台任务完成",
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "步骤3：消息在 Goal 等待时得到回复 42，接口 wait_reason 仍为 required_background",
+      "result": "UNVERIFIED",
+      "detail": {
+        "electronSendBlockedByReplaceDialog": true,
+        "reply": "42",
+        "waitReasonAfterReply": "required_background",
+        "subagentStatusAfterReply": [
+          "running"
+        ],
+        "note": "Electron 输入框在 active Goal 下仍是目标模式，发送弹出“替换当前目标？”，消息没有发出（输入意图属 M4，R75/R76）；同一消息改由接口发送作为 runtime 侧补充观察：回复 42 且仍在等待"
+      }
+    },
+    {
+      "id": "subagent 任务结束后出现新的 goal.turn_bound（只一次），最终 complete(verifier_met)，sub.txt 为 sub-done",
+      "result": "PASS",
+      "detail": {
+        "subagentEndedAt": 1790841519392,
+        "turnBoundAt": [
+          1790841454437,
+          1790841519402
+        ],
+        "turnBoundBeforeEndAfterFirst": 0,
+        "turnBoundAfterEnd": 1,
+        "status_reason": "complete(verifier_met)",
+        "sub.txt": "sub-done\n"
+      }
+    }
+  ],
+  "info": {}
+}

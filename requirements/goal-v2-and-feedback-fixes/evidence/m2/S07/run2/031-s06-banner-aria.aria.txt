@@ -1,0 +1,7 @@
+- status:
+  - img
+  - text: 已完成
+  - button "Write the numbers 1 to 3 into count.txt, one number per line, then stop."
+  - text: 1.2万+ tokens 6 次请求 12s
+  - button "关闭完成标记":
+    - img

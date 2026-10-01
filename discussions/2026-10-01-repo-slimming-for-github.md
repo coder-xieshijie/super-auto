@@ -91,3 +91,22 @@ topics: [仓库体积, GitHub, session 数据, 索引]
 4. `git filter-repo --invert-paths --path-regex` 改写全部 157 个提交；另删 3 个 Codex 应用留下的 `refs/codex/turn-diffs/checkpoints/*`（指向旧树，filter-repo 不改写，备份中仍在）；`gc --aggressive --prune=now` 后 `.git` 由 1.2 GB 降到 13 MB（pack 12.6 MiB），`git fsck --full` 无错误。
 5. 本地数据核对：索引中的文件全部存在；唯一大小不符的是正在写入的 `evidence/m23-6969/_build/prepare-runtime-d770f05f30.log`（MR 7595 deliver 在跑构建）。
 6. 旧新提交号对照：[data-index/commit-map.tsv](../data-index/commit-map.tsv)（如 `9481ec5` → `4e18c1dcf1`）。
+
+## 追问三：evidence 保留文档类，非文档为什么大，提交是否都保留
+
+> 再调整一下 evidence 的内容吧。文档类的东西应该就先保留，然后非文档的内容为什么会这么大呢？哪些内容占得比较大？现在调整之后的 commit 信息是有多少条？中间很多讨论的过程都保留了吗？
+
+evidence 591 MB 的构成（按 data-index 首版清单）：
+
+| 类别 | 大小 | 文件数 | 说明 |
+|---|---:|---:|---|
+| `payloads/*.request.json` | 216 MB | 4,336 | 故障代理抓下的每次模型请求完整请求体，每个约 100 KB，system prompt 与 tools 大量重复 |
+| png 截图 | 233 MB | 942 | Electron 场景截图，其中失败点击截图 21 MB |
+| log | 79 MB | 655 | electron-main 44.5 MB、runtime 24 MB、渲染进程 console 7.4 MB |
+| jsonl 与 `tui-output.raw` | 30 MB | 约 1,300 | steps、events、fault-proxy 流水与 TUI 原始输出 |
+| 其余 json | 28 MB | 约 4,800 | 各步骤 Goal 状态、history、config 快照 |
+| 文本类 | 约 5.6 MB | 1,640 | txt（TUI 屏幕文本等）、html、diff/patch、脚本、checks.json、run.json |
+
+提交：改写后 159 个提交（含其他会话之后提交的 `958e229`），commit-map 中被裁掉的为 0，涉及 discussions 与 process 的 121 个提交都在。拿备份旧 HEAD `5cae28e` 与对应新提交 `9f1133137f` 逐文件比对：仅少 16,664 个数据文件，其中没有 `.md`，其余文件内容一致。
+
+执行：`.gitignore` 把 evidence 中的 txt、html、diff、patch、sh、ts、mjs、`checks.json`、`*run.json` 重新纳入，新增 1,640 个文件约 5.6 MB；只追加提交、不再改写历史，这些文件不出现在旧提交里。暂存内容扫描凭据无命中。`data-index/files.tsv` 改为只列不进 Git 的 15,097 个文件（约 2.34 GB）。deliver 会话未提交的 `tools/m*` 文件未纳入。

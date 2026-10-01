@@ -1,0 +1,255 @@
+diff --git a/.harness/docs/goal/changes/2026-09-30-goal-final-result-delivery.md b/.harness/docs/goal/changes/2026-09-30-goal-final-result-delivery.md
+index 08147784f7..5e7559ade9 100644
+--- a/.harness/docs/goal/changes/2026-09-30-goal-final-result-delivery.md
++++ b/.harness/docs/goal/changes/2026-09-30-goal-final-result-delivery.md
+@@ -58,7 +58,7 @@
+ - `packages/local-runtime-v2/assets/agents/workflow/goal/continuation.md`、`terminal-audit.md`、`recovery-terminal-audit.md`
+ - `packages/ui/src/components/MessageContainer/MessageItem/models/assistantSegments.ts`、`goalDeliveryCards.ts`，
+   `MessageHistory/useMessageHistoryRows.tsx`、`MessageItem/assistant/AssistantSegmentRenderer.tsx`，
+-  `packages/ui/src/components/message/shownDeliveryCards.ts` 与 `message-shared.tsx`
++  `packages/ui/src/components/message/resultDeliveryCards.ts` 与 `message-shared.tsx`
+ 
+ ## 验收摘要
+ 
+diff --git a/.harness/docs/goal/implementation.md b/.harness/docs/goal/implementation.md
+index 829760eeee..462446a5c5 100644
+--- a/.harness/docs/goal/implementation.md
++++ b/.harness/docs/goal/implementation.md
+@@ -297,9 +297,9 @@ mode 为 `goal`、当前 Goal `complete` 且过程区未被强制展开时，给
+ [`collectLiftedDeliveryCards`](../../../packages/ui/src/components/MessageContainer/MessageItem/models/goalDeliveryCards.ts)
+ 从过程区文字解析交付标记，按 `deliveryPathKey`（相对路径按消息工作区解析、统一分隔符、Windows 路径不分大小写）去重并排除正文已有的文件；[`AssistantSegmentRenderer`](../../../packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx)
+ 在正文下方渲染 `goal-lifted-delivery-cards`，并用
+-[`ShownDeliveryCardsProvider`](../../../packages/ui/src/components/message/shownDeliveryCards.ts)
+-包住过程区，让 [`message-shared.tsx`](../../../packages/ui/src/components/message/message-shared.tsx)
+-的卡片渲染跳过结果区已显示的文件。
++[`ResultDeliveryCardsProvider`](../../../packages/ui/src/components/message/resultDeliveryCards.ts)
++包住过程区和正文：[`message-shared.tsx`](../../../packages/ui/src/components/message/message-shared.tsx)
++的卡片渲染在过程区跳过结果区已显示的文件，在正文里同一文件只保留第一张卡片。
+ 
+ ## 6. 独立验证与故障归属
+ 
+diff --git a/packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx b/packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx
+index 360a179276..1e8542d65a 100644
+--- a/packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx
++++ b/packages/ui/src/components/MessageContainer/MessageItem/assistant/AssistantSegmentRenderer.tsx
+@@ -3,9 +3,9 @@ import type { AgentTeamRecommendationStatus } from '@/components/genui/AgentTeam
+ import { DeliverAssetsCard } from '@/components/message/DeliverAssetsCard.js';
+ import { ImageGalleryCard } from '@/components/message/ImageGalleryCard.js';
+ import {
+-  ShownDeliveryCardsProvider,
+-  type ShownDeliveryCards,
+-} from '@/components/message/shownDeliveryCards.js';
++  ResultDeliveryCardsProvider,
++  type ResultDeliveryCards,
++} from '@/components/message/resultDeliveryCards.js';
+ import type { CloudSessionTurnResult } from '@/store/message.js';
+ import type { AssistantSegment } from '../models/assistantSegments.js';
+ import { deliveryPathKey, type LiftedDeliveryCards } from '../models/goalDeliveryCards.js';
+@@ -79,16 +79,19 @@ export function AssistantSegmentRenderer({
+   liftedDeliveryCards,
+ }: AssistantSegmentRendererProps) {
+   const processBlocks = archivedBlocks ?? [];
+-  const shownDeliveryCards = useMemo<ShownDeliveryCards | null>(
+-    () =>
+-      liftedDeliveryCards
+-        ? {
+-            has: (path) =>
+-              liftedDeliveryCards.resultPathKeys.has(deliveryPathKey(path, workspaceDir)),
+-          }
+-        : null,
+-    [liftedDeliveryCards, workspaceDir],
+-  );
++  // A completed Goal shows one card per file: the process skips files already
++  // in the result, and the body keeps one card per file.
++  const deliveryCardScopes = useMemo<{
++    process: ResultDeliveryCards;
++    body: ResultDeliveryCards;
++  } | null>(() => {
++    if (!liftedDeliveryCards) return null;
++    const keyOf = (path: string) => deliveryPathKey(path, workspaceDir);
++    return {
++      process: { keyOf, shownElsewhere: liftedDeliveryCards.resultPathKeys },
++      body: { keyOf, shownElsewhere: new Set() },
++    };
++  }, [liftedDeliveryCards, workspaceDir]);
+   const hasMixedActiveTrailingBlocks = Boolean(
+     activeTimelineBlocks?.length && activePostContentBlocks?.length,
+   );
+@@ -168,10 +171,10 @@ export function AssistantSegmentRenderer({
+ 
+   return (
+     <>
+-      {turnProcessNode && shownDeliveryCards ? (
+-        <ShownDeliveryCardsProvider value={shownDeliveryCards}>
++      {turnProcessNode && deliveryCardScopes ? (
++        <ResultDeliveryCardsProvider value={deliveryCardScopes.process}>
+           {turnProcessNode}
+-        </ShownDeliveryCardsProvider>
++        </ResultDeliveryCardsProvider>
+       ) : (
+         turnProcessNode
+       )}
+@@ -199,19 +202,21 @@ export function AssistantSegmentRenderer({
+ 
+       <div className="space-y-4" data-testid="assistant-active-flow">
+         <div className="space-y-4" data-testid="assistant-segment-active">
+-          <AssistantTextBlock
+-            content={activeSegment.contentPart.content}
+-            workspaceDir={workspaceDir}
+-            onSend={onSend}
+-            submitted={submitted}
+-            agentTeamRecommendationStatus={agentTeamRecommendationStatus}
+-            streaming={messageIsStreaming}
+-            streamRevealMode={streamRevealMode}
+-            messageId={messageId}
+-            partId={activeSegment.contentPart.id}
+-            sessionId={sessionId}
+-            cloudResult={cloudResult}
+-          />
++          <ResultDeliveryCardsProvider value={deliveryCardScopes?.body ?? null}>
++            <AssistantTextBlock
++              content={activeSegment.contentPart.content}
++              workspaceDir={workspaceDir}
++              onSend={onSend}
++              submitted={submitted}
++              agentTeamRecommendationStatus={agentTeamRecommendationStatus}
++              streaming={messageIsStreaming}
++              streamRevealMode={streamRevealMode}
++              messageId={messageId}
++              partId={activeSegment.contentPart.id}
++              sessionId={sessionId}
++              cloudResult={cloudResult}
++            />
++          </ResultDeliveryCardsProvider>
+         </div>
+ 
+         {liftedDeliveryCards &&
+diff --git a/packages/ui/src/components/message/message-shared.tsx b/packages/ui/src/components/message/message-shared.tsx
+index 29cc7c7bcd..59823cb80f 100644
+--- a/packages/ui/src/components/message/message-shared.tsx
++++ b/packages/ui/src/components/message/message-shared.tsx
+@@ -35,7 +35,7 @@ import {
+   STREAM_REVEAL_MAX_CHARS_PER_FRAME,
+ } from '@/components/message/hooks/streamPresentationConfig.js';
+ import { useStreamingPresentationResumeBaseline } from '@/components/message/hooks/StreamingPresentationResumeContext.js';
+-import { useShownDeliveryCards } from '@/components/message/shownDeliveryCards.js';
++import { useResultDeliveryCards } from '@/components/message/resultDeliveryCards.js';
+ import { useAgentStore } from '@/store/agent.js';
+ import { toAgentRequestRef } from '@/lib/agentRequestRef.js';
+ import { COPY_FEEDBACK_DELAY_MS } from '@/const/index.js';
+@@ -1052,18 +1052,22 @@ function MessageMarkdownContent({
+     finishDrainDuration: STREAM_FINISH_DRAIN_DURATION_MS,
+   });
+   const segments = useMemo(() => parseDeliverAssetsContent(displayContent), [displayContent]);
+-  const shownDeliveryCards = useShownDeliveryCards();
+-  const renderSegments = useMemo(
+-    () =>
+-      shownDeliveryCards
+-        ? segments.flatMap((segment): DeliverAssetsSegment[] => {
+-            if (segment.type === 'text') return [segment];
+-            const items = segment.items.filter((item) => !shownDeliveryCards.has(item.path));
+-            return items.length > 0 ? [{ ...segment, items }] : [];
+-          })
+-        : segments,
+-    [segments, shownDeliveryCards],
+-  );
++  const resultDeliveryCards = useResultDeliveryCards();
++  const renderSegments = useMemo(() => {
++    if (!resultDeliveryCards) return segments;
++    // One card per file: skip files shown elsewhere and repeats in this text.
++    const seen = new Set(resultDeliveryCards.shownElsewhere);
++    return segments.flatMap((segment): DeliverAssetsSegment[] => {
++      if (segment.type === 'text') return [segment];
++      const items = segment.items.filter((item) => {
++        const key = resultDeliveryCards.keyOf(item.path);
++        if (seen.has(key)) return false;
++        seen.add(key);
++        return true;
++      });
++      return items.length > 0 ? [{ ...segment, items }] : [];
++    });
++  }, [segments, resultDeliveryCards]);
+   const hasPresentationBacklog = displayContent !== content;
+   // The visible-prefix scheduler is the React completion boundary. Reveal
+   // animations continue independently in StreamMarkdown, so completing them
+diff --git a/packages/ui/src/components/message/resultDeliveryCards.ts b/packages/ui/src/components/message/resultDeliveryCards.ts
+new file mode 100644
+index 0000000000..8b98f3d2ea
+--- /dev/null
++++ b/packages/ui/src/components/message/resultDeliveryCards.ts
+@@ -0,0 +1,21 @@
++import { createContext, useContext } from 'react';
++
++/**
++ * Delivery cards of a completed Goal message, where one file gets one card.
++ * Card renderers inside that message skip a path whose key is already shown
++ * elsewhere in the result, and keep only the first card per key they render.
++ */
++export interface ResultDeliveryCards {
++  /** Dedupe key of a delivered path in this message (normalized path). */
++  keyOf(path: string): string;
++  /** Keys already shown in another part of the result area. */
++  readonly shownElsewhere: ReadonlySet<string>;
++}
++
++const ResultDeliveryCardsContext = createContext<ResultDeliveryCards | null>(null);
++
++export const ResultDeliveryCardsProvider = ResultDeliveryCardsContext.Provider;
++
++export function useResultDeliveryCards(): ResultDeliveryCards | null {
++  return useContext(ResultDeliveryCardsContext);
++}
+diff --git a/packages/ui/src/components/message/shownDeliveryCards.ts b/packages/ui/src/components/message/shownDeliveryCards.ts
+deleted file mode 100644
+index 891a82414a..0000000000
+--- a/packages/ui/src/components/message/shownDeliveryCards.ts
++++ /dev/null
+@@ -1,18 +0,0 @@
+-import { createContext, useContext } from 'react';
+-
+-/**
+- * Delivery cards a completed Goal message already shows in its result area.
+- * Card renderers inside that message's process area skip these paths, so a
+- * lifted card is never shown twice when the user expands the process.
+- */
+-export interface ShownDeliveryCards {
+-  has(path: string): boolean;
+-}
+-
+-const ShownDeliveryCardsContext = createContext<ShownDeliveryCards | null>(null);
+-
+-export const ShownDeliveryCardsProvider = ShownDeliveryCardsContext.Provider;
+-
+-export function useShownDeliveryCards(): ShownDeliveryCards | null {
+-  return useContext(ShownDeliveryCardsContext);
+-}
+diff --git a/packages/ui/test/unit/components/MessageContainer-GoalFinalReply.test.tsx b/packages/ui/test/unit/components/MessageContainer-GoalFinalReply.test.tsx
+index 4a0c3b1fcd..8e71b5b644 100644
+--- a/packages/ui/test/unit/components/MessageContainer-GoalFinalReply.test.tsx
++++ b/packages/ui/test/unit/components/MessageContainer-GoalFinalReply.test.tsx
+@@ -348,6 +348,25 @@ describe('Goal delivery card lifting', () => {
+     expect(screen.getByText('第二轮报告。')).toBeInTheDocument();
+   });
+ 
++  it('shows one card when the final reply declares the same file twice by equivalent paths', async () => {
++    renderGoal([
++      text('report', REPORT),
++      complete(),
++      text(
++        'final-reply',
++        `已完成。\n\n${deliver('/workspace/hello.html')}\n\n备份说明见下。\n\n${deliver('/workspace/./hello.html', 'hello.html')}`,
++      ),
++    ]);
++
++    await waitFor(() =>
++      expect(screen.getByTestId('turn-process-trigger')).toHaveAttribute('aria-expanded', 'false'),
++    );
++    expect(within(body()).getAllByText('hello.html')).toHaveLength(1);
++    expect(screen.queryByTestId('goal-lifted-delivery-cards')).not.toBeInTheDocument();
++    await expandProcess();
++    expect(cardsNamed('hello.html')).toHaveLength(1);
++  });
++
+   it('does not lift markup inside code or bare paths', async () => {
+     renderGoal([
+       text(

@@ -1,0 +1,77 @@
+{
+  "runId": "20261001-105622-034636",
+  "capturedAt": 1790823391518,
+  "git": {
+    "head": "619c4191490adac667a4ee90a93dd0198f12979f",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_496612a646f547bd840f28d7ee268777/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790823385464,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 0,
+      "goal.work_requests": 0,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 0,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790823388470,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 1,
+      "goal.work_requests": 1,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20040,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790823391478,
+      "goal.status": "budget_limited",
+      "goal.status_reason": "budget_limited(token)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20181,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_5hwx42rxbvmuoy07of",
+      "session_id": "mvs_496612a646f547bd840f28d7ee268777",
+      "objective": "Write a file notes.md with ten numbered one-line facts about the Rust programming language, then verify the file has exactly ten lines.",
+      "status": "budget_limited",
+      "created_at": 1790823385311,
+      "updated_at": 1790823390613,
+      "tokens_used": 20181,
+      "time_used_seconds": 6,
+      "token_budget": 3000,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "budget_limited(token)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 2,
+      "work_requests": 2,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

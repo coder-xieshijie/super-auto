@@ -1,0 +1,50 @@
+  │ › Fixed multiline text pasted by terminals without bracketed-paste framing being submitted line by line.                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met     
+     only when sub.txt contains sub-done.                                                                                                                                                             
+                                                                                                                                                                                                      
+   
+  ● I'll start the background subagent now and end the turn immediately.                                                                                                                              
+   
+  └ • Delegated (worker · Write sub.txt after delay)
+   
+  ● Background subagent started — task id bg_2bff3290-074d-493b-bbc1-eb6688cd6e04. It will sleep 40 seconds, then write sub.txt containing sub-done in the workspace. This turn ends now; I'll be     
+    resumed when the task completes.                                                                                                                                                                  
+   
+  └ • Thought for 0.3s
+   
+  ● The background task finished — let me read its result and verify the file on disk.                                                                                                                
+   
+  ├ ✓ Read task result · bg_2bf…
+  ├ • Thought for 0.4s
+  ├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153436-d9789a/workspace/sub.txt)
+  ├ • Thought for 1.6s
+  └ • Update Goal
+   
+  ● Done. The background subagent ran to completion and produced the file.                                                                                                                            
+                                                                                                                                                                                                      
+    What happened:                                                                                                                                                                                    
+    - In the previous turn I launched the subagent via the task tool with run_in_background: true (task id bg_2bff3290-074d-493b-bbc1-eb6688cd6e04) and ended the turn immediately, without waiting on
+      it.                                                                                                                                                                                             
+    - The child agent performed its 40-second wait and then wrote the output file.                                                                                                                    
+    - I read the task's result, then read the file myself: its content is exactly sub-done(9 bytes, single line with a trailing newline).                                                             
+                                                                                                                                                                                                      
+    Deliverable:                                                                                                                                                                                      
+                                                                                                                                                                                                      
+    sub.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-153436-d9789a/workspace/sub.txt) — plain text file whose only content issub-done; open it directly or cat
+     it in a shell.                                                                                                                                                                                   
+    
+    Created  sub.txt ↗
+   
+    └ Completed in 8s · ⚡ 165 tok/s
+   
+    ✓ Goal complete · 16s · 18K tokens · 6 requests                                                                                                                                                   
+
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /plugins manages installed capabilities
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=g state=done session=mvs_3ffe7dff070c48e5bdbf82f503d6dabe turn=turn_0642b4fc-fcb8-41a5-bf6a-37ed623b7dc0 request=none agents=0/2 background=0

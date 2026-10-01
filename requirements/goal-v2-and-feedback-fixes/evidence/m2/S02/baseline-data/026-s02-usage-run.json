@@ -1,0 +1,38 @@
+{
+  "runId": "20261001-104928-599e56",
+  "capturedAt": 1790822991162,
+  "git": {
+    "head": "d770f05f30684417fbede1791371a7a392a90840",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_77e6d3fd60104c5a87ce01d48ca04245/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790822991124,
+      "goal.status": "usage_limited",
+      "goal.status_reason": "usage_limited(provider_quota)",
+      "goal.turns_used": 1,
+      "goal.tokens_used": 19935
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_dkeq9pb3fgmuoxrip5",
+      "session_id": "mvs_77e6d3fd60104c5a87ce01d48ca04245",
+      "objective": "Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.",
+      "status": "usage_limited",
+      "created_at": 1790822979689,
+      "updated_at": 1790822983793,
+      "tokens_used": 19935,
+      "time_used_seconds": 5,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "usage_limited(provider_quota)",
+      "objective_resources": []
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "runId": "20261001-121352-069b3d",
+  "capturedAt": 1790828084139,
+  "git": {
+    "head": "163f31f8ce987c55428eedbacc3134f79b90206b",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_60e1bedbab4641a492969dddb724322d/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790828041960,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 2,
+      "goal.work_requests": 2,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20340,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828044964,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 3,
+      "goal.work_requests": 3,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20546,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828047968,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 4,
+      "goal.work_requests": 4,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 20712,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828053973,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 5,
+      "goal.work_requests": 5,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 21315,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828060011,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 7,
+      "goal.work_requests": 7,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 21760,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828069068,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 8,
+      "goal.work_requests": 8,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 21760,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828075079,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 9,
+      "goal.work_requests": 9,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 21760,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790828084090,
+      "goal.status": "paused",
+      "goal.status_reason": "paused(no_progress)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 9,
+      "goal.work_requests": 9,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 21760,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_20pej0qy2cmup0ruvc",
+      "session_id": "mvs_60e1bedbab4641a492969dddb724322d",
+      "objective": "Create files c1.txt to c5.txt one at a time in this single turn, each containing its own number.",
+      "status": "paused",
+      "created_at": 1790828034312,
+      "updated_at": 1790828083122,
+      "tokens_used": 21760,
+      "time_used_seconds": 51,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "paused(no_progress)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 9,
+      "work_requests": 9,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

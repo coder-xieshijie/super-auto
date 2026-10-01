@@ -1,0 +1,77 @@
+{
+  "scenario": "S10",
+  "attempt": "run1",
+  "evidenceDir": "S10/run1",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-143012-2cf6de",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-143012-2cf6de/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "前提（S09 步骤3）：前 3 次各一个写文件工具调用",
+      "result": "UNVERIFIED",
+      "detail": {
+        "first3Tools": [
+          [
+            "glob"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "横幅“4 次请求”；悬停含“工作 3、收尾 1”",
+      "result": "PASS",
+      "detail": {
+        "policy": "3.8万 tokens\n4 次请求",
+        "hover": "本目标请求 4（工作 3、收尾 1）"
+      }
+    },
+    {
+      "id": "横幅“已达上限”，提示“创建新目标后继续”，无额度恢复文案",
+      "result": "PASS",
+      "detail": {
+        "status": "已达上限",
+        "guide": "创建新目标后继续"
+      }
+    },
+    {
+      "id": "continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "count": 0
+      }
+    },
+    {
+      "id": "队列无预算总结项；hold 无新 Turn",
+      "result": "PASS",
+      "detail": {
+        "queue": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        },
+        "turnBound": 1
+      }
+    },
+    {
+      "id": "步骤5：回复 11；Goal 仍 budget_limited，objective 不变，横幅仍“已达上限”",
+      "result": "PASS",
+      "detail": {
+        "reply": "11",
+        "status": "budget_limited(main_turn)",
+        "bannerAfter": "已达上限"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "scenario": "S07",
+  "attempt": "run1",
+  "evidenceDir": "S07/run1",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-140729-d3c842",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-140729-d3c842/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "新 goal_id 不同；请求数与 tokens = Inspector 中新 Goal 的条数与用量（含 verifier）",
+      "result": "PASS",
+      "detail": {
+        "old": "tg_ev9desmr1bmup4u6zh",
+        "new": "tg_go6xenelzcmup4uf7q",
+        "requests_used": 2,
+        "inspectorNewMain": 2,
+        "tokens_used": 36868,
+        "newMainInOut": 2846,
+        "verifierInOut": 34022,
+        "verifierSnapshot": true
+      }
+    },
+    {
+      "id": "放行后没有以旧 goal_id 绑定的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "releasedAt": 1790834872916,
+        "oldTurnBoundAfter": 0
+      }
+    },
+    {
+      "id": "收到旧回执 → 运行时记录丢弃（诊断由 S32 文件核对）",
+      "result": "PASS",
+      "detail": {
+        "requestDiscarded": [
+          "goal_deleted"
+        ]
+      }
+    }
+  ]
+}

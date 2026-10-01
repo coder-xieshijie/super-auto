@@ -1,0 +1,91 @@
+{
+  "scenario": "S05",
+  "attempt": "run1",
+  "evidenceDir": "S05/run1",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-140756-90ea01",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-140756-90ea01/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "替身：规则 A 两次 attempt，规则 B 已发出",
+      "result": "PASS",
+      "detail": {
+        "ruleA": [
+          [
+            1,
+            "injected",
+            500
+          ],
+          [
+            2,
+            "completed",
+            200
+          ]
+        ],
+        "ruleB": [
+          [
+            "injected",
+            502
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤2 paused(infra_retryable)、请求数 4",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(infra_retryable)",
+        "requests_used": 4,
+        "work_requests": 4,
+        "tokens_used": 20493
+      }
+    },
+    {
+      "id": "步骤3 paused(user_requested)、被取消的请求计入；请求数 = Inspector 条数 + 替身日志 client-closed 主执行请求数（verify 8b46dcd7）",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 2,
+        "inspectorGoalMain": 1,
+        "inspectorAllCalls": 1,
+        "faultProxyClientClosedMainN": [
+          2
+        ],
+        "inspectorPlusClientClosed": 2,
+        "mainRequestsSent(fault log)": 2,
+        "mainSentN": [
+          1,
+          2
+        ],
+        "clientClosedAll": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "观察：被取消请求无用量时 usageIncomplete（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "usage_incomplete": true,
+        "tokens_used": 20092,
+        "settled": [
+          {
+            "outcome": "success",
+            "kind": "work",
+            "attempts": 1
+          },
+          {
+            "outcome": "abort",
+            "kind": "work",
+            "attempts": 1
+          }
+        ]
+      }
+    }
+  ]
+}

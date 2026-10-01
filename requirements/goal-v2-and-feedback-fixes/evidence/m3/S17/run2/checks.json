@@ -1,0 +1,122 @@
+{
+  "scenario": "S17",
+  "attempt": "run2",
+  "head": "512fd9792f3e971a38f5cad92fe518313fc192db",
+  "dirty": false,
+  "runId": "20261001-154950-ed49e4",
+  "restartRunId": null,
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-154950-ed49e4/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)",
+      "resetAtMs": 1790841192000
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：服务商受限，提示“额度恢复后自动继续”无时刻；continue-button 为 1；补充消息回复 9，之后仍 usage_limited、objective 不变",
+      "result": "PASS",
+      "detail": {
+        "bannerStatus": "服务商受限",
+        "guide": "额度恢复后自动继续",
+        "continueButton": 1,
+        "reply": "9",
+        "statusAfter": "usage_limited(provider_quota)",
+        "objectiveSame": true,
+        "sideSentViaApiFallback": false,
+        "usage_recovery_scheduled": true
+      }
+    },
+    {
+      "id": "步骤4 入口：重置之前点输入框 continue-button",
+      "result": "UNVERIFIED",
+      "detail": {
+        "continueButtonCountBeforeClick": "0",
+        "entryUsed": "banner-resume",
+        "note": "补充消息那一轮成功后输入框三角消失（usage_limited 时显示三角是 spec §11 / R84，属 M4 第 5 项，本提交未落地）；本次改点横幅继续（同一恢复路径）判定其余检查点"
+      }
+    },
+    {
+      "id": "步骤4：点击后一个新 goal.turn_bound，其请求收到额度错误，回到 usage_limited(provider_quota)；会话里出现失败提示；横幅仍“额度恢复后自动继续”无时刻；接口仍有自动恢复安排",
+      "result": "UNVERIFIED",
+      "detail": {
+        "entry": "banner-resume",
+        "clickAt": 1790841016069,
+        "turnBoundBeforeReset": [
+          73
+        ],
+        "mainAttemptsAfterClick": [
+          [
+            4,
+            "injected",
+            429
+          ]
+        ],
+        "statusAfter": "usage_limited(provider_quota)",
+        "guideAfter": "额度恢复后自动继续",
+        "usage_recovery_scheduled": true,
+        "failureInAria": [],
+        "failureMessagesInHistory": [],
+        "note": "失败提示（输入框上方额度提醒）只停留约 3–4 秒，本次取证在回到 usage_limited 之后约 2 秒才读页面，已错过；失败提示一项未判定，其余条件见 detail。连拍取证见后续运行"
+      }
+    },
+    {
+      "id": "步骤5：重置时间之后只有一个新的 goal.turn_bound；最终 complete(verifier_met)，e1–e3 存在",
+      "result": "PASS",
+      "detail": {
+        "resetAt": 1790841192000,
+        "turnBoundAfterResetMs": [
+          30
+        ],
+        "status_reason": "complete(verifier_met)",
+        "files": {
+          "e1.txt": "1\n",
+          "e2.txt": "2\n",
+          "e3.txt": "3\n"
+        }
+      }
+    },
+    {
+      "id": "不得出现：步骤4 点击没有产生 Goal Turn、停在 active 或被拒",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClick": 1
+      }
+    }
+  ],
+  "info": {
+    "step4ClickOk": true,
+    "step4Entry": "banner-resume",
+    "continueButtonBeforeClick": "0",
+    "transitions": [
+      [
+        1790841011242,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790841016481,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790841237960,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ]
+  }
+}

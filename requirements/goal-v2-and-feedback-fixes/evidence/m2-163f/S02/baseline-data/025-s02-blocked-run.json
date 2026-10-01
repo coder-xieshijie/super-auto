@@ -1,0 +1,38 @@
+{
+  "runId": "20261001-120844-851a75",
+  "capturedAt": 1790827754088,
+  "git": {
+    "head": "d770f05f30684417fbede1791371a7a392a90840",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_5745e19ae0914884a54a27e0f6c29836/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790827754050,
+      "goal.status": "blocked",
+      "goal.status_reason": "blocked(worker_reported)",
+      "goal.turns_used": 1,
+      "goal.tokens_used": 21020
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_kc0rmr2oplmup0lfjn",
+      "session_id": "mvs_5745e19ae0914884a54a27e0f6c29836",
+      "objective": "This goal cannot be done yet because the input file is missing. Call update_goal with status blocked and a short reason, then stop.",
+      "status": "blocked",
+      "created_at": 1790827734515,
+      "updated_at": 1790827744886,
+      "tokens_used": 21020,
+      "time_used_seconds": 11,
+      "has_kickoff_attachments": false,
+      "turns_used": 1,
+      "status_reason": "blocked(worker_reported)",
+      "objective_resources": []
+    }
+  }
+}

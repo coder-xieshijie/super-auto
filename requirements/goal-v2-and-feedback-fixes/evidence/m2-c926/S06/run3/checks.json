@@ -1,0 +1,42 @@
+{
+  "scenario": "S06",
+  "attempt": "run3",
+  "evidenceDir": "S07/run3",
+  "head": "c926bcd2e4d0b2f5ce99d3e98c59ca8852dc003a",
+  "runId": "20261001-143833-671ee9",
+  "authCheck": {
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-143833-671ee9/server.log",
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0
+  },
+  "checks": [
+    {
+      "id": "token 文字以“+”结尾",
+      "result": "PASS",
+      "detail": {
+        "text": "1万+ tokens"
+      }
+    },
+    {
+      "id": "悬停说明为“部分请求缺少用量数据”",
+      "result": "PASS",
+      "detail": {
+        "title": "部分请求缺少用量数据"
+      }
+    },
+    {
+      "id": "usageIncomplete true；请求数含缺用量的那一次",
+      "result": "PASS",
+      "detail": {
+        "usage_incomplete": true,
+        "requests_used": 4,
+        "mainRequestsSent": 4,
+        "strippedN": [
+          1
+        ]
+      }
+    }
+  ]
+}

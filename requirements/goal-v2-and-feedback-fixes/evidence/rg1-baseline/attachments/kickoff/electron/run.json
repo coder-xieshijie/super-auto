@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-214457-200380",
+      "instanceEvidenceDir": "_runs/electron-attachments",
+      "files": [
+        "001-rg1base-attachments.kickoff--mode.json",
+        "002-rg1base-attachments.kickoff--upload.json",
+        "003-rg1base-attachments.kickoff--bar.json",
+        "004-rg1base-attachments.kickoff--banner.json",
+        "005-rg1base-attachments.kickoff--goal.json",
+        "006-rg1base-attachments.kickoff--run.json",
+        "007-rg1base-attachments.kickoff--snap-inspector",
+        "007-rg1base-attachments.kickoff--snap-runtime-events.jsonl",
+        "007-rg1base-attachments.kickoff--snap-workspace",
+        "007-rg1base-attachments.kickoff--snap-workspace.json",
+        "007-rg1base-attachments.kickoff--snap.json",
+        "screenshot-1790775912462-rg1base-attachments.kickoff--mode.png",
+        "screenshot-1790775917792-rg1base-attachments.kickoff--upload.png",
+        "screenshot-1790775917990-rg1base-attachments.kickoff--bar.png",
+        "screenshot-1790775920351-rg1base-attachments.kickoff--banner.png"
+      ]
+    }
+  ]
+}

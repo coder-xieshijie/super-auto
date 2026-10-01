@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "runId": "20260930-223508-7900d1",
+      "instanceEvidenceDir": "_runs/tui-lifecycle",
+      "files": [
+        "001-rg1mig-lifecycle.create--active.json",
+        "001-rg1mig-lifecycle.create--active.txt",
+        "002-rg1mig-lifecycle.create--snap-runtime-events.jsonl",
+        "002-rg1mig-lifecycle.create--snap-workspace.json",
+        "002-rg1mig-lifecycle.create--snap.json",
+        "002-rg1mig-lifecycle.create--snap.txt"
+      ]
+    }
+  ]
+}

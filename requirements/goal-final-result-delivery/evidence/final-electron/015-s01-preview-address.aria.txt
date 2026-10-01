@@ -1,0 +1,1 @@
+- textbox "输入网址或 HTML 文件绝对路径": file:///var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20260930-171317-53c821/data/sessions/mvs_41e36b527e01462c9f34d2ec99b32fce/workspace/hello.html
