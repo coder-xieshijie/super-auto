@@ -180,7 +180,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - b08929b690：接管时只把同一 epoch 的 continuation 视为“已有”。
   - e71be11629：显式恢复和额度自动恢复结束用户停止留下的队列暂停。
   - bfc648cf9a：显式恢复也结束最终失败留下的暂停（采纳 codex q2 的意见）。
-  - 完整 v2 host 集成测试覆盖 user_stop、session_leave、final failure 三种情况，���复前失败、修复后通过。v2 测试 53 个文件 813 个通过，tsc、lint、depcruise、prettier 通过。
+  - 完整 v2 host 集成测试覆盖 user_stop、session_leave、final failure 三种情况，修复前失败、修复后通过。v2 测试 53 个文件 813 个通过，tsc、lint、depcruise、prettier 通过。
   - 另有 3b9fb0a0cc：verify-archon `list` 不再把 pid 被复用的已停实例显示为存活。
   - 这些修复改了恢复和启动路径，第二轮要在新 head 上重跑恢复相关场景和 S01。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
