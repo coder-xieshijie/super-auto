@@ -1,0 +1,11 @@
+17908568483N api-up-start
+1790856904141 electron-1-up-start
+1790856913445 electron-1-up-done
+1790857344518 electron-2-up-start lease=60
+1790857403453 electron-1-down-start
+1790857404114 electron-1-down-done
+1790857415516 electron-2-up-done
+1790857456245 electron-2-down-start
+1790857457432 electron-2-down-done
+1790857457449 api-down-start
+1790857461109 api-down-done

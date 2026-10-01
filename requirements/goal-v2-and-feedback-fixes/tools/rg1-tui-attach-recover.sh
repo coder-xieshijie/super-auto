@@ -85,18 +85,5 @@ vr tui down >"$OUT/down.json"
 log "down ok=$(jget "d.get('ok')" <"$OUT/down.json")"
 
 home=${VERIFY_ARCHON_HOME:-$(node -e "console.log(require('os').tmpdir())")/verify-archon}
-python3 - "$home/$RID/server.log" "$OUT/auth-check.json" "$OUT" <<'PY'
-import glob, json, os, re, sys
-log, out, rundir = sys.argv[1], sys.argv[2], sys.argv[3]
-text = ''
-for f in [log] + glob.glob(os.path.join(rundir, 'runtime-logs', '*')):
-    try:
-        text += open(f, errors='replace').read() + '\n'
-    except OSError:
-        pass
-lines = [re.sub(r'\x1b\[[0-9;]*m', '', l) for l in text.splitlines() if 'content-safety' in l]
-bad = [l for l in lines if '"statusCode":401' in l or 'failureKind":"auth' in l]
-json.dump({'serverLog': log, 'contentSafetyLines': len(lines), 'contentSafety401': len(bad), 'first401': bad[0][:300] if bad else None,
-           'electronAuthLost': 0}, open(out, 'w'), indent=2)
-PY
-log "auth-check contentSafety401=$(jget "d.get('contentSafety401')" <"$OUT/auth-check.json")"
+# verify-archon 的 down 已写 authCheck（含 http429、刷新次数）时用它；旧版没写时沿用原来的统计（authcheck.py）
+log "auth-check $(python3 "$TOOLS/authcheck.py" "$home/$RID/server.log" "$OUT/auth-check.json" "$OUT" "$RID" --down "$OUT/down.json" --no-electron)"

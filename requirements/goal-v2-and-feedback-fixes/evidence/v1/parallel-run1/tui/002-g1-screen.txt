@@ -1,0 +1,50 @@
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.1 ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── ● Ready ─╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Use /permission to choose how MCode handles tool approvals.                                                                                                                                    │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Fixed /btw side conversations failing to open while tools are running.                                                                                                                         │
+  │ › Provider setup now displays the Base URL and supports editing it with ctrl+e before testing. Failed connection tests clearly indicate that changes were not saved.                             │
+  │ › Local sessions using custom providers or API keys no longer require a managed login for title handling.                                                                                        │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count-1.txt, one number per line, then stop.                                                                                                                       
+                                                                                                                                                                                                      
+   
+  ● I'll write the file, then confirm its contents.                                                                                                                                                   
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-202545-eea415/workspace/count-1.txt)
+  ├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-202545-eea415/workspace/count-1.txt)
+  ├ • Thought for 0.9s
+  └ • Update Goal
+   
+    └ Completed in 16s · ⚡ 109 tok/s
+   
+  ● Done. count-1.txt now holds the numbers 1 through 3, one per line:                                                                                                                                
+                                                                                                                                                                                                      
+    1                                                                                                                                                                                                 
+    2                                                                                                                                                                                                 
+    3                                                                                                                                                                                                 
+                                                                                                                                                                                                      
+    I wrote the file (6 bytes) and read it back to confirm the three lines are exactly 1, 2, 3 as requested. No other files were touched.                                                             
+                                                                                                                                                                                                      
+    Path: /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-202545-eea415/workspace/count-1.txt                                                                         
+    
+    Created  count-1.txt ↗
+   
+    ✓ Goal complete · 17s · 17K tokens · 4 requests                                                                                                                                                   
+
+    Message · Enter send · Ctrl+J newline                                                                                                                          Tip: /skills lists available Skills
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=8 state=done session=mvs_80cefc82e08a49e7a2c2cdce7f89c1e9 turn=turn_b5cde56d-7c15-4ee6-9c27-60f555994b8e request=none agents=0/1 background=0

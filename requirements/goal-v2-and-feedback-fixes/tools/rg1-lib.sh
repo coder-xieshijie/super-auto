@@ -100,23 +100,8 @@ rg1_down() {
   # 环境核对：共享登录被别的进程刷新后，已启动实例手里的旧 token 失效，内容审核返回 401、输出被撤回。
   # 这种运行不代表产品行为，auth-check.json 里 contentSafety401 > 0 时整段重跑。
   local home=${VERIFY_ARCHON_HOME:-$(node -e "console.log(require('os').tmpdir())")/verify-archon}
-  python3 - "$home/$RID/server.log" "$RUNDIR/auth-check.json" "$RUNDIR" <<'EOF'
-import glob, json, os, re, sys
-log, out, rundir = sys.argv[1], sys.argv[2], sys.argv[3]
-text = ''
-for f in [log, os.path.join(rundir, 'electron-main.log')] + glob.glob(os.path.join(rundir, 'runtime-logs', '*')):
-    try:
-        text += open(f, errors='replace').read() + '\n'
-    except OSError:
-        pass
-lines = [re.sub(r'\x1b\[[0-9;]*m', '', l) for l in text.splitlines() if 'content-safety' in l]
-bad = [l for l in lines if '"statusCode":401' in l or 'failureKind":"auth' in l]
-# Electron：应用注入的 token 失效后跳到登录页、内嵌 runtime 报 bearer not synced
-login = [l for l in text.splitlines() if 'navigateToLogin' in l or 'bearer is not synced' in l]
-json.dump({'serverLog': log, 'contentSafetyLines': len(lines), 'contentSafety401': len(bad), 'first401': bad[0][:300] if bad else None,
-           'electronAuthLost': len(login)}, open(out, 'w'), indent=2)
-EOF
-  rg1_log "auth-check contentSafety401=$(jget "d.get('contentSafety401')" <"$RUNDIR/auth-check.json") electronAuthLost=$(jget "d.get('electronAuthLost')" <"$RUNDIR/auth-check.json")"
+  # verify-archon 的 down 已写 authCheck（含 http429、刷新次数）时用它；旧版没写时沿用原来的统计（authcheck.py）
+  rg1_log "auth-check $(python3 "$RG1_TOOLS/authcheck.py" "$home/$RID/server.log" "$RUNDIR/auth-check.json" "$RUNDIR" "$RID" --down "$RUNDIR/down.json")"
   python3 "$RG1_TOOLS/rg1-organize.py" "$RUNDIR" "$RG1_ROOT" "$RG1_TAG" "$entry" "$RID" >&2
 }
 

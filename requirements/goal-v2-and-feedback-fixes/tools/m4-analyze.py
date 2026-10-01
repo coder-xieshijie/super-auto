@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""M4 场景判定：读 <M2_ROOT>/<场景>/<尝试>/ 的证据，按 verify.md（8b46dcd7；5258bae92d 的 3c9e95f6 场景文字相同）写 checks.json。
+"""M4 场景判定：读 <M2_ROOT>/<场景>/<尝试>/ 的证据，按 verify.md（8b46dcd7；5258bae92d 的 3c9e95f6 场景文字相同；
+9a596da696 的 944fbc45 只改了 S24 步骤 4，改按 ⌘⏎，S24 带 s24-step4-key 的证据按它判定）写 checks.json。
 
 用法：python3 m4-analyze.py <场景> <尝试目录名>
   M4 场景：S22 S23 S24 S25 S26 S27 S28 S29（含 S29b，写到 S29 目录，另把 S29b 的判定写到 S29b/<尝试>/checks.json）S31 S33 S39
@@ -406,23 +407,33 @@ def s24(d):
     ok2 = fb is not None and T0 in gturns and fb['turnId'] != T0 and fb['startedAtMs'] >= T0_end
     det = {'goalTurnRunningAtStep2': T0, 'isGoalTurn': T0 in gturns, 'thatTurnLastRequestEndedAt': T0_end,
            'firstRequestWithBold': {'turnId': fb['turnId'], 'startedAt': fb['startedAtMs'], 'goalBound': fb['turnId'] in gturns} if fb else None}
+    # verify 944fbc45：步骤4 按 ⌘⏎（默认发送偏好下的“立即发送”）。run1–run4 的旧证据另有 s24-step4-shift-cmd-enter（先按 ⇧⌘⏎）
+    key = rd(d, 's24-step4-key')
     shift = rd(d, 's24-step4-shift-cmd-enter')
     t4c = int(rd(d, 's24-step4-cmd-enter-at-ms') or 0)
     if t4:
         T4 = rd(d, 's24-step4-goal-turn')
-        t_send = t4 if shift == 'sent' else t4c
+        if key:
+            sent = rd(d, 's24-step4-sent')
+            t_send = t4 if sent == 'sent' else 0
+            key_used = key
+        else:
+            sent = shift
+            t_send = t4 if shift == 'sent' else t4c
+            key_used = 'Meta+Shift+Enter' if shift == 'sent' else ('Meta+Enter' if t4c else None)
         nxt = [c for c in calls if c['turnId'] == T4 and (c['startedAtMs'] or 0) > (t_send or 1e18)]
         blue_calls = [c for c in calls if call_has(c, 'blue color for the heading') and not c['isTitle']]
         fbl = blue_calls[0] if blue_calls else None
         ok4 = bool(t_send) and fbl is not None and T4 in gturns and nxt and nxt[0]['callId'] == fbl['callId']
-        det.update({'goalTurnRunningAtStep4': T4, 'isGoalTurn': T4 in gturns, 'keyUsed': 'Meta+Shift+Enter' if shift == 'sent' else ('Meta+Enter' if t4c else None),
+        det.update({'goalTurnRunningAtStep4': T4, 'isGoalTurnAtStep4': T4 in gturns, 'keyUsed': key_used, 'sent': sent,
+                    'textareaAfterSend': text_saved(d, 's24-step4-textarea-after-send') if key else None,
                     'sentAt': t_send, 'nextRequestInThatTurn': nxt[0]['startedAtMs'] if nxt else None,
-                    'firstRequestWithBlue': {'turnId': fbl['turnId'], 'startedAt': fbl['startedAtMs'], 'goalBound': fbl['turnId'] in gturns} if fbl else None})
-        check('步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里', ok2 and ok4,
-              dict(det, note=None if shift == 'sent' else '⇧⌘⏎ 没有发出，步骤4 按产品默认设置下的“立即发送”键 ⌘⏎ 判定（见下一项）'))
-        check('步骤4 按 verify 原文的 ⇧⌘⏎ 发送（“立即发送”）', shift == 'sent',
-              {'shiftCmdEnter': shift, 'textareaAfter': text_saved(d, 's24-step4-textarea-after-shift-cmd-enter'),
-               'note': '默认“回车发送”时，产品把单次“立即发送”绑在 ⌘⏎；⇧⌘⏎ 只在发送键改为 ⌘⏎ 时生效（RichTextInput/extensions.ts Mod-Shift-Enter、shortcuts/composer-invert-accelerator.ts）'})
+                    'nextRequestCallId': nxt[0]['callId'] if nxt else None,
+                    'firstRequestWithBlue': {'callId': fbl['callId'], 'turnId': fbl['turnId'], 'startedAt': fbl['startedAtMs'], 'goalBound': fbl['turnId'] in gturns} if fbl else None})
+        check('步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里', ok2 and ok4, det)
+        if not key:  # 旧证据（verify 3c9e95f6 之前的字面）
+            check('步骤4 按 verify 原文的 ⇧⌘⏎ 发送（“立即发送”）', shift == 'sent',
+                  {'shiftCmdEnter': shift, 'textareaAfter': text_saved(d, 's24-step4-textarea-after-shift-cmd-enter')})
     else:
         check('步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里', ok2,
               dict(det, note='步骤4 没有执行：补充消息处理后 Goal 没有再出现运行中的 Goal Turn（s24-step4-skipped）'), result='UNVERIFIED')
@@ -506,6 +517,38 @@ def s26(d):
     check('最终 r.txt 为 final；同一会话只有一个 Goal',
           (r or '').strip() == 'final' and len(gids) == 1 and gf.get('goal_id') in gids,
           {'r.txt': r, 'goalIdsInEvents': gids, 'goalCreatedEvents': len(created), 'final': gf.get('status_reason'), 'objective': gf.get('objective')})
+    s26_observe(d, S, ev, t5, gf)
+
+
+def s26_observe(d, S, ev, t5, gf):
+    """24083bcc3c 修复后的补充观察（只写 info，不改判定）：步骤5 确认替换后到终态之间的 turn_bound 次数（期望 1）、
+    每个 turn_bound 在 runtime 日志里是否有 agent turn setup、会话列表里该会话的 status.message 是否为空。"""
+    import glob
+    run = load_json(saved(d, 's26-run')) if saved(d, 's26-run') else {}
+    term = next((p['at'] for p in (run.get('trajectory') or []) if p.get('at', 0) >= t5
+                 and p.get('goal.status') not in (None, 'active')), None)
+    gid = gf.get('goal_id')
+    tb = [e for e in ev if e['type'] == 'goal.turn_bound' and e['payload'].get('goalId') == gid and e['ts'] >= t5
+          and (term is None or e['ts'] <= term)]
+    text = ''
+    for p in glob.glob(os.path.join(d, 'runtime-logs', '*')) + [os.path.join(d, 'electron-main.log')]:
+        try:
+            text += open(p, errors='replace').read()
+        except OSError:
+            pass
+    setup_ids = set(re.findall(r'agent_turn_setup_stage_started","session_id":"[^"]*","turn_id":"([^"]+)"', re.sub(r'\x1b\[[0-9;]*m', '', text)))
+    per = [{'turnId': e['payload'].get('turnId'), 'afterConfirmMs': e['ts'] - t5, 'agentTurnSetup': e['payload'].get('turnId') in setup_ids} for e in tb]
+    lst = body(d, 's26-session-list') or {}
+    items = lst.get('sessions') or lst.get('items') or lst.get('list') or []
+    me = next((x for x in items if x.get('session_id') == S), {})
+    st = me.get('status') or {}
+    info['s26Observations'] = {
+        'note': '只记录，不改判定（协调方 2026-10-01 要求，验证 24083bcc3c）',
+        'turnBoundAfterReplaceConfirmUntilTerminal': len(tb), 'expected': 1,
+        'terminalAt': term, 'turnBounds': per,
+        'allTurnBoundsHaveAgentTurnSetup': all(x['agentTurnSetup'] for x in per) if per else None,
+        'sessionListStatus': st, 'sessionStatusMessageEmpty': not (st.get('message') or ''),
+    }
 
 
 def s27(d):

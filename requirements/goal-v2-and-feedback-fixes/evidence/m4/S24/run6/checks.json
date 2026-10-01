@@ -1,0 +1,94 @@
+{
+  "scenario": "S24",
+  "attempt": "run6",
+  "head": "24083bcc3ccfd4317e3c4ed3c14869168d5d634d",
+  "dirty": false,
+  "runId": "20261001-204920-558db7",
+  "evidenceDir": "S24/run6",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-204920-558db7/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "stopButtonAtStep2": 1
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：goal-mode-tag 数量为 0，输入框为普通模式",
+      "result": "PASS",
+      "detail": {
+        "rightAfterSend": 0,
+        "afterBanner": 0
+      }
+    },
+    {
+      "id": "两条补充消息都以用户气泡出现；没有出现“替换当前目标吗？”确认框",
+      "result": "PASS",
+      "detail": {
+        "boldInHistoryAndPage": true,
+        "blueInHistoryAndPage": true,
+        "replaceDialogStep2": 0,
+        "replaceDialogStep4": 0
+      }
+    },
+    {
+      "id": "接口 objective 始终是创建时的文本",
+      "result": "PASS",
+      "detail": {
+        "objectivesSeen": [
+          "Create a file named page.html containing a heading that says Hello."
+        ],
+        "final": "Create a file named page.html containing a heading that says Hello.",
+        "objectiveEvents": 0
+      }
+    },
+    {
+      "id": "步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里",
+      "result": "PASS",
+      "detail": {
+        "goalTurnRunningAtStep2": "turn_bc240e31-2214-49c6-91fb-73b957266f1c",
+        "isGoalTurn": true,
+        "thatTurnLastRequestEndedAt": 1790858995758,
+        "firstRequestWithBold": {
+          "turnId": "turn_84c1f0bb-cb1d-480b-ba55-3dcce2dd306d",
+          "startedAt": 1790858996239,
+          "goalBound": false
+        },
+        "goalTurnRunningAtStep4": "turn_20cbbb7a-605a-4c15-8069-d3f003bfdd5b",
+        "isGoalTurnAtStep4": true,
+        "keyUsed": "Meta+Enter",
+        "sent": "sent",
+        "textareaAfterSend": "\n",
+        "sentAt": 1790859021727,
+        "nextRequestInThatTurn": 1790859024481,
+        "nextRequestCallId": "41ce6579-0865-4663-bba5-5a90e0ecacf5",
+        "firstRequestWithBlue": {
+          "callId": "41ce6579-0865-4663-bba5-5a90e0ecacf5",
+          "turnId": "turn_20cbbb7a-605a-4c15-8069-d3f003bfdd5b",
+          "startedAt": 1790859024481,
+          "goalBound": true
+        }
+      }
+    },
+    {
+      "id": "最终 page.html 的标题加粗且为蓝色（独立判断）",
+      "result": "PASS",
+      "detail": {
+        "page.html": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Hello</title>\n</head>\n<body>\n  <h1><strong style=\"color: blue;\">Hello</strong></h1>\n</body>\n</html>\n",
+        "bold": true,
+        "blue": true,
+        "status_reason": "complete(verifier_met)"
+      }
+    }
+  ],
+  "info": {}
+}

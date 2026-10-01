@@ -1,0 +1,108 @@
+{
+  "scenario": "S26",
+  "attempt": "run2",
+  "head": "24083bcc3ccfd4317e3c4ed3c14869168d5d634d",
+  "dirty": false,
+  "runId": "20261001-205102-549a68",
+  "evidenceDir": "S26/run2",
+  "auth": [
+    {
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-205102-549a68/server.log",
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤3：确认框标题“替换当前目标吗？”，说明为文案表原文；取消后 objective 未变",
+      "result": "PASS",
+      "detail": {
+        "modalAria": "- text: 替换当前目标吗？\n- button \"关闭\":\n  - img\n- text: 这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标 Write r.txt containing new, then stop.\n- button \"取消\"\n- button \"替换目标\"\n",
+        "objectiveAfterCancel": "Run the shell command sleep 60 in the foreground, then write r.txt containing old."
+      }
+    },
+    {
+      "id": "步骤4：objective 为 new；goal-mode-tag 为 0；会话出现“目标已更新”；请求数与 tokens 不小于替换前",
+      "result": "PASS",
+      "detail": {
+        "objective": "Write r.txt containing new, then stop.",
+        "goalModeTag": 0,
+        "goalUpdatedMarker": true,
+        "requests": [
+          1,
+          1
+        ],
+        "tokens": [
+          27394,
+          27394
+        ],
+        "sameGoalId": true
+      }
+    },
+    {
+      "id": "步骤5：确认后 Goal 立即为 active，并在 10 秒内出现新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "activeAfterMs": 323,
+        "turnBoundAfterConfirmMs": [
+          114
+        ],
+        "pausedBefore": null
+      }
+    },
+    {
+      "id": "最终 r.txt 为 final；同一会话只有一个 Goal",
+      "result": "PASS",
+      "detail": {
+        "r.txt": "final",
+        "goalIdsInEvents": [
+          "tg_52d0qcyhhrmupj9ca6"
+        ],
+        "goalCreatedEvents": 1,
+        "final": "complete(verifier_met)",
+        "objective": "Write r.txt containing final, then stop."
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "replace_title",
+        "expected": "替换当前目标吗？",
+        "seen": "替换当前目标吗？",
+        "exact": true
+      },
+      {
+        "key": "replace_desc",
+        "expected": "这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标",
+        "seen": "这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标",
+        "exact": true
+      }
+    ],
+    "s26Observations": {
+      "note": "只记录，不改判定（协调方 2026-10-01 要求，验证 24083bcc3c）",
+      "turnBoundAfterReplaceConfirmUntilTerminal": 1,
+      "expected": 1,
+      "terminalAt": 1790859116941,
+      "turnBounds": [
+        {
+          "turnId": "turn_13392b8c-1b1f-4a43-80f9-9f1d24781f24",
+          "afterConfirmMs": 114,
+          "agentTurnSetup": true
+        }
+      ],
+      "allTurnBoundsHaveAgentTurnSetup": true,
+      "sessionListStatus": {
+        "status_type": 0
+      },
+      "sessionStatusMessageEmpty": true
+    }
+  }
+}

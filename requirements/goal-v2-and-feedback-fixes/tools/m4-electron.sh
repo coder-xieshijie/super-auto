@@ -405,28 +405,20 @@ print(1 if any(m.get("role")=="user" and "heading text bold" in str(m.get("msg_c
     sleep 1
   done
   echo "$(now_ms)" >"$OUT/s24-supplement-processed-at-ms"
-  # 4 下一个 Goal Turn 运行中：先按 verify 写的 ⇧⌘⏎；输入框文字没有发出时，再按产品在默认（Enter 发送）设置下的
-  #   “立即发送”快捷键 ⌘⏎（设置页“跟进消息行为”说明里显示的单次反转键），作为补充路径
+  # 4 下一个 Goal Turn 运行中：按 verify（944fbc45）写的 ⌘⏎，即默认发送偏好下的“立即发送”
   if T4=$(wait_open_goal_turn "$S" 240 s24-step4-running "${T2:-}"); then
     echo "$T4" >"$OUT/s24-step4-goal-turn"
     type_checked "Use a blue color for the heading." || input_abort
+    echo "Meta+Enter" >"$OUT/s24-step4-key"
     echo "$(now_ms)" >"$OUT/s24-step4-at-ms"
-    E press --testid message-textarea --key "Meta+Shift+Enter" --save s24-step4-send >/dev/null
+    E press --testid message-textarea --key "Meta+Enter" --save s24-step4-send >/dev/null
     sleep 1
-    left=$(E text --testid message-textarea --save s24-step4-textarea-after-shift-cmd-enter | jget "(d.get('text') or '').strip()")
+    left=$(E text --testid message-textarea --save s24-step4-textarea-after-send | jget "(d.get('text') or '').strip()")
     if [ -n "$left" ]; then
-      echo "not-sent" >"$OUT/s24-step4-shift-cmd-enter"
-      m2_log "S24: Meta+Shift+Enter did not send; using Meta+Enter"
-      if [ "$(goal_turn_open "$S")" = "open:$T4" ]; then
-        echo "$(now_ms)" >"$OUT/s24-step4-cmd-enter-at-ms"
-        E press --testid message-textarea --key "Meta+Enter" --save s24-step4-cmd-enter >/dev/null
-        sleep 1
-        E text --testid message-textarea --save s24-step4-textarea-after-cmd-enter >/dev/null
-      else
-        echo "goal-turn-closed-before-cmd-enter" >"$OUT/s24-step4-cmd-enter-skipped"
-      fi
+      echo "not-sent" >"$OUT/s24-step4-sent"
+      m2_log "S24: Meta+Enter did not send"
     else
-      echo "sent" >"$OUT/s24-step4-shift-cmd-enter"
+      echo "sent" >"$OUT/s24-step4-sent"
     fi
     E count --testid goal-replace-confirm-modal --save s24-replace-dialog-step4 >/dev/null
     E aria --save s24-page-aria-step4 >/dev/null
