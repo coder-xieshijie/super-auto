@@ -40,7 +40,7 @@ timezone: Asia/Shanghai
 | 验证入口 | 用户可见的行为必须在用户实际使用的入口上验证（Agent-Archon 为 MCode TUI 和 Electron 桌面端）；只调接口的验证只能补充核对状态，不能代替（2026-09-30） |
 | spec 与 verify 的 Skill | 合并为一个 Skill，名称沿用 core-spec，产出 spec.md、verify.md 两份文件；只要 spec 时只产出 spec（2026-09-29） |
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） 里程碑检查继承 owner 仍有效；**v0.32 起补充**，见下一行“子代理按角色分模型” |
-| 子代理按角色分模型 | 写代码、集成、里程碑检查的子代理与 owner 同级（继承模型和推理强度）；跑场景、收证据、读日志可以交给较小模型的类型（本机 `verify-runner`，Sonnet 5.5、effort `high`）。Skill 只写角色和类型名，不写模型 ID，具体模型由各台机器的 agent 定义决定（取 pstack #167）；本机 `general-purpose`、`claude` 改回继承，删去 `CLAUDE_CODE_SUBAGENT_MODEL`；Codex 用默认设置（2026-10-01 v0.32 用户确认；[coder-xieshijie/dev-skills#29](https://github.com/coder-xieshijie/dev-skills/pull/29)，未合入） |
+| 子代理按角色分模型 | 写代码、集成、里程碑检查的子代理与 owner 同级（继承模型和推理强度）；跑场景、收证据、读日志可以交给较小模型的类型（本机 `verify-runner`，Sonnet 5.5、effort `high`）。Skill 只写角色和类型名，不写模型 ID，具体模型由各台机器的 agent 定义决定（取 pstack #167）；本机 `general-purpose`、`claude` 改回继承，删去 `CLAUDE_CODE_SUBAGENT_MODEL`；Codex 用默认设置（2026-10-01 v0.32 用户确认；[coder-xieshijie/dev-skills#29](https://github.com/coder-xieshijie/dev-skills/pull/29) 已合入，main `b35b690`） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29）。**v0.30 起取消**，见“脚本只查结果” |
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29）。**v0.29 起由下一行“交付中不停”取代** |
 | 交付中不停 | owner 全程做下去，不为决定停下问用户；做不了的部分标明原因，做完其余工作。只在不可逆操作前停：合入、强推共享分支、删除共享数据、对外发消息、改共享环境（取 Lauren“Always pause for irreversible writes”）。自己做的决定写成决定清单，放在 plan.md 和 MR 描述的最前面，用户合入前重点看（2026-10-01 v0.29 用户确认；dev-skills#27 实施） |
@@ -405,5 +405,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > codex 就用默认设置
 > Skill 里只写角色和类型名，不写模型 ID。具体模型由各台机器的 ~/.claude/agents/ 决定，这是 Lauren #167 的做法。采纳这个
 > 其他同意
+
+（2026-10-01。）
+
+> 合入 PR，然后更新本地 main
 
 （2026-10-01。）

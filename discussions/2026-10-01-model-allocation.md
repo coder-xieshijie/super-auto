@@ -110,3 +110,11 @@ scope: 开发流程各阶段的模型分配：子代理是否降到 Sonnet、各
 - 验证：`check-links.mjs` 通过；新开 Codex 会话只读新版 SKILL.md，回答派里程碑检查用 `general-purpose` 不传模型、跑场景派 `verify-runner`、没有时回退继承型，与决定一致。
 
 **待验证：** `claude -p` 仍未登录，本机新配置在新会话里是否生效（`general-purpose` 是否跑在主模型、`verify-runner` 是否跑在 Sonnet）未实测，需在新开的 Claude Code 会话里确认。7595 正在运行，未改动、未投递消息。
+
+## 用户：合入 PR #29
+
+用户原话（2026-10-01）：
+
+> 合入 PR，然后更新本地 main
+
+两项 CI 通过、平台 head 与本地一致后 squash 合入，合入提交 `b35b690`；本机 dev-skills 切回 main 并快进，工作区干净，`check-links.mjs` 通过。快进时还带进了另一个会话合入的 [coder-xieshijie/dev-skills#28](https://github.com/coder-xieshijie/dev-skills/pull/28)（`c9b54eb`，README 的用法说明），不是本会话的改动。deliver 入口指向仓库目录，新版随 main 生效。
