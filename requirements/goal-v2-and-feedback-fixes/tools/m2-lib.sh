@@ -92,7 +92,8 @@ m2_up() {
   case $kind in
     runtime) out=$(node "$V" up --config "$cfg" --evidence-dir "$OUT" "$@" 2>>"$OUT/steps.stderr.log") ;;
     tui) out=$(node "$V" tui up --config "$cfg" --evidence-dir "$OUT" ${proxy[@]+"${proxy[@]}"} "$@" 2>>"$OUT/steps.stderr.log") ;;
-    electron) out=$(node "$V" electron up --config "$cfg" --evidence-dir "$OUT" ${proxy[@]+"${proxy[@]}"} "$@" 2>>"$OUT/steps.stderr.log") ;;
+    # M2_ELECTRON_UP_EXTRA（如 "--auth-lease 40"）：长流程的 Electron 运行加长登录租约（2026-10-01 final 轮加）
+    electron) out=$(node "$V" electron up --config "$cfg" --evidence-dir "$OUT" ${proxy[@]+"${proxy[@]}"} ${M2_ELECTRON_UP_EXTRA:-} "$@" 2>>"$OUT/steps.stderr.log") ;;
   esac
   printf '%s\n' "$out" >"$OUT/up.json"
   RID=$(printf '%s' "$out" | jget "d['runId'] if d.get('ok') else ''")

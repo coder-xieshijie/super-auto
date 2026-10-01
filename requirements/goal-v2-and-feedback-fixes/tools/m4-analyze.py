@@ -621,9 +621,18 @@ def s29(d):
     side = [c for c in calls if call_has(c, 'What is 17 + 25') and 'What is 17 + 25' in last_user_text(c) and not c['isTitle']]
     side_turn = side[0]['turnId'] if side else None
     rep = reply_after(history_messages(d, 's29-side-history'), '17 + 25')
-    precondition(reached and bool(sub) and side_turn is not None and side_turn not in gturns,
+    # 步骤 2 的前提：补充消息那一轮结束时已经离开会话 A（回到首页）。产品在“当前会话 + 窗口有焦点”时不发通知
+    # （taskCompletionNotification.ts），回复早于离开时刻的运行不能判通知检查点，作废重跑（最终全量自验 S29 f1、f2）。
+    # 离开时刻取 s29-home-click-at-ms（“新建任务”点击返回）；旧证据没有它时取 s29-home-at-ms 减去 new_task 的 1 秒等待。
+    hm = rd(d, 's29-home-click-at-ms')
+    home_ms = int(hm) if hm else (int(rd(d, 's29-home-at-ms') or 0) - 1000)
+    side_msgs = [m for m in history_messages(d, 's29-side-history') if side_turn and m.get('turn_id') == side_turn]
+    side_end = max([m.get('timestamp') or 0 for m in side_msgs], default=0)
+    left_before_end = bool(side_end) and home_ms > 0 and side_end > home_ms
+    precondition(reached and bool(sub) and side_turn is not None and side_turn not in gturns and left_before_end,
                  {'waitReasonReached': reached, 'subagent': sub, 'sideTurn': side_turn, 'sideTurnGoalBound': side_turn in gturns if side_turn else None,
-                  'reply': rep})
+                  'reply': rep, 'sideTurnLastMessageAtMs': side_end, 'leftSessionAAtMs': home_ms,
+                  'sideTurnEndedAfterLeavingA': left_before_end})
     tb = turn_bounds(ev, gid)
     check('会话 A 的 Goal 有至少 2 个 Goal Turn', len(tb) >= 2, {'goalTurnBound': len(tb)})
     titleA = ((body(d, 's29-session-A') or {}).get('session') or {}).get('title')

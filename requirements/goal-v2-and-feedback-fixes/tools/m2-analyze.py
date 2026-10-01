@@ -16,6 +16,7 @@ from m2_evidence import (fault_lines, goal_events, goal_main_calls, goal_of_save
 
 ROOT = os.environ.get('M2_ROOT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'evidence', 'm2')
 checks = []
+PRE = {'ok': True, 'detail': {}}  # 前提（verify“…时本次不计”）；不满足时 checks.json 的 valid 为 false
 
 
 def check(cid, ok, detail, result=None):
@@ -323,7 +324,17 @@ def s07(d):
     tb_old = [e for e in goal_events(ev, old) if e['type'] == 'goal.turn_bound' and e['ts'] >= rel_at]
     check('放行后没有以旧 goal_id 绑定的 Goal Turn', rel_at and not tb_old, {'releasedAt': rel_at, 'oldTurnBoundAfter': len(tb_old)})
     disc = [e for e in goal_events(ev, old) if e['type'] == 'goal.request_discarded']
-    check('收到旧回执 → 运行时记录丢弃（诊断由 S32 文件核对）', bool(disc), {'requestDiscarded': [e['payload'].get('reason') for e in disc]})
+    # 2026-10-01 final 轮加：同一实例 S32 生成的诊断文件里，旧 goal_id 的请求条目为 discarded 且写明原因
+    diag = []
+    dd = os.path.join(d, 's32-diagnostics')
+    if os.path.isdir(dd):
+        for f in sorted(os.listdir(dd)):
+            if f.startswith('goal-decision-evidence'):
+                diag += [{k: r.get(k) for k in ('requestId', 'phase', 'discardReason', 'usage')} for r in load_json(os.path.join(dd, f)).get('requests') or []
+                         if r.get('goalId') == old and r.get('phase') == 'discarded']
+    check('收到旧回执 → 运行时记录丢弃；诊断中有旧 goal_id 迟到用量被丢弃的记录并写明原因', bool(disc) and bool(diag) and all(x.get('discardReason') for x in diag),
+          {'requestDiscarded': [e['payload'].get('reason') for e in disc], 'diagnosticDiscardedOldGoal': diag},
+          None if os.path.isdir(dd) else 'UNVERIFIED')
 
 
 def s03(d):
@@ -339,18 +350,36 @@ def s03(d):
     n1, n2 = (int(re.search(r'(\d+) 次请求', x).group(1)) for x in (b1, b2))
     check('步骤3：横幅请求数与接口一致；重载后一致且不小于重载前', n1 == a1['requests_used'] and n2 == a2['requests_used'] and n2 >= n1,
           {'bannerBefore': b1, 'apiBefore': a1['requests_used'], 'bannerAfter': b2, 'apiAfter': a2['requests_used']})
-    pairs = [(i + 1, tool_result_goal(gm, i).get('requestsUsed')) for i, c in enumerate(gm) if 'get_goal' in tool_names(c)]
+    pairs = [(i + 1, tool_result_goal(gm, i).get('requestsUsed')) for i, c in enumerate(gm) if 'get_goal' in tool_names(c) and i + 1 < len(gm)]
+    if not pairs:  # verify：模型没有调用 get_goal 时本次不计
+        PRE['ok'] = False
+        PRE['detail']['getGoalCalled'] = False
     check('get_goal 结果的请求数 = 截至该次请求的 Goal 主执行请求条数', bool(pairs) and all(a == b for a, b in pairs),
-          {'(inspectorUpTo, get_goal.requestsUsed)': pairs})
+          {'(inspectorUpTo, get_goal.requestsUsed)': pairs}, None if pairs else 'UNVERIFIED')
     goal = g(d, 's03-final-goal')
     # verify 只要求终态请求数等于 Inspector 条数；终态是哪一种（complete 或模型自报 blocked）只作记录
     check('终态：请求数 = Inspector Goal 主执行请求条数', goal['requests_used'] == len(gm) and goal.get('status') in ('complete', 'blocked', 'paused', 'budget_limited', 'usage_limited'),
           {'requests_used': goal['requests_used'], 'inspector': len(gm), 'status': goal['status_reason']})
-    hist = load_json(latest(d, '[0-9][0-9][0-9]-s03.json'))['http']['messages']['body']['messages']
-    sup = [m for m in hist if 'What is 2 + 2' in str(m.get('msg_content'))]
-    check('补充消息那一轮不计入、回复为 4', False, {'supplementaryInHistory': len(sup),
-          'blocked': '被测提交上 active Goal 的输入框处于“目标”模式，普通发送弹出“替换当前目标吗？”确认框，消息没有发出（截图 s03-supplement-sent）；输入意图改动属 M4（R75/R76），本提交未实现'},
-          'UNVERIFIED')
+    # 补充消息（2026-10-01 final 轮改为实判，口径同 m4-analyze s03）：输入框默认排队发送、没有替换弹窗；
+    # 回答它的那一轮不绑定 Goal；助手回复为 4；请求数 = Goal 主执行请求条数
+    blocked = os.path.exists(os.path.join(d, 's03-supplement-blocked'))
+    all_calls = inspector_calls(latest(d, '[0-9][0-9][0-9]-s03-inspector'))
+    sup_calls = [c for c in all_calls if 'What is 2 + 2' in json.dumps(c['requestMessages'], ensure_ascii=False) and not c['isTitle']]
+    first_sup = sup_calls[0] if sup_calls else None
+    gturns = {e['payload'].get('turnId') for e in ev if e['type'] == 'goal.turn_bound'}
+    hp = latest(d, '*-s03-history.json')
+    msgs = (load_json(hp)['response']['body'].get('messages') or []) if hp else []
+    idx = [i for i, m in enumerate(msgs) if m.get('role') == 'user' and 'What is 2 + 2' in str(m.get('msg_content', ''))]
+    rep = next((str(m.get('msg_content')).strip() for m in (msgs[idx[-1] + 1:] if idx else []) if m.get('role') == 'assistant' and str(m.get('msg_content', '')).strip()), None)
+    qp = latest(d, '*-s03-queue-after-supplement.json')
+    goal_f = g(d, 's03-final-goal')
+    check('补充消息（输入框默认排队发送）那一轮的模型请求不在 Goal 主执行请求中，请求数不包含它；助手回复为 4',
+          not blocked and first_sup is not None and first_sup['turnId'] not in gturns and rep is not None and rep.rstrip('.') == '4'
+          and goal_f.get('requests_used') == len(gm),
+          {'replaceDialogShown': blocked, 'sentAt': int(text_of(d, 's03-supplement-sent-at-ms') or 0),
+           'firstRequestWithSupplement': {'turnId': first_sup['turnId'], 'startedAt': first_sup['startedAtMs'], 'goalBound': first_sup['turnId'] in gturns} if first_sup else None,
+           'requestsWithSupplement': len(sup_calls), 'reply': rep, 'requests_used': goal_f.get('requests_used'), 'goalMain': len(gm),
+           'queueAfterSend': ((load_json(qp)['response']['body'] or {}).get('items') if qp else None)})
     vt = load_json(latest(d, '*-s03-verifying.json'))['trajectory'][-1]
     v, v_at = vt['goal.tokens_used'], vt['at']
     ver = []
@@ -364,6 +393,9 @@ def s03(d):
            'verifierChildren': len((text_of(d, 's03-verifier-children') or '').split()), 'mainRequestsAfterFirstVerification': len(main_after),
            'mainAfterInOut': usage_sum(main_after), 'finalStatus': goal.get('status_reason')})
     check('accountingVersion 为 2', goal.get('accounting_version') == 2, {'accounting_version': goal.get('accounting_version')})
+    check('不得出现：第一个 Goal Turn 结算前横幅显示“0 次请求”或“0 tokens”（步骤3 读数早于首个 turn_settled）',
+          b1 is not None and three['at'] < first_settle and not re.search(r'(^|\D)0 次请求', b1) and not re.search(r'(^|\s)0 tokens', b1),
+          {'bannerBefore': b1, 'firstTurnSettled': first_settle})
 
 
 def s06(d):
@@ -435,7 +467,10 @@ def s10(d):
     ev = runtime_events(latest(d, '[0-9][0-9][0-9]-s10-runtime-events.jsonl'))
     gm = goal_main_calls(inspector_calls(latest(d, '[0-9][0-9][0-9]-s10-inspector')), ev)
     first3 = [tool_names(c) for c in gm[:3]]
-    pre_ok = all(t == ['write'] for t in first3)
+    pre_ok = len(first3) == 3 and all(t == ['write'] for t in first3)
+    if not pre_ok:
+        PRE['ok'] = False
+        PRE['detail']['first3Tools'] = first3
     check('前提（S09 步骤3）：前 3 次各一个写文件工具调用', pre_ok, {'first3Tools': first3}, None if pre_ok else 'UNVERIFIED')
     ps, hv = text_of(d, 'policy-summary.txt'), load_json(f'{d}/requests-hover.json').get('title')
     check('横幅“4 次请求”；悬停含“工作 3、收尾 1”', '4 次请求' in ps and '工作 3、收尾 1' in (hv or ''), {'policy': ps, 'hover': hv})
@@ -570,8 +605,12 @@ def main():
         globals()[sc.lower()](d)
     head = text_of(d, 'git-head')
     auth = load_json(os.path.join(d, 'auth-check.json')) if os.path.exists(os.path.join(d, 'auth-check.json')) else None
+    if os.path.exists(os.path.join(d, 'input-contaminated')):
+        PRE['ok'] = False
+        PRE['detail']['inputContaminated'] = True
+    auth_bad = bool(auth) and ((auth.get('contentSafety401') or 0) > 0 or (auth.get('electronAuthLost') or 0) > 0)
     out = {'scenario': sc, 'attempt': attempt, 'evidenceDir': os.path.relpath(d, ROOT), 'head': head, 'runId': text_of(d, 'runId'),
-           'authCheck': auth, 'checks': checks}
+           'authCheck': auth, 'valid': PRE['ok'] and not auth_bad, 'precondition': PRE, 'checks': checks}
     dest = os.path.join(ROOT, sc, attempt)
     os.makedirs(dest, exist_ok=True)
     json.dump(out, open(os.path.join(dest, 'checks.json'), 'w'), indent=2, ensure_ascii=False)

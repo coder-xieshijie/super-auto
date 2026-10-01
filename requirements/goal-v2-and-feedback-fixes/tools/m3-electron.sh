@@ -61,9 +61,22 @@ wait_injected() {
   echo "${r:-0}"
 }
 
+# wait_port_free <端口>：等该端口空闲（最多 20 分钟），别的验证线的同号场景（如 TUI S13 用 8765）不并发占用。
+# 2026-10-01 final 轮加：S12、S15 的 http.server 端口被占时，模型起的服务会失败，任务不再 running
+wait_port_free() {
+  local i
+  for i in $(seq 1 400); do
+    [ "$(curl -s -o /dev/null -m 2 -w '%{http_code}' "http://127.0.0.1:$1/" 2>/dev/null)" = "000" ] && return 0
+    [ "$i" = 1 ] && m2_log "port $1 busy; waiting"
+    sleep 3
+  done
+  m2_log "port $1 still busy"; return 1
+}
 m2_begin "$SCN" "$ATTEMPT"
 case $SCN in
 S12)
+  wait_port_free 8765 || exit 1
+  port_probe 8765 s12-port-before >/dev/null
   m3_up electron || exit 1
   m2_close_popups
   # 1
@@ -158,6 +171,8 @@ S14)
   end_scenario
   ;;
 S15)
+  wait_port_free 8766 || exit 1
+  port_probe 8766 s15-port-before >/dev/null
   m3_up electron || exit 1
   m2_close_popups
   # 1

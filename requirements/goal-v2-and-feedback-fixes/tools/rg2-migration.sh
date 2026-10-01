@@ -38,11 +38,19 @@ print(json.dumps({"at":int(time.time()*1000),"rc":int(sys.argv[1]),"args":sys.ar
   return $rc
 }
 
+# 设了 RG1_UP_LOCK / M2_UP_LOCK（目录路径）时，up 经这把共享启动锁串行，up 后再等 6 秒放锁（与 m2/m3/rg1 脚本相同）
+up_lock() { local l=${RG1_UP_LOCK:-${M2_UP_LOCK:-}} w=0; [ -n "$l" ] || return 0
+  until mkdir "$l" 2>/dev/null; do sleep 1; w=$((w + 1)); [ "$w" -gt 900 ] && { rmdir "$l" 2>/dev/null; w=0; }; done
+  echo "$$ ${UP_LOCK_TAG:-tool} $(date +%s)" >"$l/owner"; }
+up_unlock() { local l=${RG1_UP_LOCK:-${M2_UP_LOCK:-}}; [ -n "$l" ] || return 0; sleep "${RG1_UP_GAP:-6}"; rm -f "$l/owner"; rmdir "$l" 2>/dev/null; return 0; }
+
 git rev-parse HEAD >"$OUT/git-head"
 git status --short >"$OUT/git-status"
 
 if [ "$SC" = S02 ]; then
+  up_lock
   up_out=$(node "$V" tui up --config "$CONFIG" --evidence-dir "$OUT" --no-proxy 2>>"$OUT/steps.stderr.log")
+  up_unlock
   printf '%s\n' "$up_out" >"$OUT/up.json"
   RID=$(printf '%s' "$up_out" | jget "d['runId'] if d.get('ok') else ''")
   [ -n "$RID" ] || { log "tui up failed: $(printf '%s' "$up_out" | head -c 400)"; exit 1; }
@@ -59,7 +67,9 @@ if [ "$SC" = S02 ]; then
   vr tui snapshot --save s02 >/dev/null
   vr tui down >"$OUT/down.json"
 else
+  up_lock
   up_out=$(node "$V" up --config "$CONFIG" --evidence-dir "$OUT" 2>>"$OUT/steps.stderr.log")
+  up_unlock
   printf '%s\n' "$up_out" >"$OUT/up.json"
   RID=$(printf '%s' "$up_out" | jget "d['runId'] if d.get('ok') else ''")
   [ -n "$RID" ] || { log "up failed: $(printf '%s' "$up_out" | head -c 400)"; exit 1; }

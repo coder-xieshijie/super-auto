@@ -674,7 +674,8 @@ def s30(d):
     S = rd(d, 'session')
     st1 = screen_status(d, 's30-step1-screen')
     t1 = bg(d, 's30-bg-tasks-step1')
-    sl = [t for t in t1 if t['kind'] == 'bash' and 'sleep 600' in t['description'] and t['status'] == 'running']
+    # 描述由模型写，大小写不定（d5bc1acab4 f1 为“Sleep 600 seconds”）：不区分大小写匹配 sleep 与 600
+    sl = [t for t in t1 if t['kind'] == 'bash' and re.search(r'sleep\W*600', t['description'] or '', re.I) and t['status'] == 'running']
     precondition(sl and st1.get('background') == '1', {'sleepTask': sl, 'statusBackground': st1.get('background')})
     ev = all_events(d)
     gid = first_goal_id(ev, S)

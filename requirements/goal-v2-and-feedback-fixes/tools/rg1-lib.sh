@@ -68,7 +68,23 @@ print(json.dumps({"at":int(time.time()*1000),"rc":int(sys.argv[1]),"args":sys.ar
 }
 
 # 起实例：rg1_up <入口 runtime|tui|electron> <流程名>；设置 FLOW、RUNDIR、RID。
+# 设了 RG1_UP_LOCK（未设时取 M2_UP_LOCK）时，up 经这把目录锁串行，up 后再等 RG1_UP_GAP 秒（默认 6）放锁，
+# 与 m2/m3/m4 脚本共用同一把启动锁（多条验证线并行时错开启动，见 /tmp/gv2-final/env.sh）。
 rg1_up() {
+  local lock=${RG1_UP_LOCK:-${M2_UP_LOCK:-}}
+  if [ -n "$lock" ] && [ -z "${RG1_LOCK_HELD:-}" ]; then
+    local rc waited=0
+    until mkdir "$lock" 2>/dev/null; do
+      sleep 1; waited=$((waited + 1))
+      if [ "$waited" -gt 900 ]; then rmdir "$lock" 2>/dev/null; waited=0; fi
+    done
+    echo "$$ ${2:-?} $(date +%s)" >"$lock/owner"
+    rg1_log "up lock acquired ($lock)"
+    RG1_LOCK_HELD=1 rg1_up "$@"; rc=$?
+    sleep "${RG1_UP_GAP:-6}"
+    rm -f "$lock/owner"; rmdir "$lock" 2>/dev/null
+    return $rc
+  fi
   local kind=$1
   FLOW=$2
   RUNDIR="$RG1_ROOT/_runs/$kind-$FLOW"

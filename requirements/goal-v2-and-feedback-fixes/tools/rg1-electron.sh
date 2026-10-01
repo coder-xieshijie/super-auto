@@ -37,8 +37,40 @@ items.sort(key=lambda s: s.get("created_at") or 0)
 print(items[-1]["session_id"] if items else "")'
 }
 
+# 输入框写入并核对（2026-10-01 最终全量自验加，规则同 m2-lib.sh 的 type_checked）：测试窗口在屏幕上时真实键盘输入
+# 可能混进输入框。写入前输入框非空先清空；写入（type，或 fill 整体替换）后读回，必须与预期逐字一致才返回 0；
+# 不一致清空重写一次，仍不一致返回 1。不一致时只记长度和哈希（input-mismatch.jsonl），不记录混入的原文。
+rg1_type_checked() { # rg1_type_checked <value> [type|fill]
+  local want=$1 mode=${2:-type} got i
+  for i in 1 2; do
+    got=$(node "$V" electron text --testid message-textarea --timeout 5 --run "$RID" 2>/dev/null | jget "(d.get('text') or '').strip()")
+    if [ -n "$got" ] && [ "$mode" = type ]; then
+      vr electron press --testid message-textarea --key "Meta+a" >/dev/null
+      vr electron press --testid message-textarea --key Backspace >/dev/null
+    fi
+    vr electron "$mode" --testid message-textarea --value "$want" >/dev/null
+    got=$(node "$V" electron text --testid message-textarea --timeout 5 --run "$RID" 2>/dev/null | jget "(d.get('text') or '').strip()")
+    [ "$got" = "$want" ] && return 0
+    python3 -c 'import hashlib,json,sys,time
+w,g=sys.argv[1],sys.argv[2]
+print(json.dumps({"at":int(time.time()*1000),"try":int(sys.argv[3]),"wantLen":len(w),"gotLen":len(g),"gotSha1":hashlib.sha1(g.encode()).hexdigest()[:12],"gotEndsWithWant":g.endswith(w)}))' "$want" "$got" "$i" >>"$RUNDIR/input-mismatch.jsonl"
+    rg1_log "message-textarea content mismatch (try $i)"
+  done
+  return 1
+}
+# 输入被污染：清空输入框、截图、down，作废本流程（流程在子 shell 里运行，exit 3 只结束该流程）
+rg1_input_abort() {
+  vr electron press --testid message-textarea --key "Meta+a" >/dev/null
+  vr electron press --testid message-textarea --key Backspace >/dev/null
+  echo input-contaminated >"$RUNDIR/input-contaminated"
+  rg1_log "input contaminated: aborting flow"
+  vr electron screenshot --save "$T-input-contaminated" >/dev/null
+  rg1_down electron electron
+  exit 3
+}
+
 send_goal() { # send_goal <objective> <save 前缀>
-  vr electron type --testid message-textarea --value "/goal $1" >/dev/null
+  rg1_type_checked "/goal $1" || rg1_input_abort
   vr electron click --testid send-button >/dev/null
   vr electron wait --testid thread-goal-banner --timeout 60 --save "$2--banner" >/dev/null
 }
@@ -118,7 +150,7 @@ flow_lifecycle() {
   vr electron click --testid thread-goal-banner-pause --save "$T-lifecycle.edit-replace--pause" >/dev/null
   vr poll $API/session/$S2/goal --on electron --until goal.status=paused --show "$SHOW_RUN" --interval 1 --timeout 30 --save "$T-lifecycle.edit-replace--paused" >/dev/null
   vr electron click --testid thread-goal-banner-edit-button --save "$T-lifecycle.edit-replace--edit" >/dev/null
-  vr electron fill --testid message-textarea --value "$OBJ_COUNT4" --save "$T-lifecycle.edit-replace--fill" >/dev/null
+  rg1_type_checked "$OBJ_COUNT4" fill || rg1_input_abort
   vr electron click --testid send-button >/dev/null
   vr electron wait --testid goal-replace-confirm-modal --timeout 15 --save "$T-lifecycle.edit-replace--modal" >/dev/null
   vr electron click --role button --name 替换目标 --exact --save "$T-lifecycle.edit-replace--confirm" >/dev/null
@@ -171,7 +203,7 @@ flow_attachments() {
   vr electron click --testid attach-button >/dev/null
   vr electron upload --text "添加文件或图片" --exact --files "$RG1_ROOT/_inputs/goal-brief-2.txt" --save "$T-attachments.objective-resources--upload" >/dev/null
   vr electron text --testid attachment-bar --save "$T-attachments.objective-resources--bar" >/dev/null
-  vr electron type --testid message-textarea --value "/goal $OBJ_SECRET2" >/dev/null
+  rg1_type_checked "/goal $OBJ_SECRET2" || rg1_input_abort
   vr electron click --testid send-button --save "$T-attachments.objective-resources--send" >/dev/null
   n=$(vr electron count --testid goal-replace-confirm-modal | jget "d.get('count')")
   if [ "${n:-0}" != 0 ]; then
@@ -221,6 +253,6 @@ flow_questionnaire_auto() {
 rg1_inputs
 for f in lifecycle continuation-bg attachments questionnaire-manual questionnaire-auto; do
   rg1_wants "$f" || continue
-  "flow_${f//-/_}"
-  rg1_log "flow done"
+  ( "flow_${f//-/_}" )
+  rg1_log "flow done rc=$?"
 done

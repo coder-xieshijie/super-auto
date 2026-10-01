@@ -610,9 +610,17 @@ S29)
   A=$(m2_latest_session); echo "$A" >"$OUT/session-A"; echo "$A" >"$OUT/session"
   poll_e "$A" --until goal.execution.wait_reason=required_background --show "$SHOW" --interval 1 --timeout 150 --save s29-waiting >"$OUT/s29-waiting.json"
   bg_tasks "$A" s29-bg-tasks-waiting >/dev/null
-  # 2 发补充消息后立即回首页
-  send_plain "What is 17 + 25? Answer with just the number." s29-side || true
-  new_task
+  # 2 发补充消息后立即回首页。不用 send_plain：它发送后截图、等 1.5 秒查替换确认框，模型约 1 秒就回复 42，普通轮结束时
+  #   会话 A 仍是当前会话且窗口有焦点，按产品规则（taskCompletionNotification.ts）不发通知，步骤 2“回到首页后等回复”的
+  #   前提就不成立（最终全量自验 S29 f1、f2）。这里点发送后立刻点“新建任务”；替换确认框若弹出，消息没发出去，
+  #   m4-analyze 的前提（找到补充消息那一轮）不成立，本次作废。s29-home-click-at-ms 为“新建任务”点击返回的时刻。
+  type_checked "What is 17 + 25? Answer with just the number." || input_abort
+  echo "$(now_ms)" >"$OUT/s29-side-sent-at-ms"
+  E click --testid send-button >/dev/null
+  E click --role button --name "新建任务" --exact --timeout 10 >/dev/null || E click --role button --name "新建任务" >/dev/null
+  echo "$(now_ms)" >"$OUT/s29-home-click-at-ms"
+  sleep 1
+  E count --testid goal-replace-confirm-modal --save s29-side-replace-dialog >/dev/null
   echo "$(now_ms)" >"$OUT/s29-home-at-ms"
   wait_reply "$A" "17 + 25" 120 s29-side-history
   bg_tasks "$A" s29-bg-tasks-after-side >/dev/null

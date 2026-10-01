@@ -134,6 +134,8 @@ if os.path.isdir(d):
     ws = snap[:-5] + '-workspace' if snap else ''
     count = lines_of(ws, 'count.txt')
     item(3, 'Electron lifecycle 创建并跑到完成', [
+        ('输入框读回一致（无 input-contaminated）', not os.path.exists(os.path.join(d, 'input-contaminated')),
+         text(os.path.join(d, 'input-check.jsonl')).strip() or text(os.path.join(d, 'input-mismatch.jsonl')).strip()),
         ('横幅出现', bool(banner.get('ok')), None),
         ('横幅状态 进行中', st0 == '进行中', st0),
         ('接口 complete(verifier_met)', final.get('status_reason') == 'complete(verifier_met)', final.get('status_reason')),
@@ -165,8 +167,12 @@ if os.path.isdir(d):
     ], [os.path.relpath(p, root) for p in [one(d, f'{tag}-tui-pong.txt'), os.path.join(d, 'tui-results.jsonl')] if p])
     result['runs']['tui']['tui_results'] = rows
 
-# 构建结果：<根>/_logs/prepare.log 末尾的 prepare JSON
-plog = text(os.path.join(root, '_logs', 'prepare.log'))
+# 构建结果：<根>/_logs/prepare.log 末尾的 prepare JSON；没有时取 SMOKE_PREPARE_LOG 或 <根>/../_build/prepare.log
+# （最终全量自验把构建日志放在证据根的 _build/，冒烟在其下的 smoke/）
+plog_path = next((p for p in (os.path.join(root, '_logs', 'prepare.log'), os.environ.get('SMOKE_PREPARE_LOG') or '',
+                              os.path.join(os.path.dirname(root), '_build', 'prepare.log')) if p and os.path.exists(p)), None)
+result['build_log'] = plog_path
+plog = text(plog_path)
 i = plog.rfind('\n{\n')
 try:
     result['build'] = json.JSONDecoder().raw_decode(plog[i + 1:])[0] if i >= 0 else None
@@ -181,4 +187,4 @@ for i in result['items']:
     print(i['no'], i['title'], 'PASS' if i['pass'] else 'FAIL', [(c['check'], c['ok'], c['detail']) for c in i['checks']])
 print('all_pass', result['all_pass'])
 for k, m in result['runs'].items():
-    print(k, m['runId'], m['git_head'], repr(m['git_status_porcelain']), m['evidence_git_heads'], m['evidence_dirty'], m['auth_check'] and {x: m['auth_check'][x] for x in ('contentSafety401', 'electronAuthLost')})
+    print(k, m['runId'], m['git_head'], repr(m['git_status_porcelain']), m['evidence_git_heads'], m['evidence_dirty'], m['auth_check'] and {x: m['auth_check'].get(x) for x in ('contentSafety401', 'electronAuthLost', 'http429', 'refreshesDuringRun', 'refreshesWhileElectronRunning')})

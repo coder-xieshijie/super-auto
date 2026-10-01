@@ -100,16 +100,34 @@ EOF
   E wait --testid thread-goal-policy-summary --timeout 30 >/dev/null || open_session "$(vr api GET $API/session/$S3 --on electron | jget "d['body']['session']['title']")" s03
   etext thread-goal-policy-summary s03-banner-after-reload >"$OUT/s03-banner-after-reload.txt"
   goal_e "$S3" s03-api-after-reload >/dev/null
-  # 4 默认排队发送补充消息
-  send_msg "What is 2 + 2? Reply with only the number."
+  # 4 默认排队发送补充消息。M4 起 active Goal 下普通发送不应弹“替换当前目标？”；弹出时记 s03-supplement-blocked、
+  # 截图后取消（不替换目标）。2026-10-01 final 轮改：记发送时刻、队列与回复历史，供 m2-analyze 判定补充消息检查点
+  type_checked "What is 2 + 2? Reply with only the number." || input_abort
+  echo "$(now_ms)" >"$OUT/s03-supplement-sent-at-ms"
+  E click --testid send-button --save s03-supplement-send >/dev/null
+  sleep 1.5
+  RD=$(E count --testid goal-replace-confirm-modal --save s03-supplement-replace-dialog | jget "d.get('count')")
+  if [ -n "$RD" ] && [ "$RD" != 0 ]; then
+    E screenshot --save s03-supplement-replace-dialog-shown >/dev/null
+    E click --selector '[data-testid="goal-replace-confirm-modal"] >> role=button[name="取消"]' --timeout 5 >/dev/null
+    echo replace-dialog >"$OUT/s03-supplement-blocked"
+    m2_log "replace-goal dialog appeared for the S03 supplementary send"
+  fi
   E screenshot --save s03-supplement-sent >/dev/null
-  # M4 之前目标模式的输入框会弹“替换当前目标？”。Goal 以 complete 结束时它会随之消失；以 blocked 等结束时会一直挡住后续点击
-  # （c926 run1 实测），这里先取消它，不替换目标
-  E click --selector 'role=dialog >> role=button[name="取消"]' --timeout 5 --save s03-supplement-dismiss-replace >/dev/null
+  vr api GET $API/session/$S3/queue --on electron --save s03-queue-after-supplement >/dev/null
   # 5
   poll_e "$S3" --until goal.execution.wait_reason=verification --show "$SHOW" --interval 1 --timeout 600 --save s03-verifying >/dev/null
   poll_e "$S3" --until "$TERMINAL" --show "$SHOW" --interval 3 --timeout 600 --save s03-run >/dev/null
   turn_end 180
+  # 补充消息的回复（最多再等 120 秒），存历史
+  for _ in $(seq 1 60); do
+    node "$V" api GET $API/session/$S3/message --on electron --run "$RID" 2>/dev/null | python3 -c 'import json,sys
+d=json.load(sys.stdin); ms=(d.get("body") or {}).get("messages") or []
+idx=[i for i,m in enumerate(ms) if m.get("role")=="user" and "What is 2 + 2" in str(m.get("msg_content",""))]
+sys.exit(0 if idx and any(m.get("role")=="assistant" and str(m.get("msg_content","")).strip() for m in ms[idx[-1]+1:]) else 1)' && break
+    sleep 2
+  done
+  vr api GET $API/session/$S3/message --on electron --save s03-history >/dev/null
   goal_e "$S3" s03-final-goal >/dev/null
   vr snapshot --session "$S3" --on electron --save s03 >/dev/null
   # verifier 子会话的 Inspector
