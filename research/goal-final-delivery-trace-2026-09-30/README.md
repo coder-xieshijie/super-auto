@@ -315,7 +315,7 @@ token 的大头是缓存读取：deliver 2.36 亿、grill 0.79 亿（1M 上下�
 - `ScheduleWakeup` 在非 `/loop` 会话里什么时候触发。
 - mcode 路径慢的原因：模型路由、推理强度、读文件的方式还是验证说明的范围。
 - 第 6.6 节的五项已由用户同意；第一批 PR（dev-skills#21–#23）已合入（main `9af8ba1`），Stop 钩子、A6 与 B7 留到下一批；E1 改为本机钩子，不进 dev-skills，已装好（见 [fffd/](fffd/README.md)）。
-- #21 的里程碑记录经不起 rebase 到更新后的基线：已检查的提交被去重，或上下文行变了，记录就不再计入（复现：[rebase-gap.sh](rebase-gap.sh)）。修法待用户决定；MR 7595 在 M6 会碰上。
+- #21 的里程碑记录经不起 rebase 到更新后的基线：已检查的提交被去重，或上下文行变了，记录就不再计入（复现：[rebase-gap.sh](rebase-gap.sh)）。已由 [coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 修正（main `fbcf3b7`）。
 
 ## 附：数据怎样重新生成
 

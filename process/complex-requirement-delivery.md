@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.19
+status: 工作稿 v0.20
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -75,7 +75,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29） |
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变判定的决定；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29） |
-| 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、记录早于之后的提交（晚了只能由用户放行）。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`） |
+| 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、每个里程碑的第一次检查早于之后的提交（晚了只能由用户放行）。rebase 后按增删的行认提交：被目标分支去重的提交跳过，检查后被改过的提交（作者时间和标题不变）要再查一轮，后几轮不核对时间。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`；v0.20 修正 rebase 缺陷，[coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 已合入，main `fbcf3b7`） |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 已合入） |
 | 最终验证的运行 | `run-verifier.mjs` 有总时长和停滞（没有新证据）两个上限，到了就结束并换 CLI；开工时用 `--preflight` 试一次验证用的 CLI 和模型；验证时三个 CLI 默认都不带沙箱（codex 用 `-s danger-full-access` 并关审批，claude `bypassPermissions`，mcode `--permission full`），查漏仍用只读沙箱；`--effort` 显式设推理强度（2026-09-30，[coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22) 已合入，main `4a00174`） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
@@ -169,6 +169,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-09-30 v0.19：用户要求验证环节去掉沙箱，默认使用 codex CLI 时就不带沙箱。此前 #22 让 codex 默认带沙箱、要图形界面时再加 `--needs-gui --unsandboxed`；改为三个 CLI 验证时都不带沙箱，去掉这两个选项，查漏仍用只读沙箱。codex 以新参数起 Electron 已实测成功。改动推到 [coder-xieshijie/dev-skills#22](https://github.com/coder-xieshijie/dev-skills/pull/22)，#23 随之变基。
 - 2026-09-30 v0.19 补充：用户要求按顺序合入并快进本机 main。dev-skills#21、#22、#23 依次 squash 合入 main（`90c12c9`、`4a00174`、`9af8ba1`），每个合入的内容与对应 PR 的 head 逐字相同，main 上三次推送的 CI 都通过；本机 dev-skills 主检出已快进到 `9af8ba1`，已安装的 deliver、core-spec 直接生效。
 - 2026-09-30 v0.19 补充：用户决定 E1（拦截坏字符）不进通用流程。坏字符来自本机所用的接口，不具通用性，改为本机钩子；dev-skills 与 `check-delivery` 不加相关检查。钩子能否就地补回丢字见[研究档案](../research/goal-final-delivery-trace-2026-09-30/fffd/README.md)。
+- 2026-10-01 v0.20：把新版 deliver 同步给进行中的 MR 7595 时发现，#21 的里程碑检查记录经不起 rebase 到更新后的目标分支：已检查的提交被去重，或改动附近的行被上游改了，整条记录作废，重做的检查又被判晚。用户确认按建议修：按增删的行认提交、跳过被去掉的提交、只对检查后被改过的提交要求再查，时间只核对每个里程碑的第一次检查。修正与 Codex 审查（7 条，6 条修正、1 条记为已知限制）见 [coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24)，已合入 main `fbcf3b7`，本机已快进。
 
 ## 附：用户原话
 
@@ -278,3 +279,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 有办法能够把乱码直接还原，不用让 Agent 重新去实现吗？
 
 （2026-09-30。）
+
+> 按你的建议提修复 PR, 然后合入，同时把本地更新到最新的，最后再向运行中的 session 去投递最新的变更，保证进行中的任务能够符合最新的变更。
+
+（2026-10-01。）
