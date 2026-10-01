@@ -119,3 +119,65 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 上游依赖仍在：grilling、domain-modeling 来自 mattpocock-skills，在 dev-skills README 里写明依赖，不复制进来。
 
 **改后的 PR 安排（未确认）：** PR 1：F1(b)、F2、F9；PR 2：F3、F4、F8（F7 待定）；PR 3：grill 薄 Skill 与 README 的“开发流程”一节；PR 4：用例迁入与 CI。本仓库：流程文档改为演进记录，F6 的整理随之简化；AGENTS.md 改指向；模板文件改为指向新 Skill。
+
+## 后续：一个 PR；grill 依赖还是迁移；deliver 怎样校验与 review
+
+用户原话（2026-10-01）：
+
+> 首先，所有的改动都要放到一个 PR 里面，
+>
+> 然后说一下几个讨论点和思路：
+> 1. 关于 grill with docs：是把它作为 core-grill 的依赖更好，还是直接把 grill with docs 相关的 skill 都迁移到dev-skills？
+> 2. 整体的约束思路：还是不要有太多的 prompt。大前提是要尽最大程度地给模型能力，我们只定义好我们想要的，剩下的交给模型。
+>
+> 3. 现在的中间过程是怎么去做实现和约束的？尤其是在 delivery 这个阶段：
+> 1. 在实现它的流程里面，是包含实现校验和 code review 吗？这个流程现在是什么样子的？
+> 2. 目前的约束会有冲突的地方吗？
+
+**决定：** 这一轮的全部改动合成一个 dev-skills PR（流程文档 v0.26，“改进的上线方式”一行追加）。
+
+**1. grill：依赖还是迁移（助手建议，未确认）**
+
+核对了上游（mattpocock-skills `74ca5fe`，MIT 许可）：grill-with-docs 本身只有一句“依次调用 grilling 和 domain-modeling”（247 字节）；grilling 约 2 KB，按决策树逐轮提问，要求“every branch of the design tree visited, nothing left silently assumed”，每个决定都交给用户；domain-modeling 约 3.3 KB，外加 CONTEXT、ADR 两份格式说明。
+
+建议迁移：在 dev-skills 建一个自成一体的 core-grill，把我们实际用到的部分（逐轮问、事实自己查、术语写进 CONTEXT.md、ADR 只在三个条件都满足时写）和我们的输入、边界写成一份，不再依赖上游。理由：
+
+- 我们的提问边界（只问会改变用户可见结果的决定，其余列默认决定）与上游 grilling 的“每个分支都问到、不默认”相反。做成依赖，模型会同时读到两份相反的指令，这正是 prompt-audit 列的“contradictory rules”和 Lauren PR 422 修的问题。
+- 上游近期改动频繁（问题之间加分隔线、去掉破折号、调用措辞），流程行为会随上游变化。
+- 迁移后只保留用到的部分，总字数比“上游三份加一层包装”少。
+- 符合“只看 dev-skills 就够”。
+
+代价是上游后续的改进不会自动进来。在设计记录里记下来源提交和许可证，更新上游时对照差异，按需吸收。上游 grilling、grill-with-docs 继续装着，用于流程以外的讨论。
+
+**2. 约束思路**
+
+与 agent-prompt-rules 和三家共识一致。落到这个 PR：正文只写想要的结果、完成标准和少数边界；每次都必须发生的交给脚本；已由脚本强制的规则不在正文复述；PR 描述列出每处增删，目标是改完后 deliver 正文比现在短。
+
+**3. deliver 的实现、校验与 code review（现状）**
+
+| 阶段 | 谁做 | 做什么 | 怎样约束 |
+|---|---|---|---|
+| 开工 | owner | 读交接提交、核对冻结的 sha256、预检验证用的 CLI、写 plan.md、需要时跑冒烟 | `read-handoff.mjs`、`check-delivery.mjs --frozen-only`、`run-verifier.mjs --preflight` |
+| 实现 | owner，可派子代理 | 按里程碑写代码；缺验证能力先补 | 方法不规定；写不写新测试由 owner 定，deliver 没有要求 |
+| 自验 | owner | 质量命令（lint、类型检查、已有测试）；从真实入口跑这个里程碑的场景；失败先修 | 完成条件 1；修复后重跑哪些由 `select-scenarios.mjs` 选 |
+| 里程碑检查 | 两个新上下文子代理，同模型同推理强度 | 代码部分：读 diff，对照 spec 找问题，提交后就开始；证据部分：逐个检查点核证据，场景跑完后开始。只报告，最多两轮 | `record-milestone-check.mjs` 存档，`check-delivery.mjs` 核对顺序 |
+| 全集自验 | owner | 最终 head 上跑全部场景、冒烟、回归、机械检查 | 完成条件 1 |
+| 独立验证 | 另一家模型，单独 session | 重跑全部场景、冒烟、回归、机械检查；读基线到 head 的 diff 对照 spec 审代码，代码质量按 review-rules；判断口径偏差 | `run-verifier.mjs` 留调用记录；`check-delivery.mjs` 要求 PASS、`code-issues: 0` |
+| MR | owner；评审人 | 取消 Draft，处理 CI 和评审意见；改了代码要重新验证 | 完成条件 4；只改测试、文档、lint 配置时沿用报告 |
+
+所以有两层机器 code review（里程碑检查的代码部分、独立验证的代码审查），加上 MR 的人工评审。两层机器 review 都按 spec 查正确性；代码质量（复用、最少改造、复杂度、责任边界，即 review-rules 的第 2–5 条）只能作为“可选建议，最多三条”，不影响结论，owner 可以不改。新代码有没有测试，没有人查。
+
+**约束之间的冲突（助手整理）**
+
+| 冲突 | 位置 | 性质 |
+|---|---|---|
+| 里程碑检查两轮后能不能往下做 | deliver 第 51 行与第 53 行 | 两句给出相反做法（F3） |
+| 最终 head 全量还是只重跑受影响的 | 完成条件 1 与第 51 行 | 说法不一（F8） |
+| “写漏只会让重跑变多” | plan-format 与脚本实际行为 | 说法与行为不符（F4） |
+| 默认决定算不算确认 | grill 模板与 core-spec 第 1 步；模板与上游 grilling | 相反（F5，以及上面第 1 点） |
+| 超时按“CLI 用不了”处理 | deliver 与实际原因 | 已由用户决定改（F2） |
+| review-rules 的作用 | deliver 写“验证者用它审代码质量”，验证说明只让影响正确性的算问题 | review-rules 五条里四条只能是可选建议，名义上在审、实际不起作用 |
+| 少写 prompt 与 deliver 的写法 | 原则与正文 | 正文复述脚本、条件分支都在正文、每次修补加一段（F12）；不是两条规则冲突，是做法偏离原则 |
+| 多层验证与 Opus 5 指南“删掉额外验证” | 流程设计与模型指南 | 用户 2026-09-29 定“效果优先”，保留；不是 Skill 内部冲突 |
+
+待用户确认：grill 迁移方案；代码质量 review 维持非阻塞、只在 MR 里列出，还是让 review-rules 的部分条目能阻塞；新代码测试是否要有人查。
