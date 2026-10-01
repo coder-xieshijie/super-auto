@@ -53,3 +53,4 @@
 - [Lauren 与工业级需求自动交付调研](../research/agent-delivery-2026-09-28/README.md)
 - [两段补充视频的分析](../research/agent-delivery-2026-09-28/supplement-videos/analysis.md)
 - [近 30 天工作流档案](../research/workflow-30d/README.md)
+| 2026-10-01 | [开发流程各阶段的模型分配](2026-10-01-model-allocation.md) | 7595 主会话与 62 个子代理都跑在 Opus 5.5，按角色估算换 Sonnet 能省多少；三家对子代理选模型的说法；本机今天新建的子代理配置与 deliver 的冲突；分配建议待用户决定 |
