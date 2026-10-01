@@ -99,6 +99,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 
 ## 决策日志
 
+- 2026-10-01：用户要求之后的 verify 类 subagent 用 Sonnet 5.5 high（`~/.claude/agents/verify-runner.md`），只有集成类复杂任务用 Opus 5.5 high（`integrator.md`）。里程碑检查按 deliver 规定须与 owner 同模型，归入 integrator。注意 `~/.claude/agents/general-purpose.md` 自 18:39 起定义为 sonnet-5-5 xhigh；此后以 general-purpose 启动的里程碑检查，报告的模型 ID 不是 claude-opus-5-5 的作废重做。
 - 2026-10-01：deliver 改用 dev-skills main `9af8ba1`（#21 里程碑检查落盘并由 check-delivery 核对顺序，#22 run-verifier 预检、限时、不带沙箱，#23 只核对子代理模型 ID）。plan、证据和检查按新版执行；没有写任何 waiver。
 - 2026-10-01：M0 不写场景，不需要检查记录；M1 的第一轮检查范围取交接提交到迁移提交（350965f50f..6d0823cc14），连续覆盖 !7181、工具、第 2 项与迁移。
 - 2026-10-01：并行 subagent 在 `wip/gv2-resume`、`wip/gv2-desktop` 上的提交早于 M1/M2 检查，不直接并入（按作者时间会判为晚，也不改提交时间）；作为草稿，在 M2 检查之后按 M3、M4 顺序重新提交到需求分支（用户 2026-10-01 决定）。
