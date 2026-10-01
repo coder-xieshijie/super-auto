@@ -63,7 +63,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - 2026-10-01：IDL 在 weaver/idl 新分支 `feature/goal-v2-and-feedback-fixes`（204400c9a5，已推送，weaver/idl!13599 待用户合入）给 GoalState 加 17–25 号可选字段：accounting_version、requests_used、work_requests、grace_requests、legacy_turns、reserved_requests、unknown_requests、usage_incomplete、usage_recovery_scheduled（最后一个给第 1 项横幅用）。用平铺字段而不是嵌套结构，与现有 GoalState 风格一致。已有同名实验分支 `feature/goal-v2-request-accounting` 不复用。
 - 2026-10-01：Goal 诊断入口放在 Developer Tools（与 Runtime 内存卡片同样只在开发者选项开启时出现，IPC 也按开发者选项拒绝）；同意提示拒绝即不读不写。诊断声明三个数量上限：200 个 Goal、500 条请求、每个 Goal 5 条请求条目（S32 要求用 S03 规模的 Goal 超过上限）；摘要按读到的全部请求统计。时间窗口 2 天，与日志上传一致。
 - 2026-10-01：收尾请求的说明追加到该次请求的 system prompt，tools 置空；不改受控 prompt 资产（`workflow/goal/budget-limit.md` 保留登记、运行时不再使用，移除路径需 Apollo 生命周期，未授权）。
-- 2026-10-01：最后 rebase 到 preview_train 时第 2 项提交被去重会让 M1 记录失效，这是 check-delivery 的已知缺陷（修复 PR 未合入 dev-skills main）；届时如实记录，不改历史或提交时间绕开。
+- 2026-10-01 11:25：deliver 更新到 dev-skills main `fbcf3b7`（#24，里程碑记录经得起 rebase；只核对每个里程碑第一次仍有效的检查早于其后的提交，后几轮不计时；rebase 中被改动的已检查提交需后续一轮重新检查并落盘）。此前记的“rebase 去重使 M1 记录失效”的缺陷已修，该条作废。据此：M2 第一次检查范围取 a7899522d3..（M2 场景修复后的 head），含 d465f843d8、384cef525d、42c9857a02；`wip/gv2-m3` 草稿在 M2 检查落盘后以 `cherry-pick -n` + `commit --reset-author` 生成新提交，不沿用草稿作者时间。
 
 - 2026-09-30：v2 新建 `local_runtime_v2_goals`，migration 42 从 `local_runtime_thread_goals` 读取复制，旧表保留、不再写入。原因：verify M02 要求“没有代码写 v1 表（迁移读取旧数据除外），v2 Goal 表由 Drizzle schema 定义”；保留旧表满足“迁移失败不丢原数据”。两次实验直接接管旧表的做法不采用。
 - 2026-09-30：迁移按原逻辑搬移 v1 Goal owner（保持门面 API），不按实验重写业务规则；store 由 deps 注入（composition 用 Drizzle 实现，测试用替身）。原因：spec §3.2 迁移不改变行为，RG1 迁移前后一致；两次实验重写后都未完成集成。
