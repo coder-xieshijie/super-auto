@@ -297,6 +297,8 @@ grill 加 core-spec 共 3 小时 53 分钟，比上一个需求（1 小时 41 �
 
 每条依据都由子代理在本机存档的原文里逐字核对过，完整引文与行号见 [source-check/](source-check/)：[OpenAI](source-check/openai.md)（63 段）、[Anthropic](source-check/anthropic.md)（61 段）、[Lauren](source-check/lauren.md)。下表只摘最关键的一两句；简称沿用这三份文件。
 
+“减少人工介入用的是哪一家、各家有哪些方案、哪家效果最好”的单独分析见 [approaches.md](approaches.md)。
+
 ### 8.1 沿用上一轮的原则
 
 上一轮已确认（[上一轮复盘 6.1](../goal-final-delivery-trace-2026-09-30/README.md#61-三家的共同立场规则进结构prompt-只写边界)、流程文档“写给 agent 的 prompt”）：规则尽量进脚本、钩子和工具，prompt 只写真正会出问题的边界；每条建议归入五种形式之一（机制、边界、不写、仓库能力、本仓库约定）；改动一次上一项，下一个需求观察效果，删规则要有对照。本节照此给出形式和优先级。
