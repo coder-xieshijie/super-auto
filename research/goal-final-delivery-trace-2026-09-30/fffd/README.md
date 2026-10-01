@@ -36,26 +36,27 @@
 - 可以就地补：工具执行前先查原文，查不到再让模型猜，把补好的内容换进工具输入再执行，并告诉 agent 补了哪几处、哪几处是猜的。补不出来（调用失败、超时）才拦下让 agent 自己改。
 - 直接回复用户的文字不经过工具，钩子改不了。
 
-## 本机钩子（2026-09-30 装好）
+## 本机钩子
 
-- 脚本 `~/.claude/hooks/restore-lost-chars.py`，测试 `~/.claude/hooks/test-restore-lost-chars.py`，日志 `~/.claude/hooks/restore-lost-chars.log`（每次补字一行 JSON）。`~/.claude/settings.json` 的 PreToolUse 加了一项，matcher `*`，超时 90 秒；原有两项 PreToolUse 钩子未动。钩子不进 dev-skills，也不进任何仓库。
-- 做法：工具执行前扫工具输入里连续 2 个及以上的 U+FFFD，单个的不管。每处依次尝试：
-  1. Edit 的 `old_string`：整段在目标文件里唯一出现，就按文件原文补。
-  2. 前后各 6、12、24 个字在会话已有文本（用户消息、工具结果，读 transcript 末尾 32 MB）或目标文件里唯一出现，就按原文补。
-  3. 其余一次批量交给模型猜，给前后各 80 个字，要码点。答案缺失或字数不对的交给下一个模型。
-- 补上后用 `updatedInput` 换掉工具输入，不设 `permissionDecision`；`additionalContext` 告诉 agent 补了哪几处、哪几处是猜的；`systemMessage` 给用户一句“已补回 N 处丢字”。还有没补上的：Write、Edit、NotebookEdit 照常执行并告诉 agent 去改；其他工具拒绝执行（`deny`），让 agent 补上后重调，避免带坏字的命令、提交说明或消息发出去。
-- 模型：直连本机网关（读 `settings.json` 的 `ANTHROPIC_BASE_URL`、`ANTHROPIC_CUSTOM_HEADERS` 和 `apiKeyHelper`），先 `qw-mid-5`（网关上的 Sonnet 档），失败再 `claude-opus-5`；可用 `RESTORE_LOST_CHARS_MODELS` 改。不用嵌套的 `claude -p`：它要干净环境才能认证，每次还要启动整个 Claude Code。
-- 选型数据（[eval_hook_guess.py](eval_hook_guess.py)，同一批 60 处，每处单独一次调用，与钩子一致）：
+2026-10-01 按用户定的前提改过一版（原话见讨论记录）：模型用 Sonnet 5.5，推理强度 medium；判断失败直接放行，不拦截，也不换更强的模型；脚本只起补强作用，能补就补，补不了保持原样。
+
+- 位置：脚本 `~/.claude/hooks/restore-lost-chars.py`，测试 `~/.claude/hooks/test-restore-lost-chars.py`，日志 `~/.claude/hooks/restore-lost-chars.log`（有丢字的调用每次一行 JSON）。挂在 `~/.claude/settings.json` 的 PreToolUse，matcher `*`，超时 45 秒；原有两项 PreToolUse 钩子未动。不进 dev-skills，也不进任何仓库。
+- 流程：
+  1. 输入里没有 U+FFFD：立即结束，不输出，约 40 毫秒。
+  2. 只处理连续 2 个及以上的 U+FFFD，按个数推断丢了几个字；单个的不管。
+  3. 查原文：Edit 的 `old_string` 整段在目标文件里唯一出现，就按文件补；其余每处取前后各 6、12、24 个字，在目标文件和会话已有文本（用户消息、工具结果，读 transcript 末尾 32 MB）里唯一对上就照抄。
+  4. 查不到的一次请求交给 `claude-sonnet-5-5`（`output_config.effort: "medium"`，思考为默认的自适应），给前后各 80 个字，要码点；模型直接写了字本身也接受。
+  5. 补上的换进 `updatedInput`，`additionalContext` 告诉 agent 补了哪几处、哪几处是猜的，没补上的保持原样并列出来；`systemMessage` 给用户一句“已补回 N 处丢字”。一处都没补上就不输出，调用原样执行。
+- 失败时一律放行：取不到设置或密钥、网络失败、模型拒答（`stop_reason: "refusal"`）、回复读不出或字数不对、脚本自身异常，都只记日志，不拦截，不换模型。脚本不设 `permissionDecision`，权限照常判断。
+- 选型数据（[eval_hook_guess.py](eval_hook_guess.py) 调用钩子自己的 `guess()`，同一批 60 处，每处单独一次调用）：
 
 | 配置 | 猜中 | 中位用时 | 90 分位 | 没有答案 |
 |---|---|---|---|---|
+| `claude-sonnet-5-5`，effort medium（现用） | 48/60 | 2.9 秒 | 4.0 秒 | 4 |
+| `qw-mid-5`，默认思考（上一版） | 44/60 | 3.6 秒 | 5.1 秒 | 1 |
 | `qw-mid-5`，关思考 | 41/60 | 3.0 秒 | 3.8 秒 | 0 |
-| `qw-mid-5`，默认思考 | 44/60 | 3.6 秒 | 5.1 秒 | 1 |
 | `claude-opus-5`，默认思考 | 29/60 | 4.1 秒 | 8.2 秒 | 22 |
 
-  Opus 的 22 处没有答案，多是网关返回“safeguards flagged this message”，所以只作后备。钩子用 `qw-mid-5` 的默认思考。
-- 验证：
-  - 测试 13 项全部通过：干净输入不输出，单个 U+FFFD 不动，会话原文补回，文件原文补回，模型猜测，补不上时 Bash 拒绝、Write 照常执行并提示，一处丢两个字，JSON 转义输入，异常输入。
-  - 没有丢字时每次调用约 44 毫秒。
-  - 在本会话里实测：Write 一处按会话原文补对（“本[地] main”）；Bash 一处猜错，“补上”猜成“补还”，agent 收到了“猜测”的标注。
-- 局限：猜测约四分之三正确；直接回复用户的文字不经过工具，管不到；有意写连续 U+FFFD 的内容（例如引用坏字的记录）也会被补，需要时用 `\ufffd` 转义。
+  Sonnet 5.5 没有答案的 4 处：3 处被安全分类器以 `cyber` 类别拒答（文本是命令和代码片段），1 处回了字本身而不是码点。后者已改为接受；前者按前提放行。
+- 验证：测试 13 项全部通过，含模型不可达、设置不可读时原样放行，以及部分补上、其余保持原样。会话里实测：Write 一处按会话原文补对（“本[地] main”）；改版前 `qw-mid-5` 把“补上”猜成“补还”，改版后 Sonnet 5.5 把“补回”猜对。
+- 局限：猜测约八成正确；直接回复用户的文字不经过工具，管不到；有意写连续 U+FFFD 的内容也会被补，需要时用 `\ufffd` 转义。
