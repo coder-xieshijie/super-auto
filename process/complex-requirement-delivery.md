@@ -1,65 +1,32 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.30
+status: 演进记录 v0.31
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
 
-# 复杂需求交付流程（工作稿）
+# 复杂需求交付流程（演进记录）
 
-本文记录用户的核心开发流程，是后续分析、优化和迭代的对象，目标是形成一份规范的复杂需求交付流程。
+本文记录用户的核心开发流程怎样演进、为什么。**当前流程以 dev-skills 为准**：README 的“开发流程”一节，以及 core-grill、core-spec、deliver 三个 Skill（`/Users/minimax/code/github/xieshijie/dev-skills`；2026-10-01 的版本见 dev-skills#27）。
 
-- “当前流程”只写用户确认的内容；各环节说明依据对应 Skill 或 pipeline 的原文，并注明版本。
-- “待讨论问题”是助手的观察，未经用户确认，不代表流程已改变。
+- 决定表只写用户确认的内容；被取代的行保留，标注取代它的版本。
 - 每次修改在“修订记录”追加原因；用户原话按时间收在文末；讨论过程记在 [discussions/](../discussions/README.md)。
+- 旧的流程图、各环节说明和待讨论问题移到文末“旧流程（对照）”，不再作为约束。
 
-## 一、当前流程
+## 一、决定
 
-> **2026-09-29 起按重建后的流程执行。** 下图为当前流程，逐步说明见[完整步骤](../research/zero-based-delivery-2026-09-29/steps.md)，构建顺序见[构建计划](../research/zero-based-delivery-2026-09-29/build-plan.md)。“旧流程（v0.3–v0.6）”保留作对照，不再作为约束。
-
-```text
-A 仓库准备（每个仓库一次，随需求补）
-    agent 能在 worktree 里启动、驱动、观察应用；验证 Skill、功能地图、冒烟、质量命令
-B 定义（你参与，唯一的决策阶段）
-    grill-with-docs → spec.md → verify.md
-    → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 冻结（记录 sha256），此后只读
-    → 两份文件提交到需求分支，开 Draft MR 交给 deliver
-C 交付（全自动，一个 owner 连续运行）
-    在任意 worktree 检出需求分支 → 写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景，
-      再由 subagent 对照 spec 验证（继承主 agent 的模型和推理强度）
-    → 全集自验 → 另一家模型在单独的 session 中独立验证 → 在交接的 MR 上推送、取消 Draft → CI 与评审 → 可合入
-    只在四种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作；卡住
-D 回流：把复盘里的仓库缺口补回 A
-```
-
-对应的 Skill：B 用 grill-with-docs 和 core-spec（产出 spec.md 与 verify.md，第 7 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）；core-spec 与 core-verify 于 2026-09-29 合并为一个 core-spec，见 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。需求文档放在哪个目录，由你在每个需求开始时指定；用于自动交付时放在目标仓库里，冻结后随需求分支交接（core-spec 第 9 步）。
-
-旧流程（v0.3–v0.6，对照）：
-
-```text
-① grill-with-docs session（用户参与）
-     多轮澄清 → 决策点
-     → spec.md    需求冻结，此后唯一依据（SOT）
-     → verify.md  依据 spec 写验收
-     → plan.md    依据 spec 和 verify 写实现计划
-② cross review（新开 session）
-     只以 spec.md 为依据，严格校验并修改 verify.md、plan.md
-     → verify.md、plan.md 冻结
-③ 实现、验收、交付（尚未纳入）
-```
-
-第 ③ 步及仓库级准备的展开见[自证闭环完整流程候选稿](../research/self-verifying-loop-2026-09-28/flow.md)，未经确认，不属于当前流程。
+2026-10-01 起，流程说明、Skill、脚本与用例都在 dev-skills，本节只保留决定表。要点：B 定义阶段用 core-grill 追问、用户确认一次决定汇总，core-spec 写 spec 和 verify、另一家模型查漏（含现有事实对代码核对）、用户确认一次后冻结交接；C 交付阶段 deliver 全程不停，只在不可逆操作前停，要定的事先问另一家模型，决定清单放在 plan.md 和 MR 最前面，只留一个查结果的检查。
 
 用户已确认的决定：
 
 | 决定 | 内容 |
 |---|---|
-| 串行产出 | 先 spec，再 verify，最后依据前两份写 plan |
-| 同一 session | 三份文档都在 grill-with-docs 这个 session 里产出 |
-| 三份独立文档 | `spec.md`、`verify.md`、`plan.md` |
-| spec 是唯一依据 | spec 产出即需求冻结；之后的校验完全以 spec 为准，不再引入其他上下文 |
-| cross review | 新开 session，按 spec 对 verify 和 plan 做严格的一致性校验，并直接修改 |
-| 冻结时点 | verify.md 和 plan.md 在 cross review 产出后冻结 |
+| 串行产出 | 先 spec，再 verify，最后依据前两份写 plan **v0.7 起由重建后的流程取代** |
+| 同一 session | 三份文档都在 grill-with-docs 这个 session 里产出 **v0.7 起由重建后的流程取代** |
+| 三份独立文档 | `spec.md`、`verify.md`、`plan.md` **v0.7 起由重建后的流程取代** |
+| spec 是唯一依据 | spec 产出即需求冻结；之后的校验完全以 spec 为准，不再引入其他上下文 **v0.7 起由重建后的流程取代** |
+| cross review | 新开 session，按 spec 对 verify 和 plan 做严格的一致性校验，并直接修改 **v0.7 起由重建后的流程取代** |
+| 冻结时点 | verify.md 和 plan.md 在 cross review 产出后冻结 **v0.7 起由重建后的流程取代** |
 | 方向 | 采用“自证闭环”：agent 能自己启动、操作、观察应用并证明结果；主要参考 OpenAI harness engineering 与 Anthropic 长任务 harness |
 | 沉淀与编排 | 流程各环节沉淀为 dev-skills 中的 Skill；编排放在 Agent Lord，由 Agent Lord 的节点加载对应 Skill 完成该环节 |
 | 重建前提：推倒重来 | 忽略现有设计，按最合理、有依据的方式重建 |
@@ -67,7 +34,7 @@ D 回流：把复盘里的仓库缺口补回 A
 | 重建前提：最少决策 | 人只在开始时定 spec 和 verify 并尽量覆盖完整；之后全自动，交付一个 MR 或 PR |
 | B4 查漏 | 开新 session，用与写 spec、verify 不同的模型家族审（2026-09-29） |
 | C 阶段节奏 | 每个里程碑都在应用里跑它涉及的场景，效果优先（2026-09-29） |
-| 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/spec/<需求>/`（2026-09-29） |
+| 需求文档位置 | 每个需求开始时由用户手动指定，Skill 不作规定；Agent-Archon 一般放在 `.harness/docs/specs/<需求>/`（2026-09-29；v0.31 统一写作 `specs/`，与“交接方式”一致） |
 | 交接方式 | spec、verify 冻结后单独提交到需求分支，推送并开 Draft MR；deliver 在任意 worktree 检出这个分支，在同一个 MR 上交付，不再限定写 spec 的 worktree。Agent-Archon 放 `.harness/docs/specs/<需求>/`。plan.md 和证据按仓库规则，不允许提交时放用户指定的位置。spec 不允许推送或开 MR、或仓库规则不允许提交这两份文件时，只交本地路径（2026-09-30） |
 | 功能地图位置 | 放在各功能的专题目录（Agent-Archon 如 `.harness/docs/goal/feature-map/`）；项目验证 Skill 只放通用操作和索引（2026-09-29） |
 | 验证入口 | 用户可见的行为必须在用户实际使用的入口上验证（Agent-Archon 为 MCode TUI 和 Electron 桌面端）；只调接口的验证只能补充核对状态，不能代替（2026-09-30） |
@@ -75,9 +42,9 @@ D 回流：把复盘里的仓库缺口补回 A
 | 中间与最终验证 | 里程碑中间的结果用 subagent 验证，subagent 继承主 agent 的模型和推理强度；最终结果用另一家模型在单独的 session 中验证（2026-09-29） |
 | 最终验证由谁发起 | 试跑期间由 owner 通过 `run-verifier.mjs` 发起，留下调用记录并由 `check-delivery.mjs` 核对；无人值守或多需求并行时，改由 Agent Lord 派发（2026-09-29）。**v0.30 起取消**，见“脚本只查结果” |
 | 交付中停下的情况 | 四种：spec 矛盾或缺少会改变产品行为的决定（v0.22 起，验收口径偏差不在此列，见下一行“交付中验收口径偏差”）；缺少拿不到的权限或环境；授权以外的不可逆操作；卡住（同一个失败，一种修法连续 3 次无效就换思路，换了思路后再连续 3 次仍无进展）（2026-09-29）。**v0.29 起由下一行“交付中不停”取代** |
-| 交付中不停 | owner 全程做下去，不为决定停下问用户；做不了的部分标明原因，做完其余工作。只在不可逆操作前停：合入、强推共享分支、删除共享数据、对外发消息、改共享环境（取 Lauren“Always pause for irreversible writes”）。自己做的决定写成决定清单，放在 plan.md 和 MR 描述的最前面，用户合入前重点看（2026-10-01 v0.29 用户确认；dev-skills 尚未修改） |
-| 交付中的决定先问另一家模型 | 遇到需要决定的事，owner 拉起另一家模型（例如 Codex）判断并讨论，再定方案，写进决定清单。流程尽量轻：不用复杂脚本核对，只用 prompt 约束，prompt 也要很轻（2026-10-01 v0.29 用户提出；写法与哪些脚本保留待确认） |
-| 脚本只查结果 | deliver 只留一个约 150 行的检查：spec、verify 自最近一次交接后没改；验证报告对应 MR 最新代码（之后只改文档、测试可以沿用）、结论通过、验证者与 owner 不同家族。其余管过程的脚本删除：里程碑检查记录与顺序、重新交接与确认原话、口径偏差核对、重跑选择、`run-verifier.mjs`。里程碑检查保留为一句“做完让新的子代理查一遍”；口径偏差、事实更正并入决定清单；最终验证用命令加 60 分钟周期与续接；F7 取消（2026-10-01 v0.30 用户同意；方案见 [change-plan.md](../research/skills-consistency-2026-10-01/change-plan.md)，dev-skills 尚未修改） |
+| 交付中不停 | owner 全程做下去，不为决定停下问用户；做不了的部分标明原因，做完其余工作。只在不可逆操作前停：合入、强推共享分支、删除共享数据、对外发消息、改共享环境（取 Lauren“Always pause for irreversible writes”）。自己做的决定写成决定清单，放在 plan.md 和 MR 描述的最前面，用户合入前重点看（2026-10-01 v0.29 用户确认；dev-skills#27 实施） |
+| 交付中的决定先问另一家模型 | 遇到需要决定的事，owner 拉起另一家模型（例如 Codex）判断并讨论，再定方案，写进决定清单。流程尽量轻：不用复杂脚本核对，只用 prompt 约束，prompt 也要很轻（2026-10-01 v0.29 用户提出；v0.30 定为只留一个查结果的检查；dev-skills#27 实施） |
+| 脚本只查结果 | deliver 只留一个约 150 行的检查：spec、verify 自最近一次交接后没改；验证报告对应 MR 最新代码（之后只改文档、测试可以沿用）、结论通过、验证者与 owner 不同家族。其余管过程的脚本删除：里程碑检查记录与顺序、重新交接与确认原话、口径偏差核对、重跑选择、`run-verifier.mjs`。里程碑检查保留为一句“做完让新的子代理查一遍”；口径偏差、事实更正并入决定清单；最终验证用命令加 60 分钟周期与续接；F7 取消（2026-10-01 v0.30 用户同意；方案见 [change-plan.md](../research/skills-consistency-2026-10-01/change-plan.md)，dev-skills#27 实施） |
 | 查漏核对现有事实 | core-spec 第 7 步查漏加一项：spec、verify 写到的现有快捷键、文案、入口名、默认值、设置项逐条对代码核对（2026-10-01 v0.30 用户同意） |
 | 里程碑检查的顺序与把关 | 每轮检查的报告用 `record-milestone-check.mjs` 存下并写明 commit 范围；`check-delivery.mjs` 核对写了场景的里程碑都有记录、记录连续覆盖需求分支、每个里程碑的第一条记录只覆盖自己的提交、每个里程碑的第一次检查早于之后的提交（晚了只能由用户放行）。rebase 后按增删的行认提交：被目标分支去重的提交跳过，检查后被改过的提交（作者时间和标题不变）要再查一轮，后几轮不核对时间。检查可以在后台进行，下一个里程碑的第一个提交要等检查结果处理完。计划格式不加勾选项，由脚本核对代替（2026-09-30 v0.17 确认、v0.18 调整；[coder-xieshijie/dev-skills#21](https://github.com/coder-xieshijie/dev-skills/pull/21) 已合入，main `90c12c9`；v0.20 修正 rebase 缺陷，[coder-xieshijie/dev-skills#24](https://github.com/coder-xieshijie/dev-skills/pull/24) 已合入，main `fbcf3b7`）。**v0.30 起取消**，见“脚本只查结果” |
 | 报告沿用 | 验证报告对应更早的 head、之后只改了测试、文档或 lint 配置时沿用；冻结的 spec、verify 改了或其他文件改了，对 MR head 重新完整验证。沿用与否由 `check-delivery.mjs` 判断，不由验证者判断（2026-09-30，dev-skills#21 已合入）。**v0.30 起取消**，见“脚本只查结果” |
@@ -86,68 +53,12 @@ D 回流：把复盘里的仓库缺口补回 A
 | 交付中验收口径偏差 | spec 规定的产品行为清楚、实现符合 spec，只是 verify 某个检查点按字面判不了或必然判错时，owner 自己定改用的判定方法，不停下、不改 verify；在 plan.md 记一条偏差（字面为何不成立、证据、改用的方法、同类检查点），最终跨家族验证者逐条判断是否放宽了验收，判为放宽的交给用户；MR 描述列出全部偏差，用户合入前看、可以推翻。会改变产品行为的仍停下问用户（2026-10-01 v0.22 用户同意方向；改动清单见 [deviation-change-list.md](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)；[coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26) 已开，未合入）。**v0.30 起取消**，见“脚本只查结果” |
 | 里程碑检查的时机与重跑的选择 | 每轮里程碑检查分代码、证据两部分：代码部分在里程碑提交后就开始，与场景同时进行；证据部分在场景跑完后进行；两份报告合成一轮存下，这一轮报出的问题等记录存下后再提交。修复后重跑哪些场景由 `select-scenarios.mjs` 按 plan.md 里每个场景的涉及路径选出：只改测试、文档不触发，改了冻结文件或没人认领的文件全部重跑；最终 head 照常跑全部场景（2026-10-01 v0.23，用户要求并入 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，`ee4c96d`，未合入；方案见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md)）。**v0.30 起取消**，见“脚本只查结果” |
 | verify 的编号与门禁 | 门禁（`run-verifier.mjs`、`check-delivery.mjs`）和 `select-scenarios.mjs` 用同一个解析器，认带字母后缀的场景号（如 `S12b`）、M 开头的机械检查、RG 开头的回归项；`freeze.mjs` 冻结前用这个解析器读 verify，有认不出的编号就失败，由作者当场改。已冻结的 verify 不用改（2026-10-01 v0.24 用户选 (b)；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F1）。**v0.30 起取消**，见“脚本只查结果” |
-| 独立验证的时长上限 | 独立验证以 60 分钟为一个周期：到点脚本停下验证者并交回控制，owner 看这段的执行过程，没做完就在同一个 CLI 会话里接着追加，失败了由 owner 自己判断下一步（接着验、分批、修环境、换 CLI 等）。到点不算“CLI 用不了”；验证者每验完一个场景就把结果写进证据目录；同一版本代码的几段验证可以合起来过门禁。给 owner 的说明只写这一层，不加更多限制（2026-10-01 v0.24 定 60 分钟，v0.28 改为周期检查与续接；dev-skills 尚未修改） |
-| 内容放在哪里 | 流程优化完成后，产出的所有内容只看 dev-skills 就够：Skill、模板、流程说明、脚本与用例都放 dev-skills；本仓库只记录过程和优化（2026-10-01 v0.25 用户提出；迁移方案待确认，见[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)） |
-| grill 的 Skill | 在 dev-skills 建自成一体的 core-grill，不依赖上游：收四个输入（目标、完成条件、授权、范围），逐轮提问、事实自己查，只问会改变用户可见结果的决定，默认决定与用户答过的决定写进一份汇总由用户确认一次，术语写进 CONTEXT.md，ADR 只在三个条件都满足时写；只保留上游 grilling、domain-modeling（mattpocock-skills `74ca5fe`，MIT）里用到的部分，记下来源。上游 Skill 继续保留，用于流程以外的讨论（2026-10-01 v0.27 用户同意；dev-skills 尚未修改） |
-| 代码质量与测试覆盖 | 最后的独立验证按 review-rules 看代码质量、并看新增或改变的行为有没有自动化测试覆盖；这两类意见不拦合入，owner 逐条改或写明不改的理由，全部列进 MR 描述，用户合入前看。里程碑检查只对照 spec 查对不对（2026-10-01 v0.28 用户同意；dev-skills 尚未修改） |
+| 独立验证的时长上限 | 独立验证以 60 分钟为一个周期：到点脚本停下验证者并交回控制，owner 看这段的执行过程，没做完就在同一个 CLI 会话里接着追加，失败了由 owner 自己判断下一步（接着验、分批、修环境、换 CLI 等）。到点不算“CLI 用不了”；验证者每验完一个场景就把结果写进证据目录；同一版本代码的几段验证可以合起来过门禁。给 owner 的说明只写这一层，不加更多限制（2026-10-01 v0.24 定 60 分钟，v0.28 改为周期检查与续接；dev-skills#27 实施） |
+| 内容放在哪里 | 流程优化完成后，产出的所有内容只看 dev-skills 就够：Skill、模板、流程说明、脚本与用例都放 dev-skills；本仓库只记录过程和优化（2026-10-01 v0.25 用户提出；见[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)；dev-skills#27 实施） |
+| grill 的 Skill | 在 dev-skills 建自成一体的 core-grill，不依赖上游：收四个输入（目标、完成条件、授权、范围），逐轮提问、事实自己查，只问会改变用户可见结果的决定，默认决定与用户答过的决定写进一份汇总由用户确认一次，术语写进 CONTEXT.md，ADR 只在三个条件都满足时写；只保留上游 grilling、domain-modeling（mattpocock-skills `74ca5fe`，MIT）里用到的部分，记下来源。上游 Skill 继续保留，用于流程以外的讨论（2026-10-01 v0.27 用户同意；dev-skills#27 实施） |
+| 代码质量与测试覆盖 | 最后的独立验证按 review-rules 看代码质量、并看新增或改变的行为有没有自动化测试覆盖；这两类意见不拦合入，owner 逐条改或写明不改的理由，全部列进 MR 描述，用户合入前看。里程碑检查只对照 spec 查对不对（2026-10-01 v0.28 用户同意；dev-skills#27 实施） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23）；2026-10-01 v0.26：这一轮检查的全部改动按用户要求合成一个 PR |
-
-grill-with-docs 和 core-spec 的 `disable-model-invocation` 为 true，需要用户手动调用。
-
-## 二、各环节说明
-
-### ① grill-with-docs session：澄清并产出三份文档
-
-**澄清。** 来源：`mattpocock-skills` `74ca5fe`（2026-09-17），`skills/engineering/grill-with-docs`，依次调用 `grilling` 和 `domain-modeling`。
-
-- grilling：把需求当成一棵决策树逐轮提问。每轮问所有前提已定的问题，每题给出推荐答案，等用户答完再算下一轮。能从代码、文件查到的事实由 agent 自己查；决定由用户做。决策树上没有待问的问题，并且用户确认理解一致，才算结束。
-- domain-modeling：用户用词与已有术语冲突时当场指出；编具体场景压测概念边界；对照代码找不一致。术语写进 `CONTEXT.md`，决定写进 `docs/adr/`，有内容时才创建。
-
-**spec.md。** 用 core-spec，来源：`dev-skills` `88efec7`，`skills/core-spec`。
-
-- 找出每个议题最终有效的约定，区分已确认决定、必须保持的现有行为、未采纳的建议和未决项。
-- 写成两层：开头 3–5 个最核心的决定，后面是完整的决策与约束。不含调查过程、被否决选项、实施步骤和详细测试清单。
-- 对照原始材料双向核对，并用反例检查：是否存在符合文字、却违反已确认约定的实现。
-- 产出后即为需求的唯一依据。
-
-**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)（已合并，dev-skills main `8e8a310`；本机未安装，未在真实 spec 上试用），设计依据见[讨论记录](../discussions/2026-09-28-core-verify-build-plan.md)。要点：spec 是唯一需求来源；验收以用户在一个入口上完成的一次完整操作为单位，默认从真实入口运行，由实现 agent 自证；结果不同就拆，同入口同前提同流程合并；每个场景有字面检查点、基线预期和错误实现；看不到的内部规则先补可观察性；另列冒烟集、验证工具缺口和覆盖盲区；单元测试属于实现。
-
-**plan.md。** 依据 spec 和 verify 写。所用 Skill 未说明；现有 plan-cross-review 中重写 plan 用的是 `plan-for-agents`（`dev-skills` `88efec7`），它要求 plan 写明每项要求的验证方法、预期结果、证据位置和失败处置。
-
-### ② cross review：按 spec 校验并修改 verify 和 plan
-
-目标（用户确认）：新开 session；spec.md 是唯一依据；校验 verify.md 和 plan.md 与 spec 严格一致，并直接修改；产出后两份冻结。
-
-Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/plan-cross-review.md`）是改造基础：A（MCode）和 B（Codex）独立评审并互审 → C（新 session）逐条核查发现，并在同一 session 里重写完整 plan 和处置索引 → D（新 session，看不到评审讨论）逐项核对，只报问题 → C 修订、D 复验，最多 2 轮。正常路径 7 次模型操作。
-
-它与目标的差异：
-
-| 项 | 现有 plan-cross-review | 目标 |
-|---|---|---|
-| 依据 | spec、已确认的用户决定、原 plan、固定 SHA 的源码 | 只以 spec 为准 |
-| 校验对象 | 只有 plan | verify.md 和 plan.md |
-| verify 相关检查 | 无 | verify 覆盖 spec 的每条约定、场景能拒掉错误实现、没有 spec 以外的要求；plan 承接每个验收场景 |
-| 产出 | 重写后的 plan、处置索引、D 的报告 | 修改后的 verify.md 和 plan.md，随后冻结 |
-
-## 三、文档之间的交接
-
-| 文档 | 谁用、怎么用 |
-|---|---|
-| grill 对话、`CONTEXT.md`、ADR | 只在 grill session 内用于产出 spec；spec 之后不再作为依据 |
-| spec.md | verify 和 plan 的写作依据；cross review 的唯一依据；不在 cross review 中修改 |
-| verify.md | plan 的写作依据；cross review 校验并修改；之后冻结，实现期间只读 |
-| plan.md | cross review 校验并修改；冻结后交给实现 |
-
-## 四、待讨论问题（助手观察，未经确认）
-
-1. **源码是否作为 cross review 的输入。** 需求只看 spec；但 plan 里关于现有代码的判断（要改哪些文件、可复用哪些函数、现有行为）和 verify 的“入口是否存在”，只能对照源码核对。建议：源码在固定 SHA 下只用来核对事实，不能用来增加或改变需求。
-2. **cross review 发现 spec 本身有问题怎么办。** 例如两条约定矛盾、有歧义、漏了会改变实现的决定。spec 已冻结，cross review 不改它。建议：列为阻塞项交回用户，修订 spec 后重新冻结，受影响的部分重新校验。
-3. **现有 plan-cross-review 要改造或另建 pipeline。** 需要定：角色和轮次沿用多少，谁修改 verify.md，D 的检查项，冻结时记录哪些哈希。
-4. **Skill。** verify.md 用 core-verify（[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)，待合并与首次试用）；plan.md 是否用 `plan-for-agents` 未说明。
-5. **流程止于冻结的 verify 和 plan。** 实现、按 verify 执行验收、MR、交付和交付后反馈尚未纳入。候选稿给出第 0 阶段（仓库 harness）和第 6–9 阶段（实现、独立验收、PR 与评审、回流），并列出五个待确认问题。
-6. **文档存放与追溯。** 三份文档放在哪个仓库、什么目录；与代码、MR 如何关联到同一需求。
-7. **人工介入点和测量。** grill 需要用户逐轮回答；cross review 只在 spec 有问题时回到用户。各步耗时、人工分钟、返工尚无记录，可按 [试验方案的最小测量表](../research/agent-delivery-2026-09-28/conclusions/experiments.md) 开始记录。
 
 ## 修订记录
 
@@ -192,6 +103,102 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.28：用户同意代码质量意见与测试覆盖由最后的独立验证列出、不拦合入、owner 逐条处理并列进 MR，同意几段验证合起来过门禁；F2 改为 60 分钟一个检查周期，没做完就在同一个 CLI 会话里续接，失败由 owner 判断，说明不加更多限制。F7 暂缓，用户要求结合“MR 7595 deliver session 链路分析 (fork)”的讨论重新讨论人工介入与流程自动进行。
 - 2026-10-01 v0.29：用户确认交付中全程不停、决定清单放最前、合入前看，并按 Lauren 保留“不可逆操作前一定要停”；遇到决定时拉起另一家模型判断讨论后再定；流程要轻，不用复杂脚本核对，只用很轻的 prompt。决定表新增两行，“交付中停下的情况”被取代。哪些已确认的机制随之去掉（里程碑检查记录、重新交接确认、口径偏差核对、F1 的解析器等）待用户确认。用户问 spec 阶段是否还有换模型查漏：有，即 core-spec 第 7 步（v0.8 的 B4）。
 - 2026-10-01 v0.30：用户同意只留一个查结果的小检查，取消已确认的管过程机制（v0.13、v0.17–v0.24 中相关各行，F7），查漏加“现有事实对代码核对”；凭据泄露通知不加，Stop 钩子不放进本次 PR。助手汇总本轮全部改动，写成[改动方案](../research/skills-consistency-2026-10-01/change-plan.md)，待用户确认后实施。
+- 2026-10-01 v0.31：用户要求按改动方案开 PR（“创建 pr”）。实施为 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)（未合入）：新建 core-grill，deliver 重写（正文 7,945 → 2,986 字，脚本 11 个 → 1 个 236 行，用例 20 条进 CI），core-spec、agent-prompt-rules、README 与设计记录随之更新。本文改为演进记录：当前流程以 dev-skills 为准；旧流程图与第二至四节移到“旧流程（对照）”；决定表前六行标注已被 v0.7 取代；需求文档目录统一写 `specs/`。grill 交接模板改为指向 core-grill。Codex 审查第一版报出 2 条 P1、4 条 P2，已在 PR 内修正。
+
+## 旧流程（对照）
+
+以下内容已被取代，保留作对照，不再作为约束。
+
+### 重建后的流程（v0.7–v0.30）
+
+> v0.7–v0.30 执行的流程。下图为当时的流程，逐步说明见[完整步骤](../research/zero-based-delivery-2026-09-29/steps.md)，构建顺序见[构建计划](../research/zero-based-delivery-2026-09-29/build-plan.md)。
+
+```text
+A 仓库准备（每个仓库一次，随需求补）
+    agent 能在 worktree 里启动、驱动、观察应用；验证 Skill、功能地图、冒烟、质量命令
+B 定义（你参与，唯一的决策阶段）
+    grill-with-docs → spec.md → verify.md
+    → 新 session、另一家模型查漏 → 你确认一次（spec 含交付授权）→ 冻结（记录 sha256），此后只读
+    → 两份文件提交到需求分支，开 Draft MR 交给 deliver
+C 交付（全自动，一个 owner 连续运行）
+    在任意 worktree 检出需求分支 → 写 plan.md（ExecPlan，持续更新）→ 每个里程碑实现并在应用里跑涉及的场景，
+      再由 subagent 对照 spec 验证（继承主 agent 的模型和推理强度）
+    → 全集自验 → 另一家模型在单独的 session 中独立验证 → 在交接的 MR 上推送、取消 Draft → CI 与评审 → 可合入
+    只在四种情况停下：spec 矛盾或缺会改变验收结果的决定；缺拿不到的权限或环境；授权外的不可逆操作；卡住
+D 回流：把复盘里的仓库缺口补回 A
+```
+
+对应的 Skill：B 用 grill-with-docs 和 core-spec（产出 spec.md 与 verify.md，第 7 步是跨模型查漏），C 用 deliver。三者的改动见 [coder-xieshijie/dev-skills#12](https://github.com/coder-xieshijie/dev-skills/pull/12)（2026-09-29 已合入，`97c230f`）；core-spec 与 core-verify 于 2026-09-29 合并为一个 core-spec，见 [coder-xieshijie/dev-skills#13](https://github.com/coder-xieshijie/dev-skills/pull/13)。需求文档放在哪个目录，由你在每个需求开始时指定；用于自动交付时放在目标仓库里，冻结后随需求分支交接（core-spec 第 9 步）。
+
+旧流程（v0.3–v0.6，对照）：
+
+```text
+① grill-with-docs session（用户参与）
+     多轮澄清 → 决策点
+     → spec.md    需求冻结，此后唯一依据（SOT）
+     → verify.md  依据 spec 写验收
+     → plan.md    依据 spec 和 verify 写实现计划
+② cross review（新开 session）
+     只以 spec.md 为依据，严格校验并修改 verify.md、plan.md
+     → verify.md、plan.md 冻结
+③ 实现、验收、交付（尚未纳入）
+```
+
+第 ③ 步及仓库级准备的展开见[自证闭环完整流程候选稿](../research/self-verifying-loop-2026-09-28/flow.md)，未经确认，不属于当前流程。
+
+### 各环节说明（v0.3–v0.6）
+
+#### ① grill-with-docs session：澄清并产出三份文档
+
+**澄清。** 来源：`mattpocock-skills` `74ca5fe`（2026-09-17），`skills/engineering/grill-with-docs`，依次调用 `grilling` 和 `domain-modeling`。
+
+- grilling：把需求当成一棵决策树逐轮提问。每轮问所有前提已定的问题，每题给出推荐答案，等用户答完再算下一轮。能从代码、文件查到的事实由 agent 自己查；决定由用户做。决策树上没有待问的问题，并且用户确认理解一致，才算结束。
+- domain-modeling：用户用词与已有术语冲突时当场指出；编具体场景压测概念边界；对照代码找不一致。术语写进 `CONTEXT.md`，决定写进 `docs/adr/`，有内容时才创建。
+
+**spec.md。** 用 core-spec，来源：`dev-skills` `88efec7`，`skills/core-spec`。
+
+- 找出每个议题最终有效的约定，区分已确认决定、必须保持的现有行为、未采纳的建议和未决项。
+- 写成两层：开头 3–5 个最核心的决定，后面是完整的决策与约束。不含调查过程、被否决选项、实施步骤和详细测试清单。
+- 对照原始材料双向核对，并用反例检查：是否存在符合文字、却违反已确认约定的实现。
+- 产出后即为需求的唯一依据。
+
+**verify.md。** 用 core-verify：[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)（已合并，dev-skills main `8e8a310`；本机未安装，未在真实 spec 上试用），设计依据见[讨论记录](../discussions/2026-09-28-core-verify-build-plan.md)。要点：spec 是唯一需求来源；验收以用户在一个入口上完成的一次完整操作为单位，默认从真实入口运行，由实现 agent 自证；结果不同就拆，同入口同前提同流程合并；每个场景有字面检查点、基线预期和错误实现；看不到的内部规则先补可观察性；另列冒烟集、验证工具缺口和覆盖盲区；单元测试属于实现。
+
+**plan.md。** 依据 spec 和 verify 写。所用 Skill 未说明；现有 plan-cross-review 中重写 plan 用的是 `plan-for-agents`（`dev-skills` `88efec7`），它要求 plan 写明每项要求的验证方法、预期结果、证据位置和失败处置。
+
+#### ② cross review：按 spec 校验并修改 verify 和 plan
+
+目标（用户确认）：新开 session；spec.md 是唯一依据；校验 verify.md 和 plan.md 与 spec 严格一致，并直接修改；产出后两份冻结。
+
+Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/plan-cross-review.md`）是改造基础：A（MCode）和 B（Codex）独立评审并互审 → C（新 session）逐条核查发现，并在同一 session 里重写完整 plan 和处置索引 → D（新 session，看不到评审讨论）逐项核对，只报问题 → C 修订、D 复验，最多 2 轮。正常路径 7 次模型操作。
+
+它与目标的差异：
+
+| 项 | 现有 plan-cross-review | 目标 |
+|---|---|---|
+| 依据 | spec、已确认的用户决定、原 plan、固定 SHA 的源码 | 只以 spec 为准 |
+| 校验对象 | 只有 plan | verify.md 和 plan.md |
+| verify 相关检查 | 无 | verify 覆盖 spec 的每条约定、场景能拒掉错误实现、没有 spec 以外的要求；plan 承接每个验收场景 |
+| 产出 | 重写后的 plan、处置索引、D 的报告 | 修改后的 verify.md 和 plan.md，随后冻结 |
+
+### 文档之间的交接（v0.3–v0.6）
+
+| 文档 | 谁用、怎么用 |
+|---|---|
+| grill 对话、`CONTEXT.md`、ADR | 只在 grill session 内用于产出 spec；spec 之后不再作为依据 |
+| spec.md | verify 和 plan 的写作依据；cross review 的唯一依据；不在 cross review 中修改 |
+| verify.md | plan 的写作依据；cross review 校验并修改；之后冻结，实现期间只读 |
+| plan.md | cross review 校验并修改；冻结后交给实现 |
+
+### 待讨论问题（v0.6 时的助手观察，未经确认）
+
+1. **源码是否作为 cross review 的输入。** 需求只看 spec；但 plan 里关于现有代码的判断（要改哪些文件、可复用哪些函数、现有行为）和 verify 的“入口是否存在”，只能对照源码核对。建议：源码在固定 SHA 下只用来核对事实，不能用来增加或改变需求。
+2. **cross review 发现 spec 本身有问题怎么办。** 例如两条约定矛盾、有歧义、漏了会改变实现的决定。spec 已冻结，cross review 不改它。建议：列为阻塞项交回用户，修订 spec 后重新冻结，受影响的部分重新校验。
+3. **现有 plan-cross-review 要改造或另建 pipeline。** 需要定：角色和轮次沿用多少，谁修改 verify.md，D 的检查项，冻结时记录哪些哈希。
+4. **Skill。** verify.md 用 core-verify（[dev-skills#11](https://github.com/coder-xieshijie/dev-skills/pull/11)，待合并与首次试用）；plan.md 是否用 `plan-for-agents` 未说明。
+5. **流程止于冻结的 verify 和 plan。** 实现、按 verify 执行验收、MR、交付和交付后反馈尚未纳入。候选稿给出第 0 阶段（仓库 harness）和第 6–9 阶段（实现、独立验收、PR 与评审、回流），并列出五个待确认问题。
+6. **文档存放与追溯。** 三份文档放在哪个仓库、什么目录；与代码、MR 如何关联到同一需求。
+7. **人工介入点和测量。** grill 需要用户逐轮回答；cross review 只在 spec 有问题时回到用户。各步耗时、人工分钟、返工尚无记录，可按 [试验方案的最小测量表](../research/agent-delivery-2026-09-28/conclusions/experiments.md) 开始记录。
 
 ## 附：用户原话
 
@@ -380,5 +387,9 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 
 > 凭据通知不加，Stop 钩子不放
 > 其他的同意，汇总我们本次讨论产生的结论中，要改动的内容, 你准备怎么改动？方案是什么？
+
+（2026-10-01。）
+
+> 创建 pr
 
 （2026-10-01。）

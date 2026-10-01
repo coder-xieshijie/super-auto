@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# History: written for dev-skills 74ae69d and earlier. The scripts it exercises were removed in dev-skills#27 (2026-10-01).
 # spec/verify changed after the first handoff: the user's confirmation line, the
 # verifier's section, and run-verifier pointing the verifier at the first handoff.
 set -u

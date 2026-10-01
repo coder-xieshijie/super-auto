@@ -296,3 +296,37 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 **决定（流程文档 v0.30）：** 只留一个约 150 行、查结果的检查（选 (a)）；取消管过程的已确认机制（v0.13 用 `run-verifier.mjs` 发起，v0.17–v0.24 的里程碑记录与顺序、报告沿用脚本、重新交接与确认原话、口径偏差核对、重跑选择、F1 解析器），F7 取消；查漏加“现有事实对代码核对”；不加凭据通知；Stop 钩子不放进本次 PR。上一轮未单独回答的“流程说明放 dev-skills README”“本仓库 AGENTS.md 改指向”按“其他的同意”处理。
 
 **助手答复：** 汇总为[改动方案](../research/skills-consistency-2026-10-01/change-plan.md)：一个 dev-skills PR（新建 core-grill；deliver 重写，正文约 7,945 字到约 4,000 字，脚本 11 个到 1 个；core-spec 的查漏、交接、跨模型命令；agent-prompt-rules 跟上两家最新写法；README 流程说明与设计记录；新检查的用例进 CI），本仓库的记录改动（AGENTS.md、流程文档改为演进记录、模板改指向），验证方式（用例、7595 只读运行、新 session 行为探针、Codex 审查），合入后的安装与 7595 投递。待用户确认后实施。
+
+## 用户：创建 PR
+
+用户原话（2026-10-01）：
+
+> 创建 pr
+
+按[改动方案](../research/skills-consistency-2026-10-01/change-plan.md)实施，开了 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)（分支 `flow-lightweight-core-grill`，提交 `cd75427`、`eba4e7e`，未合入）。
+
+**结果：**
+
+| 项 | 改前 | 改后 |
+|---|---|---|
+| deliver SKILL.md | 7,945 字 | 2,986 字 |
+| deliver references（3 份） | 7,414 字 | 4,213 字 |
+| deliver 脚本 | 11 个，2,399 行 | 1 个 `check-delivery.mjs`，236 行（方案估计 150 行；多出的是审查后加的包根识别和交接包含关系） |
+| deliver 用例 | 191 条，在本仓库 | 20 条，在 dev-skills，CI 运行 |
+| core-grill | 本仓库模板 | 新 Skill，正文 1,217 字，另有术语表、ADR 两份格式 |
+| agent-prompt-rules SKILL.md | 15,443 字 | 20,384 字（新增条目各带依据链接）；原文存档新增 5 篇、重抓 4 篇、改地址 3 篇 |
+
+与方案的出入：agent-prompt-rules 由一个子代理按研究目录第 2 节完成，多存了一篇 Claude Code skills 文档作三-2、四-5 的依据；新条目加在各节末尾（一-9、三-7、四-5），没有重排已被引用的编号。core-spec 的 `freeze.mjs` 只改了注释里的脚本名；`verify.md` 写法里“门禁读取盲区”改为“验证者认”；`spec-example.md` 里“问用户能否合入”的检查案例改为“停在可合入”。
+
+**验证：**
+
+- 新用例 20 条全部通过；故意改坏 10 处检查，每处都有用例失败（其中一处起初没被抓到：本机 git 关了 `core.quotePath`，用例改为显式打开）。
+- 在 7595 的真实分支上只读运行 `--frozen`：认出最近一次交接 `9a596da696`，通过。
+- 行为探针：新开 Claude 子代理和 Codex 会话，只给新版 deliver、core-grill，问 6 个情境，两边回答都符合本轮决定。探针暴露两处缺口已修：验证说明的 PASS 条件仍写“符合 spec 字面预期”，与决定清单的更正冲突；正文没写验证后只改 plan 要不要重验。
+- Codex 审查第一版：P1 两条（重新交接后旧报告仍能过；任意层级的 `tests/` 被当成测试），P2 四条（中文路径、咨询范围漏了事实更正、`mcode --cwd` 用错、本地交接时 plan 不记哈希），都已修正，修正后没有再送审。
+
+**本仓库：** AGENTS.md 改为当前流程以 dev-skills 为准；流程文档 v0.31 改为演进记录；grill 交接模板改为指向 core-grill；`research/` 下针对已删脚本的六个用例脚本文件头注明只适用于 `74ae69d` 及以前。
+
+**待用户决定（合入后各自需要同意）：** 合入 PR 并快进本机 dev-skills；安装 core-grill 的两个入口；7595 当前里程碑结束后投递消息，让它按新版继续。
+
+**待验证：** 新流程在真实需求上的效果（owner 是否不停、决定清单是否够用户判断、60 分钟续接是否顺利），下一个需求观察。

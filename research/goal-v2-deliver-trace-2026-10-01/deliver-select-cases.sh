@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# History: written for dev-skills 74ae69d and earlier. The scripts it exercises were removed in dev-skills#27 (2026-10-01).
 # select-scenarios.mjs: which scenarios to rerun after a change, from plan.md's
 # 验证与验收 table (场景 | 命令 | 涉及路径) and the files changed between two heads.
 # usage: deliver-select-cases.sh <deliver scripts dir>

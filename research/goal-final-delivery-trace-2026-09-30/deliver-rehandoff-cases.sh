@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# History: written for dev-skills 74ae69d and earlier. The scripts it exercises were removed in dev-skills#27 (2026-10-01).
 # Milestone records when the user changes spec/verify mid-delivery and hands off again.
 set -u
 S="$1"; CD="$S/check-delivery.mjs"

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# History: written for dev-skills 74ae69d and earlier. The scripts it exercises were removed in dev-skills#27 (2026-10-01).
 # Acceptance deviations (口径偏差): plan.md entries handed to the verifier by
 # run-verifier.mjs --plan, judged in the report, and checked by check-delivery.mjs.
 # usage: deliver-deviation-cases.sh <deliver scripts dir>

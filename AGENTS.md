@@ -4,4 +4,4 @@
 
 # 开发流程文档
 
-讨论或调整用户的开发流程时，以 [复杂需求交付流程](process/complex-requirement-delivery.md) 为当前版本：用户确认的改动写进该文档，并在文末修订记录追加原因。
+当前的开发流程以 dev-skills（`/Users/minimax/code/github/xieshijie/dev-skills`）为准：README 的“开发流程”一节和 core-grill、core-spec、deliver 等 Skill。本仓库的[复杂需求交付流程](process/complex-requirement-delivery.md)记录流程怎样演进、为什么：讨论或调整用户的开发流程时，用户确认的决定写进它的决定表，并在文末修订记录追加原因；确认的改动落到 dev-skills。

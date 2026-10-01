@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# History: written for dev-skills 74ae69d and earlier. The scripts it exercises were removed in dev-skills#27 (2026-10-01).
 # Replay select-scenarios.mjs on MR 7595's real commits (read-only git use of the owner's worktree).
 # The 涉及路径 below are a coarse mapping by entry, written for this replay; the owner did not write them.
 # usage: deliver-select-replay-7595.sh <deliver scripts dir> [agent-archon worktree]
