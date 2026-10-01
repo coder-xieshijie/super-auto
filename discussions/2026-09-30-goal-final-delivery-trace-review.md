@@ -542,3 +542,34 @@ deliver 会话方案要改的地方：
 
 - 桌面应用自己的确认框，这类确认在 bypass 模式下也会出现，且不写进会话记录；
 - 场景运行中 Electron 实例触发的 macOS 系统授权框，例如通知或钥匙串访问。
+
+## MR 7595 报告的第二个门禁缺陷：重新交接后检查记录不再计入
+
+对方会话报告：用户 2026-10-01 决定修改 verify 的 S04，它按 deliver“停下”一节重新交接（新交接提交 `9d998c8968`），把新交接行写进 plan.md 后，门禁报 M1–M4 都没有检查记录，M1 已存的两轮记录不再计入。
+
+核对：在真实 plan 上复现成立。原因是 #21 让门禁从交接行起算，并把“早于新交接”的记录当历史，而 deliver 允许交付中途重新交接，两条规则冲突。
+
+修复：[coder-xieshijie/dev-skills#25](https://github.com/coder-xieshijie/dev-skills/pull/25)，已开 PR，未合入，等用户确认。
+
+- 有交接行时，从需求分支上最早的交接提交起算。
+- 之后只改冻结文件的交接提交，不要求检查覆盖，也不当作“之后的提交”。
+- Codex 审查 4 条（1 条 P1：合并形式的交接提交带进的代码被跳过），都已修正。
+- 新增 16 个断言（[deliver-rehandoff-cases.sh](../research/goal-final-delivery-trace-2026-09-30/deliver-rehandoff-cases.sh)），改前 11 个不通过；原有用例都通过。真实 plan 上，M1 记录重新计入。
+
+## 追问：审批框是什么，能不能跳过
+
+用户原话：
+
+> 看下这个图, 这是什么审批?
+>
+> 怎么没有办法跳过吗?
+
+回答要点：
+
+- 这是 Claude Code 的 critical-path 删除检查：`rm -rf $H/$r/data` 里的变量没有守卫，为空时会删到顶层目录 `/data`。官方文档（code.claude.com/docs/en/permission-modes，Critical paths 一节）写明，任何模式都不自动批准这类删除，bypassPermissions 也要问。`permissions.allow` 和 PreToolUse 钩子返回 allow 都不能放行它。
+- 这条命令本身是安全的：删的是 verify-archon 三次实跑留在系统临时目录的实例数据，`H` 不会为空。我核对时这些目录已经删掉了。
+- 怎样不再弹框：
+  - 命令里每个变量都用 `"${H:?}"` 守卫，或者直接写字面路径。文档写明这样写的删除能通过检查，bypass 模式下不再询问。
+  - `PermissionRequest` 钩子可以代为回答这类提示，但这等于关掉这道保护，不建议。
+  - 没有环境变量能整体关掉它。`CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT` 只管“目标完全是命令替换结果”这一种。
+- 建议在全局 CLAUDE.md 加一句环境知识：删除含变量的路径时用 `${VAR:?}` 守卫或字面路径。是否加由用户决定。
