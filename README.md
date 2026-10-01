@@ -1,6 +1,6 @@
 # Lauren 方法论与近 30 天 Agent 工作流分析
 
-本目录保存 Lauren 方法论、个人工作流和工业级 agent 交付的调研资料、中间结果与结论。
+本目录保存 Lauren 方法论、个人工作流和工业级 agent 交付的调研资料、中间结果与结论。session 快照、验收证据和视频只保存在本机，不进 Git，清单见 [本地数据索引](data-index/README.md)。
 
 **当前流程：[复杂需求交付流程（工作稿）](process/complex-requirement-delivery.md)**。记录用户的核心开发流程（grill-with-docs → core-spec → plan-cross-review），后续在此文档上迭代。
 

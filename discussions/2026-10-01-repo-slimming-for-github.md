@@ -77,3 +77,17 @@ topics: [仓库体积, GitHub, session 数据, 索引]
 - 风险：改写历史会改变全部提交号；其他会话正持续向 master 提交（本轮期间新增 `219df51` 到 `ee27ac4`），需在它们停下时操作，并先做完整备份。ignore evidence 后，deliver 新产生的证据只在本地，无版本记录。
 
 决定：待用户确认是否连视频一起去掉、何时执行。
+
+## 执行：去掉数据、改写历史、上传私有 GitHub
+
+> 视频也一起去掉，先备份再改写历史
+> 然后上传到 private github
+
+执行结果（2026-10-01 16:20–16:35）：
+
+1. 备份：整个目录 APFS clone 到 `/Users/minimax/code/_archive/super-auto-backup-20261001`（旧 HEAD `5cae28e`），`git fsck --connectivity-only` 通过。
+2. 索引：[data-index/README.md](../data-index/README.md) 与 [files.tsv](../data-index/files.tsv)（16,665 个文件、约 2.35 GB，含 sha256）。各数据目录里的 `*.md` 保留在 Git 中（workflow-30d 1.6 MB 分析稿与案例摘录、evidence 场景报告）；Lauren 只去 mp4，字幕与元数据保留。
+3. `.gitignore` 排除上述数据，`git rm --cached` 解除跟踪后提交。
+4. `git filter-repo --invert-paths --path-regex` 改写全部 157 个提交；另删 3 个 Codex 应用留下的 `refs/codex/turn-diffs/checkpoints/*`（指向旧树，filter-repo 不改写，备份中仍在）；`gc --aggressive --prune=now` 后 `.git` 由 1.2 GB 降到 13 MB（pack 12.6 MiB），`git fsck --full` 无错误。
+5. 本地数据核对：索引中的文件全部存在；唯一大小不符的是正在写入的 `evidence/m23-6969/_build/prepare-runtime-d770f05f30.log`（MR 7595 deliver 在跑构建）。
+6. 旧新提交号对照：[data-index/commit-map.tsv](../data-index/commit-map.tsv)（如 `9481ec5` → `4e18c1dcf1`）。
