@@ -1,6 +1,6 @@
 ---
 id: process-complex-requirement-delivery
-status: 工作稿 v0.27
+status: 工作稿 v0.28
 created_on: 2026-09-28
 timezone: Asia/Shanghai
 ---
@@ -82,9 +82,10 @@ D 回流：把复盘里的仓库缺口补回 A
 | 交付中验收口径偏差 | spec 规定的产品行为清楚、实现符合 spec，只是 verify 某个检查点按字面判不了或必然判错时，owner 自己定改用的判定方法，不停下、不改 verify；在 plan.md 记一条偏差（字面为何不成立、证据、改用的方法、同类检查点），最终跨家族验证者逐条判断是否放宽了验收，判为放宽的交给用户；MR 描述列出全部偏差，用户合入前看、可以推翻。会改变产品行为的仍停下问用户（2026-10-01 v0.22 用户同意方向；改动清单见 [deviation-change-list.md](../research/goal-v2-deliver-trace-2026-10-01/deviation-change-list.md)；[coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26) 已开，未合入） |
 | 里程碑检查的时机与重跑的选择 | 每轮里程碑检查分代码、证据两部分：代码部分在里程碑提交后就开始，与场景同时进行；证据部分在场景跑完后进行；两份报告合成一轮存下，这一轮报出的问题等记录存下后再提交。修复后重跑哪些场景由 `select-scenarios.mjs` 按 plan.md 里每个场景的涉及路径选出：只改测试、文档不触发，改了冻结文件或没人认领的文件全部重跑；最终 head 照常跑全部场景（2026-10-01 v0.23，用户要求并入 [coder-xieshijie/dev-skills#26](https://github.com/coder-xieshijie/dev-skills/pull/26)，`ee4c96d`，未合入；方案见 [fix-plan-v1-v3.md](../research/goal-v2-deliver-trace-2026-10-01/fix-plan-v1-v3.md)） |
 | verify 的编号与门禁 | 门禁（`run-verifier.mjs`、`check-delivery.mjs`）和 `select-scenarios.mjs` 用同一个解析器，认带字母后缀的场景号（如 `S12b`）、M 开头的机械检查、RG 开头的回归项；`freeze.mjs` 冻结前用这个解析器读 verify，有认不出的编号就失败，由作者当场改。已冻结的 verify 不用改（2026-10-01 v0.24 用户选 (b)；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F1） |
-| 独立验证的时长上限 | 独立验证运行 60 分钟就停。到点不算“CLI 用不了”：脚本分析停止的原因，由 owner 判断后续，例如派生新的验证者接着验、分批验，或换别的办法（2026-10-01 v0.24 用户决定；dev-skills 尚未修改，见[一致性检查](../research/skills-consistency-2026-10-01/checks.md) F2） |
+| 独立验证的时长上限 | 独立验证以 60 分钟为一个周期：到点脚本停下验证者并交回控制，owner 看这段的执行过程，没做完就在同一个 CLI 会话里接着追加，失败了由 owner 自己判断下一步（接着验、分批、修环境、换 CLI 等）。到点不算“CLI 用不了”；验证者每验完一个场景就把结果写进证据目录；同一版本代码的几段验证可以合起来过门禁。给 owner 的说明只写这一层，不加更多限制（2026-10-01 v0.24 定 60 分钟，v0.28 改为周期检查与续接；dev-skills 尚未修改） |
 | 内容放在哪里 | 流程优化完成后，产出的所有内容只看 dev-skills 就够：Skill、模板、流程说明、脚本与用例都放 dev-skills；本仓库只记录过程和优化（2026-10-01 v0.25 用户提出；迁移方案待确认，见[讨论记录](../discussions/2026-10-01-skills-consistency-check.md)） |
 | grill 的 Skill | 在 dev-skills 建自成一体的 core-grill，不依赖上游：收四个输入（目标、完成条件、授权、范围），逐轮提问、事实自己查，只问会改变用户可见结果的决定，默认决定与用户答过的决定写进一份汇总由用户确认一次，术语写进 CONTEXT.md，ADR 只在三个条件都满足时写；只保留上游 grilling、domain-modeling（mattpocock-skills `74ca5fe`，MIT）里用到的部分，记下来源。上游 Skill 继续保留，用于流程以外的讨论（2026-10-01 v0.27 用户同意；dev-skills 尚未修改） |
+| 代码质量与测试覆盖 | 最后的独立验证按 review-rules 看代码质量、并看新增或改变的行为有没有自动化测试覆盖；这两类意见不拦合入，owner 逐条改或写明不改的理由，全部列进 MR 描述，用户合入前看。里程碑检查只对照 spec 查对不对（2026-10-01 v0.28 用户同意；dev-skills 尚未修改） |
 | 写给 agent 的 prompt | 每条建议要有三家依据并说明我们的限制；按 agent-prompt-rules 写，少写 prompt、不设僵硬规则，必须每次发生的动作交给脚本和钩子，prompt 只写边界（2026-09-30） |
 | 改进的上线方式 | 一次上一项，下一个需求观察效果；先上纯机制的改动，prompt 的小改合成一个 PR（2026-09-30；第一批为 dev-skills#21–#23）；2026-10-01 v0.26：这一轮检查的全部改动按用户要求合成一个 PR |
 
@@ -184,6 +185,7 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 - 2026-10-01 v0.25：用户问 grill 交接模板为什么放在本仓库、不沉淀成 Skill，并提出产出只看 dev-skills、本仓库只做记录。模板放在这里，源于 v0.18 “不改上游 grill-with-docs”的约束，当时没有为它建 Skill。决定表新增“内容放在哪里”；助手据此盘点本仓库里属于产出的内容并给出迁移方案，待用户确认。
 - 2026-10-01 v0.26：用户要求这一轮的全部改动放进一个 PR，并重申写 prompt 的大前提：尽最大程度给模型能力，只定义想要的结果，其余交给模型。同时问 grill 相关 Skill 是作为依赖还是迁进 dev-skills，以及 deliver 阶段的实现、校验、code review 现在怎样做、约束之间有没有冲突。助手的分析见讨论记录，待用户确认。
 - 2026-10-01 v0.27：用户同意把 grill 迁成 dev-skills 里自成一体的 core-grill（理由：模板的提问边界与上游 grilling 的“每个分支都问到”相反，做成依赖会让模型读到两份相反的指令）。用户追问代码质量 review 在哪个阶段、没有测试是什么意思、F2 与 F7 的方案，助手按 explain-as-fool 解释，见讨论记录。
+- 2026-10-01 v0.28：用户同意代码质量意见与测试覆盖由最后的独立验证列出、不拦合入、owner 逐条处理并列进 MR，同意几段验证合起来过门禁；F2 改为 60 分钟一个检查周期，没做完就在同一个 CLI 会话里续接，失败由 owner 判断，说明不加更多限制。F7 暂缓，用户要求结合“MR 7595 deliver session 链路分析 (fork)”的讨论重新讨论人工介入与流程自动进行。
 
 ## 附：用户原话
 
@@ -346,5 +348,18 @@ Agent Lord 现有的 `plan-cross-review`（`9bf101a`，`references/pipelines/pla
 > 4. F2和 F7 的方案和要解决的问题是什么?
 >
 > /explain-as-fool
+
+（2026-10-01。）
+
+> 1 2 3 同意，
+> F2
+> 这个改成 60 分钟的限制。60 分钟停掉之后，需要主 Agent 再去看一眼 CLI 具体的执行过程：
+>
+> 1. 如果没有执行完，就在当前的 CLI 继续追加。
+> 2. 如果执行失败了，就由 Agent 自己去判断。
+>
+> 总之，是以 60 分钟为一个周期去做 check，然后由 Agent 自己去决定后面的任务。同时这里的 prompt 约束不要有太多限制。
+>
+> F7, 需要你看下 MR 7595 deliver session 链路分析 (fork) 这个 session 的讨论, 我需要重新讨论一下关于人工介入的问题和流程自动进行的问题。
 
 （2026-10-01。）
