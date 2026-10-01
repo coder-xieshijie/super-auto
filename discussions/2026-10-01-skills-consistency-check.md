@@ -340,3 +340,11 @@ grill 的 Skill 也可以并入 core-spec，作为“从需求开始”的一种
 > 把当前的 PR 合入，然后更新本地的 main 到最新版本。
 
 两项 CI（links、deliver-check）通过后，按仓库惯例 squash 合入 [coder-xieshijie/dev-skills#27](https://github.com/coder-xieshijie/dev-skills/pull/27)，合入提交 `76f18e4`；本机 dev-skills 切回 main 并快进到 `76f18e4`，工作区干净。在 main 上跑自检：`check-links.mjs` 通过，`check-delivery.test.mjs` 20 条通过。`~/.agents/skills/deliver` 等已有入口指向仓库目录，随 main 生效；core-grill 的两个入口尚未安装。
+
+## 用户：安装 core-grill 的入口
+
+用户原话（2026-10-01）：
+
+> 安装 core-grill 的入口
+
+按全局约定安装：`~/.agents/skills/core-grill` → `dev-skills/skills/core-grill`，`~/.claude/skills/core-grill` → `~/.agents/skills/core-grill`。安装前两处都没有同名入口。通过 Claude 入口读回 SKILL.md、`agents/openai.yaml`（`allow_implicit_invocation: false`）和两份 references，链接可解析；两个客户端都设为只能手动调用。新开的 session 才会列出它，本会话没有验证客户端能否发现它。
