@@ -7,7 +7,7 @@ d = sys.argv[1]
 c = json.load(open(os.path.join(d, 'checks.json')))
 extra = open(sys.argv[2]).read().strip() if len(sys.argv) > 2 and os.path.exists(sys.argv[2]) else ''
 rd = lambda n: open(os.path.join(d, n)).read().strip() if os.path.exists(os.path.join(d, n)) else ''
-auth = (c.get('auth') or [{}])[0] or {}
+auth = (c.get('auth') or [c.get('authCheck') or {}])[0] or {}  # m2-analyze 写 authCheck（单个对象）
 lines = [f"# {c.get('scenario')} {c.get('attempt')}", '',
          f"- runId：`{c.get('runId') or rd('runId')}`；git-head：`{c.get('head') or rd('git-head')}`；git-status：{'空' if not rd('git-status') else '非空'}",
          f"- 有效：{c.get('valid')}；auth-check：contentSafety401={auth.get('contentSafety401')}、electronAuthLost={auth.get('electronAuthLost')}、http429={auth.get('http429')}、refreshesDuringRun={auth.get('refreshesDuringRun')}",

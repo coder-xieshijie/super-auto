@@ -1,0 +1,50 @@
+    - Command launched in background: sleep 40 && echo bg-done > bg.txt                                                                                                                               
+    - Task ID: bg_7d229ed4-0a36-4fa4-bfef-08b1880c4ca2                                                                                                                                                
+    - No polling or waiting performed; I did not read bg.txt yet.                                                                                                                                     
+                                                                                                                                                                                                      
+    The goal stays active — the next turn will read bg.txt once the background task reports completion and confirm it contains bg-done.                                                               
+   
+  └ • Thought for 2.9s
+   
+  ● Checking the background task's status now.                                                                                                                                                        
+   
+  ├ ✓ Checked background tasks · 0/1 done
+  └ • Thought for 0.3s
+   
+  ● Still running — waiting on the task to finish.                                                                                                                                                    
+   
+  ├ ✓ Read task result · bg_7d2…
+  ├ • Thought for 0.5s
+  ├ ✓ Read task result · bg_7d2…
+  └ • Thought for 0.4s
+   
+  ● Task finished with exit code 0. Reading bg.txt to confirm its contents.                                                                                                                           
+   
+  ├ • Read (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225235-b2f0d3/workspace/bg.txt)
+  ├ • Thought for 2.1s
+  └ • Update Goal
+   
+  ● Both parts of the objective are done.                                                                                                                                                             
+                                                                                                                                                                                                      
+    What happened                                                                                                                                                                                     
+                                                                                                                                                                                                      
+    1. Started sleep 40 && echo bg-done > bg.txt as an explicit background bash task (run_in_background: true, task ID bg_7d229ed4-0a36-4fa4-bfef-08b1880c4ca2) and ended that turn immediately — no  
+       waiting, no polling, no reading of bg.txt.                                                                                                                                                     
+    2. In the next turn, I waited on the task (two 30s waits via task_output). It reported status=succeeded with exit code 0.                                                                         
+    3. Read the output file: bg.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225235-b2f0d3/workspace/bg.txt) contains exactly one line — bg-done.             
+                                                                                                                                                                                                      
+    The checks I ran myself: the task status query showing running, then succeeded / exit code 0, and a direct read of bg.txt showing bg-doneas its only line. The file is in the workspace root;     
+    nothing else is needed to use it, it's just a marker of the background run.                                                                                                                       
+    
+    Created  bg.txt ↗  ·  Output of the background task: bg-done
+   
+    └ Completed in 47s · ⚡ 144 tok/s
+   
+    ✓ Goal complete · 58s · 19K tokens · 9 requests                                                                                                                                                   
+
+    Message · Enter send · Ctrl+J newline                                                                                                       Tip: /context shows the current Session context budget
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=d state=done session=mvs_0d9781e874864aa68b28638bad911049 turn=turn_f669f678-b116-4cc6-a126-e9d16a2f8b93 request=none agents=0/1 background=0

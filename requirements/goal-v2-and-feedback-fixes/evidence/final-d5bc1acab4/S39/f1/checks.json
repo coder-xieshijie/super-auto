@@ -1,0 +1,79 @@
+{
+  "scenario": "S39",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-233159-a90547",
+  "evidenceDir": "S39/f1",
+  "auth": [
+    {
+      "runId": "20261001-233159-a90547",
+      "kind": "electron",
+      "startedAt": 1790868719653,
+      "endedAt": 1790868794271,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-233159-a90547/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-233159-a90547/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S39/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S39/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S39/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "blocked(worker_reported)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：continue-button 为 1",
+      "result": "PASS",
+      "detail": {
+        "continueButton": 1,
+        "banner": "受阻"
+      }
+    },
+    {
+      "id": "步骤3：回复为 13；Goal 仍为 blocked，objective 不变",
+      "result": "PASS",
+      "detail": {
+        "reply": "13",
+        "status_reason": "blocked(worker_reported)",
+        "objectiveSame": true,
+        "continueButtonAfterReply": 1,
+        "banner": "受阻"
+      }
+    },
+    {
+      "id": "步骤4：10 秒内出现属于该 Goal 的新 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          61,
+          7568,
+          21956
+        ],
+        "statusAfterClick": null,
+        "final": "blocked(worker_reported)"
+      }
+    }
+  ],
+  "info": {}
+}

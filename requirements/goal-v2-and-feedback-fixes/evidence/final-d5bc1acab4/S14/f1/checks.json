@@ -1,0 +1,94 @@
+{
+  "scenario": "S14",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-231534-88e664",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-231534-88e664",
+      "kind": "electron",
+      "startedAt": 1790867734366,
+      "endedAt": 1790867896274,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231534-88e664/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231534-88e664/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S14/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S14/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S14/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "waitReasonReached": true,
+      "subagentTasks": [
+        {
+          "taskId": "bg_1ad0414b-6ad9-4c71-9eea-2d9309789738",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790867765626,
+          "updatedAtMs": 1790867765728,
+          "endedAtMs": null,
+          "parentTurnId": "turn_43ea4e81-7d68-45bf-b095-2b8fad9d7ab7",
+          "description": "Write sub.txt after 40s delay"
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：横幅为“等待后台任务完成”；continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "banner": "等待后台任务完成",
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "步骤3：消息在 Goal 等待时得到回复 42，接口 wait_reason 仍为 required_background",
+      "result": "PASS",
+      "detail": {
+        "electronSendBlockedByReplaceDialog": false,
+        "reply": "42",
+        "waitReasonAfterReply": "required_background",
+        "subagentStatusAfterReply": [
+          "running"
+        ]
+      }
+    },
+    {
+      "id": "subagent 任务结束后出现新的 goal.turn_bound（只一次），最终 complete(verifier_met)，sub.txt 为 sub-done",
+      "result": "PASS",
+      "detail": {
+        "subagentEndedAt": 1790867814043,
+        "turnBoundAt": [
+          1790867759163,
+          1790867814057
+        ],
+        "turnBoundBeforeEndAfterFirst": 0,
+        "turnBoundAfterEnd": 1,
+        "status_reason": "complete(verifier_met)",
+        "sub.txt": "sub-done\n"
+      }
+    }
+  ],
+  "info": {}
+}

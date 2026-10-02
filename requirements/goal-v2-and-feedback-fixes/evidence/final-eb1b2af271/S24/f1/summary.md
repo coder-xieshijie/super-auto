@@ -1,0 +1,14 @@
+# S24 f1
+
+- runId：`20261002-003030-f6324c`；git-head：`eb1b2af2716b70ff68fbc78cc802a13864ed7052`；git-status：空
+- 有效：True；auth-check：contentSafety401=0、electronAuthLost=0、http429=0、refreshesDuringRun=0
+
+| 检查点 | 结论 | 实际值（摘要） |
+| --- | --- | --- |
+| 步骤1：goal-mode-tag 数量为 0，输入框为普通模式 | PASS | {"rightAfterSend": 0, "afterBanner": 0} |
+| 两条补充消息都以用户气泡出现；没有出现“替换当前目标吗？”确认框 | PASS | {"boldInHistoryAndPage": true, "blueInHistoryAndPage": true, "replaceDialogStep2": 0, "replaceDialogStep4": 0} |
+| 接口 objective 始终是创建时的文本 | PASS | {"objectivesSeen": ["Create a file named page.html containing a heading that says Hello."], "final": "Create a file named page.html containing a heading that says Hello.", "objectiveEvents": 0} |
+| 步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里 | PASS | {"goalTurnRunningAtStep2": "turn_fffa856f-41a3-4b9d-b0e2-6db7fd37ce94", "isGoalTurn": true, "thatTurnLastRequestEndedAt": 1790872264894, "firstRequestWithBold": {"turnId": "turn_8836dbf6-5e16-4277-8283-c713604bcae1", "startedAt": 1790872266038, "goalBound": false}, "goalTurnRunningAtStep4": "turn_8616a06c-e03b-417f-b5e2-5df0e4932245", "isGoalTurnAtStep4": true, "keyUsed": "Meta+Enter", "sent": "se… |
+| 最终 page.html 的标题加粗且为蓝色（独立判断） | PASS | {"page.html": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Hello</title>\n  </head>\n  <body>\n    <h1 style=\"font-weight: bold; color: blue;\">Hello</h1>\n  </body>\n</html>\n", "bold": true, "blue": true, "blueColorValues": [], "status_reason": "complete(verifier_met)"… |
+
+证据文件：checks.json（逐项完整实际值）、`001-s24-create-send.json`、`002-s24-goal-mode-tag-step1.json`、`003-s24-create-banner.json`、`004-s24-goal-mode-tag-step1b.json`、`005-s24-stop-button-step2.json`、`006-s24-step2-enter.json`、`007-s24-replace-dialog-step2.json`、`008-s24-queue-step3.json`、`009-s24-page-aria-step3.aria.txt`、`009-s24-page-aria-step3.json`、`010-s24-step4-send.json`、`011-s24-step4-textarea-after-send.json`、`012-s24-replace-dialog-step4.json`、`013-s24-page-aria-step4.aria.txt`、`013-s24-page-aria-step4.json`、`014-s24-run.json`、`015-s24-final.json`、`016-s24-history.json`、`017-s24-page-aria-final.aria.txt`、`017-s24-page-aria-final.json`、`018-s24-inspector`、`018-s24-runtime-events.jsonl`、`018-s24-workspace`、`018-s24-workspace.json`、`018-s24.json`、`auth-check.json`、`down.json`、`electron-main.log`、`electron-renderer-console.log`、`git-head`、`git-status`、`runId`、`runtime-logs`、`s24-step2-at-ms`、`s24-step2-goal-turn`、`s24-step2-running-trajectory.jsonl`、`s24-step4-at-ms`、`s24-step4-goal-turn`、`s24-step4-key`、`s24-step4-running-trajectory.jsonl`、`s24-step4-sent`、`s24-supplement-processed-at-ms`、`s24-supplement-trajectory.jsonl`、`session`、`steps.jsonl`、`steps.stderr.log`、`up.json`

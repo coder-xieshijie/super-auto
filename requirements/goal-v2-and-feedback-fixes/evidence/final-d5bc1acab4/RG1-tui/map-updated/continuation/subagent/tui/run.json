@@ -1,0 +1,26 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-230320-163150",
+      "instanceEvidenceDir": "_runs/tui-continuation-sub",
+      "files": [
+        "001-rg1map-continuation.subagent--waiting.json",
+        "001-rg1map-continuation.subagent--waiting.txt",
+        "002-rg1map-continuation.subagent--waiting-screen.json",
+        "002-rg1map-continuation.subagent--waiting-screen.txt",
+        "003-rg1map-continuation.subagent--complete.json",
+        "003-rg1map-continuation.subagent--complete.txt",
+        "004-rg1map-continuation.subagent--idle.json",
+        "004-rg1map-continuation.subagent--idle.txt",
+        "005-rg1map-continuation.subagent--final-screen.json",
+        "005-rg1map-continuation.subagent--final-screen.txt",
+        "006-rg1map-continuation.subagent--snap-inspector",
+        "006-rg1map-continuation.subagent--snap-runtime-events.jsonl",
+        "006-rg1map-continuation.subagent--snap-workspace",
+        "006-rg1map-continuation.subagent--snap-workspace.json",
+        "006-rg1map-continuation.subagent--snap.json",
+        "006-rg1map-continuation.subagent--snap.txt"
+      ]
+    }
+  ]
+}

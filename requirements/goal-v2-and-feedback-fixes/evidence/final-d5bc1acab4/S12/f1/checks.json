@@ -1,0 +1,121 @@
+{
+  "scenario": "S12",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-232222-2d9db9",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-232222-2d9db9",
+      "kind": "electron",
+      "startedAt": 1790868142851,
+      "endedAt": 1790868241340,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232222-2d9db9/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232222-2d9db9/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S12/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S12/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S12/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step1RunningServerTask": [
+        {
+          "taskId": "bg_dc1cfe9e-7e83-4456-bb39-24dbd04d9112",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790868169495,
+          "updatedAtMs": 1790868169497,
+          "endedAtMs": null,
+          "parentTurnId": "fb0f7007-3998-4013-bd33-a25a2efc5a52",
+          "description": "Start local HTTP server on port 8765"
+        }
+      ],
+      "port8765": "200"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：第一个 Goal complete(verifier_met)，count.txt 为 1 到 3",
+      "result": "PASS",
+      "detail": {
+        "goal1": "tg_c6s9yrv45fmupoo7o6",
+        "status_reason": "complete(verifier_met)",
+        "count.txt": "1\n2\n3\n",
+        "requests_used": 6
+      }
+    },
+    {
+      "id": "步骤3：横幅从未出现“等待后台任务完成”，没有 deferred(required_background)",
+      "result": "PASS",
+      "detail": {
+        "bannerSamples": 19,
+        "distinctTexts": [
+          "正在验证目标结果",
+          "进行中"
+        ],
+        "deferredRequiredBackground": 0
+      }
+    },
+    {
+      "id": "步骤5：历史中两条 Goal 相关消息仍在；http.server 后台任务仍为 running",
+      "result": "PASS",
+      "detail": {
+        "goalMessagesInHistory": [
+          true,
+          true
+        ],
+        "serverTask": [
+          {
+            "taskId": "bg_dc1cfe9e-7e83-4456-bb39-24dbd04d9112",
+            "kind": "bash",
+            "status": "running",
+            "createdAtMs": 1790868169495,
+            "updatedAtMs": 1790868173624,
+            "endedAtMs": null,
+            "parentTurnId": "fb0f7007-3998-4013-bd33-a25a2efc5a52",
+            "description": "Start local HTTP server on port 8765"
+          }
+        ],
+        "port8765": "200",
+        "goal2": {
+          "goal_id": "tg_duis3uwak7mupoph23",
+          "status": "paused",
+          "status_reason": "paused(user_requested)"
+        },
+        "userMessages": [
+          "Start the shell command python3 -m http.server 8765 as a background task (bash tool with run_in_background: true) and en",
+          "Write the numbers 1 to 3 into count.txt, one number per line, then stop.",
+          "Write hello into later.txt, then stop."
+        ]
+      }
+    },
+    {
+      "id": "不得出现：Goal 停在“进行中”没有新的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "goal1TurnBound": 1
+      }
+    }
+  ],
+  "info": {}
+}

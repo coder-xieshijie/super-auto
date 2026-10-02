@@ -1,0 +1,88 @@
+{
+  "scenario": "S37",
+  "attempt": "f1",
+  "evidenceDir": "S37/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-230000-c7d24b",
+  "authCheck": {
+    "runId": "20261001-230000-c7d24b",
+    "kind": "runtime",
+    "startedAt": 1790866800834,
+    "endedAt": 1790866834371,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230000-c7d24b/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230000-c7d24b/server.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "tokens_used > 3000 且等于 Inspector 输入+输出之和",
+      "result": "PASS",
+      "detail": {
+        "tokens_used": 27422,
+        "inspectorInOut": 27422,
+        "calls": 2,
+        "status": "budget_limited(token)"
+      }
+    },
+    {
+      "id": "usageIncomplete 为 false",
+      "result": "PASS",
+      "detail": {
+        "usage_incomplete": false
+      }
+    },
+    {
+      "id": "观察：token 预算用尽后的收尾（a2594f4fca：不带工具、计为收尾、说明点名 token budget，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "goal": {
+          "status_reason": "budget_limited(token)",
+          "requests_used": 2,
+          "work_requests": 1,
+          "grace_requests": 1,
+          "tokens_used": 27422,
+          "token_budget": 3000
+        },
+        "requestToolCounts": [
+          25,
+          0
+        ],
+        "turns": 1,
+        "wrapUp": [
+          {
+            "startedAtMs": 1790866814314,
+            "turnId": "turn_38b2699c-7786-41c4-a0ab-3c390f102acb",
+            "mentionsCreateNewGoal": false,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": true,
+            "mentionsRequestBudget": false,
+            "responseText": [
+              "Execution stopped because the Goal reached its token budget. The workspace check could not run, so `notes.md` was neither created nor verified as exactly ten li"
+            ],
+            "responseToolIntents": []
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "scenario": "S02",
+  "attempt": "f2",
+  "evidenceDir": "S02/f2",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "runId": "20261002-011239-088e33",
+  "authCheck": {
+    "runId": "20261002-011239-088e33",
+    "kind": "runtime",
+    "startedAt": 1790874760497,
+    "endedAt": 1790875011662,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-011239-088e33/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-011239-088e33/server.log"
+    ],
+    "contentSafetyLines": 1,
+    "contentSafety401": 1,
+    "first401": "[01:16:00.937] WARN: [structured-logger.js:17] [content-safety] review failed {\"reviewId\":\"48f06d62-ea49-4e1f-84ee-04c70379a795\",\"endpointHost\":\"matrix-pre.xaminim.com\",\"apiVersion\":\"v2\",\"scene\":13,\"durationMs\":137,\"failureKind\":\"auth\",\"statusCode\":401}",
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 1,
+    "refreshesByVia": {
+      "refresh": 1
+    },
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": false,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "非active COMPLETE 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "complete(verifier_met)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active PAUSED 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "paused(user_requested)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active BLOCKED 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "blocked(worker_reported)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active USAGE 字段保持",
+      "result": "FAIL",
+      "detail": {
+        "status": null,
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 2,
+        "diffs": {
+          "status": [
+            "usage_limited",
+            "active"
+          ],
+          "status_reason": [
+            "usage_limited(provider_quota)",
+            null
+          ],
+          "tokens_used": [
+            19962,
+            40992
+          ],
+          "time_used_seconds": [
+            6,
+            13
+          ]
+        }
+      }
+    },
+    {
+      "id": "非active BUDGET 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "budget_limited(token)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "active 接管并继续到终态",
+      "result": "PASS",
+      "detail": {
+        "newTurnBound": 1,
+        "final": "complete(verifier_met)",
+        "requests_used": 22
+      }
+    },
+    {
+      "id": "问卷：回答、期限、goalId、无期限不自动回答",
+      "result": "PASS",
+      "detail": {
+        "q1AnswerSame": true,
+        "expiresAndGoalIdSame": true,
+        "q3": {
+          "status": "pending",
+          "expires_at": null
+        }
+      }
+    },
+    {
+      "id": "budget_limited：队列中没有可执行的预算总结项（启动后第一次读队列即为空）、hold 无新 Turn 与回复",
+      "result": "PASS",
+      "detail": {
+        "messagesBefore/After": [
+          3,
+          3
+        ],
+        "newTurnBound": 0,
+        "queueItemCancelledEvents(参考)": 0,
+        "arrangedPreUpgradeItem": [
+          "queue_80e0c3cb-239a-4ec1-a428-2d6eae4b15ca"
+        ],
+        "arrangedItemStillInQueueTable": [],
+        "queueFirstReadAfterStartup": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        },
+        "queueFirstReadAtMs": [
+          1790874771130
+        ],
+        "firstStepAtMs(after up)": 1790874763433,
+        "cancelledEventTs": [],
+        "queueAfterHold": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        }
+      }
+    }
+  ],
+  "invalidReason": "auth-check contentSafety401=1 (login refreshed by another lane's Electron lease during the run)"
+}

@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-230020-3c69ed",
+      "instanceEvidenceDir": "_runs/tui-questionnaire-auto",
+      "files": [
+        "001-rg1final-questionnaire.auto-timeout--ask.json",
+        "001-rg1final-questionnaire.auto-timeout--ask.txt",
+        "002-rg1final-questionnaire.auto-timeout--terminal.json",
+        "002-rg1final-questionnaire.auto-timeout--terminal.txt",
+        "003-rg1final-questionnaire.auto-timeout--idle.json",
+        "003-rg1final-questionnaire.auto-timeout--idle.txt",
+        "004-rg1final-questionnaire.auto-timeout--snap-inspector",
+        "004-rg1final-questionnaire.auto-timeout--snap-runtime-events.jsonl",
+        "004-rg1final-questionnaire.auto-timeout--snap-workspace",
+        "004-rg1final-questionnaire.auto-timeout--snap-workspace.json",
+        "004-rg1final-questionnaire.auto-timeout--snap.json",
+        "004-rg1final-questionnaire.auto-timeout--snap.txt"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+# S21b @ d5bc1acab4（接口，故障注入，六种错误各一个会话）
+
+- HEAD：`d5bc1acab42f0573e6978d0f61ae011a470ccff8`；git-status：空
+- runId：`20261001-225442-d56b00`
+- auth-check：contentSafety401=0, electronAuthLost=0, http429=0, refreshesDuringRun=0, refreshesWhileElectronRunning=0
+- 有效：True（前提：True）
+
+| 检查点 | 结果 | 实际值（摘要） |
+| --- | --- | --- |
+| (1)–(3) 为 usage_limited(rate_limit)；(4)–(6) 为 paused(infra_retryable) | PASS | `{"1": {"preset": "rate-limit-429", "status_reason": "usage_limited(rate_limit)", "afterHold": "usage_limited(rate_limit)", "injectedAttempts": 6, "turnBoundTotal": 1}, "2": {"preset": "rate-limit-50111", "status_reason": "usage_limited(rate_limit)", "afterHold": "usage_limited(rate_limit)", "injectedAttempts": 6, "turnBoundTotal": 1}, "3": {"preset": "tpm-50150", "status_reason": "usage_limited(rate_limit)", "afterHold": "usage_limited(rate_limit)", "injectedAttempts": 6, "turnBoundTotal": 1}, "4": {"preset": "unrecognized", "status_reason": "paused(infra_retryable)", "afterHold": "paused(infr…` |
+| 六个会话都没有自动恢复的安排；hold 期间（含 (1) Retry-After 到期之后）都没有新的 goal.turn_bound | PASS | `{"usage_recovery_scheduled": {"1": [null, null], "2": [null, null], "3": [null, null], "4": [null, null], "5": [null, null], "6": [null, null]}, "hold": {"1": {"holdSeconds": 180.523, "turnBoundInHold": 0}, "2": {"holdSeconds": 180.519, "turnBoundInHold": 0}, "3": {"holdSeconds": 180.451, "turnBoundInHold": 0}, "4": {"holdSeconds": 180.5, "turnBoundInHold": 0}, "5": {"holdSeconds": 180.501, "turnBoundInHold": 0}, "6": {"holdSeconds": 180.503, "turnBoundInHold": 0}}}` |
+
+证据文件：`checks.json`、`steps.jsonl`、`events.jsonl`、`auth-check.json`，以及 `001-smoke-session.json`、`002-smoke-send.json`、`003-smoke-history.json`、`004-fault-log.json`、`005-s21b-1-session.json`、`006-fault-add.json`、`007-s21b-1-create.json`、`008-s21b-2-session.json`、`009-fault-add.json`、`010-s21b-2-create.json`、`011-s21b-3-session.json`、`012-fault-add.json`、`013-s21b-3-create.json`、`014-s21b-4-session.json`、`015-fault-add.json`、`016-s21b-4-create.json`、`017-s21b-5-session.json`、`018-fault-add.json`、`019-s21b-5-create.json`、`020-s21b-6-session.json`、`021-fault-add.json`、`022-s21b-6-create.json`、`023-s21b-4-left-active.json`、`024-s21b-4-goal.json`、`025-s21b-5-left-active.json`、`026-s21b-5-goal.json`、`027-s21b-2-left-active.json`、`028-s21b-2-goal.json`、`029-s21b-1-left-active.json`、`030-s21b-1-goal.json`、`031-s21b-3-left-active.json`、`032-s21b-3-goal.json`、`033-s21b-6-left-active.json`、`034-s21b-6-goal.json`、`035-s21b-4-hold.json`、`036-s21b-4-goal-after-hold.json`、`037-s21b-5-hold.json`、`038-s21b-5-goal-after-hold.json`、`039-s21b-2-hold.json`、`040-s21b-2-goal-after-hold.json`、`041-s21b-1-hold.json`、`042-s21b-1-goal-after-hold.json`、`043-s21b-3-hold.json`、`044-s21b-3-goal-after-hold.json`、`045-s21b-6-hold.json`、`046-s21b-6-goal-after-hold.json`、`047-s21b-1-inspector`、`047-s21b-1-runtime-events.jsonl`、`047-s21b-1-workspace.json`、`047-s21b-1.json`、`048-fault-log.json`、`049-s21b-2-inspector`、`049-s21b-2-runtime-events.jsonl`、`049-s21b-2-workspace.json`、`049-s21b-2.json`、`050-fault-log.json`、`051-s21b-3-inspector`、`051-s21b-3-runtime-events.jsonl`、`051-s21b-3-workspace.json`、`051-s21b-3.json`…
+
+说明：
+- 每个会话的规则为该 Goal 第 2 次主执行请求起持续返回该错误 5 分钟；hold 180 秒内六个会话都没有新的 goal.turn_bound，usage_recovery 均为 null。

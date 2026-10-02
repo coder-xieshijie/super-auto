@@ -1,0 +1,221 @@
+- alert
+- button "新建任务":
+  - img
+  - text: 新建任务 ⌘N
+- button "新建云端任务":
+  - img
+- button "插件·技能":
+  - img
+  - text: 插件·技能
+- button "定时":
+  - img
+  - text: 定时
+- button "网站":
+  - img
+  - text: 网站
+- button "远程":
+  - img
+  - text: 远程
+- radio "本地" [checked]
+- img
+- text: 本地
+- radio "云端"
+- img
+- text: 云端
+- button "项目" [expanded]:
+  - text: 项目
+  - img
+- button "筛选与分组":
+  - img
+- button "新建项目":
+  - img
+- button "未选项目" [disabled]:
+  - button "未选项目" [disabled]:
+    - img
+    - text: 未选项目
+    - button "新建任务":
+      - img
+- complementary "你的 Agents 现已移至插件":
+  - paragraph: 你的 Agents 现已移至插件
+  - button "关闭 Agents 引导":
+    - img
+  - button "立即查看"
+- status
+- text: MiniMax480534 Max
+- button "站内信，4 条未读消息":
+  - img
+- separator "Resize sidebar"
+- text: Create page.html with Hello heading
+- button:
+  - img
+- button "打开终端":
+  - img
+- button "工作区面板" [pressed]:
+  - img
+- button "侧边面板":
+  - img
+- img
+- text: Goal Create a file named page.html containing a heading that says Hello. 23:20
+- button "回退":
+  - img
+- button "复制":
+  - img
+- button "共执行 19 秒":
+  - text: 共执行 19 秒
+  - img
+- text: "输出速度: 137 token/s"
+- paragraph:
+  - code: page.html
+  - text: 已经创建完成。
+- paragraph:
+  - strong: 文件路径
+  - text: ：
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232021-838077/data/sessions/mvs_23dd86baea4b4af3859e157d88d1f0e2/workspace/page.html": page.html
+- paragraph:
+  - text: 内容是一个最小可用的 HTML 文档，
+  - code: <body>
+  - text: 中的标题为
+  - code: <h1>Hello</h1>
+  - text: ：
+- text: html
+- button "开启自动换行":
+  - img
+- button "复制代码":
+  - img
+- code: <!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <title>Hello</title> </head> <body> <h1>Hello</h1> </body> </html>
+- paragraph:
+  - text: 我做的检查：写入后重新读取磁盘上的文件确认内容为 229 字节，并用 grep 匹配到 1 处
+  - code: <h1>Hello</h1>
+  - text: 。你可以在浏览器中直接打开该文件查看渲染结果。
+- button "page.html — 包含 Hello 标题的 HTML 页面": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 23:20
+- img
+- text: 目标已完成 用时 1min2s Also make the heading text bold. 23:21
+- button "回退":
+  - img
+- button "复制":
+  - img
+- button "共执行 44 秒":
+  - text: 共执行 44 秒
+  - img
+- text: "输出速度: 99 token/s Use a blue color for the heading. 23:21"
+- button "复制":
+  - img
+- paragraph: 标题已改成蓝色。
+- paragraph:
+  - strong: 文件路径
+  - text: ：
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232021-838077/data/sessions/mvs_23dd86baea4b4af3859e157d88d1f0e2/workspace/page.html": page.html
+- paragraph:
+  - text: 改动是在
+  - code: <head>
+  - text: 里加了一段样式，让所有
+  - code: h1
+  - text: 使用蓝色
+  - code: "#007bff"
+  - text: ；标题文字保持上一步的加粗状态：
+- text: html
+- button "开启自动换行":
+  - img
+- button "复制代码":
+  - img
+- code: "<style> h1 { color: #007bff; } </style> ... <h1><strong>Hello</strong></h1>"
+- paragraph:
+  - text: 我做的检查：重新读取磁盘上的文件（314 字节），并分别 grep 了
+  - code: "color: #007bff;"
+  - text: 和
+  - code: <h1><strong>Hello</strong></h1>
+  - text: ，各匹配到 1 处。用浏览器打开该文件即可看到蓝色加粗的 "Hello"。想换成别的深浅蓝色，告诉我色值即可。
+- button "page.html — 蓝色加粗的 Hello 标题": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 23:21
+- button "跳转到第 1 条对话"
+- button "跳转到第 2 条对话"
+- button "单击跳转回答起点，双击跳转顶部":
+  - img
+- status:
+  - img
+  - text: 已完成
+  - button "Create a file named page.html containing a heading that says Hello."
+  - text: 5.7万 tokens 10 次请求 1min2s
+  - button "关闭完成标记":
+    - img
+- paragraph: 问任何问题
+- group:
+  - button "添加附件或技能":
+    - img
+  - button "始终授权":
+    - img
+    - text: 始终授权
+  - button "上下文已使用 7%"
+  - button "选择模型 · M3.1-Flash-Preview · default"
+  - button:
+    - img
+  - button "发送消息" [disabled]:
+    - img
+- paragraph: 内容由AI生成，重要信息请务必核查
+- complementary:
+  - button "进度":
+    - text: 进度
+    - img
+  - text: 跟踪较长任务的进度
+  - button "Subagents":
+    - text: Subagents
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "交付物":
+    - text: 交付物
+    - img
+  - button "workspace"
+  - button:
+    - img
+  - button:
+    - img
+  - button "page.html — 包含 Hello 标题的 HTML 页面":
+    - img
+    - text: page.html — 包含 Hello 标题的 HTML 页面
+- complementary "开发者面板":
+  - heading "拖动或使用方向键移动开发者面板" [level=2]:
+    - button "拖动或使用方向键移动开发者面板": 开发者面板
+  - button "展开开发者面板":
+    - img
+- complementary
+- button "收起侧边栏":
+  - img
+- button "搜索":
+  - img
+- tooltip "云端任务 New 关闭 显示同步到 Web 和 App 的任务":
+  - text: 云端任务 New
+  - button "关闭":
+    - img
+  - paragraph: 显示同步到 Web 和 App 的任务

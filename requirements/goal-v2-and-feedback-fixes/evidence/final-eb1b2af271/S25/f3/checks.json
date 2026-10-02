@@ -1,0 +1,124 @@
+{
+  "scenario": "S25",
+  "attempt": "f3",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-003511-248164",
+  "evidenceDir": "S25/f3",
+  "auth": [
+    {
+      "runId": "20261002-003511-248164",
+      "kind": "electron",
+      "startedAt": 1790872511490,
+      "endedAt": 1790872553803,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003511-248164/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003511-248164/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S25/f3/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S25/f3/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S25/f3/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤2：补充消息 What is 3 + 4 得到助手回复 7（从输入框发出，无替换确认框）",
+      "result": "PASS",
+      "detail": {
+        "reply": "7",
+        "replaceDialog": false
+      }
+    },
+    {
+      "id": "步骤3：Goal 为 paused(user_requested)，objective 不变；横幅为“已停止”，继续按钮在",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(user_requested)",
+        "objectiveSame": true,
+        "banner": "已停止",
+        "composerContinueButton": 1,
+        "bannerResume": 1
+      }
+    },
+    {
+      "id": "步骤5：移除目标标签后 Goal 保持 active 10 秒，横幅没有变为“已停止”",
+      "result": "PASS",
+      "detail": {
+        "tagBeforeRemove": 1,
+        "tagAfterRemove": 0,
+        "holdChanges": [
+          [
+            1790872540849,
+            "active"
+          ],
+          [
+            1790872547919,
+            "active"
+          ]
+        ],
+        "heldMsAfterTagRemoval": 10670,
+        "statusAfter": "active",
+        "banner": "进行中",
+        "bannerAfterResume": "进行中",
+        "tagAria": "- button \"退出目标模式\": 目标\n"
+      }
+    }
+  ],
+  "info": {
+    "s25SideTurn": {
+      "found": true,
+      "turnId": "4cfd7f3d-0524-474c-8fd3-b1b907beba3c",
+      "requests": 1,
+      "firstRequestAfterSendMs": 155,
+      "reminderFirstRequest": {
+        "present": true,
+        "hits": [
+          {
+            "messageIndex": 1,
+            "role": "user",
+            "status": "paused"
+          }
+        ],
+        "inSystem": false,
+        "messageCount": 2,
+        "lastUserMessageIndex": 1,
+        "inLastUserMessage": true
+      },
+      "reminderAllRequests": true,
+      "toolCalls": [],
+      "sleepExecuted": false,
+      "fileWrites": [],
+      "wroteHintFile": false,
+      "goalToolCalls": [],
+      "updateGoalCalled": false,
+      "assistantTexts": [
+        "7"
+      ],
+      "goalTurnBoundAfterSend": [
+        [
+          1790872538758,
+          "turn_197c09bd-efe2-42e1-a7aa-4ad7e1660a1b"
+        ]
+      ]
+    }
+  }
+}

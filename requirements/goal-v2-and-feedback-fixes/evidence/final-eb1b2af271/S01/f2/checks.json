@@ -1,0 +1,154 @@
+{
+  "scenario": "S01",
+  "attempt": "f2",
+  "evidenceDir": "S01/f2",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "runId": "20261002-003203-8ccd01",
+  "authCheck": {
+    "runId": "20261002-003203-8ccd01",
+    "kind": "electron",
+    "startedAt": 1790872323598,
+    "endedAt": 1790872395208,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003203-8ccd01/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003203-8ccd01/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S01/f2/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S01/f2/runtime-logs/im-runtime-2026100200.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S01/f2/runtime-logs/runtime-2026100200.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤1：横幅“0 次请求”；悬停“升级前 6 轮”，不含“本目标请求”",
+      "result": "PASS",
+      "detail": {
+        "policy": "2.2万 tokens\n0 次请求",
+        "hover": "升级前 6 轮"
+      }
+    },
+    {
+      "id": "步骤2：accountingVersion 2；历史占用 6；本目标请求 0；turns_used 6",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2,
+        "legacy_turns": 6,
+        "requests_used": 0,
+        "turns_used": 6
+      }
+    },
+    {
+      "id": "步骤4：工作请求 4（6+4=10），budget_limited；Inspector 恢复后 4 次工作 + 至多 1 次不带工具的收尾",
+      "result": "PASS",
+      "detail": {
+        "goal": {
+          "status_reason": "budget_limited(main_turn)",
+          "work_requests": 4,
+          "grace_requests": 0,
+          "requests_used": 4
+        },
+        "settledKinds": [
+          "work",
+          "work",
+          "work",
+          "work"
+        ],
+        "requestToolCounts": [
+          28,
+          28,
+          28,
+          28
+        ],
+        "responseTools": [
+          [
+            "bash"
+          ],
+          [],
+          [
+            "bash"
+          ],
+          []
+        ]
+      }
+    },
+    {
+      "id": "恢复后只有一次新的 goal.turn_bound 属于恢复（之后续跑各一次）",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResume": [
+          [
+            1790872378746,
+            "turn_4bdb5582-7ef5-4dec-8ebb-5954f5b20c2c"
+          ],
+          [
+            1790872383673,
+            "turn_7cf07803-e1f5-4d4e-8647-717f3408ce67"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4后横幅“N 次请求”= 接口本目标请求数；悬停含“升级前 6 轮”",
+      "result": "PASS",
+      "detail": {
+        "policy": "5.4万 tokens\n4 次请求",
+        "hover": "本目标请求 4（工作 4）· 升级前 6 轮"
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（a2594f4fca，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": []
+      }
+    },
+    {
+      "id": "收尾请求响应中的工具意图不执行（spec §5.2，非 verify 检查点）",
+      "result": "UNVERIFIED",
+      "detail": {
+        "reason": "no grace request in this run; last work response had no tool calls",
+        "lastWorkResponseTools": [],
+        "toolCallsAfterResume(ts, names)": [
+          [
+            1790872381197,
+            [
+              "bash"
+            ]
+          ],
+          [
+            1790872385449,
+            [
+              "bash"
+            ]
+          ]
+        ],
+        "count.txt": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    }
+  ]
+}

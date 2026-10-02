@@ -1,0 +1,265 @@
+{
+  "scenario": "X2",
+  "attempt": "f2",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-012214-718f5c",
+  "evidenceDir": "X2/f2",
+  "auth": [
+    {
+      "runId": "20261002-012214-718f5c",
+      "kind": "electron",
+      "startedAt": 1790875334822,
+      "endedAt": 1790875596944,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-012214-718f5c/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-012214-718f5c/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X2/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X2/f2/runtime-logs/im-runtime-2026100201.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X2/f2/runtime-logs/runtime-2026100201.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step2": {
+        "queuedInDb": 1,
+        "goalTurnOpen": "open:turn_e6b468bb-b431-45e4-ba95-1130c38aa796"
+      },
+      "gate": {
+        "hits": [
+          [
+            3,
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796"
+          ],
+          [
+            4,
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796"
+          ],
+          [
+            5,
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796"
+          ],
+          [
+            6,
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796"
+          ],
+          [
+            7,
+            null
+          ]
+        ],
+        "armed": [
+          {
+            "event": "fail-armed",
+            "forN": 7,
+            "status": 200,
+            "at": 1790875472986
+          }
+        ],
+        "injected": [
+          {
+            "event": "fail-injected",
+            "attemptId": 23,
+            "n": 7,
+            "attempt": 2,
+            "status": 502,
+            "at": 1790875473493
+          }
+        ],
+        "rc": "0"
+      },
+      "supplementTurn": "turn_24d2b677-ccf1-4319-adf7-7a05eada980b",
+      "faultRulesCleared": true
+    }
+  },
+  "checks": [
+    {
+      "id": "补充消息那一轮显示失败（界面）",
+      "result": "PASS",
+      "detail": {
+        "supplementTurn": "turn_24d2b677-ccf1-4319-adf7-7a05eada980b",
+        "failInjectedAtMs": 1790875473484,
+        "failStatus": 502,
+        "supplementTurnMessages": [
+          {
+            "role": "user",
+            "finish_reason": null,
+            "msg_type": 1,
+            "content": "Reply with the word apple.",
+            "keys": [],
+            "error": {}
+          }
+        ],
+        "supplementTurnCapturedCalls": 0,
+        "ariaFailureWords": {
+          "x2-page-aria-immediate": [],
+          "x2-page-aria-after-failure": [],
+          "x2-page-aria-final": []
+        },
+        "sessionStatus": {
+          "x2-session-immediate": {
+            "status_type": 1,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          },
+          "x2-session-final": {
+            "status_type": 0,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          },
+          "snapshot": {
+            "status_type": 0,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          }
+        },
+        "apiRecordsFailure": true,
+        "uiShowsFailure": true,
+        "screenshotObservation": {
+          "screenshot": "screenshot-1790875473652-x2-immediate.png",
+          "atMs": 1790875473652,
+          "readBy": "lane C agent (manual read of the screenshot)",
+          "text": "补充消息气泡 “Reply with the word apple.” 下方显示 “模型服务有点不稳定，请重试” 与 “重试” 按钮；输入框上方 Goal 横幅为 进行中",
+          "failureShown": true,
+          "note": "截图在注入 502 后约 168 ms、新 goal.turn_bound（1790875473661）之前；同一时刻之前取的 aria（011）尚未渲染该提示；3 秒后的 aria（after-failure）与最终 aria 中该提示已被下一个 Goal Turn 替换"
+        }
+      }
+    },
+    {
+      "id": "补充消息那一轮最终失败（接口/日志：注入 502 后没有重试成功，会话状态记 50113）",
+      "result": "PASS",
+      "detail": {
+        "failInjected": true,
+        "supplementTurnCapturedCalls": 0,
+        "sessionStatus": {
+          "x2-session-immediate": {
+            "status_type": 1,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          },
+          "x2-session-final": {
+            "status_type": 0,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          },
+          "snapshot": {
+            "status_type": 0,
+            "message": "Bad gateway",
+            "error_code": 50113,
+            "error_source": "agent-runtime"
+          }
+        }
+      }
+    },
+    {
+      "id": "失败后 30 秒内出现属于该 Goal 的新 goal.turn_bound（没有点按钮、没有再发消息）",
+      "result": "PASS",
+      "detail": {
+        "failAtMs": 1790875473484,
+        "turnBound": {
+          "turnId": "turn_89558ae0-5300-45a9-ac4f-bedfec958777",
+          "tsMs": 1790875473661,
+          "goalId": "tg_4amy75z2gbmupsy4ke"
+        },
+        "latencyMs": 177,
+        "goalId": "tg_4amy75z2gbmupsy4ke",
+        "verification": [
+          [
+            1790875405768,
+            "goal.verification_dispatched",
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796",
+            null,
+            null
+          ],
+          [
+            1790875472896,
+            "goal.verification_decided",
+            "turn_e6b468bb-b431-45e4-ba95-1130c38aa796",
+            "met",
+            "stale"
+          ],
+          [
+            1790875487043,
+            "goal.verification_dispatched",
+            "turn_af4c6542-9f8c-46b3-8c24-5a7b1e53ba1e",
+            null,
+            null
+          ],
+          [
+            1790875591590,
+            "goal.verification_decided",
+            "turn_af4c6542-9f8c-46b3-8c24-5a7b1e53ba1e",
+            "met",
+            "accepted"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "队列 pause 被清除或没有写入",
+      "result": "PASS",
+      "detail": {
+        "pauseCausesSeenAfterFailure": [],
+        "pauseSamples": 0,
+        "pauseSampleSpanMs": 0,
+        "pauseAfterFailureRead": null,
+        "pauseFinal": null
+      }
+    },
+    {
+      "id": "补充消息没有被重放（含 apple 的请求只属于失败的那一轮）",
+      "result": "PASS",
+      "detail": {
+        "appleUserMessages": 1,
+        "laterTurnsWithAppleAsTurnInput": [],
+        "faultAttemptsWithSupplementKey": [
+          [
+            7,
+            1,
+            "attempt"
+          ],
+          [
+            7,
+            2,
+            "attempt"
+          ]
+        ],
+        "capturedCallsContainingApple(作为历史上下文)": [
+          "turn_89558ae0-5300-45a9-ac4f-bedfec958777",
+          "turn_af4c6542-9f8c-46b3-8c24-5a7b1e53ba1e"
+        ]
+      }
+    },
+    {
+      "id": "Goal 最终 complete(verifier_met)，c.txt 存在",
+      "result": "PASS",
+      "detail": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "c.txt": "c\n"
+      }
+    }
+  ]
+}

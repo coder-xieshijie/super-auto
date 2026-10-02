@@ -1,0 +1,15 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-230401-eafebd",
+      "instanceEvidenceDir": "_runs/runtime-limits",
+      "files": [
+        "005-rg1final-limits.resume-rejected--resume.json",
+        "006-rg1final-limits.resume-rejected--snap-inspector",
+        "006-rg1final-limits.resume-rejected--snap-runtime-events.jsonl",
+        "006-rg1final-limits.resume-rejected--snap-workspace.json",
+        "006-rg1final-limits.resume-rejected--snap.json"
+      ]
+    }
+  ]
+}

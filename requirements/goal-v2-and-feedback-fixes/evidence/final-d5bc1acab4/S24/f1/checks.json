@@ -1,0 +1,117 @@
+{
+  "scenario": "S24",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-231833-4cda00",
+  "evidenceDir": "S24/f1",
+  "auth": [
+    {
+      "runId": "20261001-231833-4cda00",
+      "kind": "electron",
+      "startedAt": 1790867913872,
+      "endedAt": 1790868020553,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231833-4cda00/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231833-4cda00/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S24/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S24/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S24/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "stopButtonAtStep2": 1
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：goal-mode-tag 数量为 0，输入框为普通模式",
+      "result": "PASS",
+      "detail": {
+        "rightAfterSend": 0,
+        "afterBanner": 0
+      }
+    },
+    {
+      "id": "两条补充消息都以用户气泡出现；没有出现“替换当前目标吗？”确认框",
+      "result": "PASS",
+      "detail": {
+        "boldInHistoryAndPage": true,
+        "blueInHistoryAndPage": true,
+        "replaceDialogStep2": 0,
+        "replaceDialogStep4": 0
+      }
+    },
+    {
+      "id": "接口 objective 始终是创建时的文本",
+      "result": "PASS",
+      "detail": {
+        "objectivesSeen": [
+          "Create a file named page.html containing a heading that says Hello."
+        ],
+        "final": "Create a file named page.html containing a heading that says Hello.",
+        "objectiveEvents": 0
+      }
+    },
+    {
+      "id": "步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里",
+      "result": "PASS",
+      "detail": {
+        "goalTurnRunningAtStep2": "turn_0e736bd4-b159-471c-ac12-5d542c68c0eb",
+        "isGoalTurn": true,
+        "thatTurnLastRequestEndedAt": 1790867947205,
+        "firstRequestWithBold": {
+          "turnId": "turn_ac1d6740-ab70-4e2a-82c7-a38695380a07",
+          "startedAt": 1790867948293,
+          "goalBound": false
+        },
+        "goalTurnRunningAtStep4": "turn_5a23e0d8-7f0c-4b6e-bc22-56d11c5df0dd",
+        "isGoalTurnAtStep4": true,
+        "keyUsed": "Meta+Enter",
+        "sent": "sent",
+        "textareaAfterSend": "\n",
+        "sentAt": 1790867965516,
+        "nextRequestInThatTurn": 1790867968163,
+        "nextRequestCallId": "239cedd0-84cc-46df-8841-ed6eb8280624",
+        "firstRequestWithBlue": {
+          "callId": "239cedd0-84cc-46df-8841-ed6eb8280624",
+          "turnId": "turn_5a23e0d8-7f0c-4b6e-bc22-56d11c5df0dd",
+          "startedAt": 1790867968163,
+          "goalBound": true
+        }
+      }
+    },
+    {
+      "id": "最终 page.html 的标题加粗且为蓝色（独立判断）",
+      "result": "PASS",
+      "detail": {
+        "page.html": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Hello</title>\n    <style>\n      h1 {\n        font-weight: 700;\n        color: #0b57d0;\n      }\n    </style>\n  </head>\n  <body>\n    <h1>Hello</h1>\n  </body>\n</html>\n",
+        "bold": true,
+        "blue": true,
+        "blueColorValues": [
+          "#0b57d0"
+        ],
+        "status_reason": "complete(verifier_met)"
+      }
+    }
+  ],
+  "info": {}
+}

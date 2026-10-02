@@ -1,0 +1,88 @@
+{
+  "scenario": "S29b",
+  "attempt": "f2",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-230904-cce856",
+  "evidenceDir": "S29/f2",
+  "auth": [
+    {
+      "runId": "20261001-230904-cce856",
+      "kind": "electron",
+      "startedAt": 1790867344345,
+      "endedAt": 1790867706009,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230904-cce856/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230904-cce856/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "pendingQuestionnaire": "ask_bfb46dea0faf4cac18af8c13"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：会话 B 有 1 条通知，标题为会话 B 的标题，正文“目标需要你处理”",
+      "result": "PASS",
+      "detail": {
+        "titleB": "Pick a fruit and save it to fruit.txt",
+        "notificationsB": [
+          [
+            "Pick a fruit and save it to fruit.txt",
+            "目标需要你处理",
+            1790867564212
+          ]
+        ],
+        "requestedB": [
+          [
+            "Pick a fruit and save it to fruit.txt",
+            "目标需要你处理",
+            true
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤4：会话 C 没有通知（接口暂停 = 用户主动暂停）",
+      "result": "PASS",
+      "detail": {
+        "notificationsC": [],
+        "requestedC": [],
+        "statusC": "paused(user_requested)"
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "notify_attention",
+        "expected": "目标需要你处理",
+        "seen": "目标需要你处理",
+        "exact": true
+      }
+    ],
+    "s29bFinalB": "complete(verifier_met)",
+    "s29bFruit": "Banana\n"
+  }
+}

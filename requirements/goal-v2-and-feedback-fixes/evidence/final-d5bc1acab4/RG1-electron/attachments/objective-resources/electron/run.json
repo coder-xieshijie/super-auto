@@ -1,0 +1,24 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-234008-8aa195",
+      "instanceEvidenceDir": "_runs/electron-attachments",
+      "files": [
+        "008-rg1final-attachments.objective-resources--upload.json",
+        "009-rg1final-attachments.objective-resources--bar.json",
+        "010-rg1final-attachments.objective-resources--send.json",
+        "011-rg1final-attachments.objective-resources--created.json",
+        "012-rg1final-attachments.objective-resources--goal.json",
+        "013-rg1final-attachments.objective-resources--run.json",
+        "014-rg1final-attachments.objective-resources--snap-inspector",
+        "014-rg1final-attachments.objective-resources--snap-runtime-events.jsonl",
+        "014-rg1final-attachments.objective-resources--snap-workspace",
+        "014-rg1final-attachments.objective-resources--snap-workspace.json",
+        "014-rg1final-attachments.objective-resources--snap.json",
+        "screenshot-1790869301308-rg1final-attachments.objective-resources--upload.png",
+        "screenshot-1790869301518-rg1final-attachments.objective-resources--bar.png",
+        "screenshot-1790869303733-rg1final-attachments.objective-resources--send.png"
+      ]
+    }
+  ]
+}

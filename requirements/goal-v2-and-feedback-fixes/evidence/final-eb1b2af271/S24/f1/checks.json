@@ -1,0 +1,115 @@
+{
+  "scenario": "S24",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-003030-f6324c",
+  "evidenceDir": "S24/f1",
+  "auth": [
+    {
+      "runId": "20261002-003030-f6324c",
+      "kind": "electron",
+      "startedAt": 1790872231015,
+      "endedAt": 1790872352568,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003030-f6324c/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003030-f6324c/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S24/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S24/f1/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S24/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "stopButtonAtStep2": 1
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：goal-mode-tag 数量为 0，输入框为普通模式",
+      "result": "PASS",
+      "detail": {
+        "rightAfterSend": 0,
+        "afterBanner": 0
+      }
+    },
+    {
+      "id": "两条补充消息都以用户气泡出现；没有出现“替换当前目标吗？”确认框",
+      "result": "PASS",
+      "detail": {
+        "boldInHistoryAndPage": true,
+        "blueInHistoryAndPage": true,
+        "replaceDialogStep2": 0,
+        "replaceDialogStep4": 0
+      }
+    },
+    {
+      "id": "接口 objective 始终是创建时的文本",
+      "result": "PASS",
+      "detail": {
+        "objectivesSeen": [
+          "Create a file named page.html containing a heading that says Hello."
+        ],
+        "final": "Create a file named page.html containing a heading that says Hello.",
+        "objectiveEvents": 0
+      }
+    },
+    {
+      "id": "步骤2 的消息在当前 Goal Turn 结束后才进入模型请求；步骤4 的消息出现在当前 Goal Turn 的下一次模型请求里",
+      "result": "PASS",
+      "detail": {
+        "goalTurnRunningAtStep2": "turn_fffa856f-41a3-4b9d-b0e2-6db7fd37ce94",
+        "isGoalTurn": true,
+        "thatTurnLastRequestEndedAt": 1790872264894,
+        "firstRequestWithBold": {
+          "turnId": "turn_8836dbf6-5e16-4277-8283-c713604bcae1",
+          "startedAt": 1790872266038,
+          "goalBound": false
+        },
+        "goalTurnRunningAtStep4": "turn_8616a06c-e03b-417f-b5e2-5df0e4932245",
+        "isGoalTurnAtStep4": true,
+        "keyUsed": "Meta+Enter",
+        "sent": "sent",
+        "textareaAfterSend": "\n",
+        "sentAt": 1790872309561,
+        "nextRequestInThatTurn": 1790872313223,
+        "nextRequestCallId": "168e265f-2c35-44f2-8ae5-a33323438523",
+        "firstRequestWithBlue": {
+          "callId": "168e265f-2c35-44f2-8ae5-a33323438523",
+          "turnId": "turn_8616a06c-e03b-417f-b5e2-5df0e4932245",
+          "startedAt": 1790872313223,
+          "goalBound": true
+        }
+      }
+    },
+    {
+      "id": "最终 page.html 的标题加粗且为蓝色（独立判断）",
+      "result": "PASS",
+      "detail": {
+        "page.html": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"UTF-8\" />\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n    <title>Hello</title>\n  </head>\n  <body>\n    <h1 style=\"font-weight: bold; color: blue;\">Hello</h1>\n  </body>\n</html>\n",
+        "bold": true,
+        "blue": true,
+        "blueColorValues": [],
+        "status_reason": "complete(verifier_met)"
+      }
+    }
+  ],
+  "info": {}
+}

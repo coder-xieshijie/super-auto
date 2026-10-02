@@ -1,0 +1,50 @@
+
+  ╭─ v0.5.10 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Use /sessions to resume earlier work.                                                                                                                                                          │
+  │ › Use /feedback to preview a redacted report before upload.                                                                                                                                      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Your own messages now appear exactly as typed in the conversation, pending instructions, and the transcript viewer. Text such as pycache, , and a leading > is no longer reformatted as Markd… │
+  │ › The TUI no longer stays stuck showing a run as in progress after Runtime has already finished it. Enter now sends a new message instead of steering the finished run, and queued messages are… │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met     
+     only when sub.txt contains sub-done.                                                                                                                                                             
+                                                                                                                                                                                                      
+   
+  └ • Thought for 0.7s
+   
+  ● I'll check the current state before starting anything.                                                                                                                                            
+   
+  ├ • Ran  List workspace and check sub.txt · 5 output lines
+  ├ ✓ Checked background tasks · 1 done
+  └ • Thought for 1.2s
+   
+  ● Workspace is empty — no sub.txt, no background subagent running yet. Starting the subagent now.                                                                                                   
+   
+  ├ • Delegated (worker · Write sub.txt after 40s wait)
+  └ • Thought for 0.8s
+   
+    └ Completed in 16s · ⚡ 163 tok/s
+   
+  ● Background subagent started — task ID bg_d6af9963-de39-4ed4-986a-d349b8f677b4 (session mvs_8c2fae94fb1b440590183a7b27bb4033).                                                                     
+                                                                                                                                                                                                      
+    It was briefed to sleep 40, write sub-done into /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225224-880c2b/workspace/sub.txt, and read the file back to        
+    confirm.                                                                                                                                                                                          
+                                                                                                                                                                                                      
+    Ending this turn now as instructed rather than waiting. sub.txt does not exist yet, so the goal is not yet met — this conversation will resume automatically when the background task finishes,   
+    and I'll verify the file's actual contents at that point before calling it complete.                                                                                                              
+
+    ◎ Goal · Waiting for background tasks · 17s active
+  17K tokens · 3 requests
+  Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…
+  /goal pause · /goal edit · /goal clear
+  ◐ Tasks · 1 agent active · /tasks details
+    Message · Enter send · Ctrl+J newline                                                                                                           Tip: /compact frees context in a long conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=6 state=done session=mvs_c9fde490071a49fe9429b40e315da05c turn=turn_1e8cbe32-7001-4ff7-9779-6a3b137dd709 request=none agents=1/1 background=1

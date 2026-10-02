@@ -1,0 +1,50 @@
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.10 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › Say what you want and how to verify it.                                                                                                                                                        │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Your own messages now appear exactly as typed in the conversation, pending instructions, and the transcript viewer. Text such as pycache, , and a leading > is no longer reformatted as Markd… │
+  │ › The TUI no longer stays stuck showing a run as in progress after Runtime has already finished it. Enter now sends a new message instead of steering the finished run, and queued messages are… │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.  
+                                                                                                                                                                                                      
+   
+  ● I'll start by checking the current state of the workspace directory.                                                                                                                              
+   
+  ├ • Listed (d*.txt in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004737-29f713/workspace)
+  └ • Thought for 0.3s
+   
+  ● No d*.txt files exist yet. Let me look at the workspace contents generally.                                                                                                                       
+   
+  ├ • Listed (**/* in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004737-29f713/workspace)
+  └ • Thought for 3.1s
+   
+  ● Workspace is empty. Creating the five files one at a time, one tool call per response. Starting with d1.txt.                                                                                      
+   
+  ├ • Wrote (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004737-29f713/workspace/d1.txt)
+  └ • Thought for 2.0s
+   
+    └ Completed in 15s · ⚡ 125 tok/s
+   
+  ● Created and verified d1.txt (/private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004737-29f713/workspace/d1.txt), containing 1.                                       
+                                                                                                                                                                                                      
+    d2.txt through d5.txt remain uncreated. Execution stopped because the Goal reached its request budget; create a new Goal to continue.                                                             
+   
+    × Error  This Goal exhausted its execution budget. Clear it, then start a new Goal.                                                                                                               
+
+    ◎ Goal · Budget limited · 16s active
+  25K tokens · 4 requests
+  Create files d1.txt, d2.txt, d3.txt, d4.txt, d5.txt one at a time, each containing its own number. In each response make at most one tool call. Keep working in this turn until all five exist.
+  /goal clear, then /goal <objective> starts a new Goal
+    Message · Enter send · Ctrl+J newline                                                                                                        Tip: /steer guides a response without interrupting it
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=done session=mvs_9c2db12f7ebe4e8189dea096d210d32c turn=turn_f1a4dd14-d17a-4c2e-8afc-0c78d1a7868a request=none agents=0/0 background=0

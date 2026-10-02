@@ -1,0 +1,75 @@
+{
+  "scenario": "S13",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-225112-478078",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-225112-478078",
+      "kind": "tui",
+      "startedAt": 1790866272240,
+      "endedAt": 1790866332801,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225112-478078/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225112-478078/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S13/f1/runtime-logs/runtime-2026100122.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step1ServerTask": [
+        {
+          "taskId": "bg_0b6a75fe-ca11-4d23-a896-9266576e5f50",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790866284800,
+          "updatedAtMs": 1790866284803,
+          "endedAtMs": null,
+          "parentTurnId": "turn_mupnjmpx_wex3ru",
+          "description": "Serve current directory on port 8765"
+        }
+      ],
+      "step1StatusBackground": "1"
+    }
+  },
+  "checks": [
+    {
+      "id": "出现 ✓ Goal complete；count.txt 为 1 到 3",
+      "result": "PASS",
+      "detail": {
+        "completeLine": "✓ Goal complete · 22s · 3.5K tokens · 6 requests",
+        "count.txt": "1\n2\n3\n"
+      }
+    },
+    {
+      "id": "屏幕与轨迹中没有 Waiting for background tasks；状态栏 background=1",
+      "result": "PASS",
+      "detail": {
+        "rawHasWaiting": false,
+        "trajHasWaiting": false,
+        "finalStatusBackground": "1",
+        "deferredRequiredBackground": 0
+      }
+    }
+  ],
+  "info": {}
+}

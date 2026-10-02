@@ -1,0 +1,79 @@
+{
+  "scenario": "S38",
+  "attempt": "f1",
+  "evidenceDir": "S38/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-230707-26b8ef",
+  "authCheck": {
+    "runId": "20261001-230707-26b8ef",
+    "kind": "electron",
+    "startedAt": 1790867227625,
+    "endedAt": 1790867345228,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230707-26b8ef/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230707-26b8ef/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S38/f1/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S38/f1/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S38/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤3：未知占用 1，本目标请求数含它",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 4,
+        "work_requests": 3,
+        "unknown_requests": 1,
+        "reserved_requests": 1
+      }
+    },
+    {
+      "id": "悬停说明含“1 次发送状态未确认”",
+      "result": "PASS",
+      "detail": {
+        "hover": [
+          "requests-hover-final.json",
+          "本目标请求 9（工作 8）· 1 次发送状态未确认"
+        ]
+      }
+    },
+    {
+      "id": "挂起请求之后没有同一请求标识的重发",
+      "result": "PASS",
+      "detail": {
+        "hungKey": "c6575eb25abe6304",
+        "attemptsWithKey": 1
+      }
+    },
+    {
+      "id": "继续执行到终态，终态时未知占用仍为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "requests_used": 9,
+        "work_requests": 8,
+        "unknown_requests": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "scenario": "S18",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-003001-f73d78",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261002-003001-f73d78",
+      "kind": "tui",
+      "startedAt": 1790872201834,
+      "endedAt": 1790872432126,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003001-f73d78/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003001-f73d78/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S18/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 3,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "banner": "◎ Goal · Usage limited · 7s active | 16K+ tokens · 2 requests · Goal will continue automatically after the quota resets.",
+      "resetAtMs": 1790872398000
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1：横幅所在行出现 Goal will continue automatically after the quota resets.，没有时刻",
+      "result": "PASS",
+      "detail": {
+        "bannerBlock": "◎ Goal · Usage limited · 7s active | 16K+ tokens · 2 requests · Goal will continue automatically after the quota resets.",
+        "note": "提示在横幅第二行（用量行）"
+      }
+    },
+    {
+      "id": "步骤2：只有一个新的 goal.turn_bound；屏幕先 Goal resumed. 再额度错误；回到额度受限，横幅仍为自动继续提示",
+      "result": "PASS",
+      "detail": {
+        "newErrorLines": [
+          "× Error  Usage limit reached."
+        ],
+        "newErrorIdx": [
+          37
+        ],
+        "newResumedIdx": [
+          32
+        ],
+        "resumedBeforeError": true,
+        "banner": "◎ Goal · Usage limited · 8s active",
+        "tail": [
+          "│ › The TUI no longer stays stuck showing a run as in progress after Runtime has already finished it. Enter now sends a new message instead of steering the finished run, and queued messages are… │",
+          "│ › Your own messages now appear exactly as typed in the conversation, pending instructions, and the transcript viewer. Text such as pycache, , and a leading > is no longer reformatted as Markd… │",
+          "╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯",
+          "› Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.",
+          "● I'll create the three files one at a time, each containing its own number.",
+          "└ • Ran  List workspace contents · 3 output lines",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "Goal resumed.",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Code: 42212",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "◎ Goal · Usage limited · 8s active",
+          "16K+ tokens · 3 requests · Goal will continue automatically after the quota resets."
+        ],
+        "bannerBlock": "◎ Goal · Usage limited · 8s active | 16K+ tokens · 3 requests · Goal will continue automatically after the quota resets.",
+        "turnBound": [
+          1177
+        ],
+        "mainAttempts": [
+          [
+            3,
+            "injected",
+            429
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤2b：与步骤2 相同；没有不绑定 Goal 的续跑",
+      "result": "PASS",
+      "detail": {
+        "newErrorLines": [
+          "× Error  Usage limit reached."
+        ],
+        "newErrorIdx": [
+          37
+        ],
+        "newResumedIdx": [
+          32
+        ],
+        "resumedBeforeError": true,
+        "banner": "◎ Goal · Usage limited · 9s active",
+        "tail": [
+          "› Create files e1.txt, e2.txt, e3.txt one at a time, each containing its own number, then stop.",
+          "● I'll create the three files one at a time, each containing its own number.",
+          "└ • Ran  List workspace contents · 3 output lines",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "Goal resumed.",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "Goal resumed.",
+          "× Error  Usage limit reached.",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "× Error  Usage limit reached.",
+          "Code: 42212",
+          "Check /usage or switch provider, then resend the message. Your prompt is preserved.",
+          "◎ Goal · Usage limited · 9s active",
+          "16K+ tokens · 4 requests · Goal will continue automatically after the quota resets."
+        ],
+        "bannerBlock": "◎ Goal · Usage limited · 9s active | 16K+ tokens · 4 requests · Goal will continue automatically after the quota resets.",
+        "turnBound": [
+          366
+        ],
+        "mainAttempts": [
+          [
+            4,
+            "injected",
+            429
+          ]
+        ],
+        "statusBarTurn": "none",
+        "mainAttemptsAfterRetry": [
+          [
+            4,
+            1
+          ]
+        ],
+        "retryTurnBound": true,
+        "retryUnavailableNotice": []
+      }
+    },
+    {
+      "id": "步骤3：出现 ✓ Goal complete；重置时间之后只有一个新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "complete": "✓ Goal complete · 23s · 19K+ tokens · 10 requests",
+        "turnBoundAfterResetMs": [
+          25
+        ]
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 15,
+    "transitions": [
+      [
+        1790872217957,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790872220573,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790872223755,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790872429799,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ]
+  }
+}

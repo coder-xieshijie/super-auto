@@ -1,0 +1,198 @@
+{
+  "scenario": "S29",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-230239-32118c",
+  "evidenceDir": "S29/f1",
+  "auth": [
+    {
+      "runId": "20261001-230239-32118c",
+      "kind": "electron",
+      "startedAt": 1790866959637,
+      "endedAt": 1790867343744,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230239-32118c/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230239-32118c/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": false,
+    "detail": {
+      "waitReasonReached": true,
+      "subagent": [
+        {
+          "taskId": "bg_9c402e8f-a0f0-4037-81c8-b764673785d4",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790866995698,
+          "updatedAtMs": 1790866995826,
+          "endedAtMs": null,
+          "parentTurnId": "turn_87e32a85-c75e-442b-bf59-edeab466f3f9",
+          "description": "Background subagent writing sub.txt after 40s"
+        }
+      ],
+      "sideTurn": "turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+      "sideTurnGoalBound": false,
+      "reply": "42",
+      "sideTurnLastMessageAtMs": 1790867001453,
+      "leftSessionAAtMs": 1790867002537,
+      "sideTurnEndedAfterLeavingA": false
+    }
+  },
+  "checks": [
+    {
+      "id": "会话 A 的 Goal 有至少 2 个 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "goalTurnBound": 2
+      }
+    },
+    {
+      "id": "会话 A 的通知共 2 条：普通轮“等待你的确认”与“目标已完成”，标题都为会话 A 的标题",
+      "result": "FAIL",
+      "detail": {
+        "titleA": "Start background task writing sub.txt",
+        "notificationsA": [
+          [
+            "Start background task writing sub.txt",
+            "目标已完成",
+            1790867159940
+          ]
+        ],
+        "allShown": [
+          [
+            "mvs_1241a5c5bf8b4a939c37054cda7d14f0",
+            "Start background task writing sub.txt",
+            "目标已完成"
+          ]
+        ],
+        "requestedNotShownA": []
+      }
+    },
+    {
+      "id": "除这两条外没有会话 A 的通知（Goal Turn 结束时没有通知）",
+      "result": "FAIL",
+      "detail": {
+        "countA": 1,
+        "perNotificationTurn": [
+          {
+            "body": "目标已完成",
+            "shownAtMs": 1790867159940,
+            "data": {
+              "sessionId": "mvs_1241a5c5bf8b4a939c37054cda7d14f0",
+              "source": "local",
+              "action": "navigate_to_session"
+            },
+            "turn": {
+              "turnId": "turn_b5080ca7-cf05-4b60-8ef9-f44af5f38add",
+              "first": 1790867048973,
+              "last": 1790867056207,
+              "source": "thread-goal",
+              "queryKey": "goal:tg_u53im8k21vmupnyo8u:turn:turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+              "firstRole": "assistant",
+              "firstText": "Background task finished — let me read its output and verify the file on disk.",
+              "goalBound": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "点击“目标已完成”通知后界面进入会话 A",
+      "result": "PASS",
+      "detail": {
+        "clicked": {
+          "ok": true,
+          "sessionId": "mvs_1241a5c5bf8b4a939c37054cda7d14f0",
+          "body": "目标已完成",
+          "title": "Start background task writing sub.txt",
+          "clickedAtMs": 1790867166592,
+          "url": "app://./archon"
+        },
+        "bannerObjectiveAfterClick": "Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only when sub.txt contains sub-done.",
+        "homeBeforeClick": true
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "notify_completed",
+        "expected": "目标已完成",
+        "seen": "目标已完成",
+        "exact": true
+      }
+    ],
+    "s29NotificationTurns": [
+      {
+        "body": "目标已完成",
+        "shownAtMs": 1790867159940,
+        "data": {
+          "sessionId": "mvs_1241a5c5bf8b4a939c37054cda7d14f0",
+          "source": "local",
+          "action": "navigate_to_session"
+        },
+        "turn": {
+          "turnId": "turn_b5080ca7-cf05-4b60-8ef9-f44af5f38add",
+          "first": 1790867048973,
+          "last": 1790867056207,
+          "source": "thread-goal",
+          "queryKey": "goal:tg_u53im8k21vmupnyo8u:turn:turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+          "firstRole": "assistant",
+          "firstText": "Background task finished — let me read its output and verify the file on disk.",
+          "goalBound": true
+        }
+      }
+    ],
+    "s29Turns": [
+      {
+        "turnId": "turn_87e32a85-c75e-442b-bf59-edeab466f3f9",
+        "first": 1790866983492,
+        "last": 1790866998374,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_u53im8k21vmupnyo8u:turn:turn_87e32a85-c75e-442b-bf59-edeab466f3f9",
+        "firstRole": "user",
+        "firstText": "Start a background subagent task (task tool, run in background) that waits 40 se"
+      },
+      {
+        "turnId": "turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+        "first": 1790867000372,
+        "last": 1790867001453,
+        "source": "api",
+        "queryKey": "goal:tg_u53im8k21vmupnyo8u:turn:turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+        "firstRole": "user",
+        "firstText": "What is 17 + 25? Answer with just the number."
+      },
+      {
+        "turnId": "turn_b5080ca7-cf05-4b60-8ef9-f44af5f38add",
+        "first": 1790867048973,
+        "last": 1790867056207,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_u53im8k21vmupnyo8u:turn:turn_cbab78f9-9de2-45f5-8e4a-6e2fafddafeb",
+        "firstRole": "assistant",
+        "firstText": "Background task finished — let me read its output and verify the file on disk."
+      }
+    ],
+    "s29GoalA": "complete(verifier_met)"
+  }
+}

@@ -762,6 +762,24 @@ S39)
   # 4
   echo "$(now_ms)" >"$OUT/s39-continue-click-at-ms"
   E click --testid continue-button --save s39-continue-click >/dev/null
+  if [ "${S39_STOP_AFTER_STEP4:-0}" = 1 ]; then
+    # 安全（第二轮自验 S39/f1、f2 事件）：verify 步骤 4 只要求点击后 10 秒内出现 turn_bound；之后的 Goal 续跑会去 workspace
+    # 以外找缺失的输入文件。看到新的 Goal Turn 后立即点横幅暂停，等 Turn 结束再取证、down。
+    o=none
+    for _ in $(seq 1 40); do o=$(goal_turn_open "$S"); [ "${o#open:}" != "$o" ] && break; sleep 0.25; done
+    echo "$(now_ms) $o" >"$OUT/s39-open-goal-turn-after-click"
+    E click --testid thread-goal-banner-pause --save s39-safety-pause >/dev/null
+    echo "$(now_ms)" >"$OUT/s39-safety-pause-at-ms"
+    poll_e "$S" --until goal.status=paused --show "$SHOW" --interval 0.5 --timeout 20 --save s39-safety-paused >/dev/null
+    turn_end 30
+    goal_e "$S" s39-goal-after-click >/dev/null
+    etext thread-goal-banner-status s39-banner-status-after-click >/dev/null
+    goal_e "$S" s39-final >/dev/null
+    vr snapshot --session "$S" --on electron --save s39 >/dev/null
+    end_scenario
+    m2_log "scenario $SCN done (stopped after step 4)"
+    exit 0
+  fi
   sleep 12
   goal_e "$S" s39-goal-after-click >/dev/null
   etext thread-goal-banner-status s39-banner-status-after-click >/dev/null

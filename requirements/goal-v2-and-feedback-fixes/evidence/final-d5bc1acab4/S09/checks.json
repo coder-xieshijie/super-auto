@@ -1,0 +1,60 @@
+{
+  "scenario": "S09",
+  "result": "受阻（BLOCKED）",
+  "attempts": {
+    "f1": "20261001-225132-8dac6e",
+    "f2": "20261001-225544-3400f5",
+    "f3": "20261001-230030-73575d",
+    "f4": "20261001-230607-3bcaa9"
+  },
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "reason": "4 次运行的模型都先查看工作区（glob 或 bash），f3 还提前结束了第 1 个 Turn；verify 前提“前 3 次主执行请求各有且只有一个写文件工具调用”都不满足，已达每场景 4 次上限。按 verify S09 执行状态改由 B05 判断，本场景标为受阻",
+  "checks": [
+    {
+      "id": "Inspector：主执行请求共 4 次、同属一个 Goal Turn；前 3 次带工具，第 4 次 tools 为空，响应纯文本",
+      "result": "UNVERIFIED",
+      "detail": {
+        "blocked": "前提 4 次都不满足",
+        "observed": {
+          "f1/f2/f4": "4 次同属 1 个 Turn，tools 数 [20,20,20,0]，第 4 次响应无工具意图",
+          "f3": "第 2 次请求无工具、模型提前结束 Turn，4 次分属 2 个 Turn（前提不满足所致）"
+        }
+      }
+    },
+    {
+      "id": "第 3 次请求返回的写文件工具调用已执行：d3.txt 存在，d4.txt 不存在",
+      "result": "UNVERIFIED",
+      "detail": {
+        "blocked": "第 1 次请求不是写文件，第 3 次请求写的是 d2",
+        "observed": {
+          "f1/f2/f4": "第 3 次请求的 write(d2.txt) 已执行，工作目录 d1.txt、d2.txt，无 d3/d4",
+          "f3": "仅 d1.txt"
+        }
+      }
+    },
+    {
+      "id": "屏幕横幅 ◎ Goal · Budget limited；请求数 4 requests",
+      "result": "UNVERIFIED",
+      "detail": {
+        "blocked": "本次不计",
+        "observed": "f1–f4 都为 ◎ Goal · Budget limited，25K tokens · 4 requests"
+      }
+    },
+    {
+      "id": "达到上限后没有新的 goal.turn_bound；hold 期间没有该 Goal 的新模型请求",
+      "result": "UNVERIFIED",
+      "detail": {
+        "blocked": "本次不计",
+        "observed": "f1–f4 达到上限后都没有新的 turn_bound；60 秒 hold 内该 Goal 主执行请求 0 次，辅助请求 0 次"
+      }
+    },
+    {
+      "id": "步骤 5：屏幕打印错误，没有 Goal resumed.，没有新的 goal.turn_bound",
+      "result": "UNVERIFIED",
+      "detail": {
+        "blocked": "本次不计",
+        "observed": "f1–f4 都打印 “× Error  This Goal exhausted its execution budget. Clear it, then start a new Goal.”，没有 Goal resumed.，恢复后没有新的 turn_bound"
+      }
+    }
+  ]
+}

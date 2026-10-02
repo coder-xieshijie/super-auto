@@ -1,0 +1,197 @@
+- alert
+- button "新建任务":
+  - img
+  - text: 新建任务 ⌘N
+- button "新建云端任务":
+  - img
+- button "插件·技能":
+  - img
+  - text: 插件·技能
+- button "定时":
+  - img
+  - text: 定时
+- button "网站":
+  - img
+  - text: 网站
+- button "远程":
+  - img
+  - text: 远程
+- radio "本地" [checked]
+- img
+- text: 本地
+- radio "云端"
+- img
+- text: 云端
+- button "项目" [expanded]:
+  - text: 项目
+  - img
+- button "筛选与分组":
+  - img
+- button "新建项目":
+  - img
+- button "未选项目" [disabled]:
+  - button "未选项目" [disabled]:
+    - img
+    - text: 未选项目
+    - button "新建任务":
+      - img
+- complementary "你的 Agents 现已移至插件":
+  - paragraph: 你的 Agents 现已移至插件
+  - button "关闭 Agents 引导":
+    - img
+  - button "立即查看"
+- status
+- text: MiniMax480534 Max
+- button "站内信，4 条未读消息":
+  - img
+- separator "Resize sidebar"
+- text: Create page.html with Hello heading
+- button:
+  - img
+- button "打开终端":
+  - img
+- button "工作区面板" [pressed]:
+  - img
+- button "侧边面板":
+  - img
+- img
+- text: Goal Create a file named page.html containing a heading that says Hello. 00:30
+- button "回退":
+  - img
+- button "复制":
+  - img
+- button "共执行 17 秒":
+  - text: 共执行 17 秒
+  - img
+- text: "输出速度: 218 token/s"
+- paragraph:
+  - text: Created
+  - code: page.html
+  - text: "in the workspace at:"
+- paragraph:
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003030-f6324c/data/sessions/mvs_7728621ab8594b52bd29078e2103ec64/workspace/page.html": page.html
+- paragraph:
+  - text: It's a minimal, valid HTML document — doctype,
+  - code: lang="en"
+  - text: on the root element, charset and viewport meta tags,
+  - code: <title>Hello</title>
+  - text: ", and a single"
+  - code: <h1>Hello</h1>
+  - text: in the body. I wrote the file and then read it back from disk to confirm the contents landed as intended. Open it directly in any browser to see the heading.
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 00:30
+- img
+- text: 目标已完成 用时 53s Also make the heading text bold. 00:31
+- button "回退":
+  - img
+- button "复制":
+  - img
+- button "共执行 36 秒":
+  - text: 共执行 36 秒
+  - img
+- text: "输出速度: 114 token/s Use a blue color for the heading. 00:31"
+- button "复制":
+  - img
+- paragraph: "The heading is now blue, keeping the bold styling from before:"
+- paragraph:
+  - code: "<h1 style=\"font-weight: bold; color: blue;\">Hello</h1>"
+- paragraph:
+  - code: blue
+  - text: is the CSS keyword for pure blue (
+  - code: "#0000ff"
+  - text: ). If you'd rather have something softer or more modern — a navy like
+  - code: "#1a3a8f"
+  - text: ", a teal-blue, or a slightly brighter shade — tell me which and I'll swap it in. I also kept everything in the inline"
+  - code: style
+  - text: attribute, which is fine for a page this small; if it grows, moving these rules into a CSS class would be cleaner.
+- paragraph: "Deliverable — open it directly in a browser to see the blue bold heading:"
+- paragraph:
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003030-f6324c/data/sessions/mvs_7728621ab8594b52bd29078e2103ec64/workspace/page.html": page.html
+- paragraph: I re-read the file after the edit to confirm the change is on disk, but note I haven't rendered it in a browser, so the visual appearance is inferred from the CSS rather than observed.
+- button "page.html — bold, blue Hello heading": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 00:31
+- button "跳转到第 1 条对话"
+- button "跳转到第 2 条对话"
+- button "单击跳转底部":
+  - img
+- status:
+  - img
+  - text: 已完成
+  - button "Create a file named page.html containing a heading that says Hello."
+  - text: 4.8万 tokens 10 次请求 53s
+  - button "关闭完成标记":
+    - img
+- paragraph: 问任何问题
+- group:
+  - button "添加附件或技能":
+    - img
+  - button "始终授权":
+    - img
+    - text: 始终授权
+  - button "上下文已使用 7%"
+  - button "选择模型 · M3.1-Flash-Preview · default"
+  - button:
+    - img
+  - button "发送消息" [disabled]:
+    - img
+- paragraph: 内容由AI生成，重要信息请务必核查
+- complementary:
+  - button "进度":
+    - text: 进度
+    - img
+  - text: 跟踪较长任务的进度
+  - button "Subagents":
+    - text: Subagents
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "交付物":
+    - text: 交付物
+    - img
+  - button "workspace"
+  - button:
+    - img
+  - button:
+    - img
+  - button "page.html — heading with explicit bold styling":
+    - img
+    - text: page.html — heading with explicit bold styling
+- complementary "开发者面板":
+  - heading "拖动或使用方向键移动开发者面板" [level=2]:
+    - button "拖动或使用方向键移动开发者面板": 开发者面板
+  - button "展开开发者面板":
+    - img
+- complementary
+- button "收起侧边栏":
+  - img
+- button "搜索":
+  - img
+- tooltip "云端任务 New 关闭 显示同步到 Web 和 App 的任务":
+  - text: 云端任务 New
+  - button "关闭":
+    - img
+  - paragraph: 显示同步到 Web 和 App 的任务

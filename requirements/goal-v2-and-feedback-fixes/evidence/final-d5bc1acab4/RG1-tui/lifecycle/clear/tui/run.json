@@ -1,0 +1,20 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225122-731355",
+      "instanceEvidenceDir": "_runs/tui-lifecycle",
+      "files": [
+        "022-rg1final-lifecycle.clear--cleared.json",
+        "022-rg1final-lifecycle.clear--cleared.txt",
+        "023-rg1final-lifecycle.clear--idle.json",
+        "023-rg1final-lifecycle.clear--idle.txt",
+        "024-rg1final-lifecycle.clear--snap-inspector",
+        "024-rg1final-lifecycle.clear--snap-runtime-events.jsonl",
+        "024-rg1final-lifecycle.clear--snap-workspace",
+        "024-rg1final-lifecycle.clear--snap-workspace.json",
+        "024-rg1final-lifecycle.clear--snap.json",
+        "024-rg1final-lifecycle.clear--snap.txt"
+      ]
+    }
+  ]
+}

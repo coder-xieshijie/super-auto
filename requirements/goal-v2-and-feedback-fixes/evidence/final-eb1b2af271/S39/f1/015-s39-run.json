@@ -1,0 +1,124 @@
+{
+  "runId": "20261002-004610-823159",
+  "capturedAt": 1790873239273,
+  "git": {
+    "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+    "dirty": false
+  },
+  "poll": {
+    "path": "/minimax-desktop/api/v1/session/mvs_e558ed976909403f967681d89890e65e/goal",
+    "until": "goal.status=complete|paused|blocked|budget_limited|usage_limited",
+    "holdSeconds": 0
+  },
+  "trajectory": [
+    {
+      "at": 1790873212127,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 3,
+      "goal.work_requests": 3,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 28570,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873218152,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 4,
+      "goal.work_requests": 4,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 29556,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873221159,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 5,
+      "goal.work_requests": 5,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 29867,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873227175,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 6,
+      "goal.work_requests": 6,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 30780,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873233192,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 7,
+      "goal.work_requests": 7,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 31683,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873236205,
+      "goal.status": "active",
+      "goal.turns_used": 0,
+      "goal.requests_used": 8,
+      "goal.work_requests": 8,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 32180,
+      "goal.usage_incomplete": false
+    },
+    {
+      "at": 1790873239216,
+      "goal.status": "blocked",
+      "goal.status_reason": "blocked(worker_reported)",
+      "goal.turns_used": 0,
+      "goal.requests_used": 9,
+      "goal.work_requests": 9,
+      "goal.grace_requests": 0,
+      "goal.legacy_turns": 0,
+      "goal.unknown_requests": 0,
+      "goal.tokens_used": 32378,
+      "goal.usage_incomplete": false
+    }
+  ],
+  "final": {
+    "goal": {
+      "goal_id": "tg_2o1ag5pw8hmuprno64",
+      "session_id": "mvs_e558ed976909403f967681d89890e65e",
+      "objective": "This goal cannot be done yet because the input file is missing. Call update_goal with status blocked and a short reason, then stop.",
+      "status": "blocked",
+      "created_at": 1790873188636,
+      "updated_at": 1790873236796,
+      "tokens_used": 32378,
+      "time_used_seconds": 42,
+      "has_kickoff_attachments": false,
+      "turns_used": 0,
+      "status_reason": "blocked(worker_reported)",
+      "objective_resources": [],
+      "accounting_version": 2,
+      "requests_used": 9,
+      "work_requests": 9,
+      "grace_requests": 0,
+      "legacy_turns": 0,
+      "reserved_requests": 0,
+      "unknown_requests": 0,
+      "usage_incomplete": false
+    }
+  }
+}

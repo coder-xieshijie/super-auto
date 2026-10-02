@@ -1,0 +1,105 @@
+{
+  "scenario": "RG2-S03",
+  "source": "origin/fix/goal-final-result-delivery:.harness/docs/specs/goal-final-result-delivery/verify.md S03",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-230923-f6f2f9",
+  "authCheck": {
+    "contentSafety401": 0,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "refreshesDuringRun": 0,
+    "refreshesWhileElectronRunning": 0
+  },
+  "checks": [
+    {
+      "id": "第 2 步：complete / complete(verifier_met)，last_verification.backend 为 subagent",
+      "result": "PASS",
+      "detail": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "backend": "subagent",
+        "verdict": "met",
+        "evidence": "003-s03-run.json、004-s03.json"
+      }
+    },
+    {
+      "id": "顺序：提案被接纳 → 最终回复写出 → 本轮结算 → verification_dispatched；之后 verification_decided(met) 与 →complete",
+      "result": "PASS",
+      "detail": {
+        "update_goal 工具结果": "23:09:47.942",
+        "最终回复（finish_reason=stop）": "23:09:50.709",
+        "goal.turn_settled": "23:09:51.062",
+        "goal.verification_dispatched": "23:09:51.064",
+        "goal.state_transitioned(→complete)": "23:10:25.667",
+        "goal.verification_decided(met)": "23:10:25.668",
+        "update_goal.accepted": true,
+        "settlement": "pending_host_validation"
+      }
+    },
+    {
+      "id": "完成那一轮 update_goal 之前的工具调用照常执行并有结果",
+      "result": "PASS",
+      "detail": {
+        "toolsBefore": [
+          "write",
+          "read"
+        ],
+        "completed": [
+          {
+            "toolCallId": "call_function_6hqdqgczbkgi_1",
+            "isError": false
+          },
+          {
+            "toolCallId": "call_function_zpjkgfrombqa_1",
+            "isError": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "同一 turn 中 update_goal 工具结果之后有助手文字；Inspector 中其后有一次模型请求",
+      "result": "PASS",
+      "detail": {
+        "callId": "7196795a-7da8-431a-86c1-71e9a190071d",
+        "same_turn": true,
+        "startedAtMs": 1790867388302,
+        "endedAtMs": 1790867390622,
+        "stop_reason": "end_turn",
+        "carries_update_goal_result": true,
+        "finalReplyHasDeliverMarker": true
+      }
+    },
+    {
+      "id": "该 turn 中 update_goal 之后没有被执行的工具（模型未尝试调用，拦截路径未触发，属第 2 项覆盖盲区 B2）",
+      "result": "PASS",
+      "detail": {
+        "toolsExecutedAfter": [],
+        "finalCallToolUses": []
+      }
+    },
+    {
+      "id": "第 4 步普通消息中工具照常执行：after.txt 为 ok，Goal 仍为 complete",
+      "result": "PASS",
+      "detail": {
+        "after.txt": "ok\\n",
+        "goalAfter": "complete(verifier_met)",
+        "queue": {
+          "items": [],
+          "pending_count": 0
+        },
+        "step4Http": 200
+      }
+    },
+    {
+      "id": "不得出现：同一 turn 在 update_goal 之后执行了任何工具",
+      "result": "PASS",
+      "detail": "未出现"
+    },
+    {
+      "id": "不得出现：完成后的普通消息中工具调用被拦截",
+      "result": "PASS",
+      "detail": "未出现（write 执行，after.txt 存在）"
+    }
+  ]
+}

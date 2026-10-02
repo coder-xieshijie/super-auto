@@ -1,0 +1,110 @@
+{
+  "scenario": "S04",
+  "attempt": "f1",
+  "evidenceDir": "S04/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225033-63b9a5",
+  "authCheck": {
+    "runId": "20261001-225033-63b9a5",
+    "kind": "tui",
+    "startedAt": 1790866233941,
+    "endedAt": 1790866282799,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225033-63b9a5/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225033-63b9a5/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S04/f1/runtime-logs/runtime-2026100122.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "checks": [
+    {
+      "id": "摘要列出请求数与构成（work N、wrap-up M 都在），无 turns 用量",
+      "result": "PASS",
+      "detail": {
+        "summaryLine": "Requests: 3 (work 3, wrap-up 0)",
+        "hasWork": true,
+        "hasWrapUp": true
+      }
+    },
+    {
+      "id": "暂停前/摘要/完成 请求数单调不减；完成时请求数 = Inspector 条数 + 代理日志 client-closed 主执行请求数（verify 9d998c8968）",
+      "result": "PASS",
+      "detail": {
+        "beforePause": 2,
+        "summary": 3,
+        "complete": 6,
+        "inspectorGoalMain": 5,
+        "faultProxyClientClosedMainN": [
+          3
+        ],
+        "inspectorPlusClientClosed": 6,
+        "faultProxyMainRequestsSent": 6,
+        "faultProxyMainSentN": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "faultProxyInjections": 0,
+        "ledgerSettled": 6,
+        "settledOutcomes": [
+          "success",
+          "success",
+          "abort",
+          "success",
+          "success",
+          "success"
+        ],
+        "pauseAbortedInFlightRequest": true
+      }
+    },
+    {
+      "id": "完成行 ✓ Goal complete · … · N requests，无 turns；N 与 runtime 一致",
+      "result": "PASS",
+      "detail": {
+        "line": "✓ Goal complete · 12s · 17K+ tokens · 6 requests",
+        "runtimeRequestSettled": 6
+      }
+    },
+    {
+      "id": "观察：被取消请求无用量时 token 显示“+”（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "summaryTokens": [
+          "16K+ tokens"
+        ],
+        "finalTokens": [
+          "16K+ tokens",
+          "17K+ tokens"
+        ],
+        "pausedScreenTokens": [
+          "16K+ tokens"
+        ],
+        "abortedSettled": [
+          {
+            "outcome": "abort",
+            "kind": "work",
+            "attempts": 1,
+            "requestId": "ec4fd433-6375-4052-925c-a428104997fe"
+          }
+        ],
+        "usageIncompleteMarkerInSummary": true
+      }
+    }
+  ]
+}

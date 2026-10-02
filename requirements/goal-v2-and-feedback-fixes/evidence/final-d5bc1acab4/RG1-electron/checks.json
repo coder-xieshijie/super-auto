@@ -1,0 +1,800 @@
+{
+ "scenario": "RG1-electron",
+ "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+ "dirty": false,
+ "baseline": {
+  "root": "evidence/rg1-baseline (d770f05f30)",
+  "questionnaire/manual/electron": "evidence/rg1-baseline-rerun-electron-questionnaire/attempt-1/record.json"
+ },
+ "auth": {
+  "electron-attachments": {
+   "runId": "20261001-234008-8aa195",
+   "contentSafety401": 0,
+   "electronAuthLost": 0,
+   "http429": 0,
+   "refreshesDuringRun": 0,
+   "refreshesWhileElectronRunning": 0,
+   "refreshesByVia": {}
+  },
+  "electron-continuation-bg": {
+   "runId": "20261001-233707-6cd6aa",
+   "contentSafety401": 0,
+   "electronAuthLost": 0,
+   "http429": 0,
+   "refreshesDuringRun": 0,
+   "refreshesWhileElectronRunning": 0,
+   "refreshesByVia": {}
+  },
+  "electron-lifecycle": {
+   "runId": "20261001-233437-246241",
+   "contentSafety401": 0,
+   "electronAuthLost": 0,
+   "http429": 0,
+   "refreshesDuringRun": 0,
+   "refreshesWhileElectronRunning": 0,
+   "refreshesByVia": {}
+  },
+  "electron-questionnaire-auto": {
+   "runId": "20261001-234410-b8a0dd",
+   "contentSafety401": 0,
+   "electronAuthLost": 0,
+   "http429": 0,
+   "refreshesDuringRun": 0,
+   "refreshesWhileElectronRunning": 0,
+   "refreshesByVia": {}
+  },
+  "electron-questionnaire-manual": {
+   "runId": "20261001-234219-a1a920",
+   "contentSafety401": 0,
+   "electronAuthLost": 0,
+   "http429": 0,
+   "refreshesDuringRun": 0,
+   "refreshesWhileElectronRunning": 0,
+   "refreshesByVia": {}
+  }
+ },
+ "checks": [
+  {
+   "id": "lifecycle/create/electron",
+   "label": "Goal 生命周期 · 创建 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "active",
+     "active"
+    ],
+    "status_reason": [
+     null,
+     null
+    ],
+    "sameFiles": true,
+    "files": [
+     [],
+     []
+    ],
+    "eventsEqual": true,
+    "eventCounts": [
+     3,
+     3
+    ],
+    "requestSettledAdded": 0,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "与基线逐条相同（状态、status_reason、文件、事件序列、地图检查）"
+   }
+  },
+  {
+   "id": "lifecycle/auth-card/electron",
+   "label": "Goal 生命周期 · 授权卡片 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     15
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "只多 6 条 goal.request_settled（§4 逻辑请求账本，每个结算的请求一条），去掉后与基线逐条相同"
+   }
+  },
+  {
+   "id": "lifecycle/complete/electron",
+   "label": "Goal 生命周期 · 完成 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     6,
+     12
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "只多 6 条 goal.request_settled，去掉后逐条相同"
+   }
+  },
+  {
+   "id": "lifecycle/pause/electron",
+   "label": "Goal 生命周期 · 暂停 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "paused",
+     "paused"
+    ],
+    "status_reason": [
+     "paused(user_requested)",
+     "paused(user_requested)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [],
+     []
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     5,
+     6
+    ],
+    "requestSettledAdded": 1,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "只多 1 条 goal.request_settled（被暂停取消的那次请求也结算，§4/S04），去掉后逐条相同"
+   }
+  },
+  {
+   "id": "lifecycle/resume/electron",
+   "label": "Goal 生命周期 · 继续 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "active",
+     "active"
+    ],
+    "status_reason": [
+     null,
+     null
+    ],
+    "sameFiles": true,
+    "files": [
+     [],
+     []
+    ],
+    "eventsEqual": true,
+    "eventCounts": [
+     2,
+     2
+    ],
+    "requestSettledAdded": 0,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "与基线逐条相同（状态、status_reason、文件、事件序列、地图检查）"
+   }
+  },
+  {
+   "id": "lifecycle/edit-replace/electron",
+   "label": "Goal 生命周期 · 编辑（替换确认） · Electron",
+   "result": "PASS（差异属预期）",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n4\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n4\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     12,
+     15
+    ],
+    "requestSettledAdded": 5,
+    "eventsEqualIgnoringRequestSettled": false,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "除 5 条 goal.request_settled 外：基线确认替换后有两次 admission_decided + turn_bound（第一个 Turn 未执行即撤回），交付版本只有一次。这是决定清单里的 S26 修复 24083bcc3c（暂停中替换目标只直接开始一次 Goal Turn）。goal_id 在暂停、继续、编辑之间不变；turns_used 为 0、requests_used 1→6、accountingVersion 2 是 §4“轮数改为请求数”"
+   }
+  },
+  {
+   "id": "lifecycle/clear/electron",
+   "label": "Goal 生命周期 · 清除 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "none",
+     "none"
+    ],
+    "status_reason": [
+     null,
+     null
+    ],
+    "sameFiles": true,
+    "files": [
+     [],
+     []
+    ],
+    "eventsEqual": true,
+    "eventCounts": [
+     3,
+     3
+    ],
+    "requestSettledAdded": 0,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "与基线逐条相同（状态、status_reason、文件、事件序列、地图检查）"
+   }
+  },
+  {
+   "id": "continuation/background/electron",
+   "label": "Goal 持续执行 · 后台续跑 · Electron",
+   "result": "PASS（差异属预期；旧地图 3 项检查不再适用）",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "bg.txt",
+       "bg-done\n"
+      ]
+     ],
+     [
+      [
+       "bg.txt",
+       "bg-done\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     14,
+     21
+    ],
+    "requestSettledAdded": 8,
+    "eventsEqualIgnoringRequestSettled": false,
+    "matchesMap": [
+     "一致",
+     "不一致"
+    ],
+    "checksChanged": [
+     [
+      "进入 required_background",
+      true,
+      false
+     ],
+     [
+      "横幅“等待后台任务完成”",
+      true,
+      false
+     ],
+     [
+      "轨迹 → verification → complete",
+      true,
+      false
+     ]
+    ],
+    "runIds": [
+     "20260930-214246-448238",
+     "20261001-233707-6cd6aa"
+    ],
+    "explanation": "脚本仍用迁移前地图的目标：Goal 自己用 bash run_in_background 起 sleep 40 的后台 shell。§5 改为“Goal 自己的后台 shell 不再等待”，交付版本的 continuation 地图也改成“Goal 自己的后台 shell 不阻塞”，依赖等待改用后台 subagent。所以首个 Goal Turn 结算后没有 deferred(required_background)，而是直接续跑：多一条 goal.breaker_decided{action:none}（续跑路径评估空转熔断，基线代码同样会发这条事件，基线因走 deferred 路径没有经过），随后 final_recheck ready → turn_bound。模型在第二个 Goal Turn 里等待后台任务（两次请求间隔约 32 秒）后读 bg.txt。最终 complete(verifier_met)、bg.txt 为 bg-done，与基线相同。旧地图的“进入 required_background”“横幅等待后台任务完成”“轨迹 → verification → complete”三项因此为 false：poll 等 required_background 150 秒超时，横幅读到“已完成”。另多 8 条 goal.request_settled"
+   }
+  },
+  {
+   "id": "completion/complete/electron",
+   "label": "Goal 完成与独立验证 · 完成 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     15
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "只多 6 条 goal.request_settled，去掉后逐条相同"
+   }
+  },
+  {
+   "id": "completion/verify-auth-card/electron",
+   "label": "Goal 完成与独立验证 · 验证时的授权卡片 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     15
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "只多 6 条 goal.request_settled，去掉后逐条相同"
+   }
+  },
+  {
+   "id": "completion/final-reply/electron",
+   "label": "Goal 完成与独立验证 · 最终回复与交付卡片 · Electron",
+   "result": "PASS（差异属预期）",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     15
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "不一致"
+    ],
+    "checksChanged": [
+     [
+      "update_goal 之后同一轮没有最终回复（基线；第 2 项之后会有）",
+      true,
+      false
+     ]
+    ],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "“update_goal 之后同一轮没有最终回复”由基线的 true 变为 false：第 2 项 spec 要求 update_goal 被接受后同一轮写最终回复，与 rg1-migration 同行相同。goal-lifted-delivery-cards 仍为 0；turn_settled 仍早于 verification_dispatched。事件只多 6 条 goal.request_settled"
+   }
+  },
+  {
+   "id": "completion/reload/electron",
+   "label": "Goal 完成与独立验证 · 重载 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ],
+     [
+      [
+       "count.txt",
+       "1\n2\n3\n"
+      ]
+     ]
+    ],
+    "eventsEqual": true,
+    "eventCounts": [
+     0,
+     0
+    ],
+    "requestSettledAdded": 0,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214056-44285f",
+     "20261001-233437-246241"
+    ],
+    "explanation": "与基线逐条相同（状态、status_reason、文件、事件序列、地图检查）"
+   }
+  },
+  {
+   "id": "attachments/kickoff/electron",
+   "label": "Goal 附件与注释 · 首页首轮附件 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "secret.txt",
+       "PAPAYA-42\n"
+      ]
+     ],
+     [
+      [
+       "secret.txt",
+       "PAPAYA-42\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     14
+    ],
+    "requestSettledAdded": 5,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214457-200380",
+     "20261001-234008-8aa195"
+    ],
+    "explanation": "只多 5 条 goal.request_settled，去掉后逐条相同"
+   }
+  },
+  {
+   "id": "attachments/objective-resources/electron",
+   "label": "Goal 附件与注释 · 会话内目标资源 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "secret.txt",
+       "PAPAYA-42\n"
+      ],
+      [
+       "secret2.txt",
+       "MANGO-7\n"
+      ]
+     ],
+     [
+      [
+       "secret.txt",
+       "PAPAYA-42\n"
+      ],
+      [
+       "secret2.txt",
+       "MANGO-7\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     9,
+     14
+    ],
+    "requestSettledAdded": 5,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-214457-200380",
+     "20261001-234008-8aa195"
+    ],
+    "explanation": "只多 5 条 goal.request_settled；两边都没有弹出替换确认框（上一个 Goal 已完成）"
+   }
+  },
+  {
+   "id": "questionnaire/manual/electron",
+   "label": "Goal 问卷 · 手动回答 · Electron",
+   "result": "PASS（差异来自模型）",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": false,
+    "files": [
+     [
+      [
+       "fruit.txt",
+       "Banana"
+      ]
+     ],
+     [
+      [
+       "fruit.txt",
+       "Banana\n"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     14,
+     17
+    ],
+    "requestSettledAdded": 5,
+    "eventsEqualIgnoringRequestSettled": false,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20261001-104214-08005a",
+     "20261001-234219-a1a920"
+    ],
+    "explanation": "除 5 条 goal.request_settled 外，基线第二轮多 2 条不跟 turn_bound 的 admission_decided{final_recheck}。基线重跑第二轮的工具是 write → bash → bash → update_goal，每次 bash 返回后有一条 final_recheck；本次是 write → read → update_goal，与 rg1-migration 主记录相同，属于工具选择不同（rg1-baseline-rerun-electron-questionnaire/summary.md 已有同样结论）。fruit.txt 为 \"Banana\\n\"，基线重跑为 \"Banana\"，只差末尾换行（模型写入方式），地图检查去空白后都是 Banana"
+   }
+  },
+  {
+   "id": "questionnaire/auto-timeout/electron",
+   "label": "Goal 问卷 · 超时自动回答 · Electron",
+   "result": "PASS",
+   "detail": {
+    "status": [
+     "complete",
+     "complete"
+    ],
+    "status_reason": [
+     "complete(verifier_met)",
+     "complete(verifier_met)"
+    ],
+    "sameFiles": true,
+    "files": [
+     [
+      [
+       "fruit.txt",
+       "Apple"
+      ]
+     ],
+     [
+      [
+       "fruit.txt",
+       "Apple"
+      ]
+     ]
+    ],
+    "eventsEqual": false,
+    "eventCounts": [
+     12,
+     18
+    ],
+    "requestSettledAdded": 6,
+    "eventsEqualIgnoringRequestSettled": true,
+    "matchesMap": [
+     "一致",
+     "一致"
+    ],
+    "checksChanged": [],
+    "runIds": [
+     "20260930-215526-60437f",
+     "20261001-234410-b8a0dd"
+    ],
+    "explanation": "只多 6 条 goal.request_settled，去掉后逐条相同；fruit.txt 为推荐项 Apple，历史带 automatic_timeout"
+   }
+  }
+ ]
+}

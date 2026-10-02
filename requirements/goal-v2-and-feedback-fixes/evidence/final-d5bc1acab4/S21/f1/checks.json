@@ -1,0 +1,118 @@
+{
+  "scenario": "S21",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-231144-4650ae",
+  "restartRunId": "20261001-231521-f5498c",
+  "auth": [
+    {
+      "runId": "20261001-231144-4650ae",
+      "kind": "electron",
+      "startedAt": 1790867504982,
+      "endedAt": 1790867534417,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231144-4650ae/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231144-4650ae/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 1,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    },
+    {
+      "runId": "20261001-231521-f5498c",
+      "kind": "electron",
+      "startedAt": 1790867722457,
+      "endedAt": 1790867796979,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231521-f5498c/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231521-f5498c/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/after-restart/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/after-restart/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S21/f1/after-restart/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)",
+      "closedAt": 1790867534546,
+      "resetAt": 1790867712000,
+      "restartUpAt": 1790867721666
+    }
+  },
+  "checks": [
+    {
+      "id": "重启后读到的请求数不小于重启前",
+      "result": "PASS",
+      "detail": {
+        "before": 2,
+        "after": 7,
+        "statusAfterRestart": null,
+        "tokensBefore": 27462,
+        "tokensAfter": 57068
+      }
+    },
+    {
+      "id": "启动后出现一个新的 goal.turn_bound，最终 complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterStartMs": [
+          5271
+        ],
+        "status_reason": "complete(verifier_met)",
+        "files": {
+          "e1.txt": "1\n",
+          "e2.txt": "2\n",
+          "e3.txt": "3\n"
+        }
+      }
+    }
+  ],
+  "info": {
+    "transitionsAfterRestart": [
+      [
+        1790867531585,
+        "active",
+        "usage_limited",
+        "usage_limited(provider_quota)"
+      ],
+      [
+        1790867792184,
+        "active",
+        "complete",
+        "complete(verifier_met)"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "scenario": "S31",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-232050-31e219",
+  "evidenceDir": "S31/f1",
+  "auth": [
+    {
+      "runId": "20261001-232050-31e219",
+      "kind": "electron",
+      "startedAt": 1790868051224,
+      "endedAt": 1790868142457,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232050-31e219/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232050-31e219/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S31/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S31/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S31/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "paused(verifier_runtime)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：status_reason 以 paused(verifier_ 开头",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "paused(verifier_runtime)"
+      }
+    },
+    {
+      "id": "步骤3：子会话里“重试”按钮为 0，页面有“校验由父目标管理”；点入口后回到父会话",
+      "result": "PASS",
+      "detail": {
+        "retryButtons": 0,
+        "noticeCount": 1,
+        "managedText": true,
+        "openParentEntry": true,
+        "childContinueButton": 0,
+        "childBanner": 0,
+        "parentObjectiveAfterOpen": "Write the numbers 1 to 3 into count.txt, one number per line, then stop."
+      }
+    },
+    {
+      "id": "步骤4 之后：一个新的 goal.turn_bound；该 Turn 第一次请求含校验中断说明与原因标识；之后只派发一次校验；最终 complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResumeMs": [
+          72
+        ],
+        "noticeInFirstRequest": true,
+        "noticeReason": "paused(verifier_runtime",
+        "statusReasonToken": "verifier_runtime",
+        "verificationDispatchedAfterResume": [
+          13320
+        ],
+        "status_reason": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "不得出现：恢复后不经工作 Goal Turn 直接派发校验",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBound": 72,
+        "firstDispatch": 13320
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "verifier_managed",
+        "expected": "校验由父目标管理",
+        "seen": "校验由父目标管理",
+        "exact": true
+      },
+      {
+        "key": "verifier_open_parent",
+        "expected": "打开父目标会话",
+        "seen": "打开父目标会话",
+        "exact": true
+      }
+    ]
+  }
+}

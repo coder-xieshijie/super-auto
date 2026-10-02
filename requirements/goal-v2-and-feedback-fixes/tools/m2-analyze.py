@@ -489,6 +489,17 @@ def s10(d):
     check('步骤5：回复 11；Goal 仍 budget_limited，objective 不变，横幅仍“已达上限”',
           str(hist[-1].get('msg_content')).strip() == '11' and goal.get('status') == 'budget_limited' and 'd5.txt' in goal.get('objective', '') and text_of(d, 'banner-status-after.txt') == '已达上限',
           {'reply': hist[-1].get('msg_content'), 'status': goal.get('status_reason'), 'bannerAfter': text_of(d, 'banner-status-after.txt')})
+    # 第二轮自验（eb1b2af271）：补充消息那一轮的 not-active 提醒、工具与文本，只作观察
+    try:
+        from side_turn import side_turn_facts
+        sp = os.path.join(d, 's10-side-sent-at-ms')
+        sent = int(open(sp).read().strip()) if os.path.exists(sp) else 0
+        evf = runtime_events(latest(d, '[0-9][0-9][0-9]-s10-final-runtime-events.jsonl'))
+        cf = inspector_calls(latest(d, '[0-9][0-9][0-9]-s10-final-inspector'))
+        checks.append({'id': '观察：步骤5 补充消息那一轮（not-active 提醒、工具，非检查点）', 'result': 'INFO',
+                       'detail': side_turn_facts(cf, evf, sent, 'What is 5 + 6', None)})
+    except Exception as e:
+        checks.append({'id': '观察：步骤5 补充消息那一轮（not-active 提醒、工具，非检查点）', 'result': 'INFO', 'detail': {'error': repr(e)}})
 
 
 def s38(d):
@@ -525,7 +536,9 @@ def s01(d):
     kinds = [e['payload'].get('kind') for e in ev if e['type'] == 'goal.request_settled' and e['ts'] >= start]
     check('步骤4：工作请求 4（6+4=10），budget_limited；Inspector 恢复后 4 次工作 + 至多 1 次不带工具的收尾',
           after.get('work_requests') == 4 and after.get('status') == 'budget_limited' and kinds.count('work') == 4 and kinds.count('grace') <= 1
-          and len(calls) == 5 and calls[-1]['toolCount'] == 0,
+          # verify：4 次工作请求“加至多 1 次”不带工具的收尾；第 4 次工作请求已是有效最终回复时没有收尾（spec §5.2）
+          and sum(1 for c in calls if c['toolCount'] > 0) == 4
+          and (len(calls) == 4 or (len(calls) == 5 and calls[-1]['toolCount'] == 0)),
           {'goal': {k: after.get(k) for k in ('status_reason', 'work_requests', 'grace_requests', 'requests_used')}, 'settledKinds': kinds,
            'requestToolCounts': [c['toolCount'] for c in calls], 'responseTools': [tool_names(c) for c in calls]})
     tb = [e for e in ev if e['type'] == 'goal.turn_bound' and e['ts'] >= start]
@@ -546,6 +559,13 @@ def s01(d):
     count = open(os.path.join(ws, 'count.txt')).read().split() if ws and os.path.exists(os.path.join(ws, 'count.txt')) else None
     grace_msgs = [{'ts': m.get('timestamp'), 'finish_reason': m.get('finish_reason'), 'text': str(m.get('msg_content'))[:200],
                    'tool_calls': len(m.get('tool_calls') or [])} for m in after if grace and (m.get('timestamp') or 0) >= grace['startedAtMs']]
+    if not grace:
+        # 没有收尾请求时该路径未被触发（第 4 次工作请求已是最终回复，spec §5.2“已有有效的最终回复时不再总结”）
+        checks.append({'id': '收尾请求响应中的工具意图不执行（spec §5.2，非 verify 检查点）', 'result': 'UNVERIFIED',
+                       'detail': {'reason': 'no grace request in this run; last work response had no tool calls',
+                                  'lastWorkResponseTools': tool_names(calls[-1]) if calls else None,
+                                  'toolCallsAfterResume(ts, names)': executed, 'count.txt': count}})
+        return
     check('收尾请求响应中的工具意图不执行（spec §5.2）', bool(grace) and not in_grace,
           {'graceRequestStartedAt': grace['startedAtMs'] if grace else None,
            'graceResponseToolIntents(Inspector 原始响应)': grace_tools,

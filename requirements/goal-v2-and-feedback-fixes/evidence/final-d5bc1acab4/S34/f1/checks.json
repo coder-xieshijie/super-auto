@@ -1,0 +1,74 @@
+{
+  "scenario": "S34",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-225839-215d8b",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-225839-215d8b",
+      "kind": "runtime",
+      "startedAt": 1790866719807,
+      "endedAt": 1790866820417,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225839-215d8b/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225839-215d8b/server.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "A.status": "budget_limited(token)",
+      "B.status": "budget_limited(token)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2（会话 A，token_budget 250000）：PATCH 200，10 秒内出现新的 goal.turn_bound，终态，notes.md 存在",
+      "result": "PASS",
+      "detail": {
+        "patchStatus": 200,
+        "turnBoundAfterPatchMs": [
+          48
+        ],
+        "final": "complete(verifier_met)",
+        "token_budget": 250000,
+        "notes.md": "1. Rust is a systems programming language focused on speed, memory safety, and t",
+        "requests_used": 7
+      }
+    },
+    {
+      "id": "步骤3（会话 B，token_budget 0）：PATCH 200，10 秒内出现新的 goal.turn_bound，终态，notes.md 存在",
+      "result": "PASS",
+      "detail": {
+        "patchStatus": 200,
+        "turnBoundAfterPatchMs": [
+          57,
+          17449
+        ],
+        "final": "complete(verifier_met)",
+        "token_budget": null,
+        "notes.md": "1. Rust is a systems programming language focused on safety, speed, and concurre",
+        "requests_used": 10
+      }
+    }
+  ],
+  "info": {}
+}

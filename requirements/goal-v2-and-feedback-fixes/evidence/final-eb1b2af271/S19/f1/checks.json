@@ -1,0 +1,67 @@
+{
+  "scenario": "S19",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-004335-00cd37",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261002-004335-00cd37",
+      "kind": "electron",
+      "startedAt": 1790873015270,
+      "endedAt": 1790873308264,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004335-00cd37/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004335-00cd37/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S19/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S19/f1/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S19/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 1,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "oldStatus": "usage_limited(provider_quota)",
+      "resetAtMs": 1790873215000
+    }
+  },
+  "checks": [
+    {
+      "id": "新 Goal 为 complete，hold 期间状态不变",
+      "result": "PASS",
+      "detail": {
+        "newGoal": "tg_2q6yn5gkdfmuprkfqg",
+        "status_reason": "complete(verifier_met)",
+        "holdSamples": 1,
+        "holdEndAfterResetMs": 91412,
+        "pollOk": true
+      }
+    },
+    {
+      "id": "重置时间之后没有属于旧 goal_id 的 goal.turn_bound，也没有新的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "oldAfterReset": 0,
+        "anyAfterReset": []
+      }
+    }
+  ],
+  "info": {}
+}

@@ -1,0 +1,41 @@
+442a443,461
+>     # 2026-10-01 最终自验：模型常写具体色值（如 #0b57d0、#007bff），按色相判断：蓝色通道最大、色相 190°–250°、饱和度 ≥ 0.4
+>     blue_values = []
+>     for m in re.finditer(r'(?<![-\w])color\s*:\s*(#[0-9a-f]{6}\b|#[0-9a-f]{3}\b|rgba?\([^)]*\)|[a-z]+)', page, re.I):
+>         v = m.group(1).lower()
+>         rgb = None
+>         if v.startswith('#'):
+>             h = v[1:] if len(v) == 7 else ''.join(ch * 2 for ch in v[1:])
+>             rgb = tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+>         elif v.startswith('rgb'):
+>             nums = re.findall(r'[\d.]+', v)[:3]
+>             rgb = tuple(float(x) for x in nums) if len(nums) == 3 else None
+>         elif v in ('navy', 'royalblue', 'dodgerblue', 'steelblue', 'mediumblue', 'darkblue', 'cornflowerblue', 'deepskyblue'):
+>             blue_values.append(v)
+>         if rgb:
+>             import colorsys
+>             hh, ll, ss = colorsys.rgb_to_hls(*(c / 255 for c in rgb))
+>             if max(rgb) == rgb[2] and 190 <= hh * 360 <= 250 and ss >= 0.4:
+>                 blue_values.append(v)
+>     blue = blue or bool(blue_values)
+444c463
+<           {'page.html': page[:600], 'bold': bold, 'blue': blue, 'status_reason': gf.get('status_reason')})
+---
+>           {'page.html': page[:600], 'bold': bold, 'blue': blue, 'blueColorValues': blue_values, 'status_reason': gf.get('status_reason')})
+624c643,651
+<     precondition(reached and bool(sub) and side_turn is not None and side_turn not in gturns,
+---
+>     # 步骤 2 的前提：补充消息那一轮结束时已经离开会话 A（回到首页）。产品在“当前会话 + 窗口有焦点”时不发通知
+>     # （taskCompletionNotification.ts），回复早于离开时刻的运行不能判通知检查点，作废重跑（最终全量自验 S29 f1、f2）。
+>     # 离开时刻取 s29-home-click-at-ms（“新建任务”点击返回）；旧证据没有它时取 s29-home-at-ms 减去 new_task 的 1 秒等待。
+>     hm = rd(d, 's29-home-click-at-ms')
+>     home_ms = int(hm) if hm else (int(rd(d, 's29-home-at-ms') or 0) - 1000)
+>     side_msgs = [m for m in history_messages(d, 's29-side-history') if side_turn and m.get('turn_id') == side_turn]
+>     side_end = max([m.get('timestamp') or 0 for m in side_msgs], default=0)
+>     left_before_end = bool(side_end) and home_ms > 0 and side_end > home_ms
+>     precondition(reached and bool(sub) and side_turn is not None and side_turn not in gturns and left_before_end,
+626c653,654
+<                   'reply': rep})
+---
+>                   'reply': rep, 'sideTurnLastMessageAtMs': side_end, 'leftSessionAAtMs': home_ms,
+>                   'sideTurnEndedAfterLeavingA': left_before_end})

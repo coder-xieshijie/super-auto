@@ -1,0 +1,87 @@
+{
+  "scenario": "S15",
+  "attempt": "f2",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-232637-9cb33f",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-232637-9cb33f",
+      "kind": "electron",
+      "startedAt": 1790868397216,
+      "endedAt": 1790868475166,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232637-9cb33f/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232637-9cb33f/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S15/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S15/f2/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S15/f2/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "goalStartedServerTask": [
+        {
+          "taskId": "bg_758c042b-64fd-4308-ab93-ccaf33fb8636",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790868428082,
+          "updatedAtMs": 1790868450621,
+          "endedAtMs": null,
+          "parentTurnId": "turn_96238124-5323-440a-8e51-305a44ce60ec",
+          "description": "Start python http.server on port 8766 in background"
+        }
+      ]
+    }
+  },
+  "checks": [
+    {
+      "id": "最终 complete(verifier_met)；served.txt 为 up；http.server 任务在 Goal 完成时仍为 running",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "served.txt": "up\n",
+        "serverTask": [
+          {
+            "taskId": "bg_758c042b-64fd-4308-ab93-ccaf33fb8636",
+            "kind": "bash",
+            "status": "running",
+            "createdAtMs": 1790868428082,
+            "updatedAtMs": 1790868450621,
+            "endedAtMs": null,
+            "parentTurnId": "turn_96238124-5323-440a-8e51-305a44ce60ec",
+            "description": "Start python http.server on port 8766 in background"
+          }
+        ],
+        "port8766": "200",
+        "taskStartedByGoalTurn": true
+      }
+    },
+    {
+      "id": "runtime 事件中没有该 Goal 的 deferred(required_background)",
+      "result": "PASS",
+      "detail": {
+        "deferredRequiredBackground": 0
+      }
+    }
+  ],
+  "info": {}
+}

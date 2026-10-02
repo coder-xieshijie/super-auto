@@ -1,0 +1,94 @@
+{
+  "scenario": "S11",
+  "attempt": "f1",
+  "evidenceDir": "S11/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225803-09dcdf",
+  "authCheck": {
+    "runId": "20261001-225803-09dcdf",
+    "kind": "runtime",
+    "startedAt": 1790866683381,
+    "endedAt": 1790866796211,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225803-09dcdf/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225803-09dcdf/server.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "2 次主执行请求同属一个 Turn：第1次带工具调 update_goal(complete)，第2次无工具纯文本",
+      "result": "PASS",
+      "detail": {
+        "calls": [
+          [
+            25,
+            [
+              "update_goal"
+            ]
+          ],
+          [
+            0,
+            []
+          ]
+        ]
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": [
+          {
+            "startedAtMs": 1790866698993,
+            "turnId": "turn_544f3a41-b9ea-4ce0-b5fd-e48639ba827f",
+            "mentionsCreateNewGoal": false,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": false,
+            "mentionsRequestBudget": false,
+            "responseText": [
+              "Done—the goal was marked complete, and no deliverable files were created or modified."
+            ],
+            "responseToolIntents": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "接口：工作 1、收尾 1",
+      "result": "PASS",
+      "detail": {
+        "work_requests": 1,
+        "grace_requests": 1,
+        "requests_used": 2
+      }
+    },
+    {
+      "id": "verification_dispatched 晚于第2次响应；verdict met；complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "dispatchedAt": 1790866701613,
+        "secondResponseEnd": 1790866700954,
+        "final": "complete(verifier_met)"
+      }
+    }
+  ]
+}

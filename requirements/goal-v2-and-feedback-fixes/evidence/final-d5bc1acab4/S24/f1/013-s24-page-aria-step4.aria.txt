@@ -1,0 +1,216 @@
+- alert
+- button "新建任务":
+  - img
+  - text: 新建任务 ⌘N
+- button "新建云端任务":
+  - img
+- button "插件·技能":
+  - img
+  - text: 插件·技能
+- button "定时":
+  - img
+  - text: 定时
+- button "网站":
+  - img
+  - text: 网站
+- button "远程":
+  - img
+  - text: 远程
+- radio "本地" [checked]
+- img
+- text: 本地
+- radio "云端"
+- img
+- text: 云端
+- button "项目" [expanded]:
+  - text: 项目
+  - img
+- button "筛选与分组":
+  - img
+- button "新建项目":
+  - img
+- button "未选项目" [disabled]:
+  - button "未选项目" [disabled]:
+    - img
+    - text: 未选项目
+    - button "新建任务":
+      - img
+- complementary "你的 Agents 现已移至插件":
+  - paragraph: 你的 Agents 现已移至插件
+  - button "关闭 Agents 引导":
+    - img
+  - button "立即查看"
+- status
+- text: MiniMax480534 Max
+- button "站内信，4 条未读消息":
+  - img
+- separator "Resize sidebar"
+- text: 创建包含 Hello 标题的 page.html
+- button:
+  - img
+- button "打开终端":
+  - img
+- button "工作区面板" [pressed]:
+  - img
+- button "侧边面板":
+  - img
+- img
+- text: Goal Create a file named page.html containing a heading that says Hello. 23:18
+- button "回退":
+  - img
+- button "复制":
+  - img
+- text: "共执行 12 秒 输出速度: 175 token/s"
+- paragraph: I'll check the workspace first, then create the file if needed.
+- button "思考 1 次, 查看 1 个文件, 执行 1 条命令":
+  - img
+  - text: 思考 1 次, 查看 1 个文件, 执行 1 条命令
+- paragraph: Workspace is empty — creating the file now.
+- button "编辑 1 个文件":
+  - img
+  - text: 编辑 1 个文件
+- paragraph: Verifying the file contents on disk.
+- button "思考 1 次, 查看 1 个文件":
+  - img
+  - text: 思考 1 次, 查看 1 个文件
+- paragraph: File confirmed on disk with the required heading. Marking the goal complete.
+- button "使用 1 个工具":
+  - img
+  - text: 使用 1 个工具
+- paragraph:
+  - text: Created
+  - code: page.html
+  - text: "in the workspace at:"
+- paragraph:
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231833-4cda00/data/sessions/mvs_4395ac5450f24d52a139e8cc8c68f81a/workspace/page.html": page.html
+- paragraph:
+  - text: It's a minimal, standards-compliant HTML document (229 bytes) with
+  - code: <meta charset>
+  - text: ", a viewport meta, a matching"
+  - code: <title>Hello</title>
+  - text: ", and the required heading"
+  - code: <h1>Hello</h1>
+  - text: in the body. I read the file back from disk after writing to confirm the content landed as intended — that was my own check, not a host-side verification. Open it directly in a browser to see the rendered "Hello" heading.
+- button "page.html — HTML page with a Hello heading": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "复制":
+  - img
+- button "点赞":
+  - img
+- button "点踩":
+  - img
+- button "复制为新会话":
+  - img
+- text: 23:18 Also make the heading text bold. 23:19
+- button "回退":
+  - img
+- button "复制":
+  - img
+- text: "已执行 11 秒 输出速度: 172 token/s"
+- button "思考 1 次":
+  - img
+  - text: 思考 1 次
+- paragraph: Adding bold styling to the heading.
+- button "编辑 1 个文件":
+  - img
+  - text: 编辑 1 个文件
+- paragraph: Checking the updated file.
+- button "查看 1 个文件":
+  - img
+  - text: 查看 1 个文件
+- paragraph:
+  - text: The heading is now explicitly bold.
+  - code: page.html
+  - text: (now 273 bytes) has a
+  - code: <style>
+  - text: block setting
+  - code: "h1 { font-weight: 700; }"
+  - text: ", so \"Hello\" renders bold in any browser regardless of the default UA stylesheet. I read the file back from disk to confirm the edit landed — that's my own check, not a host-side verification."
+- paragraph:
+  - text: The file is at
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231833-4cda00/data/sessions/mvs_4395ac5450f24d52a139e8cc8c68f81a/workspace/page.html": page.html
+  - text: . If you'd rather have bold applied inline (e.g.
+  - code: <h1><strong>Hello</strong></h1>
+  - text: ) or a different weight like 800, say the word and I'll switch it.
+- button "page.html — Hello heading with bold styling": page.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img
+- button "思考 1 次":
+  - img
+  - text: 思考 1 次
+- text: Use a blue color for the heading. 23:19
+- button "复制":
+  - img
+- text: 思考中...
+- button "跳转到第 1 条对话"
+- button "跳转到第 2 条对话"
+- button "单击跳转回答起点，双击跳转顶部":
+  - img
+- status:
+  - img
+  - text: 进行中
+  - button "Create a file named page.html containing a heading that says Hello."
+  - text: 3.9万 tokens 5 次请求 23s
+  - button "编辑":
+    - img
+  - button "暂停":
+    - img
+  - button "清除目标":
+    - img
+- paragraph: 问任何问题
+- group:
+  - button "添加附件或技能":
+    - img
+  - button "始终授权":
+    - img
+    - text: 始终授权
+  - button "上下文已使用 6%"
+  - button "选择模型 · M3.1-Flash-Preview · default"
+  - button:
+    - img
+  - button "停止生成"
+- paragraph: 内容由AI生成，重要信息请务必核查
+- complementary:
+  - button "进度":
+    - text: 进度
+    - img
+  - text: 跟踪较长任务的进度
+  - button "Subagents":
+    - text: Subagents
+    - img
+  - button "Goal verification":
+    - text: Goal verification
+    - img
+  - button "交付物":
+    - text: 交付物
+    - img
+  - button "workspace"
+  - button:
+    - img
+  - button:
+    - img
+  - button "page.html — HTML page with a Hello heading":
+    - img
+    - text: page.html — HTML page with a Hello heading
+- complementary "开发者面板":
+  - heading "拖动或使用方向键移动开发者面板" [level=2]:
+    - button "拖动或使用方向键移动开发者面板": 开发者面板
+  - button "展开开发者面板":
+    - img
+- complementary
+- button "收起侧边栏":
+  - img
+- button "搜索":
+  - img
+- tooltip "云端任务 New 关闭 显示同步到 Web 和 App 的任务":
+  - text: 云端任务 New
+  - button "关闭":
+    - img
+  - paragraph: 显示同步到 Web 和 App 的任务

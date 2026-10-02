@@ -1,0 +1,21 @@
+- paragraph:
+  - code: hello.html
+  - text: is created in the workspace at
+  - button "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html": hello.html
+  - text: (656 bytes).
+- paragraph:
+  - text: "It's a self-contained page: a"
+  - code: <main>
+  - text: element holding a single
+  - code: <h1>Hello Goal</h1>
+  - text: ", plus a short inline stylesheet that centers the heading on a light background. No external assets or scripts, so it opens directly by double-clicking the file or by serving the folder with any static file server."
+- paragraph:
+  - text: "The checks I ran myself: listed the directory to confirm the file and its size, and grepped the file to confirm the heading text at line 30 reads exactly"
+  - code: <h1>Hello Goal</h1>
+  - text: .
+- button "hello.html — page with the main heading “Hello Goal”": hello.html HTML
+- button "内置浏览器":
+  - img
+  - text: 内置浏览器
+- button "更多":
+  - img

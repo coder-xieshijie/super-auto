@@ -1,0 +1,88 @@
+{
+  "scenario": "S07",
+  "attempt": "f1",
+  "evidenceDir": "S07/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225502-3201e0",
+  "authCheck": {
+    "runId": "20261001-225502-3201e0",
+    "kind": "electron",
+    "startedAt": 1790866502601,
+    "endedAt": 1790867028865,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "新 goal_id 不同；请求数与 tokens = Inspector 中新 Goal 的条数与用量（含 verifier）",
+      "result": "PASS",
+      "detail": {
+        "old": "tg_ijk609i9j6mupnou2h",
+        "new": "tg_0n482vbiucmupnp0gm",
+        "requests_used": 2,
+        "inspectorNewMain": 2,
+        "tokens_used": 34311,
+        "newMainInOut": 2864,
+        "verifierInOut": 31447,
+        "verifierSnapshot": true
+      }
+    },
+    {
+      "id": "放行后没有以旧 goal_id 绑定的 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "releasedAt": 1790866533154,
+        "oldTurnBoundAfter": 0
+      }
+    },
+    {
+      "id": "收到旧回执 → 运行时记录丢弃；诊断中有旧 goal_id 迟到用量被丢弃的记录并写明原因",
+      "result": "PASS",
+      "detail": {
+        "requestDiscarded": [
+          "goal_deleted"
+        ],
+        "diagnosticDiscardedOldGoal": [
+          {
+            "requestId": "12cb6a22-1d22-4417-a893-820fb80c1134",
+            "phase": "discarded",
+            "discardReason": "goal_deleted",
+            "usage": {
+              "input": 27359,
+              "output": 109,
+              "cacheRead": 1924,
+              "cacheWrite": 0,
+              "incomplete": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

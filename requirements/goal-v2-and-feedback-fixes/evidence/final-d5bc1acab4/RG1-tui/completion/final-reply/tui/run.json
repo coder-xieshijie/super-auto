@@ -1,0 +1,18 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225122-731355",
+      "instanceEvidenceDir": "_runs/tui-lifecycle",
+      "files": [
+        "018-rg1final-completion.final-reply--screen.json",
+        "018-rg1final-completion.final-reply--screen.txt",
+        "019-rg1final-completion.final-reply--snap-inspector",
+        "019-rg1final-completion.final-reply--snap-runtime-events.jsonl",
+        "019-rg1final-completion.final-reply--snap-workspace",
+        "019-rg1final-completion.final-reply--snap-workspace.json",
+        "019-rg1final-completion.final-reply--snap.json",
+        "019-rg1final-completion.final-reply--snap.txt"
+      ]
+    }
+  ]
+}

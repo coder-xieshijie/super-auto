@@ -1,0 +1,424 @@
+{
+  "scenario": "RG1b",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runIds": {
+    "flow1": "20261001-230419-242783",
+    "flow2": "20261001-230428-817940"
+  },
+  "auth": {
+    "flow1": {
+      "runId": "20261001-230419-242783",
+      "contentSafety401": 0,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "refreshesDuringRun": 0,
+      "refreshesWhileElectronRunning": 0
+    },
+    "flow2": {
+      "runId": "20261001-230428-817940",
+      "contentSafety401": 0,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "refreshesDuringRun": 0,
+      "refreshesWhileElectronRunning": 0
+    }
+  },
+  "checks": [
+    {
+      "id": "flow1：进入 usage_limited(provider_quota)",
+      "result": "PASS",
+      "detail": {
+        "status": "usage_limited",
+        "status_reason": "usage_limited(provider_quota)"
+      }
+    },
+    {
+      "id": "flow1：第 1 次主执行请求放行（转发真实模型，completed）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867080691,
+          "role": "main",
+          "n": 1,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": -181.3
+        }
+      ]
+    },
+    {
+      "id": "flow1：第 2 次主执行请求起注入 429/2056 并带重置时间（第一次注入是 n=2，所有注入 n>=2、在重置时刻之前）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867081202,
+          "role": "main",
+          "n": 2,
+          "attempt": 1,
+          "outcome": "injected",
+          "status": 429,
+          "ruleId": "r1",
+          "resetAtMs": 1790867262000,
+          "rel_reset_s": -180.8
+        }
+      ]
+    },
+    {
+      "id": "flow1：重置时刻之后的主执行请求全部转发（没有注入）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867265270,
+          "role": "main",
+          "n": 3,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 3.3
+        },
+        {
+          "at": 1790867267116,
+          "role": "main",
+          "n": 4,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 5.1
+        },
+        {
+          "at": 1790867268754,
+          "role": "main",
+          "n": 5,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 6.8
+        },
+        {
+          "at": 1790867270346,
+          "role": "main",
+          "n": 6,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 8.3
+        },
+        {
+          "at": 1790867271954,
+          "role": "main",
+          "n": 7,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 10.0
+        },
+        {
+          "at": 1790867275636,
+          "role": "main",
+          "n": 8,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": 13.6
+        }
+      ]
+    },
+    {
+      "id": "flow1：重置时间之前一直是 usage_limited（poll --hold 到重置前约 3 秒）",
+      "result": "PASS",
+      "detail": "012-rg1b-flow1-hold-before-reset.json"
+    },
+    {
+      "id": "flow1：进入 usage_limited 之后、重置时间之前没有新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": []
+    },
+    {
+      "id": "flow1：重置时间之后恰好一个新的 goal.turn_bound（自动恢复）",
+      "result": "PASS",
+      "detail": [
+        {
+          "ts": 1790867262032,
+          "rel_reset_s": 0.0
+        }
+      ]
+    },
+    {
+      "id": "flow1：Goal 继续到终态 complete(verifier_met)",
+      "result": "PASS",
+      "detail": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "goal_id": "tg_3xheaz1j8gmupo0m87"
+      }
+    },
+    {
+      "id": "flow1：goal.* 事件类型序列与 rg1b-s17/baseline 对照（去掉本需求新增的 goal.request_settled 后逐条相同）",
+      "result": "PASS",
+      "detail": {
+        "final": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "finalWithoutRequestSettled": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "baseline": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "requestSettledCount": 8
+      }
+    },
+    {
+      "id": "flow1：goal.* 事件类型序列与 rg1b-s17/migration 对照（去掉本需求新增的 goal.request_settled 后逐条相同）",
+      "result": "PASS",
+      "detail": {
+        "final": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "finalWithoutRequestSettled": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "migration": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.verification_dispatched",
+          "goal.verification_child_started",
+          "goal.state_transitioned",
+          "goal.verification_decided",
+          "goal.worker_proposal_decided"
+        ],
+        "requestSettledCount": 8
+      }
+    },
+    {
+      "id": "flow2：进入 usage_limited(provider_quota)",
+      "result": "PASS",
+      "detail": {
+        "status": "usage_limited",
+        "status_reason": "usage_limited(provider_quota)"
+      }
+    },
+    {
+      "id": "flow2：第 1 次主执行请求放行（转发真实模型，completed）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867088357,
+          "role": "main",
+          "n": 1,
+          "attempt": 1,
+          "outcome": "completed",
+          "status": 200,
+          "ruleId": null,
+          "resetAtMs": null,
+          "rel_reset_s": -180.6
+        }
+      ]
+    },
+    {
+      "id": "flow2：第 2 次主执行请求起注入 429/2056 并带重置时间（第一次注入是 n=2，所有注入 n>=2、在重置时刻之前）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867088784,
+          "role": "main",
+          "n": 2,
+          "attempt": 1,
+          "outcome": "injected",
+          "status": 429,
+          "ruleId": "r1",
+          "resetAtMs": 1790867269000,
+          "rel_reset_s": -180.2
+        }
+      ]
+    },
+    {
+      "id": "flow2：重置时刻之后的主执行请求全部转发（没有注入）",
+      "result": "PASS",
+      "detail": []
+    },
+    {
+      "id": "flow2：DELETE 后直到重置时间之后 90 秒 GET .../goal 一直为 {}（poll --hold）",
+      "result": "PASS",
+      "detail": "014-rg1b-flow2-hold-after-reset.json"
+    },
+    {
+      "id": "flow2：最后 GET .../goal 为 {}",
+      "result": "PASS",
+      "detail": {}
+    },
+    {
+      "id": "flow2：没有属于旧 goal_id 的 goal.turn_bound（重置时间之后）",
+      "result": "PASS",
+      "detail": []
+    },
+    {
+      "id": "flow2：没有别的 Goal 被创建或恢复",
+      "result": "PASS",
+      "detail": []
+    },
+    {
+      "id": "flow2：重置时刻之后该会话没有主执行请求",
+      "result": "PASS",
+      "detail": []
+    },
+    {
+      "id": "flow2：goal.* 事件类型序列与 rg1b-s17/baseline 对照（去掉本需求新增的 goal.request_settled 后逐条相同）",
+      "result": "PASS",
+      "detail": {
+        "final": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "finalWithoutRequestSettled": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "baseline": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "requestSettledCount": 2
+      }
+    },
+    {
+      "id": "flow2：goal.* 事件类型序列与 rg1b-s17/migration 对照（去掉本需求新增的 goal.request_settled 后逐条相同）",
+      "result": "PASS",
+      "detail": {
+        "final": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.request_settled",
+          "goal.request_settled",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "finalWithoutRequestSettled": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "migration": [
+          "goal.created",
+          "goal.admission_decided",
+          "goal.turn_bound",
+          "goal.turn_settled",
+          "goal.state_transitioned"
+        ],
+        "requestSettledCount": 2
+      }
+    }
+  ]
+}

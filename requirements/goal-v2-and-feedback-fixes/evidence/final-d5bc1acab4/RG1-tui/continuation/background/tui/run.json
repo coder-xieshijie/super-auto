@@ -1,0 +1,22 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225235-b2f0d3",
+      "instanceEvidenceDir": "_runs/tui-continuation-bg",
+      "files": [
+        "001-rg1final-continuation.background--waiting-timeout.json",
+        "001-rg1final-continuation.background--waiting-timeout.txt",
+        "002-rg1final-continuation.background--complete.json",
+        "002-rg1final-continuation.background--complete.txt",
+        "003-rg1final-continuation.background--idle.json",
+        "003-rg1final-continuation.background--idle.txt",
+        "004-rg1final-continuation.background--snap-inspector",
+        "004-rg1final-continuation.background--snap-runtime-events.jsonl",
+        "004-rg1final-continuation.background--snap-workspace",
+        "004-rg1final-continuation.background--snap-workspace.json",
+        "004-rg1final-continuation.background--snap.json",
+        "004-rg1final-continuation.background--snap.txt"
+      ]
+    }
+  ]
+}

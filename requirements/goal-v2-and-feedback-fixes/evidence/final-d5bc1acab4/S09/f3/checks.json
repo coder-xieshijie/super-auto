@@ -1,0 +1,143 @@
+{
+  "scenario": "S09",
+  "attempt": "f3",
+  "evidenceDir": "S09/f3",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-230030-73575d",
+  "authCheck": {
+    "runId": "20261001-230030-73575d",
+    "kind": "tui",
+    "startedAt": 1790866830644,
+    "endedAt": 1790866925703,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230030-73575d/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230030-73575d/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S09/f3/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": false,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "前提：前 3 次各一个写文件工具调用",
+      "result": "UNVERIFIED",
+      "detail": {
+        "first3Tools": [
+          [
+            "bash"
+          ],
+          [],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "4 次主执行请求同属一个 Turn；前 3 带工具，第 4 次 tools 为空、纯文本",
+      "result": "FAIL",
+      "detail": {
+        "toolCounts": [
+          20,
+          20,
+          20,
+          0
+        ],
+        "responseTools": [
+          [
+            "bash"
+          ],
+          [],
+          [
+            "write"
+          ],
+          []
+        ]
+      }
+    },
+    {
+      "id": "第 3 次请求的写文件已执行：d3 在、d4 不在",
+      "result": "UNVERIFIED",
+      "detail": {
+        "workspace": [
+          "d1.txt"
+        ]
+      }
+    },
+    {
+      "id": "横幅 Budget limited、4 requests",
+      "result": "PASS",
+      "detail": {
+        "banner": [
+          "◎ Goal · Budget limited · 16s active",
+          "25K tokens · 4 requests"
+        ]
+      }
+    },
+    {
+      "id": "上限后无新 turn_bound；hold 期间没有该 Goal 的新模型请求（会话标题等辅助请求不计，verify 8b46dcd7）",
+      "result": "FAIL",
+      "detail": {
+        "turnBound": 2,
+        "goalMainAfterHold": 4,
+        "holdWindowMs": [
+          1790866856621,
+          1790866916994
+        ],
+        "goalMainInHold": 0,
+        "auxiliaryInHold": []
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（a2594f4fca：请求预算说 create a new goal，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": [
+          {
+            "startedAtMs": 1790866851562,
+            "turnId": "turn_db6033cd-cf31-493d-b128-cf6a28792d45",
+            "mentionsCreateNewGoal": true,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": false,
+            "mentionsRequestBudget": true,
+            "responseText": [
+              "Created and verified [d1.txt](/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230030-73575d/workspace/d1.txt), containing `1`.\n\n`d2.txt`"
+            ],
+            "responseToolIntents": []
+          }
+        ],
+        "status": [
+          "◎ Goal · Budget limited · 16s active"
+        ]
+      }
+    },
+    {
+      "id": "/goal resume 打印错误（Error）、无 Goal resumed.、无新 turn_bound",
+      "result": "FAIL",
+      "detail": {
+        "resumeMessage": [
+          "× Error  This Goal exhausted its execution budget. Clear it, then start a new Goal."
+        ],
+        "turnBoundAfterResume": 2
+      }
+    }
+  ],
+  "invalidReason": "verify S09 步骤 3 前提不满足（本次不计）：第 1 次请求是 bash，第 2 次请求只有文字没有工具调用，模型提前结束了第 1 个 Goal Turn，Goal 续跑到第 2 个 Turn；前 3 次请求为 bash、(无工具)、write(d1)"
+}

@@ -1,0 +1,250 @@
+{
+  "scenario": "S41",
+  "attempt": "f1",
+  "evidenceDir": "S41/api-f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-230010-371220",
+  "authCheck": {
+    "runId": "20261001-230010-371220",
+    "kind": "runtime",
+    "startedAt": 1790866810631,
+    "endedAt": 1790866922534,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230010-371220/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230010-371220/server.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "接口（步骤1）",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2,
+        "requests_used": 5,
+        "work_requests": 3,
+        "grace_requests": 1,
+        "legacy_turns": 6,
+        "reserved_requests": 0,
+        "unknown_requests": 1,
+        "usage_incomplete": true
+      }
+    },
+    {
+      "id": "事件（步骤2，PATCH objective 后的 thread_goal.updated）",
+      "result": "PASS",
+      "detail": {
+        "accountingVersion": 2,
+        "requestsUsed": 5,
+        "workRequests": 3,
+        "graceRequests": 1,
+        "legacyTurns": 6,
+        "reservedRequests": 0,
+        "unknownRequests": 1,
+        "usageIncomplete": true
+      }
+    },
+    {
+      "id": "Electron（步骤3）",
+      "result": "PASS",
+      "detail": {
+        "policy": "3300+ tokens\n5 次请求",
+        "tokens": "3300+ tokens",
+        "hover": "本目标请求 5（工作 3、收尾 1）· 升级前 6 轮 · 1 次发送状态未确认"
+      }
+    },
+    {
+      "id": "TUI（步骤4）",
+      "result": "PASS",
+      "detail": {
+        "summary": "Requests: 5 (work 3, wrap-up 1, unconfirmed 1) · 6 turns before upgrade · usage incomplete"
+      }
+    },
+    {
+      "id": "get_goal（步骤5）",
+      "result": "PASS",
+      "detail": {
+        "k": 1,
+        "got": {
+          "accountingVersion": 2,
+          "requestsUsed": 6,
+          "workRequests": 4,
+          "graceRequests": 1,
+          "legacyTurns": 6,
+          "reservedRequests": 0,
+          "unknownRequests": 1,
+          "usageIncomplete": true
+        },
+        "want": {
+          "accountingVersion": 2,
+          "requestsUsed": 6,
+          "workRequests": 4,
+          "graceRequests": 1,
+          "legacyTurns": 6,
+          "reservedRequests": 0,
+          "unknownRequests": 1,
+          "usageIncomplete": true
+        }
+      }
+    },
+    {
+      "id": "观察：步骤5 事件中的进行中预占（非检查点）",
+      "result": "INFO",
+      "detail": {
+        "threadGoalUpdated(receivedAt,status,requestsUsed,work,reserved)": [
+          [
+            1790866819785,
+            "paused",
+            5,
+            3,
+            0
+          ],
+          [
+            1790866822044,
+            "paused",
+            5,
+            3,
+            0
+          ],
+          [
+            1790866822161,
+            "active",
+            5,
+            3,
+            0
+          ],
+          [
+            1790866822358,
+            "active",
+            5,
+            3,
+            1
+          ],
+          [
+            1790866824993,
+            "active",
+            6,
+            4,
+            0
+          ],
+          [
+            1790866826080,
+            "active",
+            6,
+            4,
+            1
+          ],
+          [
+            1790866827754,
+            "active",
+            7,
+            5,
+            0
+          ],
+          [
+            1790866828447,
+            "active",
+            7,
+            5,
+            1
+          ],
+          [
+            1790866829503,
+            "active",
+            8,
+            6,
+            0
+          ],
+          [
+            1790866829570,
+            "active",
+            8,
+            6,
+            1
+          ],
+          [
+            1790866831472,
+            "active",
+            9,
+            7,
+            0
+          ],
+          [
+            1790866831856,
+            "active",
+            9,
+            7,
+            1
+          ],
+          [
+            1790866834034,
+            "active",
+            10,
+            8,
+            0
+          ],
+          [
+            1790866834457,
+            "active",
+            10,
+            8,
+            0
+          ],
+          [
+            1790866834461,
+            "active",
+            10,
+            8,
+            0
+          ],
+          [
+            1790866917356,
+            "active",
+            10,
+            8,
+            0
+          ],
+          [
+            1790866917360,
+            "complete",
+            10,
+            8,
+            0
+          ],
+          [
+            1790866917361,
+            "complete",
+            10,
+            8,
+            0
+          ]
+        ],
+        "maxReserved": 1,
+        "eventsWithReserved1": 5
+      }
+    },
+    {
+      "id": "CLI",
+      "result": "N/A",
+      "detail": "packages/tui/src/cli 没有输出 Goal 用量的命令"
+    }
+  ]
+}

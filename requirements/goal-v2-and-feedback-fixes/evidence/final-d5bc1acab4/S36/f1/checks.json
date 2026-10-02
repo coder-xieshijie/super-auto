@@ -1,0 +1,74 @@
+{
+  "scenario": "S36",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": null,
+  "evidence": "S35/f1（只读 quota show，无实例）",
+  "blindSpot": "B15",
+  "checks": [
+    {
+      "id": "步骤 1：额度受限与横幅文字",
+      "result": "UNVERIFIED",
+      "detail": {
+        "reason": "覆盖盲区 B15：Payment 测试台查不到当前登录账号，未执行任何额度设置",
+        "quotaShow": {
+          "quotaShowRc": 1,
+          "status": 502,
+          "body": "product.open_platform.user_core.GetGroupOwnerUserInfo 业务失败: code=1000, group 535878760497266695 not found (trace_id=token-plan-531d8789d9e34ceb9b09d3c1b10dd07d)",
+          "requests": [
+            "state"
+          ],
+          "writes": 0
+        }
+      }
+    },
+    {
+      "id": "步骤 2：一个新 turn_bound、先 Goal resumed. 后额度错误",
+      "result": "UNVERIFIED",
+      "detail": {
+        "reason": "覆盖盲区 B15：Payment 测试台查不到当前登录账号，未执行任何额度设置",
+        "quotaShow": {
+          "quotaShowRc": 1,
+          "status": 502,
+          "body": "product.open_platform.user_core.GetGroupOwnerUserInfo 业务失败: code=1000, group 535878760497266695 not found (trace_id=token-plan-531d8789d9e34ceb9b09d3c1b10dd07d)",
+          "requests": [
+            "state"
+          ],
+          "writes": 0
+        }
+      }
+    },
+    {
+      "id": "步骤 3：/retry 打印 Goal resumed.、Goal complete、count.txt",
+      "result": "UNVERIFIED",
+      "detail": {
+        "reason": "覆盖盲区 B15：Payment 测试台查不到当前登录账号，未执行任何额度设置",
+        "quotaShow": {
+          "quotaShowRc": 1,
+          "status": 502,
+          "body": "product.open_platform.user_core.GetGroupOwnerUserInfo 业务失败: code=1000, group 535878760497266695 not found (trace_id=token-plan-531d8789d9e34ceb9b09d3c1b10dd07d)",
+          "requests": [
+            "state"
+          ],
+          "writes": 0
+        }
+      }
+    },
+    {
+      "id": "步骤 4：5h 回读 20%、Credits 复原",
+      "result": "UNVERIFIED",
+      "detail": {
+        "reason": "覆盖盲区 B15：Payment 测试台查不到当前登录账号，未执行任何额度设置",
+        "quotaShow": {
+          "quotaShowRc": 1,
+          "status": 502,
+          "body": "product.open_platform.user_core.GetGroupOwnerUserInfo 业务失败: code=1000, group 535878760497266695 not found (trace_id=token-plan-531d8789d9e34ceb9b09d3c1b10dd07d)",
+          "requests": [
+            "state"
+          ],
+          "writes": 0
+        }
+      }
+    }
+  ]
+}

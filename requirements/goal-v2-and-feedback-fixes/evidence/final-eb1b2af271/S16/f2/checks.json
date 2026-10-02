@@ -1,0 +1,130 @@
+{
+  "scenario": "S16",
+  "attempt": "f2",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-003617-dd21fd",
+  "evidenceDir": "S16/f2",
+  "auth": [
+    {
+      "runId": "20261002-003617-dd21fd",
+      "kind": "electron",
+      "startedAt": 1790872577278,
+      "endedAt": 1790872754681,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003617-dd21fd/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003617-dd21fd/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f2/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f2/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "runningBashTasks": [
+        {
+          "taskId": "bg_2813c15b-7158-4ff2-b2c9-704da62172c7",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790872600792,
+          "updatedAtMs": 1790872600795,
+          "endedAtMs": null,
+          "parentTurnId": "8926c7de-1da1-4ea5-a2e8-5be5668cd7f7",
+          "description": "Start python http.server on port 8767 in background"
+        }
+      ],
+      "port8767": "200",
+      "statusBeforeResume": "paused(user_requested)",
+      "sentFromComposer": true
+    }
+  },
+  "checks": [
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound，且只有一个（两次快速点击）",
+      "result": "PASS",
+      "detail": {
+        "mode": "nohold",
+        "clicks": {
+          "1": {
+            "startAtOffsetMs": 16,
+            "endAtOffsetMs": 94,
+            "ok": true,
+            "error": null
+          },
+          "2": {
+            "startAtOffsetMs": 71,
+            "endAtOffsetMs": 5277,
+            "ok": false,
+            "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByTestId('thread-goal-banner-resume').first()\n"
+          }
+        },
+        "bothClicksReachedButton": false,
+        "resumePatchRequests": [
+          {
+            "seq": 1,
+            "at": 70,
+            "held": false,
+            "body": "{\"status\":\"active\",\"expected_goal_id\":\"tg_o69msb69l9muprawhm\",\"expected_updated_at\":1790872593521}"
+          }
+        ],
+        "heldAfterBothClicks": [],
+        "releaseAtOffsetMs": null,
+        "turnBoundAfterClickMs": [
+          79
+        ],
+        "within10s": 1,
+        "resumeButtonAfterClicks": 0,
+        "toasts": []
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，step.txt 为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "step.txt": "1"
+      }
+    },
+    {
+      "id": "不得出现：恢复后 active、无新 turn_bound、wait_reason 为空持续 30 秒以上",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAfterReachMs": 79,
+        "activeNoWaitSamples": 4
+      }
+    }
+  ],
+  "info": {
+    "s16Clicks": {
+      "1": {
+        "startAtOffsetMs": 16,
+        "endAtOffsetMs": 94,
+        "ok": true,
+        "error": null
+      },
+      "2": {
+        "startAtOffsetMs": 71,
+        "endAtOffsetMs": 5277,
+        "ok": false,
+        "error": "locator.click: Timeout 5000ms exceeded.\nCall log:\n  - waiting for getByTestId('thread-goal-banner-resume').first()\n"
+      }
+    }
+  }
+}

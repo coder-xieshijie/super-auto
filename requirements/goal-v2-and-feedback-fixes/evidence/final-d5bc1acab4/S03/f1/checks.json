@@ -1,0 +1,154 @@
+{
+  "scenario": "S03",
+  "attempt": "f1",
+  "evidenceDir": "S07/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225502-3201e0",
+  "authCheck": {
+    "runId": "20261001-225502-3201e0",
+    "kind": "electron",
+    "startedAt": 1790866502601,
+    "endedAt": 1790867028865,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤2：首个 Goal Turn 结算前请求数 >= 3、token > 0",
+      "result": "PASS",
+      "detail": {
+        "at": 1790866622542,
+        "requests": 3,
+        "tokens": 28295,
+        "firstTurnSettled": 1790866684201
+      }
+    },
+    {
+      "id": "步骤3：横幅请求数与接口一致；重载后一致且不小于重载前",
+      "result": "PASS",
+      "detail": {
+        "bannerBefore": "2.8万 tokens\n3 次请求",
+        "apiBefore": 3,
+        "bannerAfter": "2.8万 tokens\n3 次请求",
+        "apiAfter": 3
+      }
+    },
+    {
+      "id": "get_goal 结果的请求数 = 截至该次请求的 Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "(inspectorUpTo, get_goal.requestsUsed)": [
+          [
+            12,
+            12
+          ],
+          [
+            17,
+            17
+          ]
+        ]
+      }
+    },
+    {
+      "id": "终态：请求数 = Inspector Goal 主执行请求条数",
+      "result": "PASS",
+      "detail": {
+        "requests_used": 20,
+        "inspector": 20,
+        "status": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "补充消息（输入框默认排队发送）那一轮的模型请求不在 Goal 主执行请求中，请求数不包含它；助手回复为 4",
+      "result": "PASS",
+      "detail": {
+        "replaceDialogShown": false,
+        "sentAt": 1790866625844,
+        "firstRequestWithSupplement": {
+          "turnId": "turn_bb3016e2-8475-469e-b716-152a9824db35",
+          "startedAt": 1790866805516,
+          "goalBound": false
+        },
+        "requestsWithSupplement": 5,
+        "reply": "4",
+        "requests_used": 20,
+        "goalMain": 20,
+        "queueAfterSend": [
+          {
+            "item_id": "queue_f6f3b6cf-0664-40c4-b04f-79261d7ea5fb",
+            "session_id": "mvs_668d39745e1b4cd6b231f7fe77d97a93",
+            "status": "queued",
+            "source": "api",
+            "content": "What is 2 + 2? Reply with only the number.",
+            "attachments": [],
+            "model_info": {
+              "provider_id": "minimax",
+              "model_id": "MiniMax-M3.1-Flash-Preview",
+              "context_limit": 512000,
+              "reasoning": true,
+              "thinking": {
+                "effort": "default"
+              }
+            },
+            "created_at": 1790866625925
+          }
+        ]
+      }
+    },
+    {
+      "id": "verifier 请求不计入请求数；tokens 增量 = verifier 输入+输出之和（多次验证时加上其间主执行请求的用量）",
+      "result": "PASS",
+      "detail": {
+        "tokensAtVerification": 31842,
+        "final": 118282,
+        "delta": 86440,
+        "verifierInOut": 83255,
+        "verifierChildren": 2,
+        "mainRequestsAfterFirstVerification": 4,
+        "mainAfterInOut": 3185,
+        "finalStatus": "complete(verifier_met)"
+      }
+    },
+    {
+      "id": "accountingVersion 为 2",
+      "result": "PASS",
+      "detail": {
+        "accounting_version": 2
+      }
+    },
+    {
+      "id": "不得出现：第一个 Goal Turn 结算前横幅显示“0 次请求”或“0 tokens”（步骤3 读数早于首个 turn_settled）",
+      "result": "PASS",
+      "detail": {
+        "bannerBefore": "2.8万 tokens\n3 次请求",
+        "firstTurnSettled": 1790866684201
+      }
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "scenario": "X1",
+  "attempt": "f3",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-012840-104372",
+  "evidenceDir": "X1/f3",
+  "auth": [
+    {
+      "runId": "20261002-012840-104372",
+      "kind": "electron",
+      "startedAt": 1790875720156,
+      "endedAt": 1790876363562,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-012840-104372/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-012840-104372/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f3/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f3/runtime-logs/im-runtime-2026100201.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f3/runtime-logs/runtime-2026100201.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "step2": {
+        "queuedInDb": 1,
+        "inHistory": 0,
+        "goalTurnOpen": "open:turn_69fbbe6b-9d1c-4e52-8f88-0edd1998d477"
+      },
+      "bashAtStop": "running:turn_b69a8e7d-cad0-46fd-b244-5b742202ddea:1790875856134",
+      "queueBeforeStop": {
+        "pause": null,
+        "items": [
+          [
+            "queued",
+            "thread-goal",
+            {
+              "type": "thread-goal-continuation",
+              "goalId": "tg_bqim5jx1x3mupt6avz",
+              "goalUpdatedAt": 1790875851094,
+              "objectiveDigest": "694e982640fec764fc744c3580cae19197c01595a218dded3b9b5d2aa6d27efd",
+              "kind": "active"
+            }
+          ]
+        ]
+      },
+      "queueStep4": {
+        "pause": null,
+        "threadGoalItems": [],
+        "items": []
+      },
+      "threadGoalItemBeforeStop": true,
+      "userStopPathExercised": false
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤4：停止后 Goal 为 paused(user_requested)",
+      "result": "PASS",
+      "detail": {
+        "status": "paused",
+        "status_reason": "paused(user_requested)"
+      }
+    },
+    {
+      "id": "步骤4：队列 pause.cause 为 user-stop，队列里有该 Goal 的 thread-goal 项",
+      "result": "FAIL",
+      "detail": {
+        "pause": null,
+        "threadGoalItems": [],
+        "items": []
+      }
+    },
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "resumeVia": "continue-button",
+        "clickAtMs": 1790875859697,
+        "turnBound": {
+          "turnId": "turn_b06f7db5-c4ff-4a47-a119-d96f3d5134d6",
+          "tsMs": 1790875859843,
+          "goalId": "tg_bqim5jx1x3mupt6avz"
+        },
+        "latencyMs": 146,
+        "goalId": "tg_bqim5jx1x3mupt6avz"
+      }
+    },
+    {
+      "id": "队列 pause 被清除",
+      "result": "PASS",
+      "detail": {
+        "pauseStep4": null,
+        "pauseAfterResume": null,
+        "pauseFinal": null,
+        "firstSampleWithoutPauseAfterClick": 1790875859746,
+        "samplesWithPauseAfterClick": 0,
+        "note": "pause was never written in this run"
+      }
+    },
+    {
+      "id": "Goal 最终 complete(verifier_met)，a.txt、b.txt 都在",
+      "result": "PASS",
+      "detail": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "a.txt": "a\n",
+        "b.txt": "b\n"
+      }
+    },
+    {
+      "id": "全程没有“active、无 Goal Turn、无等待原因”超过 10 秒（没有普通 Turn 在跑时）",
+      "result": "FAIL",
+      "detail": {
+        "longestIdleMs": 300094,
+        "idleSpans>=3s": [
+          [
+            1790875890114,
+            1790876190208
+          ]
+        ],
+        "samples": 907,
+        "strictLongestMs(包括普通 Turn 运行期间)": 300094,
+        "strictSpans>=3s": [
+          [
+            1790875851439,
+            1790875857010
+          ],
+          [
+            1790875890114,
+            1790876190208
+          ]
+        ]
+      }
+    }
+  ]
+}

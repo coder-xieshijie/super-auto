@@ -1,0 +1,198 @@
+{
+  "scenario": "S29",
+  "attempt": "f2",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-230904-cce856",
+  "evidenceDir": "S29/f2",
+  "auth": [
+    {
+      "runId": "20261001-230904-cce856",
+      "kind": "electron",
+      "startedAt": 1790867344345,
+      "endedAt": 1790867706009,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230904-cce856/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230904-cce856/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S29/f2/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": false,
+    "detail": {
+      "waitReasonReached": true,
+      "subagent": [
+        {
+          "taskId": "bg_c0c7ae34-dd10-4e92-a33f-223452807510",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790867382161,
+          "updatedAtMs": 1790867382271,
+          "endedAtMs": null,
+          "parentTurnId": "turn_c360ab01-df48-4b52-8d56-16ebebcf95bb",
+          "description": "Write sub-done marker after 40s"
+        }
+      ],
+      "sideTurn": "turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+      "sideTurnGoalBound": false,
+      "reply": "42",
+      "sideTurnLastMessageAtMs": 1790867390124,
+      "leftSessionAAtMs": 1790867391213,
+      "sideTurnEndedAfterLeavingA": false
+    }
+  },
+  "checks": [
+    {
+      "id": "会话 A 的 Goal 有至少 2 个 Goal Turn",
+      "result": "PASS",
+      "detail": {
+        "goalTurnBound": 2
+      }
+    },
+    {
+      "id": "会话 A 的通知共 2 条：普通轮“等待你的确认”与“目标已完成”，标题都为会话 A 的标题",
+      "result": "FAIL",
+      "detail": {
+        "titleA": "Start background task writing sub.txt",
+        "notificationsA": [
+          [
+            "Start background task writing sub.txt",
+            "目标已完成",
+            1790867540317
+          ]
+        ],
+        "allShown": [
+          [
+            "mvs_bedca75bf6a043d0806a1869dc3c4b06",
+            "Start background task writing sub.txt",
+            "目标已完成"
+          ]
+        ],
+        "requestedNotShownA": []
+      }
+    },
+    {
+      "id": "除这两条外没有会话 A 的通知（Goal Turn 结束时没有通知）",
+      "result": "FAIL",
+      "detail": {
+        "countA": 1,
+        "perNotificationTurn": [
+          {
+            "body": "目标已完成",
+            "shownAtMs": 1790867540317,
+            "data": {
+              "sessionId": "mvs_bedca75bf6a043d0806a1869dc3c4b06",
+              "source": "local",
+              "action": "navigate_to_session"
+            },
+            "turn": {
+              "turnId": "turn_d0396a37-db94-4ca3-ba79-a356f15b242d",
+              "first": 1790867438136,
+              "last": 1790867445543,
+              "source": "thread-goal",
+              "queryKey": "goal:tg_0b9m322ufwmupo6yl5:turn:turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+              "firstRole": "assistant",
+              "firstText": "The background subagent just finished — let me read its result and verify the fi",
+              "goalBound": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "点击“目标已完成”通知后界面进入会话 A",
+      "result": "PASS",
+      "detail": {
+        "clicked": {
+          "ok": true,
+          "sessionId": "mvs_bedca75bf6a043d0806a1869dc3c4b06",
+          "body": "目标已完成",
+          "title": "Start background task writing sub.txt",
+          "clickedAtMs": 1790867549283,
+          "url": "app://./archon"
+        },
+        "bannerObjectiveAfterClick": "Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only when sub.txt contains sub-done.",
+        "homeBeforeClick": true
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "notify_completed",
+        "expected": "目标已完成",
+        "seen": "目标已完成",
+        "exact": true
+      }
+    ],
+    "s29NotificationTurns": [
+      {
+        "body": "目标已完成",
+        "shownAtMs": 1790867540317,
+        "data": {
+          "sessionId": "mvs_bedca75bf6a043d0806a1869dc3c4b06",
+          "source": "local",
+          "action": "navigate_to_session"
+        },
+        "turn": {
+          "turnId": "turn_d0396a37-db94-4ca3-ba79-a356f15b242d",
+          "first": 1790867438136,
+          "last": 1790867445543,
+          "source": "thread-goal",
+          "queryKey": "goal:tg_0b9m322ufwmupo6yl5:turn:turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+          "firstRole": "assistant",
+          "firstText": "The background subagent just finished — let me read its result and verify the fi",
+          "goalBound": true
+        }
+      }
+    ],
+    "s29Turns": [
+      {
+        "turnId": "turn_c360ab01-df48-4b52-8d56-16ebebcf95bb",
+        "first": 1790867370141,
+        "last": 1790867387263,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_0b9m322ufwmupo6yl5:turn:turn_c360ab01-df48-4b52-8d56-16ebebcf95bb",
+        "firstRole": "user",
+        "firstText": "Start a background subagent task (task tool, run in background) that waits 40 se"
+      },
+      {
+        "turnId": "turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+        "first": 1790867389057,
+        "last": 1790867390124,
+        "source": "api",
+        "queryKey": "goal:tg_0b9m322ufwmupo6yl5:turn:turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+        "firstRole": "user",
+        "firstText": "What is 17 + 25? Answer with just the number."
+      },
+      {
+        "turnId": "turn_d0396a37-db94-4ca3-ba79-a356f15b242d",
+        "first": 1790867438136,
+        "last": 1790867445543,
+        "source": "thread-goal",
+        "queryKey": "goal:tg_0b9m322ufwmupo6yl5:turn:turn_e7877503-cd70-462c-abd4-dc5b0a77755f",
+        "firstRole": "assistant",
+        "firstText": "The background subagent just finished — let me read its result and verify the fi"
+      }
+    ],
+    "s29GoalA": "complete(verifier_met)"
+  }
+}

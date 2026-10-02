@@ -1,0 +1,17 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225555-b0cc6f",
+      "instanceEvidenceDir": "_runs/tui-limits",
+      "files": [
+        "004-rg1final-limits.resume-rejected--still-limited.json",
+        "004-rg1final-limits.resume-rejected--still-limited.txt",
+        "005-rg1final-limits.resume-rejected--snap-inspector",
+        "005-rg1final-limits.resume-rejected--snap-runtime-events.jsonl",
+        "005-rg1final-limits.resume-rejected--snap-workspace.json",
+        "005-rg1final-limits.resume-rejected--snap.json",
+        "005-rg1final-limits.resume-rejected--snap.txt"
+      ]
+    }
+  ]
+}

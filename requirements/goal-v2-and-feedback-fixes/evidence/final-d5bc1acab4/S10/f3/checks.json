@@ -1,0 +1,122 @@
+{
+  "scenario": "S10",
+  "attempt": "f3",
+  "evidenceDir": "S10/f3",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-231231-d13a04",
+  "authCheck": {
+    "runId": "20261001-231231-d13a04",
+    "kind": "electron",
+    "startedAt": 1790867551459,
+    "endedAt": 1790867667656,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231231-d13a04/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231231-d13a04/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S10/f3/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S10/f3/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S10/f3/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "前提（S09 步骤3）：前 3 次各一个写文件工具调用",
+      "result": "PASS",
+      "detail": {
+        "first3Tools": [
+          [
+            "write"
+          ],
+          [
+            "write"
+          ],
+          [
+            "write"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "横幅“4 次请求”；悬停含“工作 3、收尾 1”",
+      "result": "PASS",
+      "detail": {
+        "policy": "3.7万 tokens\n4 次请求",
+        "hover": "本目标请求 4（工作 3、收尾 1）"
+      }
+    },
+    {
+      "id": "横幅“已达上限”，提示“创建新目标后继续”，无额度恢复文案",
+      "result": "PASS",
+      "detail": {
+        "status": "已达上限",
+        "guide": "创建新目标后继续"
+      }
+    },
+    {
+      "id": "continue-button 为 0",
+      "result": "PASS",
+      "detail": {
+        "count": 0
+      }
+    },
+    {
+      "id": "队列无预算总结项；hold 无新 Turn",
+      "result": "PASS",
+      "detail": {
+        "queue": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        },
+        "turnBound": 1
+      }
+    },
+    {
+      "id": "观察：收尾请求的收尾说明（a2594f4fca，非检查点）",
+      "result": "INFO",
+      "detail": {
+        "wrapUp": [
+          {
+            "startedAtMs": 1790867582128,
+            "turnId": "turn_13567a49-c5d4-4efc-82f6-1f433b56edbd",
+            "mentionsCreateNewGoal": true,
+            "mentionsOldRaiseOrClearBudget": false,
+            "mentionsTokenBudget": false,
+            "mentionsRequestBudget": true,
+            "responseText": [
+              "Created successfully:\n\n- `d1.txt` containing `1`\n- `d2.txt` containing `2`\n- `d3.txt` containing `3`\n\nStill incomplete: `d4.txt` and `d5.txt`.\n\nExecution stoppe"
+            ],
+            "responseToolIntents": []
+          }
+        ]
+      }
+    },
+    {
+      "id": "步骤5：回复 11；Goal 仍 budget_limited，objective 不变，横幅仍“已达上限”",
+      "result": "PASS",
+      "detail": {
+        "reply": "11",
+        "status": "budget_limited(main_turn)",
+        "bannerAfter": "已达上限"
+      }
+    }
+  ]
+}

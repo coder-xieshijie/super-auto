@@ -1,0 +1,107 @@
+{
+  "scenario": "S27",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-225635-cea752",
+  "evidenceDir": "S27/f1",
+  "auth": [
+    {
+      "runId": "20261001-225635-cea752",
+      "kind": "electron",
+      "startedAt": 1790866595546,
+      "endedAt": 1790866737636,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225635-cea752/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225635-cea752/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S27/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S27/f1/runtime-logs/im-runtime-2026100122.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S27/f1/runtime-logs/runtime-2026100122.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "firstDispatchedAt": 1790866638767,
+      "supplementSentAt": 1790866640497,
+      "decidedBeforeSend": 0
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：continue-button 数量为 0",
+      "result": "PASS",
+      "detail": {
+        "continueButton": 0
+      }
+    },
+    {
+      "id": "第一次校验的 verdict 没有被接受（disposition 不是 accepted，或没有 decided）",
+      "result": "PASS",
+      "detail": {
+        "firstVerificationDecided": [
+          {
+            "goalId": "tg_n6xnq4oyepmupnqu2b",
+            "sessionId": "mvs_7db19d60ca3240f1bb1b58a8afb60eb4",
+            "turnId": "turn_fcfebe1b-b503-4510-b0b4-3af03d103459",
+            "backend": "subagent",
+            "source": "verifier",
+            "verdict": "met",
+            "disposition": "stale",
+            "reportedTokens": "****",
+            "activeSeconds": 21,
+            "childTurns": 3,
+            "childSessionId": "mvs_6c3931fa0cf44867a211a2df53f03531",
+            "childTurnId": "turn_task_bg_bg_212fafd2-c451-4b43-9656-d15fe3469608",
+            "reasonPresent": true,
+            "missingCount": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "补充消息之后有新的 Goal Turn，并有第二次 goal.verification_dispatched",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterSendMs": [
+          18993
+        ],
+        "verificationDispatched": [
+          -1730,
+          35076
+        ]
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)；count.txt 最后一行为 end",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "count.txt": [
+          "1",
+          "2",
+          "3",
+          "end"
+        ],
+        "replaceDialog": false
+      }
+    }
+  ],
+  "info": {}
+}

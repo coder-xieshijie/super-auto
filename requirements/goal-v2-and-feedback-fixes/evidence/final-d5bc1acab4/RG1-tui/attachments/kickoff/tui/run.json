@@ -1,0 +1,24 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225651-dd5d99",
+      "instanceEvidenceDir": "_runs/tui-attachments",
+      "files": [
+        "001-rg1final-attachments.kickoff--pasted.json",
+        "001-rg1final-attachments.kickoff--pasted.txt",
+        "002-rg1final-attachments.kickoff--started.json",
+        "002-rg1final-attachments.kickoff--started.txt",
+        "003-rg1final-attachments.kickoff--terminal.json",
+        "003-rg1final-attachments.kickoff--terminal.txt",
+        "004-rg1final-attachments.kickoff--idle.json",
+        "004-rg1final-attachments.kickoff--idle.txt",
+        "005-rg1final-attachments.kickoff--snap-inspector",
+        "005-rg1final-attachments.kickoff--snap-runtime-events.jsonl",
+        "005-rg1final-attachments.kickoff--snap-workspace",
+        "005-rg1final-attachments.kickoff--snap-workspace.json",
+        "005-rg1final-attachments.kickoff--snap.json",
+        "005-rg1final-attachments.kickoff--snap.txt"
+      ]
+    }
+  ]
+}

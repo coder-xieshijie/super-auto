@@ -59,7 +59,7 @@ S_BLOCKED=$(m2_session "s02 blocked" s02-blocked-session)
 m2_goal_create "$S_BLOCKED" "$OBJ_BLOCKED" s02-blocked-create >/dev/null
 # 4 usage_limited(provider_quota)：第 2 次主执行请求起返回带可信重置时间（1 小时后）的额度错误
 S_USAGE=$(m2_session "s02 usage" s02-usage-session)
-vr fault add --session "$S_USAGE" --nth 2- --preset usage-limit-reset --reset-in 3600 --note "S02 usage_limited(provider_quota)" --save fault-rule-usage >/dev/null
+vr fault add --session "$S_USAGE" --nth 2- --preset usage-limit-reset --reset-in "${M2_S02_RESET_IN:-3600}" --note "S02 usage_limited(provider_quota)" --save fault-rule-usage >/dev/null
 m2_goal_create "$S_USAGE" "$OBJ_USAGE" s02-usage-create >/dev/null
 # 5 budget_limited(token)：挂起该会话的每个主执行请求，Goal 仍 active 时放行；Goal 已是 budget_limited 时
 #   挂起的就是基线另排的预算总结轮次的请求，不放行，停机时它没有执行

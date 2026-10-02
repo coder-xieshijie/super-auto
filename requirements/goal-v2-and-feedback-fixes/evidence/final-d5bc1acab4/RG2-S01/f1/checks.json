@@ -1,0 +1,195 @@
+{
+  "scenario": "RG2-S01",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-232652-eb4a69",
+  "session": "mvs_59d9e09ad78c4fa8a7fc2d695be90ab5",
+  "valid": true,
+  "auth": [
+    {
+      "runId": "20261001-232652-eb4a69",
+      "kind": "electron",
+      "startedAt": 1790868412693,
+      "endedAt": 1790868495868,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/RG2-S01/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/RG2-S01/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/RG2-S01/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "checks": [
+    {
+      "id": "接口 goal：complete、complete(verifier_met)、last_verification.backend=subagent",
+      "result": "PASS",
+      "actual": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "backend": "subagent",
+        "verdict": "met"
+      }
+    },
+    {
+      "id": "历史：update_goal(complete) 结果之后同一 turn 还有助手文字；Inspector 中该工具结果之后有一次模型请求",
+      "result": "PASS",
+      "actual": {
+        "turnId": "turn_9615753f-4956-4eb4-bb16-112ef5fa2a88",
+        "messagesAfterCompletion": [
+          {
+            "role": "assistant",
+            "timestamp": 1790868449221,
+            "text": "`hello.html` is created in the workspace at `/var/folders/pm/2zy2y3rd3tdd5j7yzlg"
+          }
+        ],
+        "requestAfterCompletion": {
+          "callId": "0a89c657-afc8-4d25-afb3-8efbef35e213",
+          "startedAtMs": 1790868446303,
+          "sameTurn": true,
+          "completionResultIsLastMessage": true
+        },
+        "requestsAfterCompletionInTurn": 1,
+        "toolCallsAfterCompletion": []
+      }
+    },
+    {
+      "id": "runtime 事件：goal.verification_dispatched 晚于最终回复",
+      "result": "PASS",
+      "actual": {
+        "finalReplyAt": 1790868449221,
+        "turnSettledAt": 1790868449456,
+        "verificationDispatchedAt": 1790868449459,
+        "finalReplyBeforeDispatch": true
+      }
+    },
+    {
+      "id": "assistant-segment-active 的文字与最终回复一致（去掉 Markdown 记号与交付标记后：渲染正文的词都来自最终回复、开头 60 字相同）",
+      "result": "PASS",
+      "actual": {
+        "wordContainment": 0.99,
+        "headSame": true,
+        "similarity": 0.864,
+        "bodyHead": "hello.html is created in the workspace at \nhello.html\n (656 bytes).\n\nIt's a self-contained page: a <main> element holding a single <h1>Hello Goal</h1>, plus a short inline stylesheet that centers the heading on a light background. No external assets or scripts, so it opens directly by double-clickin",
+        "finalReplyHead": "`hello.html` is created in the workspace at `/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html` (656 bytes).\n\nIt's a self-contained page: a `<main>` element holding a single `<h1>Hello Goal</h",
+        "finalReplyAsDisplayedHead": "`hello.html` is created in the workspace at `hello.html` (656 bytes).\n\nIt's a self-contained page: a `<main>` element holding a single `<h1>Hello Goal</h1>`, plus a short inline stylesheet that centers the heading on a light background. No external assets or scripts, so it opens directly by double-c"
+      }
+    },
+    {
+      "id": "最终回复原始正文（不含代码块与行内代码）有指向 hello.html 的交付标记和路径",
+      "result": "PASS",
+      "actual": {
+        "src": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html"
+      }
+    },
+    {
+      "id": "未展开过程区时，默认可见的结果区有 hello.html 的交付卡片",
+      "result": "PASS",
+      "actual": {
+        "bodyCards": 1,
+        "liftedArea": 0,
+        "liftedCards": 0
+      }
+    },
+    {
+      "id": "点击卡片后应用内预览打开的是 hello.html（地址/标题）；内容读不到时按 B6 看快照中 hello.html 的主标题",
+      "result": "PASS",
+      "actual": {
+        "click": true,
+        "tabTitle": "Hello Goal",
+        "address": ":///var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html",
+        "workspaceH1": "Hello Goal",
+        "previewContent": "B6：内嵌浏览器内容 Playwright 读不到，按 B6 判断"
+      }
+    },
+    {
+      "id": "展开过程区后整条消息中 hello.html 的卡片只有 1 张",
+      "result": "PASS",
+      "actual": 1
+    },
+    {
+      "id": "goal-completion-marker 为“目标已完成 用时 …”；thread-goal-banner-status 为“已完成”",
+      "result": "PASS",
+      "actual": {
+        "marker": "目标已完成 用时 16s",
+        "banner": "已完成"
+      }
+    },
+    {
+      "id": "workspace-panel 中 hello.html 只出现 1 次",
+      "result": "PASS",
+      "actual": {
+        "count": 1,
+        "panelText": "进度\n跟踪较长任务的进度\nSubagents\nGoal verification\n交付物\nworkspace\nhello.html — page with the main heading “Hello Goal”"
+      }
+    },
+    {
+      "id": "重载后正文、结果区卡片、展开后卡片数、workspace-panel 条目与重载前相同",
+      "result": "PASS",
+      "actual": {
+        "same": {
+          "body": true,
+          "bodyCards": true,
+          "liftedCards": true,
+          "expanded": true,
+          "panelCount": true,
+          "panelText": true
+        },
+        "reload": {
+          "reloadOk": null,
+          "bodyCards": 1,
+          "liftedCards": 0,
+          "expanded": 1,
+          "panelCount": 1
+        }
+      }
+    },
+    {
+      "id": "独立判断（机械部分）：最终回复说明了 hello.html 及其位置；没有“已通过验证”一类表述",
+      "result": "PASS",
+      "actual": {
+        "mentionsHello": true,
+        "claims": [],
+        "finalReply": "`hello.html` is created in the workspace at `/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html` (656 bytes).\n\nIt's a self-contained page: a `<main>` element holding a single `<h1>Hello Goal</h1>`, plus a short inline stylesheet that centers the heading on a light background. No external assets or scripts, so it opens directly by double-clicking the file or by serving the folder with any static file server.\n\nThe checks I ran myself: listed the directory to confirm the file and its size, and grepped the file to confirm the heading text at line 30 reads exactly `<h1>Hello Goal</h1>`.\n\n<deliver-assets>\n<media type=\"file\" src=\"/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-232652-eb4a69/data/sessions/mvs_59d9e09ad78c4fa8a7fc2d695be90ab5/workspace/hello.html\" caption=\"hello.html — page with the main heading “Hello Goal”\" />\n</deliver-assets>"
+      }
+    },
+    {
+      "id": "不得出现：外露正文是 update_goal 的 summary",
+      "result": "PASS",
+      "actual": {
+        "summary": "Created hello.html in the session workspace (656 bytes). It is a self-contained single-file page: <main> wraps a single <h1>Hello Goal</h1>, with minimal inline CSS centering the heading. Verified by listing the file and grepping the heading text at line 30."
+      }
+    },
+    {
+      "id": "不得出现：外露正文是 complete 之前的过程句",
+      "result": "PASS",
+      "actual": {
+        "wordContainment": 0.99,
+        "headSame": true,
+        "toolsBeforeCompletion": [
+          "glob:2",
+          "bash:2",
+          "write:2",
+          "bash:2",
+          "update_goal:2"
+        ]
+      }
+    }
+  ],
+  "source": "origin/fix/goal-final-result-delivery:.harness/docs/specs/goal-final-result-delivery/verify.md S01"
+}

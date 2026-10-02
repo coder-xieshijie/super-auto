@@ -1,0 +1,210 @@
+{
+  "scenario": "S32",
+  "attempt": "f1",
+  "evidenceDir": "S07/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225502-3201e0",
+  "authCheck": {
+    "runId": "20261001-225502-3201e0",
+    "kind": "electron",
+    "startedAt": 1790866502601,
+    "endedAt": 1790867028865,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "入口：同意提示的“拒绝”“同意并生成”可用鼠标点击",
+      "result": "PASS",
+      "detail": {
+        "mouseClicks": [
+          [
+            "s32-decline-mouse",
+            0,
+            ""
+          ],
+          [
+            "s32-accept-mouse",
+            0,
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤1 拒绝不生成内容",
+      "result": "PASS",
+      "detail": {
+        "filesAfterDecline": "files after decline: 0"
+      }
+    },
+    {
+      "id": "内容含请求与回执按已知/未知/已应用分类摘要与丢弃原因",
+      "result": "PASS",
+      "detail": {
+        "requestSummary": {
+          "total": 29,
+          "requests": {
+            "known": 29,
+            "unknown": 0,
+            "inFlight": 0,
+            "voided": 0
+          },
+          "receipts": {
+            "applied": 28,
+            "discarded": 1,
+            "usageIncomplete": 1
+          },
+          "discardReasons": {
+            "goal_deleted": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "声明数量与时间上限；条目数不超限；均在窗口内；有超过每 Goal 上限的 Goal",
+      "result": "PASS",
+      "detail": {
+        "limits": {
+          "maxGoals": 200,
+          "maxRequests": 500,
+          "maxRequestsPerGoal": 5
+        },
+        "windowDays": 2.0,
+        "goals": 3,
+        "items": 13,
+        "maxItemsPerGoal": 5,
+        "goalsOverPerGoalCap": [
+          [
+            "tg_i4z47wsxgrmupnyh9h",
+            6
+          ],
+          [
+            "tg_3i1ytcpudsmupnqn95",
+            20
+          ]
+        ],
+        "truncated": {
+          "goals": false,
+          "requests": false,
+          "requestsPerGoal": true
+        }
+      }
+    },
+    {
+      "id": "不含 objective、prompt、transcript 原文或原始回执",
+      "result": "PASS",
+      "detail": {
+        "objectiveLeaks": [],
+        "objectivesChecked": 3,
+        "transcriptMarkers": [],
+        "proseFields": [],
+        "decisionShape": [
+          {
+            "goalId": "tg_i4z47wsxgrmupnyh9h",
+            "lastVerification": [
+              "atMs",
+              "backend",
+              "missingCount",
+              "notMetStreak",
+              "objectiveDigest",
+              "reasonPresent",
+              "turnId",
+              "verdict"
+            ],
+            "lastWorkerProposal": [
+              "atMs",
+              "source",
+              "summaryPresent",
+              "turnId",
+              "type"
+            ],
+            "reasonPresent": true,
+            "missingCount": 0,
+            "summaryPresent": true
+          },
+          {
+            "goalId": "tg_3i1ytcpudsmupnqn95",
+            "lastVerification": [
+              "atMs",
+              "backend",
+              "missingCount",
+              "notMetStreak",
+              "objectiveDigest",
+              "reasonPresent",
+              "turnId",
+              "verdict"
+            ],
+            "lastWorkerProposal": [
+              "atMs",
+              "source",
+              "summaryPresent",
+              "turnId",
+              "type"
+            ],
+            "reasonPresent": true,
+            "missingCount": 0,
+            "summaryPresent": true
+          },
+          {
+            "goalId": "tg_0n482vbiucmupnp0gm",
+            "lastVerification": [
+              "atMs",
+              "backend",
+              "missingCount",
+              "notMetStreak",
+              "objectiveDigest",
+              "reasonPresent",
+              "turnId",
+              "verdict"
+            ],
+            "lastWorkerProposal": [
+              "atMs",
+              "source",
+              "summaryPresent",
+              "turnId",
+              "type"
+            ],
+            "reasonPresent": true,
+            "missingCount": 0,
+            "summaryPresent": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "诊断前后各 Goal 的 updated_at 与状态相同",
+      "result": "PASS",
+      "detail": {
+        "goals": 3,
+        "allSame": true
+      }
+    }
+  ]
+}

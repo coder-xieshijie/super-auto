@@ -1,0 +1,133 @@
+{
+  "scenario": "S16",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-003315-7a7e13",
+  "evidenceDir": "S16/f1",
+  "auth": [
+    {
+      "runId": "20261002-003315-7a7e13",
+      "kind": "electron",
+      "startedAt": 1790872395687,
+      "endedAt": 1790872576737,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003315-7a7e13/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-003315-7a7e13/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f1/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S16/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "runningBashTasks": [
+        {
+          "taskId": "bg_690681a3-f49b-471a-8ee3-0399703f9ca2",
+          "kind": "bash",
+          "status": "running",
+          "createdAtMs": 1790872421920,
+          "updatedAtMs": 1790872421923,
+          "endedAtMs": null,
+          "parentTurnId": "e42a6bc7-6023-4a27-947d-ec8cb920eaba",
+          "description": "Serve current directory on port 8767"
+        }
+      ],
+      "port8767": "200",
+      "statusBeforeResume": "paused(user_requested)",
+      "sentFromComposer": true
+    }
+  },
+  "checks": [
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound，且只有一个（两次快速点击）",
+      "result": "PASS",
+      "detail": {
+        "mode": "hold",
+        "clicks": {
+          "1": {
+            "startAtOffsetMs": 16,
+            "endAtOffsetMs": 94,
+            "ok": true,
+            "error": null
+          },
+          "2": {
+            "startAtOffsetMs": 72,
+            "endAtOffsetMs": 155,
+            "ok": true,
+            "error": null
+          }
+        },
+        "bothClicksReachedButton": true,
+        "resumePatchRequests": [
+          {
+            "seq": 1,
+            "at": 70,
+            "held": true,
+            "body": "{\"status\":\"active\",\"expected_goal_id\":\"tg_w8o5l0oma6mupr7348\",\"expected_updated_at\":1790872415523}"
+          }
+        ],
+        "heldAfterBothClicks": [
+          1
+        ],
+        "releaseAtOffsetMs": 1932,
+        "turnBoundAfterClickMs": [
+          1979,
+          35063
+        ],
+        "within10s": 1,
+        "resumeButtonAfterClicks": 1,
+        "toasts": []
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，step.txt 为 1",
+      "result": "PASS",
+      "detail": {
+        "status_reason": "complete(verifier_met)",
+        "step.txt": "1\n"
+      }
+    },
+    {
+      "id": "不得出现：恢复后 active、无新 turn_bound、wait_reason 为空持续 30 秒以上",
+      "result": "PASS",
+      "detail": {
+        "firstTurnBoundAfterReachMs": 47,
+        "activeNoWaitSamples": 5
+      }
+    }
+  ],
+  "info": {
+    "s16Clicks": {
+      "1": {
+        "startAtOffsetMs": 16,
+        "endAtOffsetMs": 94,
+        "ok": true,
+        "error": null
+      },
+      "2": {
+        "startAtOffsetMs": 72,
+        "endAtOffsetMs": 155,
+        "ok": true,
+        "error": null
+      }
+    }
+  }
+}

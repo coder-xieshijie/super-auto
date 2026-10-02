@@ -1,0 +1,50 @@
+
+                                                      ███╗   ███╗██╗███╗   ██╗██╗███╗   ███╗ █████╗ ██╗  ██╗     ██████╗ ██████╗ ██████╗ ███████╗                                                     
+                                                      ████╗ ████║██║████╗  ██║██║████╗ ████║██╔══██╗╚██╗██╔╝    ██╔════╝██╔═══██╗██╔══██╗██╔════╝                                                     
+                                                      ██╔████╔██║██║██╔██╗ ██║██║██╔████╔██║███████║ ╚███╔╝     ██║     ██║   ██║██║  ██║█████╗                                                       
+                                                      ██║╚██╔╝██║██║██║╚██╗██║██║██║╚██╔╝██║██╔══██║ ██╔██╗     ██║     ██║   ██║██║  ██║██╔══╝                                                       
+                                                      ██║ ╚═╝ ██║██║██║ ╚████║██║██║ ╚═╝ ██║██║  ██║██╔╝ ██╗    ╚██████╗╚██████╔╝██████╔╝███████╗                                                     
+                                                      ╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝                                                     
+
+  ╭─ v0.5.10 ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+  │ Tips for getting started                                                                                                                                                                         │
+  │ › Run /init to teach MCode this repo.                                                                                                                                                            │
+  │ › Use @ for files; Ctrl+V for images.                                                                                                                                                            │
+  │ › /checkin claims the daily reward.                                                                                                                                                              │
+  ├──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │ What's new · /changelog for history                                                                                                                                                              │
+  │ › Your own messages now appear exactly as typed in the conversation, pending instructions, and the transcript viewer. Text such as pycache, , and a leading > is no longer reformatted as Markd… │
+  │ › The TUI no longer stays stuck showing a run as in progress after Runtime has already finished it. Enter now sends a new message instead of steering the finished run, and queued messages are… │
+  ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+                                                                                                                                                                                                      
+   › Write the numbers 1 to 3 into count.txt, one number per line, then stop.                                                                                                                         
+                                                                                                                                                                                                      
+   
+    └ Interrupted after 0s
+
+    ◎ Goal · Paused · 1s active
+  0+ tokens · 1 requests
+  Write the numbers 1 to 3 into count.txt, one number per line, then stop. · /goal resume · /goal edit · /goal clear
+    Message · Enter send · Ctrl+J newline                                                                                                                 Tip: /fork branches the current conversation
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  ›  Ask Mcode to do anything                                                                                                                                                                         
+    ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  [V] seq=5 state=cancel session=mvs_153e25cbe6654034875c0340cde087b8 turn=turn_4568c584-3481-4467-98d7-d951b1e26ba6 request=none agents=0/0 background=0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,16 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-225122-731355",
+      "instanceEvidenceDir": "_runs/tui-lifecycle",
+      "files": [
+        "006-rg1final-lifecycle.summary--summary.json",
+        "006-rg1final-lifecycle.summary--summary.txt",
+        "007-rg1final-lifecycle.summary--snap-runtime-events.jsonl",
+        "007-rg1final-lifecycle.summary--snap-workspace.json",
+        "007-rg1final-lifecycle.summary--snap.json",
+        "007-rg1final-lifecycle.summary--snap.txt"
+      ]
+    }
+  ]
+}

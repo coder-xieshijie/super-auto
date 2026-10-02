@@ -231,6 +231,7 @@ S10)
   poll_e "$S" --until goal.status=budget_limited --hold 60 --show "$SHOW,goal.updated_at" --interval 2 --timeout 90 --save s10-hold >/dev/null
   vr snapshot --session "$S" --on electron --save s10-after-hold >/dev/null
   # 5
+  echo "$(now_ms)" >"$OUT/s10-side-sent-at-ms"
   send_msg "What is 5 + 6? Reply with only the number."
   vr poll $API/session/$S/message --on electron --until "messages.-1.role=assistant" --interval 2 --timeout 120 --save s10-reply-poll >/dev/null
   turn_end 120

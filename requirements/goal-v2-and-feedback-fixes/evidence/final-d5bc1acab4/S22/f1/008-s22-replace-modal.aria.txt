@@ -1,0 +1,6 @@
+- text: 替换当前目标吗？
+- button "关闭":
+  - img
+- text: 这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标 Run the shell command sleep 60 in the foreground, then write v.txt containing two.
+- button "取消"
+- button "替换目标"

@@ -1,0 +1,90 @@
+{
+  "scenario": "S20",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-230805-8ec9e9",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261001-230805-8ec9e9",
+      "kind": "electron",
+      "startedAt": 1790867286115,
+      "endedAt": 1790867504176,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230805-8ec9e9/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230805-8ec9e9/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S20/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S20/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S20/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 2,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "status_reason": "usage_limited(provider_quota)"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤2：提示“服务商额度恢复后可继续”；hold 期间没有新的 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "guide": "服务商额度恢复后可继续",
+        "holdSeconds": 180.517,
+        "turnBoundInHold": 0,
+        "usage_recovery_scheduled": null
+      }
+    },
+    {
+      "id": "步骤3：恢复后一个新的 goal.turn_bound，随后回到 usage_limited(provider_quota)；会话里出现失败提示；横幅“服务商受限”",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterClickMs": [
+          85
+        ],
+        "statusAfter": "usage_limited(provider_quota)",
+        "bannerStatus": "服务商受限",
+        "mainAttemptsAfterClick": [
+          [
+            3,
+            "injected",
+            429
+          ]
+        ],
+        "failureInAria": [
+          "- paragraph: 当前请求的可用对话额度不足。",
+          "- paragraph: 当前请求的可用对话额度不足。"
+        ],
+        "failureMessagesInHistory": []
+      }
+    },
+    {
+      "id": "不得出现：提示“额度恢复后自动继续”",
+      "result": "PASS",
+      "detail": {
+        "guides": [
+          "服务商额度恢复后可继续",
+          "服务商额度恢复后可继续"
+        ]
+      }
+    }
+  ],
+  "info": {}
+}

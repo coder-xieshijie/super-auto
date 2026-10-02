@@ -1,0 +1,103 @@
+{
+  "scenario": "RG1-tui attachments/failure-resume（故障注入补跑）",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-230724-348b68",
+  "authCheck": {
+    "runId": "20261001-230724-348b68",
+    "kind": "tui",
+    "startedAt": 1790867244568,
+    "endedAt": 1790867308112,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230724-348b68/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-230724-348b68/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/RG1-tui/attach-recover/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "checks": [
+    {
+      "id": "首轮第 1 次主执行请求被注入 504（只一次）",
+      "result": "PASS",
+      "detail": [
+        {
+          "at": 1790867256635,
+          "sessionId": "mvs_eac2e36e7a8347739ec5c2b561e21f3a",
+          "role": "main",
+          "n": 1,
+          "attempt": 1,
+          "outcome": "injected",
+          "ruleId": "r1",
+          "status": 504
+        }
+      ]
+    },
+    {
+      "id": "首轮失败后 Goal 为 paused(infra_retryable)",
+      "result": "PASS",
+      "detail": [
+        [
+          "active",
+          "paused",
+          "paused(infra_retryable)"
+        ]
+      ]
+    },
+    {
+      "id": "暂停横幅 ◎ Goal · Paused",
+      "result": "PASS",
+      "detail": "◎ Goal · Paused · 2s active · Attachment"
+    },
+    {
+      "id": "/goal resume 后的第一个请求仍带图片（image 块 + <attachment name=\"red-square.png\" mime=\"image/png\">）",
+      "result": "PASS",
+      "detail": {
+        "callId": "3bf1f582-6f78-44d0-b74e-566caf0b234f",
+        "turnId": "turn_47d617ea-6622-42b1-9d6b-fecd050431a4",
+        "startedAtMs": 1790867262377,
+        "file": "015-rg1att-final-snap-inspector/payloads/M2JmMWY1ODItNmY3OC00NGQwLWI3NGUtNTY2Y2FmMGIyMzRm.request.json",
+        "image_blocks": 1,
+        "attachment_tag": true
+      }
+    },
+    {
+      "id": "最终 complete(verifier_met)，横幅 ✓ Goal complete",
+      "result": "PASS",
+      "detail": [
+        [
+          [
+            "active",
+            "complete",
+            "complete(verifier_met)"
+          ]
+        ],
+        "✓ Goal complete · 19s · 19K+ tokens · 7 requests"
+      ]
+    },
+    {
+      "id": "color.txt 为 red",
+      "result": "PASS",
+      "detail": [
+        {
+          "path": "color.txt",
+          "sha256": "6ace33171ce0acb6891e3cc311d75a97aa429d77c05cba600d49ed9652ed49de",
+          "content": "red\n"
+        }
+      ]
+    }
+  ],
+  "compareWith": "evidence/rg1-tui-attachment-recovery/{baseline,migration}/result.json"
+}

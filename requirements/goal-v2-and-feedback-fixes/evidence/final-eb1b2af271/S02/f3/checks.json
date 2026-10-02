@@ -1,0 +1,163 @@
+{
+  "scenario": "S02",
+  "attempt": "f3",
+  "evidenceDir": "S02/f3",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "runId": "20261002-011744-1e026a",
+  "authCheck": {
+    "runId": "20261002-011744-1e026a",
+    "kind": "runtime",
+    "startedAt": 1790875064704,
+    "endedAt": 1790875306909,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-011744-1e026a/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-011744-1e026a/server.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": false,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "非active COMPLETE 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "complete(verifier_met)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active PAUSED 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "paused(user_requested)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active BLOCKED 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "blocked(worker_reported)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "非active USAGE 字段保持",
+      "result": "FAIL",
+      "detail": {
+        "status": null,
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 3,
+        "diffs": {
+          "status": [
+            "usage_limited",
+            "active"
+          ],
+          "status_reason": [
+            "usage_limited(provider_quota)",
+            null
+          ],
+          "tokens_used": [
+            19962,
+            41247
+          ],
+          "time_used_seconds": [
+            6,
+            14
+          ]
+        }
+      }
+    },
+    {
+      "id": "非active BUDGET 字段保持",
+      "result": "PASS",
+      "detail": {
+        "status": "budget_limited(token)",
+        "legacy_turns": 1,
+        "turns_used": 1,
+        "requests_used": 0,
+        "diffs": {}
+      }
+    },
+    {
+      "id": "active 接管并继续到终态",
+      "result": "PASS",
+      "detail": {
+        "newTurnBound": 1,
+        "final": "complete(verifier_met)",
+        "requests_used": 23
+      }
+    },
+    {
+      "id": "问卷：回答、期限、goalId、无期限不自动回答",
+      "result": "PASS",
+      "detail": {
+        "q1AnswerSame": true,
+        "expiresAndGoalIdSame": true,
+        "q3": {
+          "status": "pending",
+          "expires_at": null
+        }
+      }
+    },
+    {
+      "id": "budget_limited：队列中没有可执行的预算总结项（启动后第一次读队列即为空）、hold 无新 Turn 与回复",
+      "result": "PASS",
+      "detail": {
+        "messagesBefore/After": [
+          3,
+          3
+        ],
+        "newTurnBound": 0,
+        "queueItemCancelledEvents(参考)": 0,
+        "arrangedPreUpgradeItem": [
+          "queue_80e0c3cb-239a-4ec1-a428-2d6eae4b15ca"
+        ],
+        "arrangedItemStillInQueueTable": [],
+        "queueFirstReadAfterStartup": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        },
+        "queueFirstReadAtMs": [
+          1790875075381
+        ],
+        "firstStepAtMs(after up)": 1790875067640,
+        "cancelledEventTs": [],
+        "queueAfterHold": {
+          "items": [],
+          "paused": false,
+          "pending_count": 0
+        }
+      }
+    }
+  ],
+  "invalidReason": "旧数据的额度重置时间已过，前提不成立"
+}

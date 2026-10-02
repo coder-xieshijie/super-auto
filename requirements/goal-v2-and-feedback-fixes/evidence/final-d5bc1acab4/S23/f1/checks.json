@@ -1,0 +1,130 @@
+{
+  "scenario": "S23",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-231732-903693",
+  "evidenceDir": "S23/f1",
+  "auth": [
+    {
+      "runId": "20261001-231732-903693",
+      "kind": "electron",
+      "startedAt": 1790867852143,
+      "endedAt": 1790867896869,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231732-903693/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231732-903693/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S23/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S23/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S23/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "pauseRecorded": 1,
+      "resumeHeld": 1
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤1 与步骤4 记录的暂停、清除请求都不带版本字段",
+      "result": "PASS",
+      "detail": {
+        "pause": [
+          [
+            "PATCH",
+            "{\"status\":\"paused\"}"
+          ]
+        ],
+        "clear": [
+          [
+            "DELETE",
+            "/minimax-desktop/api/v1/session/mvs_594e13840e564534943f5c10d85e86a9/goal",
+            null
+          ]
+        ],
+        "step4Records": [
+          [
+            "PATCH",
+            "{\"status\":\"active\",\"expected_goal_id\":\"tg_zvwc5wvq0ymupohtgn\",\"expected_updated_at\":1790867878723}"
+          ],
+          [
+            "DELETE",
+            null
+          ]
+        ]
+      }
+    },
+    {
+      "id": "步骤3：提示“目标已在后台更新，已刷新为最新状态”；Goal 仍为 paused；token_budget 为 500000",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态"
+        ],
+        "status": "paused(user_requested)",
+        "token_budget": 500000,
+        "heldBody": {
+          "status": "active",
+          "expected_goal_id": "tg_zvwc5wvq0ymupohtgn",
+          "expected_updated_at": 1790867877525
+        },
+        "bannerStatus": "已停止"
+      }
+    },
+    {
+      "id": "步骤4 的恢复请求携带的版本等于步骤2 之后接口读到的最新版本",
+      "result": "PASS",
+      "detail": {
+        "resumeBody": {
+          "status": "active",
+          "expected_goal_id": "tg_zvwc5wvq0ymupohtgn",
+          "expected_updated_at": 1790867878723
+        },
+        "latestAfterStep2": {
+          "goal_id": "tg_zvwc5wvq0ymupohtgn",
+          "updated_at": 1790867878723
+        },
+        "resumeRequests": 1
+      }
+    },
+    {
+      "id": "步骤4：恢复成功（10 秒内出现新的 goal.turn_bound）；清除后 GET .../goal 返回 {}",
+      "result": "PASS",
+      "detail": {
+        "turnBoundAfterResumeMs": [
+          64
+        ],
+        "bannerStatus": "进行中",
+        "getAfterClear": {}
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "conflict_resume",
+        "expected": "目标已在后台更新，已刷新为最新状态",
+        "seen": "目标已在后台更新，已刷新为最新状态",
+        "exact": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "scenario": "X1",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-005107-8474f8",
+  "evidenceDir": "X1/f1",
+  "auth": [
+    {
+      "runId": "20261002-005107-8474f8",
+      "kind": "electron",
+      "startedAt": 1790873467751,
+      "endedAt": 1790873767666,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-005107-8474f8/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-005107-8474f8/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f1/runtime-logs/im-runtime-2026100200.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/X1/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 1,
+      "refreshesByVia": {
+        "refresh": 1
+      },
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": false,
+    "detail": {
+      "step2": {
+        "queuedInDb": 1,
+        "inHistory": 0,
+        "goalTurnOpen": "open:turn_406723d9-c969-41a6-9dbe-271ebed305a2"
+      },
+      "bashAtStop": null,
+      "queueBeforeStop": {
+        "pause": null,
+        "items": []
+      },
+      "queueStep4": {
+        "pause": null,
+        "threadGoalItems": [],
+        "items": []
+      },
+      "why": "stop did not land while the supplement sleep 60 was running",
+      "threadGoalItemBeforeStop": false,
+      "userStopPathExercised": false
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤4：停止后 Goal 为 paused(user_requested)",
+      "result": "PASS",
+      "detail": {
+        "status": "paused",
+        "status_reason": "paused(user_requested)"
+      }
+    },
+    {
+      "id": "步骤4：队列 pause.cause 为 user-stop，队列里有该 Goal 的 thread-goal 项",
+      "result": "FAIL",
+      "detail": {
+        "pause": null,
+        "threadGoalItems": [],
+        "items": []
+      }
+    },
+    {
+      "id": "恢复后 10 秒内出现属于该 Goal 的新 goal.turn_bound",
+      "result": "PASS",
+      "detail": {
+        "resumeVia": "continue-button",
+        "clickAtMs": 1790873681770,
+        "turnBound": {
+          "turnId": "turn_e27ff984-ca34-4fc9-8585-71fbbae38c27",
+          "tsMs": 1790873681906,
+          "goalId": "tg_t9wiyuwhz0muprv7z9"
+        },
+        "latencyMs": 136,
+        "goalId": "tg_t9wiyuwhz0muprv7z9"
+      }
+    },
+    {
+      "id": "队列 pause 被清除",
+      "result": "PASS",
+      "detail": {
+        "pauseStep4": null,
+        "pauseAfterResume": null,
+        "pauseFinal": null,
+        "firstSampleWithoutPauseAfterClick": 1790873682062,
+        "samplesWithPauseAfterClick": 0,
+        "note": "pause was never written in this run"
+      }
+    },
+    {
+      "id": "Goal 最终 complete(verifier_met)，a.txt、b.txt 都在",
+      "result": "PASS",
+      "detail": {
+        "status": "complete",
+        "status_reason": "complete(verifier_met)",
+        "a.txt": "a\n",
+        "b.txt": "b\n"
+      }
+    },
+    {
+      "id": "全程没有“active、无 Goal Turn、无等待原因”超过 10 秒（没有普通 Turn 在跑时）",
+      "result": "PASS",
+      "detail": {
+        "longestIdleMs": 687,
+        "idleSpans>=3s": [],
+        "samples": 325,
+        "strictLongestMs(包括普通 Turn 运行期间)": 66408,
+        "strictSpans>=3s": [
+          [
+            1790873612867,
+            1790873679275
+          ]
+        ]
+      }
+    }
+  ]
+}

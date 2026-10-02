@@ -1,0 +1,96 @@
+{
+  "scenario": "S40",
+  "attempt": "f1",
+  "head": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "dirty": false,
+  "runId": "20261002-004049-4ca5ee",
+  "restartRunId": null,
+  "auth": [
+    {
+      "runId": "20261002-004049-4ca5ee",
+      "kind": "tui",
+      "startedAt": 1790872849248,
+      "endedAt": 1790872933716,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004049-4ca5ee/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004049-4ca5ee/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-eb1b2af271/S40/f1/runtime-logs/runtime-2026100200.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": false,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "subagentAtPause": [
+        {
+          "taskId": "bg_1488b271-f985-4471-85fd-611bb53bc70d",
+          "kind": "subagent",
+          "status": "running",
+          "createdAtMs": 1790872870553,
+          "updatedAtMs": 1790872870646,
+          "endedAtMs": null,
+          "parentTurnId": "turn_5134dcb9-448c-415b-af59-42abe87ab174",
+          "description": "Write sub.txt after 40s delay"
+        }
+      ],
+      "statusBackground": "0",
+      "statusAgents": "1/1",
+      "note": "状态栏把 subagent 计在 agents=活跃/总数，background 只计 shell；以 agents 与任务表确认 subagent 仍在运行"
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤3：打印 Waiting for background tasks，没有 Goal resumed.；横幅 ◎ Goal · Waiting for background tasks；任务结束前没有新 turn_bound",
+      "result": "PASS",
+      "detail": {
+        "printedWaitLine": true,
+        "printedGoalResumed": false,
+        "tail": [
+          "● Background subagent is running and will handle the delayed write.",
+          "- Task bg_1488b271-f985-4471-85fd-611bb53bc70d (agent role: worker) started in the background.",
+          "- Its instructions: sleep 40, then write sub.txt containing exactly sub-done into the workspace, then read the file back and report the content.",
+          "- Current state check: sub.txt does not exist yet in /private/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261002-004049-4ca5ee/workspace.",
+          "I'm ending this turn now without waiting on it. The goal stays active: it is only met once sub.txt actually contains sub-done, which I'll verify once the background task reports back.",
+          "Waiting for background tasks",
+          "◎ Goal · Waiting for background tasks · 19s active",
+          "17K tokens · 2 requests",
+          "Start a background subagent task (task tool, run in background) that waits 40 seconds and then writes sub.txt containing sub-done. End your turn right away without waiting. The goal is met only w…",
+          "/goal pause · /goal edit · /goal clear"
+        ],
+        "banner": "◎ Goal · Waiting for background tasks · 19s active",
+        "subagentEndedAfterResumeMs": 41493,
+        "turnBoundBeforeEnd": 0
+      }
+    },
+    {
+      "id": "subagent 结束后只出现一个新的 goal.turn_bound；✓ Goal complete；sub.txt 为 sub-done",
+      "result": "FAIL",
+      "detail": {
+        "turnBoundAfterEndMs": [
+          14
+        ],
+        "complete": null,
+        "sub.txt": "sub-done\n"
+      }
+    }
+  ],
+  "info": {
+    "rawGoalResumedCount": 0
+  },
+  "invalidReason": "tool: wait --text \"Goal complete\" matched the assistant text \"● Goal complete. Here's what happened:\"; instance was taken down while the Goal was \"Verifying the result\" (tools/m3-tui.sh fixed to wait for \"✓ Goal complete\")"
+}

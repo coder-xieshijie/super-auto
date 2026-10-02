@@ -39,6 +39,10 @@
   - 理由：spec §10 注明“沿用运行时现状”；verify S27 的检查点是“verdict 没有被接受”。实测 S27 中，在途校验跑满约 108 秒后判为 stale，补充消息后 106 秒才出现新的 Goal Turn。体验代价是多花这一次校验的 token 和等待时间。
   - 另一家模型：gpt-6-astra 同意，认为立即取消属于新增要求，需要另定取消语义和迟到结果的处理。
   - 推翻后：在补充消息到达时取消在途 verifier，并立即开始 Goal Turn；重跑 S27，以及校验相关的 S31、S11。
+- 决定：S39 在 eb1b2af271 上计第 1 次运行（S39/f1），记 PASS；第 2、3 次不计。PASS 只指 S39 的功能检查点，不代表运行全程没有越界。
+  - 理由：三次运行的检查点读数都成立，补充消息请求都带“goal is not running: blocked”提醒、回复 13、无工具调用。但三次中，模型都因目标文本“input file is missing”去 workspace 外只读列目录名：f1 在全部检查点读完后（点继续 +13.3 秒，turn_bound 在 +56 ms），只列了本实例临时目录内的 session 目录；f2 列到了真实用户 home 下的目录名（含原文的证据已删除）；f3 在 step 1 列了实例临时目录。越界属于模型找文件的行为，产品代码没有参与。incident 都已记录，不含原文。verify 的作废条件只有“模型没有提出 blocked”。
+  - 另一家模型：gpt-6-astra（codex，evidence/decisions/q5-codex.md）选计 f1。它认为安全规则要求的“停实例、记 incident”不等于追溯作废已完成的功能检查，没必要为一次全程零越界继续重跑，也不应记 UNVERIFIED。
+  - 推翻后：S39 三次都作废，再重跑，直到出现全程没有越界的运行；或者改 verify 的目标文本（需用户修订并重新冻结）。
 - 决定（做不了）：S35、S36 与 limits.md 中依赖修改额度的子功能记为 UNVERIFIED（覆盖盲区 B15）。
   - 理由：Payment 测试台查不到 staging 登录账号（`GetGroupOwnerUserInfo … group not found`，evidence/m0/quota/、m4/S35/q1），授权只允许改这个账号，所以没有执行任何额度修改。
   - 另一家模型：未问，属于 verify 已列出的覆盖盲区。
@@ -203,7 +207,13 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
   - 16 个实例的 401、登录失效、429 都是 0。
 - [x] (2026-10-02 00:35+08:00) 669f179230：普通 Turn 最终失败后，active 的 Goal 自动续跑（决定 F）。完整 v2 host 测试覆盖自动续跑、FIFO、paused 反例，前两项在修复前失败；v2 测试 56 个文件 845 个通过，tsc、lint、depcruise、prettier 都通过；已推送。S25 的暂停提醒正在实施（integrator）。
 - [x] (2026-10-02 00:50+08:00) eb1b2af271：Goal 不在 active 时，普通 Turn 带 Goal 状态提醒，以 AgentRuntime extension 的 system reminder 注入。真实 LocalAgentHost 与执行器上的集成测试 16 例全部通过，去掉接入时 5 例失败；分别删去 verifier、Goal Turn、功能开关三个判断，各有用例失败。v2 测试 62 个文件 891 个通过，tsc、lint、depcruise、prompt-asset-registry、prettier 都通过。补强（从历史投影里去掉失效的 Goal 指令）没有做，原因：要改 turn-system 历史层，状态变化会让 prompt 缓存失效，而且 objective 与指令在同一段里，拆不干净。已推送。
-- [ ] 第二轮自验 @ eb1b2af271（证据根 evidence/final-eb1b2af271/）：构建与冒烟进行中；同时在更新 Goal 文档（新行为）。之后分线重跑恢复、暂停、失败续跑相关场景和 S01，补测“停止后恢复”“失败后续跑”，最后跑 R103。
+- [ ] 第二轮自验 @ eb1b2af271（证据根 evidence/final-eb1b2af271/）：同时在更新 Goal 文档（新行为）。之后分线重跑恢复、暂停、失败续跑相关场景和 S01，补测“停止后恢复”“失败后续跑”，最后跑 R103。
+  - (2026-10-02 00:2x+08:00) 构建与冒烟完成：install/build 成功，dist 含新代码，M17 78/78，冒烟 5/5，鉴权计数 0（evidence/final-eb1b2af271/_build、M17、smoke）。
+  - (2026-10-02 00:30+08:00) 已启动五条线：
+    - TUI+接口线：S18、S30、S40、S09 重试、S34、S02。
+    - Electron A 线：S01、S16 hold/nohold、S17、S19、S20。
+    - Electron B 线：S25（最多 3 次有效运行，全部列出）、S21、S26、S28、S39、S10。
+    - Electron C 线：S24、X1“停止后恢复”、X2“补充消息失败后 Goal 自动续跑”。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。

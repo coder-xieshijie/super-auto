@@ -1,0 +1,88 @@
+{
+  "scenario": "S25",
+  "attempt": "f2",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-225251-81ccd5",
+  "evidenceDir": "S25/f2",
+  "auth": [
+    {
+      "runId": "20261001-225251-81ccd5",
+      "kind": "electron",
+      "startedAt": 1790866371225,
+      "endedAt": 1790866499744,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225251-81ccd5/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225251-81ccd5/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S25/f2/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S25/f2/runtime-logs/im-runtime-2026100122.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S25/f2/runtime-logs/runtime-2026100122.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "步骤3：Goal 为 paused(user_requested)，objective 不变；横幅为“已停止”，继续按钮在；补充消息回复 7",
+      "result": "FAIL",
+      "detail": {
+        "status_reason": "paused(user_requested)",
+        "objectiveSame": true,
+        "banner": "已停止",
+        "composerContinueButton": 1,
+        "bannerResume": 1,
+        "reply": "Kicking off the 60-second foreground sleep now, then I'll write p.txt."
+      }
+    },
+    {
+      "id": "步骤5：移除目标标签后 Goal 保持 active 10 秒，横幅没有变为“已停止”",
+      "result": "PASS",
+      "detail": {
+        "tagBeforeRemove": 1,
+        "tagAfterRemove": 0,
+        "holdChanges": [
+          [
+            1790866487029,
+            "active"
+          ],
+          [
+            1790866489037,
+            "active"
+          ],
+          [
+            1790866492054,
+            "active"
+          ],
+          [
+            1790866496073,
+            "active"
+          ]
+        ],
+        "heldMsAfterTagRemoval": 10707,
+        "statusAfter": "active",
+        "banner": "进行中",
+        "bannerAfterResume": "进行中",
+        "tagAria": "- button \"退出目标模式\": 目标\n"
+      }
+    }
+  ],
+  "info": {}
+}

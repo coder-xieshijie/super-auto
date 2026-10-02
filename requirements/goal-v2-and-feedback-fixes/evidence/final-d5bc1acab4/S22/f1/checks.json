@@ -1,0 +1,177 @@
+{
+  "scenario": "S22",
+  "attempt": "f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "dirty": false,
+  "runId": "20261001-231637-4ebcea",
+  "evidenceDir": "S22/f1",
+  "auth": [
+    {
+      "runId": "20261001-231637-4ebcea",
+      "kind": "electron",
+      "startedAt": 1790867797741,
+      "endedAt": 1790867851580,
+      "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231637-4ebcea/server.log",
+      "files": [
+        "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-231637-4ebcea/server.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S22/f1/electron-main.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S22/f1/runtime-logs/im-runtime-2026100123.log",
+        "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S22/f1/runtime-logs/runtime-2026100123.log"
+      ],
+      "contentSafetyLines": 0,
+      "contentSafety401": 0,
+      "first401": null,
+      "electronAuthLost": 0,
+      "http429": 0,
+      "first429": null,
+      "fault429": {
+        "injected": 0,
+        "upstream": 0
+      },
+      "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+      "refreshesDuringRun": 0,
+      "refreshesByVia": {},
+      "refreshesWhileElectronRunning": 0
+    }
+  ],
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {
+      "heldRequests": 1,
+      "goalAtStep1": null
+    }
+  },
+  "checks": [
+    {
+      "id": "步骤4：暂扣的请求携带版本字段，值为步骤1 读到的版本",
+      "result": "PASS",
+      "detail": {
+        "heldBody": {
+          "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+          "objective_resources": [],
+          "expected_goal_id": "tg_m1so8nmkn1mupoglzj",
+          "expected_updated_at": 1790867820367
+        },
+        "step1": {
+          "goal_id": "tg_m1so8nmkn1mupoglzj",
+          "updated_at": 1790867820367
+        },
+        "goalWhileHeld": {
+          "updated_at": 1790867820367,
+          "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing one."
+        }
+      }
+    },
+    {
+      "id": "步骤5：提示为冲突文案；横幅目标为 three；输入框仍是 two；接口 objective 为 three，status 仍为 active",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交"
+        ],
+        "bannerObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
+        "textarea": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+        "apiObjective": "Run the shell command sleep 60 in the foreground, then write v.txt containing three.",
+        "apiStatus": "active",
+        "apiStatusReason": null
+      }
+    },
+    {
+      "id": "页面没有 “epoch changed”、GOAL_CHANGED 或“目标命令执行失败”",
+      "result": "PASS",
+      "detail": {
+        "found": {
+          "s22-page-aria-step5": [],
+          "s22-page-aria-step7": []
+        },
+        "badToasts": [],
+        "ariaPresent": {
+          "s22-page-aria-step5": true,
+          "s22-page-aria-step7": true
+        }
+      }
+    },
+    {
+      "id": "步骤5 与步骤6 之间 objective 没有再次变更（没有自动重试）",
+      "result": "PASS",
+      "detail": {
+        "samples": [
+          [
+            1790867829078,
+            "ining three.",
+            1790867825050
+          ],
+          [
+            1790867830144,
+            "ining three.",
+            1790867825050
+          ],
+          [
+            1790867831207,
+            "ining three.",
+            1790867825050
+          ],
+          [
+            1790867832287,
+            "ining three.",
+            1790867825050
+          ],
+          [
+            1790867833371,
+            "ining three.",
+            1790867825050
+          ],
+          [
+            1790867834449,
+            "ining three.",
+            1790867825050
+          ]
+        ],
+        "objectivePatchesBetween": []
+      }
+    },
+    {
+      "id": "步骤6：objective 为 two 的文本",
+      "result": "PASS",
+      "detail": {
+        "objective": "Run the shell command sleep 60 in the foreground, then write v.txt containing two.",
+        "status": "active",
+        "statusReason": null
+      }
+    },
+    {
+      "id": "步骤7：出现同一句冲突提示；输入框仍是 /goal budget=300K；接口 token_budget 为 400000",
+      "result": "PASS",
+      "detail": {
+        "toasts": [
+          "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交"
+        ],
+        "textarea": "/goal budget=300K",
+        "token_budget": 400000,
+        "samples": [
+          400000,
+          400000,
+          400000,
+          400000
+        ],
+        "heldBudgetBody": {
+          "token_budget": 300000,
+          "expected_goal_id": "tg_m1so8nmkn1mupoglzj",
+          "expected_updated_at": 1790867835921
+        }
+      }
+    }
+  ],
+  "info": {
+    "copy": [
+      {
+        "key": "conflict_edit",
+        "expected": "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交",
+        "seen": "目标已在后台更新，已刷新为最新状态，你的修改已保留，可重新提交",
+        "exact": true
+      }
+    ],
+    "s22ReplaceModal": "- text: 替换当前目标吗？\n- button \"关闭\":\n  - img\n- text: 这会保留聊天，但会用你当前在输入框中的文本替换已保存的目标 Run the shell command sleep 60 in the foreground, then write v.txt containing two.\n- button \"取消\"\n- button \"替换目标\"\n"
+  }
+}

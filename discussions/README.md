@@ -52,7 +52,7 @@
 
 ### 2026-10-02 留存核对
 
-- [最近 48 小时 Claude Code 会话与流程留存核对](2026-10-02-claude-session-coverage.md)：主要主题已有记录，但两条 deliver trace 未续到最新；原始会话没有持续自动归档，数据索引与部分 Git 提交尚不完整。完整证据边界及源记录清单见核对报告。
+- [最近 48 小时 Claude Code 会话与流程留存核对](2026-10-02-claude-session-coverage.md)：主要主题已有记录，但两条 deliver trace 未续到最新，原始会话没有持续自动归档；后续用户授权将 8 个修改文件及 1,099 个新增文件本地提交，内容为 Goal v2 的 plan、验证工具和文本验收证据，保留原有验收状态。完整证据边界及源记录清单见核对报告。
 
 - [仓库首页](../README.md)
 - [Lauren 与工业级需求自动交付调研](../research/agent-delivery-2026-09-28/README.md)

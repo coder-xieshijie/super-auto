@@ -1,0 +1,25 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-233707-6cd6aa",
+      "instanceEvidenceDir": "_runs/electron-continuation-bg",
+      "files": [
+        "001-rg1final-continuation.background--mode.json",
+        "002-rg1final-continuation.background--banner.json",
+        "003-rg1final-continuation.background--waiting-timeout.json",
+        "004-rg1final-continuation.background--ui-waiting.json",
+        "005-rg1final-continuation.background--run.json",
+        "006-rg1final-continuation.background--marker.json",
+        "007-rg1final-continuation.background--snap-inspector",
+        "007-rg1final-continuation.background--snap-runtime-events.jsonl",
+        "007-rg1final-continuation.background--snap-workspace",
+        "007-rg1final-continuation.background--snap-workspace.json",
+        "007-rg1final-continuation.background--snap.json",
+        "screenshot-1790869049453-rg1final-continuation.background--mode.png",
+        "screenshot-1790869055008-rg1final-continuation.background--banner.png",
+        "screenshot-1790869206178-rg1final-continuation.background--ui-waiting.png",
+        "screenshot-1790869206468-rg1final-continuation.background--marker.png"
+      ]
+    }
+  ]
+}

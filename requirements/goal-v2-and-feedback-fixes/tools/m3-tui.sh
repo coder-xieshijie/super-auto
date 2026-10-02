@@ -55,7 +55,7 @@ S13)
   # 2
   T type "/goal Write the numbers 1 to 3 into count.txt, one number per line, then stop." >/dev/null
   # 3
-  T wait --text "Goal complete" --timeout 420 --save s13-complete >/dev/null
+  T wait --text "✓ Goal complete" --timeout 420 --save s13-complete >/dev/null
   idle s13-final-idle 120
   T screen --all --save s13-final-screen >/dev/null
   bg_tasks "$S" s13-bg-tasks-final >/dev/null
@@ -83,7 +83,7 @@ S40)
   T screen --all --save s40-resume-screen >/dev/null
   bg_tasks "$S" s40-bg-tasks-after-resume >/dev/null
   # 4
-  T wait --text "Goal complete" --timeout 600 --save s40-complete >/dev/null
+  T wait --text "✓ Goal complete" --timeout 600 --save s40-complete >/dev/null
   idle s40-final-idle 120
   T screen --all --save s40-final-screen >/dev/null
   bg_tasks "$S" s40-bg-tasks-final >/dev/null
@@ -116,7 +116,7 @@ S30)
   vr fault disable "$RULE" --on tui --save fault-disable >/dev/null
   echo "{\"at\":$(now_ms),\"cmd\":\"/retry\"}" >>"$OUT/commands.jsonl"
   T type "/retry" >/dev/null
-  T wait --text "Goal complete" --timeout 420 --save s30-complete >/dev/null
+  T wait --text "✓ Goal complete" --timeout 420 --save s30-complete >/dev/null
   idle s30-final-idle 120
   T screen --all --save s30-final-screen >/dev/null
   bg_tasks "$S" s30-bg-tasks-final >/dev/null
@@ -147,7 +147,7 @@ S18)
   echo "$(now_ms)" >"$OUT/step2b-done-at-ms"
   T snapshot --save s18-step2b >/dev/null
   # 3
-  T wait --text "Goal complete" --timeout 600 --save s18-complete >/dev/null
+  T wait --text "✓ Goal complete" --timeout 600 --save s18-complete >/dev/null
   idle s18-final-idle 120
   T screen --all --save s18-final-screen >/dev/null
   T snapshot --save s18 >/dev/null

@@ -1,0 +1,28 @@
+{
+  "runs": [
+    {
+      "runId": "20261001-234219-a1a920",
+      "instanceEvidenceDir": "_runs/electron-questionnaire-manual",
+      "files": [
+        "001-rg1final-questionnaire.manual--mode.json",
+        "002-rg1final-questionnaire.manual--banner.json",
+        "003-rg1final-questionnaire.manual--card.json",
+        "004-rg1final-questionnaire.manual--pending.json",
+        "005-rg1final-questionnaire.manual--card-aria.aria.txt",
+        "005-rg1final-questionnaire.manual--card-aria.json",
+        "006-rg1final-questionnaire.manual--answer.json",
+        "007-rg1final-questionnaire.manual--pending-after.json",
+        "008-rg1final-questionnaire.manual--run.json",
+        "009-rg1final-questionnaire.manual--snap-inspector",
+        "009-rg1final-questionnaire.manual--snap-runtime-events.jsonl",
+        "009-rg1final-questionnaire.manual--snap-workspace",
+        "009-rg1final-questionnaire.manual--snap-workspace.json",
+        "009-rg1final-questionnaire.manual--snap.json",
+        "screenshot-1790869359117-rg1final-questionnaire.manual--mode.png",
+        "screenshot-1790869364147-rg1final-questionnaire.manual--banner.png",
+        "screenshot-1790869371316-rg1final-questionnaire.manual--card.png",
+        "screenshot-1790869371821-rg1final-questionnaire.manual--answer.png"
+      ]
+    }
+  ]
+}

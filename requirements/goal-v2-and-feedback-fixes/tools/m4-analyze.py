@@ -117,6 +117,15 @@ def last_user_text(c):
     return ''
 
 
+def side_turn_info(d, snap, sent_file, needle, file_hint, key):
+    """补充消息那一轮普通 Turn 的事实（not-active 提醒、工具、文本），记到 info[key]，不作为检查点。"""
+    from side_turn import side_turn_facts
+    try:
+        info[key] = side_turn_facts(calls_of(d, snap), all_events(d), int(rd(d, sent_file) or 0), needle, file_hint)
+    except Exception as e:  # 只是附加观察
+        info[key] = {'error': repr(e)}
+
+
 def goal_turns(ev, gid=None):
     return {e['payload'].get('turnId') for e in turn_bounds(ev, gid)}
 
@@ -264,6 +273,39 @@ def s17(d):
           entry == 'continue-button' and cb_before == '1' and clicked and clicked[0]['rc'] == 0,
           {'continueButtonBeforeClick': cb_before, 'entryUsed': entry, 'clickRc': clicked[0]['rc'] if clicked else None})
     copy_note('quota_auto', text_saved(d, 's17-usage-guide'))
+    s17_reminder_observation(d)
+
+
+GOAL_NOT_RUNNING = "This session's goal is not running"
+
+
+def s17_reminder_observation(d):
+    """观察项（非 verify 检查点，eb1b2af271 起）：Goal 不在 active 时普通 Turn 的用户消息前带
+    "This session's goal is not running" 提醒。记补充消息请求是否带提醒、回复是否 9；Goal Turn 请求不应带。"""
+    def last_user_text(c):
+        users = [m for m in c['requestMessages'] if m.get('role') == 'user']
+        if not users:
+            return ''
+        ct = users[-1].get('content')
+        return ct if isinstance(ct, str) else '\n'.join(b.get('text', '') for b in ct if isinstance(b, dict) and b.get('type') == 'text')
+    calls = [c for c in inspector_calls(latest(d, '[0-9][0-9][0-9]-s17-inspector')) if not c['isTitle']]
+    side = next((c for c in calls if 'What is 8 + 1' in last_user_text(c)), None)
+    detail = {'sideRequestFound': bool(side)}
+    if side:
+        t = last_user_text(side)
+        i, j = t.find(GOAL_NOT_RUNNING), t.find('What is 8 + 1')
+        line = next((x for x in t.splitlines() if GOAL_NOT_RUNNING in x), None)
+        detail.update({'callId': side['callId'], 'turnId': side['turnId'], 'startedAtMs': side['startedAtMs'],
+                       'reminderPresent': i >= 0, 'reminderBeforeUserText': 0 <= i < j,
+                       'reminderStartsUserMessage': t.lstrip().startswith('<system-reminder>\n' + GOAL_NOT_RUNNING),
+                       'reminderLine': line,
+                       'reply': ' '.join(b['text'] for b in side['response'] if b['type'] == 'text').strip(),
+                       'replyTools': [b['name'] for b in side['response'] if b['type'] == 'tool_use']})
+    ev = all_events(d)
+    gm = goal_main_calls(calls, ev)
+    detail['goalTurnRequestsWithReminder'] = sum(1 for c in gm if GOAL_NOT_RUNNING in last_user_text(c))
+    detail['goalTurnRequests'] = len(gm)
+    checks.append({'id': '观察：补充消息请求的用户消息带“goal is not running”提醒（eb1b2af271，非检查点）', 'result': 'INFO', 'detail': detail})
 
 
 def s14(d):
@@ -472,12 +514,16 @@ def s25(d):
     bs3 = text_saved(d, 's25-banner-status-step3')
     cb3 = count_saved(d, 's25-continue-count-step3')
     br3 = count_saved(d, 's25-banner-resume-count-step3')
-    check('步骤3：Goal 为 paused(user_requested)，objective 不变；横幅为“已停止”，继续按钮在；补充消息回复 7',
+    # 第二轮自验（eb1b2af271）：verify 步骤 2 的“poll 到助手回复 7”单列一项；步骤 3 的字面检查点另列
+    check('步骤2：补充消息 What is 3 + 4 得到助手回复 7（从输入框发出，无替换确认框）',
+          rep is not None and rep.strip().rstrip('.') == '7' and not os.path.exists(os.path.join(d, 's25-side-blocked')),
+          {'reply': rep, 'replaceDialog': os.path.exists(os.path.join(d, 's25-side-blocked'))})
+    check('步骤3：Goal 为 paused(user_requested)，objective 不变；横幅为“已停止”，继续按钮在',
           g3.get('status_reason') == 'paused(user_requested)' and g3.get('objective') == g1.get('objective') and bs3 == '已停止'
-          and cb3 == 1 and br3 == 1 and rep is not None and rep.strip().rstrip('.') == '7'
-          and not os.path.exists(os.path.join(d, 's25-side-blocked')),
+          and cb3 == 1 and br3 == 1,
           {'status_reason': g3.get('status_reason'), 'objectiveSame': g3.get('objective') == g1.get('objective'), 'banner': bs3,
-           'composerContinueButton': cb3, 'bannerResume': br3, 'reply': rep})
+           'composerContinueButton': cb3, 'bannerResume': br3})
+    side_turn_info(d, 's25', 's25-side-sent-at-ms', 'What is 3 + 4', 'p.txt', 's25SideTurn')
     t_before, t_after = count_saved(d, 's25-goal-mode-tag-before-remove'), count_saved(d, 's25-goal-mode-tag-after-remove')
     hp = load_json(saved(d, 's25-hold-active')) if saved(d, 's25-hold-active') else {}
     traj = hp.get('trajectory') or []
@@ -796,6 +842,7 @@ def s39(d):
           and not os.path.exists(os.path.join(d, 's39-side-blocked')),
           {'reply': rep, 'status_reason': g3.get('status_reason'), 'objectiveSame': g3.get('objective') == gb.get('objective'),
            'continueButtonAfterReply': count_saved(d, 's39-continue-count-step3'), 'banner': text_saved(d, 's39-banner-status-step3')})
+    side_turn_info(d, 's39', 's39-side-sent-at-ms', 'What is 6 + 7', None, 's39SideTurn')
     ev = all_events(d)
     t4 = int(rd(d, 's39-continue-click-at-ms') or 0)
     tb = turn_bounds(ev, gb.get('goal_id'), after=t4)

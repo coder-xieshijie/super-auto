@@ -1,0 +1,69 @@
+{
+  "scenario": "S06",
+  "attempt": "f1",
+  "evidenceDir": "S07/f1",
+  "head": "d5bc1acab42f0573e6978d0f61ae011a470ccff8",
+  "runId": "20261001-225502-3201e0",
+  "authCheck": {
+    "runId": "20261001-225502-3201e0",
+    "kind": "electron",
+    "startedAt": 1790866502601,
+    "endedAt": 1790867028865,
+    "serverLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+    "files": [
+      "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/20261001-225502-3201e0/server.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/electron-main.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/im-runtime-2026100123.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100122.log",
+      "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/evidence/final-d5bc1acab4/S07/f1/runtime-logs/runtime-2026100123.log"
+    ],
+    "contentSafetyLines": 0,
+    "contentSafety401": 0,
+    "first401": null,
+    "electronAuthLost": 0,
+    "http429": 0,
+    "first429": null,
+    "fault429": {
+      "injected": 0,
+      "upstream": 0
+    },
+    "refreshLog": "/var/folders/pm/2zy2y3rd3tdd5j7yzlgjppvr0000gp/T/verify-archon/auth-refresh.log",
+    "refreshesDuringRun": 0,
+    "refreshesByVia": {},
+    "refreshesWhileElectronRunning": 0
+  },
+  "valid": true,
+  "precondition": {
+    "ok": true,
+    "detail": {}
+  },
+  "checks": [
+    {
+      "id": "token 文字以“+”结尾",
+      "result": "PASS",
+      "detail": {
+        "text": "1.2万+ tokens"
+      }
+    },
+    {
+      "id": "悬停说明为“部分请求缺少用量数据”",
+      "result": "PASS",
+      "detail": {
+        "title": "部分请求缺少用量数据"
+      }
+    },
+    {
+      "id": "usageIncomplete true；请求数含缺用量的那一次",
+      "result": "PASS",
+      "detail": {
+        "usage_incomplete": true,
+        "requests_used": 6,
+        "mainRequestsSent": 6,
+        "strippedN": [
+          1
+        ]
+      }
+    }
+  ]
+}
