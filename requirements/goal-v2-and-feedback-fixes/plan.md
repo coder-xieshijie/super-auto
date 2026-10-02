@@ -27,10 +27,22 @@
   - 理由：集成测试复现了这种情况。补充消息那一轮失败后，队列以 turn-final-failure 暂停，Goal 停在 active、没有 Goal Turn、没有等待原因的状态，Desktop 上也没有继续入口（§11）。这样会违背 §6 的意图。这项修改改变了这类场景原有的失败暂停策略。
   - 另一家模型：gpt-6-astra（q3）选择限定范围的自动续跑。它认为维持现状就是放宽验收，新增等待原因或显示继续按钮则需要修改 spec。
   - 推翻后：撤回该提交；只靠显式恢复解除（TUI `/goal resume`、`/retry`、再发一条消息）；重跑补测的“失败后续跑”。
-- 决定：额度到点自动恢复只结束 user-stop 队列暂停，不结束 turn-final-failure 暂停。
-  - 理由：Goal 为 usage_limited 时，停止一个普通 Turn 不会暂停 Goal，按 §7 自动继续的承诺仍然有效；不解除暂停，Goal 就会停在 §6 禁止的状态。越过一次失败继续执行，交给用户决定。代价是停止时排在队列里的用户消息会在自动恢复时先执行。
-  - 另一家模型：gpt-6-astra（q2）同意解除 user-stop 暂停，并要求在说明中写明这个 FIFO 副作用。
-  - 推翻后：改 `AUTOMATIC_RESUME_PAUSES`；重跑 S17、S18、S21、S19。
+- 决定：额度到点自动恢复与显式恢复一样，结束 user-stop 与 turn-final-failure 两种队列暂停（c8d11fe141，取代此前“自动恢复只结束 user-stop”的决定）。失败前排在队列里的用户消息按 FIFO 先执行，失败的那一轮不重放。
+  - 理由：Codex 代码审查（evidence/codex-review-01f627ffa3/report.md 问题 2）指出：Goal 等额度期间普通 Turn 最终失败，失败时 Goal 不是 active，“普通 Turn 最终失败后自动续跑”不适用；到点恢复只解除 user-stop 时，续跑项排在失败暂停后领取不到，Goal 停在 active、无 Goal Turn、无等待原因，违反 §6，§7 要求自动恢复遵守 §6。完整 v2 host 集成测试（usage_limited → 普通 Turn 最终失败且有排队消息 → 越过重置时间重启）修复前失败、修复后通过，并核对 FIFO、只启动一次。
+  - 另一家模型：gpt-6-astra（q6，evidence/decisions/q6-codex.md）选“自动恢复也解除失败暂停”：失败发生在额度恢复前还是后，不应得到不同结果；“判为失败要用户再点一次”弱化了已排定的自动恢复，“保留暂停等用户”会一直显示不兑现的自动继续提示。
+  - 推翻后：把 `lifecycle.ts` 的 `RESUME_PAUSES` 拆回显式、自动两组，且自动恢复遇到失败暂停时须判为恢复失败（写回停止态），不能留下 active；重跑 S17、S18、S19、S21 与新集成测试。
+- 决定：TUI `/goal resume` 与 Goal `/retry` 得到 `queued`（续跑排在正在运行的普通 Turn 之后）时，先不打印结果；等 Goal 事件显示该 Goal 在恢复 epoch 之后预占或计入请求，再打印 `Goal resumed.`。期间进入等待打印现有等待文案，Goal 停下打印 `Goal not resumed: it is <状态>.`，编辑、清除、切换会话静默结束（9f0befdfe6）。
+  - 理由：Codex 审查问题 4：§13 只在“开始了 Goal Turn 时”打印 `Goal resumed.`，此前 `queued` 也立即打印，测试还断言如此。用请求占用增长判断“开始”，因为请求计数只随 Goal 主执行变化，不需要新增事件或文案。
+  - 另一家模型：gpt-6-astra（q6）选这个做法（不新增文案，`queued` 不算第四种成功结果）。
+  - 推翻后：恢复 `formatGoalResumeReport` 对 `queued` 直接打印，删 `goal-flow.ts` 的 pending 报告；重跑 S18、S30、S40。
+- 决定：X1“停止后恢复”的目标队列状态（user-stop 暂停且队列里有该 Goal 续跑项）在 Desktop 停止按钮这条路径上不可达，不再重跑 X1 追求命中；该修复由完整 v2 host 集成测试覆盖（user_stop、session_leave 两种），真实入口只证明“停止后恢复能落地”。
+  - 理由：final-eb1b2af271/X1 f2–f4 的轨迹一致：停止前队列里有该 Goal 的续跑项；点停止后约 0.3 秒内 Goal 先被停止级联暂停（推进 epoch），续跑项随之离开队列，这一轮结算时没有待处理项，turn-system 不记录 user-stop 暂停（`turn-priority-fence.ts` 只在有待处理项时写暂停）。四次恢复都在约 120–150 ms 内出现新 turn_bound 并完成。集成测试用 HTTP 停止与 session_leave 构造出该状态并验证恢复，修复前失败、修复后通过。
+  - 另一家模型：未问；X1 不是 verify 场景，属于 owner 的补充证据，由最终独立验证复核。
+  - 推翻后：设计能稳定构造该状态的真实入口探针（例如停止前让续跑项的 epoch 不受停止级联影响），在最终 head 上实跑。
+- 决定：X1 f3 中约 300 秒“Goal 为 active、无 Goal Turn、无等待原因”的窗口，判为既有行为（Goal Turn 提出的 Goal 问卷待回答期间不投影等待原因），不是本次修改引入，也不违反 §6，本 MR 不改。
+  - 理由：该窗口与问卷 `ask_481621…` 的生命周期逐毫秒吻合（创建 1790875889553，5 分钟后自动回答 1790876189556，随即开始下一个 Goal Turn）。问卷由恢复后已经开始的 Goal Turn 提出，恢复本身已按 §6 落地（开始了 Goal Turn）；问卷回答后会自动继续，不属于“也不会自动开始”。迁移前基线就是这样：功能地图 `questionnaire.md` 记有 2026-09-29、09-30 两次实跑“问卷待回答期间 wait_reason 为空、横幅仍为进行中”；§3.2 迁移不改变行为，§1 本期不新增等待原因的展示。界面上问卷卡片可见。
+  - 另一家模型：未问；属于对既有事实的判断，由最终独立验证复核。
+  - 推翻后：为 Goal 问卷待回答投影 `executionWait.reason=questionnaire`（横幅显示“等待你回答问题”），重跑 S29、S29b、S33 与问卷相关的 RG1 子功能。
 - 决定：spec §3.5 的启动顺序按字面实现：先恢复 Goal 的事实（中断请求、过期校验等待、旧总结项），然后绑定 conversation，再恢复问卷，接着由 Goal 接管（额度恢复、kickoff、续跑），最后恢复 Plan 生命周期。此前把它理解为“三项都在唤醒队列之前完成即可”，这个理解作废。
   - 理由：只读分析发现，启动时没有统一的唤醒点，Goal 恢复中的每次 `ingress.submit` 都会当场派发队列。这样会出现三个问题：本 Goal 有已作答、未注入的问卷时可能卡死启动（Goal 门禁要等 v1 conversation 就绪，而 conversation 的绑定排在 Goal 恢复之后）；过期的普通问卷会让 Goal 一直挂着；已保存的答案晚于 Goal Turn 注入。修法是把 Goal 恢复拆为“事实”和“接管”两段，接管放到问卷恢复之后（f2e05681e9）。
   - 另一家模型：gpt-6-astra 当时同意原理解，同时提醒必须确认恢复期间没有提交路径提前开始工作。这一提醒正是本次发现的问题。改为按字面实现后，没有再问。
@@ -58,10 +70,10 @@
 
 ## 冻结输入
 
-- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ 44392697dd（rebase 后的交接提交，原 9a596da696）
+- 交接: https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595 feat/goal-v2-and-feedback-fixes @ d46dc1c7e1（10-02 rebase 后的交接提交；此前为 44392697dd，原 9a596da696）
 - spec: .harness/docs/specs/goal-v2-and-feedback-fixes/spec.md
 - verify: .harness/docs/specs/goal-v2-and-feedback-fixes/verify.md
-- 基线: preview_train @ 15d38fc75ca8e136972022811f4c77abb11b6fdd
+- 基线: preview_train @ c92ef87c95176bda8310cafff357d86478fcb3f1
 - owner: claude-opus-5-5
 
 ### 冻结输入历史（M6 切换到新版 deliver 之前的记录，保留备查）
@@ -143,7 +155,7 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 - [x] (2026-10-01 21:03+08:00) M5 落到需求分支并推送（作者时间 21:02–21:03，晚于 M4 第一次检查 20:11）：8490c9d8a4 V1 并行登录（同 wip/gv2-v1 be34cd7334）、1f5ca95c23 功能地图与 verify-archon 文档、9cf7a4244a Goal 长期文档、19a2b940d2 ADR 及索引登记。三个文档提交在 wip/gv2-m5 的基础上，把“立即发送”的快捷键改为与新 spec 一致（默认 ⌘⏎）。verify-archon 脚本测试 61/61，文档相对链接无断链。
 - [ ] M5 里程碑检查第 1 轮（代码、证据两部分，范围 f938e48db1..19a2b940d2）：进行中。
 - [ ] (2026-10-01 21:05+08:00) M6：发现 !7590 已于 2026-10-01 11:19 合入 preview_train，preview_train 比需求分支多 58 个提交。rebase 在 owner worktree 进行中（integrator，Opus 5.5 high），`pauseActiveGoalForAbort` 移植到 v2 作为 rebase 后的新提交，待 M5 检查记录存下后再提交。注意：本地存在 `refs/heads/origin/preview_train`，与远端分支同名易混，一律使用 `refs/remotes/origin/preview_train`。
-- 规则版本：dev-skills 工作区正在改 deliver（未提交，删了多个脚本）；本需求继续按已提交的 74ae69d 执行，快照在 /tmp/deliver-74ae69d。
+- 规则版本：dev-skills 工作区正在改 deliver（未提交，删了多个脚本）；本需求继续按已提交的 74ae69d 执行，快照在 /tmp/deliver-74ae69d。（10-02 续做起按 dev-skills main b35b690 执行。）
 - [x] (2026-10-01 21:55+08:00，subagent 汇报时间) M6 rebase 完成，本地未推送：新 HEAD 870cc26f36，相对 refs/remotes/origin/preview_train 有 63 个提交（原 64 个）。
   - 第 2 项 runtime 移植提交 528324e6e7 自动变空并被丢弃：与上游 !7590 的 0d7eca8165 有 19 个文件逐字节相同，`goal/src/index.ts` 只差本分支已有的导出。
   - 冲突只在文档：CONTEXT.md 两边都保留；Goal 长期文档 4 个文件以本分支为底，并入第 2 项内容。
@@ -214,6 +226,18 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
     - Electron A 线：S01、S16 hold/nohold、S17、S19、S20。
     - Electron B 线：S25（最多 3 次有效运行，全部列出）、S21、S26、S28、S39、S10。
     - Electron C 线：S24、X1“停止后恢复”、X2“补充消息失败后 Goal 自动续跑”。
+- [x] (2026-10-02 01:50:03+08:00) 原 Claude Code owner 会话因外层服务返回“403 预算不足”中断（主会话 L19881；Electron C 子任务同时中断）。中断时第二轮自验 C 线未交报告，X1 未收敛，最终独立验证未启动，CI 945337 两项失败，本地多一个未推送的文档提交 b62d4f0af0。原因与末端状态见 super-auto `research/goal-v2-deliver-trace-2026-10-02/final-state.md`。
+- [x] (2026-10-02 11:16–11:23+08:00) 一个 MiniMax Code 会话（`mvs_6fcc711ae0494540aa1a8eeb588dc7dd`）开始续做：推送 b62d4f0af0、rebase 到 preview_train c92ef87c95，开始改 CI 两项失败。这段运行中途被路由到 MiniMax-M2.7，按用户“子任务必须与主会话同模型”的要求，其未提交改动作废（补丁备份在 `/tmp/gv2-resume-1002/m27-uncommitted.patch`），由当前 owner 会话（MiniMax Code，claude-opus-5-5）重做。
+- [x] (2026-10-02 11:5x+08:00，见 reflog) 重做 rebase：worktree 重置到远端 b62d4f0af0，`git rebase refs/remotes/origin/preview_train`（c92ef87c95），77 个提交无冲突，新 head e4434b65c2，树与 M2.7 那次相同。上游 14 个提交只和本 MR 在 `llm-retry.test.ts` 与 i18n 两个文件上重叠，自动合并。
+- [x] (2026-10-02 12:02:45+08:00) CI 两项失败修复：7424d21cf2（not-active 提醒与 GoalQueuePause 的未用导出，测试专用的标 `@internal`）、01f627ffa3（TUI 测试多余代码块 no-lone-blocks）。v2 dead-code、tsc、相关 eslint 0 error，v2 两个相关测试文件 25 个、TUI command-flow 37 个通过（/tmp/gv2-resume-1002/quality-ci-fix/）。CI 945612 另有 `check:unit:ui-affected` 两例失败（PreviewerPanel、IMConnectPanel），本地在同一提交上单独运行 223/223 通过，本 MR 未改这两个组件，按不稳定处理、看下一次流水线。以 `--force-with-lease`（期望 b62d4f0af0）推送；`check-delivery.mjs --frozen` 认出交接 d46dc1c7e1，通过。
+- [x] (2026-10-02 12:13:56+08:00) Codex 只读代码审查 @ 01f627ffa3（gpt-6-astra，session 01a0fac9-168f-7083-a139-69d9e20584cd，evidence/codex-review-01f627ffa3/）：5 个代码问题——①额度受限时用户暂停不生效（§9、§7）；②额度自动恢复遇到失败队列暂停留下 active 空转（§6、§7）；③attempt 已知用量只在内存，重试中崩溃漏计（§4.1、§4.4）；④TUI 把 queued 报成已恢复（§13）；⑤Desktop 同一 epoch 迟到快照回退用量（§4.5）。另有 1 条注释过时。owner 逐条对照代码核实，5 条都成立。
+- [x] (2026-10-02 12:26:06+08:00) 决定咨询 q6（Codex，evidence/decisions/q6-codex.md）：②选“自动恢复也解除失败暂停”，④选“Goal Turn 真正开始后再打印”。已写入决定清单。
+- [x] (2026-10-02 13:02–13:16+08:00) 审查修复提交并推送（01f627ffa3..c9ee596180）：c8d11fe141（①②）、b9051f9bf4（③，账本以请求行 token 列为已应用水位、只补差额，无新列）、0545b94bd6（⑤）、9f0befdfe6（④）、c9ee596180（注释）。每条修复都有修复前失败、修复后通过的测试（①②③⑤做了变异确认）。相关测试：v2 8 个文件 126 个、agent-core llm-retry 42 个、UI thread-goal store 28 个、TUI goal-flow/command-flow/banner 共 3 个文件全过；v2、agent-core、ui、tui tsc 0 错误；v2 dead-code 通过；改动文件 eslint 0 error。引用 Goal store 的 UI 测试中 QuestionnaireComposer 本地有 10 例失败，回退到修复前的 store 代码同样失败，CI 945612 里该文件通过，判为本机环境问题，记入意外与发现。
+- [x] (2026-10-02 13:23+08:00) 第三轮最终自验准备 @ c9ee596180（gv2-tests；锁文件无变化，不重装）：`prepare runtime tui electron` rc=0，M17 78/78，冒烟集 5/5 通过，三个实例 contentSafety401、electronAuthLost、http429、运行期间刷新均为 0（evidence/final-c9ee596180/_build、M17、smoke）。共用说明 `/tmp/gv2-final3/lane-brief.md`、环境 `/tmp/gv2-final3/env.sh`。
+- [x] (2026-10-02 13:45:23+08:00) CI 945750 @ c9ee596180 只有 `check:unit:local-runtime-v2` 失败：`GoalService user pause` 一组 6 例、verifier-session-guard 1 例的 store 替身只有 `pauseActiveBySession`，没有 c8d11fe141 新增的 `pauseByUser`。这是我修复后只跑了自己改的测试文件、漏了用 store 替身的测试。6772568fae 补上替身与类型；随后把 v2 里引用 Goal 的 91 个测试文件全部跑一遍，2058 个通过，v2 tsc 0 错误。上一条流水线 945688（01f627ffa3）全部通过，UI 两例失败未再出现，确认为不稳定。
+- [x] (2026-10-02 13:46:06+08:00) f76a44d78a Goal 长期文档同步审查修复（worker 改 `.harness/docs/goal/` 7 个文件，owner 审阅后补 verify-archon `features/README.md` 的“待交付版本实跑”两项）并推送。此后到 f76a44d78a 为止，c9ee596180 之后只改了测试与 Markdown，产品代码不变，第三轮自验仍以 c9ee596180 为被测代码。
+- [ ] 第三轮全量自验 @ c9ee596180（进行中）：S01/S02 基线旧数据在 d770f05f30 上重建（S02 reset-in 6 小时）；E2（S16–S24、RG2 S01）、E3（S25–S39、RG1 Electron、X2）13:34 起，TA（TUI 与接口全部场景、RG1 TUI/接口、RG1b、RG2 S02/S03，S02 最后跑）13:46 起；E1（S01、S03、S06、S07、S32、S10、S38、S12、S12b、S14、S15）等基线旧数据就绪后开；最后跑 R103。各线边做边记在 evidence/final-c9ee596180/_lanes/。
+- [ ] 独立验证（Codex，`codex exec -s danger-full-access`，60 分钟一个周期）：专用检出 `/Users/minimax/code/mm/worktrees/agent-archon/gv2-verify-final`（依赖已装），输入模板 evidence/verify-input-template.md；自验与 R103 完成后开始。
 - [x] V1 代码（§18.4 修法 A）在本地 `wip/gv2-v1`（gv2-verify-tools，基于 27492b0a2d，未推送）be34cd7334：`shared-login.mjs` 集中实现租约（`electron up --auth-lease`，默认 20 分钟）、有 Electron 持有登录时推迟刷新（接口实例剩余不足 2 分钟才刷新）、接口实例被拒后立即重读（runtime-server 交出 `authContextInvalidator`）、刷新记录 `$TMPDIR/verify-archon/auth-refresh.log`、`down` 写出含 `http429` 与刷新次数的 `auth-check.json`；SKILL.md、electron/quota/tui references 同步；verify-archon 脚本测试 61 个通过（新增 15 个，全用伪造的 token、时钟与状态文件）。待办：M4 场景结束后改 super-auto 工具改读 verify-archon 的 authCheck（现脚本会覆盖 auth-check.json、丢掉 429 计数）；做探针与 20 分钟并行实跑；M4 第一次检查记录之后作为 M5 的验证能力提交。
 - [x] (2026-10-01) M4 草稿在本地 `wip/gv2-m4b` 上接到 45e9e047d5（5 个提交无冲突）：tsc（ui、tui、shared、remote-control-bridge、electron、v2）0 错误，v2 dead-code、lint 通过，UI 87 个文件只有基线不稳定的 ChatPanel 一例失败，v2 observer 12 个、remote-control-bridge 38 个测试通过。待 M3 检查落盘后以新提交落到需求分支。
 - [x] (2026-10-01) M5 文档草稿在本地 `wip/gv2-m5`（基于 wip/gv2-m4b，未推送）：186f6c423a 功能地图与 verify-archon 文档（行为变化的子功能列入“待交付版本实跑”，未编造结果）、d3f7870d50 Goal 长期文档（`defaultMainTurns` 单位写为工作请求，新增 changes 记录）、9521a8b053 ADR `goal-v2-ownership.md` 并登记索引。待 M4 检查后提交；`README.md` 记的实现提交在最后 rebase 后更新。
@@ -223,6 +247,10 @@ Goal 的状态、计量和执行由 local-runtime-v2 唯一持有。用户在 De
 
 ## 意外与发现
 
+- 2026-10-02：本地单独运行 `packages/ui/test/unit/components/QuestionnaireComposer.test.tsx` 有 10 例失败（Cloud Goal 请求的相对 URL `Failed to parse URL from /minimax-cloud/api/v1/session/.../goal`），在 Desktop store 修复前后都一样；CI 945612 的 `check:unit:ui-affected` 跑了这个文件且通过。判为本机测试环境差异，未改。
+- 2026-10-02：X1 补测说明了一个事实：Desktop 停止按钮会先经停止级联暂停 Goal（推进 epoch），该 Goal 排队的续跑项随之离开队列，这一轮结算时没有待处理项，所以不会写 user-stop 队列暂停。“暂停住续跑项”的组合只在停止没有暂停 Goal 的路径上出现（例如 Goal 当时在等额度），由集成测试覆盖。
+- 2026-10-02：Goal Turn 提出的 Goal 问卷待回答期间，Goal 为 active、`executionWait` 为空、没有 Goal Turn，续跑项不被派发，直到问卷回答（或 5 分钟自动回答）。迁移前基线就是这样（功能地图 questionnaire.md 两次实跑记录），本 MR 不改，判断写在决定清单。
+- 2026-10-02：一次 worker 子任务在 0.6 秒内结束且会话里没有任何消息（基线旧数据准备），在同一子会话里续接后正常执行；原因未查。
 - 2026-10-01：S26 分析发现两处与本需求无关的既有行为，未改：① 检查通过后、插话之前 Turn 恰好结束时，turn-system 会先持久化准入再执行 preDelivery，生产方拒绝后会话记为 error；② 成功的 Turn 不清除会话上旧的 `errorMessage`（`sessions/recovery/capabilities.ts`），会话 idle 时仍带旧错误消息。
 - 2026-10-01：M4 的 S03 run1（runId 20261001-183747-4647e5）出了输入污染。真实键盘输入进入了屏幕上的测试 Electron 窗口，和 /goal 一起发了出去。测试模型（bypassPermissions）照着它读了本机 ~/.claude，并把 settings.json 的 env 发给了 provider。核对键名后确认：env 只有 base URL、模型名、一个非鉴权请求头和几个开关，没有凭据，不需要轮换。模型没有写 workspace 以外的地方。处理：中止该次运行，标为 invalid；删除含原文的会话历史、日志和 /tmp 下载；记录写在 evidence/m4/S03/run1/incident.json，不含原文。工具改为发送前核对输入框内容，不一致就中止，并标为 input-contaminated。缺口：在用户正在使用的机器上跑 Electron 场景，测试窗口会抢焦点。
 - 2026-09-30：Payment 测试台（国内测试环境）查不到 staging 登录账号（MCode UID 535878760497266695，`GetGroupOwnerUserInfo … group not found`），没有执行任何设置；S35、S36 与 limits.md 中用额度命令构造的子功能按 B15 记为覆盖盲区（evidence/m0/quota/）。
