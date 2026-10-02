@@ -50,6 +50,10 @@
 
 ## 相关资料入口
 
+### 2026-10-02 留存核对
+
+- [最近 48 小时 Claude Code 会话与流程留存核对](2026-10-02-claude-session-coverage.md)：主要主题已有记录，但两条 deliver trace 未续到最新；原始会话没有持续自动归档，数据索引与部分 Git 提交尚不完整。完整证据边界及源记录清单见核对报告。
+
 - [仓库首页](../README.md)
 - [Lauren 与工业级需求自动交付调研](../research/agent-delivery-2026-09-28/README.md)
 - [两段补充视频的分析](../research/agent-delivery-2026-09-28/supplement-videos/analysis.md)
