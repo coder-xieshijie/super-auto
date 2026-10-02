@@ -15,6 +15,8 @@
 
 ## 备份
 
+2026-10-02 MR 7595 复盘新增一份有界索引：[89 个原始会话文件的路径与 SHA-256](../research/goal-v2-deliver-trace-2026-10-02/manifest.json)，以及 [采集范围与方法](../research/goal-v2-deliver-trace-2026-10-02/README.md)。分析投影和本轮 CI 日志放在该研究目录的 `local/`，由目录自己的 `.gitignore` 排除；不含 thinking 的事件导航、结论与来源索引进 Git。这是专项增量，不替代上面的 10/1 全库 `files.tsv`，也不表示所有历史 trace 都已归档。
+
 - 改写前完整副本（含旧历史、工作区与未跟踪文件）：`/Users/minimax/code/_archive/super-auto-backup-20261001`，HEAD `5cae28e`。
 - 旧提交号到新提交号的对照见 [commit-map.tsv](commit-map.tsv)，用于查找文档里引用的本仓库旧提交号（如 `9481ec5`）。
 - evidence 在本机之外只有上述备份。deliver 之后新产生的证据只写到本地；`git add` 这些路径会因 ignore 报错，需要时用私有数据仓保存。

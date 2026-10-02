@@ -1,0 +1,212 @@
+{
+  "iid": 7595,
+  "title": "Draft: feat(goal): Goal v2 迁移、请求计量与反馈修复",
+  "state": "opened",
+  "draft": true,
+  "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595",
+  "source_branch": "feat/goal-v2-and-feedback-fixes",
+  "target_branch": "preview_train",
+  "sha": "eb1b2af2716b70ff68fbc78cc802a13864ed7052",
+  "updated_at": "2026-10-01T16:18:59.141Z",
+  "merged_at": null,
+  "merge_status": "can_be_merged",
+  "detailed_merge_status": "not_approved",
+  "description": "## 说明\n\n这是 Goal 需求（飞书《Goal 需求澄清与验收文档｜12 项｜2026-09-30》第 1、3–12 项）的交付 MR：Goal 完整迁入 local-runtime-v2、计量与次数预算改为逻辑 LLM 请求并在当前 Goal Turn 内收尾，以及恢复、依赖、冲突、输入意图、校验恢复、继续按钮、通知、TUI 恢复等反馈修复。第 2 项（Goal 完成时最终回复与交付物可见）另行交付，本 MR 最后 rebase 时带入。\n\nspec 与 verify 已由用户确认冻结，代码由 deliver 在本 MR 上继续提交：\n\n- spec：`.harness/docs/specs/goal-v2-and-feedback-fixes/spec.md`，sha256 `c6a945d5ac961f85ae0701ab9e92ac6432f2225c5070c13881dc70d7702a60c8`（2026-10-01 用户确认的三次更新：§10 写明“立即发送”沿用现有快捷键设置（默认 ⌘⏎）；§1 文案表补入本需求新增的 Desktop 文案；新增 §18.4 验证实例并行；原版 `2287ea872016cdbd8cb186697f863530c948fc59546a762fccb45fd9fbd0134a`）\n- verify：`.harness/docs/specs/goal-v2-and-feedback-fixes/verify.md`，sha256 `944fbc45c45fca70c7c74ee72699e113f2967445d9dae4a4ec094ebeb6db71df`（2026-10-01 用户确认的五次更新：S04、S05 的请求数核对计入被暂停取消的已发出请求，S09 hold 只看该 Goal 的请求，S40 前提改看 agents，新增 R103、M17，R76 与 S24 步骤 4 的“立即发送”改为默认设置下按 ⌘⏎；最新交接提交 9a596da696；原版 `009d61aa426c414f5c9d1ec86711af0ff1aa3625b1d4fe03b835c10e5d942c61`）\n- 交接提交：`350965f50f`（提交信息末尾的 `Frozen-Spec`、`Frozen-Verify` 两行）\n\n## 当前内容\n\n- !7556 的 7 个提交（verify-archon Skill 与 Goal 功能地图），随本 MR 合入；本 MR 合入后 !7556 由用户关闭。\n- `CONTEXT.md` 新增“Goal 执行、恢复与计量”术语。\n- 冻结的 spec 与 verify。\n\n基线为 `preview_train` `3962b648ff`（与 verify 记录一致）。按 spec 的交付顺序：先 v2 迁移（迁移前 cherry-pick !7181 作为基线），再做请求计量与预算收尾，再做其余需求与修复；全部完成后最后一步 rebase 到最新 `preview_train`（含第 2 项），并在 rebase 后的代码上重跑第 2 项与本需求 verify 的全部场景。\n\n## 合入顺序与授权\n\n- 本 MR 配套的 weaver/idl MR 由 deliver 创建，开发与验证期间不合入，全程使用 IDL feature 分支生成的代码。全部功能与测试验证完成后，由用户合入 IDL MR、基于 IDL main 重新生成，再合入本 MR。\n- 本 MR 不自动合入；!7181 在本 MR 合入后由用户关闭。\n- 目标：10 月 8 日 09:00 前达到可合入。\n\n## 验证\n\n当前只有文档与术语改动，尚未运行产品验证；验收要求见 verify.md。",
+  "pipeline": {
+    "id": 945337,
+    "sha": "4585529c999cc7b887c2d4376f6b853b282e3590",
+    "status": "failed",
+    "ref": "refs/merge-requests/7595/merge",
+    "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/pipelines/945337",
+    "created_at": "2026-10-01T16:15:40.219Z",
+    "finished_at": "2026-10-01T16:33:48.705Z"
+  },
+  "captured_at": "2026-10-02T10:26:59.011968+08:00",
+  "jobs": [
+    {
+      "id": 3662304,
+      "name": "governance:notify:external-mr",
+      "status": "skipped",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662304"
+    },
+    {
+      "id": 3662303,
+      "name": "cloud-harness-sandbox:package:web-cloud:test: [va, va]",
+      "status": "manual",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662303"
+    },
+    {
+      "id": 3662302,
+      "name": "cloud-harness-sandbox:package:web-cloud:test: [cn, sh]",
+      "status": "manual",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662302"
+    },
+    {
+      "id": 3662299,
+      "name": "check:unit:config",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662299"
+    },
+    {
+      "id": 3662298,
+      "name": "check:unit:cli",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662298"
+    },
+    {
+      "id": 3662297,
+      "name": "check:unit:electron",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662297"
+    },
+    {
+      "id": 3662296,
+      "name": "check:integration:channel-bridge",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662296"
+    },
+    {
+      "id": 3662295,
+      "name": "check:unit:local-runtime-v2",
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662295"
+    },
+    {
+      "id": 3662294,
+      "name": "check:unit:local-runtime",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662294"
+    },
+    {
+      "id": 3662293,
+      "name": "check:test-surface-contract",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662293"
+    },
+    {
+      "id": 3662292,
+      "name": "check:contract:mcode-exec",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662292"
+    },
+    {
+      "id": 3662291,
+      "name": "check:unit:cloud-runtime",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662291"
+    },
+    {
+      "id": 3662290,
+      "name": "check:unit:agent-runtime",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662290"
+    },
+    {
+      "id": 3662289,
+      "name": "check:unit:agent-core",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662289"
+    },
+    {
+      "id": 3662288,
+      "name": "check:contract:tui-build-mode",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662288"
+    },
+    {
+      "id": 3662287,
+      "name": "check:fast:mcode-packaging",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662287"
+    },
+    {
+      "id": 3662286,
+      "name": "check:fast:local-runtime-architecture",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662286"
+    },
+    {
+      "id": 3662285,
+      "name": "check:fast:package-boundaries",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662285"
+    },
+    {
+      "id": 3662284,
+      "name": "check:unit:ui-affected",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662284"
+    },
+    {
+      "id": 3662283,
+      "name": "check:fast:typecheck",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662283"
+    },
+    {
+      "id": 3662282,
+      "name": "check:fast:lint",
+      "status": "failed",
+      "failure_reason": "script_failure",
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662282"
+    },
+    {
+      "id": 3662281,
+      "name": "governance:freeze:preview",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662281"
+    },
+    {
+      "id": 3662280,
+      "name": "governance:merge-strategy",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662280"
+    },
+    {
+      "id": 3662279,
+      "name": "check:fast:source-size",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662279"
+    },
+    {
+      "id": 3662278,
+      "name": "check:fast:sensitive-keyword-diff",
+      "status": "success",
+      "failure_reason": null,
+      "web_url": "https://gitlab.xaminim.com/matrix/agent-archon/-/jobs/3662278"
+    }
+  ],
+  "idl": {
+    "iid": 13599,
+    "title": "feat(goal): GoalState 增加请求计量与额度恢复字段",
+    "state": "opened",
+    "draft": false,
+    "sha": "204400c9a5857ae9da8890d6b7e8847721448e5c",
+    "updated_at": "2026-10-01T14:05:50.474Z",
+    "merged_at": null,
+    "web_url": "https://gitlab.xaminim.com/weaver/idl/-/merge_requests/13599"
+  }
+}

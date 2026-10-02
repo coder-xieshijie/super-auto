@@ -1,0 +1,2819 @@
+{
+  "captured_at": "2026-10-02T10:39:39.681059+08:00",
+  "scope": "Two named main sessions and all their local subagents. No thinking or attachments.",
+  "metrics_note": "Usage: maxima per unique message.id. Spans overlap and are not additive wall-clock costs.",
+  "files": [
+    {
+      "key": "definition",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-eager-leavitt-d0d8db/a6b48431-9771-482d-9b95-49964a4cee08.jsonl",
+      "sha256": "c539b047cbff49e6357645f723e9c51a73e78ea94a7f0864e15e7ce7fcd12b40",
+      "bytes": 8627139,
+      "lines": 2011,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T07:43:34.228Z",
+      "last": "2026-09-30T11:36:06.821Z",
+      "unique_model_message_ids": 214,
+      "usage_max_per_message": {
+        "input_tokens": 19128,
+        "cache_creation_input_tokens": 5389866,
+        "cache_read_input_tokens": 91669365,
+        "output_tokens": 383173
+      },
+      "tools": {
+        "Skill": 1,
+        "Bash": 189,
+        "Read": 8,
+        "Agent": 4,
+        "mcp__ccd_session_mgmt__list_sessions": 1,
+        "Write": 7,
+        "Edit": 2,
+        "mcp__ccd_pr__get_status": 1,
+        "mcp__ccd_pr__bind_pr": 1
+      },
+      "unique_record_types": {
+        "queue-operation": 50,
+        "attachment": 746,
+        "user": 241,
+        "last-prompt": 122,
+        "custom-title": 122,
+        "agent-name": 121,
+        "file-history-snapshot": 17,
+        "atis-latch": 121,
+        "assistant": 438,
+        "file-history-delta": 8,
+        "system": 24,
+        "cost-state": 1
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 214
+      }
+    },
+    {
+      "key": "definition/agent-a5e4e04395678cd6f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-eager-leavitt-d0d8db/a6b48431-9771-482d-9b95-49964a4cee08/subagents/agent-a5e4e04395678cd6f.jsonl",
+      "sha256": "2da20072157dfc3350ecebe81a824f72daafa3d4fc43aa229c7f9ea0c9659f35",
+      "bytes": 2111199,
+      "lines": 655,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T07:45:58.832Z",
+      "last": "2026-09-30T07:56:17.579Z",
+      "unique_model_message_ids": 112,
+      "usage_max_per_message": {
+        "input_tokens": 10690,
+        "cache_creation_input_tokens": 1573858,
+        "cache_read_input_tokens": 16742245,
+        "output_tokens": 43544
+      },
+      "tools": {
+        "Bash": 104,
+        "Read": 13
+      },
+      "unique_record_types": {
+        "user": 118,
+        "attachment": 354,
+        "assistant": 183
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 112
+      },
+      "description": "Goal items 5,7,8,9 code state"
+    },
+    {
+      "key": "definition/agent-ad11492711155d641",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-eager-leavitt-d0d8db/a6b48431-9771-482d-9b95-49964a4cee08/subagents/agent-ad11492711155d641.jsonl",
+      "sha256": "20bb3dd15d248b2a06ec1bca41ca91c70792e97f44d0e250cbd015e5fb3c3983",
+      "bytes": 2012891,
+      "lines": 623,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T07:45:51.157Z",
+      "last": "2026-09-30T07:54:18.731Z",
+      "unique_model_message_ids": 102,
+      "usage_max_per_message": {
+        "input_tokens": 10430,
+        "cache_creation_input_tokens": 1154962,
+        "cache_read_input_tokens": 15541088,
+        "output_tokens": 32494
+      },
+      "tools": {
+        "Bash": 97,
+        "Read": 14
+      },
+      "unique_record_types": {
+        "user": 112,
+        "attachment": 332,
+        "assistant": 179
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 102
+      },
+      "description": "Goal items 1,3,4,10 code state"
+    },
+    {
+      "key": "definition/agent-ad7918f736ccc484a",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-eager-leavitt-d0d8db/a6b48431-9771-482d-9b95-49964a4cee08/subagents/agent-ad7918f736ccc484a.jsonl",
+      "sha256": "cb431eeafa39ab4dd6db7425cff2eeaa9e02ad536bfb0603e16bf8ae95400cf2",
+      "bytes": 1435701,
+      "lines": 436,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T07:45:33.552Z",
+      "last": "2026-09-30T07:52:38.809Z",
+      "unique_model_message_ids": 55,
+      "usage_max_per_message": {
+        "input_tokens": 9208,
+        "cache_creation_input_tokens": 1118127,
+        "cache_read_input_tokens": 5740079,
+        "output_tokens": 26382
+      },
+      "tools": {
+        "Bash": 82,
+        "Read": 2,
+        "TaskStop": 1
+      },
+      "unique_record_types": {
+        "user": 86,
+        "attachment": 233,
+        "assistant": 117
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 55
+      },
+      "description": "Goal v2 migration state"
+    },
+    {
+      "key": "definition/agent-aface748f60b87bdb",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-eager-leavitt-d0d8db/a6b48431-9771-482d-9b95-49964a4cee08/subagents/agent-aface748f60b87bdb.jsonl",
+      "sha256": "6750612580bc725a1942312b8b77785b82d6a351ee77deb45b948dc411332e25",
+      "bytes": 1553173,
+      "lines": 421,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T07:45:42.409Z",
+      "last": "2026-09-30T07:52:07.144Z",
+      "unique_model_message_ids": 69,
+      "usage_max_per_message": {
+        "input_tokens": 12754,
+        "cache_creation_input_tokens": 1323759,
+        "cache_read_input_tokens": 9910336,
+        "output_tokens": 25759
+      },
+      "tools": {
+        "Bash": 66,
+        "Read": 9
+      },
+      "unique_record_types": {
+        "user": 76,
+        "attachment": 228,
+        "assistant": 117
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 69
+      },
+      "description": "Goal accounting and budget state"
+    },
+    {
+      "key": "deliver",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5.jsonl",
+      "sha256": "fd28d8cb7bf82bb2f85b91679cd0c463e1d5246c723cefe5421118e7c01d2bfc",
+      "bytes": 52817451,
+      "lines": 19881,
+      "duplicate_uuid_rows": 3893,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:45:13.744Z",
+      "last": "2026-10-01T17:50:03.314Z",
+      "unique_model_message_ids": 1803,
+      "usage_max_per_message": {
+        "input_tokens": 1080008,
+        "cache_creation_input_tokens": 106280496,
+        "cache_read_input_tokens": 831932392,
+        "output_tokens": 1392675
+      },
+      "tools": {
+        "Bash": 1669,
+        "Read": 4,
+        "Agent": 63,
+        "Write": 19,
+        "SendMessage": 13,
+        "TaskStop": 5,
+        "AskUserQuestion": 11,
+        "mcp__ccd_session__spawn_task": 1
+      },
+      "unique_record_types": {
+        "queue-operation": 312,
+        "attachment": 6106,
+        "user": 1857,
+        "last-prompt": 922,
+        "custom-title": 923,
+        "agent-name": 922,
+        "file-history-snapshot": 6,
+        "atis-latch": 922,
+        "assistant": 3474,
+        "file-history-delta": 19,
+        "system": 82,
+        "pr-link": 443
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 1799,
+        "anthropic/claude-opus-5.5": 3,
+        "<synthetic>": 1
+      }
+    },
+    {
+      "key": "deliver/agent-a008845559ba793b1",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a008845559ba793b1.jsonl",
+      "sha256": "bfd86d6f658cd486da23b78f6fcae7c25ed22dec3327d508d398733f41c6598d",
+      "bytes": 1953554,
+      "lines": 511,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T01:20:40.402Z",
+      "last": "2026-10-01T01:32:17.148Z",
+      "unique_model_message_ids": 85,
+      "usage_max_per_message": {
+        "input_tokens": 11137,
+        "cache_creation_input_tokens": 2284120,
+        "cache_read_input_tokens": 14719713,
+        "output_tokens": 41075
+      },
+      "tools": {
+        "Bash": 85,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 87,
+        "attachment": 268,
+        "assistant": 156
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 85
+      },
+      "description": "M1 milestone check"
+    },
+    {
+      "key": "deliver/agent-a00cd0aa832231df2",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a00cd0aa832231df2.jsonl",
+      "sha256": "7f377387df37af0d2ca06822cd5f36e395777a548b1d673a6958b1106255435f",
+      "bytes": 2234834,
+      "lines": 594,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:05:00.872Z",
+      "last": "2026-10-01T02:16:41.185Z",
+      "unique_model_message_ids": 97,
+      "usage_max_per_message": {
+        "input_tokens": 10467,
+        "cache_creation_input_tokens": 310327,
+        "cache_read_input_tokens": 23063015,
+        "output_tokens": 48937
+      },
+      "tools": {
+        "Bash": 102,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 104,
+        "attachment": 313,
+        "assistant": 177
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 97
+      },
+      "description": "Review settlement/verification/store diffs"
+    },
+    {
+      "key": "deliver/agent-a072f3c0269f1516f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a072f3c0269f1516f.jsonl",
+      "sha256": "1138acb0bb0860a3281c399fd86098b704d0fee39b5d6c09f666a5c7c1c6990c",
+      "bytes": 1421392,
+      "lines": 343,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T13:06:37.755Z",
+      "last": "2026-10-01T14:02:48.182Z",
+      "unique_model_message_ids": 55,
+      "usage_max_per_message": {
+        "input_tokens": 22066,
+        "cache_creation_input_tokens": 3271015,
+        "cache_read_input_tokens": 4547878,
+        "output_tokens": 30333
+      },
+      "tools": {
+        "Bash": 57,
+        "Agent": 2
+      },
+      "unique_record_types": {
+        "user": 60,
+        "attachment": 186,
+        "assistant": 97
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 55
+      },
+      "description": "M5 milestone check code part"
+    },
+    {
+      "key": "deliver/agent-a07ce5d9b18734df3",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a07ce5d9b18734df3.jsonl",
+      "sha256": "189e862e334ad329888747b84b649808d70564063cd94a0ef3d7464bee04cd93",
+      "bytes": 1763498,
+      "lines": 506,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T15:38:03.034Z",
+      "last": "2026-10-01T16:03:16.780Z",
+      "unique_model_message_ids": 84,
+      "usage_max_per_message": {
+        "input_tokens": 10997,
+        "cache_creation_input_tokens": 5629127,
+        "cache_read_input_tokens": 8389620,
+        "output_tokens": 51177
+      },
+      "tools": {
+        "Bash": 88
+      },
+      "unique_record_types": {
+        "user": 89,
+        "attachment": 272,
+        "assistant": 145
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 84
+      },
+      "description": "Auto-continue Goal after foreground failure"
+    },
+    {
+      "key": "deliver/agent-a0db43dc1b6570231",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a0db43dc1b6570231.jsonl",
+      "sha256": "9485c7d8c456a7291c9dfa5fe2b60e8fbc1a092cc8ed3aafaf5c7abf6116352b",
+      "bytes": 2355139,
+      "lines": 657,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T13:12:32.371Z",
+      "last": "2026-10-01T13:54:29.811Z",
+      "unique_model_message_ids": 113,
+      "usage_max_per_message": {
+        "input_tokens": 10714,
+        "cache_creation_input_tokens": 10460189,
+        "cache_read_input_tokens": 15006188,
+        "output_tokens": 67930
+      },
+      "tools": {
+        "Bash": 112,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 114,
+        "attachment": 347,
+        "assistant": 196
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 113
+      },
+      "description": "Review Goal feature-map docs"
+    },
+    {
+      "key": "deliver/agent-a0e0a5a3df976dbed",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a0e0a5a3df976dbed.jsonl",
+      "sha256": "a9d3407b4313480f26096149db9d7378502056c80a188ecdffdf63f08cec2bba",
+      "bytes": 2640428,
+      "lines": 864,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:47:46.140Z",
+      "last": "2026-09-30T12:05:31.774Z",
+      "unique_model_message_ids": 144,
+      "usage_max_per_message": {
+        "input_tokens": 11520,
+        "cache_creation_input_tokens": 414240,
+        "cache_read_input_tokens": 27993267,
+        "output_tokens": 74433
+      },
+      "tools": {
+        "Bash": 153
+      },
+      "unique_record_types": {
+        "user": 154,
+        "attachment": 458,
+        "assistant": 252
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 144
+      },
+      "description": "Map v1 Goal owner and v2 delegation"
+    },
+    {
+      "key": "deliver/agent-a11b8b8eadc75e2dd",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a11b8b8eadc75e2dd.jsonl",
+      "sha256": "ad61f09c52a1afb7657d2c4118a6bb70ad0a2eb826ffc5e017c760a9f54b489b",
+      "bytes": 884243,
+      "lines": 221,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:38:12.690Z",
+      "last": "2026-10-01T14:46:09.805Z",
+      "unique_model_message_ids": 34,
+      "usage_max_per_message": {
+        "input_tokens": 10398,
+        "cache_creation_input_tokens": 1016181,
+        "cache_read_input_tokens": 2557677,
+        "output_tokens": 18955
+      },
+      "tools": {
+        "Bash": 35,
+        "Edit": 1
+      },
+      "unique_record_types": {
+        "user": 37,
+        "attachment": 119,
+        "assistant": 65
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 34
+      },
+      "description": "Prepare final-head verification build"
+    },
+    {
+      "key": "deliver/agent-a13897a9b2b9f418a",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a13897a9b2b9f418a.jsonl",
+      "sha256": "86ba5187826d548875734bf5e6d1c0868745e2e55cf07148a3a410e40cf8e393",
+      "bytes": 4265854,
+      "lines": 1233,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T06:20:56.849Z",
+      "last": "2026-10-01T06:54:36.767Z",
+      "unique_model_message_ids": 207,
+      "usage_max_per_message": {
+        "input_tokens": 15615,
+        "cache_creation_input_tokens": 587514,
+        "cache_read_input_tokens": 79097584,
+        "output_tokens": 174381
+      },
+      "tools": {
+        "Bash": 198,
+        "Read": 6,
+        "Write": 9,
+        "Edit": 1
+      },
+      "unique_record_types": {
+        "user": 215,
+        "attachment": 655,
+        "assistant": 363
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 207
+      },
+      "description": "Draft M5 docs, feature map, ADR"
+    },
+    {
+      "key": "deliver/agent-a1a9b84316ddff51b",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1a9b84316ddff51b.jsonl",
+      "sha256": "cfabfb61281de65508b9edc38699abe11b4e520e11a65c5ba671110efcfdaa39",
+      "bytes": 1559107,
+      "lines": 485,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:28:54.069Z",
+      "last": "2026-10-01T17:24:40.669Z",
+      "unique_model_message_ids": 76,
+      "usage_max_per_message": {
+        "input_tokens": 15982,
+        "cache_creation_input_tokens": 4465680,
+        "cache_read_input_tokens": 5671825,
+        "output_tokens": 30991
+      },
+      "tools": {
+        "Bash": 82
+      },
+      "unique_record_types": {
+        "user": 83,
+        "attachment": 261,
+        "assistant": 141
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 76
+      },
+      "description": "Pass-2 lane TUI+API"
+    },
+    {
+      "key": "deliver/agent-a1b356f07ceb0185a",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1b356f07ceb0185a.jsonl",
+      "sha256": "2c0e93f09edc883cb9690b99b3e3193d5e983429555a3d682b307ad6a26949b5",
+      "bytes": 1088111,
+      "lines": 257,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:33:24.578Z",
+      "last": "2026-10-01T02:48:22.491Z",
+      "unique_model_message_ids": 42,
+      "usage_max_per_message": {
+        "input_tokens": 10317,
+        "cache_creation_input_tokens": 181085,
+        "cache_read_input_tokens": 5709213,
+        "output_tokens": 38884
+      },
+      "tools": {
+        "Bash": 38,
+        "Read": 1,
+        "Write": 3
+      },
+      "unique_record_types": {
+        "user": 43,
+        "attachment": 139,
+        "assistant": 75
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 42
+      },
+      "description": "M1 smoke on fix head + RG1 rerun"
+    },
+    {
+      "key": "deliver/agent-a1c0748bf144b4eb8",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1c0748bf144b4eb8.jsonl",
+      "sha256": "aea6293cc1f1bc9d46cd895abda609e9f896557cf03e32be5a9e7f490dcd834b",
+      "bytes": 890520,
+      "lines": 193,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:48:27.879Z",
+      "last": "2026-09-30T11:53:04.980Z",
+      "unique_model_message_ids": 28,
+      "usage_max_per_message": {
+        "input_tokens": 8504,
+        "cache_creation_input_tokens": 113150,
+        "cache_read_input_tokens": 2594372,
+        "output_tokens": 24164
+      },
+      "tools": {
+        "Bash": 33
+      },
+      "unique_record_types": {
+        "user": 34,
+        "attachment": 102,
+        "assistant": 57
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 28
+      },
+      "description": "Summarize !7181 and item-2 commits"
+    },
+    {
+      "key": "deliver/agent-a1c3635c1b921ff76",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1c3635c1b921ff76.jsonl",
+      "sha256": "04b3191a0ec8af86581913851aa53f5ed56b792a697ae5e9be72c0f740c3f0e1",
+      "bytes": 4337481,
+      "lines": 1352,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T14:23:59.128Z",
+      "last": "2026-09-30T15:25:52.496Z",
+      "unique_model_message_ids": 232,
+      "usage_max_per_message": {
+        "input_tokens": 15484,
+        "cache_creation_input_tokens": 793254,
+        "cache_read_input_tokens": 80652426,
+        "output_tokens": 173474
+      },
+      "tools": {
+        "Bash": 231,
+        "Read": 1,
+        "Write": 6
+      },
+      "unique_record_types": {
+        "user": 239,
+        "attachment": 721,
+        "assistant": 392
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 232
+      },
+      "description": "Implement Desktop items 4,5,7UI,8,9"
+    },
+    {
+      "key": "deliver/agent-a1dac6c5186f913f8",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1dac6c5186f913f8.jsonl",
+      "sha256": "e29698beed5fc1683544366b05dd435c614c5b368c969a3c9119521541a6dbdc",
+      "bytes": 2509491,
+      "lines": 801,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:47:28.361Z",
+      "last": "2026-10-01T15:59:14.920Z",
+      "unique_model_message_ids": 139,
+      "usage_max_per_message": {
+        "input_tokens": 12387,
+        "cache_creation_input_tokens": 8631192,
+        "cache_read_input_tokens": 20924541,
+        "output_tokens": 81864
+      },
+      "tools": {
+        "Bash": 136,
+        "Read": 1,
+        "Write": 2
+      },
+      "unique_record_types": {
+        "user": 140,
+        "attachment": 426,
+        "assistant": 235
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 139
+      },
+      "description": "Final lane E3: Electron S25–S39, RG1 Electron"
+    },
+    {
+      "key": "deliver/agent-a1ee2d89541417556",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a1ee2d89541417556.jsonl",
+      "sha256": "a5e05ba3ba1d4eab0c3a6d2dcf5fab8ef49f7d2efcd2dd744e923852023fc71f",
+      "bytes": 2254508,
+      "lines": 691,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:48:07.620Z",
+      "last": "2026-09-30T12:01:20.722Z",
+      "unique_model_message_ids": 111,
+      "usage_max_per_message": {
+        "input_tokens": 13842,
+        "cache_creation_input_tokens": 252927,
+        "cache_read_input_tokens": 23227892,
+        "output_tokens": 51839
+      },
+      "tools": {
+        "Bash": 104,
+        "Read": 22
+      },
+      "unique_record_types": {
+        "user": 127,
+        "attachment": 372,
+        "assistant": 192
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 111
+      },
+      "description": "Map verify-archon capabilities"
+    },
+    {
+      "key": "deliver/agent-a216c1d4d9e5d248a",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a216c1d4d9e5d248a.jsonl",
+      "sha256": "5b7879a21bf24f3d5a962dd5b268b48e995538df2f6065f3e3a24550063e0027",
+      "bytes": 2341975,
+      "lines": 740,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:11:38.447Z",
+      "last": "2026-09-30T13:28:40.149Z",
+      "unique_model_message_ids": 123,
+      "usage_max_per_message": {
+        "input_tokens": 15570,
+        "cache_creation_input_tokens": 242419,
+        "cache_read_input_tokens": 23124111,
+        "output_tokens": 61276
+      },
+      "tools": {
+        "Bash": 119,
+        "Edit": 3,
+        "Write": 3,
+        "Read": 3
+      },
+      "unique_record_types": {
+        "user": 129,
+        "attachment": 394,
+        "assistant": 217
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 123
+      },
+      "description": "Clean v1 tests; add moved Goal unit tests"
+    },
+    {
+      "key": "deliver/agent-a22084bb647f30cbb",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a22084bb647f30cbb.jsonl",
+      "sha256": "bc72a2a7c52638f9ad6b5e369f56a5b5e8a435b9689f3674a04ab314e4c3a486",
+      "bytes": 1583582,
+      "lines": 377,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:05:27.252Z",
+      "last": "2026-10-01T14:23:06.562Z",
+      "unique_model_message_ids": 57,
+      "usage_max_per_message": {
+        "input_tokens": 10405,
+        "cache_creation_input_tokens": 1810648,
+        "cache_read_input_tokens": 7764299,
+        "output_tokens": 91084
+      },
+      "tools": {
+        "Bash": 49,
+        "Read": 8,
+        "Edit": 8
+      },
+      "unique_record_types": {
+        "user": 66,
+        "attachment": 199,
+        "assistant": 112
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 57
+      },
+      "description": "Fix verify-archon TUI refresh logging"
+    },
+    {
+      "key": "deliver/agent-a232ae546f632eb34",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a232ae546f632eb34.jsonl",
+      "sha256": "2f67480540ed23ede69378177aba337738ee0f852cf89983f7b2c87cc366a7ed",
+      "bytes": 3158688,
+      "lines": 854,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:29:19.139Z",
+      "last": "2026-10-01T17:50:01.234Z",
+      "unique_model_message_ids": 148,
+      "usage_max_per_message": {
+        "input_tokens": 13159,
+        "cache_creation_input_tokens": 13510493,
+        "cache_read_input_tokens": 17841295,
+        "output_tokens": 96512
+      },
+      "tools": {
+        "Bash": 140,
+        "Write": 5,
+        "Read": 2
+      },
+      "unique_record_types": {
+        "user": 151,
+        "attachment": 455,
+        "assistant": 248
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 147,
+        "<synthetic>": 1
+      },
+      "description": "Pass-2 lane Electron C: S24 + new checks"
+    },
+    {
+      "key": "deliver/agent-a25cab2579d8e3b4f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a25cab2579d8e3b4f.jsonl",
+      "sha256": "809b0ad81a07626a53f3708ce78b2addcfe4448195736a19e0320ea07461c820",
+      "bytes": 1577230,
+      "lines": 410,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T07:12:25.930Z",
+      "last": "2026-10-01T07:22:36.583Z",
+      "unique_model_message_ids": 69,
+      "usage_max_per_message": {
+        "input_tokens": 10721,
+        "cache_creation_input_tokens": 192545,
+        "cache_read_input_tokens": 11136132,
+        "output_tokens": 47853
+      },
+      "tools": {
+        "Bash": 70
+      },
+      "unique_record_types": {
+        "user": 71,
+        "attachment": 220,
+        "assistant": 119
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 69
+      },
+      "description": "Review budget wrap-up diff"
+    },
+    {
+      "key": "deliver/agent-a2618aeb847ea49ca",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a2618aeb847ea49ca.jsonl",
+      "sha256": "e0d20808eda9c635aa50e89cfc6a78e734858c07bb01fb68484db4bf6586a4af",
+      "bytes": 1869433,
+      "lines": 506,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T07:12:12.874Z",
+      "last": "2026-10-01T07:24:27.632Z",
+      "unique_model_message_ids": 86,
+      "usage_max_per_message": {
+        "input_tokens": 11163,
+        "cache_creation_input_tokens": 228174,
+        "cache_read_input_tokens": 15301641,
+        "output_tokens": 54929
+      },
+      "tools": {
+        "Bash": 87
+      },
+      "unique_record_types": {
+        "user": 88,
+        "attachment": 271,
+        "assistant": 147
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 86
+      },
+      "description": "Review request accounting core diff"
+    },
+    {
+      "key": "deliver/agent-a2e6bd8e69db0accd",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a2e6bd8e69db0accd.jsonl",
+      "sha256": "ee8214de301066676cdee45863bfa3513cd79126766a8e34bf7750cfd09af4b9",
+      "bytes": 799446,
+      "lines": 180,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T08:52:29.199Z",
+      "last": "2026-10-01T09:00:19.061Z",
+      "unique_model_message_ids": 30,
+      "usage_max_per_message": {
+        "input_tokens": 10078,
+        "cache_creation_input_tokens": 323226,
+        "cache_read_input_tokens": 2588230,
+        "output_tokens": 16555
+      },
+      "tools": {
+        "Bash": 29
+      },
+      "unique_record_types": {
+        "user": 30,
+        "attachment": 100,
+        "assistant": 50
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 30
+      },
+      "description": "Recheck TUI budget-steer observation"
+    },
+    {
+      "key": "deliver/agent-a2fb2bd79d4fe5fc4",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a2fb2bd79d4fe5fc4.jsonl",
+      "sha256": "1a02da1e57a0d5afdf13710c5264ad8f64509c0c5187bf62713aa5fb0880fc42",
+      "bytes": 957531,
+      "lines": 251,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T17:25:05.325Z",
+      "last": "2026-10-01T17:38:39.472Z",
+      "unique_model_message_ids": 42,
+      "usage_max_per_message": {
+        "input_tokens": 10981,
+        "cache_creation_input_tokens": 1964075,
+        "cache_read_input_tokens": 2447367,
+        "output_tokens": 20257
+      },
+      "tools": {
+        "Bash": 40,
+        "Write": 1
+      },
+      "unique_record_types": {
+        "user": 42,
+        "attachment": 138,
+        "assistant": 71
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 42
+      },
+      "description": "Regenerate S02 baseline and rerun"
+    },
+    {
+      "key": "deliver/agent-a4011bab1c0c973b1",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a4011bab1c0c973b1.jsonl",
+      "sha256": "34cebacbfb12a897ab447329b6cff1e4f369f52eafbdf5c80624df297e3936fc",
+      "bytes": 1411965,
+      "lines": 412,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T01:29:08.177Z",
+      "last": "2026-10-01T01:38:32.327Z",
+      "unique_model_message_ids": 69,
+      "usage_max_per_message": {
+        "input_tokens": 10727,
+        "cache_creation_input_tokens": 749596,
+        "cache_read_input_tokens": 8067216,
+        "output_tokens": 42995
+      },
+      "tools": {
+        "Bash": 72
+      },
+      "unique_record_types": {
+        "user": 73,
+        "attachment": 224,
+        "assistant": 115
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 69
+      },
+      "description": "Desktop and TUI request display"
+    },
+    {
+      "key": "deliver/agent-a405af8e9190ffa20",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a405af8e9190ffa20.jsonl",
+      "sha256": "1a7285ea24e7fe9381a925d948fb4f4b9d7389b184b95f63897335b9747b7cbe",
+      "bytes": 1784127,
+      "lines": 521,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:15:31.667Z",
+      "last": "2026-10-01T14:32:22.675Z",
+      "unique_model_message_ids": 87,
+      "usage_max_per_message": {
+        "input_tokens": 11035,
+        "cache_creation_input_tokens": 2363150,
+        "cache_read_input_tokens": 11529835,
+        "output_tokens": 48668
+      },
+      "tools": {
+        "Bash": 88,
+        "Edit": 3
+      },
+      "unique_record_types": {
+        "user": 92,
+        "attachment": 280,
+        "assistant": 149
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 87
+      },
+      "description": "Split Goal startup recovery per §3.5"
+    },
+    {
+      "key": "deliver/agent-a44f294352495e120",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a44f294352495e120.jsonl",
+      "sha256": "468c1e83d76a7504177209864c33a64941f9cb6b04fa0d3be5e4f57e486f92cc",
+      "bytes": 2400091,
+      "lines": 679,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:04:50.068Z",
+      "last": "2026-10-01T02:16:23.041Z",
+      "unique_model_message_ids": 115,
+      "usage_max_per_message": {
+        "input_tokens": 10935,
+        "cache_creation_input_tokens": 352744,
+        "cache_read_input_tokens": 25093773,
+        "output_tokens": 48020
+      },
+      "tools": {
+        "Bash": 116
+      },
+      "unique_record_types": {
+        "user": 117,
+        "attachment": 357,
+        "assistant": 205
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 115
+      },
+      "description": "Review admission/continuation/lifecycle diffs"
+    },
+    {
+      "key": "deliver/agent-a45a845e5023be370",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a45a845e5023be370.jsonl",
+      "sha256": "5f4125af30608b114dc8eb27a6a51293459afed50ae894d7286bd145f05bc088",
+      "bytes": 1629532,
+      "lines": 480,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T01:35:23.917Z",
+      "last": "2026-10-01T02:01:30.383Z",
+      "unique_model_message_ids": 80,
+      "usage_max_per_message": {
+        "input_tokens": 11007,
+        "cache_creation_input_tokens": 165140,
+        "cache_read_input_tokens": 11768238,
+        "output_tokens": 49802
+      },
+      "tools": {
+        "Bash": 82
+      },
+      "unique_record_types": {
+        "user": 83,
+        "attachment": 255,
+        "assistant": 142
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 80
+      },
+      "description": "M1 rerun: RG1b S17 rule, TUI recovery, mechanical checks"
+    },
+    {
+      "key": "deliver/agent-a477d9a546ff6490e",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a477d9a546ff6490e.jsonl",
+      "sha256": "8421554b6d9146c1c1e4b7259d3374a858cba94173c7a496686679e347e277c5",
+      "bytes": 2790546,
+      "lines": 879,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T12:07:59.250Z",
+      "last": "2026-09-30T12:23:56.908Z",
+      "unique_model_message_ids": 140,
+      "usage_max_per_message": {
+        "input_tokens": 11416,
+        "cache_creation_input_tokens": 319470,
+        "cache_read_input_tokens": 32407529,
+        "output_tokens": 58579
+      },
+      "tools": {
+        "Bash": 116,
+        "Read": 48
+      },
+      "unique_record_types": {
+        "user": 165,
+        "attachment": 476,
+        "assistant": 238
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 140
+      },
+      "description": "LLM request headers research"
+    },
+    {
+      "key": "deliver/agent-a4a4bcc83e75cef5c",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a4a4bcc83e75cef5c.jsonl",
+      "sha256": "89447a69830c51855186f18986169bc528d62126f484cbf0a2b3093a2a59a174",
+      "bytes": 2180145,
+      "lines": 655,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:38:35.232Z",
+      "last": "2026-10-01T14:55:28.785Z",
+      "unique_model_message_ids": 110,
+      "usage_max_per_message": {
+        "input_tokens": 11633,
+        "cache_creation_input_tokens": 3536426,
+        "cache_read_input_tokens": 16590244,
+        "output_tokens": 50195
+      },
+      "tools": {
+        "Bash": 113
+      },
+      "unique_record_types": {
+        "user": 114,
+        "attachment": 347,
+        "assistant": 194
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 110
+      },
+      "description": "M6 milestone check (code)"
+    },
+    {
+      "key": "deliver/agent-a4d004f9f33495053",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a4d004f9f33495053.jsonl",
+      "sha256": "846d0759f99827c9228dc99b608cce34967ba84e1b7b831e2f775698dff22527",
+      "bytes": 4973194,
+      "lines": 1531,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T14:24:16.048Z",
+      "last": "2026-09-30T15:24:11.159Z",
+      "unique_model_message_ids": 263,
+      "usage_max_per_message": {
+        "input_tokens": 16076,
+        "cache_creation_input_tokens": 917655,
+        "cache_read_input_tokens": 110224381,
+        "output_tokens": 221951
+      },
+      "tools": {
+        "Bash": 262,
+        "Read": 1,
+        "Write": 8
+      },
+      "unique_record_types": {
+        "user": 272,
+        "attachment": 818,
+        "assistant": 441
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 263
+      },
+      "description": "Implement runtime items 1,3,7rt,10"
+    },
+    {
+      "key": "deliver/agent-a52a0b4c400f4fecf",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a52a0b4c400f4fecf.jsonl",
+      "sha256": "c7f56297c11ec3a71f65fe2c58f5426c6f7494e40f56b28e3b3480ead0db7606",
+      "bytes": 1897708,
+      "lines": 535,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:01:58.822Z",
+      "last": "2026-10-01T02:21:46.986Z",
+      "unique_model_message_ids": 88,
+      "usage_max_per_message": {
+        "input_tokens": 11215,
+        "cache_creation_input_tokens": 706319,
+        "cache_read_input_tokens": 16332107,
+        "output_tokens": 54736
+      },
+      "tools": {
+        "Bash": 89
+      },
+      "unique_record_types": {
+        "user": 90,
+        "attachment": 277,
+        "assistant": 168
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 88
+      },
+      "description": "Split M2 into item 6 / 12 / diagnostics"
+    },
+    {
+      "key": "deliver/agent-a5322002087512cc8",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a5322002087512cc8.jsonl",
+      "sha256": "9b523604647de8938692b28d95b951df4c0cdedad10b8fc7d8413dc377deb05d",
+      "bytes": 1663136,
+      "lines": 451,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:47:24.323Z",
+      "last": "2026-10-01T15:39:07.103Z",
+      "unique_model_message_ids": 77,
+      "usage_max_per_message": {
+        "input_tokens": 10775,
+        "cache_creation_input_tokens": 3674559,
+        "cache_read_input_tokens": 10562165,
+        "output_tokens": 46090
+      },
+      "tools": {
+        "Bash": 76
+      },
+      "unique_record_types": {
+        "user": 77,
+        "attachment": 240,
+        "assistant": 134
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 77
+      },
+      "description": "Final lane E2: Electron S16–S24, RG2 S01"
+    },
+    {
+      "key": "deliver/agent-a54ba4c3165fbfbd9",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a54ba4c3165fbfbd9.jsonl",
+      "sha256": "12f23a19df37987e8252164670fc5cf269394d776bd8c99745ef1afc2a0275b0",
+      "bytes": 1091755,
+      "lines": 235,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:10:48.851Z",
+      "last": "2026-09-30T13:16:44.983Z",
+      "unique_model_message_ids": 39,
+      "usage_max_per_message": {
+        "input_tokens": 10376,
+        "cache_creation_input_tokens": 159099,
+        "cache_read_input_tokens": 5546742,
+        "output_tokens": 22942
+      },
+      "tools": {
+        "Bash": 36,
+        "Read": 2
+      },
+      "unique_record_types": {
+        "user": 39,
+        "attachment": 127,
+        "assistant": 69
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 39
+      },
+      "description": "Port real-store Goal integration tests"
+    },
+    {
+      "key": "deliver/agent-a5555cad78b213e3e",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a5555cad78b213e3e.jsonl",
+      "sha256": "74928753e44e96c5fecf4bc878b7cab6b00e497c500b677f1e823ceb5943ee55",
+      "bytes": 1116933,
+      "lines": 307,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T12:08:24.744Z",
+      "last": "2026-09-30T12:13:17.398Z",
+      "unique_model_message_ids": 49,
+      "usage_max_per_message": {
+        "input_tokens": 9050,
+        "cache_creation_input_tokens": 124743,
+        "cache_read_input_tokens": 5504658,
+        "output_tokens": 20509
+      },
+      "tools": {
+        "Bash": 48,
+        "Read": 6
+      },
+      "unique_record_types": {
+        "user": 55,
+        "attachment": 165,
+        "assistant": 87
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 49
+      },
+      "description": "Storage and account research"
+    },
+    {
+      "key": "deliver/agent-a5bbe77db99d6dc5f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a5bbe77db99d6dc5f.jsonl",
+      "sha256": "81ac8f9147fd865ff3e7b4a6a5ac388596ba1bd19a2d78c54c2a26ea3e2fcddc",
+      "bytes": 3011413,
+      "lines": 958,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:05:18.803Z",
+      "last": "2026-10-01T14:34:41.264Z",
+      "unique_model_message_ids": 162,
+      "usage_max_per_message": {
+        "input_tokens": 13911,
+        "cache_creation_input_tokens": 6229651,
+        "cache_read_input_tokens": 29038494,
+        "output_tokens": 84134
+      },
+      "tools": {
+        "Bash": 147,
+        "Read": 11,
+        "Edit": 8
+      },
+      "unique_record_types": {
+        "user": 167,
+        "attachment": 511,
+        "assistant": 280
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 162
+      },
+      "description": "Fix Goal docs per M5 check"
+    },
+    {
+      "key": "deliver/agent-a644824434e38f9ab",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a644824434e38f9ab.jsonl",
+      "sha256": "82192cb480340c1b0fc378ad2e9e24e8f431e1075ff8942bc6709cac7f0451dd",
+      "bytes": 1361552,
+      "lines": 365,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:11:02.744Z",
+      "last": "2026-09-30T13:20:39.351Z",
+      "unique_model_message_ids": 59,
+      "usage_max_per_message": {
+        "input_tokens": 11065,
+        "cache_creation_input_tokens": 154111,
+        "cache_read_input_tokens": 8488751,
+        "output_tokens": 44370
+      },
+      "tools": {
+        "Bash": 61,
+        "Write": 1
+      },
+      "unique_record_types": {
+        "user": 63,
+        "attachment": 196,
+        "assistant": 106
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 59
+      },
+      "description": "Port Goal HTTP/tool integration tests"
+    },
+    {
+      "key": "deliver/agent-a64fa1e9b90c4b594",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a64fa1e9b90c4b594.jsonl",
+      "sha256": "542f50cf583146981c63cbaffd17fd2fcf2d95c6c754627101394597e4d3ac74",
+      "bytes": 2793143,
+      "lines": 723,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:47:57.031Z",
+      "last": "2026-09-30T12:04:27.690Z",
+      "unique_model_message_ids": 122,
+      "usage_max_per_message": {
+        "input_tokens": 10948,
+        "cache_creation_input_tokens": 508199,
+        "cache_read_input_tokens": 36663327,
+        "output_tokens": 65395
+      },
+      "tools": {
+        "Bash": 120,
+        "Read": 3
+      },
+      "unique_record_types": {
+        "user": 124,
+        "attachment": 376,
+        "assistant": 223
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 122
+      },
+      "description": "Summarize experimental v2 Goal runs"
+    },
+    {
+      "key": "deliver/agent-a663c42dceba33f80",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a663c42dceba33f80.jsonl",
+      "sha256": "04d5e7894947e83724c920a1a06ba7bcdfcb31c8dfe73fc848fc06159a201d7c",
+      "bytes": 2296187,
+      "lines": 636,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:59:23.345Z",
+      "last": "2026-10-01T15:23:49.230Z",
+      "unique_model_message_ids": 104,
+      "usage_max_per_message": {
+        "input_tokens": 12650,
+        "cache_creation_input_tokens": 6625197,
+        "cache_read_input_tokens": 16730549,
+        "output_tokens": 74273
+      },
+      "tools": {
+        "Bash": 102,
+        "Write": 3,
+        "Edit": 5
+      },
+      "unique_record_types": {
+        "user": 111,
+        "attachment": 340,
+        "assistant": 185
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 104
+      },
+      "description": "Fix Goal resume with paused queue"
+    },
+    {
+      "key": "deliver/agent-a6694acb4e3d399f9",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a6694acb4e3d399f9.jsonl",
+      "sha256": "c6ce9bc46261379004e96d44e4afb07d55407b693f346e074bd64b2a2b376b42",
+      "bytes": 2537553,
+      "lines": 835,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:36:03.227Z",
+      "last": "2026-10-01T03:02:02.875Z",
+      "unique_model_message_ids": 142,
+      "usage_max_per_message": {
+        "input_tokens": 13702,
+        "cache_creation_input_tokens": 251368,
+        "cache_read_input_tokens": 28429309,
+        "output_tokens": 57937
+      },
+      "tools": {
+        "Bash": 144
+      },
+      "unique_record_types": {
+        "user": 145,
+        "attachment": 443,
+        "assistant": 247
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 142
+      },
+      "description": "Integrate M3 drafts onto M2 head"
+    },
+    {
+      "key": "deliver/agent-a6ab3747f695912f5",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a6ab3747f695912f5.jsonl",
+      "sha256": "20d34a61819841bbba6fe3ef39a9eecc7fae2fd4b303c9635198456995bb7eea",
+      "bytes": 2404496,
+      "lines": 601,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T05:58:33.370Z",
+      "last": "2026-10-01T07:10:11.670Z",
+      "unique_model_message_ids": 96,
+      "usage_max_per_message": {
+        "input_tokens": 13696,
+        "cache_creation_input_tokens": 514298,
+        "cache_read_input_tokens": 17903607,
+        "output_tokens": 57320
+      },
+      "tools": {
+        "Bash": 94,
+        "Read": 2,
+        "Edit": 7
+      },
+      "unique_record_types": {
+        "user": 105,
+        "attachment": 321,
+        "assistant": 175
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 96
+      },
+      "description": "Rerun M2 scenarios on c926bcd2e4"
+    },
+    {
+      "key": "deliver/agent-a7488274304df35d7",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a7488274304df35d7.jsonl",
+      "sha256": "2ae36276377368294a99312c9a05071e687297ea770e47729fc85b850655121e",
+      "bytes": 2253625,
+      "lines": 731,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T13:07:57.394Z",
+      "last": "2026-10-01T13:49:35.803Z",
+      "unique_model_message_ids": 123,
+      "usage_max_per_message": {
+        "input_tokens": 11971,
+        "cache_creation_input_tokens": 8060647,
+        "cache_read_input_tokens": 14046129,
+        "output_tokens": 52169
+      },
+      "tools": {
+        "Bash": 123,
+        "Edit": 1
+      },
+      "unique_record_types": {
+        "user": 125,
+        "attachment": 382,
+        "assistant": 224
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 123
+      },
+      "description": "M6 rebase onto preview_train"
+    },
+    {
+      "key": "deliver/agent-a79137d6dce29b539",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a79137d6dce29b539.jsonl",
+      "sha256": "eaff18365ec6399095771da84c3abf82f8a84f3b4733a0877fdacde60af26c58",
+      "bytes": 1914731,
+      "lines": 606,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:47:19.388Z",
+      "last": "2026-10-01T15:29:50.519Z",
+      "unique_model_message_ids": 102,
+      "usage_max_per_message": {
+        "input_tokens": 12540,
+        "cache_creation_input_tokens": 3715104,
+        "cache_read_input_tokens": 12677464,
+        "output_tokens": 50081
+      },
+      "tools": {
+        "Bash": 104
+      },
+      "unique_record_types": {
+        "user": 105,
+        "attachment": 324,
+        "assistant": 177
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 102
+      },
+      "description": "Final lane E1: Electron S01–S15"
+    },
+    {
+      "key": "deliver/agent-a7aa84c7afb99b461",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a7aa84c7afb99b461.jsonl",
+      "sha256": "c389850f69f2beb9075ac470cfabc430d8a68da3e890d5b13dd58f578e6480a8",
+      "bytes": 1763098,
+      "lines": 482,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:11:19.999Z",
+      "last": "2026-09-30T13:25:10.309Z",
+      "unique_model_message_ids": 81,
+      "usage_max_per_message": {
+        "input_tokens": 11694,
+        "cache_creation_input_tokens": 220996,
+        "cache_read_input_tokens": 14758847,
+        "output_tokens": 61618
+      },
+      "tools": {
+        "Bash": 78,
+        "Edit": 1,
+        "Write": 1,
+        "Read": 2
+      },
+      "unique_record_types": {
+        "user": 83,
+        "attachment": 258,
+        "assistant": 141
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 81
+      },
+      "description": "Port Goal store and migration tests"
+    },
+    {
+      "key": "deliver/agent-a8ae8e1fce9db5f59",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a8ae8e1fce9db5f59.jsonl",
+      "sha256": "8e4f779b8e05199f4cf1c8f4e37cee6c15e2f44e40e4b0b6af1262ae4923698e",
+      "bytes": 1246117,
+      "lines": 305,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T10:06:59.407Z",
+      "last": "2026-10-01T10:17:48.450Z",
+      "unique_model_message_ids": 51,
+      "usage_max_per_message": {
+        "input_tokens": 10555,
+        "cache_creation_input_tokens": 2152780,
+        "cache_read_input_tokens": 4547251,
+        "output_tokens": 53471
+      },
+      "tools": {
+        "Bash": 49,
+        "Write": 2
+      },
+      "unique_record_types": {
+        "user": 52,
+        "attachment": 166,
+        "assistant": 87
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 51
+      },
+      "description": "Implement V1 verify-archon parallel auth"
+    },
+    {
+      "key": "deliver/agent-a8d53b852213758ac",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a8d53b852213758ac.jsonl",
+      "sha256": "4ac12c5a90edaac428e8d6e18c73673439b0ac1eabd28942f750aeae9aa5380a",
+      "bytes": 1595141,
+      "lines": 451,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T07:12:42.064Z",
+      "last": "2026-10-01T07:21:18.768Z",
+      "unique_model_message_ids": 76,
+      "usage_max_per_message": {
+        "input_tokens": 10903,
+        "cache_creation_input_tokens": 179048,
+        "cache_read_input_tokens": 11754360,
+        "output_tokens": 32099
+      },
+      "tools": {
+        "Bash": 75,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 77,
+        "attachment": 239,
+        "assistant": 135
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 76
+      },
+      "description": "Review surfaces, IDL, diagnostics diff"
+    },
+    {
+      "key": "deliver/agent-a90f5cf0003d528f9",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a90f5cf0003d528f9.jsonl",
+      "sha256": "6452bb0f079d01c6772db9e16e0f7d4a2b890440605d1a94ec6a7aabd0abf5cc",
+      "bytes": 2537732,
+      "lines": 612,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:06:24.524Z",
+      "last": "2026-10-01T04:42:21.658Z",
+      "unique_model_message_ids": 101,
+      "usage_max_per_message": {
+        "input_tokens": 12351,
+        "cache_creation_input_tokens": 895658,
+        "cache_read_input_tokens": 17653803,
+        "output_tokens": 60610
+      },
+      "tools": {
+        "Bash": 99,
+        "Read": 2,
+        "mcp__ccd_session__mark_chapter": 2,
+        "Write": 1,
+        "Edit": 1
+      },
+      "unique_record_types": {
+        "user": 107,
+        "attachment": 324,
+        "assistant": 181
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 101
+      },
+      "description": "Rerun M2 scenarios on 163f31f8ce"
+    },
+    {
+      "key": "deliver/agent-a912470c34dd7a60f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a912470c34dd7a60f.jsonl",
+      "sha256": "adf5962caf5b8cdf790e4e129234de422b246710e8fc1e5dfe4d4d0ab84ff58e",
+      "bytes": 2757951,
+      "lines": 326,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:44:53.254Z",
+      "last": "2026-10-01T04:52:51.739Z",
+      "unique_model_message_ids": 53,
+      "usage_max_per_message": {
+        "input_tokens": 10307,
+        "cache_creation_input_tokens": 164818,
+        "cache_read_input_tokens": 7353968,
+        "output_tokens": 34923
+      },
+      "tools": {
+        "Bash": 51,
+        "Read": 3
+      },
+      "unique_record_types": {
+        "user": 58,
+        "attachment": 172,
+        "assistant": 96
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 53
+      },
+      "description": "Evidence check Electron flow A"
+    },
+    {
+      "key": "deliver/agent-a9f8d87911dbf6c1f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-a9f8d87911dbf6c1f.jsonl",
+      "sha256": "8743e0c9787c0df1263eca43b53a5a6881195cdcb72b4e0b77d63e9fb97c42c0",
+      "bytes": 2733560,
+      "lines": 876,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:47:10.695Z",
+      "last": "2026-10-01T15:33:42.572Z",
+      "unique_model_message_ids": 151,
+      "usage_max_per_message": {
+        "input_tokens": 13673,
+        "cache_creation_input_tokens": 9532919,
+        "cache_read_input_tokens": 25748913,
+        "output_tokens": 82371
+      },
+      "tools": {
+        "Bash": 149,
+        "SendMessage": 1,
+        "Write": 1
+      },
+      "unique_record_types": {
+        "user": 153,
+        "attachment": 466,
+        "assistant": 257
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 151
+      },
+      "description": "Final lane API: API scenarios, RG1/RG1b/RG2"
+    },
+    {
+      "key": "deliver/agent-aa02dfcd7c7a5521f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aa02dfcd7c7a5521f.jsonl",
+      "sha256": "174de704ee9e798044b0117ec7867b50a4475072543b92798ae5f27ef85a2c0d",
+      "bytes": 1748957,
+      "lines": 446,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:04:18.614Z",
+      "last": "2026-10-01T02:18:38.077Z",
+      "unique_model_message_ids": 73,
+      "usage_max_per_message": {
+        "input_tokens": 24589,
+        "cache_creation_input_tokens": 219858,
+        "cache_read_input_tokens": 12623549,
+        "output_tokens": 37442
+      },
+      "tools": {
+        "Bash": 72,
+        "Agent": 3
+      },
+      "unique_record_types": {
+        "user": 76,
+        "attachment": 237,
+        "assistant": 133
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 73
+      },
+      "description": "Review Goal v2 migration diff"
+    },
+    {
+      "key": "deliver/agent-aa285781e44efd2f3",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aa285781e44efd2f3.jsonl",
+      "sha256": "92b25769c931efe47aa9f39c8a3c4af57a9dfc766cc8725bcbed6320c10425c2",
+      "bytes": 2063839,
+      "lines": 563,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:42:38.616Z",
+      "last": "2026-09-30T14:01:13.499Z",
+      "unique_model_message_ids": 96,
+      "usage_max_per_message": {
+        "input_tokens": 11753,
+        "cache_creation_input_tokens": 264547,
+        "cache_read_input_tokens": 20213768,
+        "output_tokens": 90951
+      },
+      "tools": {
+        "Bash": 90,
+        "Read": 3,
+        "Write": 3
+      },
+      "unique_record_types": {
+        "user": 97,
+        "attachment": 301,
+        "assistant": 165
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 96
+      },
+      "description": "Port Goal questionnaire tests to v2"
+    },
+    {
+      "key": "deliver/agent-aa470be2b7c45c329",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aa470be2b7c45c329.jsonl",
+      "sha256": "2848a9d00e383759483f7e9ed823da529415c782474b39e544b967baf3fbf69e",
+      "bytes": 3093830,
+      "lines": 938,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:11:57.247Z",
+      "last": "2026-09-30T13:38:19.923Z",
+      "unique_model_message_ids": 158,
+      "usage_max_per_message": {
+        "input_tokens": 13654,
+        "cache_creation_input_tokens": 370764,
+        "cache_read_input_tokens": 43355180,
+        "output_tokens": 107354
+      },
+      "tools": {
+        "Bash": 157,
+        "Read": 2,
+        "Edit": 3,
+        "Write": 3
+      },
+      "unique_record_types": {
+        "user": 166,
+        "attachment": 501,
+        "assistant": 271
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 158
+      },
+      "description": "Fix v2 tests using removed Goal APIs"
+    },
+    {
+      "key": "deliver/agent-aa529dfd66378ad36",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aa529dfd66378ad36.jsonl",
+      "sha256": "76d727edc096055910ef572a93cda7b722267755ee9c7ab42bfac3deb5aa10f7",
+      "bytes": 1870690,
+      "lines": 607,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T03:02:28.118Z",
+      "last": "2026-10-01T03:20:52.811Z",
+      "unique_model_message_ids": 104,
+      "usage_max_per_message": {
+        "input_tokens": 11631,
+        "cache_creation_input_tokens": 767366,
+        "cache_read_input_tokens": 15300614,
+        "output_tokens": 29113
+      },
+      "tools": {
+        "Bash": 105
+      },
+      "unique_record_types": {
+        "user": 106,
+        "attachment": 325,
+        "assistant": 176
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 104
+      },
+      "description": "Integrate M4 drafts onto M3"
+    },
+    {
+      "key": "deliver/agent-aa944b54ef181f1a3",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aa944b54ef181f1a3.jsonl",
+      "sha256": "70edea2cb991fff9aec62a7fd7c644ccbe545233957d613f23962a47fba25acb",
+      "bytes": 553047,
+      "lines": 118,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:17:10.107Z",
+      "last": "2026-10-01T16:26:17.606Z",
+      "unique_model_message_ids": 19,
+      "usage_max_per_message": {
+        "input_tokens": 9633,
+        "cache_creation_input_tokens": 591968,
+        "cache_read_input_tokens": 662638,
+        "output_tokens": 7513
+      },
+      "tools": {
+        "Bash": 18
+      },
+      "unique_record_types": {
+        "user": 19,
+        "attachment": 67,
+        "assistant": 32
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 19
+      },
+      "description": "Pass-2 build at eb1b2af271"
+    },
+    {
+      "key": "deliver/agent-aabd88e344a296477",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aabd88e344a296477.jsonl",
+      "sha256": "a7dc05c97658cc0dcedd4ce859e967c4580f2260382b8b3aba6d2fbc70379f63",
+      "bytes": 1665569,
+      "lines": 517,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:29:04.909Z",
+      "last": "2026-10-01T17:06:42.139Z",
+      "unique_model_message_ids": 86,
+      "usage_max_per_message": {
+        "input_tokens": 12231,
+        "cache_creation_input_tokens": 3690234,
+        "cache_read_input_tokens": 8753903,
+        "output_tokens": 46490
+      },
+      "tools": {
+        "Bash": 84,
+        "Write": 1,
+        "Edit": 3
+      },
+      "unique_record_types": {
+        "user": 89,
+        "attachment": 275,
+        "assistant": 153
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 86
+      },
+      "description": "Pass-2 lane Electron B"
+    },
+    {
+      "key": "deliver/agent-aac71922509617a5f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aac71922509617a5f.jsonl",
+      "sha256": "5f7b9d2ff841da593ba128cbbfb229b272d87ad185d02d70bcfc6adf87ba6741",
+      "bytes": 1352953,
+      "lines": 367,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:05:14.269Z",
+      "last": "2026-10-01T02:12:15.025Z",
+      "unique_model_message_ids": 61,
+      "usage_max_per_message": {
+        "input_tokens": 9531,
+        "cache_creation_input_tokens": 148631,
+        "cache_read_input_tokens": 8291297,
+        "output_tokens": 31660
+      },
+      "tools": {
+        "Bash": 63
+      },
+      "unique_record_types": {
+        "user": 64,
+        "attachment": 197,
+        "assistant": 106
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 61
+      },
+      "description": "Review questionnaire Goal policy migration"
+    },
+    {
+      "key": "deliver/agent-aad336d20a626ddb7",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aad336d20a626ddb7.jsonl",
+      "sha256": "a5ca74509d575391cf5899296a928858e8860245fa3c05e23ea43f7c0ebebb3b",
+      "bytes": 1793956,
+      "lines": 517,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T01:32:13.087Z",
+      "last": "2026-10-01T01:43:47.390Z",
+      "unique_model_message_ids": 87,
+      "usage_max_per_message": {
+        "input_tokens": 11347,
+        "cache_creation_input_tokens": 494641,
+        "cache_read_input_tokens": 13324660,
+        "output_tokens": 49115
+      },
+      "tools": {
+        "Bash": 87,
+        "Write": 2
+      },
+      "unique_record_types": {
+        "user": 90,
+        "attachment": 277,
+        "assistant": 150
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 87
+      },
+      "description": "Update Goal tests for request accounting"
+    },
+    {
+      "key": "deliver/agent-abe5fa7faab8965e5",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-abe5fa7faab8965e5.jsonl",
+      "sha256": "6d221225693436fc72daa7e73857148ecb5e865c62d1cc047e81e1f52e27588a",
+      "bytes": 4146416,
+      "lines": 957,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T07:11:14.527Z",
+      "last": "2026-10-01T08:13:16.541Z",
+      "unique_model_message_ids": 165,
+      "usage_max_per_message": {
+        "input_tokens": 14550,
+        "cache_creation_input_tokens": 360027,
+        "cache_read_input_tokens": 43081027,
+        "output_tokens": 135486
+      },
+      "tools": {
+        "Bash": 156,
+        "Write": 6,
+        "Read": 4
+      },
+      "unique_record_types": {
+        "user": 171,
+        "attachment": 514,
+        "assistant": 272
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 165
+      },
+      "description": "Run M3 scenarios on 512fd9792f"
+    },
+    {
+      "key": "deliver/agent-abf4e2e8500bdb8e6",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-abf4e2e8500bdb8e6.jsonl",
+      "sha256": "3a00dba27f6b87db8939c9874b9bcca28d13a7eb4d5ec571d71291520fa1b67b",
+      "bytes": 1819581,
+      "lines": 447,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T08:52:19.303Z",
+      "last": "2026-10-01T09:03:45.606Z",
+      "unique_model_message_ids": 75,
+      "usage_max_per_message": {
+        "input_tokens": 10877,
+        "cache_creation_input_tokens": 1622384,
+        "cache_read_input_tokens": 14504355,
+        "output_tokens": 44069
+      },
+      "tools": {
+        "Bash": 75,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 77,
+        "attachment": 238,
+        "assistant": 132
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 75
+      },
+      "description": "M3 milestone check round 1"
+    },
+    {
+      "key": "deliver/agent-abfcef8b657054fd2",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-abfcef8b657054fd2.jsonl",
+      "sha256": "e839b532bcbe3d71ddc01ddd3657b0bd8b27063620a34095e69655796221027a",
+      "bytes": 2908479,
+      "lines": 361,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T11:54:03.812Z",
+      "last": "2026-10-01T12:10:08.985Z",
+      "unique_model_message_ids": 60,
+      "usage_max_per_message": {
+        "input_tokens": 10490,
+        "cache_creation_input_tokens": 4532320,
+        "cache_read_input_tokens": 6915022,
+        "output_tokens": 35229
+      },
+      "tools": {
+        "Bash": 54,
+        "Read": 6
+      },
+      "unique_record_types": {
+        "user": 65,
+        "attachment": 191,
+        "assistant": 105
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 56,
+        "anthropic/claude-opus-5.5": 4
+      },
+      "description": "M4 milestone check evidence part"
+    },
+    {
+      "key": "deliver/agent-ac16306c01cc8ee1e",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ac16306c01cc8ee1e.jsonl",
+      "sha256": "395b91cdcafe609df4c63fd58374ea7eda9a595351c086070402eab94ac3ced3",
+      "bytes": 1131467,
+      "lines": 306,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:28:59.371Z",
+      "last": "2026-10-01T16:57:37.239Z",
+      "unique_model_message_ids": 52,
+      "usage_max_per_message": {
+        "input_tokens": 10125,
+        "cache_creation_input_tokens": 2558381,
+        "cache_read_input_tokens": 3734511,
+        "output_tokens": 26394
+      },
+      "tools": {
+        "Bash": 51
+      },
+      "unique_record_types": {
+        "user": 52,
+        "attachment": 165,
+        "assistant": 89
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 52
+      },
+      "description": "Pass-2 lane Electron A"
+    },
+    {
+      "key": "deliver/agent-ac207b4e5cfc01778",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ac207b4e5cfc01778.jsonl",
+      "sha256": "088699ab22964894afe539a768651413300fbdd00be6bf783380fcbcfa8d3c66",
+      "bytes": 1532586,
+      "lines": 295,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T13:06:46.328Z",
+      "last": "2026-10-01T13:24:03.469Z",
+      "unique_model_message_ids": 49,
+      "usage_max_per_message": {
+        "input_tokens": 10048,
+        "cache_creation_input_tokens": 2062478,
+        "cache_read_input_tokens": 4008046,
+        "output_tokens": 31338
+      },
+      "tools": {
+        "Bash": 47,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 50,
+        "attachment": 156,
+        "assistant": 89
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 49
+      },
+      "description": "M5 milestone check evidence part"
+    },
+    {
+      "key": "deliver/agent-ac388aa72a7aa6c42",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ac388aa72a7aa6c42.jsonl",
+      "sha256": "c23e5b27282d5b68b9e53be2912db3b3792e71cb7960f7ca9380efed0c982a1e",
+      "bytes": 5629740,
+      "lines": 1550,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T12:06:20.875Z",
+      "last": "2026-09-30T13:20:49.885Z",
+      "unique_model_message_ids": 260,
+      "usage_max_per_message": {
+        "input_tokens": 42449,
+        "cache_creation_input_tokens": 700531,
+        "cache_read_input_tokens": 117820809,
+        "output_tokens": 321917
+      },
+      "tools": {
+        "Bash": 247,
+        "Agent": 3,
+        "Write": 13,
+        "Edit": 2,
+        "Read": 3
+      },
+      "unique_record_types": {
+        "user": 272,
+        "attachment": 823,
+        "assistant": 455
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 260
+      },
+      "description": "Build verify-archon G1–G8 tools"
+    },
+    {
+      "key": "deliver/agent-ac45d9ac89fd71c33",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ac45d9ac89fd71c33.jsonl",
+      "sha256": "fe9a4254ef350474e6fc3569a3b343509aa0e5af3989c90780e7e3058febdbc2",
+      "bytes": 2464875,
+      "lines": 767,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T11:48:18.901Z",
+      "last": "2026-09-30T12:01:36.483Z",
+      "unique_model_message_ids": 127,
+      "usage_max_per_message": {
+        "input_tokens": 14258,
+        "cache_creation_input_tokens": 274070,
+        "cache_read_input_tokens": 27124330,
+        "output_tokens": 47361
+      },
+      "tools": {
+        "Bash": 116,
+        "Read": 26
+      },
+      "unique_record_types": {
+        "user": 143,
+        "attachment": 420,
+        "assistant": 204
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 127
+      },
+      "description": "Map Goal UI, TUI, notifications"
+    },
+    {
+      "key": "deliver/agent-ac7e594175c0d3ff6",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ac7e594175c0d3ff6.jsonl",
+      "sha256": "c78159bde113b55d03d04870c8d580190ab28ca3f7d47a23622dade40224460c",
+      "bytes": 1488222,
+      "lines": 428,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:05:35.895Z",
+      "last": "2026-10-01T14:14:57.045Z",
+      "unique_model_message_ids": 73,
+      "usage_max_per_message": {
+        "input_tokens": 10671,
+        "cache_creation_input_tokens": 1233102,
+        "cache_read_input_tokens": 8076163,
+        "output_tokens": 32467
+      },
+      "tools": {
+        "Bash": 75
+      },
+      "unique_record_types": {
+        "user": 76,
+        "attachment": 234,
+        "assistant": 118
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 73
+      },
+      "description": "Check startup questionnaire ordering"
+    },
+    {
+      "key": "deliver/agent-acecfaaa5c2244b4b",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-acecfaaa5c2244b4b.jsonl",
+      "sha256": "f3bc9c308167bb04c94469cfe1a8d0e150033d3221f48a15984ba3c2eacf803b",
+      "bytes": 1819647,
+      "lines": 516,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:04:34.951Z",
+      "last": "2026-10-01T02:17:06.693Z",
+      "unique_model_message_ids": 88,
+      "usage_max_per_message": {
+        "input_tokens": 11215,
+        "cache_creation_input_tokens": 202677,
+        "cache_read_input_tokens": 13717875,
+        "output_tokens": 45540
+      },
+      "tools": {
+        "Bash": 87,
+        "Read": 1,
+        "TaskStop": 1
+      },
+      "unique_record_types": {
+        "user": 90,
+        "attachment": 277,
+        "assistant": 149
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 88
+      },
+      "description": "Review item 2 runtime in v2"
+    },
+    {
+      "key": "deliver/agent-ad09406c5266e7514",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ad09406c5266e7514.jsonl",
+      "sha256": "e0d2d727f76130003333bda5a192fbd6f71d6d3fba57db5513d1ce2b2396c8b7",
+      "bytes": 1853575,
+      "lines": 470,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T07:11:03.055Z",
+      "last": "2026-10-01T07:27:47.706Z",
+      "unique_model_message_ids": 79,
+      "usage_max_per_message": {
+        "input_tokens": 22743,
+        "cache_creation_input_tokens": 241670,
+        "cache_read_input_tokens": 14794719,
+        "output_tokens": 53571
+      },
+      "tools": {
+        "Bash": 76,
+        "Read": 1,
+        "Agent": 3
+      },
+      "unique_record_types": {
+        "user": 81,
+        "attachment": 253,
+        "assistant": 136
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 79
+      },
+      "description": "M2 milestone check round 2"
+    },
+    {
+      "key": "deliver/agent-ad2715dd91b39c73a",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ad2715dd91b39c73a.jsonl",
+      "sha256": "7848cc7bedf80ae88de03c18f4ee0e0025125f98dd3ec78b16f36ed3fa255d5e",
+      "bytes": 4033373,
+      "lines": 1078,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T09:27:23.840Z",
+      "last": "2026-10-01T11:51:41.927Z",
+      "unique_model_message_ids": 185,
+      "usage_max_per_message": {
+        "input_tokens": 15724,
+        "cache_creation_input_tokens": 17565334,
+        "cache_read_input_tokens": 44061471,
+        "output_tokens": 148485
+      },
+      "tools": {
+        "Bash": 179,
+        "Read": 4,
+        "Write": 2,
+        "SendMessage": 1
+      },
+      "unique_record_types": {
+        "user": 188,
+        "attachment": 575,
+        "assistant": 315
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 185
+      },
+      "description": "Run M4 scenarios and M3 reruns on HEAD"
+    },
+    {
+      "key": "deliver/agent-ad4291474bfddda80",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ad4291474bfddda80.jsonl",
+      "sha256": "4c1827257ccb31f4960e2397999e111adbf6f13b1f1c1848f277a7f352ce1b7a",
+      "bytes": 1427886,
+      "lines": 327,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:02:55.903Z",
+      "last": "2026-10-01T02:22:30.574Z",
+      "unique_model_message_ids": 54,
+      "usage_max_per_message": {
+        "input_tokens": 19450,
+        "cache_creation_input_tokens": 191707,
+        "cache_read_input_tokens": 8585727,
+        "output_tokens": 27448
+      },
+      "tools": {
+        "Bash": 51,
+        "Read": 1,
+        "Agent": 2
+      },
+      "unique_record_types": {
+        "user": 55,
+        "attachment": 175,
+        "assistant": 97
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 54
+      },
+      "description": "M1 milestone check round 2"
+    },
+    {
+      "key": "deliver/agent-addd498aa17d4b51d",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-addd498aa17d4b51d.jsonl",
+      "sha256": "4f7358ee4b7f99f880a26c22c4bb22b9e01796d12becfeec673b5135418629af",
+      "bytes": 2168027,
+      "lines": 700,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T11:58:43.583Z",
+      "last": "2026-10-01T13:00:10.357Z",
+      "unique_model_message_ids": 112,
+      "usage_max_per_message": {
+        "input_tokens": 14196,
+        "cache_creation_input_tokens": 7305804,
+        "cache_read_input_tokens": 11517708,
+        "output_tokens": 82651
+      },
+      "tools": {
+        "Bash": 111,
+        "Write": 2
+      },
+      "unique_record_types": {
+        "user": 114,
+        "attachment": 355,
+        "assistant": 231
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 99,
+        "anthropic/claude-opus-5.5": 13
+      },
+      "description": "S24 rerun, V1 probe and parallel run"
+    },
+    {
+      "key": "deliver/agent-addef5c70e7161e83",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-addef5c70e7161e83.jsonl",
+      "sha256": "7c5b87ca511aae083d546aadaf98c919c85cb320c929b39f8fbe18e1d83f4c81",
+      "bytes": 5300258,
+      "lines": 1675,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T12:57:11.321Z",
+      "last": "2026-09-30T14:06:19.860Z",
+      "unique_model_message_ids": 280,
+      "usage_max_per_message": {
+        "input_tokens": 34188,
+        "cache_creation_input_tokens": 626248,
+        "cache_read_input_tokens": 119298302,
+        "output_tokens": 190893
+      },
+      "tools": {
+        "Bash": 278,
+        "Write": 5,
+        "Agent": 5,
+        "SendMessage": 5
+      },
+      "unique_record_types": {
+        "user": 294,
+        "attachment": 889,
+        "assistant": 492
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 280
+      },
+      "description": "Port Goal tests to local-runtime-v2"
+    },
+    {
+      "key": "deliver/agent-adf7c0141f4443659",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-adf7c0141f4443659.jsonl",
+      "sha256": "adf01db8202d00e79058675ac8c594344df392f5833141900d85fe9f06815ff1",
+      "bytes": 2447326,
+      "lines": 729,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T13:12:48.115Z",
+      "last": "2026-10-01T13:57:41.698Z",
+      "unique_model_message_ids": 121,
+      "usage_max_per_message": {
+        "input_tokens": 10922,
+        "cache_creation_input_tokens": 10731264,
+        "cache_read_input_tokens": 16790375,
+        "output_tokens": 75010
+      },
+      "tools": {
+        "Bash": 117,
+        "Read": 6
+      },
+      "unique_record_types": {
+        "user": 124,
+        "attachment": 375,
+        "assistant": 230
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 121
+      },
+      "description": "Review Goal long-term docs"
+    },
+    {
+      "key": "deliver/agent-ae00788bd191a14bf",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ae00788bd191a14bf.jsonl",
+      "sha256": "5348b05154c09b2de0bfa4ab765a47c8bdc8c71d5834ce0fb3189864c088000b",
+      "bytes": 6241371,
+      "lines": 1436,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T02:35:06.399Z",
+      "last": "2026-10-01T03:55:08.254Z",
+      "unique_model_message_ids": 246,
+      "usage_max_per_message": {
+        "input_tokens": 17953,
+        "cache_creation_input_tokens": 1796723,
+        "cache_read_input_tokens": 86369077,
+        "output_tokens": 191214
+      },
+      "tools": {
+        "Bash": 238,
+        "Read": 5,
+        "Write": 9
+      },
+      "unique_record_types": {
+        "user": 257,
+        "attachment": 769,
+        "assistant": 410
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 246
+      },
+      "description": "Run M2 scenarios on 619c419149"
+    },
+    {
+      "key": "deliver/agent-ae104a5b07a61c2f9",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ae104a5b07a61c2f9.jsonl",
+      "sha256": "a96868c8493b375717ef93483207d44b569e50f1d6501629cb1b6aaf9ccee5d2",
+      "bytes": 2424449,
+      "lines": 727,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T14:21:42.459Z",
+      "last": "2026-09-30T15:24:33.470Z",
+      "unique_model_message_ids": 124,
+      "usage_max_per_message": {
+        "input_tokens": 12446,
+        "cache_creation_input_tokens": 1149684,
+        "cache_read_input_tokens": 26094900,
+        "output_tokens": 97421
+      },
+      "tools": {
+        "Bash": 119,
+        "Write": 7
+      },
+      "unique_record_types": {
+        "user": 127,
+        "attachment": 387,
+        "assistant": 213
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 124
+      },
+      "description": "RG1/RG1b/RG2 on migration commit"
+    },
+    {
+      "key": "deliver/agent-ae5e8c68423fdb343",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ae5e8c68423fdb343.jsonl",
+      "sha256": "adf627223a1a59b656f9df1b39526c3b8709b0bcc659875e805f6bdfbdaf78fd",
+      "bytes": 1882784,
+      "lines": 507,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T10:00:16.184Z",
+      "last": "2026-10-01T10:13:38.031Z",
+      "unique_model_message_ids": 87,
+      "usage_max_per_message": {
+        "input_tokens": 11189,
+        "cache_creation_input_tokens": 7452962,
+        "cache_read_input_tokens": 9018389,
+        "output_tokens": 50231
+      },
+      "tools": {
+        "Bash": 86,
+        "Read": 1
+      },
+      "unique_record_types": {
+        "user": 88,
+        "attachment": 272,
+        "assistant": 147
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 87
+      },
+      "description": "M4 milestone check, code part"
+    },
+    {
+      "key": "deliver/agent-ae78236e2a4decfcd",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-ae78236e2a4decfcd.jsonl",
+      "sha256": "3895911e0b974d18ce61527957cab56aaad4ef9d16e7e9eca25f83f75213fbeb",
+      "bytes": 1988380,
+      "lines": 468,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:43:16.045Z",
+      "last": "2026-10-01T04:58:04.216Z",
+      "unique_model_message_ids": 76,
+      "usage_max_per_message": {
+        "input_tokens": 28718,
+        "cache_creation_input_tokens": 292274,
+        "cache_read_input_tokens": 16080702,
+        "output_tokens": 52716
+      },
+      "tools": {
+        "Bash": 75,
+        "Read": 1,
+        "Agent": 3
+      },
+      "unique_record_types": {
+        "user": 80,
+        "attachment": 248,
+        "assistant": 140
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 76
+      },
+      "description": "M2 milestone check round 1"
+    },
+    {
+      "key": "deliver/agent-aeccc80d1633ba288",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aeccc80d1633ba288.jsonl",
+      "sha256": "0ec79f6c2093adc23e01e59758b07f47cc26bc786066d62ef9c7b00bdd59fc1c",
+      "bytes": 1101783,
+      "lines": 313,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:44:38.552Z",
+      "last": "2026-10-01T04:52:44.260Z",
+      "unique_model_message_ids": 50,
+      "usage_max_per_message": {
+        "input_tokens": 10616,
+        "cache_creation_input_tokens": 93373,
+        "cache_read_input_tokens": 4803401,
+        "output_tokens": 27926
+      },
+      "tools": {
+        "Bash": 52
+      },
+      "unique_record_types": {
+        "user": 53,
+        "attachment": 166,
+        "assistant": 94
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 50
+      },
+      "description": "Fix knip dead-code findings as patch"
+    },
+    {
+      "key": "deliver/agent-aed63ee084ea16611",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aed63ee084ea16611.jsonl",
+      "sha256": "1e980f1d43946752fefb130b593020d04261eb54289303e053c4c79a9ead7567",
+      "bytes": 2740354,
+      "lines": 775,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T13:26:33.705Z",
+      "last": "2026-09-30T14:12:59.258Z",
+      "unique_model_message_ids": 121,
+      "usage_max_per_message": {
+        "input_tokens": 14437,
+        "cache_creation_input_tokens": 359994,
+        "cache_read_input_tokens": 31703763,
+        "output_tokens": 181553
+      },
+      "tools": {
+        "Bash": 118,
+        "Read": 1,
+        "Write": 7,
+        "Edit": 2,
+        "TaskStop": 1
+      },
+      "unique_record_types": {
+        "user": 130,
+        "attachment": 400,
+        "assistant": 245
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 121
+      },
+      "description": "RG1 baseline feature-map run"
+    },
+    {
+      "key": "deliver/agent-aedde271f06e1a64f",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aedde271f06e1a64f.jsonl",
+      "sha256": "9694d58af09932a97b2807a56922c1e8776432b255107c78bc42fae5e6bb0d58",
+      "bytes": 1800702,
+      "lines": 444,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:17:19.750Z",
+      "last": "2026-10-01T16:41:37.769Z",
+      "unique_model_message_ids": 72,
+      "usage_max_per_message": {
+        "input_tokens": 11062,
+        "cache_creation_input_tokens": 5840037,
+        "cache_read_input_tokens": 9036310,
+        "output_tokens": 56298
+      },
+      "tools": {
+        "Bash": 68,
+        "Read": 3,
+        "Edit": 5
+      },
+      "unique_record_types": {
+        "user": 77,
+        "attachment": 238,
+        "assistant": 129
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 72
+      },
+      "description": "Docs for resume/failure/reminder"
+    },
+    {
+      "key": "deliver/agent-aeff4e37f5153ae21",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aeff4e37f5153ae21.jsonl",
+      "sha256": "f505980a43c74a51aa3bed622301310cf73afe7ea6d164cf19fca434c75aaeba",
+      "bytes": 1340935,
+      "lines": 354,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:45:09.634Z",
+      "last": "2026-10-01T04:51:52.108Z",
+      "unique_model_message_ids": 60,
+      "usage_max_per_message": {
+        "input_tokens": 10487,
+        "cache_creation_input_tokens": 160714,
+        "cache_read_input_tokens": 8623512,
+        "output_tokens": 31071
+      },
+      "tools": {
+        "Bash": 60
+      },
+      "unique_record_types": {
+        "user": 61,
+        "attachment": 191,
+        "assistant": 102
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 60
+      },
+      "description": "Evidence check API/TUI scenarios"
+    },
+    {
+      "key": "deliver/agent-af5faf130faec0bf5",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-af5faf130faec0bf5.jsonl",
+      "sha256": "7517fe3f029345fe928f917b21b72d0b4c65fc1594806940b3ae9af59538a881",
+      "bytes": 1371373,
+      "lines": 371,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T16:02:54.405Z",
+      "last": "2026-10-01T16:15:04.449Z",
+      "unique_model_message_ids": 61,
+      "usage_max_per_message": {
+        "input_tokens": 10530,
+        "cache_creation_input_tokens": 4830252,
+        "cache_read_input_tokens": 3247182,
+        "output_tokens": 33767
+      },
+      "tools": {
+        "Bash": 61,
+        "Write": 2
+      },
+      "unique_record_types": {
+        "user": 64,
+        "attachment": 199,
+        "assistant": 108
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 61
+      },
+      "description": "Paused-Goal reminder in ordinary turns"
+    },
+    {
+      "key": "deliver/agent-af7a04e70bcc3bb60",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-af7a04e70bcc3bb60.jsonl",
+      "sha256": "1838205dde9b4dbe7b77d3ea24bf6fa1715904f01fc45d64f2be36dd8884fa43",
+      "bytes": 2539173,
+      "lines": 833,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-09-30T12:08:14.677Z",
+      "last": "2026-09-30T12:24:08.135Z",
+      "unique_model_message_ids": 129,
+      "usage_max_per_message": {
+        "input_tokens": 11130,
+        "cache_creation_input_tokens": 252256,
+        "cache_read_input_tokens": 23479713,
+        "output_tokens": 65251
+      },
+      "tools": {
+        "Bash": 146,
+        "Read": 11
+      },
+      "unique_record_types": {
+        "user": 158,
+        "attachment": 451,
+        "assistant": 224
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 129
+      },
+      "description": "Electron internals research"
+    },
+    {
+      "key": "deliver/agent-afa486e27e299a6f4",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-afa486e27e299a6f4.jsonl",
+      "sha256": "1d824145aa6352d4d84f32ad3f7ffe72a8bacd0b58983b3a926dea7972613051",
+      "bytes": 2093782,
+      "lines": 612,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T08:17:34.842Z",
+      "last": "2026-10-01T08:47:26.672Z",
+      "unique_model_message_ids": 104,
+      "usage_max_per_message": {
+        "input_tokens": 12701,
+        "cache_creation_input_tokens": 510714,
+        "cache_read_input_tokens": 21381982,
+        "output_tokens": 67974
+      },
+      "tools": {
+        "Bash": 102,
+        "Write": 3
+      },
+      "unique_record_types": {
+        "user": 106,
+        "attachment": 327,
+        "assistant": 179
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 104
+      },
+      "description": "Rerun affected M2/M3 scenarios on 69696e4f2c"
+    },
+    {
+      "key": "deliver/agent-afe9dc5571b6cd23d",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-afe9dc5571b6cd23d.jsonl",
+      "sha256": "59ac9f2bd926c8c8130b8ad645f97a036c5b7a002eba1041538aee6851cc0b97",
+      "bytes": 2129062,
+      "lines": 357,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T04:44:35.429Z",
+      "last": "2026-10-01T04:53:27.010Z",
+      "unique_model_message_ids": 58,
+      "usage_max_per_message": {
+        "input_tokens": 10437,
+        "cache_creation_input_tokens": 188150,
+        "cache_read_input_tokens": 9010186,
+        "output_tokens": 40408
+      },
+      "tools": {
+        "Bash": 54,
+        "Read": 5
+      },
+      "unique_record_types": {
+        "user": 62,
+        "attachment": 187,
+        "assistant": 108
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 58
+      },
+      "description": "Evidence check S01 S02 S41"
+    },
+    {
+      "key": "deliver/agent-afee10e6eda82ee49",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-afee10e6eda82ee49.jsonl",
+      "sha256": "ece35a7fa80fb0ced74995976e45c9c2c9e9a8583fd9e219163d6d4fd30bfd02",
+      "bytes": 1677743,
+      "lines": 505,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T12:12:01.764Z",
+      "last": "2026-10-01T12:31:43.301Z",
+      "unique_model_message_ids": 90,
+      "usage_max_per_message": {
+        "input_tokens": 11267,
+        "cache_creation_input_tokens": 3272912,
+        "cache_read_input_tokens": 9914220,
+        "output_tokens": 29900
+      },
+      "tools": {
+        "Bash": 90
+      },
+      "unique_record_types": {
+        "user": 91,
+        "attachment": 281,
+        "assistant": 133
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 84,
+        "anthropic/claude-opus-5.5": 6
+      },
+      "description": "Root-cause S26 double turn_bound"
+    },
+    {
+      "key": "deliver/agent-aff9cfee53cd17e82",
+      "path": "/Users/minimax/.claude/projects/-Users-minimax--claude-worktree-agent-archon-wizardly-nobel-612509/062c5e8b-f847-4f5a-81b3-a4291994c2b5/subagents/agent-aff9cfee53cd17e82.jsonl",
+      "sha256": "3482aaa022d371adf70ce17a0dcdfa0fddf21bbcf31df5083f20e38c5af0a64e",
+      "bytes": 1972236,
+      "lines": 577,
+      "duplicate_uuid_rows": 0,
+      "parse_error_lines": [],
+      "first": "2026-10-01T14:47:14.364Z",
+      "last": "2026-10-01T15:16:32.912Z",
+      "unique_model_message_ids": 99,
+      "usage_max_per_message": {
+        "input_tokens": 11347,
+        "cache_creation_input_tokens": 5634901,
+        "cache_read_input_tokens": 13491289,
+        "output_tokens": 63505
+      },
+      "tools": {
+        "Bash": 97,
+        "Write": 1
+      },
+      "unique_record_types": {
+        "user": 99,
+        "attachment": 304,
+        "assistant": 174
+      },
+      "models_by_unique_message": {
+        "claude-opus-5-5": 99
+      },
+      "description": "Final lane TUI: TUI scenarios, RG1 TUI, RG2 S02"
+    }
+  ]
+}

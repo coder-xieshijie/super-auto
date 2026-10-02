@@ -1,0 +1,4 @@
+# Local public-content projections may contain large tool output/private data.
+# Do not commit raw sessions or these projections. Source hashes are in manifest.json.
+local/
+__pycache__/

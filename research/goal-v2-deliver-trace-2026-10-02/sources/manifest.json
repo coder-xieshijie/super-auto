@@ -1,0 +1,453 @@
+{
+  "collected_date": "2026-10-02 Asia/Shanghai",
+  "policy": "原文短摘逐字核对，正文以转述和工程推导为主。旧研究只作导航。",
+  "fetch_note": "Symphony 首次 gh 内容请求遇到 EOF，重试成功后和已有 A05 存档逐字一致；未把空输出当取得正文。",
+  "sources": [
+    {
+      "id": "O1",
+      "url": "https://developers.openai.com/cookbook/articles/codex_exec_plans",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:50.640314+00:00",
+      "exit": 0,
+      "bytes": 16597,
+      "sha256": "c132f9f9e024363c42ee798f9f526a1f40ceecf8f8dbeb63c9fa230f77e34d02",
+      "error": "",
+      "title": "OpenAI · Using PLANS.md for multi-hour problem solving",
+      "source_key": "openai-execplans",
+      "excerpt": [
+        {
+          "text": "Resolve ambiguities autonomously, and commit frequently.",
+          "fetched_line": 33
+        }
+      ],
+      "scope_and_boundary": "自主解决执行歧义、可恢复计划、可观测验收；原文是活计划，不等于本地的冻结 spec。",
+      "prior_repository_archive": "research/self-verifying-loop-2026-09-28/raw/codex-exec-plans.md",
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository"
+    },
+    {
+      "id": "O2",
+      "url": "https://openai.com/index/harness-engineering/",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:48.277302+00:00",
+      "exit": 0,
+      "bytes": 19636,
+      "sha256": "5a5d352acbc5f73593e75d0e8e87d01c628ab592c84a3b14088b9d204ce79c04",
+      "error": "",
+      "title": "OpenAI · Harness engineering",
+      "source_key": "openai-harness",
+      "excerpt": [
+        {
+          "text": "minimal blocking merge gates",
+          "fetched_line": 118
+        },
+        {
+          "text": "one instance per change",
+          "fetched_line": 44
+        }
+      ],
+      "scope_and_boundary": "最少阻塞门禁、每 worktree 的运行与观测隔离、仓库知识索引；不是跨项目效果保证。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository"
+    },
+    {
+      "id": "O3",
+      "url": "https://github.com/openai/symphony/blob/be10a1b79df723d6d7612b5651c8522704dafb2e/SPEC.md",
+      "backend": "agent-reach gh API",
+      "fetched_at": "2026-10-02T02:26:37.023207+00:00",
+      "exit": 0,
+      "error": "",
+      "bytes": 92077,
+      "sha256": "c6638056502ecd2e60eb04e1f1a627a4964506fcdf4d39873e78aa5834de85d5",
+      "source_revision": "be10a1b79df723d6d7612b5651c8522704dafb2e",
+      "matches_archive": true,
+      "title": "OpenAI · Symphony Specification",
+      "source_key": "openai-symphony",
+      "excerpt": [
+        {
+          "text": "Distinct terminal reasons are important because retry logic and logs differ.",
+          "fetched_line": 692
+        },
+        {
+          "text": "track deltas relative to last reported totals to avoid double-counting.",
+          "fetched_line": 1430
+        }
+      ],
+      "scope_and_boundary": "Failed、TimedOut、Stalled 分型和可恢复调度；Draft 规范不证明 Claude Code 自带这些能力。",
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/architecture/A05-symphony-spec.md",
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository"
+    },
+    {
+      "id": "A1",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:48.535586+00:00",
+      "exit": 0,
+      "bytes": 14181,
+      "sha256": "51b6ca378bf011069e86c317eadca483fc8ed890d321d9ede7855682cbb36c4c",
+      "error": "",
+      "title": "Anthropic · Effective harnesses for long-running agents",
+      "source_key": "anthropic-harness",
+      "excerpt": [
+        {
+          "text": "compaction isn’t sufficient",
+          "fetched_line": 18
+        },
+        {
+          "text": "clear artifacts for the next session",
+          "fetched_line": 12
+        }
+      ],
+      "scope_and_boundary": "跨上下文靠进度、git、可运行环境承接；不能从该实验推导固定切 session 的阈值。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2025-11-26T00:00:00.000Z"
+    },
+    {
+      "id": "A2",
+      "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:52.942151+00:00",
+      "exit": 0,
+      "bytes": 33788,
+      "sha256": "b2dae50b7b186970ebc6eb08d754c9f3132d4c1768460a2442dfe08624718cdb",
+      "error": "",
+      "title": "Anthropic · Harness design for long-running application development",
+      "source_key": "anthropic-harness-design",
+      "excerpt": [
+        {
+          "text": "moved the evaluator to a single pass at the end of the run",
+          "fetched_line": 132
+        }
+      ],
+      "scope_and_boundary": "验证方法可先协商，特定模型上取消 sprint、保留最终 evaluator；不是取消所有独立验证。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2026-03-24T00:00:00.000Z"
+    },
+    {
+      "id": "A3",
+      "url": "https://www.anthropic.com/engineering/building-c-compiler",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:49.928818+00:00",
+      "exit": 0,
+      "bytes": 15660,
+      "sha256": "89e1f6b4bceafcdc1fbce6d5315bb55cf16d65a5008d16994590e20caa490da8",
+      "error": "",
+      "title": "Anthropic · Building a C compiler with a team of parallel Claudes",
+      "source_key": "anthropic-compiler",
+      "excerpt": [
+        {
+          "text": "The test harness should not print thousands of useless bytes.",
+          "fetched_line": 76
+        }
+      ],
+      "scope_and_boundary": "验证器准确性、机器可读摘要、时间盲区、快速抽样；抽样不是按改动路径选场景。",
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/architecture/A07-anthropic-compiler.md",
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2026-02-05T00:00:00.000Z"
+    },
+    {
+      "id": "A4",
+      "url": "https://code.claude.com/docs/en/best-practices",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:24:50.974778+00:00",
+      "exit": 0,
+      "bytes": 28388,
+      "sha256": "ab318ac5185f636e24f076c147bbddb2e2006b48888b3e3cf3a02b01a1314cbd",
+      "error": "",
+      "title": "Anthropic · Best practices for Claude Code",
+      "source_key": "anthropic-best-practices",
+      "excerpt": [
+        {
+          "text": "permit specific tools you know are safe",
+          "fetched_line": 102
+        }
+      ],
+      "scope_and_boundary": "明确工具授权可减少审批噪声；独立上下文 review、可续接会话；不能泛化为绕过宿主权限。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository"
+    },
+    {
+      "id": "A5",
+      "url": "https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:25:46.661861+00:00",
+      "exit": 0,
+      "bytes": 43267,
+      "sha256": "703c4a4a391c7fd2234e727e0ec4346ae817d3c594a76d0749f049c7800bce1c",
+      "error": "",
+      "title": "Anthropic · Demystifying evals for AI agents",
+      "source_key": "anthropic-evals",
+      "excerpt": [
+        {
+          "text": "grade what the agent produced, not the path it took.",
+          "fetched_line": 253
+        },
+        {
+          "text": "Each trial should be “isolated” by starting from a clean environment.",
+          "fetched_line": 247
+        }
+      ],
+      "scope_and_boundary": "结果与 trace 分开、稳定干净环境、检查评分器是否误罚有效结果；不主张任意放宽验收。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2026-01-09T00:00:00.000Z"
+    },
+    {
+      "id": "A6",
+      "url": "https://www.anthropic.com/engineering/managed-agents",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:25:44.272358+00:00",
+      "exit": 0,
+      "bytes": 14363,
+      "sha256": "838840ffc471fbe2b2fa963e75e93ad4e03e34a38c84f61b9046c80979cf7bb2",
+      "error": "",
+      "title": "Anthropic · Scaling Managed Agents: Decoupling the brain from the hands",
+      "source_key": "anthropic-managed",
+      "excerpt": [
+        {
+          "text": "Because the session log sits outside the harness",
+          "fetched_line": 36
+        }
+      ],
+      "scope_and_boundary": "持久 session 与执行器、sandbox 解耦；凭据离开被执行代码环境；不是当前客户端现状说明。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2026-04-08T00:00:00.000Z"
+    },
+    {
+      "id": "A7",
+      "url": "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents",
+      "backend": "agent-reach Jina Reader",
+      "fetched_at": "2026-10-02T02:25:44.556112+00:00",
+      "exit": 0,
+      "bytes": 22778,
+      "sha256": "bc781cda5534786c60f77083f12f3fc3ded56429bde9bd737859dc2415e300e0",
+      "error": "",
+      "title": "Anthropic · Effective context engineering for AI agents",
+      "source_key": "anthropic-context",
+      "excerpt": [
+        {
+          "text": "smallest",
+          "fetched_line": 40
+        },
+        {
+          "text": "high-signal tokens",
+          "fetched_line": 40
+        }
+      ],
+      "scope_and_boundary": "高信号最小上下文、索引按需读、持久笔记；不证明本 trace 延迟全部由上下文导致。",
+      "prior_repository_archive": null,
+      "snapshot_retention": "metadata and <=25-word excerpt only; full fetch cached temporarily, not copied into repository",
+      "published_time_reported_by_reader": "2025-09-29T00:00:00.000Z"
+    },
+    {
+      "id": "L1",
+      "title": "Lauren · Create a verification skill",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/create-verification-skill/SKILL.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "644f2551403c1bca01a2855b34611b6e7be0ce0dc5b204514c376c0f6a6e6ac4",
+      "bytes": 5879,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/create-verification-skill/SKILL.md",
+      "excerpt": [
+        {
+          "text": "Never kill by process name; kill what you started.",
+          "archive_line": 31
+        },
+        {
+          "text": "auth valid",
+          "archive_line": 28
+        }
+      ],
+      "scope_and_boundary": "doctor、真实入口、side effects、实例隔离与清理证据保留；没有 token 刷新租约具体实现。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L2",
+      "title": "Lauren · Orchestrate",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/poteto-mode/playbooks/orchestrate.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "d42b4375f1bd4ce23da0b575a198571a2117df7eea10c3c9fc6d92ae1053f7be",
+      "bytes": 16779,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/poteto-mode/playbooks/orchestrate.md",
+      "excerpt": [
+        {
+          "text": "Bound your own infra retries the same way you bound a child's.",
+          "archive_line": 100
+        },
+        {
+          "text": "When in doubt, act and log.",
+          "archive_line": 107
+        }
+      ],
+      "scope_and_boundary": "有界基础设施重试、持久交接、pilot、人工问题分类；大项目专用 ceremony 不应照搬单 MR。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L3",
+      "title": "Lauren · Autopilot-full",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/poteto-mode/playbooks/autopilot-full.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "975439613b9073b637a88c6df762b474dbd745f0e86150bb07d2121e32eb48e7",
+      "bytes": 8869,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/poteto-mode/playbooks/autopilot-full.md",
+      "excerpt": [
+        {
+          "text": "Count only side effects as progress",
+          "archive_line": 10
+        }
+      ],
+      "scope_and_boundary": "按实际提交/检查/证据变化判进展，保留 operator gate；时间参数为该流程选择。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L4",
+      "title": "Lauren · Shipping",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/poteto-mode/playbooks/shipping.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "19f3f6803a7bbe9ff04f624b03e3b55f07ac0a05e991aa00d5fe51239b920b2a",
+      "bytes": 5439,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/poteto-mode/playbooks/shipping.md",
+      "excerpt": [
+        {
+          "text": "Never use matching commit messages or a green check from an older SHA as a substitute.",
+          "archive_line": 9
+        }
+      ],
+      "scope_and_boundary": "head/base/patch-id 区分 rebase 与补丁改变；代码判定可继承不等于运行环境与 CI 可继承。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L5",
+      "title": "Lauren · Prove It Works",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/principle-prove-it-works/SKILL.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "ec79a15025bac8d33d62011c54f3b612733fd2a024e623b531b3637aa75070e2",
+      "bytes": 1371,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/principle-prove-it-works/SKILL.md",
+      "excerpt": [
+        {
+          "text": "When verification fails, suspect the observation method before suspecting the system",
+          "archive_line": 16
+        }
+      ],
+      "scope_and_boundary": "先核对真实值和观察器；不是遇到 FAIL 就先认定产品没错。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L6",
+      "title": "Lauren · Separate Before Serializing Shared State",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "05294b40448e927c5da1c7b6f5c6b9fed3744637e3833d2d948b9154a9dd00bb",
+      "bytes": 1565,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/principle-separate-before-serializing-shared-state/SKILL.md",
+      "excerpt": [
+        {
+          "text": "Instructions and conventions are not concurrency control.",
+          "archive_line": 9
+        }
+      ],
+      "scope_and_boundary": "先消除共享，必须共享再用结构性串行；refresh owner/lease 是本地工程推导。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L7",
+      "title": "Lauren · Poteto-mode",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/poteto-mode/SKILL.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "7645c9ee27ef9798c48a84060b6df409f8593d1058c7c25cbec28dce976195f9",
+      "bytes": 19269,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/poteto-mode/SKILL.md",
+      "excerpt": [
+        {
+          "text": "Every claim carries its evidence or its label in the same sentence.",
+          "archive_line": 107
+        }
+      ],
+      "scope_and_boundary": "授权范围内自主决定并报告、不可逆操作仍停；事实/推断/猜测区分。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    },
+    {
+      "id": "L8",
+      "title": "Lauren · Session pickup",
+      "url": "https://github.com/cursor/plugins/blob/ecc249f1e306fc64ddf83c7bed16cacf7c2239db/pstack/skills/poteto-mode/playbooks/session-pickup.md",
+      "source_revision": "ecc249f1e306fc64ddf83c7bed16cacf7c2239db",
+      "sha256": "1604fb463f7c7410d43fa024ca76c1c1824c166a01fd69d61f073d06fdca2a47",
+      "bytes": 1678,
+      "prior_repository_archive": "research/agent-delivery-2026-09-28/raw/lauren/pstack-source/skills/poteto-mode/playbooks/session-pickup.md",
+      "excerpt": [
+        {
+          "text": "Read the prior trail, don't redo it.",
+          "archive_line": 3
+        }
+      ],
+      "scope_and_boundary": "先还原分支/未完成项/决定，再核对继承结论；不把整轮从头重跑当默认恢复。",
+      "upstream_current_check": {
+        "main": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
+        "main_committed_at": "2026-10-01T19:51:33Z",
+        "last_pstack_commit": "12d587dfb20741cafc376c42c696c5f6e2a64487",
+        "last_pstack_committed_at": "2026-09-23T20:03:21Z",
+        "compare_to_snapshot": "22 commits ahead; zero changed paths under pstack/",
+        "method": "gh api commits and compare",
+        "checked_date": "2026-10-02 Asia/Shanghai"
+      }
+    }
+  ]
+}

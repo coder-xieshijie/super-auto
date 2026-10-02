@@ -1,0 +1,28 @@
+{
+  "captured_at": "2026-10-02T10:30:34.967619+08:00",
+  "dev_skills_head": "b35b690e29f6540224962d64704e431fda0a4ba3",
+  "super_auto_head": "e3e031b84ee88d95331f26a8b3a8ada125b10230",
+  "owner_local_head": "b62d4f0af02554733a1e82a1eb6d3f9878204f21",
+  "files": [
+    {
+      "path": "/Users/minimax/code/github/xieshijie/dev-skills/skills/deliver/SKILL.md",
+      "bytes": 6863,
+      "sha256": "60c3ee0d0527a3e057658652646550ad3f448d6d926d22a1f64258e35d1ff35c"
+    },
+    {
+      "path": "/Users/minimax/code/github/xieshijie/dev-skills/skills/core-spec/SKILL.md",
+      "bytes": 18555,
+      "sha256": "78e11ae972b8df606338e29c0e749a5fed89151da0fb37b916ee32228b08f987"
+    },
+    {
+      "path": "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/plan.md",
+      "bytes": 90237,
+      "sha256": "e717b65592e4f42b6f11635aa1da47c7cce80809990ca882e9797574e3948652"
+    },
+    {
+      "path": "/Users/minimax/code/github/xieshijie/super-auto/requirements/goal-v2-and-feedback-fixes/original-decisions.md",
+      "bytes": 23519,
+      "sha256": "f6e7ace70c69ac35543165b1af87283f37e69e024efa077cf9f212686b3596f3"
+    }
+  ]
+}

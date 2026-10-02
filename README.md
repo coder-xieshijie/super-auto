@@ -2,11 +2,11 @@
 
 本目录保存 Lauren 方法论、个人工作流和工业级 agent 交付的调研资料、中间结果与结论。session 快照、验收证据和视频只保存在本机，不进 Git，清单见 [本地数据索引](data-index/README.md)。
 
-**当前流程：[复杂需求交付流程（工作稿）](process/complex-requirement-delivery.md)**。记录用户的核心开发流程（grill-with-docs → core-spec → plan-cross-review），后续在此文档上迭代。
+**当前流程：**以 [dev-skills 开发流程](/Users/minimax/code/github/xieshijie/dev-skills/README.md)为准（core-grill → core-spec → deliver）；[复杂需求交付流程](process/complex-requirement-delivery.md)保留决定与演进原因。
 
 **持续记录：[讨论索引与留存约定](discussions/README.md)**。已补录 [需求确认后的验证与交付闭环](discussions/2026-09-28-verification-and-delivery.md)，保留用户原话、助手分析、决定状态与关联证据，供后续二次分析。
 
-**最新：2026-09-28 [工业级需求自动交付调研](research/agent-delivery-2026-09-28/README.md)**，含 Lauren 官方源码遗漏与最新访谈、企业案例、研究证据、并发与人类瓶颈分析及试验方案。旧成果已先提交为 `9481ec5`。
+**最新：2026-10-02 [MR 7595 全窗口 trace 复盘](research/goal-v2-deliver-trace-2026-10-02/README.md)**，补齐 core-spec 与 deliver 至 10 月 2 日凌晨的执行，核对人工介入、外层预算中断、末端验证缺口与八项优化的三家依据。早期理论调研见 [工业级需求自动交付调研](research/agent-delivery-2026-09-28/README.md)。
 
 ## 2026-09-24 基线研究
 
@@ -24,6 +24,7 @@
 
 ## 专题解读
 
+- [MR 7595 全窗口 trace、人工介入与优化依据](research/goal-v2-deliver-trace-2026-10-02/README.md)（2026-10-02）：89 个主/子记录文件，按 UUID 去重；11 次问答与完整阶段，X1/CI/独立验证未完成边界；18 个一手来源，建议尚未实施。
 - [三家方法综合与开发流程 Skill 检查](research/skills-consistency-2026-10-01/README.md)（2026-10-01）：三家的理论、流程、Skill 写法与 prompt 规则，对照 agent-prompt-rules 与两家最新写法依据；dev-skills `74ae69d` 的一致性检查，16 条发现与建议顺序；建议未经确认。
 - [MR 7595 的完整 trace、人工介入与优化方向](research/goal-v2-deliver-trace-2026-10-01/README.md)（2026-10-01）：Goal v2 迁移与 11 项反馈修复从 grill、core-spec 到 deliver（进行中）的时间线、耗时、返工与人工介入归因，16 条优化方向附三家依据；建议未经确认。
 - [首个需求试跑的完整 trace 与复盘](research/goal-final-delivery-trace-2026-09-30/README.md)（2026-09-30）：Goal 最终结果与交付从 grill、core-spec、交接到 deliver 的时间线、耗时、返工，问题与三档优化建议；建议未经确认。

@@ -8,6 +8,8 @@ scope: Goal v2 迁移、请求计量与反馈修复（matrix/agent-archon!7595�
 
 # Goal v2 迁移与反馈修复（MR 7595）：开发流程 trace 与复盘
 
+**2026-10-02 续篇：**[全窗口复盘](../goal-v2-deliver-trace-2026-10-02/README.md)已补到 10/2 01:50 的外层 403 中断，含后半程、最新人工介入、当前 #27 政策和末端验证缺口。新报告更正 usage 首片段低估与“主会话空档=全体闲置”的统计解释；本文保留原窗口与当时判断，旧的过程门禁建议不代表当前待办。
+
 按[复杂需求交付流程](../../process/complex-requirement-delivery.md) v0.16–v0.20 跑的第二个真实需求，也是第一个大需求：飞书需求文档 12 项中的 11 项，含 Goal 从 local-runtime v1 迁到 v2。本文把定义（grill-with-docs、core-spec）和交付（deliver）串成一条时间线，给出耗时、人工介入、返工的数字，逐条分析人工介入的原因，并为每个优化方向找三家（OpenAI、Anthropic、Lauren）的依据。讨论过程见[讨论记录](../../discussions/2026-10-01-goal-v2-deliver-trace-review.md)，上一个需求的复盘见[首个需求试跑的 trace](../goal-final-delivery-trace-2026-09-30/README.md)。
 
 **证据边界。** 时间取自会话记录的时间戳，换算为 Asia/Shanghai。时间线由上一轮的 [extract_trace.py](../goal-final-delivery-trace-2026-09-30/extract_trace.py) 生成（[timelines/](timelines/)），提问、消息队列、空档、子代理用量和长时间等待由本目录的 [extract_extras.py](extract_extras.py) 生成（[data/](data/)）。助手正文截断，不含 thinking。deliver 仍在运行：时间线提取于 10/1 15:23，介入数据提取于 15:28；M3–M6 的结果、最终独立验证和 CI 都还没有，本文的结论只覆盖到 15:28。用户在 Codex 里的分析（09:16 前后）不在本机 Claude 记录里，只看到它转进 deliver 的两条消息。
