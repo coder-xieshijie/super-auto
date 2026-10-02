@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # X2 补充验证“补充消息那一轮失败后 Goal 自动续跑”（不是 verify 场景；对应提交 669f179230）。
-# 用法（gv2-tests 根目录，已 source /tmp/gv2-final2/env.sh）：bash <tools>/x2-failure-continue.sh <尝试名>
+# 用法（gv2-tests 根目录，已 source /tmp/gv2-final3/env.sh）：bash <tools>/x2-failure-continue.sh <尝试名>
 # 证据：<M2_ROOT>/X2/<尝试名>/。Electron 以 --fault 启动，故障闸门见 x2-fault-gate.py：
 #   1 /goal 创建 Goal；2 Goal Turn 运行中按 Enter 默认排队发送 “Reply with the word apple.”；
 #   3 闸门只让补充消息那一轮的请求最终失败（第一次 attempt 可重试 500，重发 attempt 502/50113，不可重试）；
@@ -30,7 +30,7 @@ premise_fail() {
 new_task() { E click --role button --name "新建任务" --exact --timeout 10 >/dev/null || E click --role button --name "新建任务" >/dev/null; sleep 1; }
 
 m2_begin X2 "$ATTEMPT"
-write_commands "source /tmp/gv2-final2/env.sh" "bash \$T/x2-failure-continue.sh $ATTEMPT   # 内部启动 x2-fault-gate.py" "python3 \$T/x-analyze.py X2 $ATTEMPT" "python3 \$T/final-summary-md.py \$M2_ROOT/X2/$ATTEMPT"
+write_commands "source /tmp/gv2-final3/env.sh" "bash \$T/x2-failure-continue.sh $ATTEMPT   # 内部启动 x2-fault-gate.py" "python3 \$T/x-analyze.py X2 $ATTEMPT" "python3 \$T/final-summary-md.py \$M2_ROOT/X2/$ATTEMPT"
 m3_up electron --fault || exit 1
 FAULT_URL=$(python3 -c 'import json,sys; print((json.load(open(sys.argv[1])).get("fault") or {}).get("url") or "")' "$OUT/up.json")
 [ -n "$FAULT_URL" ] || FAULT_URL=$(python3 -c 'import json,sys; print((json.load(open(sys.argv[1])).get("fault") or {}).get("url") or "")' "$HOME_VA/$RID/state.json")
