@@ -108,3 +108,64 @@ model_auto_compact_token_limit = 780000
 本机 `/Users/minimax/.local/bin/codex` 包装器单独设置 `CODEX_HOME=/Users/minimax/.codex-cli`，因此终端 CLI 不应假定读取桌面的上述配置路径。本轮范围是用户正在使用的桌面 App。
 
 只提高压缩阈值，不会扩大模型窗口；压缩将长对话整理成摘要，也不能让原始内容全部同时进入模型窗口。
+
+## 6. 同日追问的来源与计费补充
+
+### 数字的证据等级
+
+新一次目录读回：`fetched_at=2026-10-02T02:29:26.726793Z`，`client_version=0.159.2`；
+`gpt-6.1-sol` 仍为 `context_window=272000`、`max_context_window=872000`、有效比例 95%。
+
+配置 `model_provider=openai`；`openai_base_url`、`chatgpt_base_url`、
+`model_catalog_json`、`model_catalog_url` 未设置。当前 shell 的 `OPENAI_BASE_URL`
+和 `CHATGPT_BASE_URL` 也未设置。本轮没有读取或保存认证凭据。
+
+固定源码的
+[fetch_and_update_models](/Users/minimax/code/github/code-agent/codex/codex-rs/models-manager/src/manager.rs:519)
+读取 `endpoint_client.list_models` 返回的模型、etag 和 identity，生成 ModelsCacheEntry 并写入缓存。
+[ModelsClient](/Users/minimax/code/github/code-agent/codex/codex-rs/codex-api/src/endpoint/models.rs:34)
+使用 models 路径和 client_version 查询参数，解码 ModelsResponse。
+
+因此，872000 的直接来源是官方客户端保存的运行时目录字段。
+这比无来源的估算具体，但仍区别于公开文档承诺；本轮没有独立向服务端重抓该目录。
+前一条“最大可配置窗口”在本次讨论中澄清为“当前本机目录声明的最大值”。
+
+### 官方建议的边界
+
+[高级配置](https://learn.chatgpt.com/docs/config-file/config-advanced)
+列出 `model_context_window`，示例值为 128000；它说明配置能力，并未推荐 872000 或全局最大窗口。
+
+[Best practices](https://learn.chatgpt.com/guides/best-practices)
+HTML 正文的 Organize long-running chats 节说明：
+- 按一个连贯工作单元组织会话。
+- 长会话可以使用 compact，Codex 也会自动压缩。
+- 将整个项目都放在一个会话会导致上下文膨胀，并影响结果。
+
+[定价页](https://learn.chatgpt.com/docs/pricing)
+节约额度建议包括减少无关上下文和限制源材料。
+本轮查到的这些指南没有给出“所有任务应一律调到最大窗口”的建议；
+不能把这一有限查证表述成已证明官方任何页面都没有此建议。
+前一条 872000 / 780000 是助手的示例，不是官方推荐组合。
+
+### 当前计费正文
+
+[Codex 定价](https://learn.chatgpt.com/docs/pricing) 明确：
+- API token 价格与订阅用量独立，不能用 API 价格估算订阅包含的任务数。
+- 模型、上下文、推理、工具、检索和缓存都会影响用量；保留更多上下文的长会话会显著增加每条消息的额度消耗。
+- credits 按输入、缓存输入和输出 token 计价；Codex credits 没有单独的 cache-write 费用。
+- GPT-6.1 Sol 的 Standard credits 表为每百万输入 50 credits、缓存输入 2.5 credits、输出 250 credits。
+- credits 单价也不能直接推算订阅额度的消耗速度。
+- 本轮读取的当前定价正文没有列出 GPT-6.1 Sol 超过 272K 时的 Codex 订阅固定倍率。因此不据此承诺订阅扩窗“无附加倍率”，也不宣称“一律 2 倍”。
+
+[GPT-6.1 Sol API 模型页](https://developers.openai.com/api/docs/models/gpt-6.1-sol#pricing-notes)
+当前 Pricing notes 明确：单次 prompt 超过 272K input tokens 后，整次请求的输入和缓存费率为基础费率 2 倍，输出费率为 1.5 倍。
+这一触发条件是实际输入长度；修改可用窗口上限本身不是一次已发生的长输入请求。
+不将 GPT-6.1 Sol 的规则无证据地推广到所有模型或 Codex 订阅。
+
+### 获取失败与恢复
+
+- OpenAI Docs 连接器读取 `https://learn.chatgpt.com/guides/best-practices.md` 返回 404，
+  随后 Web 工具成功打开对应官方 HTML，并读取长会话管理正文。
+- 上一轮 changelog Markdown 404 后，本轮成功打开官方 HTML。GPT-5.4 的旧发布说明提到实验性 1M 支持；没有用该旧模型说明证明当前 GPT-6.1 Sol 的窗口或计费。
+- 对定价和 changelog HTML 查找精确字符串 `272K` 没有匹配；这是页面内查询结果，不是全网不存在的证明。
+- 本轮未检查账户认证方式、具体套餐账单或扩窗后的实际扣量。

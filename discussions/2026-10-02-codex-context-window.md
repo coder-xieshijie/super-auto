@@ -54,3 +54,44 @@ model_auto_compact_token_limit = 780000
 - 扩窗配置后新会话报告的实际窗口。
 - 已安装二进制与服务端接受超过默认窗口请求的实际结果。
 - 未来目录、模型和账号可用性变更；不能长期固定本轮 872000 数字。
+
+## 同日追问：来源、官方建议与计费
+
+### 用户原话与批注
+
+用户选中前一条答复的“872,000”，批注：
+
+> 是官方的来源吗？以及官方推荐设置更大的窗口吗？设置更大的窗口之后，计费的方式会发生变化吗？
+
+来源为本轮 response annotation 1，用户没有追加其他正文请求。
+
+### 助手答复
+
+**872,000 来自官方客户端的模型目录缓存，但不是官方公开文档里的推荐值。** :codex-annotation{index="1"}
+
+你本机 [models_cache.json](/Users/minimax/.codex/models_cache.json) 中，GPT-6.1 Sol 的 `max_context_window` 是 `872000`。这是当前客户端目录的声明；前一条的 `872000 / 780000` 是我根据目录和源码给的配置示例，**不是官方推荐配置**。
+
+官方提供窗口配置项，但我没有找到“所有任务都应调到最大窗口”的建议。当前官方指南建议控制无关上下文，长对话可使用压缩，并按一个明确任务组织会话。[官方使用指南](https://learn.chatgpt.com/guides/best-practices)、[用量建议](https://learn.chatgpt.com/docs/pricing#what-can-i-do-to-make-my-usage-limits-last-longer)
+
+计费需要区分登录方式：
+
+- **ChatGPT 订阅登录**：仍消耗套餐额度或 credits；实际保留更多上下文会增加用量。当前官方文档没有给出适用于 GPT-6.1 Sol 扩窗后的统一倍数，不能把 API 的倍率直接套过来。[Codex 定价说明](https://learn.chatgpt.com/docs/pricing)
+- **API Key 登录，以 GPT-6.1 Sol 为例**：实际单次输入 **超过 272K tokens** 时，**整次请求**的输入和缓存费率为 **2 倍**，输出费率为 **1.5 倍**。只调大窗口上限、实际输入未超过 272K，不会触发这条倍率。[官方模型计费规则](https://developers.openai.com/api/docs/models/gpt-6.1-sol#pricing-notes)
+
+补充已[记录并本地提交](/Users/minimax/code/github/xieshijie/super-auto/discussions/2026-10-02-codex-context-window.md)，配置仍未修改。
+
+### 澄清与修订
+
+- 前一条表中的“最大可配置窗口”应理解为当前本机模型目录声明的最大值，并非公开文档为所有账户、所有客户端承诺的统一上限。
+- 前一条 `872000 / 780000` 参数组是助手按目录及源码推导的可尝试示例，不是官方最佳实践或推荐配置。
+- 官方允许配置窗口，不等于官方建议每个任务都把窗口设到最大。本轮没有找到后一种普遍建议。
+- Codex 订阅用量、Codex credits 与 API token 计费分别保留证据边界；没有将 API 长输入倍率套到订阅。
+- GPT-6.1 Sol API 的长输入费率以实际单次请求输入超过 272K 为触发条件，且适用于整次请求，不只适用于超出的部分。
+
+### 实际执行与待验证
+
+- 重新读取官方模型页、Codex 定价正文与高级配置说明；文档连接器无法获取使用指南的 Markdown 后，使用 Web 工具成功读取其官方 HTML 正文。
+- 重读当前模型缓存：fetched_at `2026-10-02T02:29:26.726793Z`（Asia/Shanghai 10:29:26），窗口字段未变。
+- 核对官方 Codex 源码中的 models 接口响应写入缓存流程；配置 provider 是 `openai`，未发现自定义目录或 base URL 配置。未复制认证文件或账号信息，也未直接重发认证后的模型目录请求。
+- 仍未修改配置、实跑扩窗请求、验证订阅实际扣量或用户具体套餐的账单。
+- 用户尚未决定启用扩窗；建议不记录成用户已确认决定。
