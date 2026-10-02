@@ -61,3 +61,18 @@
 ## 本轮检查记录
 
 本轮没有运行产品测试。检查围绕研究交付：源文件哈希与行数、UUID/Ask/消息统计、原始证据路径、Markdown 本地入口、JSON 可解析、脱敏与原始投影被 ignore、`git diff --check`。详细结果见研究目录 [validation.md](../research/goal-v2-deliver-trace-2026-10-02/validation.md)。本轮提交可由 `git log -- discussions/2026-10-02-goal-v2-full-trace-review.md` 定位。
+
+## 后续状态（2026-10-02 12:10 补记）
+
+来源：`glab api --hostname gitlab.xaminim.com` 查得的 MR 与 pipeline 元信息。本复盘的 trace 截止 01:50，GitLab 快照是 10:26。之后 deliver 仍在推进，本仓库只记录状态，不代替复盘。
+
+- MR [!7595](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7595)：仍是 opened、Draft。
+- 11:17 前后推送了 `b62d4f0af0`，即复盘里“本地 owner HEAD 比 MR 多一个文档提交”的那个提交。在它的 merge-result `015f41a4af` 上，pipeline 945612 失败，失败的 job 是 `check:unit:local-runtime-v2`、`check:unit:ui-affected`、`check:fast:lint`。
+- 11:58 分支 rebase 到更新的 `preview_train`：基点从 `15d38fc75c`（10-01 20:55）换成 `c92ef87c95`（10-02 10:51），原来的 77 个提交全部换了提交号，作者时间和标题不变，例如 `669f179230` → `3bb32e08`、`eb1b2af271` → `2774408a`、`b62d4f0af0` → `e4434b65`。两个基点都已包含 !7590，“最后 rebase 带入第 2 项”在此前已经完成。rebase 后的分支需要强制推送才能更新 MR。
+- 12:02 新增 2 个提交，head 到 `01f627ffa3`，在 `c92ef87c95` 之上共 79 个提交：`7424d21c` 删去无人引用的 not-active 提醒与 queue-pause 导出，`01f627ff` 清理 TUI 测试。
+- 更正：12:10 首次补记时，把 11:58 的 rebase 误写成“新推送 5 个提交”；12:20 的第一次更正又误写成“基点不变”，因为当时比的是新旧 head 的共同祖先，不是新 head 在 `preview_train` 上的基点。12:31 用 `git merge-base <head> origin/preview_train` 核实后改成上面的写法。
+- 本机 evidence 新出现 `codex-review-01f627ffa3/`，说明新 head 上有 Codex 评审在跑。
+- pipeline 945688（`f5a4a0860b`）12:03 开始，12:09 仍在运行。
+- 未收口的项仍按[末端状态](../research/goal-v2-deliver-trace-2026-10-02/final-state.md)：X1、最终另一家模型独立验证、CI。本补记没有核对它们是否已经处理。
+
+项目卡片与产物快照见 [requirements/goal-v2-and-feedback-fixes](../requirements/goal-v2-and-feedback-fixes/README.md)。

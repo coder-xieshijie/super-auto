@@ -33,7 +33,7 @@ model_auto_compact_token_limit = 780000
 
 另外，GPT-6.1 Sol 的 **API** 标称窗口是 1,050,000 tokens，和 Codex 桌面目录的限制不同，不能直接套用。[官方模型规格](https://developers.openai.com/api/docs/models/gpt-6.1-sol)
 
-本轮已[记录并本地提交](/Users/minimax/code/github/xieshijie/super-auto/discussions/2026-10-02-codex-context-window.md)，尚未修改你的配置或实跑扩窗请求。
+本轮已[记录并本地提交](2026-10-02-codex-context-window.md)，尚未修改你的配置或实跑扩窗请求。
 
 ## 明确决定
 
@@ -78,7 +78,7 @@ model_auto_compact_token_limit = 780000
 - **ChatGPT 订阅登录**：仍消耗套餐额度或 credits；实际保留更多上下文会增加用量。当前官方文档没有给出适用于 GPT-6.1 Sol 扩窗后的统一倍数，不能把 API 的倍率直接套过来。[Codex 定价说明](https://learn.chatgpt.com/docs/pricing)
 - **API Key 登录，以 GPT-6.1 Sol 为例**：实际单次输入 **超过 272K tokens** 时，**整次请求**的输入和缓存费率为 **2 倍**，输出费率为 **1.5 倍**。只调大窗口上限、实际输入未超过 272K，不会触发这条倍率。[官方模型计费规则](https://developers.openai.com/api/docs/models/gpt-6.1-sol#pricing-notes)
 
-补充已[记录并本地提交](/Users/minimax/code/github/xieshijie/super-auto/discussions/2026-10-02-codex-context-window.md)，配置仍未修改。
+补充已[记录并本地提交](2026-10-02-codex-context-window.md)，配置仍未修改。
 
 ### 澄清与修订
 

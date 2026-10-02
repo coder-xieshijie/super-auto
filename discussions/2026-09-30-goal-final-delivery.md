@@ -568,3 +568,15 @@ Codex（`gpt-6-astra`，reasoning high，只读，session `01a0f158-cdeb-7662-ab
 - deliver 已由用户在另一会话按 (a) 启动；交付进展由该会话负责（第 25 节）。
 - 只读子任务均已完成，结果见第 12、13 节。
 - 7556 之后如再有提交，deliver 开始前把需求分支换到最新的 7556 上。
+
+## 后续状态（2026-10-02 补记）
+
+记录日期：2026-10-02 12:10，Asia/Shanghai。来源：`glab api --hostname gitlab.xaminim.com` 查得的 MR 元信息。本仓库之前最后一条记录停在 9-30 22:05：两条 MR 都已取消 Draft、CI 通过，!7590 在等 4 个审批。见[整条开发流程的 trace 与复盘](2026-09-30-goal-final-delivery-trace-review.md)。
+
+| MR | 状态 | 说明 |
+|---|---|---|
+| [!7590](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7590)（上线，`fix/goal-final-result-delivery-preview-train` → `preview_train`） | **已合入**，2026-10-01 11:19，由 `shijie` 合入；MR head `7337b129ad`，合入提交 `875de0c2db` | 这是按新流程交付、并真正上线的第一个需求，赶在 10-02 12:00 截止前 |
+| [!7576](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7576)（开发，→ `feat/verify-archon-skill`） | opened，head `c071a9c86e`，最后更新 9-30 20:46 | 按用户前提只用于开发和验证，不合入 |
+| [!7556](https://gitlab.xaminim.com/matrix/agent-archon/-/merge_requests/7556)（A 阶段：verify-archon 与功能地图，→ `preview_train`） | opened，head `ffb4d4a94b`，最后更新 9-30 19:35 | 按 !7595 描述，它的 7 个提交随 !7595 合入，之后由用户关闭 |
+
+项目卡片与产物快照见 [requirements/goal-final-result-delivery](../requirements/goal-final-result-delivery/README.md)。
